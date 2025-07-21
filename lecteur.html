@@ -2,13 +2,13 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>archi.space - Espace Étudiant</title>
+  <title>archi.space - Accueil</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       display: flex;
-      background-color: #f5f5f5;
+      background-color: #f2f2f2;
     }
 
     .sidebar {
@@ -24,7 +24,7 @@
       text-align: center;
       padding: 20px 0;
       margin: 0;
-      font-size: 1.2em;
+      font-size: 1.3em;
     }
 
     .sidebar ul {
@@ -44,7 +44,7 @@
 
     .submenu {
       display: none;
-      background-color: #e0f2f1; /* أخضر فاتح مريح */
+      background-color: #e0f2f1;
       border-left: 3px solid #2a9d8f;
     }
 
@@ -65,7 +65,7 @@
 
     .content {
       margin-left: 250px;
-      padding: 30px;
+      padding: 40px;
       flex-grow: 1;
     }
 
@@ -81,15 +81,52 @@
 
     h1 {
       color: #264653;
+      margin-top: 0;
     }
 
-    a {
-      color: white;
-      text-decoration: none;
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 30px;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .card {
+      flex: 1 1 250px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin: 10px 0 5px;
+      font-size: 1.2em;
+      color: #264653;
+    }
+
+    .card span {
+      font-size: 2.5em;
+    }
+
+    .search-bar {
+      width: 100%;
+      max-width: 600px;
+      margin: 30px 0;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1em;
     }
   </style>
 </head>
@@ -103,25 +140,21 @@
         <li><a href="#">📚 Semestre 1</a></li>
         <li><a href="#">✏️ Semestre 2</a></li>
       </ul>
-
       <li onclick="toggleMenu(2)">📐 2ème année</li>
       <ul class="submenu" id="submenu2">
         <li><a href="#">🧱 Semestre 3</a></li>
         <li><a href="#">🧪 Semestre 4</a></li>
       </ul>
-
       <li onclick="toggleMenu(3)">🏗️ 3ème année</li>
       <ul class="submenu" id="submenu3">
         <li><a href="#">🧭 Semestre 5</a></li>
         <li><a href="#">🛰️ Semestre 6</a></li>
       </ul>
-
       <li onclick="toggleMenu(4)">🏛️ 4ème année</li>
       <ul class="submenu" id="submenu4">
         <li><a href="#">🏙️ Semestre 7</a></li>
         <li><a href="#">🗂️ Semestre 8</a></li>
       </ul>
-
       <li onclick="toggleMenu(5)">🎓 5ème année</li>
       <ul class="submenu" id="submenu5">
         <li><a href="#">🏢 Semestre 9</a></li>
@@ -132,8 +165,33 @@
 
   <div class="content">
     <button class="logout" onclick="logout()">Déconnexion</button>
-    <h1>Bienvenue dans votre espace étudiant 🏫</h1>
-    <p>Sélectionnez une année dans la barre latérale pour voir ses semestres.</p>
+    <h1>🏡 Accueil étudiant</h1>
+    <div class="search-bar">
+      <input type="text" placeholder="🔍 Rechercher un cours, un module ou un livre...">
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <span>📘</span>
+        <h3>Bibliothèque</h3>
+        <p>Accédez à tous les livres et références en architecture.</p>
+      </div>
+      <div class="card">
+        <span>📚</span>
+        <h3>Dossiers de cours</h3>
+        <p>Parcourez les contenus pédagogiques classés par semestre.</p>
+      </div>
+      <div class="card">
+        <span>📂</span>
+        <h3>Supports PDF</h3>
+        <p>Téléchargement et affichage de documents protégés.</p>
+      </div>
+      <div class="card">
+        <span>📈</span>
+        <h3>Progression</h3>
+        <p>Suivez vos avancées année par année.</p>
+      </div>
+    </div>
   </div>
 
   <script>
