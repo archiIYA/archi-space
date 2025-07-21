@@ -2,14 +2,101 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Connexion - archi.space</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .login-box {
+      background: #f5f5f5;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      width: 350px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      color: #222;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    button {
+      background-color: #2a9d8f;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #21867a;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9em;
+      margin-bottom: 10px;
+    }
+
+    .link {
+      margin-top: 15px;
+      font-size: 0.9em;
+    }
+
+    .link a {
+      color: #2a9d8f;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .logo {
+      max-width: 100px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <img src="Capture d'écran 2025-07-21 212951.png" alt="Logo" class="logo">
+    <h2>Connexion</h2>
+
+    <div class="error" id="errorMsg"></div>
+
+    <input type="email" id="email" placeholder="Adresse e-mail">
+    <input type="password" id="password" placeholder="Mot de passe">
+    <button onclick="login()">Se connecter</button>
+
+    <div class="link">Pas encore de compte ? <a href="signup.html">S'inscrire</a></div>
+  </div>
+
   <script type="module">
-    // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    // Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -20,74 +107,25 @@
       measurementId: "G-RZV7LSDQBD"
     };
 
-    // Initialisation
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Connexion
     window.login = function () {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
+      const errorMsg = document.getElementById("errorMsg");
 
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          // Rediriger vers lecteur.html
+          // تسجيل الدخول ناجح
+          localStorage.setItem("userToken", "ok");
           window.location.href = "lecteur.html";
         })
         .catch((error) => {
-          alert("Erreur : " + error.message);
+          errorMsg.textContent = "❌ " + error.message;
         });
-    }
+    };
   </script>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f0f0;
-      display: flex;
-      height: 100vh;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-    }
-    .login-container {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 300px;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #2a9d8f;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #2a9d8f;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #21867a;
-    }
-  </style>
-</head>
-<body>
-  <div class="login-container">
-    <h2>🔒 Connexion</h2>
-    <input type="email" id="email" placeholder="Adresse email" required>
-    <input type="password" id="password" placeholder="Mot de passe" required>
-    <button onclick="login()">Se connecter</button>
-  </div>
+
 </body>
 </html>
