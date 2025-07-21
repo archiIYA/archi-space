@@ -102,6 +102,27 @@
   </div>
 
   <script>
+  // التحقق من الجلسة
+  if (localStorage.getItem("userToken") !== "ok") {
+    window.location.href = "login.html";
+  }
+
+  function logout() {
+    localStorage.removeItem("userToken");
+    window.location.href = "login.html";
+  }
+
+  // وظيفة عرض السداسيات
+  function showSemesters(year) {
+    const semestreDiv = document.getElementById("semesters");
+    let html = `<h3>Semestres pour la ${year}ᵉ année :</h3><ul>`;
+    html += `<li><a href="#">Semestre ${year * 2 - 1}</a></li>`;
+    html += `<li><a href="#">Semestre ${year * 2}</a></li>`;
+    html += "</ul>";
+    semestreDiv.innerHTML = html;
+  }
+</script>
+
     function showSemesters(year) {
   const semestreDiv = document.getElementById("semesters");
   let html = `<h3>Semestres pour la ${year}ᵉ année :</h3><ul>`;
