@@ -4,6 +4,26 @@
   <meta charset="UTF-8" />
   <title>Lecteur - archi.space</title>
   <style>
+    .years ul {
+  list-style: none;
+  padding: 0;
+}
+.years li {
+  margin: 10px 0;
+}
+.years button {
+  padding: 10px 20px;
+  background-color: #2a9d8f;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+}
+.years button:hover {
+  background-color: #21867a;
+}
+
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #f5f5f5;
@@ -43,11 +63,33 @@
   </header>
 
   <div class="content">
+    <div class="years">
+  <h2>Choisissez une année d’étude :</h2>
+  <ul>
+    <li><button onclick="showSemesters(1)">1ère année</button></li>
+    <li><button onclick="showSemesters(2)">2ème année</button></li>
+    <li><button onclick="showSemesters(3)">3ème année</button></li>
+    <li><button onclick="showSemesters(4)">4ème année</button></li>
+    <li><button onclick="showSemesters(5)">5ème année</button></li>
+  </ul>
+</div>
+
+<div id="semesters" style="margin-top: 30px;"></div>
+
     <h2>Bienvenue dans votre espace étudiant 🏫</h2>
     <p>Les cours seront bientôt disponibles ici...</p>
   </div>
 
   <script>
+    function showSemesters(year) {
+  const semestreDiv = document.getElementById("semesters");
+  let html = `<h3>Semestres pour la ${year}ᵉ année :</h3><ul>`;
+  html += `<li><a href="#">Semestre ${year * 2 - 1}</a></li>`;
+  html += `<li><a href="#">Semestre ${year * 2}</a></li>`;
+  html += "</ul>";
+  semestreDiv.innerHTML = html;
+}
+
     // تحقق من الجلسة (session)
     if (localStorage.getItem("userToken") !== "ok") {
       window.location.href = "login.html";
