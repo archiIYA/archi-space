@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>archi.space – Créer un compte</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f7f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .logo img {
+      max-width: 120px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2a9d8f;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #264653;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 0.7rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.7rem;
+      background: #2a9d8f;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #21867a;
+    }
+
+    .switch {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .switch a {
+      color: #2a9d8f;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="logo.png" alt="Logo archi.space">
+    </div>
+    <h2>Créer un compte</h2>
+    <form onsubmit="signup(event)">
+      <label for="name">Nom complet</label>
+      <input type="text" id="name" placeholder="Votre nom" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="votre@email.com" required />
+
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" placeholder="********" required />
+
+      <button type="submit">S’inscrire</button>
+    </form>
+    <div class="switch">
+      Vous avez déjà un compte ? <a href="login.html">Se connecter</a>
+    </div>
+  </div>
+
+  <script>
+    function signup(event) {
+      event.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      if (name && email && password) {
+        localStorage.setItem("userToken", "ok");
+        window.location.href = "lecteur.html";
+      } else {
+        alert("Veuillez remplir tous les champs.");
+      }
+    }
+  </script>
+</body>
+</html>
