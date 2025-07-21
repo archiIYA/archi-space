@@ -44,11 +44,23 @@
 
     .submenu {
       display: none;
-      background-color: #268d81;
+      background-color: #e0f2f1; /* أخضر فاتح مريح */
+      border-left: 3px solid #2a9d8f;
     }
 
     .submenu li {
       padding-left: 40px;
+      color: #264653;
+      font-weight: 500;
+    }
+
+    .submenu li a {
+      color: #264653;
+      text-decoration: none;
+    }
+
+    .submenu li a:hover {
+      text-decoration: underline;
     }
 
     .content {
@@ -86,34 +98,34 @@
   <div class="sidebar">
     <h2>🎓 archi.space</h2>
     <ul>
-      <li onclick="toggleMenu(1)">1ère année</li>
+      <li onclick="toggleMenu(1)">🧰 1ère année</li>
       <ul class="submenu" id="submenu1">
-        <li><a href="#">Semestre 1</a></li>
-        <li><a href="#">Semestre 2</a></li>
+        <li><a href="#">📚 Semestre 1</a></li>
+        <li><a href="#">✏️ Semestre 2</a></li>
       </ul>
 
-      <li onclick="toggleMenu(2)">2ème année</li>
+      <li onclick="toggleMenu(2)">📐 2ème année</li>
       <ul class="submenu" id="submenu2">
-        <li><a href="#">Semestre 3</a></li>
-        <li><a href="#">Semestre 4</a></li>
+        <li><a href="#">🧱 Semestre 3</a></li>
+        <li><a href="#">🧪 Semestre 4</a></li>
       </ul>
 
-      <li onclick="toggleMenu(3)">3ème année</li>
+      <li onclick="toggleMenu(3)">🏗️ 3ème année</li>
       <ul class="submenu" id="submenu3">
-        <li><a href="#">Semestre 5</a></li>
-        <li><a href="#">Semestre 6</a></li>
+        <li><a href="#">🧭 Semestre 5</a></li>
+        <li><a href="#">🛰️ Semestre 6</a></li>
       </ul>
 
-      <li onclick="toggleMenu(4)">4ème année</li>
+      <li onclick="toggleMenu(4)">🏛️ 4ème année</li>
       <ul class="submenu" id="submenu4">
-        <li><a href="#">Semestre 7</a></li>
-        <li><a href="#">Semestre 8</a></li>
+        <li><a href="#">🏙️ Semestre 7</a></li>
+        <li><a href="#">🗂️ Semestre 8</a></li>
       </ul>
 
-      <li onclick="toggleMenu(5)">5ème année</li>
+      <li onclick="toggleMenu(5)">🎓 5ème année</li>
       <ul class="submenu" id="submenu5">
-        <li><a href="#">Semestre 9</a></li>
-        <li><a href="#">Semestre 10</a></li>
+        <li><a href="#">🏢 Semestre 9</a></li>
+        <li><a href="#">🏆 Semestre 10</a></li>
       </ul>
     </ul>
   </div>
