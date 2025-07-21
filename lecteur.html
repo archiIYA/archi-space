@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Archi.space – Espace Étudiant</title>
+  <meta charset="UTF-8">
+  <title>archi.space - Espace Étudiant</title>
   <style>
     body {
       margin: 0;
@@ -16,20 +16,21 @@
       background-color: #2a9d8f;
       color: white;
       height: 100vh;
-      padding: 20px 0;
-      position: fixed;
       overflow-y: auto;
+      position: fixed;
     }
 
     .sidebar h2 {
       text-align: center;
-      margin-bottom: 30px;
+      padding: 20px 0;
+      margin: 0;
       font-size: 1.2em;
     }
 
     .sidebar ul {
       list-style: none;
-      padding-left: 0;
+      padding: 0;
+      margin: 0;
     }
 
     .sidebar li {
@@ -41,20 +42,19 @@
       background-color: #21867a;
     }
 
-    .sidebar .submenu {
+    .submenu {
       display: none;
       background-color: #268d81;
     }
 
-    .sidebar .submenu li {
+    .submenu li {
       padding-left: 40px;
-      font-size: 0.95em;
     }
 
     .content {
       margin-left: 250px;
       padding: 30px;
-      width: 100%;
+      flex-grow: 1;
     }
 
     .logout {
@@ -63,14 +63,21 @@
       border: none;
       padding: 10px 15px;
       cursor: pointer;
-      position: absolute;
-      top: 15px;
-      right: 20px;
+      float: right;
       border-radius: 5px;
     }
 
     h1 {
       color: #264653;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -84,21 +91,25 @@
         <li><a href="#">Semestre 1</a></li>
         <li><a href="#">Semestre 2</a></li>
       </ul>
+
       <li onclick="toggleMenu(2)">2ème année</li>
       <ul class="submenu" id="submenu2">
         <li><a href="#">Semestre 3</a></li>
         <li><a href="#">Semestre 4</a></li>
       </ul>
+
       <li onclick="toggleMenu(3)">3ème année</li>
       <ul class="submenu" id="submenu3">
         <li><a href="#">Semestre 5</a></li>
         <li><a href="#">Semestre 6</a></li>
       </ul>
+
       <li onclick="toggleMenu(4)">4ème année</li>
       <ul class="submenu" id="submenu4">
         <li><a href="#">Semestre 7</a></li>
         <li><a href="#">Semestre 8</a></li>
       </ul>
+
       <li onclick="toggleMenu(5)">5ème année</li>
       <ul class="submenu" id="submenu5">
         <li><a href="#">Semestre 9</a></li>
@@ -110,10 +121,11 @@
   <div class="content">
     <button class="logout" onclick="logout()">Déconnexion</button>
     <h1>Bienvenue dans votre espace étudiant 🏫</h1>
-    <p>Sélectionnez une année dans la barre latérale pour voir les semestres.</p>
+    <p>Sélectionnez une année dans la barre latérale pour voir ses semestres.</p>
   </div>
 
   <script>
+    // حماية الجلسة
     if (localStorage.getItem("userToken") !== "ok") {
       window.location.href = "login.html";
     }
@@ -124,14 +136,14 @@
     }
 
     function toggleMenu(id) {
-      const menu = document.getElementById("submenu" + id);
-      const isVisible = menu.style.display === "block";
-      // إخفاء كل القوائم أولًا
       for (let i = 1; i <= 5; i++) {
-        document.getElementById("submenu" + i).style.display = "none";
+        const menu = document.getElementById("submenu" + i);
+        if (i === id) {
+          menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        } else {
+          menu.style.display = "none";
+        }
       }
-      // ثم نعرض القائمة المطلوبة
-      menu.style.display = isVisible ? "none" : "block";
     }
   </script>
 </body>
