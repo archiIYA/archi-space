@@ -2,20 +2,59 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Lecteur - archi.space</title>
+  <title>Archi.space – Espace Étudiant</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f5f5;
       margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      background-color: #f5f5f5;
     }
 
-    header {
+    .sidebar {
+      width: 250px;
       background-color: #2a9d8f;
       color: white;
-      padding: 15px;
+      height: 100vh;
+      padding: 20px 0;
+      position: fixed;
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
       text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.2em;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .sidebar li {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    .sidebar li:hover {
+      background-color: #21867a;
+    }
+
+    .sidebar .submenu {
+      display: none;
+      background-color: #268d81;
+    }
+
+    .sidebar .submenu li {
+      padding-left: 40px;
+      font-size: 0.95em;
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 30px;
+      width: 100%;
     }
 
     .logout {
@@ -24,89 +63,57 @@
       border: none;
       padding: 10px 15px;
       cursor: pointer;
-      float: right;
-      margin-top: -45px;
-      margin-right: 20px;
+      position: absolute;
+      top: 15px;
+      right: 20px;
       border-radius: 5px;
     }
 
-    .content {
-      padding: 30px;
-    }
-
-    h2 {
+    h1 {
       color: #264653;
-    }
-
-    .years ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .years li {
-      margin: 10px 0;
-    }
-
-    .years button {
-      padding: 10px 20px;
-      background-color: #2a9d8f;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      font-size: 1em;
-      cursor: pointer;
-    }
-
-    .years button:hover {
-      background-color: #21867a;
-    }
-
-    #semesters ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 15px;
-    }
-
-    #semesters li {
-      margin: 5px 0;
-    }
-
-    #semesters a {
-      text-decoration: none;
-      color: #264653;
-      font-weight: bold;
-    }
-
-    #semesters a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <header>
-    Espace Étudiant
-    <button class="logout" onclick="logout()">Déconnexion</button>
-  </header>
+
+  <div class="sidebar">
+    <h2>🎓 archi.space</h2>
+    <ul>
+      <li onclick="toggleMenu(1)">1ère année</li>
+      <ul class="submenu" id="submenu1">
+        <li><a href="#">Semestre 1</a></li>
+        <li><a href="#">Semestre 2</a></li>
+      </ul>
+      <li onclick="toggleMenu(2)">2ème année</li>
+      <ul class="submenu" id="submenu2">
+        <li><a href="#">Semestre 3</a></li>
+        <li><a href="#">Semestre 4</a></li>
+      </ul>
+      <li onclick="toggleMenu(3)">3ème année</li>
+      <ul class="submenu" id="submenu3">
+        <li><a href="#">Semestre 5</a></li>
+        <li><a href="#">Semestre 6</a></li>
+      </ul>
+      <li onclick="toggleMenu(4)">4ème année</li>
+      <ul class="submenu" id="submenu4">
+        <li><a href="#">Semestre 7</a></li>
+        <li><a href="#">Semestre 8</a></li>
+      </ul>
+      <li onclick="toggleMenu(5)">5ème année</li>
+      <ul class="submenu" id="submenu5">
+        <li><a href="#">Semestre 9</a></li>
+        <li><a href="#">Semestre 10</a></li>
+      </ul>
+    </ul>
+  </div>
 
   <div class="content">
-    <h2>Bienvenue dans votre espace étudiant 🏫</h2>
-
-    <div class="years">
-      <h3>Choisissez une année d’étude :</h3>
-      <ul>
-        <li><button onclick="showSemesters(1)">1ère année</button></li>
-        <li><button onclick="showSemesters(2)">2ème année</button></li>
-        <li><button onclick="showSemesters(3)">3ème année</button></li>
-        <li><button onclick="showSemesters(4)">4ème année</button></li>
-        <li><button onclick="showSemesters(5)">5ème année</button></li>
-      </ul>
-    </div>
-
-    <div id="semesters"></div>
+    <button class="logout" onclick="logout()">Déconnexion</button>
+    <h1>Bienvenue dans votre espace étudiant 🏫</h1>
+    <p>Sélectionnez une année dans la barre latérale pour voir les semestres.</p>
   </div>
 
   <script>
-    // التحقق من الجلسة
     if (localStorage.getItem("userToken") !== "ok") {
       window.location.href = "login.html";
     }
@@ -116,13 +123,15 @@
       window.location.href = "login.html";
     }
 
-    function showSemesters(year) {
-      const semestreDiv = document.getElementById("semesters");
-      let html = `<h3>Semestres pour la ${year}ᵉ année :</h3><ul>`;
-      html += `<li><a href="#">Semestre ${year * 2 - 1}</a></li>`;
-      html += `<li><a href="#">Semestre ${year * 2}</a></li>`;
-      html += "</ul>";
-      semestreDiv.innerHTML = html;
+    function toggleMenu(id) {
+      const menu = document.getElementById("submenu" + id);
+      const isVisible = menu.style.display === "block";
+      // إخفاء كل القوائم أولًا
+      for (let i = 1; i <= 5; i++) {
+        document.getElementById("submenu" + i).style.display = "none";
+      }
+      // ثم نعرض القائمة المطلوبة
+      menu.style.display = isVisible ? "none" : "block";
     }
   </script>
 </body>
