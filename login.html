@@ -2,95 +2,92 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Connexion - archi.space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>Connexion - archi.space</title>
+  <script type="module">
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.firebasestorage.app",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    // Initialisation
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Connexion
+    window.login = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Rediriger vers lecteur.html
+          window.location.href = "lecteur.html";
+        })
+        .catch((error) => {
+          alert("Erreur : " + error.message);
+        });
+    }
+  </script>
   <style>
     body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f0f0;
       display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
     }
-
     .login-container {
-      background-color: #fff;
-      padding: 40px;
-      border-radius: 12px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
+      width: 300px;
     }
-
-    .login-container img {
-      height: 60px;
-      margin-bottom: 20px;
-    }
-
     h2 {
-      margin-bottom: 25px;
-      font-weight: 600;
-      color: #333;
-    }
-
-    input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 15px;
+      text-align: center;
       margin-bottom: 20px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1em;
+      color: #2a9d8f;
     }
-
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
     button {
       width: 100%;
-      padding: 15px;
+      padding: 12px;
       background-color: #2a9d8f;
       color: white;
-      font-size: 1em;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
     }
-
     button:hover {
       background-color: #21867a;
-    }
-
-    .error {
-      color: red;
-      margin-bottom: 15px;
-      display: none;
     }
   </style>
 </head>
 <body>
   <div class="login-container">
-    <img src="Capture d'écran 2025-07-21 212951.png" alt="Logo archi.space">
-    <h2>Connexion à archi.space</h2>
-    <div class="error" id="error">Nom d'utilisateur ou mot de passe incorrect</div>
-    <input type="text" id="username" placeholder="Nom d'utilisateur">
-    <input type="password" id="password" placeholder="Mot de passe">
+    <h2>🔒 Connexion</h2>
+    <input type="email" id="email" placeholder="Adresse email" required>
+    <input type="password" id="password" placeholder="Mot de passe" required>
     <button onclick="login()">Se connecter</button>
   </div>
-
-  <script>
-    function login() {
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const error = document.getElementById("error");
-
-      if (username === "etudiant" && password === "12345") {
-        localStorage.setItem("userToken", "ok");
-        window.location.href = "lecteur.html";
-      } else {
-        error.style.display = "block";
-      }
-    }
-  </script>
 </body>
 </html>
