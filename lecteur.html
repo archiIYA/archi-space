@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="archispace - Plateforme éducative en architecture">
-  <meta name="keywords" content="architecture, archispace, cours, projets, PFE">
+  <meta name="keywords" content="architecture, archispace, cours, projets, PFE, étude">
   <meta name="author" content="archispace">
   <title>archispace 🎓</title>
   <style>
@@ -12,21 +12,22 @@
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background-color: #ffffff;
-      color: #000000;
+      color: #1a1a1a;
     }
 
     .sidebar {
       position: fixed;
-      width: 250px;
+      width: 260px;
       height: 100vh;
-      background-color: #f5f5f5;
+      background-color: #f2f2f2;
       padding: 20px;
       border-right: 1px solid #ddd;
     }
 
     .sidebar h2 {
-      font-size: 1.4em;
+      font-size: 1.5em;
       margin-bottom: 20px;
+      color: #264653;
     }
 
     .sidebar ul {
@@ -43,29 +44,65 @@
       color: #333;
       font-size: 1.1em;
       display: block;
+      padding: 8px 10px;
+      border-radius: 5px;
     }
 
     .sidebar a:hover {
-      color: #2a9d8f;
+      background-color: #2a9d8f;
+      color: white;
     }
 
     .main {
-      margin-left: 270px;
-      padding: 30px;
+      margin-left: 280px;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+      color: #264653;
+    }
+
+    p {
+      font-size: 1.1em;
+      margin-bottom: 30px;
     }
 
     .year-card {
-      background-color: #f9f9f9;
-      border: 1px solid #ccc;
+      background-color: #e9f5f3;
+      border: 1px solid #b2dfdb;
       border-radius: 12px;
       padding: 20px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       font-size: 1.2em;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .year-card:hover {
+      background-color: #d0f0eb;
+    }
+
+    .semesters {
+      margin-left: 20px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .semesters a {
+      display: block;
+      margin: 5px 0;
+      color: #2a9d8f;
+      text-decoration: none;
+    }
+
+    .semesters a:hover {
+      text-decoration: underline;
     }
 
     .contact-box {
-      background-color: #f5f5f5;
+      background-color: #f9f9f9;
       padding: 20px;
       border-radius: 10px;
       margin-top: 50px;
@@ -86,38 +123,10 @@
 <body>
 
   <div class="sidebar">
-    <h2>📚 Menu principal</h2>
+    <h2>📚 Menu</h2>
     <ul>
       <li><a href="#">🏛️ 1ère Année</a></li>
       <li><a href="#">🏗️ 2ème Année</a></li>
       <li><a href="#">🏘️ 3ème Année</a></li>
       <li><a href="#">🌆 4ème Année</a></li>
       <li><a href="#">📐 5ème Année</a></li>
-      <li><a href="#">🗂️ Projets d'étudiants</a></li>
-      <li><a href="#">📖 Livres</a></li>
-      <li><a href="#">🔍 Rechercher</a></li>
-    </ul>
-  </div>
-
-  <div class="main">
-    <h1>🎓 Bienvenue sur archispace</h1>
-    <p>Explorez les années d’étude, consultez les cours, accédez aux projets des anciens et trouvez les ressources qu’il vous faut !</p>
-
-    <div class="year-card">📘 Cours et modules – 1ère Année</div>
-    <div class="year-card">📙 Cours et modules – 2ème Année</div>
-    <div class="year-card">📕 Cours et modules – 3ème Année</div>
-    <div class="year-card">📗 Cours et modules – 4ème Année</div>
-    <div class="year-card">📓 Cours et modules – 5ème Année</div>
-
-    <div class="year-card">🗂️ Projets étudiants (accès premium 🔒)</div>
-    <div class="year-card">📚 Livres d'architecture</div>
-
-    <div class="contact-box">
-      <h3>📬 تواصل معنا</h3>
-      <p>لأي استفسار أو اقتراح، راسلنا على:</p>
-      <p><a href="mailto:archispaceiya@gmail.com">archispaceiya@gmail.com</a></p>
-    </div>
-  </div>
-
-</body>
-</html>
