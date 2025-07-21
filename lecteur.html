@@ -4,6 +4,28 @@
   <meta charset="UTF-8" />
   <title>Lecteur - archi.space</title>
   <style>
+    <style>
+  ...
+  .years ul {
+    list-style: none;
+    padding: 0;
+  }
+  .years li {
+    margin: 10px 0;
+  }
+  .years button {
+    padding: 10px 20px;
+    background-color: #2a9d8f;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+  }
+  .years button:hover {
+    background-color: #21867a;
+  }
+</style>
     .years ul {
   list-style: none;
   padding: 0;
@@ -62,8 +84,7 @@
     <button class="logout" onclick="logout()">Se déconnecter</button>
   </header>
 
-  <div class="content">
-    <div class="years">
+  <div class="years">
   <h2>Choisissez une année d’étude :</h2>
   <ul>
     <li><button onclick="showSemesters(1)">1ère année</button></li>
