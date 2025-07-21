@@ -2,9 +2,11 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>archi.space - Espace étudiant</title>
+  <meta name="description" content="archi.space est une plateforme éducative d’architecture : cours, projets, livres.">
+  <meta name="keywords" content="architecture, cours architecture, archi.space, PFE, projet étudiant, دروس معمارية, fac architecture">
+  <meta name="author" content="archi.space">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Plateforme éducative d’architecture. Cours, projets, livres, et plus.">
+  <title>archi.space - Accueil</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -232,6 +234,7 @@
     </div>
   </div>
 
+  <!-- Firebase auth check -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -249,22 +252,22 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // تحقق من المستخدم
+    // Redirection si utilisateur non connecté
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         window.location.href = "login.html";
       }
     });
 
-    // تسجيل خروج
+    // Déconnexion
     window.logout = function () {
       signOut(auth).then(() => {
         window.location.href = "login.html";
       });
-    };
+    }
 
-    // فتح/إغلاق القوائم
-    window.toggleMenu = function (id) {
+    // Menu toggle
+    window.toggleMenu = function(id) {
       for (let i = 1; i <= 5; i++) {
         const menu = document.getElementById("submenu" + i);
         menu.style.display = (i === id && menu.style.display !== "block") ? "block" : "none";
