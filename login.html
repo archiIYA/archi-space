@@ -2,107 +2,108 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <title>Connexion - archi.space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>archi.space – Connexion</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f7f9;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9f9f9;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
     }
-    .container {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 12px;
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      width: 350px;
-      position: relative;
-    }
-    .logo {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .logo img {
-      max-width: 120px;
-    }
-    h2 {
-      text-align: center;
-      color: #2a9d8f;
-      margin-bottom: 1.5rem;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: #264653;
-    }
-    input[type="text"], input[type="email"], input[type="password"] {
       width: 100%;
-      padding: 0.7rem;
-      margin-bottom: 1rem;
+      max-width: 400px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 6px;
     }
+
     button {
       width: 100%;
-      padding: 0.7rem;
-      background: #2a9d8f;
-      border: none;
+      padding: 12px;
+      background-color: #2a9d8f;
       color: white;
-      font-size: 1rem;
+      border: none;
       border-radius: 6px;
+      font-size: 1em;
       cursor: pointer;
     }
+
     button:hover {
-      background: #21867a;
+      background-color: #21867a;
     }
-    .switch {
+
+    .error {
+      color: red;
       text-align: center;
-      margin-top: 1rem;
-      font-size: 0.9rem;
-    }
-    .switch a {
-      color: #2a9d8f;
-      text-decoration: none;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="logo">
-      <img src="logo.png" alt="Logo archi.space">
-    </div>
-    <h2>Connexion</h2>
-    <form onsubmit="login(event)">
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="votre@email.com" required>
 
-      <label for="password">Mot de passe</label>
-      <input type="password" id="password" placeholder="********" required>
-
-      <button type="submit">Se connecter</button>
-    </form>
-    <div class="switch">
-      Pas encore de compte ? <a href="signup.html">Créer un compte</a>
-    </div>
+  <div class="login-box">
+    <h2>Se connecter à archi.space</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Mot de passe">
+    <button onclick="login()">Connexion</button>
+    <p class="error" id="error"></p>
   </div>
 
-  <script>
-    function login(event) {
-      event.preventDefault();
+  <!-- Firebase SDKs -->
+  <script type="module">
+    // Import Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.firebasestorage.app",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Fonction de connexion
+    window.login = function () {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      if (email && password) {
-        localStorage.setItem("userToken", "ok");
-        window.location.href = "lecteur.html";
-      } else {
-        alert("Veuillez remplir tous les champs.");
-      }
-    }
+      const errorEl = document.getElementById("error");
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Connexion réussie
+          sessionStorage.setItem("userToken", "ok");
+          window.location.href = "lecteur.html";
+        })
+        .catch((error) => {
+          errorEl.textContent = "Identifiants incorrects ou utilisateur non enregistré.";
+        });
+    };
   </script>
 </body>
 </html>
