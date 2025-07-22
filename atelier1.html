@@ -1,86 +1,69 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Atelier de projet 1 - archi.space</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Cours Atelier de projet 1 - archi.space">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Atelier de projet 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Rubik', sans-serif;
+      background: #fff;
+      color: #111;
       display: flex;
-      background-color: #fff;
+    }
+
+    aside {
+      width: 240px;
+      background-color: #f4f4f4;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+
+    aside h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    aside a {
+      display: block;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: #333;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    aside a:hover {
+      background-color: #ddd;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 30px;
+    }
+
+    .section-title {
+      font-size: 26px;
+      margin-bottom: 20px;
       color: #000;
     }
 
-    .sidebar {
-      width: 250px;
-      background-color: #f5e9da;
-      height: 100vh;
-      overflow-y: auto;
-      position: fixed;
-      border-right: 1px solid #ddd;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-    }
-
-    .sidebar h2 {
-      text-align: center;
+    .lesson {
+      margin-bottom: 30px;
+      background: #fafafa;
       padding: 20px;
-      margin: 0;
-      font-size: 1.5em;
-      font-weight: 600;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .sidebar li {
-      padding: 12px 20px;
-      cursor: pointer;
-    }
-
-    .sidebar li:hover {
-      background-color: #e0d3c1;
-    }
-
-    .sidebar li a {
-      color: black;
-      text-decoration: none;
-      font-weight: 500;
-      display: block;
-    }
-
-    .contact {
-      margin-top: 20px;
-      padding: 15px;
-      font-size: 0.9em;
-      text-align: center;
-      border-top: 1px solid #ccc;
-    }
-
-    .content {
-      margin-left: 250px;
-      padding: 40px;
-      flex-grow: 1;
-    }
-
-    h1 {
-      font-size: 2em;
-      font-weight: 600;
+    .lesson h3 {
+      font-size: 20px;
       margin-bottom: 10px;
-    }
-
-    .section {
-      margin-bottom: 40px;
-    }
-
-    .section p {
-      font-size: 1em;
-      line-height: 1.6;
+      color: #222;
     }
 
     .buttons {
@@ -88,149 +71,104 @@
     }
 
     .buttons button {
-      margin-right: 10px;
-      padding: 8px 14px;
-      font-size: 0.9em;
+      background: none;
       border: none;
-      border-radius: 5px;
+      margin-right: 10px;
+      font-size: 16px;
       cursor: pointer;
     }
 
-    .btn-pdf { background-color: #4caf50; color: white; }
-    .btn-video { background-color: #2196f3; color: white; }
-    .btn-premium { background-color: #f39c12; color: white; }
-
-    .materials-nav {
-      margin-top: 30px;
-      padding: 20px;
-      background-color: #f9f9f9;
-      border-radius: 10px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    .buttons button:hover {
+      opacity: 0.7;
     }
 
-    .materials-nav h3 {
-      margin-bottom: 10px;
+    footer {
+      margin-top: 50px;
+      font-size: 13px;
+      color: #888;
+      text-align: center;
     }
 
-    .materials-nav ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .materials-nav li {
-      margin: 6px 0;
-    }
-
-    .materials-nav a {
-      text-decoration: none;
-      color: #333;
-    }
-
-    .materials-nav a:hover {
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
+  <aside>
+    <h2>Navigation</h2>
+    <a href="sem1.html">📘 Année 1 - Semestre 1</a>
+    <a href="atelier1.html">🏛️ Atelier 1</a>
+    <a href="dca1.html">🎨 DCA 1</a>
+    <a href="dag1.html">🧠 DAG 1</a>
+    <a href="histoire1.html">🏛️ Histoire Archi 1</a>
+    <a href="theorie1.html">📐 Théorie Projet 1</a>
+    <a href="geometrie1.html">📏 Géométrie 1</a>
+    <a href="tmc1.html">🏗️ TMC 1</a>
+    <a href="math1.html">📊 Mathématiques</a>
+    <a href="expression1.html">🗣️ Expression Orale</a>
+    <a href="stage.html">🧭 Stage découverte</a>
+    <a href="projets.html">⭐ Projets des étudiants</a>
+    <a href="mailto:archispaceiya@gmail.com">📩 Contact</a>
+  </aside>
 
-  <div class="sidebar">
-    <h2>🎓 archi.space</h2>
-    <ul>
-      <li><a href="lecteur.html">🏠 Accueil</a></li>
-      <li><a href="atelier1.html">🛠️ Atelier de projet 1</a></li>
-      <li><a href="dca1.html">📏 DCA 1</a></li>
-      <li><a href="#">📐 DAG 1</a></li>
-      <li><a href="#">🏛️ Histoire de l’Architecture 1</a></li>
-      <li><a href="#">🧱 Théorie de projet 1</a></li>
-      <li><a href="#">📐 Géométrie de l’espace 1</a></li>
-      <li><a href="#">📊 TMC 1</a></li>
-      <li><a href="#">🧮 Mathématiques</a></li>
-      <li><a href="#">🗣️ Expression orale</a></li>
-      <li><a href="#">👷 Stage découverte 1</a></li>
-    </ul>
+  <main>
+    <h1 class="section-title">🏛️ Atelier de projet 1</h1>
 
-    <div class="contact">
-      📬 Contact : <br>
-      <a href="mailto:archispaceiya@gmail.com">archispaceiya@gmail.com</a>
-    </div>
-  </div>
-
-  <div class="content">
-    <h1>🛠️ Atelier de projet 1</h1>
-
-    <div class="section">
-      <p>
-        L’atelier est un enseignement polyvalent permettant de faire appel à différents modes d’enseignement : Exposé, exercice long et court, travail sur maquettes, lecture et synthèse d’ouvrages.
-      </p>
+    <div class="lesson">
+      <h3>Exposé, exercice long et court, travail sur maquettes</h3>
       <div class="buttons">
-  
-    </div>
-
-    <div class="section">
-      <p><strong>Thème 01 : La composition géométrique plane</strong><br>
-        Cet exercice vise à acquérir et à exploiter les règles de composition et d’organisation.
-      </p>
-      <div class="buttons">
-        <button class="btn-pdf">📄 PDF</button>
-        <button class="btn-video">🎥 Vidéo</button>
-        <button class="btn-premium">⭐ Premium</button>
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
       </div>
     </div>
 
-    <div class="section">
-      <p><strong>Thème 02 : La composition volumétrique réfléchie</strong><br>
-        Organisation en 3D, maquettes, projections orthogonales, créativité.
-      </p>
+    <div class="lesson">
+      <h3>La composition géométrique plane</h3>
       <div class="buttons">
-        <button class="btn-pdf">📄 PDF</button>
-        <button class="btn-video">🎥 Vidéo</button>
-        <button class="btn-premium">⭐ Premium</button>
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
       </div>
     </div>
 
-    <div class="section">
-      <p><strong>Thème 03 : Lecture d’une œuvre architecturale</strong><br>
-        Étude d'une œuvre célèbre, décomposition géométrique, lecture architecturale.
-      </p>
+    <div class="lesson">
+      <h3>La composition volumétrique réfléchie</h3>
       <div class="buttons">
-        <button class="btn-pdf">📄 PDF</button>
-        <button class="btn-video">🎥 Vidéo</button>
-        <button class="btn-premium">⭐ Premium</button>
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
       </div>
     </div>
 
-    <div class="section">
-      <p><strong>Exercices courts : Instruments et outils</strong><br>
-        Types de dessin, outils, papiers, écriture normalisée.
-      </p>
+    <div class="lesson">
+      <h3>Lecture d’une œuvre architecturale</h3>
       <div class="buttons">
-        <button class="btn-pdf">📄 PDF</button>
-        <button class="btn-video">🎥 Vidéo</button>
-        <button class="btn-premium">⭐ Premium</button>
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
       </div>
     </div>
 
-    <div class="section">
-      <p><strong>Thème : Forme, proportions et échelle</strong><br>
-        Types de traits, figures géométriques, travail sur échelle.
-      </p>
+    <div class="lesson">
+      <h3>Techniques de dessin - Instruments et outils</h3>
       <div class="buttons">
-        <button class="btn-pdf">📄 PDF</button>
-        <button class="btn-video">🎥 Vidéo</button>
-        <button class="btn-premium">⭐ Premium</button>
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
       </div>
     </div>
 
-    <div class="materials-nav">
-      <h3>🔁 Naviguer entre les matières :</h3>
-      <ul>
-        <li><a href="dca1.html">📏 DCA 1</a></li>
-        <li><a href="#">📐 DAG 1</a></li>
-        <li><a href="#">🏛️ Histoire de l’Architecture 1</a></li>
-        <li><a href="#">🧱 Théorie de projet 1</a></li>
-      </ul>
+    <div class="lesson">
+      <h3>Formes, proportions et échelles</h3>
+      <div class="buttons">
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
+      </div>
     </div>
-  </div>
 
+    <footer>
+      © 2025 ArchiSpace - Tous droits réservés
+    </footer>
+  </main>
 </body>
 </html>
