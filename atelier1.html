@@ -2,173 +2,131 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Atelier de projet 1 - archi.space</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier de projet 1 – archi.space</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-     <nav>
-    <a href="atelier1.html">🏗️ Atelier de projet 1</a>
-    <a href="dca1.html">📐 DCA 1</a>
-    <a href="dag1.html">📏 DAG 1</a>
-    <a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a>
-    <a href="theorie1.html">🧠 Théorie de projet 1</a>
-    <a href="geometrie1.html">📊 Géométrie de l’espace 1</a>
-    <a href="tmc1.html">📎 TMC 1</a>
-    <a href="math1.html">🧮 Mathématiques</a>
-    <a href="expression1.html">🗣️ Expression orale</a>
-    <a href="stage1.html">🔍 Stage découverte 1</a>
-  </nav>
-
-  <div class="container">
     body {
-      font-family: 'Poppins', sans-serif;
       margin: 0;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
       background-color: #fff;
-      color: #111;
-      padding: 20px;
+      color: #000;
     }
-
-    header {
+    .sidebar {
+      width: 250px;
       background-color: #f5e9da;
-      padding: 20px;
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      border-right: 1px solid #ddd;
+    }
+    .sidebar h2 {
       text-align: center;
-      font-size: 1.5em;
-      font-weight: 600;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      padding: 20px 0;
     }
-
-    .section {
-      margin: 30px 0;
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
     }
-
-    .section h2 {
-      color: #264653;
-      margin-bottom: 10px;
-    }
-
-    .section p {
-      font-size: 1.1em;
-      line-height: 1.7;
-    }
-
-    .resources {
-      margin-top: 10px;
-    }
-
-    .resources button {
-      margin-right: 10px;
-      padding: 8px 14px;
-      font-size: 0.9em;
-      border: none;
-      border-radius: 5px;
+    .sidebar li {
+      padding: 12px 20px;
       cursor: pointer;
     }
-
-    .pdf-btn { background-color: #2a9d8f; color: white; }
-    .video-btn { background-color: #e9c46a; color: black; }
-    .premium-btn { background-color: #e76f51; color: white; }
-
-    nav {
-      margin-top: 40px;
-      text-align: center;
+    .sidebar li:hover {
+      background-color: #e0d3c1;
     }
-
-    nav a {
+    .content {
+      margin-left: 260px;
+      padding: 40px;
+    }
+    .paragraph {
+      margin-bottom: 40px;
+    }
+    .paragraph h3 {
+      margin-bottom: 10px;
+    }
+    .buttons {
+      margin-top: 10px;
+    }
+    .buttons a {
+      display: inline-block;
+      margin-right: 10px;
+      padding: 8px 12px;
+      border-radius: 6px;
       text-decoration: none;
-      margin: 10px;
-      color: #2a9d8f;
-      font-weight: bold;
+      font-weight: 500;
     }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
+    .pdf { background-color: #2a9d8f; color: #fff; }
+    .video { background-color: #f4a261; color: #fff; }
+    .premium { background-color: #e76f51; color: #fff; }
   </style>
 </head>
 <body>
 
-<header>📐 Atelier de projet 1</header>
-
-<div class="section">
-  <h2>CONTENU DE LA MATIERE D’ENSEIGNEMENT</h2>
-  <p>L’atelier est un enseignement polyvalent permettant de faire appel à différents modes d’enseignement : Exposé, exercice long et court, maquettes, lectures...</p>
-  <div class="resources">
-  
-  </div>
+<div class="sidebar">
+  <h2>📘 Matières</h2>
+  <ul>
+    <li><a href="atelier1.html">📐 Atelier 1</a></li>
+    <li><a href="dca1.html">📏 DCA 1</a></li>
+    <li><a href="#">📊 DAG 1</a></li>
+    <li><a href="#">🏛 Histoire Arch 1</a></li>
+    <li><a href="#">📚 Théorie de projet 1</a></li>
+    <li><a href="#">📐 Géométrie espace 1</a></li>
+    <li><a href="#">🔧 TMC 1</a></li>
+    <li><a href="#">🧮 Mathématiques</a></li>
+    <li><a href="#">🗣️ Expression orale</a></li>
+    <li><a href="#">🔍 Stage découverte</a></li>
+  </ul>
 </div>
 
-<div class="section">
-  <h2>Exercices longs : Thème 01 - La composition géométrique plane</h2>
-  <p>Acquisition des règles de composition, formes géométriques, textures, superpositions...</p>
-  <div class="resources">
-    <button class="pdf-btn">📄 PDF</button>
-    <button class="video-btn">🎥 Vidéo</button>
-    <button class="premium-btn">⭐ Premium</button>
-  </div>
+<div class="content">
+  <h1>📐 Atelier de projet 1</h1>
+  <div id="contentArea">Chargement du contenu...</div>
 </div>
 
-<div class="section">
-  <h2>Thème 02 - La composition volumétrique réfléchie</h2>
-  <p>Travail sur la 3ème dimension, volumes, maquettes, projections, expression artistique...</p>
-  <div class="resources">
-    <button class="pdf-btn">📄 PDF</button>
-    <button class="video-btn">🎥 Vidéo</button>
-    <button class="premium-btn">⭐ Premium</button>
-  </div>
-</div>
+<!-- Firebase Configuration -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-<div class="section">
-  <h2>Thème 03 - Lecture d’une œuvre architecturale</h2>
-  <p>Analyse d’un projet architectural célèbre : formes, agencements, principes de composition.</p>
-  <div class="resources">
-    <button class="pdf-btn">📄 PDF</button>
-    <button class="video-btn">🎥 Vidéo</button>
-    <button class="premium-btn">⭐ Premium</button>
-  </div>
-</div>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.appspot.com",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+    measurementId: "G-RZV7LSDQBD"
+  };
 
-<div class="section">
-  <h2>Exercices courts : Thème 01 - Instruments et outils</h2>
-  <p>Définition du dessin, types de papier, encadrement, écriture normalisée, reproduction de traits...</p>
-  <div class="resources">
-    <button class="pdf-btn">📄 PDF</button>
-    <button class="video-btn">🎥 Vidéo</button>
-    <button class="premium-btn">⭐ Premium</button>
-  </div>
-</div>
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-<div class="section">
-  <h2>Thème 02 - Forme, proportions et échelle</h2>
-  <p>Dessin de formes géométriques, reproduction à l’échelle, conversions, lecture de plans...</p>
-  <div class="resources">
-    <button class="pdf-btn">📄 PDF</button>
-    <button class="video-btn">🎥 Vidéo</button>
-    <button class="premium-btn">⭐ Premium</button>
-  </div>
-</div>
- <nav>
-    <a href="atelier1.html">🏗️ Atelier de projet 1</a>
-    <a href="dca1.html">📐 DCA 1</a>
-    <a href="dag1.html">📏 DAG 1</a>
-    <a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a>
-    <a href="theorie1.html">🧠 Théorie de projet 1</a>
-    <a href="geometrie1.html">📊 Géométrie de l’espace 1</a>
-    <a href="tmc1.html">📎 TMC 1</a>
-    <a href="math1.html">🧮 Mathématiques</a>
-    <a href="expression1.html">🗣️ Expression orale</a>
-    <a href="stage1.html">🔍 Stage découverte 1</a>
-  </nav>
+  const contentDiv = document.getElementById("contentArea");
+  contentDiv.innerHTML = "";
 
-  <div class="container">
-<nav>
-  <a href="sem1.html">← Retour aux matières</a>
-  <a href="atelier2.html">Matière suivante →</a>
-</nav>
+  async function loadContent() {
+    const querySnapshot = await getDocs(collection(db, "atelier1"));
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const block = document.createElement("div");
+      block.className = "paragraph";
+      block.innerHTML = `
+        <h3>${data.titre}</h3>
+        <p>${data.contenu}</p>
+        <div class="buttons">
+          <a class="pdf" href="${data.pdfUrl || '#'}" target="_blank">📄 PDF</a>
+          <a class="video" href="${data.videoUrl || '#'}" target="_blank">🎥 Vidéo</a>
+          <a class="premium" href="${data.premiumUrl || '#'}" target="_blank">⭐ Premium</a>
+        </div>
+      `;
+      contentDiv.appendChild(block);
+    });
+  }
 
-</body>
-</html>
-
-  <div class="footer">
-      © 2025 archi.space — Tous droits réservés.
+  loadContent();
+</script>
 
 </body>
 </html>
