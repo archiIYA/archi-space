@@ -1,40 +1,71 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DCA 1 - Contenu</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DCA 1 – Contenu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
       background-color: #fefefe;
-      color: #222;
+      display: flex;
     }
 
-    header {
+    .sidebar {
+      width: 240px;
       background-color: #f5e9da;
+      height: 100vh;
       padding: 20px;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+      position: fixed;
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
+      font-size: 1.2em;
+      margin-bottom: 20px;
       text-align: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    header h1 {
-      margin: 0;
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      margin: 10px 0;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: #222;
+      font-weight: 500;
+      display: block;
+      padding: 10px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .sidebar ul li a:hover {
+      background-color: #e6d6c5;
+    }
+
+    .main {
+      margin-left: 260px;
+      padding: 40px;
+      flex-grow: 1;
+    }
+
+    h1 {
       font-size: 1.8em;
-      font-weight: 600;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 0 20px;
+      margin-bottom: 20px;
     }
 
     .content-block {
-      background-color: #ffffff;
-      padding: 25px;
+      background-color: #fff;
+      padding: 20px;
       margin-bottom: 25px;
       border-left: 5px solid #c0a98f;
       border-radius: 8px;
@@ -43,47 +74,49 @@
 
     .content-block h3 {
       margin-top: 0;
-      font-size: 1.3em;
       color: #444;
+      font-size: 1.2em;
     }
 
     .content-block p {
       font-size: 1em;
-      margin: 10px 0 20px 0;
       line-height: 1.6;
+      margin-bottom: 15px;
     }
 
     .buttons {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
     .buttons a {
       text-decoration: none;
       padding: 8px 14px;
-      font-size: 0.95em;
       border-radius: 6px;
+      font-size: 0.95em;
+      font-weight: 500;
+      color: white;
       transition: 0.3s ease;
-      display: inline-block;
     }
 
-    .pdf { background-color: #007bff; color: white; }
-    .video { background-color: #28a745; color: white; }
-    .premium { background-color: #ffb703; color: black; }
+    .pdf { background-color: #007bff; }
+    .video { background-color: #28a745; }
+    .premium { background-color: #f4a261; color: #fff; }
 
     .buttons a:hover {
       opacity: 0.85;
     }
 
     .back-link {
+      margin-top: 40px;
       text-align: center;
-      margin-top: 30px;
     }
 
     .back-link a {
       text-decoration: none;
       color: #007bff;
-      font-weight: 600;
+      font-weight: bold;
     }
 
     .back-link a:hover {
@@ -93,15 +126,28 @@
 </head>
 <body>
 
-  <header>
-    <h1>📐 DCA 1 - Contenu de la matière d’enseignement</h1>
-  </header>
+  <div class="sidebar">
+    <h2>📚 Modules S1</h2>
+    <ul>
+      <li><a href="atelier1.html">🏗 Atelier de projet 1</a></li>
+      <li><a href="dca1.html">📐 DCA 1</a></li>
+      <li><a href="#">📏 DAG 1</a></li>
+      <li><a href="#">🏛 Histoire de l’Architecture 1</a></li>
+      <li><a href="#">📘 Théorie de projet 1</a></li>
+      <li><a href="#">📊 Géométrie de l’espace 1</a></li>
+      <li><a href="#">🧱 TMC 1</a></li>
+      <li><a href="#">➗ Mathématiques</a></li>
+      <li><a href="#">🗣 Expression orale</a></li>
+      <li><a href="#">🧭 Stage découverte 1</a></li>
+    </ul>
+  </div>
 
-  <div class="container">
+  <div class="main">
+    <h1>📐 DCA 1 – Contenu de la matière d’enseignement</h1>
 
     <div class="content-block">
       <h3>📄 Les formats, cartouches, la mise en page, les traits, l’échelle</h3>
-      <p>Introduction aux éléments de base du dessin technique : formats de papier, cartouche, mise en page, épaisseur de traits et représentation à l’échelle.</p>
+      <p>Introduction aux éléments de base du dessin technique : formats normalisés, mise en page, types de traits, cartouches et travail à l’échelle.</p>
       <div class="buttons">
         <a class="pdf" href="#">📄 PDF</a>
         <a class="video" href="#">🎥 Vidéo</a>
@@ -111,7 +157,7 @@
 
     <div class="content-block">
       <h3>📌 Initiation à la notion de composition</h3>
-      <p>Découverte des principes de base de la composition architecturale à travers des exercices de formes et d’organisation spatiale.</p>
+      <p>Apprendre les bases de la composition architecturale à travers des exercices de formes simples et de mises en page spatiales.</p>
       <div class="buttons">
         <a class="pdf" href="#">📄 PDF</a>
         <a class="video" href="#">🎥 Vidéo</a>
@@ -120,8 +166,8 @@
     </div>
 
     <div class="content-block">
-      <h3>🏞️ Représentation en perspective</h3>
-      <p>Apprentissage des techniques de perspective pour représenter des volumes et compositions spatiales en 3D sur une surface plane.</p>
+      <h3>🧠 Représentation en perspective</h3>
+      <p>Étude des bases de la perspective pour comprendre la profondeur et la volumétrie dans les dessins architecturaux.</p>
       <div class="buttons">
         <a class="pdf" href="#">📄 PDF</a>
         <a class="video" href="#">🎥 Vidéo</a>
@@ -130,8 +176,8 @@
     </div>
 
     <div class="content-block">
-      <h3>🧩 Lecture de formes, de volumes et de leurs composantes</h3>
-      <p>Analyse et interprétation des formes architecturales : relation entre les volumes, surfaces, proportions et compositions spatiales.</p>
+      <h3>📦 Lecture de formes, volumes et composantes</h3>
+      <p>Développer la capacité à observer, analyser et comprendre les formes architecturales et leur organisation.</p>
       <div class="buttons">
         <a class="pdf" href="#">📄 PDF</a>
         <a class="video" href="#">🎥 Vidéo</a>
@@ -140,8 +186,8 @@
     </div>
 
     <div class="content-block">
-      <h3>📐 Dessin géométral</h3>
-      <p>Introduction au dessin géométral pour comprendre la projection orthogonale (plan, coupe, élévation) et la représentation fidèle des formes.</p>
+      <h3>✏️ Dessin géométral</h3>
+      <p>Maîtriser la projection orthogonale (plan, coupe, élévation) pour représenter des objets ou bâtiments en 2D fidèlement.</p>
       <div class="buttons">
         <a class="pdf" href="#">📄 PDF</a>
         <a class="video" href="#">🎥 Vidéo</a>
@@ -150,8 +196,8 @@
     </div>
 
     <div class="content-block">
-      <h3>🏛️ Relevé d’architecture</h3>
-      <p>Méthodologie du relevé sur site pour représenter avec précision les bâtiments existants, en utilisant les outils de dessin manuel ou numérique.</p>
+      <h3>🏛 Relevé d’architecture</h3>
+      <p>Apprendre à réaliser des relevés sur site, à l’aide de croquis, mesures, photos et notes pour restituer un bâtiment existant.</p>
       <div class="buttons">
         <a class="pdf" href="#">📄 PDF</a>
         <a class="video" href="#">🎥 Vidéo</a>
@@ -160,46 +206,19 @@
     </div>
 
     <div class="content-block">
-      <h3>📝 Les éléments de projet</h3>
-      <p>Présentation des différentes étapes de développement de projet : croquis côté, esquisse, avant-projet, projet final.</p>
+      <h3>🗂️ Les éléments de projet</h3>
+      <p>Comprendre les étapes de développement d’un projet architectural : esquisse, avant-projet, projet final, dossier graphique.</p>
       <div class="buttons">
         <a class="pdf" href="#">📄 PDF</a>
         <a class="video" href="#">🎥 Vidéo</a>
         <a class="premium" href="#">⭐ Premium</a>
       </div>
     </div>
-</div>
-</div>
- <nav>
-    <a href="atelier1.html">🏗️ Atelier de projet 1</a>
-    <a href="dca1.html">📐 DCA 1</a>
-    <a href="dag1.html">📏 DAG 1</a>
-    <a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a>
-    <a href="theorie1.html">🧠 Théorie de projet 1</a>
-    <a href="geometrie1.html">📊 Géométrie de l’espace 1</a>
-    <a href="tmc1.html">📎 TMC 1</a>
-    <a href="math1.html">🧮 Mathématiques</a>
-    <a href="expression1.html">🗣️ Expression orale</a>
-    <a href="stage1.html">🔍 Stage découverte 1</a>
-  </nav>
 
-  <div class="container">
-<nav>
-  <a href="sem1.html">← Retour aux matières</a>
-  <a href="atelier2.html">Matière suivante →</a>
-</nav>
-
-</body>
-</html>
-
-  <div class="footer">
-      © 2025 archi.space — Tous droits réservés.
-
-</body>
-</html>
     <div class="back-link">
       <a href="lecteur.html">← Retour à l'accueil</a>
     </div>
-   
+  </div>
+
 </body>
 </html>
