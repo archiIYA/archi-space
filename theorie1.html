@@ -1,232 +1,183 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Théorie de projet 1 - archi.space</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Cours Théorie de projet 1 - archi.space">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Théorie de projet 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Rubik', sans-serif;
+      background: #fff;
+      color: #111;
       display: flex;
-      background-color: #ffffff;
-      color: #000;
     }
 
-    .sidebar {
-      width: 250px;
-      background-color: #f5e9da;
+    aside {
+      width: 240px;
+      background-color: #f4f4f4;
       height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
       overflow-y: auto;
-      position: fixed;
-      border-right: 1px solid #ddd;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
     }
 
-    .sidebar h2 {
-      text-align: center;
-      padding: 20px 0;
-      margin: 0;
-      font-size: 1.4em;
-      font-weight: 600;
+    aside h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
     }
 
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .sidebar li {
-      padding: 12px 20px;
-      cursor: pointer;
+    aside a {
+      display: block;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: #333;
+      border-radius: 6px;
       transition: background 0.3s;
     }
 
-    .sidebar li:hover {
-      background-color: #e0d3c1;
+    aside a:hover {
+      background-color: #ddd;
     }
 
-    .submenu {
-      display: none;
-      background-color: #fdf9f5;
-      border-left: 3px solid #c0a98f;
+    main {
+      flex-grow: 1;
+      padding: 30px;
     }
 
-    .submenu li {
-      padding-left: 40px;
-      font-weight: 500;
-    }
-
-    .submenu li a {
-      text-decoration: none;
+    .section-title {
+      font-size: 26px;
+      margin-bottom: 20px;
       color: #000;
     }
 
-    .contact {
-      padding: 15px;
-      font-size: 0.9em;
-      text-align: center;
-      border-top: 1px solid #ccc;
-      color: #555;
-    }
-
-    .content {
-      margin-left: 250px;
-      padding: 30px;
-      flex-grow: 1;
-    }
-
-    h1 {
-      font-size: 1.8em;
-      margin-bottom: 20px;
-    }
-
-    .section {
+    .lesson {
       margin-bottom: 30px;
+      background: #fafafa;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
-    .section p {
+    .lesson h3 {
+      font-size: 20px;
       margin-bottom: 10px;
+      color: #222;
     }
 
     .buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
+      margin-top: 10px;
     }
 
     .buttons button {
-      padding: 8px 15px;
+      background: none;
       border: none;
-      border-radius: 5px;
+      margin-right: 10px;
+      font-size: 16px;
       cursor: pointer;
-      font-weight: bold;
-      font-size: 0.9em;
     }
 
-    .pdf { background-color: #dcdcdc; }
-    .video { background-color: #cce5ff; }
-    .premium { background-color: #ffd6d6; }
-
     .buttons button:hover {
-      opacity: 0.85;
+      opacity: 0.7;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 13px;
+      color: #888;
+      text-align: center;
     }
   </style>
 </head>
 <body>
+  <aside>
+    <h2>Navigation</h2>
+    <a href="sem1.html">📘 Année 1 - Semestre 1</a>
+    <a href="atelier1.html">🏛️ Atelier 1</a>
+    <a href="dca1.html">🎨 DCA 1</a>
+    <a href="dag1.html">🧠 DAG 1</a>
+    <a href="histoire1.html">🏛️ Histoire Archi 1</a>
+    <a href="theorie1.html">📐 Théorie Projet 1</a>
+    <a href="geometrie1.html">📏 Géométrie 1</a>
+    <a href="tmc1.html">🏗️ TMC 1</a>
+    <a href="math1.html">📊 Mathématiques</a>
+    <a href="expression1.html">🗣️ Expression Orale</a>
+    <a href="stage.html">🧭 Stage découverte</a>
+    <a href="projets.html">⭐ Projets des étudiants</a>
+    <a href="mailto:archispaceiya@gmail.com">📩 Contact</a>
+  </aside>
 
-  <div class="sidebar">
-    <h2>🎓 archi.space</h2>
-    <ul>
-      <li onclick="toggleMenu(1)">🧰 1ère année</li>
-      <ul class="submenu" id="submenu1">
-        <li><a href="sem1.html">📚 Semestre 1</a></li>
-        <li><a href="#">✏️ Semestre 2</a></li>
-      </ul>
-      <li onclick="toggleMenu(2)">📐 2ème année</li>
-      <ul class="submenu" id="submenu2">
-        <li><a href="#">🧱 Semestre 3</a></li>
-        <li><a href="#">🧪 Semestre 4</a></li>
-      </ul>
-      <li onclick="toggleMenu(3)">🏗️ 3ème année</li>
-      <ul class="submenu" id="submenu3">
-        <li><a href="#">🧭 Semestre 5</a></li>
-        <li><a href="#">🛰️ Semestre 6</a></li>
-      </ul>
-      <li onclick="toggleMenu(4)">🏛️ 4ème année</li>
-      <ul class="submenu" id="submenu4">
-        <li><a href="#">🏙️ Semestre 7</a></li>
-        <li><a href="#">🗂️ Semestre 8</a></li>
-      </ul>
-      <li onclick="toggleMenu(5)">🎓 5ème année</li>
-      <ul class="submenu" id="submenu5">
-        <li><a href="#">🏢 Semestre 9</a></li>
-        <li><a href="#">🏆 Semestre 10</a></li>
-      </ul>
+  <main>
+    <h1 class="section-title">📐 Théorie de projet 1</h1>
 
-      <li><a href="atelier1.html">✒️ Atelier 1</a></li>
-      <li><a href="dca1.html">📏 DCA 1</a></li>
-      <li><a href="dag1.html">🖌️ DAG 1</a></li>
-      <li><a href="histoire1.html">🏛️ Histoire 1</a></li>
-      <li><a href="theorie1.html" style="font-weight: bold;">📘 Théorie 1</a></li>
-
-      <li><a href="projets.html" style="display:block; padding:12px 20px;">🗃️ Projets étudiants</a></li>
-    </ul>
-
-    <div class="contact">
-      📬 Contact :<br>
-      <a href="mailto:archispaceiya@gmail.com">archispaceiya@gmail.com</a>
-    </div>
-  </div>
-
-  <div class="content">
-    <h1>📘 Théorie de projet 1</h1>
-
-    <div class="section">
-      <p>– Formes géométriques planes, propriétés et interprétations</p>
+    <div class="lesson">
+      <h3>Formes géométriques planes, propriétés et interprétations</h3>
       <div class="buttons">
-        <button class="pdf">📄 PDF</button>
-        <button class="video">🎥 Vidéo</button>
-        <button class="premium">⭐ Premium</button>
-      </div>
-
-      <p>– Lois de vision et facteurs de cohérence</p>
-      <div class="buttons">
-        <button class="pdf">📄 PDF</button>
-        <button class="video">🎥 Vidéo</button>
-        <button class="premium">⭐ Premium</button>
-      </div>
-
-      <p>– Lois de composition et modes d’association</p>
-      <div class="buttons">
-        <button class="pdf">📄 PDF</button>
-        <button class="video">🎥 Vidéo</button>
-        <button class="premium">⭐ Premium</button>
-      </div>
-
-      <p>– Volumes : propriétés, interprétations et transformations</p>
-      <div class="buttons">
-        <button class="pdf">📄 PDF</button>
-        <button class="video">🎥 Vidéo</button>
-        <button class="premium">⭐ Premium</button>
-      </div>
-
-      <p>– La matière : couleur et texture dans une composition</p>
-      <div class="buttons">
-        <button class="pdf">📄 PDF</button>
-        <button class="video">🎥 Vidéo</button>
-        <button class="premium">⭐ Premium</button>
-      </div>
-
-      <p>– Le métier d’architecte</p>
-      <div class="buttons">
-        <button class="pdf">📄 PDF</button>
-        <button class="video">🎥 Vidéo</button>
-        <button class="premium">⭐ Premium</button>
-      </div>
-
-      <p>– Les différents modes de représentation et de communication de l’architecte</p>
-      <div class="buttons">
-        <button class="pdf">📄 PDF</button>
-        <button class="video">🎥 Vidéo</button>
-        <button class="premium">⭐ Premium</button>
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
       </div>
     </div>
-  </div>
 
-  <script>
-    function toggleMenu(id) {
-      for (let i = 1; i <= 5; i++) {
-        const menu = document.getElementById("submenu" + i);
-        if (menu) {
-          menu.style.display = (i === id && menu.style.display !== "block") ? "block" : "none";
-        }
-      }
-    }
-  </script>
+    <div class="lesson">
+      <h3>Lois de vision et facteurs de cohérence</h3>
+      <div class="buttons">
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
+      </div>
+    </div>
 
+    <div class="lesson">
+      <h3>Lois de composition et modes d’association</h3>
+      <div class="buttons">
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <h3>Volumes : propriétés, interprétations et transformations</h3>
+      <div class="buttons">
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <h3>La matière : couleur et texture dans une composition</h3>
+      <div class="buttons">
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <h3>Le métier d’architecte</h3>
+      <div class="buttons">
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <h3>Les différents modes de représentation et de communication</h3>
+      <div class="buttons">
+        <button>📄 PDF</button>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
+      </div>
+    </div>
+
+    <footer>
+      © 2025 ArchiSpace – Tous droits réservés.
+    </footer>
+  </main>
 </body>
 </html>
