@@ -11,9 +11,24 @@
       font-family: 'Rubik', sans-serif;
       background: #fff;
       color: #111;
-      display: flex;
     }
 
+    /* Bouton Menu */
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Sidebar */
     aside {
       width: 240px;
       background-color: #f4f4f4;
@@ -21,6 +36,33 @@
       padding: 20px;
       box-shadow: 2px 0 5px rgba(0,0,0,0.1);
       overflow-y: auto;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 998;
+    }
+
+    aside.hidden {
+      transform: translateX(-260px);
+    }
+
+    .back-button {
+      display: block;
+      text-align: center;
+      background-color: #ddd;
+      color: #111;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #ccc;
     }
 
     aside h2 {
@@ -43,8 +85,14 @@
     }
 
     main {
-      flex-grow: 1;
+      margin-left: 260px;
       padding: 30px;
+      transition: margin-left 0.3s ease;
+    }
+
+    /* décalage si la sidebar est cachée */
+    .sidebar-hidden main {
+      margin-left: 0;
     }
 
     .section-title {
@@ -89,34 +137,46 @@
       color: #888;
       text-align: center;
     }
+
+    @media (max-width: 768px) {
+      main {
+        margin-left: 0;
+      }
+    }
   </style>
 </head>
 <body>
-<aside class="sidebar">
-  <div class="sidebar-header">
-    <h2>📚 Année 1 - Semestre 1</h2>
-  </div>
-  <ul class="sidebar-menu">
-    <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
-    <li><a href="dca1.html">📐 DCA 1</a></li>
-    <li><a href="dag1.html">🎨 DAG 1</a></li>
-    <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
-    <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
-    <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
-    <li><a href="tmc1.html">🧱 TMC 1</a></li>
-    <li><a href="math1.html">🧮 Mathématiques</a></li>
-    <li><a href="expression1.html">🗣️ Expression orale</a></li>
-    <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
-    <hr>
-    <li><a href="projets.html">💼 Projets</a></li>
-    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
-  </ul>
-</aside>
 
+  <!-- Bouton toggle -->
+  <button id="toggleSidebar">☰ Menu</button>
 
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
 
+    <div class="sidebar-header">
+      <h2>📚 Année 1 - Semestre 1</h2>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
+      <li><a href="dca1.html">📐 DCA 1</a></li>
+      <li><a href="dag1.html">🎨 DAG 1</a></li>
+      <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
+      <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
+      <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
+      <li><a href="tmc1.html">🧱 TMC 1</a></li>
+      <li><a href="math1.html">🧮 Mathématiques</a></li>
+      <li><a href="expression1.html">🗣️ Expression orale</a></li>
+      <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
+      <hr>
+      <li><a href="projets.html">💼 Projets</a></li>
+      <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+    </ul>
+  </aside>
+
+  <!-- Contenu principal -->
   <main>
-    <h1 class="section-title">📐 Théorie de projet 1</h1>
+    <h1 class="section-title">📘 Théorie de projet 1</h1>
 
     <div class="lesson">
       <h3>Formes géométriques planes, propriétés et interprétations</h3>
@@ -185,5 +245,18 @@
       © 2025 ArchiSpace – Tous droits réservés.
     </footer>
   </main>
+
+  <!-- JS pour toggle sidebar -->
+  <script>
+    const sidebar = document.querySelector('aside');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    const body = document.body;
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('hidden');
+      body.classList.toggle('sidebar-hidden');
+    });
+  </script>
+
 </body>
 </html>
