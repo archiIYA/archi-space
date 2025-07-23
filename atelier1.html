@@ -11,24 +11,9 @@
       font-family: 'Rubik', sans-serif;
       background: #fff;
       color: #111;
+      display: flex;
     }
 
-    /* Bouton menu */
-    #toggleSidebar {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 999;
-      background-color: #111;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    /* Sidebar */
     aside {
       width: 240px;
       background-color: #f4f4f4;
@@ -49,15 +34,14 @@
     }
 
     .back-button {
-      display: block;
-      text-align: center;
+      margin-bottom: 20px;
       background-color: #ddd;
-      color: #111;
-      text-decoration: none;
-      font-weight: 600;
+      border: none;
       padding: 10px 15px;
       border-radius: 6px;
-      margin-bottom: 20px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
       transition: background-color 0.3s;
     }
 
@@ -84,13 +68,28 @@
       background-color: #ddd;
     }
 
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
     main {
-      margin-left: 260px;
+      flex-grow: 1;
       padding: 30px;
+      margin-left: 240px;
       transition: margin-left 0.3s ease;
     }
 
-    .sidebar-hidden main {
+    aside.hidden ~ main {
       margin-left: 0;
     }
 
@@ -136,116 +135,79 @@
       color: #888;
       text-align: center;
     }
-
-    @media (max-width: 768px) {
-      main {
-        margin-left: 0;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Bouton menu -->
-  <button id="toggleSidebar">☰ Menu</button>
+<button id="toggleSidebar">☰ Menu</button>
 
-  <!-- Barre latérale -->
-  <aside class="sidebar">
-    <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
+<aside class="sidebar">
+  <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
 
-    <div class="sidebar-header">
-      <h2>📚 Année 1 - Semestre 1</h2>
+  <div class="sidebar-header">
+    <h2>📚 Année 1 - Semestre 1</h2>
+  </div>
+
+  <ul class="sidebar-menu">
+    <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
+    <li><a href="dca1.html">📐 DCA 1</a></li>
+    <li><a href="dag1.html">🎨 DAG 1</a></li>
+    <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
+    <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
+    <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
+    <li><a href="tmc1.html">🧱 TMC 1</a></li>
+    <li><a href="math1.html">🧮 Mathématiques</a></li>
+    <li><a href="expression1.html">🗣️ Expression orale</a></li>
+    <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
+    <hr>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
+</aside>
+
+<main>
+  <h1 class="section-title">🏗️ Atelier de projet 1</h1>
+
+  <div class="lesson">
+    <h3>Initiation au projet architectural</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
-    <ul class="sidebar-menu">
-      <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
-      <li><a href="dca1.html">📐 DCA 1</a></li>
-      <li><a href="dag1.html">🎨 DAG 1</a></li>
-      <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
-      <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
-      <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
-      <li><a href="tmc1.html">🧱 TMC 1</a></li>
-      <li><a href="math1.html">🧮 Mathématiques</a></li>
-      <li><a href="expression1.html">🗣️ Expression orale</a></li>
-      <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
-      <hr>
-      <li><a href="projets.html">💼 Projets</a></li>
-      <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
-    </ul>
-  </aside>
+  </div>
 
-  <!-- Contenu principal -->
-  <main>
-    <h1 class="section-title">🏗️ Atelier de projet 1</h1>
-
-    <div class="lesson">
-      <h3>Exposé, exercice long et court, travail sur maquettes</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>Esquisse et analyse du site</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
+  </div>
 
-    <div class="lesson">
-      <h3>La composition géométrique plane</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>Conception de l’espace</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
+  </div>
 
-    <div class="lesson">
-      <h3>La composition volumétrique réfléchie</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
-    </div>
+  <footer>
+    © 2025 ArchiSpace – Tous droits réservés.
+  </footer>
+</main>
 
-    <div class="lesson">
-      <h3>Lecture d’une œuvre architecturale</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
-    </div>
+<script>
+  const sidebar = document.querySelector('aside');
+  const toggleBtn = document.getElementById('toggleSidebar');
 
-    <div class="lesson">
-      <h3>Techniques de dessin - Instruments et outils</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
-    </div>
-
-    <div class="lesson">
-      <h3>Formes, proportions et échelles</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
-    </div>
-
-    <footer>
-      © 2025 ArchiSpace - Tous droits réservés
-    </footer>
-  </main>
-
-  <!-- JS pour toggle -->
-  <script>
-    const sidebar = document.querySelector('aside');
-    const toggleBtn = document.getElementById('toggleSidebar');
-    const body = document.body;
-
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('hidden');
-      body.classList.toggle('sidebar-hidden');
-    });
-  </script>
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
+</script>
 </body>
 </html>
