@@ -13,48 +13,39 @@
       color: #111;
       display: flex;
     }
-    <script>
-  const sidebar = document.querySelector('aside');
-  const toggleBtn = document.getElementById('toggleSidebar');
 
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('hidden');
-  });
-</script>
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-<button id="toggleSidebar" style="
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 999;
-  background-color: #111;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  font-size: 18px;
-  border-radius: 6px;
-  cursor: pointer;
-">☰ Menu</button>
+    aside {
+      width: 240px;
+      background-color: #f4f4f4;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 998;
+    }
 
-   aside {
-  width: 240px;
-  background-color: #f4f4f4;
-  height: 100vh;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  overflow-y: auto;
-  position: fixed;
-  left: 0;
-  top: 0;
-  transform: translateX(0);
-  transition: transform 0.3s ease;
-  z-index: 998;
-}
-
-aside.hidden {
-  transform: translateX(-260px);
-}
-
+    aside.hidden {
+      transform: translateX(-260px);
+    }
 
     aside h2 {
       font-size: 18px;
@@ -78,6 +69,7 @@ aside.hidden {
     main {
       flex-grow: 1;
       padding: 30px;
+      margin-left: 240px;
     }
 
     .section-title {
@@ -111,24 +103,25 @@ aside.hidden {
       font-size: 16px;
       cursor: pointer;
     }
-.back-button {
-  margin-bottom: 20px;
-  background-color: #ddd;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
-  font-weight: 600;
-  transition: background-color 0.3s;
-}
-
-.back-button:hover {
-  background-color: #ccc;
-}
 
     .buttons button:hover {
       opacity: 0.7;
+    }
+
+    .back-button {
+      margin-bottom: 20px;
+      background-color: #ddd;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #ccc;
     }
 
     footer {
@@ -140,6 +133,9 @@ aside.hidden {
   </style>
 </head>
 <body>
+
+<button id="toggleSidebar">☰ Menu</button>
+
 <aside class="sidebar">
   <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
   <button class="back-button" onclick="history.back()">🔙 Retour</button>
@@ -165,78 +161,78 @@ aside.hidden {
   </ul>
 </aside>
 
-  <main>
-    <h1 class="section-title">🏛️ Histoire de l’Architecture 1</h1>
+<main>
+  <h1 class="section-title">🏛️ Histoire de l’Architecture 1</h1>
 
-    <div class="lesson">
-      <h3>La préhistoire et les premiers refuges</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>La préhistoire et les premiers refuges</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
-
- <div class="card bg-white shadow-md rounded-xl p-6 mb-4">
-  <h3 class="text-xl font-semibold text-gray-800 mb-2">🏛️ Architecture mésopotamienne</h3>
-  <p class="text-gray-600 mb-4">Étude de l’architecture dans la civilisation mésopotamienne, ses structures, matériaux et innovations.</p>
-  <div class="flex gap-3">
-    <a href="    " target="_blank" class="bg-blue-100 text-blue-800 px-3 py-1 rounded hover:bg-blue-200">📄 PDF</a>
-    <a href="#" class="bg-red-100 text-red-800 px-3 py-1 rounded hover:bg-red-200">🎥 Vidéo</a>
-    <a href="#" class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded hover:bg-yellow-200">⭐ Premium</a>
   </div>
-</div>
 
-    <div class="lesson">
-      <h3>Architecture égyptienne</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>🏛️ Architecture mésopotamienne</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
+  </div>
 
-    <div class="lesson">
-      <h3>Architecture grecque</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>Architecture égyptienne</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
+  </div>
 
-    <div class="lesson">
-      <h3>Architecture romaine</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>Architecture grecque</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
+  </div>
 
-    <div class="lesson">
-      <h3>Architecture paléochrétienne et byzantine</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>Architecture romaine</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
+  </div>
 
-    <div class="lesson">
-      <h3>Architecture romane et gothique</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>Architecture paléochrétienne et byzantine</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
+  </div>
 
-    <footer>
-      © 2025 ArchiSpace – Tous droits réservés.
-    </footer>
-  </main>
-  <script>
+  <div class="lesson">
+    <h3>Architecture romane et gothique</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 ArchiSpace – Tous droits réservés.
+  </footer>
+</main>
+
+<script>
   const sidebar = document.querySelector('aside');
   const toggleBtn = document.getElementById('toggleSidebar');
 
