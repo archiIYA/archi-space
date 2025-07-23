@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Expression Orale - 1ère année</title>
+  <title>🗣️ Expression Orale – 1ère année</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
     body {
@@ -13,32 +13,45 @@
       color: #111;
       display: flex;
     }
+
+    #toggleSidebar {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1001;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
     aside {
       width: 240px;
       background-color: #f4f4f4;
       height: 100vh;
       padding: 20px;
       overflow-y: auto;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-    aside.hidden {
-      transform: translateX(-100%);
-    }
-    .menu-toggle {
       position: fixed;
-      top: 10px;
-      left: 10px;
-      font-size: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
+      top: 0;
+      left: 0;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
       z-index: 1000;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     }
+
+    aside.hidden {
+      transform: translateX(-260px);
+    }
+
     aside h2 {
       font-size: 18px;
       margin-bottom: 20px;
     }
+
     aside a {
       display: block;
       text-decoration: none;
@@ -48,18 +61,44 @@
       border-radius: 6px;
       transition: background-color 0.2s;
     }
+
     aside a:hover {
       background-color: #ddd;
     }
+
+    .back-button {
+      background-color: #ddd;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .back-button:hover {
+      background-color: #ccc;
+    }
+
     main {
       flex-grow: 1;
+      margin-left: 240px;
       padding: 30px;
+      transition: margin-left 0.3s ease;
     }
+
+    aside.hidden + main {
+      margin-left: 0;
+    }
+
     h1.section-title {
       font-size: 26px;
-      color: #000;
       margin-bottom: 25px;
+      color: #000;
     }
+
     .lesson {
       margin-bottom: 30px;
       background: #fafafa;
@@ -67,10 +106,12 @@
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
+
     .lesson h3 {
       font-size: 18px;
       margin-bottom: 10px;
     }
+
     .buttons button {
       background: none;
       border: none;
@@ -78,9 +119,11 @@
       cursor: pointer;
       margin-right: 10px;
     }
+
     .buttons button:hover {
       opacity: 0.7;
     }
+
     footer {
       margin-top: 40px;
       font-size: 13px;
@@ -90,81 +133,88 @@
   </style>
 </head>
 <body>
-  <button class="menu-toggle" onclick="document.querySelector('aside').classList.toggle('hidden')">☰ Menu</button>
 
-  <aside class="sidebar hidden">
-    <div class="sidebar-header">
-      <h2>📚 Année 1 - Semestre 1</h2>
-      <a href="sem1.html">🔙 Retour à Semestre 1</a>
+<button id="toggleSidebar">☰ Menu</button>
+
+<aside id="sidebar">
+  <button class="back-button" onclick="location.href='sem1.html'">🔙 Retour à Semestre 1</button>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+  <h2>📚 Année 1 - Semestre 1</h2>
+  <a href="atelier1.html">🏗️ Atelier de projet 1</a>
+  <a href="dca1.html">📐 DCA 1</a>
+  <a href="dag1.html">🎨 DAG 1</a>
+  <a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a>
+  <a href="theorie1.html">📘 Théorie de projet 1</a>
+  <a href="geometrie1.html">📏 Géométrie de l’espace 1</a>
+  <a href="tmc1.html">🧱 TMC 1</a>
+  <a href="math1.html">🧮 Mathématiques</a>
+  <a href="expression1.html">🗣️ Expression orale</a>
+  <a href="stage.html">🏞️ Stage découverte 1</a>
+  <hr>
+  <a href="projets.html">💼 Projets</a>
+  <a href="mailto:archispaceiya@gmail.com">📩 Contact</a>
+</aside>
+
+<main>
+  <h1 class="section-title">🗣️ Expression Orale – 1ère année</h1>
+
+  <div class="lesson">
+    <h3>A. Connaître les règles de base de la communication</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
-    <ul class="sidebar-menu">
-      <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
-      <li><a href="dca1.html">📐 DCA 1</a></li>
-      <li><a href="dag1.html">🎨 DAG 1</a></li>
-      <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
-      <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
-      <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
-      <li><a href="tmc1.html">🧱 TMC 1</a></li>
-      <li><a href="math1.html">🧮 Mathématiques</a></li>
-      <li><a href="expression1.html">🗣️ Expression orale</a></li>
-      <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
-      <hr>
-      <li><a href="projets.html">💼 Projets</a></li>
-      <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
-    </ul>
-  </aside>
+  </div>
 
-  <main>
-    <h1 class="section-title">🗣️ Expression Orale – 1ère année</h1>
-
-    <div class="lesson">
-      <h3>A. Connaître les règles de base de la communication</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>B. Réussir sa prise de parole : le verbal</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
+  </div>
 
-    <div class="lesson">
-      <h3>B. Réussir sa prise de parole : le verbal</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>C. Maîtriser le langage du corps</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
+  </div>
 
-    <div class="lesson">
-      <h3>C. Maîtriser le langage du corps</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>D. Gérer son trac pour prendre la parole</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
+  </div>
 
-    <div class="lesson">
-      <h3>D. Gérer son trac pour prendre la parole</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
+  <div class="lesson">
+    <h3>E. Interagir avec l'auditoire</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
+  </div>
 
-    <div class="lesson">
-      <h3>E. Interagir avec l'auditoire</h3>
-      <div class="buttons">
-        <button>📄 PDF</button>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
-    </div>
+  <footer>
+    © 2025 ArchiSpace – Tous droits réservés.
+  </footer>
+</main>
 
-    <footer>
-      © 2025 ArchiSpace – Tous droits réservés.
-    </footer>
-  </main>
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('toggleSidebar');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
+</script>
 </body>
 </html>
