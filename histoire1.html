@@ -27,14 +27,25 @@
   cursor: pointer;
 ">☰ Menu</button>
 
-    aside {
-      width: 240px;
-      background-color: #f4f4f4;
-      height: 100vh;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      overflow-y: auto;
-    }
+   aside {
+  width: 240px;
+  background-color: #f4f4f4;
+  height: 100vh;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  overflow-y: auto;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+  z-index: 998;
+}
+
+aside.hidden {
+  transform: translateX(-260px);
+}
+
 
     aside h2 {
       font-size: 18px;
