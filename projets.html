@@ -62,6 +62,10 @@
     }
     .semestre {
       margin-bottom: 40px;
+      background: #fafafa;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
     .semestre h2 {
       font-size: 22px;
@@ -118,12 +122,7 @@
 
   <main>
     <h1 class="section-title">💼 Projets des étudiants</h1>
-
-    <!-- Boucle pour Semestres 1 à 10 -->
-    <div id="projects-container">
-      <!-- Les semestres seront générés par JS -->
-    </div>
-
+    <div id="projects-container"></div>
     <footer>
       © 2025 ArchiSpace – Tous droits réservés.
     </footer>
@@ -131,26 +130,16 @@
 
   <script>
     const motsDePasse = {
-      "s1-zip": "zipS1pass",
-      "s1-dwg": "dwgS1pass",
-      "s2-zip": "zipS2pass",
-      "s2-dwg": "dwgS2pass",
-      "s3-zip": "zipS3pass",
-      "s3-dwg": "dwgS3pass",
-      "s4-zip": "zipS4pass",
-      "s4-dwg": "dwgS4pass",
-      "s5-zip": "zipS5pass",
-      "s5-dwg": "dwgS5pass",
-      "s6-zip": "zipS6pass",
-      "s6-dwg": "dwgS6pass",
-      "s7-zip": "zipS7pass",
-      "s7-dwg": "dwgS7pass",
-      "s8-zip": "zipS8pass",
-      "s8-dwg": "dwgS8pass",
-      "s9-zip": "zipS9pass",
-      "s9-dwg": "dwgS9pass",
-      "s10-zip": "zipS10pass",
-      "s10-dwg": "dwgS10pass"
+      "s1-zip": "zipS1pass", "s1-dwg": "dwgS1pass",
+      "s2-zip": "zipS2pass", "s2-dwg": "dwgS2pass",
+      "s3-zip": "zipS3pass", "s3-dwg": "dwgS3pass",
+      "s4-zip": "zipS4pass", "s4-dwg": "dwgS4pass",
+      "s5-zip": "zipS5pass", "s5-dwg": "dwgS5pass",
+      "s6-zip": "zipS6pass", "s6-dwg": "dwgS6pass",
+      "s7-zip": "zipS7pass", "s7-dwg": "dwgS7pass",
+      "s8-zip": "zipS8pass", "s8-dwg": "dwgS8pass",
+      "s9-zip": "zipS9pass", "s9-dwg": "dwgS9pass",
+      "s10-zip": "zipS10pass", "s10-dwg": "dwgS10pass"
     };
 
     const projetsContainer = document.getElementById('projects-container');
@@ -159,7 +148,7 @@
       const sem = document.createElement('div');
       sem.classList.add('semestre');
       sem.innerHTML = `
-        <h2>Semestre ${i}</h2>
+        <h2>📘 Semestre ${i}</h2>
         <div class="file-links">
           <button onclick="telecharger('s${i}-zip', 'projets/s${i}/projet.zip')">📦 Projet ZIP</button>
           <button onclick="telecharger('s${i}-dwg', 'projets/s${i}/plan.dwg')">📐 Plan DWG</button>
@@ -169,8 +158,9 @@
     }
 
     function telecharger(id, lien) {
-      const motDePasse = prompt("Veuillez entrer le mot de passe pour ce fichier :");
+      const motDePasse = prompt("🔒 Entrez le mot de passe pour ce fichier:");
       if (motDePasse === motsDePasse[id]) {
+        alert("✅ Téléchargement autorisé.\n(Lien: " + lien + ")\n👉 Remplacez ce lien par le vrai : 'ضع الرابط هنا'");
         window.open(lien, "_blank");
       } else {
         alert("❌ Mot de passe incorrect.");
