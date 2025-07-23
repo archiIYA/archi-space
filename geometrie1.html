@@ -21,6 +21,22 @@
       padding: 20px;
       overflow-y: auto;
       box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    aside.hidden {
+      transform: translateX(-100%);
+    }
+
+    .menu-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
     }
 
     aside h2 {
@@ -87,27 +103,29 @@
   </style>
 </head>
 <body>
- <aside class="sidebar">
-  <div class="sidebar-header">
-    <h2>📚 Année 1 - Semestre 1</h2>
-  </div>
-  <ul class="sidebar-menu">
-    <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
-    <li><a href="dca1.html">📐 DCA 1</a></li>
-    <li><a href="dag1.html">🎨 DAG 1</a></li>
-    <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
-    <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
-    <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
-    <li><a href="tmc1.html">🧱 TMC 1</a></li>
-    <li><a href="math1.html">🧮 Mathématiques</a></li>
-    <li><a href="expression1.html">🗣️ Expression orale</a></li>
-    <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
-    <hr>
-    <li><a href="projets.html">💼 Projets</a></li>
-    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
-  </ul>
-</aside>
+  <button class="menu-toggle" onclick="document.querySelector('aside').classList.toggle('hidden')">☰ Menu</button>
 
+  <aside class="sidebar hidden">
+    <div class="sidebar-header">
+      <h2>📚 Année 1 - Semestre 1</h2>
+      <a href="sem1.html">🔙 Retour à Semestre 1</a>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
+      <li><a href="dca1.html">📐 DCA 1</a></li>
+      <li><a href="dag1.html">🎨 DAG 1</a></li>
+      <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
+      <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
+      <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
+      <li><a href="tmc1.html">🧱 TMC 1</a></li>
+      <li><a href="math1.html">🧮 Mathématiques</a></li>
+      <li><a href="expression1.html">🗣️ Expression orale</a></li>
+      <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
+      <hr>
+      <li><a href="projets.html">💼 Projets</a></li>
+      <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+    </ul>
+  </aside>
 
   <main>
     <h1 class="section-title">📏 Géométrie de l’espace 1</h1>
