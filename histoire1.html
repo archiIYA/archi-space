@@ -13,6 +13,15 @@
       color: #111;
       display: flex;
     }
+    <script>
+  const sidebar = document.querySelector('aside');
+  const toggleBtn = document.getElementById('toggleSidebar');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
+</script>
+
 <button id="toggleSidebar" style="
   position: fixed;
   top: 20px;
@@ -227,5 +236,14 @@ aside.hidden {
       © 2025 ArchiSpace – Tous droits réservés.
     </footer>
   </main>
+  <script>
+  const sidebar = document.querySelector('aside');
+  const toggleBtn = document.getElementById('toggleSidebar');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
+</script>
+
 </body>
 </html>
