@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Projets – Tous les semestres</title>
+  <title>Projets Étudiants</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
     body {
@@ -20,6 +20,20 @@
       padding: 20px;
       overflow-y: auto;
       box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    aside.hidden {
+      transform: translateX(-100%);
+    }
+    .menu-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
     }
     aside h2 {
       font-size: 18px;
@@ -41,45 +55,35 @@
       flex-grow: 1;
       padding: 30px;
     }
-    h1 {
+    h1.section-title {
       font-size: 26px;
-      margin-bottom: 20px;
+      color: #000;
+      margin-bottom: 25px;
     }
     .semestre {
       margin-bottom: 40px;
     }
     .semestre h2 {
-      font-size: 20px;
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #444;
+    }
+    .file-links button {
+      margin-right: 15px;
       margin-bottom: 10px;
-    }
-    .locked {
-      background: #ffecec;
-      padding: 10px;
-      border: 1px solid #f99;
+      padding: 10px 15px;
+      font-size: 15px;
+      cursor: pointer;
+      border: none;
       border-radius: 6px;
-      max-width: 300px;
+      background-color: #eee;
+      transition: background-color 0.2s;
     }
-    .projects {
-      display: none;
-      background: #f9f9f9;
-      border: 1px solid #ccc;
-      padding: 15px;
-      border-radius: 8px;
-    }
-    .projects a {
-      display: block;
-      margin-bottom: 8px;
-      color: #0077cc;
-      text-decoration: none;
-    }
-    .projects a:hover {
-      text-decoration: underline;
-    }
-    .password-input {
-      margin-top: 10px;
+    .file-links button:hover {
+      background-color: #ddd;
     }
     footer {
-      margin-top: 40px;
+      margin-top: 60px;
       font-size: 13px;
       text-align: center;
       color: #888;
@@ -87,22 +91,38 @@
   </style>
 </head>
 <body>
-  <aside>
-    <h2>📁 Projets étudiants</h2>
-    <a href="sem1.html">🔙 Retour à Semestre 1</a>
-    <a href="atelier1.html">🏗️ Atelier</a>
-    <a href="geometrie1.html">📏 Géométrie</a>
-    <a href="math1.html">🧮 Math</a>
-    <a href="expression1.html">🗣️ Expression</a>
-    <hr>
-    <a href="mailto:archispaceiya@gmail.com">📩 Contact</a>
+
+  <button class="menu-toggle" onclick="document.querySelector('aside').classList.toggle('hidden')">☰ Menu</button>
+
+  <aside class="sidebar hidden">
+    <div class="sidebar-header">
+      <h2>📚 Année 1 - Semestre 1</h2>
+      <a href="sem1.html">🔙 Retour à Semestre 1</a>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
+      <li><a href="dca1.html">📐 DCA 1</a></li>
+      <li><a href="dag1.html">🎨 DAG 1</a></li>
+      <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
+      <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
+      <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
+      <li><a href="tmc1.html">🧱 TMC 1</a></li>
+      <li><a href="math1.html">🧮 Mathématiques</a></li>
+      <li><a href="expression1.html">🗣️ Expression orale</a></li>
+      <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
+      <hr>
+      <li><a href="projets.html">💼 Projets</a></li>
+      <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+    </ul>
   </aside>
 
   <main>
-    <h1>💼 Projets des étudiants</h1>
+    <h1 class="section-title">💼 Projets des étudiants</h1>
 
-    <!-- 10 Semestres -->
-    <div id="semestres-container"></div>
+    <!-- Boucle pour Semestres 1 à 10 -->
+    <div id="projects-container">
+      <!-- Les semestres seront générés par JS -->
+    </div>
 
     <footer>
       © 2025 ArchiSpace – Tous droits réservés.
@@ -110,49 +130,50 @@
   </main>
 
   <script>
-    const semestres = [
-      { num: 1, pass: "archiS1" },
-      { num: 2, pass: "archiS2" },
-      { num: 3, pass: "archiS3" },
-      { num: 4, pass: "archiS4" },
-      { num: 5, pass: "archiS5" },
-      { num: 6, pass: "archiS6" },
-      { num: 7, pass: "archiS7" },
-      { num: 8, pass: "archiS8" },
-      { num: 9, pass: "archiS9" },
-      { num: 10, pass: "archiS10" }
-    ];
+    const motsDePasse = {
+      "s1-zip": "zipS1pass",
+      "s1-dwg": "dwgS1pass",
+      "s2-zip": "zipS2pass",
+      "s2-dwg": "dwgS2pass",
+      "s3-zip": "zipS3pass",
+      "s3-dwg": "dwgS3pass",
+      "s4-zip": "zipS4pass",
+      "s4-dwg": "dwgS4pass",
+      "s5-zip": "zipS5pass",
+      "s5-dwg": "dwgS5pass",
+      "s6-zip": "zipS6pass",
+      "s6-dwg": "dwgS6pass",
+      "s7-zip": "zipS7pass",
+      "s7-dwg": "dwgS7pass",
+      "s8-zip": "zipS8pass",
+      "s8-dwg": "dwgS8pass",
+      "s9-zip": "zipS9pass",
+      "s9-dwg": "dwgS9pass",
+      "s10-zip": "zipS10pass",
+      "s10-dwg": "dwgS10pass"
+    };
 
-    const container = document.getElementById("semestres-container");
+    const projetsContainer = document.getElementById('projects-container');
 
-    semestres.forEach(s => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "semestre";
-      wrapper.innerHTML = `
-        <h2>Semestre ${s.num}</h2>
-        <div class="locked" id="lock${s.num}">
-          <p>🔒 Accès protégé. Entrez le mot de passe :</p>
-          <input type="password" id="input${s.num}" class="password-input" placeholder="Mot de passe"/>
-          <button onclick="unlock(${s.num})">Accéder</button>
-        </div>
-        <div class="projects" id="content${s.num}">
-          <p>📂 Exemples de projets (DWG / ZIP) :</p>
-          <a href="#">Projet_A_S${s.num}.dwg</a>
-          <a href="#">Projet_B_S${s.num}.zip</a>
-          <a href="#">Recherche_C_S${s.num}.pdf</a>
+    for (let i = 1; i <= 10; i++) {
+      const sem = document.createElement('div');
+      sem.classList.add('semestre');
+      sem.innerHTML = `
+        <h2>Semestre ${i}</h2>
+        <div class="file-links">
+          <button onclick="telecharger('s${i}-zip', 'projets/s${i}/projet.zip')">📦 Projet ZIP</button>
+          <button onclick="telecharger('s${i}-dwg', 'projets/s${i}/plan.dwg')">📐 Plan DWG</button>
         </div>
       `;
-      container.appendChild(wrapper);
-    });
+      projetsContainer.appendChild(sem);
+    }
 
-    function unlock(num) {
-      const input = document.getElementById("input" + num).value;
-      const correct = semestres.find(s => s.num === num).pass;
-      if (input === correct) {
-        document.getElementById("lock" + num).style.display = "none";
-        document.getElementById("content" + num).style.display = "block";
+    function telecharger(id, lien) {
+      const motDePasse = prompt("Veuillez entrer le mot de passe pour ce fichier :");
+      if (motDePasse === motsDePasse[id]) {
+        window.open(lien, "_blank");
       } else {
-        alert("Mot de passe incorrect !");
+        alert("❌ Mot de passe incorrect.");
       }
     }
   </script>
