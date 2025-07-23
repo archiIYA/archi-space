@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,20 +14,6 @@
       display: flex;
     }
 
-    button#toggleSidebar {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 999;
-      background-color: #111;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
     aside {
       width: 240px;
       background-color: #f4f4f4;
@@ -37,8 +22,8 @@
       box-shadow: 2px 0 5px rgba(0,0,0,0.1);
       overflow-y: auto;
       position: fixed;
-      top: 0;
       left: 0;
+      top: 0;
       transform: translateX(0);
       transition: transform 0.3s ease;
       z-index: 998;
@@ -46,6 +31,22 @@
 
     aside.hidden {
       transform: translateX(-260px);
+    }
+
+    .back-button {
+      margin-bottom: 20px;
+      background-color: #ddd;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #ccc;
     }
 
     aside h2 {
@@ -67,10 +68,29 @@
       background-color: #ddd;
     }
 
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
     main {
       flex-grow: 1;
       padding: 30px;
-      margin-left: 260px;
+      margin-left: 240px;
+      transition: margin-left 0.3s ease;
+    }
+
+    aside.hidden ~ main {
+      margin-left: 0;
     }
 
     .section-title {
@@ -121,11 +141,14 @@
 
 <button id="toggleSidebar">☰ Menu</button>
 
-<aside class="sidebar hidden">
+<aside class="sidebar">
+  <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+
   <div class="sidebar-header">
     <h2>📚 Année 1 - Semestre 1</h2>
-    <a href="sem1.html">🔙 Retour à Semestre 1</a>
   </div>
+
   <ul class="sidebar-menu">
     <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
     <li><a href="dca1.html">📐 DCA 1</a></li>
@@ -144,110 +167,32 @@
 </aside>
 
 <main>
-  <h1 class="section-title">🧠 DAG 1 – Dessin Analytique Graphique</h1>
+  <h1 class="section-title">🎨 DAG 1</h1>
 
   <div class="lesson">
-    <h3>Techniques et outils de la représentation graphique</h3>
+    <h3>Initiation au dessin d’art</h3>
     <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
   </div>
 
   <div class="lesson">
-    <h3>Règles de composition graphique</h3>
+    <h3>Techniques de base : ligne, forme et ombrage</h3>
     <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
   </div>
 
   <div class="lesson">
-    <h3>Signification chromatique (la couleur et ses codes)</h3>
+    <h3>Représentation d’objets et d’espaces</h3>
     <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Analyse des représentations visuelles</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Étude d’œuvres d’art universelles et algériennes</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Sémiologie de l’image</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Visites pédagogiques et projections commentées</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Techniques d’expression (crayon, fusain, aquarelle, etc.)</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Techniques de collage, mosaïque et techniques mixtes</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Observation et analyse d’éléments architecturaux</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Perspectives architecturales, urbaines et paysagères</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Construction, proportions, textures, couleurs</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Ombre et lumière dans le dessin architectural</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Détail simplifié et lecture graphique</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Composition graphique : fond, plans, lignes et rythmes</h3>
-    <div class="buttons">
-      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
   </div>
 
@@ -264,6 +209,6 @@
     sidebar.classList.toggle('hidden');
   });
 </script>
-
 </body>
 </html>
+
