@@ -14,20 +14,6 @@
       display: flex;
     }
 
-    button#toggleSidebar {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 999;
-      background-color: #111;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
     aside {
       width: 240px;
       background-color: #f4f4f4;
@@ -36,8 +22,8 @@
       box-shadow: 2px 0 5px rgba(0,0,0,0.1);
       overflow-y: auto;
       position: fixed;
-      top: 0;
       left: 0;
+      top: 0;
       transform: translateX(0);
       transition: transform 0.3s ease;
       z-index: 998;
@@ -45,6 +31,22 @@
 
     aside.hidden {
       transform: translateX(-260px);
+    }
+
+    .back-button {
+      margin-bottom: 20px;
+      background-color: #ddd;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #ccc;
     }
 
     aside h2 {
@@ -66,10 +68,29 @@
       background-color: #ddd;
     }
 
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
     main {
       flex-grow: 1;
       padding: 30px;
-      margin-left: 260px;
+      margin-left: 240px;
+      transition: margin-left 0.3s ease;
+    }
+
+    aside.hidden ~ main {
+      margin-left: 0;
     }
 
     .section-title {
@@ -120,11 +141,14 @@
 
 <button id="toggleSidebar">☰ Menu</button>
 
-<aside class="sidebar hidden">
+<aside class="sidebar">
+  <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+
   <div class="sidebar-header">
     <h2>📚 Année 1 - Semestre 1</h2>
-    <a href="sem1.html">🔙 Retour à Semestre 1</a>
   </div>
+
   <ul class="sidebar-menu">
     <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
     <li><a href="dca1.html">📐 DCA 1</a></li>
@@ -143,10 +167,10 @@
 </aside>
 
 <main>
-  <h1 class="section-title">🎨 DCA 1 – Dessin en Communication Architecturale</h1>
+  <h1 class="section-title">📐 DCA 1</h1>
 
   <div class="lesson">
-    <h3>Les formats, cartouches, la mise en page, les traits, l’échelle</h3>
+    <h3>Introduction au dessin technique</h3>
     <div class="buttons">
       <button>📄 PDF</button>
       <button>🎥 Vidéo</button>
@@ -155,7 +179,7 @@
   </div>
 
   <div class="lesson">
-    <h3>Initiation à la notion de composition</h3>
+    <h3>Les outils et les normes de dessin</h3>
     <div class="buttons">
       <button>📄 PDF</button>
       <button>🎥 Vidéo</button>
@@ -164,43 +188,7 @@
   </div>
 
   <div class="lesson">
-    <h3>Initiation à la représentation en perspective d’une composition spatiale</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>La lecture de formes, de volumes et de leurs diverses composantes</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Le dessin géométral</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Le relevé d’architecture</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Les éléments de projets : croquis coté ou relevé, esquisse, avant-projet, projet,…</h3>
+    <h3>Pratiques d’esquisse et cotation</h3>
     <div class="buttons">
       <button>📄 PDF</button>
       <button>🎥 Vidéo</button>
@@ -221,6 +209,5 @@
     sidebar.classList.toggle('hidden');
   });
 </script>
-
 </body>
 </html>
