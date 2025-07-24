@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Théorie de projet 2</title>
+  <meta name="description" content="Cours de Théorie de projet 2 : beauté, façades, espace architectural, structure et ambiances. Études et analyses détaillées pour étudiants en architecture.">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Rubik', sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
+    }
+
+    aside {
+      width: 240px;
+      background-color: #f4f4f4;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transition: transform 0.3s ease;
+      z-index: 998;
+    }
+
+    aside.hidden {
+      transform: translateX(-260px);
+    }
+
+    .back-button {
+      margin-bottom: 20px;
+      background-color: #ddd;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #ccc;
+    }
+
+    aside h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    aside a {
+      display: block;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: #333;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    aside a:hover {
+      background-color: #ddd;
+    }
+
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 30px;
+      margin-left: 240px;
+      transition: margin-left 0.3s ease;
+    }
+
+    aside.hidden ~ main {
+      margin-left: 0;
+    }
+
+    .section-title {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    .lesson {
+      margin-bottom: 30px;
+      background: #fafafa;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .lesson h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .buttons {
+      margin-top: 10px;
+    }
+
+    .buttons button {
+      background: none;
+      border: none;
+      margin-right: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .buttons button:hover {
+      opacity: 0.7;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 13px;
+      color: #888;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<button id="toggleSidebar">☰ Menu</button>
+
+<aside class="sidebar">
+  <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+
+  <div class="sidebar-header">
+    <h2>📚 Année 1 - Semestre 2</h2>
+  </div>
+
+  <ul class="sidebar-menu">
+    <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
+    <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
+    <li><a href="theorie2.html">📘 Théorie de projet 2</a></li>
+    <li><a href="construction1.html">🧱 Construction 1</a></li>
+    <li><a href="rdm1.html">📊 RDM 1</a></li>
+    <li><a href="dao.html">💻 DAO</a></li>
+    <li><a href="analyse.html">🗺️ Analyse spatiale</a></li>
+    <li><a href="socio.html">👥 Sociologie de l’espace</a></li>
+    <li><a href="stage2.html">🏞️ Stage découverte 2</a></li>
+    <hr>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
+</aside>
+
+<main>
+  <h1 class="section-title">📘 Théorie de projet 2</h1>
+
+  <div class="lesson">
+    <h3>Esthétique et façade architecturale</h3>
+    <p>Analyse des façades comme éléments clés de la beauté architecturale à travers des compositions concrètes en atelier.</p>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Définition et structure de l’espace architectural</h3>
+    <p>Comprendre les éléments verticaux et horizontaux qui forment l’espace, leurs relations et leur organisation.</p>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Analyse spatiale et exemples concrets</h3>
+    <p>Études de cas illustrant les qualités spatiales, les organisations et les ambiances architecturales.</p>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Introduction à la mise en forme du projet</h3>
+    <p>Notions de proportions, d’échelle, de coordination dimensionnelle et leur impact dans le processus de conception.</p>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Programmation et fonctionnalité</h3>
+    <p>Étude de la programmation fonctionnelle des espaces selon les besoins et les usages architecturaux.</p>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Ambiances architecturales</h3>
+    <p>Approche sensorielle des projets : lumière, acoustique, vues, perceptions et atmosphères.</p>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Structures et formes architecturales</h3>
+    <p>Relations fondamentales entre matériaux, structure, forme, fonction et espace architectural.</p>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 ArchiSpace – Tous droits réservés.
+  </footer>
+</main>
+
+<script>
+  const sidebar = document.querySelector('aside');
+  const toggleBtn = document.getElementById('toggleSidebar');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
+</script>
+</body>
+</html>
