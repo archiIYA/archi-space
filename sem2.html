@@ -3,71 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Semestre 2 - 1ère Année</title>
+  <meta name="description" content="Modules du Semestre 2 pour la 1ère année en architecture : Atelier, Histoire, Théorie, Géométrie, TMC, Physique, Expression écrite et Stage.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #fdfdfd;
       margin: 0;
-      padding: 0;
+      padding-left: 240px;
       color: #333;
-      display: flex;
-    }
-
-    aside {
-      width: 240px;
-      background-color: #f4f4f4;
-      height: 100vh;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-
-    aside.hidden {
-      transform: translateX(-100%);
-    }
-
-    .menu-toggle {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      font-size: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 1000;
-    }
-
-    .sidebar-header {
-      margin-bottom: 20px;
-    }
-
-    .sidebar-header h2 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    .sidebar-menu a {
-      display: block;
-      text-decoration: none;
-      padding: 10px;
-      color: #333;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      transition: background-color 0.2s;
-    }
-
-    .sidebar-menu a:hover {
-      background-color: #ddd;
-    }
-
-    main {
-      flex-grow: 1;
-      padding: 30px;
     }
 
     h1 {
       text-align: center;
+      margin-top: 30px;
       margin-bottom: 30px;
       font-size: 2em;
       color: #2a9d8f;
@@ -78,6 +28,7 @@
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
+      padding: 0 20px 30px;
     }
 
     .subject {
@@ -104,6 +55,70 @@
     a:hover {
       color: #000;
     }
+
+    .menu-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    aside {
+      width: 220px;
+      background-color: #f0f0f0;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    aside.hidden {
+      transform: translateX(-100%);
+    }
+
+    aside h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #2a9d8f;
+    }
+
+    .year {
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      color: #2a9d8f;
+    }
+
+    .semesters {
+      display: none;
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+
+    .semesters a {
+      display: block;
+      padding: 5px 0;
+      color: #333;
+    }
+
+    .semesters a:hover {
+      color: #000;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
@@ -111,34 +126,62 @@
   <button class="menu-toggle" onclick="document.querySelector('aside').classList.toggle('hidden')">☰ Menu</button>
 
   <aside class="sidebar hidden">
-    <div class="sidebar-header">
-      <h2>🎓 Navigation</h2>
-    </div>
-    <div class="sidebar-menu">
-      <a href="annee1.html">Année 1</a>
-      <a href="annee2.html">Année 2</a>
-      <a href="annee3.html">Année 3</a>
-      <a href="annee4.html">Année 4</a>
-      <a href="annee5.html">Année 5</a>
-      <hr>
-      <a href="lecteur.html">🔙 Retour à l'accueil</a>
+    <h2>🎓 Années d'étude</h2>
+    <a href="lecteur.html">🔙 Retour à l'accueil</a>
+    <hr>
+
+    <div>
+      <div class="year" onclick="toggleSemesters('y1')">📘 Année 1</div>
+      <div id="y1" class="semesters">
+        <a href="sem1.html">Semestre 1</a>
+        <a href="sem2.html">Semestre 2</a>
+      </div>
+
+      <div class="year" onclick="toggleSemesters('y2')">📗 Année 2</div>
+      <div id="y2" class="semesters">
+        <a href="sem3.html">Semestre 3</a>
+        <a href="sem4.html">Semestre 4</a>
+      </div>
+
+      <div class="year" onclick="toggleSemesters('y3')">📙 Année 3</div>
+      <div id="y3" class="semesters">
+        <a href="sem5.html">Semestre 5</a>
+        <a href="sem6.html">Semestre 6</a>
+      </div>
+
+      <div class="year" onclick="toggleSemesters('y4')">📕 Année 4</div>
+      <div id="y4" class="semesters">
+        <a href="sem7.html">Semestre 7</a>
+        <a href="sem8.html">Semestre 8</a>
+      </div>
+
+      <div class="year" onclick="toggleSemesters('y5')">📒 Année 5</div>
+      <div id="y5" class="semesters">
+        <a href="sem9.html">Semestre 9</a>
+        <a href="sem10.html">Semestre 10</a>
+      </div>
     </div>
   </aside>
 
-  <main>
-    <h1>📘 Semestre 2 - 1ère Année</h1>
+  <h1>📘 Semestre 2 - 1ère Année</h1>
 
-    <div class="subjects">
-      <a href="atelier2.html"><div class="subject">🖊️ Atelier de projet 2</div></a>
-      <a href="histoire2.html"><div class="subject">🏛️ Histoire de l’Architecture 2</div></a>
-      <a href="theorie2.html"><div class="subject">📖 Théorie de projet 2</div></a>
-      <a href="geometrie2.html"><div class="subject">📏 Géométrie de l’espace 2</div></a>
-      <a href="tmc2.html"><div class="subject">🔩 TMC 2</div></a>
-      <a href="physique.html"><div class="subject">🔬 Physique du bâtiment</div></a>
-      <a href="expression2.html"><div class="subject">📝 Expression écrite</div></a>
-      <a href="stage2.html"><div class="subject">🏗️ Stage découverte 2</div></a>
-    </div>
-  </main>
+  <div class="subjects">
+    <a href="atelier2.html"><div class="subject">🖊️ Atelier de projet 2</div></a>
+    <a href="histoire2.html"><div class="subject">🏛️ Histoire de l’Architecture 2</div></a>
+    <a href="theorie2.html"><div class="subject">📖 Théorie de projet 2</div></a>
+    <a href="geometrie2.html"><div class="subject">📏 Géométrie de l’espace 2</div></a>
+    <a href="tmc2.html"><div class="subject">🔩 TMC 2</div></a>
+    <a href="physique.html"><div class="subject">🔬 Physique du bâtiment</div></a>
+    <a href="expression2.html"><div class="subject">📝 Expression écrite</div></a>
+    <a href="stage2.html"><div class="subject">🏗️ Stage découverte 2</div></a>
+  </div>
+
+  <script>
+    function toggleSemesters(id) {
+      const section = document.getElementById(id);
+      section.style.display = section.style.display === "block" ? "none" : "block";
+    }
+  </script>
 
 </body>
 </html>
