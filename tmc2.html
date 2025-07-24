@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TMC 2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Rubik', sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
+    }
+    aside {
+      width: 240px;
+      background-color: #f4f4f4;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 998;
+    }
+    aside.hidden {
+      transform: translateX(-260px);
+    }
+    .back-button {
+      margin-bottom: 20px;
+      background-color: #ddd;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+    .back-button:hover {
+      background-color: #ccc;
+    }
+    aside h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    aside a {
+      display: block;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: #333;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+    aside a:hover {
+      background-color: #ddd;
+    }
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    main {
+      flex-grow: 1;
+      padding: 30px;
+      margin-left: 240px;
+      transition: margin-left 0.3s ease;
+    }
+    aside.hidden ~ main {
+      margin-left: 0;
+    }
+    .section-title {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #000;
+    }
+    .lesson {
+      margin-bottom: 30px;
+      background: #fafafa;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .lesson h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #222;
+    }
+    .buttons {
+      margin-top: 10px;
+    }
+    .buttons button {
+      background: none;
+      border: none;
+      margin-right: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .buttons button:hover {
+      opacity: 0.7;
+    }
+    footer {
+      margin-top: 50px;
+      font-size: 13px;
+      color: #888;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<button id="toggleSidebar">☰ Menu</button>
+
+<aside class="sidebar">
+  <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+
+  <div class="sidebar-header">
+    <h2>📚 Année 1 - Semestre 2</h2>
+  </div>
+
+  <ul class="sidebar-menu">
+    <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
+    <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
+    <li><a href="theorie2.html">📘 Théorie de projet 2</a></li>
+    <li><a href="geometrie2.html">📏 Géométrie descriptive 2</a></li>
+    <li><a href="tmc2.html">🧱 TMC 2</a></li>
+    <li><a href="math2.html">🧮 Mathématiques 2</a></li>
+    <li><a href="expression2.html">🗣️ Expression écrite et orale</a></li>
+    <li><a href="stage2.html">🏞️ Stage découverte 2</a></li>
+    <hr>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
+</aside>
+
+<main>
+  <h1 class="section-title">🧱 Technologie des Matériaux de Construction 2</h1>
+
+  <div class="lesson">
+    <h3>Bétons : Introduction et fabrication</h3>
+    <p>Découverte du béton, ses composants, et les étapes de sa fabrication.</p>
+    <div class="buttons">
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Béton armé et précontraint</h3>
+    <p>Types de bétons techniques et leurs usages dans les structures modernes.</p>
+    <div class="buttons">
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Pierres à bâtir</h3>
+    <p>Utilisation des pierres naturelles, techniques de maçonnerie, et appareillage.</p>
+    <div class="buttons">
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Bois : Propriétés et assemblages</h3>
+    <p>Le bois en construction : types, caractéristiques et assemblages traditionnels.</p>
+    <div class="buttons">
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Produits céramiques</h3>
+    <p>Typologie des briques, tuiles, appareillages, et applications des céramiques.</p>
+    <div class="buttons">
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Isolants : Thermiques et acoustiques</h3>
+    <p>Les différents types d’isolants, leur structure, et leurs usages dans le bâtiment.</p>
+    <div class="buttons">
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Verres : Propriétés et emploi</h3>
+    <p>Historique du verre, ses caractéristiques, et son utilisation dans l’architecture.</p>
+    <div class="buttons">
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Matériaux durables</h3>
+    <p>Présentation des matériaux innovants et respectueux de l’environnement (biosourcés, polymères...).</p>
+    <div class="buttons">
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 ArchiSpace – Tous droits réservés.
+  </footer>
+</main>
+
+<script>
+  const sidebar = document.querySelector('aside');
+  const toggleBtn = document.getElementById('toggleSidebar');
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
+</script>
+</body>
+</html>
