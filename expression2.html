@@ -117,40 +117,30 @@
 
 <div class="menu-button" onclick="toggleSidebar()">☰ Menu</div>
 
-<!-- ✅ القائمة الجانبية -->
-<div id="sidebar" class="sidebar">
-  <a href="lecteur.html">🔙 Retour à l'accueil</a>
+<button id="toggleSidebar">☰ Menu</button>
 
-  <div class="dropdown" onclick="toggleSubmenu('y1')">Année 1</div>
-  <div class="submenu" id="y1">
-    <a href="sem1.html">Semestre 1</a>
-    <a href="sem2.html">Semestre 2</a>
+<aside class="sidebar">
+  <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+
+  <div class="sidebar-header">
+    <h2>📚 Année 1 - Semestre 2</h2>
   </div>
 
-  <div class="dropdown" onclick="toggleSubmenu('y2')">Année 2</div>
-  <div class="submenu" id="y2">
-    <a href="sem3.html">Semestre 3</a>
-    <a href="sem4.html">Semestre 4</a>
-  </div>
-
-  <div class="dropdown" onclick="toggleSubmenu('y3')">Année 3</div>
-  <div class="submenu" id="y3">
-    <a href="sem5.html">Semestre 5</a>
-    <a href="sem6.html">Semestre 6</a>
-  </div>
-
-  <div class="dropdown" onclick="toggleSubmenu('y4')">Année 4</div>
-  <div class="submenu" id="y4">
-    <a href="sem7.html">Semestre 7</a>
-    <a href="sem8.html">Semestre 8</a>
-  </div>
-
-  <div class="dropdown" onclick="toggleSubmenu('y5')">Année 5</div>
-  <div class="submenu" id="y5">
-    <a href="sem9.html">Semestre 9</a>
-    <a href="sem10.html">Semestre 10</a>
-  </div>
-</div>
+  <ul class="sidebar-menu">
+    <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
+    <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
+    <li><a href="theorie2.html">📘 Théorie de projet 2</a></li>
+    <li><a href="geometrie2.html">📏 Géométrie de l’espace 2</a></li>
+    <li><a href="tmc2.html">🧱 TMC 2</a></li>
+    <a href="physique.html"><div class="subject">🔬 Physique du bâtiment</div></a>
+    <li><a href="expression2.html">🗣️ Expression écrite</a></li>
+    <li><a href="stage2.html">🏞️ Stage découverte 2</a></li>
+    <hr>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
+</aside>
 
 <h1>📝 Expression écrite 2</h1>
 
