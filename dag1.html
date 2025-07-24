@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DAG 1</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -209,6 +214,30 @@
     sidebar.classList.toggle('hidden');
   });
 </script>
+
+<!-- Firebase Auth Check -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.appspot.com",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+    measurementId: "G-RZV7LSDQBD"
+  };
+
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  // Check authentication
+  auth.onAuthStateChanged((user) => {
+    if (!user) {
+      window.location.href = "login.html";
+    }
+  });
+</script>
+
 </body>
 </html>
-
