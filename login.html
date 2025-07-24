@@ -42,9 +42,17 @@
     }
 
     .logo {
-      max-width: 80px;
-      margin: 0 auto 20px;
+      width: 120px;
+      height: auto;
+      margin: 0 auto 25px;
       display: block;
+      animation: popIn 1.2s ease-out;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
 
     h2 {
@@ -100,6 +108,7 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
       margin-top: 10px;
+      box-shadow: 0 4px 10px rgba(42, 157, 143, 0.3);
     }
 
     button:hover {
@@ -135,6 +144,10 @@
       .login-box {
         padding: 35px 25px;
       }
+
+      .logo {
+        width: 100px;
+      }
     }
   </style>
 </head>
@@ -149,7 +162,6 @@
     <input type="email" id="email" placeholder="Adresse e-mail" required>
     <input type="password" id="password" placeholder="Mot de passe" required>
 
-    <!-- خانة "نسيت كلمة السر؟" -->
     <div class="forgot-password">
       <a href="reset.html">Mot de passe oublié ?</a>
     </div>
@@ -194,3 +206,4 @@
 
 </body>
 </html>
+
