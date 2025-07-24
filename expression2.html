@@ -3,41 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Expression écrite - Semestre 2 - Architecture">
+  <meta name="description" content="Expression écrite 2 - Semestre 2 - Architecture">
   <title>Expression écrite 2</title>
-  <script type="module">
-  // استيراد مكتبات Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-  // إعدادات Firebase الخاصة بك
-  const firebaseConfig = {
-    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-    authDomain: "archi-space-72624.firebaseapp.com",
-    projectId: "archi-space-72624",
-    storageBucket: "archi-space-72624.appspot.com",
-    messagingSenderId: "407015246505",
-    appId: "1:407015246505:web:c914a78566b882b80df7b8",
-    measurementId: "G-RZV7LSDQBD"
-  };
-
-  // تهيئة Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  // التحقق من حالة تسجيل الدخول
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      // إذا لم يكن المستخدم مسجلاً الدخول، إعادة توجيه إلى صفحة تسجيل الدخول
-      window.location.href = "index.html"; // غيّر الرابط حسب صفحة تسجيل الدخول الفعلية
-    }
-  });
-</script>
-
   <link rel="stylesheet" href="style.css" />
+
+  <!-- حماية Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.appspot.com",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+      }
+    });
+  </script>
+
   <style>
-    .lesson { margin-bottom: 20px; }
-    .lesson-title { font-weight: bold; margin-top: 15px; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fff; }
+    h1 { padding: 20px; background: #f4f4f4; margin: 0; text-align: center; }
+    .menu-button {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #333;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 1100;
+      border-radius: 5px;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 260px;
+      height: 100%;
+      background: #f0f0f0;
+      padding: 20px;
+      overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    .sidebar.active { transform: translateX(0); }
+    .sidebar a {
+      display: block;
+      margin: 8px 0;
+      color: #333;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .dropdown {
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .submenu {
+      display: none;
+      margin-left: 15px;
+    }
+    .lesson {
+      border-bottom: 1px solid #ccc;
+      padding: 20px;
+    }
+    .lesson-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
     .button-group button {
       margin-right: 10px;
       padding: 5px 10px;
@@ -45,31 +88,38 @@
       background-color: #eee;
       cursor: pointer;
     }
-    .sidebar { display: none; position: fixed; top: 0; left: 0; width: 260px; height: 100%; background: #f0f0f0; padding: 15px; overflow-y: auto; z-index: 1000; }
-    .sidebar a { display: block; padding: 8px 0; text-decoration: none; color: #333; }
-    .dropdown { cursor: pointer; font-weight: bold; margin-top: 10px; }
-    .submenu { display: none; margin-left: 15px; }
-    .menu-button { position: fixed; top: 10px; left: 10px; background: #333; color: white; padding: 10px; cursor: pointer; z-index: 1100; }
-    .return-button { margin-top: 20px; display: block; color: #000; text-decoration: none; font-weight: bold; }
+    .content {
+      margin-left: 0;
+      padding: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .content {
+        margin-left: 260px;
+      }
+    }
   </style>
+
   <script>
     function toggleSidebar() {
-      var sidebar = document.getElementById("sidebar");
-      sidebar.style.display = (sidebar.style.display === "block") ? "none" : "block";
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
     }
 
     function toggleSubmenu(id) {
-      var menu = document.getElementById(id);
-      menu.style.display = (menu.style.display === "block") ? "none" : "block";
+      const submenu = document.getElementById(id);
+      submenu.style.display = (submenu.style.display === 'block') ? 'none' : 'block';
     }
   </script>
 </head>
+
 <body>
 
 <div class="menu-button" onclick="toggleSidebar()">☰ Menu</div>
 
+<!-- ✅ القائمة الجانبية -->
 <div id="sidebar" class="sidebar">
-  <a href="lecteur.html" class="return-button">🔙 Retour à l'accueil</a>
+  <a href="lecteur.html">🔙 Retour à l'accueil</a>
 
   <div class="dropdown" onclick="toggleSubmenu('y1')">Année 1</div>
   <div class="submenu" id="y1">
@@ -104,6 +154,7 @@
 
 <h1>📝 Expression écrite 2</h1>
 
+<!-- ✅ المحتوى -->
 <div class="content">
 
   <div class="lesson">
@@ -167,41 +218,6 @@
   </div>
 
 </div>
-...
-<script>
-  const sidebar = document.querySelector('aside');
-  const toggleBtn = document.getElementById('toggleSidebar');
-
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('hidden');
-  });
-</script>
-
-<!-- 🔐 كود الحماية هنا -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-    authDomain: "archi-space-72624.firebaseapp.com",
-    projectId: "archi-space-72624",
-    storageBucket: "archi-space-72624.appspot.com",
-    messagingSenderId: "407015246505",
-    appId: "1:407015246505:web:c914a78566b882b80df7b8",
-    measurementId: "G-RZV7LSDQBD"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      window.location.href = "index.html";
-    }
-  });
-</script>
-</body>
 
 </body>
 </html>
