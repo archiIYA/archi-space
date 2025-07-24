@@ -3,65 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Semestre 9 - 5ème Année</title>
+  <meta name="description" content="Modules du Semestre 9 pour la 5ème année d'architecture : Atelier 9, Performance énergétique, Management de projet, Mémoire, Séminaire, Stage professionnel.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #fdfdfd;
       margin: 0;
-      display: flex;
-    }
-
-    aside {
-      width: 250px;
-      background-color: #e0f2f1;
-      height: 100vh;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      position: fixed;
-      left: 0;
-      top: 0;
-      overflow-y: auto;
-      transition: transform 0.3s ease;
-    }
-
-    aside.hidden {
-      transform: translateX(-100%);
-    }
-
-    .menu-toggle {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      font-size: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 1000;
-    }
-
-    .sidebar a {
-      display: block;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-decoration: none;
-      color: #004d40;
-      border-radius: 6px;
-      transition: background 0.3s;
-    }
-
-    .sidebar a:hover {
-      background-color: #b2dfdb;
-    }
-
-    main {
-      margin-left: 270px;
-      padding: 30px;
-      flex-grow: 1;
+      padding-left: 240px;
+      color: #333;
     }
 
     h1 {
       text-align: center;
+      margin-top: 30px;
       margin-bottom: 30px;
       font-size: 2em;
       color: #2a9d8f;
@@ -72,6 +28,7 @@
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
+      padding: 0 20px 30px;
     }
 
     .subject {
@@ -83,7 +40,7 @@
       font-size: 1.1em;
       cursor: pointer;
       transition: background 0.3s;
-      min-width: 220px;
+      min-width: 200px;
     }
 
     .subject:hover {
@@ -98,6 +55,70 @@
     a:hover {
       color: #000;
     }
+
+    .menu-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    aside {
+      width: 220px;
+      background-color: #f0f0f0;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    aside.hidden {
+      transform: translateX(-100%);
+    }
+
+    aside h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #2a9d8f;
+    }
+
+    .year {
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      color: #2a9d8f;
+    }
+
+    .semesters {
+      display: none;
+      margin-left: 10px;
+      margin-bottom: 10px;
+    }
+
+    .semesters a {
+      display: block;
+      padding: 5px 0;
+      color: #333;
+    }
+
+    .semesters a:hover {
+      color: #000;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
@@ -105,27 +126,60 @@
   <button class="menu-toggle" onclick="document.querySelector('aside').classList.toggle('hidden')">☰ Menu</button>
 
   <aside class="sidebar hidden">
-    <h2>🎓 Navigation</h2>
+    <h2>🎓 Années d'étude</h2>
     <a href="lecteur.html">🔙 Retour à l'accueil</a>
-    <a href="sem1.html">Année 1</a>
-    <a href="sem3.html">Année 2</a>
-    <a href="sem5.html">Année 3</a>
-    <a href="sem7.html">Année 4</a>
-    <a href="sem9.html">Année 5</a>
+    <hr>
+
+    <div>
+      <div class="year" onclick="toggleSemesters('y1')">📘 Année 1</div>
+      <div id="y1" class="semesters">
+        <a href="sem1.html">Semestre 1</a>
+        <a href="sem2.html">Semestre 2</a>
+      </div>
+
+      <div class="year" onclick="toggleSemesters('y2')">📗 Année 2</div>
+      <div id="y2" class="semesters">
+        <a href="sem3.html">Semestre 3</a>
+        <a href="sem4.html">Semestre 4</a>
+      </div>
+
+      <div class="year" onclick="toggleSemesters('y3')">📙 Année 3</div>
+      <div id="y3" class="semesters">
+        <a href="sem5.html">Semestre 5</a>
+        <a href="sem6.html">Semestre 6</a>
+      </div>
+
+      <div class="year" onclick="toggleSemesters('y4')">📕 Année 4</div>
+      <div id="y4" class="semesters">
+        <a href="sem7.html">Semestre 7</a>
+        <a href="sem8.html">Semestre 8</a>
+      </div>
+
+      <div class="year" onclick="toggleSemesters('y5')">📒 Année 5</div>
+      <div id="y5" class="semesters">
+        <a href="sem9.html">Semestre 9</a>
+        <a href="sem10.html">Semestre 10</a>
+      </div>
+    </div>
   </aside>
 
-  <main>
-    <h1>📘 Semestre 9 - 5ème Année</h1>
+  <h1>📙 Semestre 9 - 5ème Année</h1>
 
-    <div class="subjects">
-      <a href="#"><div class="subject">🖊️ Atelier de projet 9</div></a>
-      <a href="#"><div class="subject">🌡️ Performance énergétique dans le bâtiment</div></a>
-      <a href="#"><div class="subject">💼 Entrepreneuriat et management de projet</div></a>
-      <a href="#"><div class="subject">📝 Initiation à la rédaction d’un mémoire</div></a>
-      <a href="#"><div class="subject">📢 Séminaire sur l’actualité architecturale</div></a>
-      <a href="#"><div class="subject">🏗️ Stage professionnel</div></a>
-    </div>
-  </main>
+  <div class="subjects">
+    <a href="atelier9.html"><div class="subject">🖊️ Atelier de projet 9</div></a>
+    <a href="energie.html"><div class="subject">💡 Performance énergétique dans le bâtiment</div></a>
+    <a href="management.html"><div class="subject">📈 Entrepreneuriat et management de projet</div></a>
+    <a href="memoire-init.html"><div class="subject">📝 Initiation à la rédaction du mémoire</div></a>
+    <a href="seminaire.html"><div class="subject">🎓 Séminaire sur l’actualité architecturale</div></a>
+    <a href="stage9.html"><div class="subject">🏗️ Stage professionnel</div></a>
+  </div>
+
+  <script>
+    function toggleSemesters(id) {
+      const section = document.getElementById(id);
+      section.style.display = section.style.display === "block" ? "none" : "block";
+    }
+  </script>
 
 </body>
 </html>
