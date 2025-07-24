@@ -7,7 +7,7 @@
   <title>Expression écrite 2</title>
   <link rel="stylesheet" href="style.css" />
 
-  <!-- حماية Firebase -->
+  <!-- Firebase Auth -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -25,32 +25,29 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-      }
+      if (!user) window.location.href = "login.html";
     });
   </script>
 
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #fff; }
-    h1 { padding: 20px; background: #f4f4f4; margin: 0; text-align: center; }
     .menu-button {
       position: fixed;
       top: 10px;
       left: 10px;
       background: #333;
-      color: white;
+      color: #fff;
       padding: 10px;
-      cursor: pointer;
       z-index: 1100;
       border-radius: 5px;
+      cursor: pointer;
     }
     .sidebar {
       position: fixed;
       top: 0; left: 0;
       width: 260px;
       height: 100%;
-      background: #f0f0f0;
+      background: #f8f8f8;
       padding: 20px;
       overflow-y: auto;
       transform: translateX(-100%);
@@ -58,24 +55,27 @@
       z-index: 1000;
     }
     .sidebar.active { transform: translateX(0); }
-    .sidebar a {
-      display: block;
-      margin: 8px 0;
-      color: #333;
-      text-decoration: none;
-      font-weight: bold;
+    .sidebar a { display: block; margin: 10px 0; color: #333; text-decoration: none; }
+    .sidebar h2 { font-size: 18px; margin-top: 20px; }
+    .dropdown { cursor: pointer; font-weight: bold; }
+    .submenu { display: none; margin-left: 15px; }
+    .submenu a { font-weight: normal; }
+    .content {
+      padding: 20px;
+      margin-left: 0;
     }
-    .dropdown {
-      cursor: pointer;
-      margin-top: 10px;
+    @media(min-width: 768px) {
+      .content { margin-left: 260px; }
     }
-    .submenu {
-      display: none;
-      margin-left: 15px;
+    h1 {
+      text-align: center;
+      background-color: #f0f0f0;
+      padding: 20px;
+      margin-top: 0;
     }
     .lesson {
-      border-bottom: 1px solid #ccc;
       padding: 20px;
+      border-bottom: 1px solid #ccc;
     }
     .lesson-title {
       font-weight: bold;
@@ -83,77 +83,73 @@
     }
     .button-group button {
       margin-right: 10px;
-      padding: 5px 10px;
+      padding: 6px 12px;
+      background: #eee;
       border: none;
-      background-color: #eee;
       cursor: pointer;
-    }
-    .content {
-      margin-left: 0;
-      padding: 20px;
-    }
-
-    @media (min-width: 768px) {
-      .content {
-        margin-left: 260px;
-      }
     }
   </style>
 
   <script>
     function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('active');
+      document.getElementById('sidebar').classList.toggle('active');
     }
-
     function toggleSubmenu(id) {
-      const submenu = document.getElementById(id);
-      submenu.style.display = (submenu.style.display === 'block') ? 'none' : 'block';
+      const el = document.getElementById(id);
+      el.style.display = el.style.display === 'block' ? 'none' : 'block';
     }
   </script>
 </head>
-
 <body>
 
 <div class="menu-button" onclick="toggleSidebar()">☰ Menu</div>
 
-<button id="toggleSidebar">☰ Menu</button>
+<aside id="sidebar" class="sidebar">
+  <a href="lecteur.html">🔙 Retour à l'accueil</a>
 
-<aside class="sidebar">
-  <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
-  <button class="back-button" onclick="history.back()">🔙 Retour</button>
-
-  <div class="sidebar-header">
-    <h2>📚 Année 1 - Semestre 2</h2>
+  <div class="dropdown" onclick="toggleSubmenu('annee1')">🎓 Année 1</div>
+  <div id="annee1" class="submenu">
+    <a href="sem1.html">📚 Semestre 1</a>
+    <a href="sem2.html">📚 Semestre 2</a>
   </div>
 
-  <ul class="sidebar-menu">
-    <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
-    <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
-    <li><a href="theorie2.html">📘 Théorie de projet 2</a></li>
-    <li><a href="geometrie2.html">📏 Géométrie de l’espace 2</a></li>
-    <li><a href="tmc2.html">🧱 TMC 2</a></li>
-    <a href="physique.html"><div class="subject">🔬 Physique du bâtiment</div></a>
-    <li><a href="expression2.html">🗣️ Expression écrite</a></li>
-    <li><a href="stage2.html">🏞️ Stage découverte 2</a></li>
-    <hr>
-    <li><a href="projets.html">💼 Projets</a></li>
-    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
-  </ul>
+  <div class="dropdown" onclick="toggleSubmenu('annee2')">🎓 Année 2</div>
+  <div id="annee2" class="submenu">
+    <a href="sem3.html">📚 Semestre 3</a>
+    <a href="#">📚 Semestre 4</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('annee3')">🎓 Année 3</div>
+  <div id="annee3" class="submenu">
+    <a href="#">📚 Semestre 5</a>
+    <a href="#">📚 Semestre 6</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('annee4')">🎓 Année 4</div>
+  <div id="annee4" class="submenu">
+    <a href="#">📚 Semestre 7</a>
+    <a href="#">📚 Semestre 8</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('annee5')">🎓 Année 5</div>
+  <div id="annee5" class="submenu">
+    <a href="#">📚 Semestre 9</a>
+    <a href="#">📚 Semestre 10</a>
+  </div>
+
+  <hr>
+  <a href="projets.html">💼 Projets</a>
+  <a href="mailto:archispaceiya@gmail.com">📩 archispaceiya@gmail.com</a>
 </aside>
 
-<h1>📝 Expression écrite 2</h1>
+<h1>🗣️ Expression écrite 2</h1>
 
-<!-- ✅ المحتوى -->
 <div class="content">
-
   <div class="lesson">
     <div class="lesson-title">1. Savoir gérer un emploi du temps</div>
     <p>Maîtriser la planification, l’organisation des séances de travail et les révisions via un agenda efficace.</p>
     <div class="button-group">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
 
@@ -161,9 +157,7 @@
     <div class="lesson-title">2. Le référencement</div>
     <p>Forces et limites d'Internet dans la recherche, éviter le plagiat et comprendre la bibliographie.</p>
     <div class="button-group">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
 
@@ -171,9 +165,7 @@
     <div class="lesson-title">3. La dissertation</div>
     <p>De la problématisation au plan détaillé, jusqu'à la rédaction structurée et cohérente.</p>
     <div class="button-group">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
 
@@ -181,9 +173,7 @@
     <div class="lesson-title">4. Prise de notes</div>
     <p>Apprentissage des techniques de prise de notes lors de situations orales et écrites.</p>
     <div class="button-group">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
 
@@ -191,9 +181,7 @@
     <div class="lesson-title">5. La synthèse de documents</div>
     <p>Rédiger une synthèse claire, concise et fidèle d’un texte ou article en appliquant des techniques de lecture rapide.</p>
     <div class="button-group">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
 
@@ -201,13 +189,11 @@
     <div class="lesson-title">6. L'exposé</div>
     <p>Collecte, structuration et mise en forme des informations en support à la présentation orale.</p>
     <div class="button-group">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+      <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
-
 </div>
 
 </body>
 </html>
+
