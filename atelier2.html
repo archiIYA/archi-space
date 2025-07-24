@@ -1,169 +1,213 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Atelier de projet 2</title>
-  <meta name="description" content="Cours Atelier de projet 2 - 1ère Année Architecture. Études sur la composition de façade, l’analyse spatiale, et la conception de projet.">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta name="description" content="Cours de l'Atelier de projet 2 pour les étudiants en architecture : analyse spatiale, composition de façade, conception intégrée." />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #fdfdfd;
       margin: 0;
-      padding-left: 240px;
-      color: #333;
-    }
-
-    h1 {
-      text-align: center;
-      margin-top: 30px;
-      margin-bottom: 30px;
-      font-size: 2em;
-      color: #2a9d8f;
-    }
-
-    .lessons {
-      max-width: 900px;
-      margin: auto;
-      padding: 0 20px 40px;
-    }
-
-    .lesson {
-      background-color: #e0f7f4;
-      border: 1px solid #b2dfdb;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-
-    .lesson h2 {
-      color: #2a9d8f;
-      font-size: 1.3em;
-      margin-bottom: 10px;
-    }
-
-    .lesson p {
-      margin: 0;
-      line-height: 1.6;
-    }
-
-    .menu-toggle {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      font-size: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 1001;
+      font-family: 'Rubik', sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
     }
 
     aside {
-      width: 220px;
-      background-color: #f0f0f0;
+      width: 240px;
+      background-color: #f4f4f4;
       height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
       position: fixed;
       left: 0;
       top: 0;
-      padding: 20px;
-      overflow-y: auto;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      transform: translateX(0);
       transition: transform 0.3s ease;
-      z-index: 1000;
+      z-index: 998;
     }
 
     aside.hidden {
-      transform: translateX(-100%);
+      transform: translateX(-260px);
+    }
+
+    .back-button {
+      margin-bottom: 20px;
+      background-color: #ddd;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #ccc;
     }
 
     aside h2 {
       font-size: 18px;
-      margin-bottom: 15px;
-      color: #2a9d8f;
+      margin-bottom: 20px;
     }
 
     aside a {
       display: block;
-      padding: 8px 0;
-      color: #333;
-      font-weight: 500;
+      padding: 10px;
+      margin-bottom: 10px;
       text-decoration: none;
+      color: #333;
+      border-radius: 6px;
+      transition: background 0.3s;
     }
 
     aside a:hover {
+      background-color: #ddd;
+    }
+
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 30px;
+      margin-left: 240px;
+      transition: margin-left 0.3s ease;
+    }
+
+    aside.hidden ~ main {
+      margin-left: 0;
+    }
+
+    .section-title {
+      font-size: 26px;
+      margin-bottom: 20px;
       color: #000;
     }
 
-    .submenu {
-      margin-left: 15px;
-      font-size: 0.95em;
+    .lesson {
+      margin-bottom: 30px;
+      background: #fafafa;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
-    .submenu a {
-      padding-left: 10px;
+    .lesson h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .buttons {
+      margin-top: 10px;
+    }
+
+    .buttons button {
+      background: none;
+      border: none;
+      margin-right: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .buttons button:hover {
+      opacity: 0.7;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 13px;
+      color: #888;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <button class="menu-toggle" onclick="document.querySelector('aside').classList.toggle('hidden')">☰ Menu</button>
+<button id="toggleSidebar">☰ Menu</button>
 
-  <aside class="sidebar hidden">
-    <h2>🎓 Années d'étude</h2>
-    <a href="lecteur.html">🔙 Retour à l'accueil</a>
+<aside class="sidebar">
+  <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+
+  <div class="sidebar-header">
+    <h2>📚 Année 1 - Semestre 2</h2>
+  </div>
+
+  <ul class="sidebar-menu">
+    <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
+    <li><a href="dca2.html">📐 DCA 2</a></li>
+    <li><a href="dag2.html">🎨 DAG 2</a></li>
+    <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
+    <li><a href="theorie2.html">📘 Théorie de projet 2</a></li>
+    <li><a href="geometrie2.html">📏 Géométrie de l’espace 2</a></li>
+    <li><a href="tmc2.html">🧱 TMC 2</a></li>
+    <li><a href="expression2.html">🗣️ Expression écrite</a></li>
+    <li><a href="stage2.html">🏞️ Stage découverte 2</a></li>
     <hr>
-    <a href="#" onclick="toggleSub(this)">📘 Année 1</a>
-    <div class="submenu" style="display:none;">
-      <a href="sem1.html">Semestre 1</a>
-      <a href="sem2.html">Semestre 2</a>
-    </div>
-    <a href="#" onclick="toggleSub(this)">📗 Année 2</a>
-    <div class="submenu" style="display:none;">
-      <a href="sem3.html">Semestre 3</a>
-      <a href="sem4.html">Semestre 4</a>
-    </div>
-    <a href="#" onclick="toggleSub(this)">📙 Année 3</a>
-    <div class="submenu" style="display:none;">
-      <a href="sem5.html">Semestre 5</a>
-      <a href="sem6.html">Semestre 6</a>
-    </div>
-    <a href="#" onclick="toggleSub(this)">📕 Année 4</a>
-    <div class="submenu" style="display:none;">
-      <a href="sem7.html">Semestre 7</a>
-      <a href="sem8.html">Semestre 8</a>
-    </div>
-    <a href="#" onclick="toggleSub(this)">📒 Année 5</a>
-    <div class="submenu" style="display:none;">
-      <a href="sem9.html">Semestre 9</a>
-      <a href="sem10.html">Semestre 10</a>
-    </div>
-  </aside>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
+</aside>
 
-  <h1>🖊️ Atelier de projet 2</h1>
+<main>
+  <h1 class="section-title">🏗️ Atelier de projet 2</h1>
 
-  <div class="lessons">
-    <div class="lesson">
-      <h2>1. Composition de façade</h2>
-      <p>Ce module initie l'étudiant à la façade comme élément architectural : ses rôles esthétiques et fonctionnels, ses composants (fenêtres, balcons...) et ses types (mur-rideau, double peau...). À travers des exercices pratiques, l'étudiant conçoit des façades adaptées à des plans donnés, en appliquant les principes de composition architecturale.</p>
-    </div>
-
-    <div class="lesson">
-      <h2>2. Analyse spatiale d'une œuvre</h2>
-      <p>Les étudiants explorent ici l'organisation interne d'une œuvre architecturale. L'analyse porte sur les relations entre espaces privés/publics, les circulations, et les limites spatiales. L'objectif est de dépasser la géométrie pure et de comprendre la spatialité à travers des schémas et représentations graphiques.</p>
-    </div>
-
-    <div class="lesson">
-      <h2>3. Conception d’un projet résidentiel</h2>
-      <p>Les étudiants réalisent un projet complet, adapté à un site réel, en tenant compte de contraintes topographiques, urbaines et climatiques. L'exercice inclut l'élaboration d’un programme d’usage, la composition spatiale et l'intégration au contexte. Le but est de traduire les connaissances acquises en un projet cohérent et ergonomique.</p>
+  <div class="lesson">
+    <h3>1. Composition de façade</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
     </div>
   </div>
 
-  <script>
-    function toggleSub(element) {
-      const submenu = element.nextElementSibling;
-      submenu.style.display = submenu.style.display === "none" ? "block" : "none";
-    }
-  </script>
+  <div class="lesson">
+    <h3>2. Analyse spatiale d'une œuvre</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
 
+  <div class="lesson">
+    <h3>3. Conception architecturale</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 ArchiSpace – Tous droits réservés.
+  </footer>
+</main>
+
+<script>
+  const sidebar = document.querySelector('aside');
+  const toggleBtn = document.getElementById('toggleSidebar');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
+</script>
 </body>
 </html>
