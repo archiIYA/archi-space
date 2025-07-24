@@ -1,48 +1,143 @@
-<!-- CONTENU DE expression2.html -->
-<div class="lesson">
-  <h3>Gérer un emploi du temps efficacement</h3>
-  <p>Apprenez à organiser vos séances de travail, planifier vos révisions et gérer votre temps grâce à un agenda structuré.</p>
-  <div class="buttons">
-    <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Expression écrite - Semestre 2 - Architecture">
+  <title>Expression écrite 2</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .lesson { margin-bottom: 20px; }
+    .lesson-title { font-weight: bold; margin-top: 15px; }
+    .button-group button {
+      margin-right: 10px;
+      padding: 5px 10px;
+      border: none;
+      background-color: #eee;
+      cursor: pointer;
+    }
+    .sidebar { display: none; position: fixed; top: 0; left: 0; width: 260px; height: 100%; background: #f0f0f0; padding: 15px; overflow-y: auto; z-index: 1000; }
+    .sidebar a { display: block; padding: 8px 0; text-decoration: none; color: #333; }
+    .dropdown { cursor: pointer; font-weight: bold; margin-top: 10px; }
+    .submenu { display: none; margin-left: 15px; }
+    .menu-button { position: fixed; top: 10px; left: 10px; background: #333; color: white; padding: 10px; cursor: pointer; z-index: 1100; }
+    .return-button { margin-top: 20px; display: block; color: #000; text-decoration: none; font-weight: bold; }
+  </style>
+  <script>
+    function toggleSidebar() {
+      var sidebar = document.getElementById("sidebar");
+      sidebar.style.display = (sidebar.style.display === "block") ? "none" : "block";
+    }
+
+    function toggleSubmenu(id) {
+      var menu = document.getElementById(id);
+      menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    }
+  </script>
+</head>
+<body>
+
+<div class="menu-button" onclick="toggleSidebar()">☰ Menu</div>
+
+<div id="sidebar" class="sidebar">
+  <a href="lecteur.html" class="return-button">🔙 Retour à l'accueil</a>
+
+  <div class="dropdown" onclick="toggleSubmenu('y1')">Année 1</div>
+  <div class="submenu" id="y1">
+    <a href="sem1.html">Semestre 1</a>
+    <a href="sem2.html">Semestre 2</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('y2')">Année 2</div>
+  <div class="submenu" id="y2">
+    <a href="sem3.html">Semestre 3</a>
+    <a href="sem4.html">Semestre 4</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('y3')">Année 3</div>
+  <div class="submenu" id="y3">
+    <a href="sem5.html">Semestre 5</a>
+    <a href="sem6.html">Semestre 6</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('y4')">Année 4</div>
+  <div class="submenu" id="y4">
+    <a href="sem7.html">Semestre 7</a>
+    <a href="sem8.html">Semestre 8</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('y5')">Année 5</div>
+  <div class="submenu" id="y5">
+    <a href="sem9.html">Semestre 9</a>
+    <a href="sem10.html">Semestre 10</a>
   </div>
 </div>
 
-<div class="lesson">
-  <h3>Référencement et recherche d'information</h3>
-  <p>Comprendre les forces et limites d'Internet dans la recherche d’informations, éviter le plagiat, et constituer une bibliographie correcte.</p>
-  <div class="buttons">
-    <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
+<h1>📝 Expression écrite 2</h1>
+
+<div class="content">
+
+  <div class="lesson">
+    <div class="lesson-title">1. Savoir gérer un emploi du temps</div>
+    <p>Maîtriser la planification, l’organisation des séances de travail et les révisions via un agenda efficace.</p>
+    <div class="button-group">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
   </div>
+
+  <div class="lesson">
+    <div class="lesson-title">2. Le référencement</div>
+    <p>Forces et limites d'Internet dans la recherche, éviter le plagiat et comprendre la bibliographie.</p>
+    <div class="button-group">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title">3. La dissertation</div>
+    <p>De la problématisation au plan détaillé, jusqu'à la rédaction structurée et cohérente.</p>
+    <div class="button-group">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title">4. Prise de notes</div>
+    <p>Apprentissage des techniques de prise de notes lors de situations orales et écrites.</p>
+    <div class="button-group">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title">5. La synthèse de documents</div>
+    <p>Rédiger une synthèse claire, concise et fidèle d’un texte ou article en appliquant des techniques de lecture rapide.</p>
+    <div class="button-group">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title">6. L'exposé</div>
+    <p>Collecte, structuration et mise en forme des informations en support à la présentation orale.</p>
+    <div class="button-group">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
 </div>
 
-<div class="lesson">
-  <h3>Maîtriser la dissertation</h3>
-  <p>De la problématisation à la rédaction finale : développer un raisonnement structuré à travers un plan logique, titres et sous-titres clairs.</p>
-  <div class="buttons">
-    <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-  </div>
-</div>
-
-<div class="lesson">
-  <h3>Techniques de prise de notes</h3>
-  <p>Découvrez les principes généraux et les méthodes efficaces pour prendre des notes à l’oral comme à l’écrit à partir de situations concrètes.</p>
-  <div class="buttons">
-    <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-  </div>
-</div>
-
-<div class="lesson">
-  <h3>La synthèse de documents</h3>
-  <p>Apprenez à résumer des articles ou dossiers de façon fidèle, claire et concise en utilisant des techniques de lecture rapide et efficace.</p>
-  <div class="buttons">
-    <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-  </div>
-</div>
-
-<div class="lesson">
-  <h3>L’exposé oral</h3>
-  <p>De la collecte d’information à la création d’aides visuelles : structurez un exposé clair, illustré et bien préparé pour capter l’attention.</p>
-  <div class="buttons">
-    <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
-  </div>
-</div>
+</body>
+</html>
