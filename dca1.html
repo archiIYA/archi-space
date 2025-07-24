@@ -4,6 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DCA 1</title>
+  <script type="module">
+  // استيراد مكتبات Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  // إعدادات Firebase الخاصة بك
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.appspot.com",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+    measurementId: "G-RZV7LSDQBD"
+  };
+
+  // تهيئة Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // التحقق من حالة تسجيل الدخول
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      // إذا لم يكن المستخدم مسجلاً الدخول، إعادة توجيه إلى صفحة تسجيل الدخول
+      window.location.href = "index.html"; // غيّر الرابط حسب صفحة تسجيل الدخول الفعلية
+    }
+  });
+</script>
+
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
