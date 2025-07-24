@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Semestre 8 - 4ème Année</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fdfdfd;
+      margin: 0;
+      display: flex;
+    }
+
+    aside {
+      width: 250px;
+      background-color: #e0f2f1;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      position: fixed;
+      left: 0;
+      top: 0;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+    }
+
+    aside.hidden {
+      transform: translateX(-100%);
+    }
+
+    .menu-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: #004d40;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #b2dfdb;
+    }
+
+    main {
+      margin-left: 270px;
+      padding: 30px;
+      flex-grow: 1;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2em;
+      color: #2a9d8f;
+    }
+
+    .subjects {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .subject {
+      background-color: #e0f7f4;
+      border: 1px solid #b2dfdb;
+      padding: 20px 30px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background 0.3s;
+      min-width: 220px;
+    }
+
+    .subject:hover {
+      background-color: #b2dfdb;
+    }
+
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    a:hover {
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="menu-toggle" onclick="document.querySelector('aside').classList.toggle('hidden')">☰ Menu</button>
+
+  <aside class="sidebar hidden">
+    <h2>🎓 Navigation</h2>
+    <a href="lecteur.html">🔙 Retour à l'accueil</a>
+    <a href="sem1.html">Année 1</a>
+    <a href="sem3.html">Année 2</a>
+    <a href="sem5.html">Année 3</a>
+    <a href="sem7.html">Année 4</a>
+    <a href="#">Année 5</a>
+  </aside>
+
+  <main>
+    <h1>📘 Semestre 8 - 4ème Année</h1>
+
+    <div class="subjects">
+      <a href="#"><div class="subject">🖊️ Atelier de projet 8</div></a>
+      <a href="#"><div class="subject">🏗️ Maîtrise d’œuvre et Maîtrise d’ouvrage</div></a>
+      <a href="#"><div class="subject">🏛️ Structures en Architecture 4</div></a>
+      <a href="#"><div class="subject">🚪 Corps d’état secondaires</div></a>
+      <a href="#"><div class="subject">📊 Outils d’aide à la décision</div></a>
+      <a href="#"><div class="subject">📚 Initiation à la méthodologie de recherche</div></a>
+      <a href="#"><div class="subject">⚖️ Droit de la construction et de l’urbanisme</div></a>
+      <a href="#"><div class="subject">🧭 Éthique et déontologie</div></a>
+      <a href="#"><div class="subject">🛠️ Stage pratique 4</div></a>
+    </div>
+  </main>
+
+</body>
+</html>
