@@ -1,99 +1,138 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Réinitialiser le mot de passe</title>
-  <meta name="description" content="Réinitialisez votre mot de passe pour accéder à ArchiSpace." />
+  <meta name="description" content="Réinitialisation du mot de passe pour accéder à la plateforme ArchiSpace.">
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Rubik', sans-serif;
-      background: #f9f9f9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
       margin: 0;
+      font-family: 'Rubik', sans-serif;
+      background: linear-gradient(135deg, #e3eafc, #f9fafe);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
     }
 
-    .reset-container {
-      background: white;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      max-width: 400px;
+    .container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
       width: 100%;
-      text-align: center;
+      max-width: 400px;
+      position: relative;
+      animation: fadeIn 1s ease;
     }
 
-    .reset-container h1 {
-      margin-bottom: 20px;
-      font-size: 24px;
+    .logo {
+      display: block;
+      margin: 0 auto 20px;
+      width: 80px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #111;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #555;
+      font-size: 15px;
     }
 
     input[type="email"] {
       width: 100%;
       padding: 12px;
-      margin: 15px 0;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 8px;
+      margin-bottom: 20px;
       font-size: 16px;
     }
 
     button {
-      background: #111;
-      color: #fff;
-      padding: 12px 20px;
+      width: 100%;
+      padding: 12px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
       font-size: 16px;
       cursor: pointer;
+      transition: background 0.3s ease;
+      font-weight: 600;
     }
 
     button:hover {
-      background: #333;
+      background-color: #0056b3;
     }
 
-    .message {
-      margin-top: 15px;
-      font-size: 14px;
-      color: green;
-    }
-
-    .error {
-      color: red;
-    }
-
-    a {
-      display: block;
+    #message {
       margin-top: 20px;
-      font-size: 14px;
-      color: #333;
-      text-decoration: none;
+      text-align: center;
+      font-weight: 500;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .loader {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #ccc;
+      border-top: 4px solid #007bff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 20px auto 0;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    footer {
+      margin-top: 25px;
+      font-size: 13px;
+      text-align: center;
+      color: #aaa;
     }
   </style>
 </head>
 <body>
 
-  <div class="reset-container">
-    <h1>🔒 Réinitialiser le mot de passe</h1>
-    <input type="email" id="email" placeholder="Entrez votre email" required />
-    <button onclick="sendPasswordReset()">Envoyer le lien</button>
-    <div id="message" class="message"></div>
-    <a href="login.html">← Retour à la connexion</a>
+  <div class="container">
+    <img src="logo.png" alt="Logo" class="logo" />
+    <h2>Réinitialisation</h2>
+    <p>Entrez votre adresse e-mail pour recevoir un lien de réinitialisation.</p>
+    
+    <input type="email" id="email" placeholder="Votre adresse email" required>
+    <button onclick="resetPassword()">Envoyer</button>
+
+    <div id="message"></div>
+    <div class="loader" id="loader"></div>
+
+    <footer>© 2025 ArchiSpace</footer>
   </div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-
   <script>
-    // Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -103,23 +142,33 @@
       appId: "1:407015246505:web:1b3b54b87ca3f9a10df7b8",
       measurementId: "G-3JF6KDRNBP"
     };
-
     firebase.initializeApp(firebaseConfig);
 
-    function sendPasswordReset() {
+    function resetPassword() {
       const email = document.getElementById("email").value;
       const messageDiv = document.getElementById("message");
+      const loader = document.getElementById("loader");
+
+      messageDiv.textContent = "";
+      loader.style.display = "block";
 
       firebase.auth().sendPasswordResetEmail(email)
         .then(() => {
-          messageDiv.textContent = "📩 Email envoyé ! Vérifiez votre boîte de réception.";
-          messageDiv.className = "message";
+          loader.style.display = "none";
+          messageDiv.textContent = "📩 Email envoyé avec succès ! Redirection...";
+          messageDiv.style.color = "green";
+
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 3000);
         })
         .catch((error) => {
-          messageDiv.textContent = "❌ " + error.message;
-          messageDiv.className = "message error";
+          loader.style.display = "none";
+          messageDiv.textContent = "❌ Erreur : " + error.message;
+          messageDiv.style.color = "red";
         });
     }
   </script>
 </body>
 </html>
+
