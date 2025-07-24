@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Physique du bâtiment - Semestre 2</title>
+  <meta name="description" content="Cours de Physique du bâtiment pour les étudiants en architecture - semestre 2">
+  <link rel="stylesheet" href="styles.css"> <!-- استبدل هذا برابط ملف CSS الموحد -->
+  <style>
+    /* تنسيق سريع في حال لم تستخدم ملف CSS */
+    body { font-family: Arial, sans-serif; margin: 0; display: flex; }
+    .menu-btn { position: fixed; top: 10px; left: 10px; font-size: 24px; cursor: pointer; z-index: 1000; }
+    .sidebar {
+      width: 260px; background-color: #f0f0f0; height: 100vh; padding-top: 60px; position: fixed;
+      left: -260px; transition: left 0.3s ease; overflow-y: auto; z-index: 999;
+    }
+    .sidebar.active { left: 0; }
+    .sidebar h2, .sidebar a { padding: 10px 20px; display: block; text-decoration: none; color: #333; }
+    .sidebar .back { background: #ddd; font-weight: bold; }
+    .content {
+      margin-left: 0;
+      padding: 20px;
+      margin-top: 60px;
+      flex: 1;
+    }
+    .lesson { background: #fafafa; border: 1px solid #ddd; margin-bottom: 15px; padding: 15px; border-radius: 5px; }
+    .lesson h2 { margin-top: 0; }
+    .btns a {
+      display: inline-block; margin-right: 10px; text-decoration: none; padding: 5px 10px;
+      border-radius: 4px; background: #eee; color: #333; font-weight: bold;
+    }
+    .btns a:hover { background: #ddd; }
+  </style>
+</head>
+<body>
+
+<div class="menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('active')">☰ Menu</div>
+
+<div class="sidebar">
+  <a href="lecteur.html" class="back">🔙 Retour à l'accueil</a>
+  
+  <h2>📚 Semestre 2</h2>
+  <a href="atelier2.html">🖊️ Atelier de projet 2</a>
+  <a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a>
+  <a href="theorie2.html">📖 Théorie de projet 2</a>
+  <a href="geometrie2.html">📏 Géométrie de l’espace 2</a>
+  <a href="tmc2.html">🔩 TMC 2</a>
+  <a href="physique.html">🔬 Physique du bâtiment</a>
+  <a href="expression2.html">📝 Expression écrite</a>
+  <a href="stage2.html">🏗️ Stage découverte 2</a>
+
+  <h2>📁 Autres</h2>
+  <a href="projets.html">📂 Projets</a>
+  <a href="contact.html">📞 Contact</a>
+</div>
+
+<div class="content">
+  <h1>🔬 Physique du bâtiment</h1>
+
+  <div class="lesson">
+    <h2>I. Introduction à la statique</h2>
+    <p>Découverte des fondements de la mécanique du bâtiment, incluant les lois de Newton appliquées à la statique.</p>
+    <div class="btns">
+      <a href="#">📄 PDF</a><a href="#">🎥 Vidéo</a><a href="#">⭐ Premium</a>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>II. Conditions d'équilibre</h2>
+    <p>Analyse des équilibres de translation et de rotation pour garantir la stabilité des structures.</p>
+    <div class="btns">
+      <a href="#">📄 PDF</a><a href="#">🎥 Vidéo</a><a href="#">⭐ Premium</a>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>III. Les forces et leurs effets</h2>
+    <p>Étude des types de forces (concourantes, réparties...) et du moment d'une force dans un système physique.</p>
+    <div class="btns">
+      <a href="#">📄 PDF</a><a href="#">🎥 Vidéo</a><a href="#">⭐ Premium</a>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>IV. Nature des forces</h2>
+    <p>Exploration des forces naturelles (gravitation, poids) et des réactions mécaniques dans les structures.</p>
+    <div class="btns">
+      <a href="#">📄 PDF</a><a href="#">🎥 Vidéo</a><a href="#">⭐ Premium</a>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>V. Transferts de chaleur</h2>
+    <p>Thermique du bâtiment : conduction, convection, rayonnement et calcul des pertes de chaleur.</p>
+    <div class="btns">
+      <a href="#">📄 PDF</a><a href="#">🎥 Vidéo</a><a href="#">⭐ Premium</a>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>VI. Éclairage et géométrie solaire</h2>
+    <p>Comportement du soleil selon les saisons, lumière naturelle et interaction avec les matériaux du bâtiment.</p>
+    <div class="btns">
+      <a href="#">📄 PDF</a><a href="#">🎥 Vidéo</a><a href="#">⭐ Premium</a>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>VII. Acoustique du bâtiment</h2>
+    <p>Transmission du son, réverbération, isolation acoustique et conception pour le confort sonore.</p>
+    <div class="btns">
+      <a href="#">📄 PDF</a><a href="#">🎥 Vidéo</a><a href="#">⭐ Premium</a>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>VIII. Les fluides</h2>
+    <p>Comportement des fluides dans les bâtiments à travers les lois de Pascal, Archimède et Bernoulli.</p>
+    <div class="btns">
+      <a href="#">📄 PDF</a><a href="#">🎥 Vidéo</a><a href="#">⭐ Premium</a>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>IX. Électricité dans le bâtiment</h2>
+    <p>Introduction à l’électricité : courant, loi d’Ohm, théorèmes de Kirchhoff, puissance et énergie électrique.</p>
+    <div class="btns">
+      <a href="#">📄 PDF</a><a href="#">🎥 Vidéo</a><a href="#">⭐ Premium</a>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
