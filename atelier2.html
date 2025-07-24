@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Atelier de projet 2</title>
+  <meta name="description" content="Cours Atelier de projet 2 - 1ère Année Architecture. Études sur la composition de façade, l’analyse spatiale, et la conception de projet.">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fdfdfd;
+      margin: 0;
+      padding-left: 240px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      font-size: 2em;
+      color: #2a9d8f;
+    }
+
+    .lessons {
+      max-width: 900px;
+      margin: auto;
+      padding: 0 20px 40px;
+    }
+
+    .lesson {
+      background-color: #e0f7f4;
+      border: 1px solid #b2dfdb;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .lesson h2 {
+      color: #2a9d8f;
+      font-size: 1.3em;
+      margin-bottom: 10px;
+    }
+
+    .lesson p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .menu-toggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    aside {
+      width: 220px;
+      background-color: #f0f0f0;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    aside.hidden {
+      transform: translateX(-100%);
+    }
+
+    aside h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #2a9d8f;
+    }
+
+    aside a {
+      display: block;
+      padding: 8px 0;
+      color: #333;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    aside a:hover {
+      color: #000;
+    }
+
+    .submenu {
+      margin-left: 15px;
+      font-size: 0.95em;
+    }
+
+    .submenu a {
+      padding-left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="menu-toggle" onclick="document.querySelector('aside').classList.toggle('hidden')">☰ Menu</button>
+
+  <aside class="sidebar hidden">
+    <h2>🎓 Années d'étude</h2>
+    <a href="lecteur.html">🔙 Retour à l'accueil</a>
+    <hr>
+    <a href="#" onclick="toggleSub(this)">📘 Année 1</a>
+    <div class="submenu" style="display:none;">
+      <a href="sem1.html">Semestre 1</a>
+      <a href="sem2.html">Semestre 2</a>
+    </div>
+    <a href="#" onclick="toggleSub(this)">📗 Année 2</a>
+    <div class="submenu" style="display:none;">
+      <a href="sem3.html">Semestre 3</a>
+      <a href="sem4.html">Semestre 4</a>
+    </div>
+    <a href="#" onclick="toggleSub(this)">📙 Année 3</a>
+    <div class="submenu" style="display:none;">
+      <a href="sem5.html">Semestre 5</a>
+      <a href="sem6.html">Semestre 6</a>
+    </div>
+    <a href="#" onclick="toggleSub(this)">📕 Année 4</a>
+    <div class="submenu" style="display:none;">
+      <a href="sem7.html">Semestre 7</a>
+      <a href="sem8.html">Semestre 8</a>
+    </div>
+    <a href="#" onclick="toggleSub(this)">📒 Année 5</a>
+    <div class="submenu" style="display:none;">
+      <a href="sem9.html">Semestre 9</a>
+      <a href="sem10.html">Semestre 10</a>
+    </div>
+  </aside>
+
+  <h1>🖊️ Atelier de projet 2</h1>
+
+  <div class="lessons">
+    <div class="lesson">
+      <h2>1. Composition de façade</h2>
+      <p>Ce module initie l'étudiant à la façade comme élément architectural : ses rôles esthétiques et fonctionnels, ses composants (fenêtres, balcons...) et ses types (mur-rideau, double peau...). À travers des exercices pratiques, l'étudiant conçoit des façades adaptées à des plans donnés, en appliquant les principes de composition architecturale.</p>
+    </div>
+
+    <div class="lesson">
+      <h2>2. Analyse spatiale d'une œuvre</h2>
+      <p>Les étudiants explorent ici l'organisation interne d'une œuvre architecturale. L'analyse porte sur les relations entre espaces privés/publics, les circulations, et les limites spatiales. L'objectif est de dépasser la géométrie pure et de comprendre la spatialité à travers des schémas et représentations graphiques.</p>
+    </div>
+
+    <div class="lesson">
+      <h2>3. Conception d’un projet résidentiel</h2>
+      <p>Les étudiants réalisent un projet complet, adapté à un site réel, en tenant compte de contraintes topographiques, urbaines et climatiques. L'exercice inclut l'élaboration d’un programme d’usage, la composition spatiale et l'intégration au contexte. Le but est de traduire les connaissances acquises en un projet cohérent et ergonomique.</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleSub(element) {
+      const submenu = element.nextElementSibling;
+      submenu.style.display = submenu.style.display === "none" ? "block" : "none";
+    }
+  </script>
+
+</body>
+</html>
