@@ -2,10 +2,84 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>archi.space</title>
+  <title>Archi.Space - En Construction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e0f7f4, #ffffff);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #333;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 600px;
+      padding: 40px;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #2a9d8f;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2em;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .emoji {
+      font-size: 50px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 25px;
+      background-color: #2a9d8f;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+
+    .back-link:hover {
+      background-color: #21867a;
+    }
+  </style>
 </head>
 <body>
-  <h1>Bienvenue sur archi.space 👷‍♂️</h1>
-  <p>Le site est en construction…</p>
+
+  <div class="container">
+    <div class="emoji">🚧</div>
+    <h1>Bienvenue sur Archi.Space 👷‍♂️</h1>
+    <p>Le site est en construction… Merci de revenir bientôt !</p>
+    <a href="#" class="back-link">↩ Revenir plus tard</a>
+  </div>
+
 </body>
 </html>
