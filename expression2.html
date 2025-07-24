@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Expression écrite</title>
-  <meta name="description" content="Cours d'Expression écrite pour les étudiants en architecture. Apprendre à structurer un texte, enrichir le vocabulaire et exprimer ses idées.">
+  <meta name="description" content="Cours d'Expression écrite pour les étudiants en architecture : structure du texte, types de discours, narration et argumentation." />
 
-  <!-- Font -->
+  <!-- Font & Style -->
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Firebase Auth Protection -->
+  <!-- Firebase Auth Check -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -197,7 +197,7 @@
   <h1 class="section-title">🗣️ Expression écrite</h1>
 
   <div class="lesson">
-    <h3>1. Techniques de rédaction</h3>
+    <h3>1. Les formes et types de discours</h3>
     <div class="buttons">
       <button>📄 PDF</button>
       <button>🎥 Vidéo</button>
@@ -206,7 +206,7 @@
   </div>
 
   <div class="lesson">
-    <h3>2. Enrichissement du vocabulaire</h3>
+    <h3>2. Le schéma narratif</h3>
     <div class="buttons">
       <button>📄 PDF</button>
       <button>🎥 Vidéo</button>
@@ -215,7 +215,25 @@
   </div>
 
   <div class="lesson">
-    <h3>3. Argumentation et opinion</h3>
+    <h3>3. La structure du texte</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>4. Les fonctions du langage</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>5. Le discours argumentatif</h3>
     <div class="buttons">
       <button>📄 PDF</button>
       <button>🎥 Vidéo</button>
@@ -231,10 +249,10 @@
 <script>
   const sidebar = document.querySelector('aside');
   const toggleBtn = document.getElementById('toggleSidebar');
+
   toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('hidden');
   });
 </script>
 </body>
 </html>
-
