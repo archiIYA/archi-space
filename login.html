@@ -24,11 +24,10 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
     }
 
     .login-box {
-      background: white;
+      background: #ffffff;
       padding: 50px 40px;
       border-radius: 20px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -38,14 +37,8 @@
     }
 
     @keyframes fadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     .logo {
@@ -78,6 +71,23 @@
       box-shadow: 0 0 0 2px rgba(42, 157, 143, 0.2);
     }
 
+    .forgot-password {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .forgot-password a {
+      font-size: 0.85em;
+      color: #555;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .forgot-password a:hover {
+      color: var(--main-color);
+      text-decoration: underline;
+    }
+
     button {
       background-color: var(--main-color);
       color: #fff;
@@ -89,7 +99,7 @@
       font-weight: 500;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      margin-top: 15px;
+      margin-top: 10px;
     }
 
     button:hover {
@@ -138,6 +148,12 @@
 
     <input type="email" id="email" placeholder="Adresse e-mail" required>
     <input type="password" id="password" placeholder="Mot de passe" required>
+
+    <!-- خانة "نسيت كلمة السر؟" -->
+    <div class="forgot-password">
+      <a href="reset.html">Mot de passe oublié ?</a>
+    </div>
+
     <button onclick="login()">Se connecter</button>
 
     <div class="link">Pas encore de compte ? <a href="signup.html">S'inscrire</a></div>
