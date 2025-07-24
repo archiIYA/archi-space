@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Stage découverte 2 - Semestre 2 - Architecture">
+  <title>Stage découverte 2</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .lesson { margin-bottom: 20px; }
+    .lesson-title { font-weight: bold; margin-top: 15px; }
+    .button-group button {
+      margin-right: 10px;
+      padding: 5px 10px;
+      border: none;
+      background-color: #eee;
+      cursor: pointer;
+    }
+    .sidebar { display: none; position: fixed; top: 0; left: 0; width: 260px; height: 100%; background: #f0f0f0; padding: 15px; overflow-y: auto; z-index: 1000; }
+    .sidebar a { display: block; padding: 8px 0; text-decoration: none; color: #333; }
+    .dropdown { cursor: pointer; font-weight: bold; margin-top: 10px; }
+    .submenu { display: none; margin-left: 15px; }
+    .menu-button { position: fixed; top: 10px; left: 10px; background: #333; color: white; padding: 10px; cursor: pointer; z-index: 1100; }
+    .return-button { margin-top: 20px; display: block; color: #000; text-decoration: none; font-weight: bold; }
+  </style>
+  <script>
+    function toggleSidebar() {
+      var sidebar = document.getElementById("sidebar");
+      sidebar.style.display = (sidebar.style.display === "block") ? "none" : "block";
+    }
+
+    function toggleSubmenu(id) {
+      var menu = document.getElementById(id);
+      menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    }
+  </script>
+</head>
+<body>
+
+<div class="menu-button" onclick="toggleSidebar()">☰ Menu</div>
+
+<div id="sidebar" class="sidebar">
+  <a href="lecteur.html" class="return-button">🔙 Retour à l'accueil</a>
+
+  <div class="dropdown" onclick="toggleSubmenu('y1')">Année 1</div>
+  <div class="submenu" id="y1">
+    <a href="sem1.html">Semestre 1</a>
+    <a href="sem2.html">Semestre 2</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('y2')">Année 2</div>
+  <div class="submenu" id="y2">
+    <a href="sem3.html">Semestre 3</a>
+    <a href="sem4.html">Semestre 4</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('y3')">Année 3</div>
+  <div class="submenu" id="y3">
+    <a href="sem5.html">Semestre 5</a>
+    <a href="sem6.html">Semestre 6</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('y4')">Année 4</div>
+  <div class="submenu" id="y4">
+    <a href="sem7.html">Semestre 7</a>
+    <a href="sem8.html">Semestre 8</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('y5')">Année 5</div>
+  <div class="submenu" id="y5">
+    <a href="sem9.html">Semestre 9</a>
+    <a href="sem10.html">Semestre 10</a>
+  </div>
+</div>
+
+<h1>🏗️ Stage découverte 2</h1>
+
+<div class="content">
+
+  <div class="lesson">
+    <div class="lesson-title">1. Visites guidées de sites</div>
+    <p>
+      Découverte progressive de sites historiques algériens : phéniciens, romains, byzantins, médinas anciennes, sites ottomans, établissements coloniaux et réalisations contemporaines.
+    </p>
+    <div class="button-group">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title">2. Observation et documentation</div>
+    <p>
+      Les étudiants sont encouragés à observer, dessiner, photographier et décrire les éléments architecturaux rencontrés lors des sorties pédagogiques.
+    </p>
+    <div class="button-group">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <div class="lesson-title">3. Rédaction de comptes rendus</div>
+    <p>
+      Chaque visite est suivie de la rédaction d’un compte rendu structuré de 10 à 15 pages, incluant textes et photos, à remettre au format papier (A4) et numérique.
+    </p>
+    <div class="button-group">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
