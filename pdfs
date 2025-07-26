@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fichiers PDF</title>
+  <meta name="description" content="Accès aux fichiers PDF du cours d'architecture">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #222;
+      color: white;
+      height: 100vh;
+      position: fixed;
+      left: -250px;
+      top: 0;
+      overflow-y: auto;
+      transition: left 0.3s;
+      padding-top: 60px;
+    }
+    .sidebar a {
+      color: white;
+      padding: 15px;
+      display: block;
+      text-decoration: none;
+    }
+    .sidebar a:hover {
+      background-color: #575757;
+    }
+    .menu-btn {
+      font-size: 24px;
+      cursor: pointer;
+      background-color: #222;
+      color: white;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+    .main {
+      margin-left: 0;
+      padding: 20px;
+      width: 100%;
+      transition: margin-left 0.3s;
+    }
+    .pdf-entry {
+      background-color: #f4f4f4;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-left: 5px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn {
+      padding: 8px 16px;
+      background-color: #333;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .btn:hover {
+      background-color: #555;
+    }
+    .open {
+      left: 0 !important;
+    }
+    .main.shift {
+      margin-left: 250px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="menu-btn" onclick="toggleSidebar()">☰ Menu</div>
+
+<div class="sidebar" id="sidebar">
+  <a href="lecteur.html">🔙 Retour à l'accueil</a>
+  <a href="sem1.html">📚 Semestre 1</a>
+  <a href="sem2.html">📚 Semestre 2</a>
+  <a href="pdfs.html">📄 Fichiers PDF</a>
+</div>
+
+<div class="main" id="main">
+  <h1>Fichiers PDF disponibles</h1>
+
+  <!-- Entrées PDF -->
+  <div class="pdf-entry">
+    <span>Introduction au dessin technique</span>
+    <a href="pdfs/introduction-dessin-technique.pdf" target="_blank" class="btn">📄 PDF</a>
+  </div>
+
+  <div class="pdf-entry">
+    <span>Les formats et les cartouches</span>
+    <a href="pdfs/formats-cartouches.pdf" target="_blank" class="btn">📄 PDF</a>
+  </div>
+
+  <div class="pdf-entry">
+    <span>Représentation à l’échelle</span>
+    <a href="pdfs/representation-echelle.pdf" target="_blank" class="btn">📄 PDF</a>
+  </div>
+
+  <!-- أضف المزيد هنا -->
+</div>
+
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const main = document.getElementById('main');
+    sidebar.classList.toggle('open');
+    main.classList.toggle('shift');
+  }
+</script>
+
+</body>
+</html>
