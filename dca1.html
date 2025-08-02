@@ -1,244 +1,244 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DCA 1</title>
-  <script type="module">
-  // استيراد مكتبات Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DCA 1</title>
+  <script type="module">
+  // استيراد مكتبات Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  // إعدادات Firebase الخاصة بك
-  const firebaseConfig = {
-    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-    authDomain: "archi-space-72624.firebaseapp.com",
-    projectId: "archi-space-72624",
-    storageBucket: "archi-space-72624.appspot.com",
-    messagingSenderId: "407015246505",
-    appId: "1:407015246505:web:c914a78566b882b80df7b8",
-    measurementId: "G-RZV7LSDQBD"
-  };
+  // إعدادات Firebase الخاصة بك
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.appspot.com",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+    measurementId: "G-RZV7LSDQBD"
+  };
 
-  // تهيئة Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  // تهيئة Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-  // التحقق من حالة تسجيل الدخول
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      // إذا لم يكن المستخدم مسجلاً الدخول، إعادة توجيه إلى صفحة تسجيل الدخول
-      window.location.href = "index.html"; // غيّر الرابط حسب صفحة تسجيل الدخول الفعلية
-    }
-  });
+  // التحقق من حالة تسجيل الدخول
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      // إذا لم يكن المستخدم مسجلاً الدخول، إعادة توجيه إلى صفحة تسجيل الدخول
+      window.location.href = "index.html"; // غيّر الرابط حسب صفحة تسجيل الدخول الفعلية
+    }
+  });
 </script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Rubik', sans-serif;
-      background: #fff;
-      color: #111;
-      display: flex;
-    }
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Rubik', sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
+    }
 
-    aside {
-      width: 240px;
-      background-color: #f4f4f4;
-      height: 100vh;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      overflow-y: auto;
-      position: fixed;
-      left: 0;
-      top: 0;
-      transform: translateX(0);
-      transition: transform 0.3s ease;
-      z-index: 998;
-    }
+    aside {
+      width: 240px;
+      background-color: #f4f4f4;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 998;
+    }
 
-    aside.hidden {
-      transform: translateX(-260px);
-    }
+    aside.hidden {
+      transform: translateX(-260px);
+    }
 
-    .back-button {
-      margin-bottom: 20px;
-      background-color: #ddd;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: 600;
-      transition: background-color 0.3s;
-    }
+    .back-button {
+      margin-bottom: 20px;
+      background-color: #ddd;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
 
-    .back-button:hover {
-      background-color: #ccc;
-    }
+    .back-button:hover {
+      background-color: #ccc;
+    }
 
-    aside h2 {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
+    aside h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
 
-    aside a {
-      display: block;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-decoration: none;
-      color: #333;
-      border-radius: 6px;
-      transition: background 0.3s;
-    }
+    aside a {
+      display: block;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: #333;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
 
-    aside a:hover {
-      background-color: #ddd;
-    }
+    aside a:hover {
+      background-color: #ddd;
+    }
 
-    #toggleSidebar {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 999;
-      background-color: #111;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-    main {
-      flex-grow: 1;
-      padding: 30px;
-      margin-left: 240px;
-      transition: margin-left 0.3s ease;
-    }
+    main {
+      flex-grow: 1;
+      padding: 30px;
+      margin-left: 240px;
+      transition: margin-left 0.3s ease;
+    }
 
-    aside.hidden ~ main {
-      margin-left: 0;
-    }
+    aside.hidden ~ main {
+      margin-left: 0;
+    }
 
-    .section-title {
-      font-size: 26px;
-      margin-bottom: 20px;
-      color: #000;
-    }
+    .section-title {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #000;
+    }
 
-    .lesson {
-      margin-bottom: 30px;
-      background: #fafafa;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
+    .lesson {
+      margin-bottom: 30px;
+      background: #fafafa;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
 
-    .lesson h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      color: #222;
-    }
+    .lesson h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #222;
+    }
 
-    .buttons {
-      margin-top: 10px;
-    }
+    .buttons {
+      margin-top: 10px;
+    }
 
-    .buttons button {
-      background: none;
-      border: none;
-      margin-right: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+    .buttons button {
+      background: none;
+      border: none;
+      margin-right: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-    .buttons button:hover {
-      opacity: 0.7;
-    }
+    .buttons button:hover {
+      opacity: 0.7;
+    }
 
-    footer {
-      margin-top: 50px;
-      font-size: 13px;
-      color: #888;
-      text-align: center;
-    }
-  </style>
+    footer {
+      margin-top: 50px;
+      font-size: 13px;
+      color: #888;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
 <button id="toggleSidebar">☰ Menu</button>
 
 <aside class="sidebar">
-  <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
-  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+  <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
 
-  <div class="sidebar-header">
-    <h2>📚 Année 1 - Semestre 1</h2>
-  </div>
+  <div class="sidebar-header">
+    <h2>📚 Année 1 - Semestre 1</h2>
+  </div>
 
-  <ul class="sidebar-menu">
-    <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
-    <li><a href="dca1.html">📐 DCA 1</a></li>
-    <li><a href="dag1.html">🎨 DAG 1</a></li>
-    <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
-    <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
-    <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
-    <li><a href="tmc1.html">🧱 TMC 1</a></li>
-    <li><a href="math1.html">🧮 Mathématiques</a></li>
-    <li><a href="expression1.html">🗣️ Expression orale</a></li>
-    <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
-    <hr>
-    <li><a href="projets.html">💼 Projets</a></li>
-    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
-  </ul>
+  <ul class="sidebar-menu">
+    <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
+    <li><a href="dca1.html">📐 DCA 1</a></li>
+    <li><a href="dag1.html">🎨 DAG 1</a></li>
+    <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
+    <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
+    <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
+    <li><a href="tmc1.html">🧱 TMC 1</a></li>
+    <li><a href="math1.html">🧮 Mathématiques</a></li>
+    <li><a href="expression1.html">🗣️ Expression orale</a></li>
+    <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
+    <hr>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
 </aside>
 
 <main>
-  <h1 class="section-title">📐 DCA 1</h1>
+  <h1 class="section-title">📐 DCA 1</h1>
 
-  <div class="lesson">
-    <h3>Introduction au dessin technique</h3>
-    <div class="buttons">
-      <a href="Introduction au dessin technique.pdf" download>
-        <button>📄 Télécharger PDF</button>
-      </a>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <h3>Introduction au dessin technique</h3>
+    <div class="buttons">
+      <a href="Introduction au dessin technique.pdf">
+        <button>📄 Introduction au dessin technique</button>
+      </a>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
 
-  <div class="lesson">
-    <h3>Les outils et les normes de dessin</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-    </div>
+  <div class="lesson">
+    <h3>Les outils et les normes de dessin</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+    </div>
 
-  <div class="lesson">
-    <h3>Pratiques d’esquisse et cotation</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <h3>Pratiques d’esquisse et cotation</h3>
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
 
-  <footer>
-    © 2025 ArchiSpace – Tous droits réservés.
-  </footer>
+  <footer>
+    © 2025 ArchiSpace – Tous droits réservés.
+  </footer>
 </main>
 
 <script>
-  const sidebar = document.querySelector('aside');
-  const toggleBtn = document.getElementById('toggleSidebar');
+  const sidebar = document.querySelector('aside');
+  const toggleBtn = document.getElementById('toggleSidebar');
 
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('hidden');
-  });
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
 </script>
 </body>
 </html>
