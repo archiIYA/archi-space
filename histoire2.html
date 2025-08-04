@@ -6,75 +6,7 @@
   <title>Histoire de l’Architecture 2</title>
   <meta name="description" content="Cours de l'Histoire de l’Architecture 2 pour les étudiants en architecture : Renaissance, Baroque, Modernité et plus." />
   
-    <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-      authDomain: "archi-space-72624.firebaseapp.com",
-      projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.appspot.com",
-      messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:c914a78566b882b80df7b8",
-      measurementId: "G-RZV7LSDQBD"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "index.html";
-      }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const premiumButton1 = document.getElementById('premiumButton1');
-      const loadingMessage1 = document.getElementById('loadingMessage1');
-
-      if (premiumButton1) {
-        premiumButton1.addEventListener('click', async (e) => {
-          e.preventDefault();
-          
-          loadingMessage1.textContent = 'يتم التحقق من حالة اشتراكك...';
-          loadingMessage1.style.display = 'block';
-          
-          const user = auth.currentUser;
-
-          if (!user) {
-            loadingMessage1.textContent = 'يجب عليك تسجيل الدخول أولاً.';
-            return;
-          }
-
-          try {
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            
-            if (userDoc.exists() && userDoc.data().isPremium) {
-              loadingMessage1.textContent = 'يتم إنشاء رابط التحميل...';
-              // قم بتغيير مسار الملف إلى مسار ملفك في Firebase Storage
-              const pdfRef = ref(storage, 'premium-files/histoire-2-lesson-1.pdf');
-              const downloadURL = await getDownloadURL(pdfRef);
-              
-              loadingMessage1.textContent = 'تم العثور على الملف، يتم التحميل...';
-              window.open(downloadURL, '_blank');
-              
-            } else {
-              loadingMessage1.textContent = 'هذا المحتوى خاص بالمشتركين فقط.';
-            }
-          } catch (error) {
-            console.error("حدث خطأ:", error);
-            loadingMessage1.textContent = 'حدث خطأ ما. يرجى المحاولة لاحقًا.';
-          }
-        });
-      }
-    });
-  </script>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -206,6 +138,73 @@
       text-align: center;
     }
   </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.appspot.com",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const premiumButton1 = document.getElementById('premiumButton1');
+      const loadingMessage1 = document.getElementById('loadingMessage1');
+
+      if (premiumButton1) {
+        premiumButton1.addEventListener('click', async (e) => {
+          e.preventDefault();
+          
+          loadingMessage1.textContent = 'يتم التحقق من حالة اشتراكك...';
+          loadingMessage1.style.display = 'block';
+          
+          const user = auth.currentUser;
+
+          if (!user) {
+            loadingMessage1.textContent = 'يجب عليك تسجيل الدخول أولاً.';
+            return;
+          }
+
+          try {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            
+            if (userDoc.exists() && userDoc.data().isPremium) {
+              loadingMessage1.textContent = 'يتم إنشاء رابط التحميل...';
+              const pdfRef = ref(storage, 'premium-files/histoire-2-lesson-1.pdf'); // قم بتغيير مسار الملف
+              const downloadURL = await getDownloadURL(pdfRef);
+              
+              loadingMessage1.textContent = 'تم العثور على الملف، يتم التحميل...';
+              window.open(downloadURL, '_blank');
+              
+            } else {
+              loadingMessage1.textContent = 'هذا المحتوى خاص بالمشتركين فقط.';
+            }
+          } catch (error) {
+            console.error("حدث خطأ:", error);
+            loadingMessage1.textContent = 'حدث خطأ ما. يرجى المحاولة لاحقًا.';
+          }
+        });
+      }
+    });
+  </script>
 </head>
 <body>
 
@@ -245,7 +244,7 @@
       </a>
       <button>🎥 Vidéo</button>
       <button id="premiumButton1">⭐ Premium</button>
-      <p id="loadingMessage1" style="display:none; color:#d9534f; margin-top:10px;"></p>
+      <p id="loadingMessage1" style="display:none; color:#d9534f; margin-top:10px;"></p>
     </div>
   </div>
 
