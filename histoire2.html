@@ -1,229 +1,309 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Histoire de l’Architecture 2</title>
-  <meta name="description" content="Cours de l'Histoire de l’Architecture 2 pour les étudiants en architecture : Renaissance, Baroque, Modernité et plus." />
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Rubik', sans-serif;
-      background: #fff;
-      color: #111;
-      display: flex;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Histoire de l’Architecture 2</title>
+  <meta name="description" content="Cours de l'Histoire de l’Architecture 2 pour les étudiants en architecture : Renaissance, Baroque, Modernité et plus." />
+  
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-    aside {
-      width: 240px;
-      background-color: #f4f4f4;
-      height: 100vh;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      overflow-y: auto;
-      position: fixed;
-      left: 0;
-      top: 0;
-      transform: translateX(0);
-      transition: transform 0.3s ease;
-      z-index: 998;
-    }
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.appspot.com",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
 
-    aside.hidden {
-      transform: translateX(-260px);
-    }
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
 
-    .back-button {
-      margin-bottom: 20px;
-      background-color: #ddd;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: 600;
-      transition: background-color 0.3s;
-    }
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
 
-    .back-button:hover {
-      background-color: #ccc;
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const premiumButton1 = document.getElementById('premiumButton1');
+      const loadingMessage1 = document.getElementById('loadingMessage1');
 
-    aside h2 {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
+      if (premiumButton1) {
+        premiumButton1.addEventListener('click', async (e) => {
+          e.preventDefault();
+          
+          loadingMessage1.textContent = 'يتم التحقق من حالة اشتراكك...';
+          loadingMessage1.style.display = 'block';
+          
+          const user = auth.currentUser;
 
-    aside a {
-      display: block;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-decoration: none;
-      color: #333;
-      border-radius: 6px;
-      transition: background 0.3s;
-    }
+          if (!user) {
+            loadingMessage1.textContent = 'يجب عليك تسجيل الدخول أولاً.';
+            return;
+          }
 
-    aside a:hover {
-      background-color: #ddd;
-    }
+          try {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            
+            if (userDoc.exists() && userDoc.data().isPremium) {
+              loadingMessage1.textContent = 'يتم إنشاء رابط التحميل...';
+              // قم بتغيير مسار الملف إلى مسار ملفك في Firebase Storage
+              const pdfRef = ref(storage, 'premium-files/histoire-2-lesson-1.pdf');
+              const downloadURL = await getDownloadURL(pdfRef);
+              
+              loadingMessage1.textContent = 'تم العثور على الملف، يتم التحميل...';
+              window.open(downloadURL, '_blank');
+              
+            } else {
+              loadingMessage1.textContent = 'هذا المحتوى خاص بالمشتركين فقط.';
+            }
+          } catch (error) {
+            console.error("حدث خطأ:", error);
+            loadingMessage1.textContent = 'حدث خطأ ما. يرجى المحاولة لاحقًا.';
+          }
+        });
+      }
+    });
+  </script>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Rubik', sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
+    }
 
-    #toggleSidebar {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 999;
-      background-color: #111;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+    aside {
+      width: 240px;
+      background-color: #f4f4f4;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 998;
+    }
 
-    main {
-      flex-grow: 1;
-      padding: 30px;
-      margin-left: 240px;
-      transition: margin-left 0.3s ease;
-    }
+    aside.hidden {
+      transform: translateX(-260px);
+    }
 
-    aside.hidden ~ main {
-      margin-left: 0;
-    }
+    .back-button {
+      margin-bottom: 20px;
+      background-color: #ddd;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
 
-    .section-title {
-      font-size: 26px;
-      margin-bottom: 20px;
-      color: #000;
-    }
+    .back-button:hover {
+      background-color: #ccc;
+    }
 
-    .lesson {
-      margin-bottom: 30px;
-      background: #fafafa;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
+    aside h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
 
-    .lesson h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      color: #222;
-    }
+    aside a {
+      display: block;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: #333;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
 
-    .buttons {
-      margin-top: 10px;
-    }
+    aside a:hover {
+      background-color: #ddd;
+    }
 
-    .buttons button {
-      background: none;
-      border: none;
-      margin-right: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-    .buttons button:hover {
-      opacity: 0.7;
-    }
+    main {
+      flex-grow: 1;
+      padding: 30px;
+      margin-left: 240px;
+      transition: margin-left 0.3s ease;
+    }
 
-    footer {
-      margin-top: 50px;
-      font-size: 13px;
-      color: #888;
-      text-align: center;
-    }
-  </style>
+    aside.hidden ~ main {
+      margin-left: 0;
+    }
+
+    .section-title {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    .lesson {
+      margin-bottom: 30px;
+      background: #fafafa;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .lesson h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .buttons {
+      margin-top: 10px;
+    }
+
+    .buttons button {
+      background: none;
+      border: none;
+      margin-right: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .buttons button:hover {
+      opacity: 0.7;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 13px;
+      color: #888;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
 <button id="toggleSidebar">☰ Menu</button>
 
 <aside class="sidebar">
-  <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
-  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+  <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
 
-  <div class="sidebar-header">
-    <h2>📚 Année 1 - Semestre 2</h2>
-  </div>
+  <div class="sidebar-header">
+    <h2>📚 Année 1 - Semestre 2</h2>
+  </div>
 
-  <ul class="sidebar-menu">
-    <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
-    <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
-    <li><a href="theorie2.html">📘 Théorie de projet 2</a></li>
-    <li><a href="geometrie2.html">📏 Géométrie de l’espace 2</a></li>
-    <li><a href="tmc2.html">🧱 TMC 2</a></li>
-    <li><a href="physique.html"><div class="subject">🔬 Physique du bâtiment</div></a>
-    <li><a href="expression2.html">🗣️ Expression écrite</a></li>
-    <li><a href="stage2.html">🏞️ Stage découverte 2</a></li>
-    <hr>
-    <li><a href="projets.html">💼 Projets</a></li>
-    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
-  </ul>
+  <ul class="sidebar-menu">
+    <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
+    <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
+    <li><a href="theorie2.html">📘 Théorie de projet 2</a></li>
+    <li><a href="geometrie2.html">📏 Géométrie de l’espace 2</a></li>
+    <li><a href="tmc2.html">🧱 TMC 2</a></li>
+    <li><a href="physique.html">🔬 Physique du bâtiment</a></li>
+    <li><a href="expression2.html">🗣️ Expression écrite</a></li>
+    <li><a href="stage2.html">🏞️ Stage découverte 2</a></li>
+    <hr>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
 </aside>
 
 <main>
-  <h1 class="section-title">🏛️ Histoire de l’Architecture 2</h1>
+  <h1 class="section-title">🏛️ Histoire de l’Architecture 2</h1>
 
-  <div class="lesson">
-    <h3>Architecture de la Renaissance</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <h3>Architecture de la Renaissance</h3>
+    <div class="buttons">
+      <a href="link-to-your-pdf-file.pdf">
+        <button>📄 PDF</button>
+      </a>
+      <button>🎥 Vidéo</button>
+      <button id="premiumButton1">⭐ Premium</button>
+      <p id="loadingMessage1" style="display:none; color:#d9534f; margin-top:10px;"></p>
+    </div>
+  </div>
 
-  <div class="lesson">
-    <h3>Architecture baroque et rococo</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <h3>Architecture baroque et rococo</h3>
+    <div class="buttons">
+      <a href="link-to-your-pdf-file.pdf">
+        <button>📄 PDF</button>
+      </a>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
 
-  <div class="lesson">
-    <h3>Architecture classique et néoclassique</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <h3>Architecture classique et néoclassique</h3>
+    <div class="buttons">
+      <a href="link-to-your-pdf-file.pdf">
+        <button>📄 PDF</button>
+      </a>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
 
-  <div class="lesson">
-    <h3>Architecture moderne (XIXe - XXe siècle)</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <h3>Architecture moderne (XIXe - XXe siècle)</h3>
+    <div class="buttons">
+      <a href="link-to-your-pdf-file.pdf">
+        <button>📄 PDF</button>
+      </a>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
 
-  <div class="lesson">
-    <h3>Mouvements contemporains</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <h3>Mouvements contemporains</h3>
+    <div class="buttons">
+      <a href="link-to-your-pdf-file.pdf">
+        <button>📄 PDF</button>
+      </a>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
 
-  <footer>
-    © 2025 ArchiSpace – Tous droits réservés.
-  </footer>
+  <footer>
+    © 2025 ArchiSpace – Tous droits réservés.
+  </footer>
 </main>
 
 <script>
-  const sidebar = document.querySelector('aside');
-  const toggleBtn = document.getElementById('toggleSidebar');
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('hidden');
-  });
+  const sidebar = document.querySelector('aside');
+  const toggleBtn = document.getElementById('toggleSidebar');
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
 </script>
 </body>
 </html>
