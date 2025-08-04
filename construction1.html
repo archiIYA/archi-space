@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Construction 1</title>
+  <meta name="description" content="Contenu et objectifs de la matière Construction 1 - Semestre 3">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Rubik', sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
+    }
+
+    aside {
+      width: 240px;
+      background-color: #f4f4f4;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 998;
+    }
+
+    aside.hidden {
+      transform: translateX(-260px);
+    }
+
+    .back-button {
+      margin-bottom: 20px;
+      background-color: #ddd;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #ccc;
+    }
+
+    aside h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    aside a {
+      display: block;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: #333;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    aside a:hover {
+      background-color: #ddd;
+    }
+
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 30px;
+      margin-left: 240px;
+      transition: margin-left 0.3s ease;
+    }
+
+    aside.hidden ~ main {
+      margin-left: 0;
+    }
+
+    .section-title {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    .lesson {
+      margin-bottom: 30px;
+      background: #fafafa;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .lesson h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .buttons {
+      margin-top: 10px;
+    }
+
+    .buttons button {
+      background: none;
+      border: none;
+      margin-right: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .buttons button:hover {
+      opacity: 0.7;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 13px;
+      color: #888;
+      text-align: center;
+    }
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.appspot.com",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+</head>
+<body>
+
+<button id="toggleSidebar">☰ Menu</button>
+
+<aside class="sidebar">
+  <a href="sem3.html" class="back-button">🔙 Retour à Semestre 3</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+
+  <div class="sidebar-header">
+    <h2>📚 Année 2 - Semestre 3</h2>
+  </div>
+
+  <ul class="sidebar-menu">
+    <li><a href="atelier3.html">🏗️ Atelier de projet 3</a></li>
+    <li><a href="histoire3.html">🏛️ Histoire de l’architecture 3</a></li>
+    <li><a href="theorie3.html">📘 Théorie de projet 3</a></li>
+    <li><a href="construction1.html">🧱 Construction 1</a></li>
+    <li><a href="rdm1.html">⚙️ Résistance des matériaux 1</a></li>
+    <li><a href="dao.html">💻 DAO</a></li>
+    <li><a href="analyse-spatiale.html">🗺️ Analyse spatiale et cartographie</a></li>
+    <li><a href="sociologie.html">👥 Sociologie et Anthropologie de l’espace</a></li>
+    <li><a href="stage3.html">🏞️ Stage découverte 3</a></li>
+    <hr>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
+</aside>
+
+<main>
+  <h1 class="section-title">🧱 Construction 1</h1>
+  
+  <div class="lesson">
+    <h3>Objectifs العامة</h3>
+    <p>
+      تهدف هذه المادة إلى تعريف الطلاب بالجوانب المختلفة لنظم الإنشاء. سيتم تقديم مفاهيم وظيفية لكل عنصر إنشائي وتجميعاته، من الأساسات إلى السطح. سيتعلم الطلاب كيفية تمثيل هذه الأنظمة وفقًا للقواعد الفنية، بدءًا من الأساسات ثم الجدران والأسقف.
+    </p>
+    <p>
+      الهدف هو جعل الطالب يكتسب معرفة أساسية بالإنشاءات ويتعرف على المخططات التي تمثل العمليات التقنية.
+    </p>
+  </div>
+
+  <div class="lesson">
+    <h3>محتوى المادة</h3>
+    <h4>الوحدة الأولى: الأساسات (Les fondations)</h4>
+    <ul>
+      <li>تعريف الأساسات، وأنواعها.</li>
+      <li>أساسات البناء الفردي (fondations superficielles):
+        <ul>
+          <li>الأساسات المستمرة (semelles filantes)</li>
+          <li>الأساسات المنعزلة (semelles isolées)</li>
+          <li>الأساسات الكلية (radier général)</li>
+        </ul>
+      </li>
+      <li>الأساسات العميقة (fondations profondes): الركائز (pieux)</li>
+    </ul>
+
+    <h4>الوحدة الثانية: الجدران (Les murs)</h4>
+    <ul>
+      <li>تعريف الجدران، وظيفتها، وأنواعها (جدران حاملة، جدران عازلة، إلخ).</li>
+      <li>أنواع الجدران حسب المواد: الحجارة، الطوب، الخرسانة، الخرسانة المسلحة، إلخ.</li>
+      <li>تفاصيل الجدران (Les détails des murs):
+        <ul>
+          <li>وصلات الجدران</li>
+          <li>الفتحات في الجدران (les ouvertures)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>الوحدة الثالثة: الأسقف (Les planchers)</h4>
+    <ul>
+      <li>تعريف الأسقف، وظيفتها، وأنواعها (أسقف خرسانية، أسقف خشبية، إلخ).</li>
+      <li>أسقف الخرسانة المسلحة:
+        <ul>
+          <li>الأرضيات العادية (dalles pleines)</li>
+          <li>الأسقف ذات الأعصاب (planchers nervurés)</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="lesson">
+    <h3>معامل المادة ونظام التقييم</h3>
+    <ul>
+      <li>المعامل: 2</li>
+      <li>العلامة الإقصائية: أقل من 07/20</li>
+    </ul>
+    <p>
+      **نظام التقييم:**
+      <ul>
+        <li>الامتحان: 60%</li>
+        <li>التقييم المستمر: 40%</li>
+        <li>المجموع: 100%</li>
+      </ul>
+    </p>
+  </div>
+
+  <footer>
+    © 2025 ArchiSpace – Tous droits réservés.
+  </footer>
+</main>
+
+<script>
+  const sidebar = document.querySelector('aside');
+  const toggleBtn = document.getElementById('toggleSidebar');
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+  });
+</script>
+
+</body>
+</html>
