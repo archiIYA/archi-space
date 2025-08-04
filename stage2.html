@@ -1,117 +1,185 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Stage découverte 2 - Semestre 2 - Architecture">
-  <title>Stage découverte 2</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .lesson { margin-bottom: 20px; }
-    .lesson-title { font-weight: bold; margin-top: 15px; }
-    .button-group button {
-      margin-right: 10px;
-      padding: 5px 10px;
-      border: none;
-      background-color: #eee;
-      cursor: pointer;
-    }
-    .sidebar { display: none; position: fixed; top: 0; left: 0; width: 260px; height: 100%; background: #f0f0f0; padding: 15px; overflow-y: auto; z-index: 1000; }
-    .sidebar a { display: block; padding: 8px 0; text-decoration: none; color: #333; }
-    .dropdown { cursor: pointer; font-weight: bold; margin-top: 10px; }
-    .submenu { display: none; margin-left: 15px; }
-    .menu-button { position: fixed; top: 10px; left: 10px; background: #333; color: white; padding: 10px; cursor: pointer; z-index: 1100; }
-    .return-button { margin-top: 20px; display: block; color: #000; text-decoration: none; font-weight: bold; }
-  </style>
-  <script>
-    function toggleSidebar() {
-      var sidebar = document.getElementById("sidebar");
-      sidebar.style.display = (sidebar.style.display === "block") ? "none" : "block";
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Stage découverte 2 - Semestre 2 - Architecture">
+  <title>Stage découverte 2</title>
+  <link rel="stylesheet" href="style.css" />
 
-    function toggleSubmenu(id) {
-      var menu = document.getElementById(id);
-      menu.style.display = (menu.style.display === "block") ? "none" : "block";
-    }
-  </script>
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.appspot.com",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const premiumButton1 = document.getElementById('premiumButton1');
+      const loadingMessage1 = document.getElementById('loadingMessage1');
+
+      if (premiumButton1) {
+        premiumButton1.addEventListener('click', async (e) => {
+          e.preventDefault();
+          loadingMessage1.textContent = 'يتم التحقق من حالة اشتراكك...';
+          loadingMessage1.style.display = 'block';
+          const user = auth.currentUser;
+
+          if (!user) {
+            loadingMessage1.textContent = 'يجب عليك تسجيل الدخول أولاً.';
+            return;
+          }
+
+          try {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            if (userDoc.exists() && userDoc.data().isPremium) {
+              loadingMessage1.textContent = 'يتم إنشاء رابط التحميل...';
+              const pdfRef = ref(storage, 'premium-files/stage-2-premium.pdf'); // عدّل هذا المسار
+              const downloadURL = await getDownloadURL(pdfRef);
+              loadingMessage1.textContent = 'تم العثور على الملف، يتم التحميل...';
+              window.open(downloadURL, '_blank');
+            } else {
+              loadingMessage1.textContent = 'هذا المحتوى خاص بالمشتركين فقط.';
+            }
+          } catch (error) {
+            console.error("حدث خطأ:", error);
+            loadingMessage1.textContent = 'حدث خطأ ما. يرجى المحاولة لاحقًا.';
+          }
+        });
+      }
+    });
+  </script>
+    <style>
+    /* ... (كود الـ CSS لم يتغير) ... */
+    body { font-family: 'Rubik', sans-serif; }
+    .lesson { margin-bottom: 20px; }
+    .lesson-title { font-weight: bold; margin-top: 15px; }
+    .button-group button {
+      margin-right: 10px;
+      padding: 5px 10px;
+      border: none;
+      background-color: #eee;
+      cursor: pointer;
+    }
+    .sidebar { display: none; position: fixed; top: 0; left: 0; width: 260px; height: 100%; background: #f0f0f0; padding: 15px; overflow-y: auto; z-index: 1000; }
+    .sidebar a { display: block; padding: 8px 0; text-decoration: none; color: #333; }
+    .dropdown { cursor: pointer; font-weight: bold; margin-top: 10px; }
+    .submenu { display: none; margin-left: 15px; }
+    .menu-button { position: fixed; top: 10px; left: 10px; background: #333; color: white; padding: 10px; cursor: pointer; z-index: 1100; }
+    .return-button { margin-top: 20px; display: block; color: #000; text-decoration: none; font-weight: bold; }
+  </style>
+  <script>
+    function toggleSidebar() {
+      var sidebar = document.getElementById("sidebar");
+      sidebar.style.display = (sidebar.style.display === "block") ? "none" : "block";
+    }
+
+    function toggleSubmenu(id) {
+      var menu = document.getElementById(id);
+      menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    }
+  </script>
 </head>
 <body>
 
 <div class="menu-button" onclick="toggleSidebar()">☰ Menu</div>
 
 <div id="sidebar" class="sidebar">
-  <a href="lecteur.html" class="return-button">🔙 Retour à l'accueil</a>
+  <a href="sem2.html" class="return-button">🔙 Retour à Semestre 2</a>
+  <a href="lecteur.html" class="return-button">🔙 Retour à l'accueil</a>
 
-  <div class="dropdown" onclick="toggleSubmenu('y1')">Année 1</div>
-  <div class="submenu" id="y1">
-    <a href="sem1.html">Semestre 1</a>
-    <a href="sem2.html">Semestre 2</a>
-  </div>
+  <div class="dropdown" onclick="toggleSubmenu('y1')">Année 1</div>
+  <div class="submenu" id="y1">
+    <a href="sem1.html">Semestre 1</a>
+    <a href="sem2.html">Semestre 2</a>
+  </div>
 
-  <div class="dropdown" onclick="toggleSubmenu('y2')">Année 2</div>
-  <div class="submenu" id="y2">
-    <a href="sem3.html">Semestre 3</a>
-    <a href="sem4.html">Semestre 4</a>
-  </div>
+  <div class="dropdown" onclick="toggleSubmenu('y2')">Année 2</div>
+  <div class="submenu" id="y2">
+    <a href="sem3.html">Semestre 3</a>
+    <a href="sem4.html">Semestre 4</a>
+  </div>
 
-  <div class="dropdown" onclick="toggleSubmenu('y3')">Année 3</div>
-  <div class="submenu" id="y3">
-    <a href="sem5.html">Semestre 5</a>
-    <a href="sem6.html">Semestre 6</a>
-  </div>
+  <div class="dropdown" onclick="toggleSubmenu('y3')">Année 3</div>
+  <div class="submenu" id="y3">
+    <a href="sem5.html">Semestre 5</a>
+    <a href="sem6.html">Semestre 6</a>
+    <a href="stage.html">Stage pratique</a>
+  </div>
 
-  <div class="dropdown" onclick="toggleSubmenu('y4')">Année 4</div>
-  <div class="submenu" id="y4">
-    <a href="sem7.html">Semestre 7</a>
-    <a href="sem8.html">Semestre 8</a>
-  </div>
+  <div class="dropdown" onclick="toggleSubmenu('y4')">Année 4</div>
+  <div class="submenu" id="y4">
+    <a href="sem7.html">Semestre 7</a>
+    <a href="sem8.html">Semestre 8</a>
+  </div>
 
-  <div class="dropdown" onclick="toggleSubmenu('y5')">Année 5</div>
-  <div class="submenu" id="y5">
-    <a href="sem9.html">Semestre 9</a>
-    <a href="sem10.html">Semestre 10</a>
-  </div>
+  <div class="dropdown" onclick="toggleSubmenu('y5')">Année 5</div>
+  <div class="submenu" id="y5">
+    <a href="sem9.html">Semestre 9</a>
+    <a href="sem10.html">Semestre 10</a>
+  </div>
 </div>
 
 <h1>🏗️ Stage découverte 2</h1>
 
 <div class="content">
 
-  <div class="lesson">
-    <div class="lesson-title">1. Visites guidées de sites</div>
-    <p>
-      Découverte progressive de sites historiques algériens : phéniciens, romains, byzantins, médinas anciennes, sites ottomans, établissements coloniaux et réalisations contemporaines.
-    </p>
-    <div class="button-group">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <div class="lesson-title">1. Visites guidées de sites</div>
+    <p>
+      Découverte progressive de sites historiques algériens : phéniciens, romains, byzantins, médinas anciennes, sites ottomans, établissements coloniaux et réalisations contemporaines.
+    </p>
+    <div class="button-group">
+      <a href="link-to-your-pdf-file.pdf"><button>📄 PDF</button></a>
+      <button>🎥 Vidéo</button>
+      <button id="premiumButton1">⭐ Premium</button>
+      <p id="loadingMessage1" style="display:none; color:#d9534f; margin-top:10px;"></p>
+    </div>
+  </div>
 
-  <div class="lesson">
-    <div class="lesson-title">2. Observation et documentation</div>
-    <p>
-      Les étudiants sont encouragés à observer, dessiner, photographier et décrire les éléments architecturaux rencontrés lors des sorties pédagogiques.
-    </p>
-    <div class="button-group">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <div class="lesson-title">2. Observation et documentation</div>
+    <p>
+      Les étudiants sont encouragés à observer, dessiner, photographier et décrire les éléments architecturaux rencontrés lors des sorties pédagogiques.
+    </p>
+    <div class="button-group">
+      <a href="link-to-your-pdf-file.pdf"><button>📄 PDF</button></a>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
 
-  <div class="lesson">
-    <div class="lesson-title">3. Rédaction de comptes rendus</div>
-    <p>
-      Chaque visite est suivie de la rédaction d’un compte rendu structuré de 10 à 15 pages, incluant textes et photos, à remettre au format papier (A4) et numérique.
-    </p>
-    <div class="button-group">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <div class="lesson-title">3. Rédaction de comptes rendus</div>
+    <p>
+      Chaque visite est suivie de la rédaction d’un compte rendu structuré de 10 à 15 pages, incluant textes et photos, à remettre au format papier (A4) et numérique.
+    </p>
+    <div class="button-group">
+      <a href="link-to-your-pdf-file.pdf"><button>📄 PDF</button></a>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
 
 </div>
 
