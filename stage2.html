@@ -1,295 +1,227 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Stage découverte 2</title>
-  <meta name="description" content="Stage découverte 2 - Semestre 2 - Architecture">
-  
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Rubik', sans-serif;
-      background: #fff;
-      color: #111;
-      display: flex;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Stage découverte 2 - Semestre 2 - Architecture">
+  <title>Stage découverte 2</title>
 
-    aside {
-      width: 240px;
-      background-color: #f4f4f4;
-      height: 100vh;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      overflow-y: auto;
-      position: fixed;
-      left: 0;
-      top: 0;
-      transform: translateX(0);
-      transition: transform 0.3s ease;
-      z-index: 998;
-    }
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    aside.hidden {
-      transform: translateX(-260px);
-    }
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    .back-button {
-      margin-bottom: 20px;
-      background-color: #ddd;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: 600;
-      transition: background-color 0.3s;
-    }
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.appspot.com",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
 
-    .back-button:hover {
-      background-color: #ccc;
-    }
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-    aside h2 {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
+    // التحقق من تسجيل الدخول
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "login.html"; 
+      }
+    });
+  </script>
 
-    aside a {
-      display: block;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-decoration: none;
-      color: #333;
-      border-radius: 6px;
-      transition: background 0.3s;
-    }
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #ffffff;
+      color: #000;
+    }
 
-    aside a:hover {
-      background-color: #ddd;
-    }
+    /* زر القائمة */
+    #menuBtn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background: #333;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 6px;
+      z-index: 1100;
+    }
 
-    #toggleSidebar {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 999;
-      background-color: #111;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+    /* القائمة الجانبية */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      background: #f4f4f4;
+      overflow-y: auto;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      transform: translateX(-260px);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
 
-    main {
-      flex-grow: 1;
-      padding: 30px;
-      margin-left: 240px;
-      transition: margin-left 0.3s ease;
-    }
+    .sidebar.active {
+      transform: translateX(0);
+    }
 
-    aside.hidden ~ main {
-      margin-left: 0;
-    }
+    .sidebar a {
+      display: block;
+      padding: 10px 0;
+      text-decoration: none;
+      color: #333;
+      border-radius: 6px;
+    }
 
-    .section-title {
-      font-size: 26px;
-      margin-bottom: 20px;
-      color: #000;
-    }
+    .sidebar a:hover {
+      background-color: #ddd;
+    }
 
-    .lesson {
-      margin-bottom: 30px;
-      background: #fafafa;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
+    .dropdown { font-weight: 600; cursor: pointer; margin-top: 15px; }
+    .submenu { display: none; margin-left: 15px; }
 
-    .lesson h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      color: #222;
-    }
+    main {
+      margin-left: 0;
+      padding: 30px;
+      transition: margin-left 0.3s ease;
+    }
 
-    .buttons {
-      margin-top: 10px;
-    }
+    .sidebar.active ~ main {
+      margin-left: 240px;
+    }
 
-    .buttons button {
-      background: none;
-      border: none;
-      margin-right: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+    h1 {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
 
-    .buttons button:hover {
-      opacity: 0.7;
-    }
+    .lesson {
+      margin-bottom: 25px;
+      background: #fafafa;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
 
-    footer {
-      margin-top: 50px;
-      font-size: 13px;
-      color: #888;
-      text-align: center;
-    }
-  </style>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+    .lesson-title { font-weight: bold; margin-bottom: 10px; }
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-      authDomain: "archi-space-72624.firebaseapp.com",
-      projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.appspot.com",
-      messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:c914a78566b882b80df7b8",
-      measurementId: "G-RZV7LSDQBD"
-    };
+    .button-group button {
+      margin-right: 10px;
+      padding: 8px 15px;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+    }
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
+    .pdf-btn { background-color: #3498db; color: white; }
+    .video-btn { background-color: #27ae60; color: white; }
+    .premium-btn { background-color: #f39c12; color: white; }
 
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "index.html";
-      }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const premiumButton1 = document.getElementById('premiumButton1');
-      const loadingMessage1 = document.getElementById('loadingMessage1');
-
-      if (premiumButton1) {
-        premiumButton1.addEventListener('click', async (e) => {
-          e.preventDefault();
-          
-          loadingMessage1.textContent = 'يتم التحقق من حالة اشتراكك...';
-          loadingMessage1.style.display = 'block';
-          
-          const user = auth.currentUser;
-
-          if (!user) {
-            loadingMessage1.textContent = 'يجب عليك تسجيل الدخول أولاً.';
-            return;
-          }
-
-          try {
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            
-            if (userDoc.exists() && userDoc.data().isPremium) {
-              loadingMessage1.textContent = 'يتم إنشاء رابط التحميل...';
-              const pdfRef = ref(storage, 'premium-files/stage-2-premium.pdf'); // قم بتغيير مسار الملف
-              const downloadURL = await getDownloadURL(pdfRef);
-              
-              loadingMessage1.textContent = 'تم العثور على الملف، يتم التحميل...';
-              window.open(downloadURL, '_blank');
-              
-            } else {
-              loadingMessage1.textContent = 'هذا المحتوى خاص بالمشتركين فقط.';
-            }
-          } catch (error) {
-            console.error("حدث خطأ:", error);
-            loadingMessage1.textContent = 'حدث خطأ ما. يرجى المحاولة لاحقًا.';
-          }
-        });
-      }
-    });
-  </script>
+    #loadingMessage1 {
+      display: none;
+      color: #d9534f;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
 
-<button id="toggleSidebar">☰ Menu</button>
+<button id="menuBtn" onclick="toggleSidebar()">☰ Menu</button>
 
-<aside class="sidebar">
-  <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
-  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+<div id="sidebar" class="sidebar">
+  <a href="sem2.html">🔙 Retour à Semestre 2</a>
+  <a href="lecteur.html">🏠 Accueil</a>
 
-  <div class="sidebar-header">
-    <h2>📚 Année 1 - Semestre 2</h2>
-  </div>
+  <div class="dropdown" onclick="toggleSubmenu('y1')">Année 1</div>
+  <div class="submenu" id="y1">
+    <a href="sem1.html">Semestre 1</a>
+    <a href="sem2.html">Semestre 2</a>
+  </div>
 
-  <ul class="sidebar-menu">
-    <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
-    <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
-    <li><a href="theorie2.html">📘 Théorie de projet 2</a></li>
-    <li><a href="geometrie2.html">📏 Géométrie de l’espace 2</a></li>
-    <li><a href="tmc2.html">🧱 TMC 2</a></li>
-    <li><a href="physique.html">🔬 Physique du bâtiment</a></li>
-    <li><a href="expression2.html">🗣️ Expression écrite</a></li>
-    <li><a href="stage2.html">🏞️ Stage découverte 2</a></li>
-    <hr>
-    <li><a href="projets.html">💼 Projets</a></li>
-    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
-  </ul>
-</aside>
+  <div class="dropdown" onclick="toggleSubmenu('y2')">Année 2</div>
+  <div class="submenu" id="y2">
+    <a href="sem3.html">Semestre 3</a>
+    <a href="sem4.html">Semestre 4</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('y3')">Année 3</div>
+  <div class="submenu" id="y3">
+    <a href="sem5.html">Semestre 5</a>
+    <a href="sem6.html">Semestre 6</a>
+    <a href="stage.html">Stage pratique</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('y4')">Année 4</div>
+  <div class="submenu" id="y4">
+    <a href="sem7.html">Semestre 7</a>
+    <a href="sem8.html">Semestre 8</a>
+  </div>
+
+  <div class="dropdown" onclick="toggleSubmenu('y5')">Année 5</div>
+  <div class="submenu" id="y5">
+    <a href="sem9.html">Semestre 9</a>
+    <a href="sem10.html">Semestre 10</a>
+  </div>
+</div>
 
 <main>
-  <h1 class="section-title">🏗️ Stage découverte 2</h1>
-  
-  <div class="lesson">
-    <h3>Visites guidées de sites</h3>
-    <p>
-      Découverte progressive de sites historiques algériens : phéniciens, romains, byzantins, médinas anciennes, sites ottomans, établissements coloniaux et réalisations contemporaines.
-    </p>
-    <div class="buttons">
-    
-        <button>📄 PDF</button>
-      </a>
-      <button>🎥 Vidéo</button>
-      <button id="premiumButton1">⭐ Premium</button>
-      <p id="loadingMessage1" style="display:none; color:#d9534f; margin-top:10px;"></p>
-    </div>
-  </div>
+  <h1>🏗️ Stage découverte 2</h1>
 
-  <div class="lesson">
-    <h3>Observation et documentation</h3>
-    <p>
-      Les étudiants sont encouragés à observer, dessiner, photographier et décrire les éléments architecturaux rencontréين lors des sorties pédagogiques.
-    </p>
-    <div class="buttons">
-     
-        <button>📄 PDF</button>
-      </a>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <div class="lesson-title">1. Visites guidées de sites</div>
+    <p>Découverte de sites historiques : phéniciens, romains, byzantins, ottomans, colonies et réalisations contemporaines.</p>
+    <div class="button-group">
+      <button class="pdf-btn">📄 PDF</button>
+      <button class="video-btn">🎥 Vidéo</button>
+      <button class="premium-btn" id="premiumButton1">⭐ Premium</button>
+      <p id="loadingMessage1"></p>
+    </div>
+  </div>
 
-  <div class="lesson">
-    <h3>Rédaction de comptes rendus</h3>
-    <p>
-      Chaque visite est suivie de la rédaction d’un compte rendu structuré de 10 à 15 pages، incluant textes et photos، à remettre au format papier (A4) et numérique.
-    </p>
-    <div class="buttons">
-      
-        <button>📄 PDF</button>
-      </a>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
+  <div class="lesson">
+    <div class="lesson-title">2. Observation et documentation</div>
+    <p>Observer, dessiner, photographier et décrire les éléments architecturaux rencontrés.</p>
+    <div class="button-group">
+      <button class="pdf-btn">📄 PDF</button>
+      <button class="video-btn">🎥 Vidéo</button>
+      <button class="premium-btn">⭐ Premium</button>
+    </div>
+  </div>
 
-  <footer>
-    © 2025 ArchiSpace – Tous droits réservés.
-  </footer>
+  <div class="lesson">
+    <div class="lesson-title">3. Rédaction de comptes rendus</div>
+    <p>Chaque visite est suivie d’un rapport de 10 à 15 pages incluant textes et photos.</p>
+    <div class="button-group">
+      <button class="pdf-btn">📄 PDF</button>
+      <button class="video-btn">🎥 Vidéo</button>
+      <button class="premium-btn">⭐ Premium</button>
+    </div>
+  </div>
 </main>
 
 <script>
-  const sidebar = document.querySelector('aside');
-  const toggleBtn = document.getElementById('toggleSidebar');
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('hidden');
-  });
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('active');
+  }
+  function toggleSubmenu(id) {
+    const menu = document.getElementById(id);
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+  }
 </script>
 
 </body>
