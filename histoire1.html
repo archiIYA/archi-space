@@ -36,9 +36,8 @@
     }
   });
 
-  // كود منطق التحقق من اشتراك البريميوم
+  // كود منطق التحقق من اشتراك البريميوم (كما في ملفك)
   document.addEventListener('DOMContentLoaded', () => {
-    // يمكنك تكرار هذا الكود لكل زر بريميوم مع تغيير الـ ID واسم الملف
     const premiumButton1 = document.getElementById('premiumButton1');
     const loadingMessage1 = document.getElementById('loadingMessage1');
 
@@ -61,7 +60,6 @@
           
           if (userDoc.exists() && userDoc.data().isPremium) {
             loadingMessage1.textContent = 'يتم إنشاء رابط التحميل...';
-            // قم بتغيير مسار الملف إلى مسار ملفك في Firebase Storage
             const pdfRef = ref(storage, 'premium-files/histoire-lesson-1.pdf');
             const downloadURL = await getDownloadURL(pdfRef);
             
@@ -81,14 +79,16 @@
 
   </script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    /* === صفحة ArchiSpace الأساسية (محفوظ التصميم كما طلبت) === */
     body {
       margin: 0;
       font-family: 'Rubik', sans-serif;
       background: #fff;
       color: #111;
       display: flex;
+      min-height: 100vh;
     }
 
     aside {
@@ -178,32 +178,44 @@
 
     .lesson {
       margin-bottom: 30px;
-      background: #fafafa;
+      background: linear-gradient(180deg, #fbfbfb 0%, #ffffff 100%);
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 6px 18px rgba(8,24,40,0.06);
+      border: 1px solid rgba(15,23,42,0.04);
     }
 
     .lesson h3 {
       font-size: 20px;
       margin-bottom: 10px;
       color: #222;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
     }
 
     .buttons {
       margin-top: 10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
     }
 
-    .buttons button {
+    .buttons a, .buttons button {
       background: none;
-      border: none;
-      margin-right: 10px;
+      border: 1px solid #e6e6e6;
+      padding:8px 12px;
+      border-radius:8px;
+      margin-right: 6px;
       font-size: 16px;
       cursor: pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+      background-color:#fff;
     }
 
-    .buttons button:hover {
-      opacity: 0.7;
+    .buttons a:hover, .buttons button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(8,24,40,0.06);
     }
 
     footer {
@@ -211,6 +223,84 @@
       font-size: 13px;
       color: #888;
       text-align: center;
+    }
+
+    /* === ستايل النافذة المنبثقة للكويز === */
+    .quiz-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      background: linear-gradient(0deg, rgba(2,6,23,0.55), rgba(2,6,23,0.55));
+      padding: 24px;
+    }
+
+    .quiz-card {
+      width: 100%;
+      max-width: 920px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 20px 50px rgba(2,6,23,0.4);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: pop .18s ease;
+    }
+
+    @keyframes pop {
+      from { transform: translateY(12px) scale(.99); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .quiz-header {
+      padding: 18px 22px;
+      background: linear-gradient(90deg,#0ea5a4,#0ea5a4 60%, #06b6d4 100%);
+      color: #fff;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .quiz-header h2 { margin:0; font-size:18px; }
+    .quiz-controls { display:flex; gap:12px; align-items:center; }
+
+    .quiz-body {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+    }
+
+    .question-area { background:#fbfdff; padding:18px; border-radius:10px; min-height:260px; }
+    .question-index { font-size:13px; color:#666; margin-bottom:8px; }
+    .question-text { font-size:18px; color:#0f172a; margin-bottom:12px; }
+
+    .options { display:flex; flex-direction:column; gap:10px; }
+    .option { background:#fff; border:1px solid #e6eef2; padding:12px 14px; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:10px; }
+    .option input { transform:scale(1.15); }
+    .option.disabled { opacity:0.6; pointer-events:none; }
+
+    .sidebar-panel { background:#ffffff; border-radius:10px; padding:14px; border:1px solid #eef6f9; height:100%; }
+    .timer { font-weight:700; font-size:20px; color:#0f172a; }
+    .meta { margin-top:12px; color:#475569; font-size:14px; }
+    .nav-buttons { display:flex; gap:10px; margin-top:18px; }
+    .btn { padding:10px 14px; border-radius:8px; background:#0ea5a4; color:#fff; border:none; cursor:pointer; font-weight:600; }
+    .btn.secondary { background:#e6eef2; color:#0f172a; }
+
+    .close-quiz { background:transparent; border:0; color:rgba(255,255,255,0.9); font-weight:700; cursor:pointer; }
+
+    .result { padding:20px; }
+    .result h3 { margin-top:0; }
+    .answers-list { margin-top:12px; display:flex; flex-direction:column; gap:10px; max-height:320px; overflow:auto; }
+    .answer-item { background:#fcfcff; border:1px solid #eef2ff; padding:12px; border-radius:8px; }
+
+    /* small screens */
+    @media (max-width: 880px) {
+      .quiz-body { grid-template-columns: 1fr; }
+      .sidebar-panel { order: -1; }
+      .quiz-card { max-width: 96%; }
     }
   </style>
 </head>
@@ -247,7 +337,12 @@
   <h1 class="section-title">🏛️ Histoire de l’Architecture 1</h1>
 
   <div class="lesson">
-    <h3>La préhistoire et les premiers refuges</h3>
+    <h3>
+      <span>La préhistoire et les premiers refuges</span>
+      <span>
+        <button id="openQuizBtn" title="Ouvrir le quiz" style="background:#06b6d4;color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;">📝 Quiz</button>
+      </span>
+    </h3>
     <div class="buttons">
       <a href="cours_1_prehistoire.pdf">
         <button>📄 PDF</button>
@@ -258,6 +353,7 @@
     </div>
   </div>
 
+  <!-- بقية الدروس كما في الكود الأصلي -->
   <div class="lesson">
     <h3>Architecture mésopotamienne</h3>
     <div class="buttons">
@@ -329,13 +425,519 @@
   </footer>
 </main>
 
-<script>
-  const sidebar = document.querySelector('aside');
-  const toggleBtn = document.getElementById('toggleSidebar');
+<!-- === Modal Quiz === -->
+<div id="quizModal" class="quiz-modal" aria-hidden="true">
+  <div class="quiz-card" role="dialog" aria-modal="true">
+    <div class="quiz-header">
+      <h2>Quiz — La préhistoire et les premiers refuges</h2>
+      <div class="quiz-controls">
+        <div style="font-size:13px;opacity:0.95;">Choisissez le type :</div>
+        <select id="quizTypeSelect" style="padding:6px 10px; border-radius:8px; border:none; font-weight:600;">
+          <option value="QCM">QCM (choix multiples)</option>
+          <option value="QCS">QCS (choix unique)</option>
+          <option value="VF">Vrai / Faux</option>
+        </select>
+        <button class="close-quiz" id="closeQuizBtn">✕</button>
+      </div>
+    </div>
 
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('hidden');
+    <div class="quiz-body">
+      <div class="question-area">
+        <div class="question-index" id="questionIndex">Question 1 / 30</div>
+        <div class="question-text" id="questionText">Choisissez un type puis démarrez.</div>
+
+        <div class="options" id="optionsContainer">
+          <!-- options générées ديناميكياً -->
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn secondary" id="prevBtn" disabled>◀ Précédent</button>
+          <button class="btn secondary" id="nextBtn" disabled>Suivant ▶</button>
+          <button class="btn" id="submitBtn" style="display:none;">Soumettre</button>
+        </div>
+      </div>
+
+      <div class="sidebar-panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:13px;color:#64748b;">Timer</div>
+            <div class="timer" id="timerDisplay">00:00</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:13px;color:#64748b;">Score</div>
+            <div style="font-weight:700; font-size:18px;" id="scoreDisplay">0</div>
+          </div>
+        </div>
+
+        <div class="meta">
+          <div>Type: <span id="selectedType">—</span></div>
+          <div style="margin-top:8px;">Questions totales: <b id="totalQuestions">30</b></div>
+          <div style="margin-top:6px;">Questions restantes: <b id="remainingQuestions">30</b></div>
+          <div style="margin-top:8px;">Réessayer les mauvaises réponses: <input type="checkbox" id="retryWrong" checked></div>
+        </div>
+
+        <div style="margin-top:14px;">
+          <button class="btn" id="startBtn">Commencer</button>
+          <button class="btn secondary" id="endEarlyBtn" style="margin-left:8px;">Finir maintenant</button>
+        </div>
+
+        <div style="margin-top:12px; font-size:13px; color:#475569;">
+          <div>Navigation: utilisez ◀ / ▶ ou les boutons.</div>
+          <div style="margin-top:8px;">Après soumission, les erreurs seront regroupées et proposées à nouveau.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="resultArea" style="display:none;" class="result">
+      <h3>Résultat</h3>
+      <div id="resultSummary"></div>
+      <div class="answers-list" id="answersList"></div>
+      <div style="margin-top:14px;">
+        <button class="btn" id="retryBtn">Reprendre les questions incorrectes</button>
+        <button class="btn secondary" id="closeResultBtn" style="margin-left:10px;">Fermer</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* Sidebar toggle */
+const sidebar = document.querySelector('aside');
+const toggleBtn = document.getElementById('toggleSidebar');
+toggleBtn.addEventListener('click', () => sidebar.classList.toggle('hidden'));
+
+/* Quiz logic */
+const openQuizBtn = document.getElementById('openQuizBtn');
+const quizModal = document.getElementById('quizModal');
+const closeQuizBtn = document.getElementById('closeQuizBtn');
+const startBtn = document.getElementById('startBtn');
+const endEarlyBtn = document.getElementById('endEarlyBtn');
+const submitBtn = document.getElementById('submitBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const questionText = document.getElementById('questionText');
+const optionsContainer = document.getElementById('optionsContainer');
+const questionIndex = document.getElementById('questionIndex');
+const timerDisplay = document.getElementById('timerDisplay');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const selectedTypeLabel = document.getElementById('selectedType');
+const totalQuestionsLabel = document.getElementById('totalQuestions');
+const remainingQuestionsLabel = document.getElementById('remainingQuestions');
+const retryWrongInput = document.getElementById('retryWrong');
+const resultArea = document.getElementById('resultArea');
+const resultSummary = document.getElementById('resultSummary');
+const answersList = document.getElementById('answersList');
+const retryBtn = document.getElementById('retryBtn');
+const closeResultBtn = document.getElementById('closeResultBtn');
+const quizTypeSelect = document.getElementById('quizTypeSelect');
+
+let allQuestions = []; // loaded below
+let currentSet = []; // filtered by type
+let currentIndex = 0;
+let answers = []; // user answers per question (arrays of indices)
+let score = 0;
+let timer = null;
+let timeLeft = 20 * 60; // default 20 minutes for full quiz (modifiable)
+let questionTimeLimit = 0; // not per-question here, global timer
+let wrongQuestions = [];
+let retryMode = false;
+
+/* === QUESTIONS DATA (90 questions) ===
+   Each question: { id, type: 'QCM'|'QCS'|'VF', question: '', options: [], answer: [indices] }
+   For Vrai/Faux options are ["Vrai","Faux"] and answer is [0] or [1]
+   The list is ordered from moyen -> très difficile.
+*/
+allQuestions = [
+/* ----- QCM 1..30 (choix multiples) ----- */
+{ id: 'qcm1', type:'QCM', question:"Quelles sont les caractéristiques principales du Paléolithique ?", options:["Agriculture et élevage","Taille de pierre","Chasse et cueillette","Maîtrise du feu"], answer:[1,2,3]},
+{ id: 'qcm2', type:'QCM', question:"Quelles innovations techniques sont associées au Paléolithique ?", options:["Fabrication de vêtements en peaux","Utilisation de la brique crue","Domestication du chien","Culture des céréales"], answer:[0,2]},
+{ id: 'qcm3', type:'QCM', question:"Parmi ces éléments, lesquels témoignent du Néolithique ?", options:["Pierre polie","Poterie et tissage","Agriculture","Nomadisme"], answer:[0,1,2]},
+{ id: 'qcm4', type:'QCM', question:"Les Natoufiens sont connus pour :", options:["Villages permanents","Aménagement des abris naturels","Usage d’arches monumentales","Utilisation de poteaux de bois"], answer:[0,1,3]},
+{ id: 'qcm5', type:'QCM', question:"Quels facteurs ont favorisé la sédentarisation ?", options:["Climat plus chaud","Proximité des cours d’eau","Disponibilité de pierres taillées","Fertilité du sol"], answer:[0,1,3]},
+{ id: 'qcm6', type:'QCM', question:"Caractéristiques de Çatal Höyük :", options:["Maisons agglutinées","Accès par les toits","Voûtes en pierre","Utilisation de brique crue"], answer:[0,1,3]},
+{ id: 'qcm7', type:'QCM', question:"Avantages d’un habitat proche d’un cours d’eau :", options:["Fertilité des terres","Transport facile","Protection contre inondations","Accès à l’eau potable"], answer:[0,1,3]},
+{ id: 'qcm8', type:'QCM', question:"L’architecture natoufienne comportait :", options:["Cabanes semi-enterrées","Sols dallés","Colonnes en pierre","Enduits muraux peints"], answer:[0,1,3]},
+{ id: 'qcm9', type:'QCM', question:"Les maisons néolithiques utilisaient souvent :", options:["Toit plat","Matériaux locaux","Absence d’étages","Grandes fenêtres"], answer:[0,1,2]},
+{ id: 'qcm10', type:'QCM', question:"Pourquoi utiliser la brique crue ?", options:["Disponibilité des matériaux","Facilité de mise en œuvre","Résistance à l’eau","Isolation thermique"], answer:[0,1,3]},
+{ id: 'qcm11', type:'QCM', question:"Impact du climat sur l’habitat :", options:["Choix des matériaux","Organisation des villages","Apparition des arcs","Proximité des ressources"], answer:[0,1,3]},
+{ id: 'qcm12', type:'QCM', question:"Organisation spatiale de Çatal Höyük :", options:["Densité élevée","Absence de rues traditionnelles","Grande place centrale","Accès par les toits"], answer:[0,1,3]},
+{ id: 'qcm13', type:'QCM', question:"Matériaux utilisés dans les villages natoufiens :", options:["Pierre brute","Bois","Terre crue","Acier"], answer:[0,1,2]},
+{ id: 'qcm14', type:'QCM', question:"Transition Paléolithique → Néolithique inclut :", options:["Agriculture","Élevage","Domestication du cheval","Poterie"], answer:[0,1,3]},
+{ id: 'qcm15', type:'QCM', question:"Aménagement intérieur natoufien : ", options:["Enduits muraux","Poteaux de soutien","Escaliers intérieurs","Sols dallés"], answer:[0,1,3]},
+{ id: 'qcm16', type:'QCM', question:"Structures de défense naturelles utilisées :", options:["Utilisation des pentes","Implantation stratégique","Tours de garde en pierre","Hauteur du terrain"], answer:[0,1,3]},
+{ id: 'qcm17', type:'QCM', question:"Éléments culturels liés à l’habitat préhistorique :", options:["Décoration murale","Organisation collective","Usage du marbre","Espaces rituels"], answer:[0,1,3]},
+{ id: 'qcm18', type:'QCM', question:"Différences majeures Paléolithique/Néolithique :", options:["Nomadisme vs sédentarité","Chasse vs agriculture","Usage de fer","Taille vs polissage de pierre"], answer:[0,1,3]},
+{ id: 'qcm19', type:'QCM', question:"Avantages des toits plats dans les villages néolithiques :", options:["Espace de vie extérieur","Accès direct au logement","Isolation contre pluie forte","Stockage"], answer:[0,1,3]},
+{ id: 'qcm20', type:'QCM', question:"Raisons d’un habitat dense à Çatal Höyük :", options:["Défense collective","Limitation d’espace constructible","Confort thermique absolu","Organisation sociale"], answer:[0,1,3]},
+{ id: 'qcm21', type:'QCM', question:"Quels indices montrent une première spécialisation des tâches ?", options:["Présence d’ateliers","Objets standardisés","Grandes habitations aristocratiques","Réserves alimentaires"], answer:[0,1,3]},
+{ id: 'qcm22', type:'QCM', question:"Les sols dallés et enduits indiquent :", options:["Soin de l’habitat","Symbolisme religieux","Technique de stockage","Absence de mobilier"], answer:[0,2]},
+{ id: 'qcm23', type:'QCM', question:"La fonction des poteaux circulaires au centre des maisons natoufiennes était probablement :", options:["Support de la charpente","Monument funéraire","Espace rituel","Système de ventilation"], answer:[0,2]},
+{ id: 'qcm24', type:'QCM', question:"La densité et l'agglutination des maisons entraîne :", options:["Circulation par toits","Accès privé limité","Présence de rues larges","Organisation collective des terrasses"], answer:[0,1,3]},
+{ id: 'qcm25', type:'QCM', question:"Comment la topographie influence-t-elle le choix du site ?", options:["Protection naturelle","Orientation solaire","Disponibilité d’agrégats","Présence d’arbres"], answer:[0,1]},
+{ id: 'qcm26', type:'QCM', question:"La présence de foyers fixes indique :", options:["Sédentarité partielle","Contrôle du feu","Activités culinaires","Rituel social"], answer:[0,1,2,3]},
+{ id: 'qcm27', type:'QCM', question:"Quel(s) élément(s) définissent un habitat néolithique avancé ?", options:["Briques de terre","Stockage organisé","Chaînes d’échange lointaines","Architecture monumentale"], answer:[0,1,2]},
+{ id: 'qcm28', type:'QCM', question:"Pourquoi l’orientation des rues (ombre/vent) est importante ?", options:["Confort thermique","Évacuation des eaux","Signalisation urbaine","Accès aux marchés"], answer:[0,1]},
+{ id: 'qcm29', type:'QCM', question:"Indices d’une vie collective à Çatal Höyük :", options:["Rituels domestiques","Décors muraux communs","Nao de commerce","Murs partagés entre maisons"], answer:[0,1,3]},
+{ id: 'qcm30', type:'QCM', question:"Ce qui fait qu’un site préhistorique devient un centre majeur :", options:["Ressources abondantes","Emplacement stratégique","Complexité architecturale","Présence d’un pouvoir centralisé"], answer:[0,1,2]},
+
+/* ----- QCS 31..60 (choix simple) ----- */
+{ id:'qcs31', type:'QCS', question:"Quel animal a été domestiqué en premier ?", options:["Chèvre","Chien","Cheval","Bœuf"], answer:[1]},
+{ id:'qcs32', type:'QCS', question:"Le Néolithique commence au Proche-Orient vers :", options:["12 000 av. J.-C.","9 000 av. J.-C.","5 500 av. J.-C.","3 300 av. J.-C."], answer:[1]},
+{ id:'qcs33', type:'QCS', question:"L'utilisation de la brique crue apparaît principalement :", options:["Au Paléolithique","Au Néolithique","En Mésopotamie uniquement","En Égypte ancienne"], answer:[1]},
+{ id:'qcs34', type:'QCS', question:"Quel type d'accès caractérise Çatal Höyük ?", options:["Portes sur rue","Accès par toits","Entrées monumentales","Escaliers extérieurs"], answer:[1]},
+{ id:'qcs35', type:'QCS', question:"La présence de sols dallés indique :", options:["Mobilier mobile","Sédentarité et soin de l’habitat","Absence de pratiques domestiques","Usage rituel uniquement"], answer:[1]},
+{ id:'qcs36', type:'QCS', question:"Les poteries apparaissent massivement au :", options:["Paléolithique","Moyen Âge","Néolithique","Antiquité tardive"], answer:[2]},
+{ id:'qcs37', type:'QCS', question:"Une caractéristique urbaine naissante est :", options:["Présence d’un gouverneur local","Construction en acier","Réseau routier pavé","Systèmes électriques"], answer:[0]},
+{ id:'qcs38', type:'QCS', question:"Le plus grand établissement néolithique connu, Çatal Höyük, se situe en :", options:["Égypte","Anatolie","Mésopotamie","Europe de l’Ouest"], answer:[1]},
+{ id:'qcs39', type:'QCS', question:"Quel élément est typiquement absent des maisons néolithiques ?", options:["Fenêtres larges","Toits plats","Matériaux locaux","Absence d’étages"], answer:[0]},
+{ id:'qcs40', type:'QCS', question:"L’invention de la roue se situe approximativement :", options:["Au Paléolithique","Au Néolithique","À l’époque romaine","Au Moyen Âge"], answer:[1]},
+{ id:'qcs41', type:'QCS', question:"Les maisons semi-enterrées permettent surtout :", options:["Meilleure isolation thermique","Construire des étages","Créer des fenêtres plus grandes","Accès direct par la rue"], answer:[0]},
+{ id:'qcs42', type:'QCS', question:"Quel matériau est le plus utilisé dans les premières constructions permanentes ?", options:["Bois et terre crue","Béton","Marbre","Acier"], answer:[0]},
+{ id:'qcs43', type:'QCS', question:"Les enduits muraux peints témoignent de :", options:["Fonctions domestiques seulement","Formes d’expression symbolique","Absence de savoir-faire","Imitation romaine"], answer:[1]},
+{ id:'qcs44', type:'QCS', question:"La domestication du chien a surtout servi pour :", options:["Transport","Aide à la chasse","Construction","Rituel"], answer:[1]},
+{ id:'qcs45', type:'QCS', question:"La présence d’un puit funéraire indique :", options:["Pratiques de protection contre pillage","Systèmes d’irrigation","Habitudes de stockage","Techniques métallurgiques"], answer:[0]},
+{ id:'qcs46', type:'QCS', question:"L’organisation en terrasses pour accéder aux maisons est typique de :", options:["Çatal Höyük","Rome","Égypte","Grèce"], answer:[0]},
+{ id:'qcs47', type:'QCS', question:"La sédentarisation entraîne principalement :", options:["Réduction des échanges","Développement de l’agriculture","Disparition des rituels","Urbanisme moderne"], answer:[1]},
+{ id:'qcs48', type:'QCS', question:"Un des premiers indices d’architecture planifiée est :", options:["Présence d’alignements réguliers de maisons","Présence de tours médiévales","Usage de marbre","Réseaux d’égouts"], answer:[0]},
+{ id:'qcs49', type:'QCS', question:"Quel critère explique la longévité du site de Çatal Höyük ?", options:["Isolation complète","Fertilité et ressources locales","Climat polaire","Présence d’un roi"], answer:[1]},
+{ id:'qcs50', type:'QCS', question:"Parmi ces techniques, laquelle n’appartient pas aux débuts néolithiques ?", options:["Poterie","Tissage","Usage répandu du métal","Domestication d’animaux"], answer:[2]},
+{ id:'qcs51', type:'QCS', question:"La présence de réserves alimentaires indique :", options:["Activité commerciale","Stockage collectif et planification","Structure militaire","Absence d’élevage"], answer:[1]},
+{ id:'qcs52', type:'QCS', question:"Les poteaux centraux dans une maison servent principalement à :", options:["Supporter la charpente","Servir d’autel religieux","Entrée principale","Système d’évacuation"], answer:[0]},
+{ id:'qcs53', type:'QCS', question:"Quel avantage apporte la proximité d'une rivière ?", options:["Barrière défensive naturelle","Transport et irrigation","Isolation culturelle","Production de marbre"], answer:[1]},
+{ id:'qcs54', type:'QCS', question:"Un signe d’occupation permanente est :", options:["Présence de mobilier mobile seulement","Construction d’éléments fixes comme foyers et silos","Absence de structures durables","Mobilité totale"], answer:[1]},
+{ id:'qcs55', type:'QCS', question:"L’agglutination des maisons à Çatal Höyük favorise :", options:["La vie privée accrue","L’organisation collective et la défense","La création de grandes places ouvertes","La circulation automobile"], answer:[1]},
+{ id:'qcs56', type:'QCS', question:"La poterie décorée indique souvent :", options:["Fonction purement utilitaire","Signes d’identités et échanges culturels","Absence de hiérarchie","Techniques métalliques avancées"], answer:[1]},
+{ id:'qcs57', type:'QCS', question:"Quelle est la principale raison pour laquelle on enterrait les tombes profondément ?", options:["Protection contre le pillage","Rituel de fertilité","Difficulté technique","Esthétique"], answer:[0]},
+{ id:'qcs58', type:'QCS', question:"La construction sur des monticules (tells) est liée à :", options:["Accumulation de vestiges","Prédilection pour l’altitude","Usage cérémoniel","Rareté des matériaux"], answer:[0]},
+{ id:'qcs59', type:'QCS', question:"Une caractéristique des villages densément peuplés est :", options:["Rues larges et orthogonales","Accès par toits et surfaces partagées","Présence d’aqueducs romains","Usage du marbre"], answer:[1]},
+{ id:'qcs60', type:'QCS', question:"Pourquoi l’agriculture a-t-elle transformé l’architecture ?", options:["Moins besoin d’abris","Permet stockage et constructions durables","Remplace l’artisanat","Diminue la population"], answer:[1]},
+
+/* ----- VF 61..90 (Vrai/Faux) ----- */
+{ id:'vf61', type:'VF', question:"Les Natoufiens vivaient uniquement dans des grottes.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf62', type:'VF', question:"La roue apparaît au Néolithique.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf63', type:'VF', question:"Çatal Höyük était construit en pierre taillée uniquement.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf64', type:'VF', question:"La sédentarisation est directement liée au développement de l’agriculture.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf65', type:'VF', question:"Les maisons néolithiques avaient généralement de grandes fenêtres pour la lumière.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf66', type:'VF', question:"Les enduits muraux peints témoignent d’un souci esthétique et symbolique.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf67', type:'VF', question:"La brique crue est un matériau répandu dans les premiers villages permanents.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf68', type:'VF', question:"Les foyers fixes sont un indice d’habitat mobile et non permanent.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf69', type:'VF', question:"Les maisons semi-enterrées offrent une meilleure isolation thermique.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf70', type:'VF', question:"La densité des constructions empêche totalement la vie collective.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf71', type:'VF', question:"Les toits plats peuvent servir d’espace de circulation et d’activité.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf72', type:'VF', question:"La présence d’un puit funéraire sert souvent à protéger la tombe du pillage.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf73', type:'VF', question:"Les villages néolithiques n’avaient aucune organisation spatiale.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf74', type:'VF', question:"Les poteaux centraux dans une maison étaient uniquement décoratifs.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf75', type:'VF', question:"L’orientation des voies et des habitations pouvait répondre à des contraintes climatiques (ombre/vent).", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf76', type:'VF', question:"La sédentarisation n’a eu aucun effet sur la division du travail.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf77', type:'VF', question:"La poterie est un indice de stockage et de sédentarité.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf78', type:'VF', question:"La construction en pierre massive est typique de tous les sites néolithiques.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf79', type:'VF', question:"On trouve des enduits peints et des sols dallés même dans des habitats très anciens.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf80', type:'VF', question:"Les maisons agglutinées favorisent la défense collective.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf81', type:'VF', question:"La disponibilité des ressources locales est secondaire dans le choix du site.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf82', type:'VF', question:"Les villages montrent parfois des signes d’organisation religieuse partagée.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf83', type:'VF', question:"Les techniques de construction évoluent très rapidement sans lien avec l’économie.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf84', type:'VF', question:"L’accumulation de vestiges (tells) est due à des occupations successives.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf85', type:'VF', question:"Les routes et rues larges sont une caractéristique permanente des premiers villages.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf86', type:'VF', question:"La spécialisation des tâches peut être déduite des ateliers identifiés sur les sites.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf87', type:'VF', question:"Les pratiques funéraires n’apportent aucune information sur l’organisation sociale.", options:["Vrai","Faux"], answer:[1]},
+{ id:'vf88', type:'VF', question:"L’étude des matériaux (terre, bois) renseigne sur les choix techniques locaux.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf89', type:'VF', question:"La présence d’objets standardisés indique souvent des échanges et spécialisation.", options:["Vrai","Faux"], answer:[0]},
+{ id:'vf90', type:'VF', question:"Les sites majeurs se développent uniquement pour des raisons religieuses.", options:["Vrai","Faux"], answer:[1]}
+];
+
+/* Helper to filter questions by type */
+function getQuestionsByType(type) {
+  if (type === 'QCM') return allQuestions.filter(q => q.type === 'QCM');
+  if (type === 'QCS') return allQuestions.filter(q => q.type === 'QCS');
+  return allQuestions.filter(q => q.type === 'VF');
+}
+
+/* Open/close modal */
+openQuizBtn.addEventListener('click', () => {
+  quizModal.style.display = 'flex';
+  quizModal.setAttribute('aria-hidden','false');
+  selectedTypeLabel.textContent = quizTypeSelect.value;
+  resetQuizState();
+});
+closeQuizBtn.addEventListener('click', closeQuiz);
+closeResultBtn.addEventListener('click', closeQuiz);
+
+function closeQuiz() {
+  quizModal.style.display = 'none';
+  quizModal.setAttribute('aria-hidden','true');
+  stopTimer();
+  resultArea.style.display = 'none';
+}
+
+/* Start quiz */
+startBtn.addEventListener('click', () => {
+  startQuiz(quizTypeSelect.value);
+});
+
+/* End early */
+endEarlyBtn.addEventListener('click', () => {
+  finishQuiz();
+});
+
+/* Navigation */
+prevBtn.addEventListener('click', () => {
+  saveCurrentAnswer();
+  if (currentIndex > 0) currentIndex--;
+  renderQuestion();
+});
+nextBtn.addEventListener('click', () => {
+  saveCurrentAnswer();
+  if (currentIndex < currentSet.length - 1) currentIndex++;
+  renderQuestion();
+});
+
+/* Submit */
+submitBtn.addEventListener('click', () => {
+  saveCurrentAnswer();
+  finishQuiz();
+});
+
+/* Retry wrong */
+retryBtn.addEventListener('click', () => {
+  if (wrongQuestions.length === 0) return;
+  retryMode = true;
+  currentSet = wrongQuestions.map(id => allQuestions.find(q => q.id === id));
+  totalQuestionsLabel.textContent = currentSet.length;
+  remainingQuestionsLabel.textContent = currentSet.length;
+  answers = Array(currentSet.length).fill(null);
+  wrongQuestions = [];
+  currentIndex = 0;
+  score = 0;
+  scoreDisplay.textContent = score;
+  resultArea.style.display = 'none';
+  selectedTypeLabel.textContent = quizTypeSelect.value + ' (reprise)';
+  startTimer(); // restart timer if desired
+  renderQuestion();
+});
+
+/* Utilities */
+function resetQuizState(){
+  stopTimer();
+  resultArea.style.display = 'none';
+  selectedTypeLabel.textContent = quizTypeSelect.value;
+  totalQuestionsLabel.textContent = 30;
+  remainingQuestionsLabel.textContent = 30;
+  questionText.textContent = "Choisissez un type puis cliquez sur Commencer.";
+  optionsContainer.innerHTML = '';
+  questionIndex.textContent = "Question —";
+  scoreDisplay.textContent = '0';
+  startBtn.disabled = false;
+  submitBtn.style.display = 'none';
+  prevBtn.disabled = true;
+  nextBtn.disabled = true;
+}
+
+function startQuiz(type) {
+  retryMode = false;
+  selectedTypeLabel.textContent = type;
+  currentSet = getQuestionsByType(type);
+  // shuffle to vary? the user asked ordered from moyen->difficile; keep order as is
+  // currentSet = shuffle(currentSet);
+  answers = Array(currentSet.length).fill(null);
+  currentIndex = 0;
+  score = 0;
+  wrongQuestions = [];
+  totalQuestionsLabel.textContent = currentSet.length;
+  remainingQuestionsLabel.textContent = currentSet.length;
+  startBtn.disabled = true;
+  submitBtn.style.display = 'inline-block';
+  prevBtn.disabled = false;
+  nextBtn.disabled = false;
+  scoreDisplay.textContent = score;
+  // start timer
+  timeLeft = 20 * 60; // full set 20 minutes default — you can adjust
+  startTimer();
+  renderQuestion();
+}
+
+/* Timer */
+function startTimer() {
+  stopTimer();
+  updateTimerDisplay();
+  timer = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      stopTimer();
+      finishQuiz();
+    }
+  }, 1000);
+}
+function stopTimer() {
+  if (timer) { clearInterval(timer); timer = null; }
+}
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft/60).toString().padStart(2,'0');
+  const s = (timeLeft%60).toString().padStart(2,'0');
+  timerDisplay.textContent = `${m}:${s}`;
+}
+
+/* Render question */
+function renderQuestion(){
+  const q = currentSet[currentIndex];
+  questionIndex.textContent = `Question ${currentIndex+1} / ${currentSet.length}`;
+  questionText.textContent = q.question;
+  optionsContainer.innerHTML = '';
+  remainingQuestionsLabel.textContent = currentSet.length - currentIndex;
+  selectedTypeLabel.textContent = quizTypeSelect.value + (retryMode ? ' (reprise)' : '');
+  // build options depending on type
+  if (q.type === 'QCM') {
+    q.options.forEach((opt, i) => {
+      const div = document.createElement('label');
+      div.className = 'option';
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.name = 'opt';
+      input.value = i;
+      // restore previous selection if any
+      const prev = answers[currentIndex];
+      if (Array.isArray(prev) && prev.includes(i)) input.checked = true;
+      div.appendChild(input);
+      const span = document.createElement('span');
+      span.textContent = opt;
+      div.appendChild(span);
+      optionsContainer.appendChild(div);
+    });
+  } else if (q.type === 'QCS') {
+    q.options.forEach((opt, i) => {
+      const div = document.createElement('label');
+      div.className = 'option';
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'opt';
+      input.value = i;
+      if (Array.isArray(answers[currentIndex]) && answers[currentIndex][0] === i) input.checked = true;
+      div.appendChild(input);
+      const span = document.createElement('span');
+      span.textContent = opt;
+      div.appendChild(span);
+      optionsContainer.appendChild(div);
+    });
+  } else { // VF
+    ['Vrai','Faux'].forEach((opt, i) => {
+      const div = document.createElement('label');
+      div.className = 'option';
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'opt';
+      input.value = i;
+      if (Array.isArray(answers[currentIndex]) && answers[currentIndex][0] === i) input.checked = true;
+      div.appendChild(input);
+      const span = document.createElement('span');
+      span.textContent = opt;
+      div.appendChild(span);
+      optionsContainer.appendChild(div);
+    });
+  }
+
+  // update nav buttons
+  prevBtn.disabled = currentIndex === 0;
+  nextBtn.disabled = currentIndex === currentSet.length - 1;
+}
+
+/* Save answer for current question */
+function saveCurrentAnswer(){
+  const q = currentSet[currentIndex];
+  const inputs = Array.from(optionsContainer.querySelectorAll('input[name="opt"]'));
+  if (q.type === 'QCM') {
+    const chosen = inputs.filter(i => i.checked).map(i => parseInt(i.value));
+    answers[currentIndex] = chosen.length ? chosen : null;
+  } else {
+    const chosen = inputs.find(i => i.checked);
+    answers[currentIndex] = chosen ? [parseInt(chosen.value)] : null;
+  }
+}
+
+/* Finish quiz, compute score */
+function finishQuiz(){
+  stopTimer();
+  // ensure last answer saved
+  saveCurrentAnswer();
+  // compute
+  score = 0;
+  wrongQuestions = [];
+  currentSet.forEach((q, idx) => {
+    const userAns = answers[idx];
+    const correct = q.answer;
+    // compare arrays (order insensitive)
+    if (!userAns || userAns.length === 0) {
+      wrongQuestions.push(q.id);
+      return;
+    }
+    // for QCM: require exact match of sets
+    const sortedUser = userAns.slice().sort((a,b)=>a-b);
+    const sortedCorr = correct.slice().sort((a,b)=>a-b);
+    const equal = sortedUser.length === sortedCorr.length && sortedUser.every((v,i)=>v===sortedCorr[i]);
+    if (equal) {
+      score++;
+    } else {
+      wrongQuestions.push(q.id);
+    }
   });
+
+  scoreDisplay.textContent = score + " / " + currentSet.length;
+  // show results
+  showResults();
+}
+
+/* Show result details and correct answers */
+function showResults(){
+  resultArea.style.display = 'block';
+  // summary
+  resultSummary.innerHTML = `<p>Vous avez obtenu <strong>${score}</strong> sur <strong>${currentSet.length}</strong>.</p>
+    <p>Questions correctes : ${score}. Questions incorrectes : ${currentSet.length - score}.</p>`;
+  // list answers
+  answersList.innerHTML = '';
+  currentSet.forEach((q, idx) => {
+    const userAns = answers[idx];
+    const corr = q.answer;
+    const item = document.createElement('div');
+    item.className = 'answer-item';
+    const title = document.createElement('div');
+    title.style.fontWeight = '700';
+    title.textContent = `Q${idx+1} — ${q.question}`;
+    item.appendChild(title);
+    // user's answer
+    const ua = document.createElement('div');
+    ua.style.marginTop = '8px';
+    let uaText = 'Votre réponse : ';
+    if (!userAns || userAns.length === 0) uaText += '<em>Pas de réponse</em>';
+    else uaText += userAns.map(i => q.options[i]).join(', ');
+    ua.innerHTML = uaText;
+    item.appendChild(ua);
+    // correct answer
+    const ca = document.createElement('div');
+    ca.style.marginTop = '6px';
+    ca.innerHTML = `<strong>Réponse correcte :</strong> ${corr.map(i => q.options[i]).join(', ')}`;
+    item.appendChild(ca);
+    // mark wrong/correct
+    const mark = document.createElement('div');
+    mark.style.marginTop = '8px';
+    const isCorrect = userAns && userAns.length && (userAns.slice().sort().toString() === corr.slice().sort().toString());
+    mark.innerHTML = isCorrect ? `<span style="color:green;font-weight:700">✔ Bonne réponse</span>` : `<span style="color:#d6336c;font-weight:700">✖ Mauvaise réponse</span>`;
+    item.appendChild(mark);
+    answersList.appendChild(item);
+  });
+
+  // prepare wrongQuestions (ids already set)
+  // If retry is unchecked, disable retry button
+  if (!retryWrongInput.checked || wrongQuestions.length === 0) {
+    retryBtn.disabled = true;
+  } else {
+    retryBtn.disabled = false;
+  }
+}
+
+/* Optional: shuffle function if you want randomized order
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+*/
+
 </script>
 </body>
 </html>
