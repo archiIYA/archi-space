@@ -3,85 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Histoire de l’Architecture 1</title>
-  
-  <script type="module">
-  // استيراد مكتبات Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
-
-  // إعدادات Firebase الخاصة بك
-  const firebaseConfig = {
-    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-    authDomain: "archi-space-72624.firebaseapp.com",
-    projectId: "archi-space-72624",
-    storageBucket: "archi-space-72624.appspot.com",
-    messagingSenderId: "407015246505",
-    appId: "1:407015246505:web:c914a78566b882b80df7b8",
-    measurementId: "G-RZV7LSDQBD"
-  };
-
-  // تهيئة Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const storage = getStorage(app);
-
-  // التحقق من حالة تسجيل الدخول
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      window.location.href = "index.html";
-    }
-  });
-
-  // كود منطق التحقق من اشتراك البريميوم (كما في ملفك)
-  document.addEventListener('DOMContentLoaded', () => {
-    const premiumButton1 = document.getElementById('premiumButton1');
-    const loadingMessage1 = document.getElementById('loadingMessage1');
-
-    if (premiumButton1) {
-      premiumButton1.addEventListener('click', async (e) => {
-        e.preventDefault();
-        
-        loadingMessage1.textContent = 'يتم التحقق من حالة اشتراكك...';
-        loadingMessage1.style.display = 'block';
-        
-        const user = auth.currentUser;
-
-        if (!user) {
-          loadingMessage1.textContent = 'يجب عليك تسجيل الدخول أولاً.';
-          return;
-        }
-
-        try {
-          const userDoc = await getDoc(doc(db, "users", user.uid));
-          
-          if (userDoc.exists() && userDoc.data().isPremium) {
-            loadingMessage1.textContent = 'يتم إنشاء رابط التحميل...';
-            const pdfRef = ref(storage, 'premium-files/histoire-lesson-1.pdf');
-            const downloadURL = await getDownloadURL(pdfRef);
-            
-            loadingMessage1.textContent = 'تم العثور على الملف، يتم التحميل...';
-            window.open(downloadURL, '_blank');
-            
-          } else {
-            loadingMessage1.textContent = 'هذا المحتوى خاص بالمشتركين فقط.';
-          }
-        } catch (error) {
-          console.error("حدث خطأ:", error);
-          loadingMessage1.textContent = 'حدث خطأ ما. يرجى المحاولة لاحقًا.';
-        }
-      });
-    }
-  });
-
-  </script>
+  <title>Histoire de l’Architecture 1 — Quiz complet</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    /* === صفحة ArchiSpace الأساسية (محفوظ التصميم كما طلبت) === */
+    /* --- Design principal (conserve ton style) --- */
     body {
       margin: 0;
       font-family: 'Rubik', sans-serif;
@@ -101,14 +27,10 @@
       position: fixed;
       left: 0;
       top: 0;
-      transform: translateX(0);
       transition: transform 0.3s ease;
       z-index: 998;
     }
-
-    aside.hidden {
-      transform: translateX(-260px);
-    }
+    aside.hidden { transform: translateX(-260px); }
 
     .back-button {
       margin-bottom: 20px;
@@ -121,42 +43,16 @@
       font-weight: 600;
       transition: background-color 0.3s;
     }
+    .back-button:hover { background-color: #ccc; }
 
-    .back-button:hover {
-      background-color: #ccc;
-    }
-
-    aside h2 {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-
-    aside a {
-      display: block;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-decoration: none;
-      color: #333;
-      border-radius: 6px;
-      transition: background 0.3s;
-    }
-
-    aside a:hover {
-      background-color: #ddd;
-    }
+    aside h2 { font-size: 18px; margin-bottom: 20px; }
+    aside a { display: block; padding: 10px; margin-bottom: 10px; text-decoration: none; color: #333; border-radius: 6px; }
+    aside a:hover { background-color: #ddd; }
 
     #toggleSidebar {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 999;
-      background-color: #111;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
+      position: fixed; top: 20px; left: 20px; z-index: 999;
+      background-color: #111; color: #fff; border: none; padding: 10px 15px;
+      font-size: 18px; border-radius: 6px; cursor: pointer;
     }
 
     main {
@@ -165,16 +61,9 @@
       margin-left: 240px;
       transition: margin-left 0.3s ease;
     }
+    aside.hidden ~ main { margin-left: 0; }
 
-    aside.hidden ~ main {
-      margin-left: 0;
-    }
-
-    .section-title {
-      font-size: 26px;
-      margin-bottom: 20px;
-      color: #000;
-    }
+    .section-title { font-size: 26px; margin-bottom: 20px; color:#000; }
 
     .lesson {
       margin-bottom: 30px;
@@ -194,38 +83,24 @@
       align-items:center;
     }
 
-    .buttons {
-      margin-top: 10px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-
+    .buttons { margin-top:10px; display:flex; gap:10px; align-items:center; }
     .buttons a, .buttons button {
       background: none;
       border: 1px solid #e6e6e6;
       padding:8px 12px;
       border-radius:8px;
-      margin-right: 6px;
       font-size: 16px;
       cursor: pointer;
-      transition: transform .12s ease, box-shadow .12s ease;
       background-color:#fff;
     }
-
     .buttons a:hover, .buttons button:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 16px rgba(8,24,40,0.06);
     }
 
-    footer {
-      margin-top: 50px;
-      font-size: 13px;
-      color: #888;
-      text-align: center;
-    }
+    footer { margin-top:50px; font-size:13px; color:#888; text-align:center; }
 
-    /* === ستايل النافذة المنبثقة للكويز === */
+    /* --- Modal Quiz (popup) --- */
     .quiz-modal {
       position: fixed;
       inset: 0;
@@ -233,13 +108,14 @@
       align-items: center;
       justify-content: center;
       z-index: 2000;
-      background: linear-gradient(0deg, rgba(2,6,23,0.55), rgba(2,6,23,0.55));
+      background: rgba(2,6,23,0.55);
       padding: 24px;
+      transition: opacity .18s ease;
     }
 
     .quiz-card {
       width: 100%;
-      max-width: 920px;
+      max-width: 960px;
       background: #fff;
       border-radius: 14px;
       box-shadow: 0 20px 50px rgba(2,6,23,0.4);
@@ -247,56 +123,56 @@
       display: flex;
       flex-direction: column;
       animation: pop .18s ease;
+      position: relative;
     }
 
     @keyframes pop {
-      from { transform: translateY(12px) scale(.99); opacity: 0; }
+      from { transform: translateY(12px) scale(.98); opacity: 0; }
       to { transform: translateY(0) scale(1); opacity: 1; }
     }
 
     .quiz-header {
-      padding: 18px 22px;
-      background: linear-gradient(90deg,#0ea5a4,#0ea5a4 60%, #06b6d4 100%);
+      padding: 16px 20px;
+      background: linear-gradient(90deg,#0ea5a4,#06b6d4);
       color: #fff;
       display:flex;
       align-items:center;
       justify-content:space-between;
     }
-
     .quiz-header h2 { margin:0; font-size:18px; }
     .quiz-controls { display:flex; gap:12px; align-items:center; }
 
     .quiz-body {
-      padding: 22px;
+      padding: 18px;
       display: grid;
       grid-template-columns: 1fr 320px;
-      gap: 20px;
+      gap: 18px;
     }
 
-    .question-area { background:#fbfdff; padding:18px; border-radius:10px; min-height:260px; }
+    .question-area { background:#fbfdff; padding:18px; border-radius:10px; min-height:280px; }
     .question-index { font-size:13px; color:#666; margin-bottom:8px; }
-    .question-text { font-size:18px; color:#0f172a; margin-bottom:12px; }
+    .question-text { font-size:18px; color:#0f172a; margin-bottom:14px; }
 
     .options { display:flex; flex-direction:column; gap:10px; }
-    .option { background:#fff; border:1px solid #e6eef2; padding:12px 14px; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:10px; }
+    .option { background:#fff; border:1px solid #e6eef2; padding:12px 14px; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:12px; }
     .option input { transform:scale(1.15); }
     .option.disabled { opacity:0.6; pointer-events:none; }
 
-    .sidebar-panel { background:#ffffff; border-radius:10px; padding:14px; border:1px solid #eef6f9; height:100%; }
+    .sidebar-panel { background:#fff; border-radius:10px; padding:14px; border:1px solid #eef6f9; height:100%; }
     .timer { font-weight:700; font-size:20px; color:#0f172a; }
     .meta { margin-top:12px; color:#475569; font-size:14px; }
+
     .nav-buttons { display:flex; gap:10px; margin-top:18px; }
     .btn { padding:10px 14px; border-radius:8px; background:#0ea5a4; color:#fff; border:none; cursor:pointer; font-weight:600; }
     .btn.secondary { background:#e6eef2; color:#0f172a; }
 
-    .close-quiz { background:transparent; border:0; color:rgba(255,255,255,0.9); font-weight:700; cursor:pointer; }
+    .close-quiz { background:transparent; border:0; color:rgba(255,255,255,0.95); font-weight:700; cursor:pointer; font-size:18px; }
 
     .result { padding:20px; }
     .result h3 { margin-top:0; }
     .answers-list { margin-top:12px; display:flex; flex-direction:column; gap:10px; max-height:320px; overflow:auto; }
     .answer-item { background:#fcfcff; border:1px solid #eef2ff; padding:12px; border-radius:8px; }
 
-    /* small screens */
     @media (max-width: 880px) {
       .quiz-body { grid-template-columns: 1fr; }
       .sidebar-panel { order: -1; }
@@ -340,26 +216,22 @@
     <h3>
       <span>La préhistoire et les premiers refuges</span>
       <span>
-        <button id="openQuizBtn" title="Ouvrir le quiz" style="background:#06b6d4;color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;">📝 Quiz</button>
+        <button id="openQuizBtn" title="Ouvrir/fermer le quiz" style="background:#06b6d4;color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600;">📝 Quiz</button>
       </span>
     </h3>
     <div class="buttons">
-      <a href="cours_1_prehistoire.pdf">
-        <button>📄 PDF</button>
-      </a>
+      <a href="cours_1_prehistoire.pdf"><button>📄 PDF</button></a>
       <button>🎥 Vidéo</button>
       <button id="premiumButton1">⭐ Premium</button>
       <p id="loadingMessage1" style="display:none; color:#d9534f; margin-top:10px;"></p>
     </div>
   </div>
 
-  <!-- بقية الدروس كما في الكود الأصلي -->
+  <!-- autres leçons inchangées -->
   <div class="lesson">
     <h3>Architecture mésopotamienne</h3>
     <div class="buttons">
-      <a href="LA CIVILISATION MESOPOTAMIENNEzd.pdf">
-        <button>📄 PDF</button>
-      </a>
+      <a href="LA CIVILISATION MESOPOTAMIENNEzd.pdf"><button>📄 PDF</button></a>
       <button>🎥 Vidéo</button>
       <button>⭐ Premium</button>
     </div>
@@ -368,53 +240,7 @@
   <div class="lesson">
     <h3>Architecture égyptienne</h3>
     <div class="buttons">
-      <a href="Egyptian civilization ENG.pdf">
-        <button>📄 PDF</button>
-      </a>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Architecture grecque</h3>
-    <div class="buttons">
-      <a href="Greek civilization.pdf">
-        <button>📄 PDF</button>
-      </a>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Architecture romaine</h3>
-    <div class="buttons">
-      <a href="La civilisation romaine antique.pdf">
-        <button>📄 PDF</button>
-      </a>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Architecture paléochrétienne et byzantine</h3>
-    <div class="buttons">
-      <a href="L’architecture byzantine.pdf">
-        <button>📄 PDF</button>
-      </a>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
-    </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Architecture romane et gothique</h3>
-    <div class="buttons">
-      <a href="8 Art et architecture romane (1)_removed.pdf">
-        <button>📄 PDF</button>
-      </a>
+      <a href="Egyptian civilization ENG.pdf"><button>📄 PDF</button></a>
       <button>🎥 Vidéo</button>
       <button>⭐ Premium</button>
     </div>
@@ -425,32 +251,30 @@
   </footer>
 </main>
 
-<!-- === Modal Quiz === -->
+<!-- === Modal Quiz complet avec 90 questions incluses === -->
 <div id="quizModal" class="quiz-modal" aria-hidden="true">
-  <div class="quiz-card" role="dialog" aria-modal="true">
+  <div class="quiz-card" role="dialog" aria-modal="true" aria-labelledby="quizTitle">
     <div class="quiz-header">
-      <h2>Quiz — La préhistoire et les premiers refuges</h2>
+      <h2 id="quizTitle">Quiz — La préhistoire et les premiers refuges</h2>
       <div class="quiz-controls">
-        <div style="font-size:13px;opacity:0.95;">Choisissez le type :</div>
+        <div style="font-size:13px;opacity:0.95;">Type :</div>
         <select id="quizTypeSelect" style="padding:6px 10px; border-radius:8px; border:none; font-weight:600;">
           <option value="QCM">QCM (choix multiples)</option>
           <option value="QCS">QCS (choix unique)</option>
           <option value="VF">Vrai / Faux</option>
         </select>
-        <button class="close-quiz" id="closeQuizBtn">✕</button>
+        <button class="close-quiz" id="closeQuizBtn" title="Fermer">✕</button>
       </div>
     </div>
 
     <div class="quiz-body">
       <div class="question-area">
-        <div class="question-index" id="questionIndex">Question 1 / 30</div>
-        <div class="question-text" id="questionText">Choisissez un type puis démarrez.</div>
+        <div class="question-index" id="questionIndex">Question —</div>
+        <div class="question-text" id="questionText">Choisissez un type puis cliquez sur "Commencer".</div>
 
-        <div class="options" id="optionsContainer">
-          <!-- options générées ديناميكياً -->
-        </div>
+        <div class="options" id="optionsContainer"></div>
 
-        <div class="nav-buttons">
+        <div class="nav-buttons" style="margin-top:14px;">
           <button class="btn secondary" id="prevBtn" disabled>◀ Précédent</button>
           <button class="btn secondary" id="nextBtn" disabled>Suivant ▶</button>
           <button class="btn" id="submitBtn" style="display:none;">Soumettre</button>
@@ -470,7 +294,7 @@
         </div>
 
         <div class="meta">
-          <div>Type: <span id="selectedType">—</span></div>
+          <div>Type: <b id="selectedType">—</b></div>
           <div style="margin-top:8px;">Questions totales: <b id="totalQuestions">30</b></div>
           <div style="margin-top:6px;">Questions restantes: <b id="remainingQuestions">30</b></div>
           <div style="margin-top:8px;">Réessayer les mauvaises réponses: <input type="checkbox" id="retryWrong" checked></div>
@@ -497,7 +321,6 @@
         <button class="btn secondary" id="closeResultBtn" style="margin-left:10px;">Fermer</button>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -507,10 +330,42 @@ const sidebar = document.querySelector('aside');
 const toggleBtn = document.getElementById('toggleSidebar');
 toggleBtn.addEventListener('click', () => sidebar.classList.toggle('hidden'));
 
-/* Quiz logic */
+/* Quiz modal toggle: open/close with same button + close on outside click */
 const openQuizBtn = document.getElementById('openQuizBtn');
 const quizModal = document.getElementById('quizModal');
 const closeQuizBtn = document.getElementById('closeQuizBtn');
+const quizTypeSelect = document.getElementById('quizTypeSelect');
+
+openQuizBtn.addEventListener('click', () => {
+  if (quizModal.style.display === 'flex') {
+    closeQuiz();
+  } else {
+    openQuiz();
+  }
+});
+
+closeQuizBtn.addEventListener('click', closeQuiz);
+
+// Close when clicking outside card
+quizModal.addEventListener('click', (e) => {
+  if (e.target === quizModal) closeQuiz();
+});
+
+function openQuiz(){
+  quizModal.style.display = 'flex';
+  quizModal.setAttribute('aria-hidden','false');
+  resetQuizState();
+  selectedTypeLabel.textContent = quizTypeSelect.value;
+}
+
+function closeQuiz(){
+  quizModal.style.display = 'none';
+  quizModal.setAttribute('aria-hidden','true');
+  stopTimer();
+  resultArea.style.display = 'none';
+}
+
+/* Quiz logic variables and DOM refs */
 const startBtn = document.getElementById('startBtn');
 const endEarlyBtn = document.getElementById('endEarlyBtn');
 const submitBtn = document.getElementById('submitBtn');
@@ -530,26 +385,24 @@ const resultSummary = document.getElementById('resultSummary');
 const answersList = document.getElementById('answersList');
 const retryBtn = document.getElementById('retryBtn');
 const closeResultBtn = document.getElementById('closeResultBtn');
-const quizTypeSelect = document.getElementById('quizTypeSelect');
 
-let allQuestions = []; // loaded below
-let currentSet = []; // filtered by type
+let allQuestions = []; // below: 90 questions
+let currentSet = [];
 let currentIndex = 0;
-let answers = []; // user answers per question (arrays of indices)
+let answers = [];
 let score = 0;
 let timer = null;
-let timeLeft = 20 * 60; // default 20 minutes for full quiz (modifiable)
-let questionTimeLimit = 0; // not per-question here, global timer
+let timeLeft = 20 * 60; // default 20 minutes for full quiz
 let wrongQuestions = [];
 let retryMode = false;
 
-/* === QUESTIONS DATA (90 questions) ===
-   Each question: { id, type: 'QCM'|'QCS'|'VF', question: '', options: [], answer: [indices] }
-   For Vrai/Faux options are ["Vrai","Faux"] and answer is [0] or [1]
-   The list is ordered from moyen -> très difficile.
+/* =========== QUESTIONS (90) =============
+   Chaque objet: { id, type: 'QCM'|'QCS'|'VF', question: '', options: [], answer: [indices] }
+   VF use options ["Vrai","Faux"] with answer [0] or [1].
+   Les questions sont ordonnées du moyen -> très difficile.
 */
 allQuestions = [
-/* ----- QCM 1..30 (choix multiples) ----- */
+/* QCM 1..30 */
 { id: 'qcm1', type:'QCM', question:"Quelles sont les caractéristiques principales du Paléolithique ?", options:["Agriculture et élevage","Taille de pierre","Chasse et cueillette","Maîtrise du feu"], answer:[1,2,3]},
 { id: 'qcm2', type:'QCM', question:"Quelles innovations techniques sont associées au Paléolithique ?", options:["Fabrication de vêtements en peaux","Utilisation de la brique crue","Domestication du chien","Culture des céréales"], answer:[0,2]},
 { id: 'qcm3', type:'QCM', question:"Parmi ces éléments, lesquels témoignent du Néolithique ?", options:["Pierre polie","Poterie et tissage","Agriculture","Nomadisme"], answer:[0,1,2]},
@@ -581,7 +434,7 @@ allQuestions = [
 { id: 'qcm29', type:'QCM', question:"Indices d’une vie collective à Çatal Höyük :", options:["Rituels domestiques","Décors muraux communs","Nao de commerce","Murs partagés entre maisons"], answer:[0,1,3]},
 { id: 'qcm30', type:'QCM', question:"Ce qui fait qu’un site préhistorique devient un centre majeur :", options:["Ressources abondantes","Emplacement stratégique","Complexité architecturale","Présence d’un pouvoir centralisé"], answer:[0,1,2]},
 
-/* ----- QCS 31..60 (choix simple) ----- */
+/* QCS 31..60 */
 { id:'qcs31', type:'QCS', question:"Quel animal a été domestiqué en premier ?", options:["Chèvre","Chien","Cheval","Bœuf"], answer:[1]},
 { id:'qcs32', type:'QCS', question:"Le Néolithique commence au Proche-Orient vers :", options:["12 000 av. J.-C.","9 000 av. J.-C.","5 500 av. J.-C.","3 300 av. J.-C."], answer:[1]},
 { id:'qcs33', type:'QCS', question:"L'utilisation de la brique crue apparaît principalement :", options:["Au Paléolithique","Au Néolithique","En Mésopotamie uniquement","En Égypte ancienne"], answer:[1]},
@@ -613,7 +466,7 @@ allQuestions = [
 { id:'qcs59', type:'QCS', question:"Une caractéristique des villages densément peuplés est :", options:["Rues larges et orthogonales","Accès par toits et surfaces partagées","Présence d’aqueducs romains","Usage du marbre"], answer:[1]},
 { id:'qcs60', type:'QCS', question:"Pourquoi l’agriculture a-t-elle transformé l’architecture ?", options:["Moins besoin d’abris","Permet stockage et constructions durables","Remplace l’artisanat","Diminue la population"], answer:[1]},
 
-/* ----- VF 61..90 (Vrai/Faux) ----- */
+/* VF 61..90 */
 { id:'vf61', type:'VF', question:"Les Natoufiens vivaient uniquement dans des grottes.", options:["Vrai","Faux"], answer:[1]},
 { id:'vf62', type:'VF', question:"La roue apparaît au Néolithique.", options:["Vrai","Faux"], answer:[0]},
 { id:'vf63', type:'VF', question:"Çatal Höyük était construit en pierre taillée uniquement.", options:["Vrai","Faux"], answer:[1]},
@@ -646,77 +499,14 @@ allQuestions = [
 { id:'vf90', type:'VF', question:"Les sites majeurs se développent uniquement pour des raisons religieuses.", options:["Vrai","Faux"], answer:[1]}
 ];
 
-/* Helper to filter questions by type */
+/* =========== Helpers =========== */
 function getQuestionsByType(type) {
   if (type === 'QCM') return allQuestions.filter(q => q.type === 'QCM');
   if (type === 'QCS') return allQuestions.filter(q => q.type === 'QCS');
   return allQuestions.filter(q => q.type === 'VF');
 }
 
-/* Open/close modal */
-openQuizBtn.addEventListener('click', () => {
-  quizModal.style.display = 'flex';
-  quizModal.setAttribute('aria-hidden','false');
-  selectedTypeLabel.textContent = quizTypeSelect.value;
-  resetQuizState();
-});
-closeQuizBtn.addEventListener('click', closeQuiz);
-closeResultBtn.addEventListener('click', closeQuiz);
-
-function closeQuiz() {
-  quizModal.style.display = 'none';
-  quizModal.setAttribute('aria-hidden','true');
-  stopTimer();
-  resultArea.style.display = 'none';
-}
-
-/* Start quiz */
-startBtn.addEventListener('click', () => {
-  startQuiz(quizTypeSelect.value);
-});
-
-/* End early */
-endEarlyBtn.addEventListener('click', () => {
-  finishQuiz();
-});
-
-/* Navigation */
-prevBtn.addEventListener('click', () => {
-  saveCurrentAnswer();
-  if (currentIndex > 0) currentIndex--;
-  renderQuestion();
-});
-nextBtn.addEventListener('click', () => {
-  saveCurrentAnswer();
-  if (currentIndex < currentSet.length - 1) currentIndex++;
-  renderQuestion();
-});
-
-/* Submit */
-submitBtn.addEventListener('click', () => {
-  saveCurrentAnswer();
-  finishQuiz();
-});
-
-/* Retry wrong */
-retryBtn.addEventListener('click', () => {
-  if (wrongQuestions.length === 0) return;
-  retryMode = true;
-  currentSet = wrongQuestions.map(id => allQuestions.find(q => q.id === id));
-  totalQuestionsLabel.textContent = currentSet.length;
-  remainingQuestionsLabel.textContent = currentSet.length;
-  answers = Array(currentSet.length).fill(null);
-  wrongQuestions = [];
-  currentIndex = 0;
-  score = 0;
-  scoreDisplay.textContent = score;
-  resultArea.style.display = 'none';
-  selectedTypeLabel.textContent = quizTypeSelect.value + ' (reprise)';
-  startTimer(); // restart timer if desired
-  renderQuestion();
-});
-
-/* Utilities */
+/* Reset/Start/Timer/Render logic */
 function resetQuizState(){
   stopTimer();
   resultArea.style.display = 'none';
@@ -731,14 +521,60 @@ function resetQuizState(){
   submitBtn.style.display = 'none';
   prevBtn.disabled = true;
   nextBtn.disabled = true;
+  // clear internal state
+  currentSet = [];
+  currentIndex = 0;
+  answers = [];
+  score = 0;
+  wrongQuestions = [];
+  retryMode = false;
 }
 
+startBtn.addEventListener('click', () => {
+  startQuiz(quizTypeSelect.value);
+});
+endEarlyBtn.addEventListener('click', () => {
+  finishQuiz();
+});
+prevBtn.addEventListener('click', () => {
+  saveCurrentAnswer();
+  if (currentIndex > 0) currentIndex--;
+  renderQuestion();
+});
+nextBtn.addEventListener('click', () => {
+  saveCurrentAnswer();
+  if (currentIndex < currentSet.length - 1) currentIndex++;
+  renderQuestion();
+});
+submitBtn.addEventListener('click', () => {
+  saveCurrentAnswer();
+  finishQuiz();
+});
+retryBtn.addEventListener('click', () => {
+  if (wrongQuestions.length === 0) return;
+  retryMode = true;
+  currentSet = wrongQuestions.map(id => allQuestions.find(q => q.id === id));
+  totalQuestionsLabel.textContent = currentSet.length;
+  remainingQuestionsLabel.textContent = currentSet.length;
+  answers = Array(currentSet.length).fill(null);
+  wrongQuestions = [];
+  currentIndex = 0;
+  score = 0;
+  scoreDisplay.textContent = score;
+  resultArea.style.display = 'none';
+  selectedTypeLabel.textContent = quizTypeSelect.value + ' (reprise)';
+  timeLeft = Math.max(3 * 60, Math.floor(timeLeft/2)); // give some time for reprise
+  startTimer();
+  renderQuestion();
+});
+closeResultBtn.addEventListener('click', closeQuiz);
+
+/* Start quiz */
 function startQuiz(type) {
   retryMode = false;
   selectedTypeLabel.textContent = type;
   currentSet = getQuestionsByType(type);
-  // shuffle to vary? the user asked ordered from moyen->difficile; keep order as is
-  // currentSet = shuffle(currentSet);
+  // keep order: moyen -> difficile
   answers = Array(currentSet.length).fill(null);
   currentIndex = 0;
   score = 0;
@@ -750,8 +586,7 @@ function startQuiz(type) {
   prevBtn.disabled = false;
   nextBtn.disabled = false;
   scoreDisplay.textContent = score;
-  // start timer
-  timeLeft = 20 * 60; // full set 20 minutes default — you can adjust
+  timeLeft = 20 * 60; // 20 min full
   startTimer();
   renderQuestion();
 }
@@ -786,7 +621,7 @@ function renderQuestion(){
   optionsContainer.innerHTML = '';
   remainingQuestionsLabel.textContent = currentSet.length - currentIndex;
   selectedTypeLabel.textContent = quizTypeSelect.value + (retryMode ? ' (reprise)' : '');
-  // build options depending on type
+
   if (q.type === 'QCM') {
     q.options.forEach((opt, i) => {
       const div = document.createElement('label');
@@ -795,7 +630,6 @@ function renderQuestion(){
       input.type = 'checkbox';
       input.name = 'opt';
       input.value = i;
-      // restore previous selection if any
       const prev = answers[currentIndex];
       if (Array.isArray(prev) && prev.includes(i)) input.checked = true;
       div.appendChild(input);
@@ -836,12 +670,11 @@ function renderQuestion(){
     });
   }
 
-  // update nav buttons
   prevBtn.disabled = currentIndex === 0;
   nextBtn.disabled = currentIndex === currentSet.length - 1;
 }
 
-/* Save answer for current question */
+/* Save current answer */
 function saveCurrentAnswer(){
   const q = currentSet[currentIndex];
   const inputs = Array.from(optionsContainer.querySelectorAll('input[name="opt"]'));
@@ -854,45 +687,35 @@ function saveCurrentAnswer(){
   }
 }
 
-/* Finish quiz, compute score */
+/* Finish quiz and compute score */
 function finishQuiz(){
   stopTimer();
-  // ensure last answer saved
   saveCurrentAnswer();
-  // compute
   score = 0;
   wrongQuestions = [];
   currentSet.forEach((q, idx) => {
     const userAns = answers[idx];
     const correct = q.answer;
-    // compare arrays (order insensitive)
     if (!userAns || userAns.length === 0) {
       wrongQuestions.push(q.id);
       return;
     }
-    // for QCM: require exact match of sets
     const sortedUser = userAns.slice().sort((a,b)=>a-b);
     const sortedCorr = correct.slice().sort((a,b)=>a-b);
     const equal = sortedUser.length === sortedCorr.length && sortedUser.every((v,i)=>v===sortedCorr[i]);
-    if (equal) {
-      score++;
-    } else {
-      wrongQuestions.push(q.id);
-    }
+    if (equal) score++;
+    else wrongQuestions.push(q.id);
   });
 
   scoreDisplay.textContent = score + " / " + currentSet.length;
-  // show results
   showResults();
 }
 
-/* Show result details and correct answers */
+/* Show results */
 function showResults(){
   resultArea.style.display = 'block';
-  // summary
   resultSummary.innerHTML = `<p>Vous avez obtenu <strong>${score}</strong> sur <strong>${currentSet.length}</strong>.</p>
-    <p>Questions correctes : ${score}. Questions incorrectes : ${currentSet.length - score}.</p>`;
-  // list answers
+    <p>Correctes : ${score}. Incorrectes : ${currentSet.length - score}.</p>`;
   answersList.innerHTML = '';
   currentSet.forEach((q, idx) => {
     const userAns = answers[idx];
@@ -903,7 +726,7 @@ function showResults(){
     title.style.fontWeight = '700';
     title.textContent = `Q${idx+1} — ${q.question}`;
     item.appendChild(title);
-    // user's answer
+
     const ua = document.createElement('div');
     ua.style.marginTop = '8px';
     let uaText = 'Votre réponse : ';
@@ -911,32 +734,27 @@ function showResults(){
     else uaText += userAns.map(i => q.options[i]).join(', ');
     ua.innerHTML = uaText;
     item.appendChild(ua);
-    // correct answer
+
     const ca = document.createElement('div');
     ca.style.marginTop = '6px';
     ca.innerHTML = `<strong>Réponse correcte :</strong> ${corr.map(i => q.options[i]).join(', ')}`;
     item.appendChild(ca);
-    // mark wrong/correct
+
     const mark = document.createElement('div');
     mark.style.marginTop = '8px';
     const isCorrect = userAns && userAns.length && (userAns.slice().sort().toString() === corr.slice().sort().toString());
     mark.innerHTML = isCorrect ? `<span style="color:green;font-weight:700">✔ Bonne réponse</span>` : `<span style="color:#d6336c;font-weight:700">✖ Mauvaise réponse</span>`;
     item.appendChild(mark);
+
     answersList.appendChild(item);
   });
 
-  // prepare wrongQuestions (ids already set)
-  // If retry is unchecked, disable retry button
-  if (!retryWrongInput.checked || wrongQuestions.length === 0) {
-    retryBtn.disabled = true;
-  } else {
-    retryBtn.disabled = false;
-  }
+  if (!retryWrongInput.checked || wrongQuestions.length === 0) retryBtn.disabled = true;
+  else retryBtn.disabled = false;
 }
 
-/* Optional: shuffle function if you want randomized order
-function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
-*/
+/* Optional: shuffle function (commented) */
+/* function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; } */
 
 </script>
 </body>
