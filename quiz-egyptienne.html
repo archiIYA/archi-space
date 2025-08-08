@@ -1,1083 +1,172 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz — Architecture égyptienne</title>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap"
-    rel="stylesheet"
-  />
-
-  <style>
-    /* === Basic Styles === */
-    body {
-      margin: 0;
-      font-family: "Rubik", sans-serif;
-      background: #fff;
-      color: #111;
-      display: flex;
-      min-height: 100vh;
-      flex-wrap: wrap;
-    }
-
-    /* === Sidebar Styles === */
-    aside {
-      width: 240px;
-      background-color: #f4f4f4;
-      height: 100vh;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      overflow-y: auto;
-      position: fixed;
-      left: 0;
-      top: 0;
-      transform: translateX(0);
-      transition: transform 0.3s ease;
-      z-index: 998;
-    }
-
-    aside.hidden {
-      transform: translateX(-260px);
-    }
-
-    .sidebar-header {
-      margin-bottom: 20px;
-    }
-
-    .sidebar-menu {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .sidebar-menu li {
-      margin-bottom: 8px;
-    }
-
-    .sidebar-menu a {
-      color: #111;
-      text-decoration: none;
-      font-weight: 500;
-      display: block;
-      padding: 8px 0;
-      transition: color 0.3s ease, text-decoration 0.3s ease;
-    }
-
-    .sidebar-menu a:hover {
-      color: #007bff;
-      text-decoration: underline;
-    }
-
-    .back-button {
-      margin-bottom: 20px;
-      background-color: #ddd;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: 600;
-      text-decoration: none;
-      color: #111;
-      display: block;
-      text-align: center;
-    }
-
-    .back-button.is-link {
-      background: #eee;
-    }
-
-    #toggleSidebar {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 999;
-      background-color: #111;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: left 0.3s ease;
-    }
-
-    /* === Main Content Styles === */
-    main {
-      flex-grow: 1;
-      padding: 30px;
-      margin-left: 240px;
-      transition: margin-left 0.3s ease;
-    }
-
-    main.expanded {
-      margin-left: 0;
-    }
-
-    .section-title {
-      font-size: 26px;
-      margin-bottom: 20px;
-      color: #000;
-    }
-
-    .lesson {
-      margin-bottom: 30px;
-      padding: 20px;
-      border-radius: 10px;
-      background: linear-gradient(180deg, #fbfbfb 0%, #ffffff 100%);
-      box-shadow: 0 6px 18px rgba(8, 24, 40, 0.06);
-      border: 1px solid rgba(15, 23, 42, 0.04);
-    }
-
-    .buttons {
-      margin-top: 10px;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .buttons a,
-    .buttons button {
-      background: none;
-      border: 1px solid #e6e6e6;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      background-color: #fff;
-      text-decoration: none;
-      color: #111;
-    }
-
-    .buttons a {
-      display: inline-block;
-    }
-
-    /* === Quiz Modal Styles === */
-    .quiz-modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      background: linear-gradient(0deg, rgba(2, 6, 23, 0.55), rgba(2, 6, 23, 0.55));
-      padding: 24px;
-    }
-    .quiz-card {
-      width: 100%;
-      max-width: 960px;
-      background: #fff;
-      border-radius: 14px;
-      box-shadow: 0 20px 50px rgba(2, 6, 23, 0.4);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      animation: pop 0.18s ease;
-    }
-    @keyframes pop {
-      from {
-        transform: translateY(12px) scale(0.99);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-    }
-    .quiz-header {
-      padding: 18px 22px;
-      background: linear-gradient(90deg, #0ea5a4, #0ea5a4 60%, #06b6d4 100%);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .quiz-header h2 {
-      margin: 0;
-      font-size: 18px;
-    }
-    .quiz-body {
-      padding: 22px;
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 20px;
-    }
-    .question-area {
-      background: #fbfdff;
-      padding: 18px;
-      border-radius: 10px;
-      min-height: 320px;
-      display: flex;
-      flex-direction: column;
-    }
-    .question-index {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 8px;
-    }
-    .question-text {
-      font-size: 18px;
-      color: #0f172a;
-      margin-bottom: 12px;
-    }
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .option {
-      background: #fff;
-      border: 1px solid #e6eef2;
-      padding: 12px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: background-color 0.2s ease;
-    }
-    .option:hover {
-      background-color: #f7f9fc;
-    }
-    .option.selected {
-      border-color: #06b6d4;
-      background-color: #e6f6f8;
-    }
-    .option.correct {
-      border-color: #10b981;
-      background-color: #e0f2e8;
-      color: #10b981;
-    }
-    .option.wrong {
-      border-color: #ef4444;
-      background-color: #fcebeb;
-      color: #ef4444;
-    }
-    .option input {
-      transform: scale(1.15);
-    }
-    .sidebar-panel {
-      background: #ffffff;
-      border-radius: 10px;
-      padding: 14px;
-      border: 1px solid #eef6f9;
-      height: 100%;
-    }
-    .timer {
-      font-weight: 700;
-      font-size: 20px;
-      color: #0f172a;
-    }
-    .meta {
-      margin-top: 12px;
-      color: #475569;
-      font-size: 14px;
-    }
-    .nav-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 18px;
-    }
-    .btn {
-      padding: 10px 14px;
-      border-radius: 8px;
-      background: #0ea5a4;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background-color 0.2s ease;
-    }
-    .btn:hover:not(:disabled) {
-      background-color: #06b6d4;
-    }
-    .btn:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-    .btn.secondary {
-      background: #e6eef2;
-      color: #0f172a;
-    }
-    .close-quiz {
-      background: transparent;
-      border: 0;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .result {
-      padding: 20px;
-      background: #fbfdff;
-      border-radius: 10px;
-      min-height: 320px;
-      overflow: auto;
-      display: none;
-      flex-direction: column;
-    }
-    .answers-list {
-      margin-top: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-height: 320px;
-      overflow: auto;
-    }
-    .answer-item {
-      background: #fcfcff;
-      border: 1px solid #eef2ff;
-      padding: 12px;
-      border-radius: 8px;
-    }
-    .correct-answer {
-      color: #10b981;
-      font-weight: 600;
-    }
-    .wrong-answer {
-      color: #ef4444;
-      font-weight: 600;
-    }
-    .result-info {
-      margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .result-info > div {
-      background: #eef6f9;
-      padding: 10px 15px;
-      border-radius: 8px;
-      flex-grow: 1;
-      text-align: center;
-    }
-    .result-info h4 {
-      margin: 0;
-      color: #475569;
-      font-size: 14px;
-    }
-    .result-info p {
-      margin: 4px 0 0;
-      font-weight: 700;
-      font-size: 20px;
-      color: #0f172a;
-    }
-
-
-    /* === Responsive Styles === */
-    @media (max-width: 880px) {
-      .quiz-body {
-        grid-template-columns: 1fr;
-      }
-      .sidebar-panel {
-        order: -1;
-      }
-      .quiz-card {
-        max-width: 96%;
-      }
-    }
-
-    @media (max-width: 768px) {
-      body {
-        flex-direction: column;
-      }
-      aside {
-        height: auto;
-        position: relative;
-        width: 100%;
-        transform: translateX(0);
-        box-shadow: none;
-        transition: none;
-      }
-      main {
-        margin-left: 0;
-      }
-      aside.hidden {
-        display: none;
-      }
-      #toggleSidebar {
-        position: relative;
-        top: auto;
-        left: auto;
-        margin-bottom: 20px;
-      }
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz – Architecture égyptienne</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Rubik', sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
+    }
+    aside {
+      width: 240px;
+      background-color: #f4f4f4;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 998;
+    }
+    main {
+      flex-grow: 1;
+      padding: 30px;
+      margin-left: 240px;
+    }
+    .section-title {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #000;
+    }
+    .quiz-settings {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #fafafa;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    select, button {
+      padding: 8px 12px;
+      margin-right: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .quiz-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #ffcc00;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .quiz-btn:hover {
+      background-color: #ff9900;
+      transform: translateY(-2px);
+    }
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+    footer {
+      margin-top: 50px;
+      font-size: 13px;
+      color: #888;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <button id="toggleSidebar">☰ Menu</button>
 
-  <aside class="sidebar">
-    <a href="sem1.html" class="back-button is-link">🔙 Retour à Semestre 1</a>
-    <button class="back-button" onclick="history.back()">🔙 Retour</button>
+<aside>
+  <a href="histoire1.html" class="quiz-btn">🔙 Retour</a>
+</aside>
 
-    <div class="sidebar-header">
-      <h2>📚 Année 1 - Semestre 1</h2>
-    </div>
+<main>
+  <h1 class="section-title">🏛️ Quiz – Architecture égyptienne</h1>
 
-    <ul class="sidebar-menu">
-      <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
-      <li><a href="dca1.html">📐 DCA 1</a></li>
-      <li><a href="dag1.html">🎨 DAG 1</a></li>
-      <li>
-        <a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a>
-      </li>
-      <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
-      <li>
-        <a href="geometrie1.html">📏 Géométrie de l’espace 1</a>
-      </li>
-      <li><a href="tmc1.html">🧱 TMC 1</a></li>
-      <li><a href="math1.html">🧮 Mathématiques</a></li>
-      <li><a href="expression1.html">🗣️ Expression orale</a></li>
-      <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
-      <hr />
-      <li><a href="projets.html">💼 Projets</a></li>
-      <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
-    </ul>
-  </aside>
+  <div class="quiz-settings">
+    <label for="lang">🌐 Langue / Language:</label>
+    <select id="lang">
+      <option value="fr">Français</option>
+      <option value="en">English</option>
+    </select>
 
-  <main>
-    <h1 class="section-title">🏛️ Architecture égyptienne — Quiz</h1>
+    <label for="type">📝 Type:</label>
+    <select id="type">
+      <option value="qcm">QCM</option>
+      <option value="qcs">QCS</option>
+      <option value="vf">Vrai / Faux</option>
+    </select>
 
-    <div class="lesson">
-      <h3>
-        <span>Architecture égyptienne</span>
-        <span>
-          <button
-            id="openQuizBtn"
-            title="Ouvrir le quiz"
-            style="
-              background: #06b6d4;
-              color: #fff;
-              padding: 8px 12px;
-              border-radius: 8px;
-              border: none;
-              cursor: pointer;
-            "
-          >
-            📝 Quiz — 100 Q
-          </button>
-        </span>
-      </h3>
-      <div class="buttons">
-        <a href="Egyptian civilization ENG.pdf">📄 PDF</a>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
-      </div>
-      <p style="margin-top: 12px; color: #475569">
-        100 سؤال — مستوى: صعب ← صعب جدًا — توقيت: 30 دقيقة.
-      </p>
-    </div>
+    <button class="quiz-btn" onclick="startQuiz()">Commencer / Start</button>
+  </div>
 
-    <footer>
-      © 2025 ArchiSpace – Tous droits réservés.
-    </footer>
-  </main>
+  <div id="quiz-container"></div>
+  <div id="timer" style="font-weight:bold; margin-top:20px;"></div>
 
-  <div id="quizModal" class="quiz-modal" aria-hidden="true">
-    <div class="quiz-card" role="dialog" aria-modal="true">
-      <div class="quiz-header">
-        <h2>Quiz — Architecture égyptienne</h2>
-        <div class="quiz-controls">
-          <div style="font-size: 13px; opacity: 0.95">
-            Choisissez le type :
-          </div>
-          <select
-            id="quizTypeSelect"
-            style="
-              padding: 6px 10px;
-              border-radius: 8px;
-              border: none;
-              font-weight: 600;
-            "
-          >
-            <option value="QCM">QCM (choix multiples)</option>
-            <option value="QCS">QCS (choix unique)</option>
-            <option value="VF">Vrai / Faux</option>
-          </select>
-          <button class="close-quiz" id="closeQuizBtn">✕</button>
-        </div>
-      </div>
+  <footer>
+    © 2025 ArchiSpace – Tous droits réservés.
+  </footer>
+</main>
 
-      <div class="quiz-body">
-                <div id="quizContainer">
-          <div class="question-area">
-            <div class="question-index" id="questionIndex">
-              Question 1 / 100
-            </div>
-            <div class="question-text" id="questionText">
-              Choisissez un type puis démarrez.
-            </div>
-            <div class="options" id="optionsContainer"></div>
-            <div class="nav-buttons">
-              <button class="btn secondary" id="prevBtn" disabled>
-                ◀ Précédent
-              </button>
-              <button class="btn secondary" id="nextBtn" disabled>
-                Suivant ▶
-              </button>
-              <button class="btn" id="submitBtn" style="display: none">
-                Soumettre
-              </button>
-            </div>
-          </div>
+<script>
+  let timerInterval;
+  let timeLeft = 30 * 60; // 30 minutes
+  const questions = {
+    fr: [
+      { q: "Quelle est la plus célèbre pyramide d'Égypte ?", type: "qcm", choices: ["Pyramide de Khéops", "Pyramide de Djoser", "Pyramide de Mykérinos"], answer: 0 },
+      { q: "Les Égyptiens utilisaient principalement la pierre calcaire pour leurs monuments.", type: "vf", answer: true }
+    ],
+    en: [
+      { q: "What is the most famous pyramid in Egypt?", type: "qcm", choices: ["Great Pyramid of Khufu", "Pyramid of Djoser", "Pyramid of Menkaure"], answer: 0 },
+      { q: "The Egyptians mainly used limestone for their monuments.", type: "vf", answer: true }
+    ]
+  };
 
-          <div class="sidebar-panel">
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-              "
-            >
-              <div>
-                <div style="font-size: 13px; color: #64748b">Timer</div>
-                <div class="timer" id="timerDisplay">30:00</div>
-              </div>
-              <div style="text-align: right">
-                <div style="font-size: 13px; color: #64748b">Score</div>
-                <div style="font-weight: 700; font-size: 18px" id="scoreDisplay">
-                  0
-                </div>
-              </div>
-            </div>
+  function startQuiz() {
+    const lang = document.getElementById('lang').value;
+    const type = document.getElementById('type').value;
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    const filtered = questions[lang].filter(q => q.type === type || type === 'qcm' && q.type === 'qcm' || type === 'vf' && q.type === 'vf' || type === 'qcs' && q.type === 'qcs');
+    filtered.forEach((q, i) => {
+      const div = document.createElement('div');
+      div.className = 'question';
+      div.innerHTML = `<p>${i+1}. ${q.q}</p>`;
+      if(q.type === 'qcm') {
+        q.choices.forEach((c, idx) => {
+          div.innerHTML += `<label><input type="radio" name="q${i}">${c}</label><br>`;
+        });
+      } else if(q.type === 'vf') {
+        div.innerHTML += `<label><input type="radio" name="q${i}">Vrai / True</label><br>
+                          <label><input type="radio" name="q${i}">Faux / False</label>`;
+      }
+      container.appendChild(div);
+    });
+    startTimer();
+  }
 
-            <div class="meta">
-              <div>Type: <span id="selectedType">—</span></div>
-              <div style="margin-top: 8px">
-                Questions totales: <b id="totalQuestions">0</b>
-              </div>
-              <div style="margin-top: 6px">
-                Questions restantes: <b id="remainingQuestions">0</b>
-              </div>
-              <div style="margin-top: 8px">
-                Réessayer les mauvaises réponses:
-                <input type="checkbox" id="retryWrong" checked />
-              </div>
-            </div>
+  function startTimer() {
+    clearInterval(timerInterval);
+    timeLeft = 30 * 60;
+    const timerEl = document.getElementById('timer');
+    timerInterval = setInterval(() => {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerEl.textContent = `⏳ ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        alert("Temps écoulé / Time's up!");
+      }
+      timeLeft--;
+    }, 1000);
+  }
+</script>
 
-            <div style="margin-top: 14px">
-              <button class="btn" id="startBtn">Commencer</button>
-              <button
-                class="btn secondary"
-                id="endEarlyBtn"
-                style="margin-left: 8px"
-                disabled
-              >
-                Finir maintenant
-              </button>
-            </div>
-
-            <div style="margin-top: 12px; font-size: 13px; color: #475569">
-              <div>Navigation: utilisez ◀ / ▶ ou les boutons.</div>
-              <div style="margin-top: 8px">
-                Après soumission, les erreurs seront regroupées et proposées à nouveau.
-              </div>
-            </div>
-          </div>
-        </div>
-
-                <div id="resultArea" class="result">
-          <h3>Résultat du Quiz</h3>
-          <div id="resultSummary" class="result-info"></div>
-          <div class="answers-list" id="answersList"></div>
-          <div style="margin-top: 14px">
-            <button class="btn" id="retryBtn">
-              Reprendre les questions incorrectes
-            </button>
-            <button class="btn secondary" id="closeResultBtn" style="margin-left: 10px">
-              Fermer
-            </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    /* Sidebar toggle */
-    const sidebar = document.querySelector("aside");
-    const mainContent = document.querySelector("main");
-    const toggleBtn = document.getElementById("toggleSidebar");
-
-    toggleBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("hidden");
-      mainContent.classList.toggle("expanded");
-    });
-
-    /* Quiz logic elements */
-    const openQuizBtn = document.getElementById("openQuizBtn");
-    const quizModal = document.getElementById("quizModal");
-    const closeQuizBtn = document.getElementById("closeQuizBtn");
-    const startBtn = document.getElementById("startBtn");
-    const endEarlyBtn = document.getElementById("endEarlyBtn");
-    const submitBtn = document.getElementById("submitBtn");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const quizContainer = document.getElementById('quizContainer');
-    const questionText = document.getElementById("questionText");
-    const optionsContainer = document.getElementById("optionsContainer");
-    const questionIndex = document.getElementById("questionIndex");
-    const timerDisplay = document.getElementById("timerDisplay");
-    const scoreDisplay = document.getElementById("scoreDisplay");
-    const selectedTypeLabel = document.getElementById("selectedType");
-    const totalQuestionsLabel = document.getElementById(
-      "totalQuestions"
-    );
-    const remainingQuestionsLabel = document.getElementById(
-      "remainingQuestions"
-    );
-    const retryWrongInput = document.getElementById("retryWrong");
-    const resultArea = document.getElementById("resultArea");
-    const resultSummary = document.getElementById("resultSummary");
-    const answersList = document.getElementById("answersList");
-    const retryBtn = document.getElementById("retryBtn");
-    const closeResultBtn = document.getElementById("closeResultBtn");
-    const quizTypeSelect = document.getElementById("quizTypeSelect");
-
-    // Data pour les questions
-    const allQuestions = [
-      // Questions QCM (choix multiples)
-      {
-        id: "q1",
-        type: "QCM",
-        question: "Quels sont les trois principaux types de tombes égyptiennes anciennes ?",
-        options: ["Mastaba", "Pyramide", "Hypogée", "Ziggurat"],
-        answer: [0, 1, 2],
-      },
-      {
-        id: "q2",
-        type: "QCM",
-        question: "Quelles caractéristiques architecturales associe-t-on aux temples d'Amon-Rê à Karnak et Louxor ?",
-        options: [
-          "Plans axiaux rigides",
-          "Allées de sphinx",
-          "Pylônes massifs",
-          "Voûtes en béton",
-        ],
-        answer: [0, 1, 2],
-      },
-      {
-        id: "q3",
-        type: "QCM",
-        question: "Quelles fonctions remplissaient les obélisques égyptiens ?",
-        options: [
-          "Symboles solaires (pierre de Benben)",
-          "Point de repère pour les processions",
-          "Monuments commémoratifs",
-          "Tombes royales",
-        ],
-        answer: [0, 1, 2],
-      },
-      {
-        id: "q4",
-        type: "QCM",
-        question: "Quels éléments sont essentiels pour comprendre la structure d'une pyramide de l'Ancien Empire ?",
-        options: [
-          "Chambres funéraires souterraines",
-          "Corridors et galeries complexes",
-          "Revêtement de calcaire blanc",
-          "Briques crues",
-        ],
-        answer: [0, 1, 2],
-      },
-      {
-        id: "q5",
-        type: "QCM",
-        question: "Quels sont les principaux matériaux de construction égyptiens ?",
-        options: [
-          "Calcaire et grès",
-          "Briques crues (pisé)",
-          "Granite et diorite",
-          "Bois importé",
-        ],
-        answer: [0, 1, 2],
-      },
-      {
-        id: "q6",
-        type: "QCM",
-        question: "Quels sont les rôles des pylônes à l'entrée des temples ?",
-        options: [
-          "Portes monumentales",
-          "Symboles de l'horizon",
-          "Propagande royale (bas-reliefs)",
-          "Lieux de stockage",
-        ],
-        answer: [0, 1, 2],
-      },
-      // Questions QCS (choix unique)
-      {
-        id: "q41",
-        type: "QCS",
-        question: "La première pyramide à degrés a été construite pour quel pharaon ?",
-        options: ["Khéops", "Toutânkhamon", "Djoser", "Snéfrou"],
-        answer: [2],
-      },
-      {
-        id: "q42",
-        type: "QCS",
-        question: "Quel est le matériau principal de construction des temples monumentaux ?",
-        options: ["Brique crue", "Granite", "Pierre (calcaire, grès)", "Marbre"],
-        answer: [2],
-      },
-      {
-        id: "q43",
-        type: "QCS",
-        question: "Quel élément architectural servait de porte monumentale à l'entrée des temples ?",
-        options: ["L'obélisque", "Le pylône", "Le mastaba", "La pyramide"],
-        answer: [1],
-      },
-      {
-        id: "q44",
-        type: "QCS",
-        question: "Quelle pyramide est aussi appelée 'Pyramide rouge' ?",
-        options: ["La Grande Pyramide de Gizeh", "La pyramide de Djoser", "La pyramide de Meïdoum", "La pyramide de Snéfrou à Dahchour"],
-        answer: [3],
-      },
-      // Questions Vrai/Faux
-      {
-        id: "q71",
-        type: "VF",
-        question: "Le Nil était considéré comme une frontière sacrée entre la vie et la mort.",
-        options: ["Vrai", "Faux"],
-        answer: [0],
-      },
-      {
-        id: "q72",
-        type: "VF",
-        question: "Les pyramides étaient le type de tombeau le plus courant pour le peuple égyptien.",
-        options: ["Vrai", "Faux"],
-        answer: [1],
-      },
-      {
-        id: "q73",
-        type: "VF",
-        question: "La pierre de taille a été utilisée pour la première fois pour la pyramide de Djoser.",
-        options: ["Vrai", "Faux"],
-        answer: [0],
-      },
-      {
-        id: "q74",
-        type: "VF",
-        question: "Les temples rupestres comme Abou Simbel étaient construits avec des briques crues.",
-        options: ["Vrai", "Faux"],
-        answer: [1],
-      },
-    ];
-    
-
-    let currentSet = [];
-    let currentIndex = 0;
-    let userAnswers = {};
-    let score = 0;
-    let timer = null;
-    let timeLeft = 30 * 60;
-    let isQuizRunning = false;
-    let currentQuizType = 'QCM';
-
-    // Fonctions pour la logique du quiz
-
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
-    
-    function startTimer() {
-      timer = setInterval(() => {
-        timeLeft--;
-        updateTimerDisplay();
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-          endQuiz();
-        }
-      }, 1000);
-    }
-
-    function updateTimerDisplay() {
-      const minutes = Math.floor(timeLeft / 60);
-      const seconds = timeLeft % 60;
-      timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
-
-    function loadQuestion() {
-      const question = currentSet[currentIndex];
-      questionIndex.textContent = `Question ${currentIndex + 1} / ${currentSet.length}`;
-      questionText.textContent = question.question;
-      optionsContainer.innerHTML = '';
-      
-      // Afficher les options en fonction du type
-      question.options.forEach((option, index) => {
-        const optionDiv = document.createElement('div');
-        optionDiv.classList.add('option');
-        
-        const input = document.createElement('input');
-        input.type = question.type === 'QCM' ? 'checkbox' : 'radio';
-        input.name = `q-${question.id}`;
-        input.value = index;
-        optionDiv.appendChild(input);
-        
-        const label = document.createElement('label');
-        label.textContent = option;
-        optionDiv.appendChild(label);
-        
-        optionsContainer.appendChild(optionDiv);
-
-        // Marquer les réponses de l'utilisateur si elles existent
-        if (userAnswers[question.id] && userAnswers[question.id].includes(index)) {
-          input.checked = true;
-          optionDiv.classList.add('selected');
-        }
-      });
-      
-      updateNavButtons();
-    }
-
-    function saveAnswer() {
-      const question = currentSet[currentIndex];
-      const selectedOptions = Array.from(optionsContainer.querySelectorAll('input:checked')).map(input => parseInt(input.value));
-      userAnswers[question.id] = selectedOptions;
-      updateRemainingQuestions();
-    }
-
-    function updateNavButtons() {
-      prevBtn.disabled = currentIndex === 0;
-      nextBtn.disabled = currentIndex === currentSet.length - 1;
-      submitBtn.style.display = currentIndex === currentSet.length - 1 ? 'block' : 'none';
-    }
-    
-    function updateRemainingQuestions() {
-      const answeredCount = Object.keys(userAnswers).length;
-      remainingQuestionsLabel.textContent = currentSet.length - answeredCount;
-    }
-
-    function checkAnswers() {
-      score = 0;
-      currentSet.forEach(q => {
-        const userAnswer = userAnswers[q.id] || [];
-        const isCorrect = q.answer.length === userAnswer.length && q.answer.every(ans => userAnswer.includes(ans));
-        if (isCorrect) {
-          score++;
-        }
-      });
-    }
-    
-    function displayResults() {
-      checkAnswers();
-      clearInterval(timer);
-      
-      quizContainer.style.display = 'none';
-      resultArea.style.display = 'flex';
-      
-      const total = currentSet.length;
-      const correct = score;
-      const wrong = total - correct;
-      const percentage = (correct / total * 100).toFixed(2);
-      
-      resultSummary.innerHTML = `
-        <div>
-          <h4>Questions totales</h4>
-          <p>${total}</p>
-        </div>
-        <div>
-          <h4>Correctes</h4>
-          <p style="color: #10b981">${correct}</p>
-        </div>
-        <div>
-          <h4>Incorrectes</h4>
-          <p style="color: #ef4444">${wrong}</p>
-        </div>
-        <div>
-          <h4>Pourcentage</h4>
-          <p>${percentage}%</p>
-        </div>
-      `;
-      
-      answersList.innerHTML = '';
-      wrongQuestions = [];
-
-      currentSet.forEach((q, qIndex) => {
-        const userAnswer = userAnswers[q.id] || [];
-        const isCorrect = q.answer.length === userAnswer.length && q.answer.every(ans => userAnswer.includes(ans));
-        
-        if (!isCorrect) {
-          wrongQuestions.push(q);
-        }
-        
-        const answerItem = document.createElement('div');
-        answerItem.classList.add('answer-item');
-        answerItem.innerHTML = `
-          <p><strong>Q${qIndex + 1}: ${q.question}</strong></p>
-          <p>${isCorrect ? `<span class="correct-answer">✅ Correcte</span>` : `<span class="wrong-answer">❌ Incorrecte</span>`}</p>
-          <p>Votre réponse: ${userAnswer.map(i => q.options[i]).join(', ')}</p>
-          <p>Réponse correcte: ${q.answer.map(i => q.options[i]).join(', ')}</p>
-        `;
-        answersList.appendChild(answerItem);
-      });
-
-      retryBtn.disabled = wrongQuestions.length === 0 || !retryWrongInput.checked;
-    }
-    
-    function endQuiz() {
-      saveAnswer();
-      isQuizRunning = false;
-      displayResults();
-    }
-
-    function resetQuiz() {
-      currentIndex = 0;
-      userAnswers = {};
-      score = 0;
-      timeLeft = 30 * 60;
-      updateTimerDisplay();
-      scoreDisplay.textContent = '0';
-      remainingQuestionsLabel.textContent = '0';
-      questionText.textContent = 'Choisissez un type puis démarrez.';
-      optionsContainer.innerHTML = '';
-      
-      startBtn.textContent = 'Commencer';
-      startBtn.disabled = false;
-      endEarlyBtn.disabled = true;
-      quizTypeSelect.disabled = false;
-      quizContainer.style.display = 'grid';
-      resultArea.style.display = 'none';
-    }
-
-    function initializeQuiz() {
-      currentQuizType = quizTypeSelect.value;
-      let filteredQuestions = allQuestions.filter(q => q.type === currentQuizType);
-      currentSet = shuffle(filteredQuestions);
-      
-      if (currentSet.length > 0) {
-        totalQuestionsLabel.textContent = currentSet.length;
-        remainingQuestionsLabel.textContent = currentSet.length;
-        loadQuestion();
-      } else {
-        questionText.textContent = "Aucune question disponible pour ce type de quiz.";
-        optionsContainer.innerHTML = "";
-        totalQuestionsLabel.textContent = 0;
-        remainingQuestionsLabel.textContent = 0;
-      }
-    }
-
-    // Événements
-
-    openQuizBtn.addEventListener("click", () => {
-      quizModal.style.display = "flex";
-      quizModal.setAttribute("aria-hidden", "false");
-      resetQuiz();
-    });
-    
-    closeQuizBtn.addEventListener("click", () => {
-      quizModal.style.display = "none";
-      quizModal.setAttribute("aria-hidden", "true");
-      if (isQuizRunning) {
-        clearInterval(timer);
-        isQuizRunning = false;
-      }
-    });
-
-    quizTypeSelect.addEventListener('change', () => {
-      if (!isQuizRunning) {
-        resetQuiz();
-        initializeQuiz();
-        selectedTypeLabel.textContent = quizTypeSelect.value;
-      }
-    });
-
-    startBtn.addEventListener('click', () => {
-      if (currentSet.length === 0) {
-        initializeQuiz();
-        selectedTypeLabel.textContent = quizTypeSelect.value;
-      }
-      
-      if (!isQuizRunning && currentSet.length > 0) {
-        isQuizRunning = true;
-        startTimer();
-        startBtn.textContent = 'En cours...';
-        startBtn.disabled = true;
-        endEarlyBtn.disabled = false;
-        quizTypeSelect.disabled = true;
-      }
-    });
-
-    endEarlyBtn.addEventListener('click', () => {
-      if (isQuizRunning) {
-        endQuiz();
-      }
-    });
-    
-    submitBtn.addEventListener('click', endQuiz);
-
-    prevBtn.addEventListener('click', () => {
-      saveAnswer();
-      if (currentIndex > 0) {
-        currentIndex--;
-        loadQuestion();
-      }
-    });
-
-    nextBtn.addEventListener('click', () => {
-      saveAnswer();
-      if (currentIndex < currentSet.length - 1) {
-        currentIndex++;
-        loadQuestion();
-      }
-    });
-
-    optionsContainer.addEventListener('change', (e) => {
-      const target = e.target;
-      if (target.tagName === 'INPUT') {
-        const parentDiv = target.closest('.option');
-        const question = currentSet[currentIndex];
-        
-        if (question.type !== 'QCM') {
-          optionsContainer.querySelectorAll('.option').forEach(div => {
-            div.classList.remove('selected');
-          });
-        }
-        
-        parentDiv.classList.toggle('selected', target.checked);
-        
-        saveAnswer();
-      }
-    });
-
-    retryBtn.addEventListener('click', () => {
-      if (wrongQuestions.length > 0) {
-        currentSet = shuffle(wrongQuestions);
-        currentIndex = 0;
-        userAnswers = {};
-        score = 0;
-        timeLeft = 30 * 60;
-        
-        quizContainer.style.display = 'grid';
-        resultArea.style.display = 'none';
-        isQuizRunning = true;
-        startTimer();
-        startBtn.textContent = 'En cours...';
-        startBtn.disabled = true;
-        endEarlyBtn.disabled = false;
-        quizTypeSelect.disabled = true;
-        totalQuestionsLabel.textContent = currentSet.length;
-        remainingQuestionsLabel.textContent = currentSet.length;
-        loadQuestion();
-      }
-    });
-
-    closeResultBtn.addEventListener('click', () => {
-      quizModal.style.display = "none";
-      quizModal.setAttribute("aria-hidden", "true");
-    });
-    
-    // Initialisation
-    document.addEventListener('DOMContentLoaded', () => {
-      initializeQuiz();
-      selectedTypeLabel.textContent = quizTypeSelect.value;
-    });
-  </script>
 </body>
 </html>
