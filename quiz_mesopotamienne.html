@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
-    /* === احتفظت بتصميم الصفحة الأصل كما طلبت === */
+    /* === التنسيقات الأساسية === */
     body {
       margin: 0;
       font-family: 'Rubik', sans-serif;
@@ -16,9 +16,10 @@
       color: #111;
       display: flex;
       min-height: 100vh;
-      flex-wrap: wrap; /* لضمان التجاوب على الأجهزة الصغيرة */
+      flex-wrap: wrap; 
     }
 
+    /* === تنسيقات القائمة الجانبية (Sidebar) === */
     aside {
       width: 240px;
       background-color: #f4f4f4;
@@ -38,6 +39,34 @@
       transform: translateX(-260px);
     }
 
+    .sidebar-header {
+      margin-bottom: 20px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 8px;
+    }
+
+    .sidebar-menu a {
+      color: #111; /* لون النص أسود */
+      text-decoration: none; /* إزالة السطر من تحت الروابط */
+      font-weight: 500;
+      display: block;
+      padding: 8px 0;
+      transition: color 0.3s ease, text-decoration 0.3s ease;
+    }
+
+    .sidebar-menu a:hover {
+      color: #007bff; /* تغيير اللون إلى الأزرق عند مرور الماوس */
+      text-decoration: underline; /* إضافة سطر عند مرور الماوس */
+    }
+
     .back-button {
       margin-bottom: 20px;
       background-color: #ddd;
@@ -47,6 +76,14 @@
       cursor: pointer;
       width: 100%;
       font-weight: 600;
+      text-decoration: none; /* تأكيد إزالة السطر من زر الرجوع */
+      color: #111;
+      display: block; /* لكي يأخذ الزر كامل العرض */
+      text-align: center;
+    }
+
+    .back-button.is-link {
+        background: #eee;
     }
 
     #toggleSidebar {
@@ -64,6 +101,7 @@
       transition: left 0.3s ease;
     }
 
+    /* === تنسيقات المحتوى الرئيسي (Main Content) === */
     main {
       flex-grow: 1;
       padding: 30px;
@@ -93,15 +131,15 @@
       font-size: 16px;
       cursor: pointer;
       background-color:#fff;
-      text-decoration: none; /* لمنع خط التسطير على الروابط */
-      color: #111; /* للحفاظ على لون النص */
+      text-decoration: none;
+      color: #111;
     }
     
     .buttons a {
-      display: inline-block; /* لكي يأخذ الـ`<a>` نفس حجم الزر */
+      display: inline-block;
     }
 
-    /* Modal quiz (copy of your original style) */
+    /* === تنسيقات الـ Modal الخاص بالأسئلة === */
     .quiz-modal {
       position: fixed;
       inset: 0;
@@ -144,6 +182,7 @@
     .answers-list { margin-top:12px; display:flex; flex-direction:column; gap:10px; max-height:320px; overflow:auto; }
     .answer-item { background:#fcfcff; border:1px solid #eef2ff; padding:12px; border-radius:8px; }
 
+    /* === التجاوب مع الشاشات الصغيرة === */
     @media (max-width: 880px) {
       .quiz-body { grid-template-columns: 1fr; }
       .sidebar-panel { order: -1; }
@@ -182,7 +221,7 @@
 <button id="toggleSidebar">☰ Menu</button>
 
 <aside class="sidebar">
-  <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
+  <a href="sem1.html" class="back-button is-link">🔙 Retour à Semestre 1</a>
   <button class="back-button" onclick="history.back()">🔙 Retour</button>
 
   <div class="sidebar-header">
@@ -344,14 +383,12 @@
     let answers = [];
     let score = 0;
     let timer = null;
-    let timeLeft = 30 * 60; // 30 minutes
+    let timeLeft = 30 * 60; 
     let wrongQuestions = [];
     let retryMode = false;
 
     /* ===========================
         QUESTIONS DATA — 100 أسئلة
-        — التوزيع: 40 QCM (choix multiples), 30 QCS (choix unique), 30 VF (Vrai/Faux)
-        — مستوى: صعب → صعب جدًا
     =========================== */
     allQuestions = [
         /* ----- QCM 1..40 (choix multiples) ----- */
@@ -515,7 +552,6 @@
             questionText.textContent = question.question;
             createOptions(question);
             
-            // Check for previous answers and mark them
             const prevAnswer = answers.find(a => a.id === question.id);
             if (prevAnswer) {
                 prevAnswer.userAnswer.forEach(ansIndex => {
@@ -524,7 +560,6 @@
                 });
             }
 
-            // Update button states
             prevBtn.disabled = currentIndex === 0;
             nextBtn.disabled = currentIndex === currentSet.length - 1;
             submitBtn.style.display = 'none';
