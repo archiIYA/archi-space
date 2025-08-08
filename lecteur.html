@@ -2,126 +2,14 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="archi.space est une plateforme éducative d’architecture : cours, projets, livres.">
-  <meta name="keywords" content="architecture, cours architecture, archi.space, PFE, projet étudiant, دروس معمارية, fac architecture">
-  <meta name="author" content="archi.space">
-  <title>archi.space - Accueil</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    /* ... نفس التنسيق الموجود سابقًا بدون تغيير ... */
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      background: linear-gradient(145deg, #fffaf5, #f1e2d2);
-      color: #1d1d1d;
-    }
-    .sidebar { /* ... كما هو ... */ }
-    /* باقي التنسيق كما هو ... */
-  </style>
-</head>
-<body>
-  <div class="sidebar">
-    <h2>🎓 archi.space</h2>
-    <ul>
-      <li onclick="toggleMenu(1)">🧰 1ère année</li>
-      <ul class="submenu" id="submenu1">
-        <li><a href="sem1.html">📚 Semestre 1</a></li>
-        <li><a href="sem2.html">✏️ Semestre 2</a></li>
-      </ul>
-      <li onclick="toggleMenu(2)">📐 2ème année</li>
-      <ul class="submenu" id="submenu2">
-        <li><a href="sem3.html">🧱 Semestre 3</a></li>
-        <li><a href="sem4.html">🧪 Semestre 4</a></li>
-      </ul>
-      <li onclick="toggleMenu(3)">🏗️ 3ème année</li>
-      <ul class="submenu" id="submenu3">
-        <li><a href="sem5.html">🧭 Semestre 5</a></li>
-        <li><a href="sem6.html">🛰️ Semestre 6</a></li>
-      </ul>
-      <li onclick="toggleMenu(4)">🏛️ 4ème année</li>
-      <ul class="submenu" id="submenu4">
-        <li><a href="sem7.html">🏙️ Semestre 7</a></li>
-        <li><a href="sem8.html">🗂️ Semestre 8</a></li>
-      </ul>
-      <li onclick="toggleMenu(5)">🎓 5ème année</li>
-      <ul class="submenu" id="submenu5">
-        <li><a href="sem9.html">🏢 Semestre 9</a></li>
-        <li><a href="sem10.html">🏆 Semestre 10</a></li>
-      </ul>
-      <li><a href="projets.html" style="display:block;padding:12px 20px;">🗃️ Projets étudiants</a></li>
-    </ul>
-    <div class="contact">
-      📬 Contact :<br />
-      <a href="mailto:contact@archi.space">contact@archi.space</a>
-    </div>
-  </div>
-
-  <div class="content">
-    <button class="logout" onclick="logout()">Déconnexion</button>
-    <h1>🏠 Accueil étudiant</h1>
-    <div class="search-bar">
-      <input type="text" placeholder="🔍 Rechercher un cours, un projet ou un livre..." />
-    </div>
-
-    <div class="cards">
-      <a href="bibliotheque.html" style="text-decoration: none; color: inherit;">
-        <div class="card">
-          <span>📘</span>
-          <h3>Bibliothèque</h3>
-          <p>Consultez les livres et ressources utiles.</p>
-        </div>
-      </a>
-      <a href="cours.html" style="text-decoration: none; color: inherit;">
-        <div class="card">
-          <span>📚</span>
-          <h3>Dossiers de cours</h3>
-          <p>Explorez les contenus pédagogiques classés par année.</p>
-        </div>
-      </a>
-      <a href="projets.html" style="text-decoration: none; color: inherit;">
-        <div class="card">
-          <span>🗃️</span>
-          <h3>Projets étudiants</h3>
-          <p>Accès Premium aux meilleurs PFE protégés.</p>
-        </div>
-      </a>
-      <a href="definition.html" style="text-decoration: none; color: inherit;">
-        <div class="card">
-          <span>🎓</span>
-          <h3>تعريف بالتخصص</h3>
-          <p>مقدمة شاملة حول تخصص الهندسة المعمارية.</p>
-        </div>
-      </a>
-      <a href="examens.html" style="text-decoration: none; color: inherit;">
-        <div class="card">
-          <span>📝</span>
-          <h3>امتحانات</h3>
-          <p>نماذج امتحانات السنوات السابقة مع التصحيح.</p>
-        </div>
-      </a>
-      <a href="td.html" style="text-decoration: none; color: inherit;">
-        <div class="card">
-          <span>📄</span>
-          <h3>فيش تيدي</h3>
-          <p>ملخصات التمارين والدروس TD لجميع المواد.</p>
-        </div>
-      </a>
-      <a href="fun.html" style="text-decoration: none; color: inherit;">
-        <div class="card">
-          <span>🎮</span>
-          <h3>ترفيه</h3>
-          <p>محتوى خفيف وممتع للراحة والاسترخاء.</p>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <!-- ✅ الحماية و Firebase Auth -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Page Lecteur Archi-Space" />
+  <title>Lecteur</title>
+  <link rel="stylesheet" href="style.css" />
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    // Firebase Auth protection
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
@@ -129,36 +17,179 @@
       projectId: "archi-space-72624",
       storageBucket: "archi-space-72624.appspot.com",
       messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:c914a78566b882b80df7b8",
-      measurementId: "G-RZV7LSDQBD"
+      appId: "1:407015246505:web:1b3b54b87ca3f9a10df7b8",
+      measurementId: "G-3JF6KDRNBP"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // تأكد من تسجيل الدخول
     onAuthStateChanged(auth, (user) => {
       if (!user) {
-        window.location.href = "login.html";
+        window.location.replace("login.html");
       }
     });
+  </script>
 
-    // زر تسجيل الخروج
-    window.logout = function () {
-      signOut(auth).then(() => {
-        window.location.href = "login.html";
-      });
-    };
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+    }
 
-    // التحكم في القوائم الجانبية
-    window.toggleMenu = function(id) {
-      for (let i = 1; i <= 5; i++) {
-        const menu = document.getElementById("submenu" + i);
-        if (menu) {
-          menu.style.display = (i === id && menu.style.display !== "block") ? "block" : "none";
-        }
+    .sidebar {
+      width: 250px;
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+      box-sizing: border-box;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-top: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      cursor: pointer;
+      margin: 10px 0;
+    }
+
+    .submenu {
+      display: none;
+      padding-left: 15px;
+    }
+
+    .sidebar li:hover {
+      text-decoration: underline;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+      background-color: #ecf0f1;
+    }
+
+    .menu-toggle {
+      display: none;
+      background-color: #2c3e50;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1;
+    }
+
+    .card {
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 2;
       }
-    };
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="menu-toggle" onclick="toggleMenu()">☰ Menu</div>
+
+  <div class="sidebar" id="sidebar">
+    <ul>
+      <li onclick="toggleSubmenu('annee1')">Année 1 🔽</li>
+      <ul id="annee1" class="submenu">
+        <li><a href="sem1.html" style="color: white;">Semestre 1</a></li>
+        <li><a href="sem2.html" style="color: white;">Semestre 2</a></li>
+      </ul>
+
+      <li onclick="toggleSubmenu('annee2')">Année 2 🔽</li>
+      <ul id="annee2" class="submenu">
+        <li><a href="sem3.html" style="color: white;">Semestre 3</a></li>
+        <li><a href="sem4.html" style="color: white;">Semestre 4</a></li>
+      </ul>
+
+      <li onclick="toggleSubmenu('annee3')">Année 3 🔽</li>
+      <ul id="annee3" class="submenu">
+        <li><a href="sem5.html" style="color: white;">Semestre 5</a></li>
+        <li><a href="sem6.html" style="color: white;">Semestre 6</a></li>
+      </ul>
+
+      <li onclick="toggleSubmenu('annee4')">Année 4 🔽</li>
+      <ul id="annee4" class="submenu">
+        <li><a href="sem7.html" style="color: white;">Semestre 7</a></li>
+        <li><a href="sem8.html" style="color: white;">Semestre 8</a></li>
+      </ul>
+
+      <li onclick="toggleSubmenu('annee5')">Année 5 🔽</li>
+      <ul id="annee5" class="submenu">
+        <li><a href="sem9.html" style="color: white;">Semestre 9</a></li>
+        <li><a href="sem10.html" style="color: white;">Semestre 10</a></li>
+      </ul>
+
+      <li><a href="accueil.html" style="color: white;">🔙 Retour à l'accueil</a></li>
+    </ul>
+  </div>
+
+  <div class="content">
+    <h1>Bienvenue sur la page Lecteur</h1>
+    <div class="cards">
+      <div class="card" onclick="window.location.href='cours.html'">Cours</div>
+      <div class="card" onclick="window.location.href='bibliotheque.html'">Bibliothèque</div>
+      <div class="card" onclick="window.location.href='definition.html'">Définitions</div>
+      <div class="card" onclick="window.location.href='examens.html'">Examens</div>
+      <div class="card" onclick="window.location.href='projets.html'">Projets</div>
+      <div class="card" onclick="window.location.href='logiciels.html'">Logiciels</div>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    function toggleSubmenu(id) {
+      const submenu = document.getElementById(id);
+      submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    }
   </script>
 </body>
 </html>
