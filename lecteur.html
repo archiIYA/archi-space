@@ -2,108 +2,135 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Page Lecteur Archi-Space" />
-  <title>Lecteur</title>
-  <link rel="stylesheet" href="style.css" />
-  <script type="module">
-    // Firebase Auth protection
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-      authDomain: "archi-space-72624.firebaseapp.com",
-      projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.appspot.com",
-      messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:1b3b54b87ca3f9a10df7b8",
-      measurementId: "G-3JF6KDRNBP"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.replace("login.html");
-      }
-    });
-  </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="archi.space est une plateforme éducative d’architecture : cours, projets, livres.">
+  <meta name="keywords" content="architecture, cours architecture, archi.space, PFE, projet étudiant, دروس معمارية, fac architecture">
+  <meta name="author" content="archi.space">
+  <title>archi.space - Accueil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: 'Poppins', sans-serif;
       display: flex;
-      height: 100vh;
+      background: linear-gradient(145deg, #fffaf5, #f1e2d2);
+      color: #1d1d1d;
     }
 
     .sidebar {
       width: 250px;
-      background-color: #2c3e50;
-      color: white;
-      padding: 20px;
-      box-sizing: border-box;
-      transition: transform 0.3s ease;
+      background-color: #fff;
+      height: 100vh;
+      position: fixed;
+      border-right: 1px solid #ddd;
+      box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+      z-index: 100;
     }
 
     .sidebar h2 {
-      font-size: 20px;
-      margin-top: 0;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 1.6em;
+      font-weight: 600;
+      background: linear-gradient(to right, #c08457, #e0a16b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .sidebar ul {
       list-style: none;
       padding: 0;
+      margin: 0;
     }
 
     .sidebar li {
+      padding: 12px 20px;
       cursor: pointer;
-      margin: 10px 0;
+      transition: background 0.3s;
+    }
+
+    .sidebar li:hover {
+      background-color: #f0e4d4;
     }
 
     .submenu {
       display: none;
-      padding-left: 15px;
+      background-color: #fcf7f2;
+      border-left: 3px solid #cba47e;
     }
 
-    .sidebar li:hover {
+    .submenu li {
+      padding-left: 40px;
+    }
+
+    .submenu li a {
+      text-decoration: none;
+      color: #222;
+    }
+
+    .submenu li a:hover {
       text-decoration: underline;
     }
 
+    .sidebar .contact {
+      margin-top: 30px;
+      padding: 15px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+      border-top: 1px solid #ccc;
+    }
+
+    .sidebar .contact a {
+      color: #c08457;
+      text-decoration: none;
+    }
+
     .content {
-      flex: 1;
-      padding: 20px;
-      background-color: #ecf0f1;
+      margin-left: 250px;
+      padding: 50px;
+      flex-grow: 1;
+      animation: fadeIn 1s ease-in-out;
     }
 
-    .menu-toggle {
-      display: none;
-      background-color: #2c3e50;
+    .logout {
+      background-color: #e76f51;
       color: white;
-      padding: 10px;
+      border: none;
+      padding: 10px 20px;
       cursor: pointer;
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 1;
+      border-radius: 8px;
+      float: right;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: background 0.3s;
     }
 
-    .card {
-      background-color: white;
+    .logout:hover {
+      background-color: #d6583f;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2em;
+      color: #333;
+    }
+
+    .search-bar {
+      max-width: 600px;
+      margin: 30px 0;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 15px;
+      font-size: 1em;
+      border-radius: 15px;
       border: 1px solid #ccc;
-      padding: 20px;
-      margin: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: inset 2px 2px 6px #e2d6c7, inset -2px -2px 6px #fff;
     }
 
     .cards {
@@ -112,85 +139,150 @@
       gap: 20px;
     }
 
-    @media (max-width: 768px) {
-      .sidebar {
-        position: absolute;
-        height: 100%;
-        transform: translateX(-100%);
-        z-index: 2;
-      }
+    .card {
+      flex: 1 1 260px;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
 
-      .sidebar.active {
-        transform: translateX(0);
-      }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
 
-      .menu-toggle {
-        display: block;
-      }
+    .card span {
+      font-size: 3.2em;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      margin: 0;
+      color: #c08457;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="menu-toggle" onclick="toggleMenu()">☰ Menu</div>
 
-  <div class="sidebar" id="sidebar">
+  <div class="sidebar">
+    <h2>🎓 archi.space</h2>
     <ul>
-      <li onclick="toggleSubmenu('annee1')">Année 1 🔽</li>
-      <ul id="annee1" class="submenu">
-        <li><a href="sem1.html" style="color: white;">Semestre 1</a></li>
-        <li><a href="sem2.html" style="color: white;">Semestre 2</a></li>
+      <li onclick="toggleMenu(1)">🧰 1ère année</li>
+      <ul class="submenu" id="submenu1">
+        <li><a href="sem1.html">📚 Semestre 1</a></li>
+        <li><a href="sem2.html">✏️ Semestre 2</a></li>
       </ul>
 
-      <li onclick="toggleSubmenu('annee2')">Année 2 🔽</li>
-      <ul id="annee2" class="submenu">
-        <li><a href="sem3.html" style="color: white;">Semestre 3</a></li>
-        <li><a href="sem4.html" style="color: white;">Semestre 4</a></li>
+      <li onclick="toggleMenu(2)">📐 2ème année</li>
+      <ul class="submenu" id="submenu2">
+        <li><a href="sem3.html">🧱 Semestre 3</a></li>
+        <li><a href="sem4.html">🧪 Semestre 4</a></li>
       </ul>
 
-      <li onclick="toggleSubmenu('annee3')">Année 3 🔽</li>
-      <ul id="annee3" class="submenu">
-        <li><a href="sem5.html" style="color: white;">Semestre 5</a></li>
-        <li><a href="sem6.html" style="color: white;">Semestre 6</a></li>
+      <li onclick="toggleMenu(3)">🏗️ 3ème année</li>
+      <ul class="submenu" id="submenu3">
+        <li><a href="sem5.html">🧭 Semestre 5</a></li>
+        <li><a href="sem6.html">🛰️ Semestre 6</a></li>
       </ul>
 
-      <li onclick="toggleSubmenu('annee4')">Année 4 🔽</li>
-      <ul id="annee4" class="submenu">
-        <li><a href="sem7.html" style="color: white;">Semestre 7</a></li>
-        <li><a href="sem8.html" style="color: white;">Semestre 8</a></li>
+      <li onclick="toggleMenu(4)">🏛️ 4ème année</li>
+      <ul class="submenu" id="submenu4">
+        <li><a href="sem7.html">🏙️ Semestre 7</a></li>
+        <li><a href="sem8.html">🗂️ Semestre 8</a></li>
       </ul>
 
-      <li onclick="toggleSubmenu('annee5')">Année 5 🔽</li>
-      <ul id="annee5" class="submenu">
-        <li><a href="sem9.html" style="color: white;">Semestre 9</a></li>
-        <li><a href="sem10.html" style="color: white;">Semestre 10</a></li>
+      <li onclick="toggleMenu(5)">🎓 5ème année</li>
+      <ul class="submenu" id="submenu5">
+        <li><a href="sem9.html">🏢 Semestre 9</a></li>
+        <li><a href="sem10.html">🏆 Semestre 10</a></li>
       </ul>
 
-      <li><a href="accueil.html" style="color: white;">🔙 Retour à l'accueil</a></li>
+      <li><a href="projets.html" style="display:block;padding:12px 20px;">🗃️ Projets étudiants</a></li>
     </ul>
-  </div>
 
-  <div class="content">
-    <h1>Bienvenue sur la page Lecteur</h1>
-    <div class="cards">
-      <div class="card" onclick="window.location.href='cours.html'">Cours</div>
-      <div class="card" onclick="window.location.href='bibliotheque.html'">Bibliothèque</div>
-      <div class="card" onclick="window.location.href='definition.html'">Définitions</div>
-      <div class="card" onclick="window.location.href='examens.html'">Examens</div>
-      <div class="card" onclick="window.location.href='projets.html'">Projets</div>
-      <div class="card" onclick="window.location.href='logiciels.html'">Logiciels</div>
+    <div class="contact">
+      📬 Contact :<br />
+      <a href="mailto:contact@archi.space">contact@archi.space</a>
     </div>
   </div>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById('sidebar').classList.toggle('active');
-    }
+  <div class="content">
+    <button class="logout" onclick="logout()">Déconnexion</button>
+    <h1>🏠 Accueil étudiant</h1>
 
-    function toggleSubmenu(id) {
-      const submenu = document.getElementById(id);
-      submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-    }
+    <div class="search-bar">
+      <input type="text" placeholder="🔍 Rechercher un cours, un projet ou un livre..." />
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <span>📘</span>
+        <h3>Bibliothèque</h3>
+        <p>Consultez les livres et ressources utiles.</p>
+      </div>
+      <div class="card">
+        <span>📚</span>
+        <h3>Dossiers de cours</h3>
+        <p>Explorez les contenus pédagogiques classés par année.</p>
+      </div>
+      <div class="card">
+        <span>📂</span>
+        <h3>Supports PDF</h3>
+        <p>Accès sécurisé aux documents téléchargeables.</p>
+      </div>
+      <div class="card">
+        <span>🗃️</span>
+        <h3>Projets étudiants</h3>
+        <p>Accès Premium aux meilleurs PFE protégés.</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.firebasestorage.app",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+      }
+    });
+
+    window.logout = function () {
+      signOut(auth).then(() => {
+        window.location.href = "login.html";
+      });
+    };
+
+    window.toggleMenu = function(id) {
+      for (let i = 1; i <= 5; i++) {
+        const menu = document.getElementById("submenu" + i);
+        menu.style.display = (i === id && menu.style.display !== "block") ? "block" : "none";
+      }
+    };
   </script>
 </body>
 </html>
-
