@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz — Architecture égyptienne</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* === التنسيقات الأساسية === */
+    body {
+      margin: 0;
+      font-family: 'Rubik', sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
+      min-height: 100vh;
+      flex-wrap: wrap; 
+    }
+
+    /* === تنسيقات القائمة الجانبية (Sidebar) === */
+    aside {
+      width: 240px;
+      background-color: #f4f4f4;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      position: fixed;
+      left: 0;
+      top: 0;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      z-index: 998;
+    }
+
+    aside.hidden {
+      transform: translateX(-260px);
+    }
+
+    .sidebar-header {
+      margin-bottom: 20px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 8px;
+    }
+
+    .sidebar-menu a {
+      color: #111;
+      text-decoration: none;
+      font-weight: 500;
+      display: block;
+      padding: 8px 0;
+      transition: color 0.3s ease, text-decoration 0.3s ease;
+    }
+
+    .sidebar-menu a:hover {
+      color: #007bff;
+      text-decoration: underline;
+    }
+
+    .back-button {
+      margin-bottom: 20px;
+      background-color: #ddd;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      text-decoration: none; 
+      color: #111;
+      display: block; 
+      text-align: center;
+    }
+
+    .back-button.is-link {
+        background: #eee;
+    }
+
+    #toggleSidebar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: left 0.3s ease;
+    }
+
+    /* === تنسيقات المحتوى الرئيسي (Main Content) === */
+    main {
+      flex-grow: 1;
+      padding: 30px;
+      margin-left: 240px;
+      transition: margin-left 0.3s ease;
+    }
+
+    main.expanded {
+      margin-left: 0;
+    }
+    
+    .section-title {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    .lesson { margin-bottom: 30px; padding: 20px; border-radius: 10px; background: linear-gradient(180deg, #fbfbfb 0%, #ffffff 100%); box-shadow: 0 6px 18px rgba(8,24,40,0.06); border:1px solid rgba(15,23,42,0.04); }
+
+    .buttons { margin-top: 10px; display:flex; gap:10px; align-items:center; }
+
+    .buttons a, .buttons button {
+      background: none;
+      border: 1px solid #e6e6e6;
+      padding:8px 12px;
+      border-radius:8px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color:#fff;
+      text-decoration: none;
+      color: #111;
+    }
+    
+    .buttons a {
+      display: inline-block;
+    }
+
+    /* === تنسيقات الـ Modal الخاص بالأسئلة === */
+    .quiz-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      background: linear-gradient(0deg, rgba(2,6,23,0.55), rgba(2,6,23,0.55));
+      padding: 24px;
+    }
+    .quiz-card {
+      width: 100%;
+      max-width: 960px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 20px 50px rgba(2,6,23,0.4);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: pop .18s ease;
+    }
+    @keyframes pop { from { transform: translateY(12px) scale(.99); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+    .quiz-header { padding: 18px 22px; background: linear-gradient(90deg,#0ea5a4,#0ea5a4 60%, #06b6d4 100%); color: #fff; display:flex; align-items:center; justify-content:space-between; }
+    .quiz-header h2 { margin:0; font-size:18px; }
+    .quiz-body { padding: 22px; display: grid; grid-template-columns: 1fr 320px; gap: 20px; }
+    .question-area { background:#fbfdff; padding:18px; border-radius:10px; min-height:320px; }
+    .question-index { font-size:13px; color:#666; margin-bottom:8px; }
+    .question-text { font-size:18px; color:#0f172a; margin-bottom:12px; }
+    .options { display:flex; flex-direction:column; gap:10px; }
+    .option { background:#fff; border:1px solid #e6eef2; padding:12px 14px; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:10px; }
+    .option input { transform:scale(1.15); }
+    .sidebar-panel { background:#ffffff; border-radius:10px; padding:14px; border:1px solid #eef6f9; height:100%; }
+    .timer { font-weight:700; font-size:20px; color:#0f172a; }
+    .meta { margin-top:12px; color:#475569; font-size:14px; }
+    .nav-buttons { display:flex; gap:10px; margin-top:18px; }
+    .btn { padding:10px 14px; border-radius:8px; background:#0ea5a4; color:#fff; border:none; cursor:pointer; font-weight:600; }
+    .btn.secondary { background:#e6eef2; color:#0f172a; }
+    .close-quiz { background:transparent; border:0; color:rgba(255,255,255,0.9); font-weight:700; cursor:pointer; }
+    .result { padding:20px; }
+    .answers-list { margin-top:12px; display:flex; flex-direction:column; gap:10px; max-height:320px; overflow:auto; }
+    .answer-item { background:#fcfcff; border:1px solid #eef2ff; padding:12px; border-radius:8px; }
+
+    /* === التجاوب مع الشاشات الصغيرة === */
+    @media (max-width: 880px) {
+      .quiz-body { grid-template-columns: 1fr; }
+      .sidebar-panel { order: -1; }
+      .quiz-card { max-width: 96%; }
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      aside {
+        height: auto;
+        position: relative;
+        width: 100%;
+        transform: translateX(0);
+        box-shadow: none;
+        transition: none;
+      }
+      main {
+        margin-left: 0;
+      }
+      aside.hidden {
+        display: none;
+      }
+      #toggleSidebar {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<button id="toggleSidebar">☰ Menu</button>
+
+<aside class="sidebar">
+  <a href="sem1.html" class="back-button is-link">🔙 Retour à Semestre 1</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+
+  <div class="sidebar-header">
+    <h2>📚 Année 1 - Semestre 1</h2>
+  </div>
+
+  <ul class="sidebar-menu">
+    <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
+    <li><a href="dca1.html">📐 DCA 1</a></li>
+    <li><a href="dag1.html">🎨 DAG 1</a></li>
+    <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
+    <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
+    <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
+    <li><a href="tmc1.html">🧱 TMC 1</a></li>
+    <li><a href="math1.html">🧮 Mathématiques</a></li>
+    <li><a href="expression1.html">🗣️ Expression orale</a></li>
+    <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
+    <hr>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
+</aside>
+
+<main>
+  <h1 class="section-title">🏛️ Architecture égyptienne — Quiz</h1>
+
+  <div class="lesson">
+    <h3>
+      <span>Architecture égyptienne</span>
+      <span>
+        <button id="openQuizBtn" title="Ouvrir le quiz" style="background:#06b6d4;color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;">📝 Quiz — 100 Q</button>
+      </span>
+    </h3>
+    <div class="buttons">
+      <a href="LA CIVILISATION MESOPOTAMIENNEzd.pdf">📄 PDF</a>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+    <p style="margin-top:12px; color:#475569;">100 سؤال — مستوى: صعب → صعب جدًا — توقيت: 30 دقيقة.</p>
+  </div>
+
+  <footer>
+    © 2025 ArchiSpace – Tous droits réservés.
+  </footer>
+</main>
+
+<div id="quizModal" class="quiz-modal" aria-hidden="true">
+  <div class="quiz-card" role="dialog" aria-modal="true">
+    <div class="quiz-header">
+      <h2>Quiz — Architecture égyptienne</h2>
+      <div class="quiz-controls">
+        <div style="font-size:13px;opacity:0.95;">Choisissez le type :</div>
+        <select id="quizTypeSelect" style="padding:6px 10px; border-radius:8px; border:none; font-weight:600;">
+          <option value="QCM">QCM (choix multiples)</option>
+          <option value="QCS">QCS (choix unique)</option>
+          <option value="VF">Vrai / Faux</option>
+        </select>
+        <button class="close-quiz" id="closeQuizBtn">✕</button>
+      </div>
+    </div>
+
+    <div class="quiz-body">
+      <div class="question-area">
+        <div class="question-index" id="questionIndex">Question 1 / 100</div>
+        <div class="question-text" id="questionText">Choisissez un type puis démarrez.</div>
+
+        <div class="options" id="optionsContainer"></div>
+
+        <div class="nav-buttons">
+          <button class="btn secondary" id="prevBtn" disabled>◀ Précédent</button>
+          <button class="btn secondary" id="nextBtn" disabled>Suivant ▶</button>
+          <button class="btn" id="submitBtn" style="display:none;">Soumettre</button>
+        </div>
+      </div>
+
+      <div class="sidebar-panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:13px;color:#64748b;">Timer</div>
+            <div class="timer" id="timerDisplay">30:00</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:13px;color:#64748b;">Score</div>
+            <div style="font-weight:700; font-size:18px;" id="scoreDisplay">0</div>
+          </div>
+        </div>
+
+        <div class="meta">
+          <div>Type: <span id="selectedType">—</span></div>
+          <div style="margin-top:8px;">Questions totales: <b id="totalQuestions">100</b></div>
+          <div style="margin-top:6px;">Questions restantes: <b id="remainingQuestions">100</b></div>
+          <div style="margin-top:8px;">Réessayer les mauvaises réponses: <input type="checkbox" id="retryWrong" checked></div>
+        </div>
+
+        <div style="margin-top:14px;">
+          <button class="btn" id="startBtn">Commencer</button>
+          <button class="btn secondary" id="endEarlyBtn" style="margin-left:8px;">Finir maintenant</button>
+        </div>
+
+        <div style="margin-top:12px; font-size:13px; color:#475569;">
+          <div>Navigation: utilisez ◀ / ▶ ou les boutons.</div>
+          <div style="margin-top:8px;">Après soumission, les erreurs seront regroupées et proposées à nouveau.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="resultArea" style="display:none;" class="result">
+      <h3>Résultat</h3>
+      <div id="resultSummary"></div>
+      <div class="answers-list" id="answersList"></div>
+      <div style="margin-top:14px;">
+        <button class="btn" id="retryBtn">Reprendre les questions incorrectes</button>
+        <button class="btn secondary" id="closeResultBtn" style="margin-left:10px;">Fermer</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+    /* Sidebar toggle */
+    const sidebar = document.querySelector('aside');
+    const mainContent = document.querySelector('main');
+    const toggleBtn = document.getElementById('toggleSidebar');
+
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('hidden');
+        mainContent.classList.toggle('expanded');
+    });
+
+    /* Quiz logic elements */
+    const openQuizBtn = document.getElementById('openQuizBtn');
+    const quizModal = document.getElementById('quizModal');
+    const closeQuizBtn = document.getElementById('closeQuizBtn');
+    const startBtn = document.getElementById('startBtn');
+    const endEarlyBtn = document.getElementById('endEarlyBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const questionIndex = document.getElementById('questionIndex');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    const selectedTypeLabel = document.getElementById('selectedType');
+    const totalQuestionsLabel = document.getElementById('totalQuestions');
+    const remainingQuestionsLabel = document.getElementById('remainingQuestions');
+    const retryWrongInput = document.getElementById('retryWrong');
+    const resultArea = document.getElementById('resultArea');
+    const resultSummary = document.getElementById('resultSummary');
+    const answersList = document.getElementById('answersList');
+    const retryBtn = document.getElementById('retryBtn');
+    const closeResultBtn = document.getElementById('closeResultBtn');
+    const quizTypeSelect = document.getElementById('quizTypeSelect');
+
+    let allQuestions = [];
+    let currentSet = [];
+    let currentIndex = 0;
+    let answers = [];
+    let score = 0;
+    let timer = null;
+    let timeLeft = 30 * 60; 
+    let wrongQuestions = [];
+    let retryMode = false;
+
+    /* ===========================
+        QUESTIONS DATA — 100 أسئلة
+    =========================== */
+    allQuestions = [
+        /* ----- QCM 1..40 (choix multiples) ----- */
+        { id:'q1', type:'QCM', question:"Quels sont les trois principaux types de tombes égyptiennes anciennes ?", options:["Mastaba","Pyramide","Hypogée","Ziggurat"], answer:[0,1,2]},
+        { id:'q2', type:'QCM', question:"Quelles caractéristiques architecturales associe-t-on aux temples d'Amon-Rê à Karnak et Louxor ?", options:["Plans axiaux rigides","Allées de sphinx","Pylônes massifs","Voûtes en béton"], answer:[0,1,2]},
+        { id:'q3', type:'QCM', question:"Quelles fonctions remplissaient les obélisques égyptiens ?", options:["Symboles solaires (pierre de Benben)","Point de repère pour les processions","Monuments commémoratifs","Tombes royales"], answer:[0,1,2]},
+        { id:'q4', type:'QCM', question:"Quels éléments sont essentiels pour comprendre la structure d'une pyramide de l'Ancien Empire ?", options:["Chambres funéraires souterraines","Corridors et galeries complexes","Revêtement de calcaire blanc","Briques crues"], answer:[0,1,2]},
+        { id:'q5', type:'QCM', question:"Quels sont les principaux matériaux de construction égyptiens ?", options:["Calcaire et grès","Briques crues (pisé)","Granite et diorite","Bois importé"], answer:[0,1,2]},
+        { id:'q6', type:'QCM', question:"Quels sont les rôles des pylônes à l'entrée des temples ?", options:["Portes monumentales","Symboles de l'horizon","Propagande royale (bas-reliefs)","Lieux de stockage"], answer:[0,1,2]},
+        { id:'q7', type:'QCM', question:"Quels types de colonnes trouve-t-on dans l'architecture égyptienne ?", options:["Papyrus fermé (lotus)","Faisceau de lotus","Fleur de palmier","Voûtes à nervures"], answer:[0,1,2]},
+        { id:'q8', type:'QCM', question:"Quelles sont les caractéristiques des hypogées (tombes creusées dans la roche) ?", options:["Décorations murales peintes","Chambres funéraires multiples","Absence de superstructure visible","Grandes terrasses extérieures"], answer:[0,1,2]},
+        { id:'q9', type:'QCM', question:"Quelles innovations ont marqué le passage des mastabas aux pyramides à degrés ?", options:["Utilisation de la pierre de taille","Superposition de mastabas","Création d'une structure interne en gradins","Construction en bois"], answer:[0,1,2]},
+        { id:'q10', type:'QCM', question:"Quels sont les éléments d'un temple funéraire royal ?", options:["Temple bas (temple de la vallée)","Chaussée d'accès","Temples hauts (près de la pyramide)","Ziggurat"], answer:[0,1,2]},
+        { id:'q11', type:'QCM', question:"Quelles fonctions sont associées aux palais égyptiens ?", options:["Résidence du pharaon et de sa famille","Centre administratif de l'empire","Siège du pouvoir religieux","Habitat privé du peuple"], answer:[0,1]},
+        { id:'q12', type:'QCM', question:"Quelles caractéristiques définissent les temples d'époque gréco-romaine en Égypte ?", options:["Pylônes et colonnes typiquement égyptiens","Syncretisme religieux (déités grecques/égyptiennes)","Construction en brique crue","Colonnes corinthiennes grecques"], answer:[0,1,3]},
+        { id:'q13', type:'QCM', question:"Quels rôles jouait le Nil dans l'urbanisme et l'architecture égyptienne ?", options:["Voie de transport","Source d'eau pour l'agriculture","Limite sacrée entre la vie et la mort","Espace de jeux nautiques"], answer:[0,1,2]},
+        { id:'q14', type:'QCM', question:"Quelles innovations de Snéfrou ont mené à la pyramide à face lisse ?", options:["Pyramide rhomboïdale (courbée)","Pyramide rouge (façade lisse)","Augmentation de l'inclinaison","Réduction de l'inclinaison"], answer:[0,1,3]},
+        { id:'q15', type:'QCM', question:"Quelles sont les principales différences entre les pyramides de Gizeh ?", options:["Dimensions des pyramides","Complexité des corridors internes","Présence de pyramides satellites","Usage de briques crues"], answer:[0,1,2]},
+        { id:'q16', type:'QCM', question:"Quels éléments composaient un mastaba ?", options:["Superstructure en brique/pierre","Chambre funéraire souterraine","Chapelle d'offrandes","Pylônes monumentaux"], answer:[0,1,2]},
+        { id:'q17', type:'QCM', question:"Quelles techniques de construction ont été utilisées pour les temples monumentaux ?", options:["Rampes de terre","Chevilles de bois pour le transport","Voûtes nervurées","Extraction de la pierre par coin de bois"], answer:[0,1,3]},
+        { id:'q18', type:'QCM', question:"Quels sont les rôles des hypostyles dans les temples ?", options:["Salles de prière collectives","Salles de procession","Lieux de stockage","Lieux sacrés réservés aux prêtres"], answer:[0,1,3]},
+        { id:'q19', type:'QCM', question:"Quelles informations les inscriptions hiéroglyphiques nous donnent-elles sur l'architecture ?", options:["Règles de proportion et mesure","Noms des architectes et ouvriers","Récits mythologiques et rituels","Dessins techniques des plans"], answer:[0,1,2,3]},
+        { id:'q20', type:'QCM', question:"Quelles sont les particularités des temples solaires de Rê ?", options:["Alignement avec les mouvements du soleil","Autel à ciel ouvert","Obélisque central","Hypogée"], answer:[0,1,2]},
+        { id:'q21', type:'QCM', question:"Quels sont les rôles des obélisques ?", options:["Symboles du culte solaire","Marqueurs de l'entrée des temples","Monuments commémoratifs","Murs de fortification"], answer:[0,1,2]},
+        { id:'q22', type:'QCM', question:"Quels éléments architecturaux reflètent la cosmogonie égyptienne dans les temples ?", options:["Le plafond comme le ciel étoilé","Les colonnes comme des plantes (papyrus, lotus)","Le sol incliné représentant le mont primordial","Les murs épais"], answer:[0,1,2]},
+        { id:'q23', type:'QCM', question:"Quelles sont les caractéristiques des villes égyptiennes ?", options:["Planification en grille (ville ouvrière)","Utilisation de la brique crue","Rues sinueuses","Réseau d'assainissement moderne"], answer:[0,1]},
+        { id:'q24', type:'QCM', question:"Quelles sont les différentes parties d'un temple égyptien ?", options:["Pylône","Cour à ciel ouvert","Salle hypostyle","Sanctuaire"], answer:[0,1,2,3]},
+        { id:'q25', type:'QCM', question:"Quelles techniques utilisaient-ils pour déplacer et assembler les blocs de pierre ?", options:["Rampes","Traîneaux et leviers","Cordes et rondins de bois","Chariots à roues"], answer:[0,1,2]},
+        { id:'q26', type:'QCM', question:"Quelles sont les caractéristiques de l'architecture domestique égyptienne ?", options:["Construction en brique crue","Toits-terrasses","Cours intérieures pour la ventilation","Multiples étages"], answer:[0,1,2]},
+        { id:'q27', type:'QCM', question:"Quelles innovations architecturales sont associées à Djoser ?", options:["Pyramide à degrés","Utilisation de la pierre de taille","Complexe funéraire monumental","Hypogée"], answer:[0,1,2]},
+        { id:'q28', type:'QCM', question:"Quels éléments sont essentiels dans le complexe funéraire de Khéops ?", options:["La Grande Pyramide","Le temple de la vallée","Trois pyramides satellites","Le complexe funéraire de Toutankhamon"], answer:[0,1,2]},
+        { id:'q29', type:'QCM', question:"Quelles sont les fonctions de la "fausse porte" dans les tombes ?", options:["Passage symbolique pour le Ka (âme)","Point de repère pour les offrandes","Représentation du défunt","Accès secret à la chambre funéraire"], answer:[0,1,2]},
+        { id:'q30', type:'QCM', question:"Quels sont les types de temples égyptiens ?", options:["Temples funéraires","Temples de culte divin","Temples solaires","Palais royaux"], answer:[0,1,2]},
+        { id:'q31', type:'QCM', question:"Quelles sources nous informent sur les méthodes de construction ?", options:["Reliefs muraux montrant les ouvriers","Papyrus de construction","Outils retrouvés","Tablettes cunéiformes"], answer:[0,1,2]},
+        { id:'q32', type:'QCM', question:"Quelles sont les particularités des temples rupestres (comme Abou Simbel) ?", options:["Creusés dans la roche","Façade monumentale sculptée","Statues colossales","Toits en bois"], answer:[0,1,2]},
+        { id:'q33', type:'QCM', question:"Quels sont les rôles des statues colossales devant les temples ?", options:["Représentation du pharaon","Affirmation du pouvoir royal et divin","Protection symbolique","Tombes secrètes"], answer:[0,1]},
+        { id:'q34', type:'QCM', question:"Quelles sont les principales différences architecturales entre l'Ancien et le Nouvel Empire ?", options:["Ancien Empire: Pyramides / Nouvel Empire: Temples de culte divin","Ancien Empire: Temples funéraires / Nouvel Empire: Temples rupestres","Ancien Empire: Brique crue / Nouvel Empire: Brique cuite"], answer:[0,1]},
+        { id:'q35', type:'QCM', question:"Quelles sont les caractéristiques des mastabas ?", options:["Structure trapézoïdale","Chambre funéraire souterraine","Puits d'accès scellé","Pylônes"], answer:[0,1,2]},
+        { id:'q36', type:'QCM', question:"Qu'est-ce qui caractérise l'architecture de la période d'Amarna (Akhénaton) ?", options:["Temples à ciel ouvert dédiés à Aton","Utilisation du talatat (blocs de pierre standardisés)","Style artistique réaliste et fluide","Pyramides"], answer:[0,1,2]},
+        { id:'q37', type:'QCM', question:"Quelles sont les fonctions des statues cultuelles dans les temples ?", options:["Représentation vivante de la divinité","Objet de rituels quotidiens","Lieu d'offrandes","Élément décoratif"], answer:[0,1,2]},
+        { id:'q38', type:'QCM', question:"Quels éléments architecturaux servent de transition entre la cour et l'hypostyle ?", options:["Le portique","Les pylônes","La chaussée","La fausse porte"], answer:[0,1]},
+        { id:'q39', type:'QCM', question:"Quels rôles jouait l'alignement astronomique des temples ?", options:["Célébration des solstices et équinoxes","Marqueurs du cycle agricole","Organisation du calendrier religieux","Guide pour les marins"], answer:[0,1,2]},
+        { id:'q40', type:'QCM', question:"Quels sont les matériaux utilisés pour le revêtement extérieur des pyramides ?", options:["Calcaire de Tourah","Granite rose d'Assouan","Brique cuite","Basalte"], answer:[0,1]},
+
+        /* ----- QCS 41..70 (choix simple) ----- */
+        { id:'q41', type:'QCS', question:"La première pyramide à degrés a été construite pour quel pharaon ?", options:["Khéops","Toutânkhamon","Djoser","Snéfrou"], answer:[2]},
+        { id:'q42', type:'QCS', question:"Quel est le matériau principal de construction des temples monumentaux ?", options:["Brique crue","Granite","Pierre (calcaire, grès)","Marbre"], answer:[2]},
+        { id:'q43', type:'QCS', question:"Quel élément architectural servait de porte monumentale à l'entrée des temples ?", options:["L'obélisque","Le pylône","Le mastaba","La pyramide"], answer:[1]},
+        { id:'q44', type:'QCS', question:"Quelle pyramide est aussi appelée 'Pyramide rouge' ?", options:["La Grande Pyramide de Gizeh","La pyramide de Djoser","La pyramide de Meïdoum","La pyramide de Snéfrou à Dahchour"], answer:[3]},
+        { id:'q45', type:'QCS', question:"Les tombes royales de la Vallée des Rois sont de quel type ?", options:["Pyramides","Mastabas","Hypogées","Ziggurats"], answer:[2]},
+        { id:'q46', type:'QCS', question:"Quelle partie d'un temple égyptien est un espace couvert de colonnes serrées ?", options:["La cour à ciel ouvert","Le sanctuaire","La salle hypostyle","Le pylône"], answer:[2]},
+        { id:'q47', type:'QCS', question:"Le terme 'mastaba' signifie en arabe :", options:["Maison du Ka","Tombe du pharaon","Banc","Temple funéraire"], answer:[2]},
+        { id:'q48', type:'QCS', question:"Quel est le dieu principal associé au grand temple de Karnak ?", options:["Osiris","Râ","Amon-Rê","Horus"], answer:[2]},
+        { id:'q49', type:'QCS', question:"La 'fausse porte' dans une tombe égyptienne est le lieu où :", options:["Le pharaon est enterré","Les offrandes sont déposées","Le Ka (âme) du défunt peut passer","La momie est préparée"], answer:[2]},
+        { id:'q50', type:'QCS', question:"Quel pharaon a construit le célèbre temple d'Abou Simbel ?", options:["Toutânkhamon","Akhenaton","Ramsès II","Hatchepsout"], answer:[2]},
+        { id:'q51', type:'QCS', question:"L'obélisque symbolise principalement :", options:["La puissance militaire","Le culte solaire","La fertilité du Nil","La justice divine"], answer:[1]},
+        { id:'q52', type:'QCS', question:"Le temple de Louxor est relié au temple de Karnak par :", options:["Un canal","Une avenue de sphinx","Un pont","Un mur d'enceinte"], answer:[1]},
+        { id:'q53', type:'QCS', question:"Les pyramides sont des constructions de l'époque :", options:["Moyen Empire","Nouvel Empire","Ancien Empire","Ptolémaïque"], answer:[2]},
+        { id:'q54', type:'QCS', question:"Les briques crues étaient le matériau de base pour :", options:["Les temples monumentaux","Les pyramides","Les palais et maisons privées","Les obélisques"], answer:[2]},
+        { id:'q55', type:'QCS', question:"Le plan des temples égyptiens est généralement :", options:["Circulaire","Orthogonal","Axial et symétrique","Radial"], answer:[2]},
+        { id:'q56', type:'QCS', question:"Quelle pyramide a une inclinaison qui change à mi-hauteur ?", options:["Pyramide de Khéops","Pyramide de Djoser","Pyramide rhomboïdale de Snéfrou","Pyramide rouge"], answer:[2]},
+        { id:'q57', type:'QCS', question:"Les temples de culte divin servaient à :", options:["Accueillir toute la population","Abriter la statue de la divinité","Enterrer le pharaon","Préparer la momification"], answer:[1]},
+        { id:'q58', type:'QCS', question:"Quelle partie du temple égyptien était la plus sacrée et la plus reculée ?", options:["Le pylône","La cour à ciel ouvert","Le sanctuaire","La salle hypostyle"], answer:[2]},
+        { id:'q59', type:'QCS', question:"L'architecture égyptienne est principalement caractérisée par son :", options:["Sens du gigantisme et de la massivité","Usage du béton","Absence de symbologie religieuse","Plans aléatoires"], answer:[0]},
+        { id:'q60', type:'QCS', question:"Les murs épais des temples servaient principalement à :", options:["Se défendre des attaques","Supporter le poids de la structure","Isoler du froid","Créer des espaces sombres pour les rituels"], answer:[1]},
+
+        /* ----- VF 61..90 (Vrai/Faux) ----- */
+        { id:'q61', type:'VF', question:"Les pyramides étaient des tombes pour les pharaons.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q62', type:'VF', question:"Le plan des villes égyptiennes était souvent organique et non planifié.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q63', type:'VF', question:"Le Nil n'avait aucun impact sur l'orientation des constructions.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q64', type:'VF', question:"Le sanctuaire d'un temple était ouvert au public.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q65', type:'VF', question:"Les mastabas sont des ancêtres des pyramides.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q66', type:'VF', question:"Les Égyptiens utilisaient des voûtes en plein cintre comme les Romains.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q67', type:'VF', question:"La Grande Pyramide de Gizeh a une orientation parfaite par rapport aux points cardinaux.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q68', type:'VF', question:"Les temples rupestres sont des temples creusés dans la roche.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q69', type:'VF', question:"Les maisons égyptiennes étaient construites en pierre.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q70', type:'VF', question:"Les colonnes en forme de papyrus et de lotus avaient une signification symbolique.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q71', type:'VF', question:"Le talatat est un petit bloc de pierre standardisé utilisé à l'époque d'Akhénaton.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q72', type:'VF', question:"La Vallée des Rois abrite des pyramides royales.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q73', type:'VF', question:"L'hypostyle est la partie la plus éclairée d'un temple.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q74', type:'VF', question:"Les égyptiens utilisaient des mortiers de boue pour leurs constructions en pierre.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q75', type:'VF', question:"L'architecture égyptienne est majoritairement une architecture de bois.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q76', type:'VF', question:"L'obélisque est une statue colossale représentant le pharaon.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q77', type:'VF', question:"Les temples funéraires étaient construits pour le culte du pharaon décédé.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q78', type:'VF', question:"Les murs des temples étaient souvent décorés de bas-reliefs et de peintures.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q79', type:'VF', question:"L'architecture égyptienne est caractérisée par son usage intensif de l'arc en plein cintre.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q80', type:'VF', question:"Les statues colossales devant les temples représentaient souvent le dieu principal du temple.", options:["Vrai","Faux"], answer:[1]},
+
+        /* ----- QCM 81..90 (mix hard extra) ----- */
+        { id:'q81', type:'QCM', question:"Quelles sont les caractéristiques de l'urbanisme de Deir el-Médineh ?", options:["Plan en grille et rues rectilignes","Maisons uniformes pour les ouvriers","Absence de murs d'enceinte","Tombes royales"], answer:[0,1]},
+        { id:'q82', type:'QCM', question:"Quels sont les rôles des rampes de construction ?", options:["Monter les blocs de pierre","Compenser la hauteur de la pyramide","Faciliter le travail des esclaves","Permettre aux architectes de travailler"], answer:[0,1]},
+        { id:'q83', type:'QCM', question:"Quels sont les rôles des hiéroglyphes sur les murs des temples ?", options:["Texte rituel et mythologique","Noms des dieux et des pharaons","Instructions pour la construction","Décoration pure"], answer:[0,1]},
+        { id:'q84', type:'QCM', question:"Quels sont les types de toits utilisés en Égypte ancienne ?", options:["Toits plats en bois et terre","Voûtes en brique crue","Toits en pente pour évacuer la pluie","Dômes en pierre"], answer:[0,1]},
+        { id:'q85', type:'QCM', question:"Quelles sont les innovations de l'époque d'Akhenaton ?", options:["Culte monothéiste d'Aton","Construction de la ville d'Akhetaton","Réformes architecturales","Utilisation de la brique crue"], answer:[0,1,2]},
+        { id:'q86', type:'QCM', question:"Quels sont les rôles du temple de la vallée ?", options:["Lieu de momification","Point d'arrivée de la chaussée","Espace pour les rituels funéraires","Lieu de stockage des biens du pharaon"], answer:[0,1,2]},
+        { id:'q87', type:'QCM', question:"Qu'est-ce qui caractérise l'architecture de Méroé (en Nubie) ?", options:["Pyramides plus petites et raides","Influence égyptienne et africaine","Plans de temples différents de l'Égypte","Utilisation du béton"], answer:[0,1]},
+        { id:'q88', type:'QCM', question:"Quelles sont les caractéristiques des temples ptolémaïques ?", options:["Pylônes massifs","Mélange de styles égyptien et grec","Absence de hiéroglyphes","Couronnes composites de colonnes"], answer:[0,1,3]},
+        { id:'q89', type:'QCM', question:"Quelles sont les principales différences entre les tombes de l'Ancien Empire et du Nouvel Empire ?", options:["Ancien Empire: Pyramides apparentes / Nouvel Empire: Hypogées cachées","Ancien Empire: décoration minimaliste / Nouvel Empire: décoration riche","Ancien Empire: Brique crue / Nouvel Empire: Brique cuite"], answer:[0,1]},
+        { id:'q90', type:'QCM', question:"Quels sont les rôles des colonnes égyptiennes ?", options:["Support structurel","Fonction décorative et symbolique","Créer des allées de procession","Lieu d'exposition d'œuvres d'art"], answer:[0,1,2]},
+
+        /* ----- QCS 91..100 (mix hard extra) ----- */
+        { id:'q91', type:'QCS', question:"Le mastaba est une structure funéraire de l'Ancien Empire qui se traduit par :", options:["Tombe","Palais","Banc","Temple"], answer:[2]},
+        { id:'q92', type:'QCS', question:"La chambre funéraire d'une pyramide était généralement située :", options:["À son sommet","Au centre de la base","Au milieu de la pyramide","Sous le niveau du sol"], answer:[3]},
+        { id:'q93', type:'QCS', question:"Le temple d'Hatchepsout est un exemple de quel type de temple ?", options:["Temple rupestre","Temple solaire","Temple funéraire à terrasses","Temple de culte divin"], answer:[2]},
+        { id:'q94', type:'QCS', question:"Le principal matériau utilisé pour les habitations était :", options:["Pierre de taille","Brique crue","Bois","Marbre"], answer:[1]},
+        { id:'q95', type:'QCS', question:"Les hiéroglyphes sur les murs des temples étaient :", options:["Purement décoratifs","Des cartes géographiques","Des textes rituels et mythologiques","Des poèmes d'amour"], answer:[2]},
+        { id:'q96', type:'QCS', question:"Le sanctuaire est le lieu le plus important du temple car il abrite :", options:["Le pharaon","Les prêtres","Le Ka du défunt","La statue de la divinité"], answer:[3]},
+        { id:'q97', type:'QCS', question:"Les hypogées sont des tombes creusées dans :", options:["Le sol","Le bois","La roche","L'argile"], answer:[2]},
+        { id:'q98', type:'QCS', question:"Les deux parties principales du complexe de la pyramide sont le temple funéraire et :", options:["La Grande Sphinx","La chambre de la reine","La chaussée","Le temple de la vallée"], answer:[3]},
+        { id:'q99', type:'QCS', question:"Le temple de Louxor est dédié à :", options:["Osiris","Isis","Amon-Rê","Horus"], answer:[2]},
+        { id:'q100', type:'QCS', question:"Le principe de l'axe et de la symétrie est caractéristique de l'architecture :", options:["Mésopotamienne","Romaine","Égyptienne","Grecque"], answer:[2]},
+    ];
+
+    /* Quiz State Management */
+    let answeredQuestions = new Set();
+
+    /* Helper Functions */
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    function startTimer() {
+        if (timer) clearInterval(timer);
+        timer = setInterval(() => {
+            timeLeft--;
+            const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+            const seconds = String(timeLeft % 60).padStart(2, '0');
+            timerDisplay.textContent = `${minutes}:${seconds}`;
+            if (timeLeft <= 0) {
+                endQuiz();
+            }
+        }, 1000);
+    }
+
+    function stopTimer() {
+        if (timer) clearInterval(timer);
+    }
+
+    function createOptions(question) {
+        optionsContainer.innerHTML = '';
+        const inputType = question.type === 'QCM' ? 'checkbox' : 'radio';
+        question.options.forEach((option, index) => {
+            const optionDiv = document.createElement('label');
+            optionDiv.className = 'option';
+            optionDiv.innerHTML = `
+                <input type="${inputType}" name="question${question.id}" value="${index}">
+                <span>${option}</span>
+            `;
+            optionsContainer.appendChild(optionDiv);
+        });
+    }
+
+    function showQuestion(index) {
+        if (index >= 0 && index < currentSet.length) {
+            currentIndex = index;
+            const question = currentSet[currentIndex];
+            questionIndex.textContent = `Question ${currentIndex + 1} / ${currentSet.length}`;
+            questionText.textContent = question.question;
+            createOptions(question);
+            
+            const prevAnswer = answers.find(a => a.id === question.id);
+            if (prevAnswer) {
+                prevAnswer.userAnswer.forEach(ansIndex => {
+                    const input = optionsContainer.querySelector(`input[value="${ansIndex}"]`);
+                    if (input) input.checked = true;
+                });
+            }
+
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === currentSet.length - 1;
+            submitBtn.style.display = 'none';
+        }
+        if (currentIndex === currentSet.length - 1) {
+            submitBtn.style.display = 'block';
+        } else {
+            submitBtn.style.display = 'none';
+        }
+    }
+
+    function saveAnswer() {
+        const question = currentSet[currentIndex];
+        const selectedOptions = Array.from(optionsContainer.querySelectorAll('input:checked')).map(input => parseInt(input.value));
+        
+        const existingAnswerIndex = answers.findIndex(a => a.id === question.id);
+        const isCorrect = (JSON.stringify(selectedOptions.sort()) === JSON.stringify(question.answer.sort()));
+
+        if (existingAnswerIndex > -1) {
+            answers[existingAnswerIndex] = { ...question, userAnswer: selectedOptions, isCorrect };
+        } else {
+            answers.push({ ...question, userAnswer: selectedOptions, isCorrect });
+        }
+        answeredQuestions.add(question.id);
+        updateRemainingQuestions();
+    }
+
+    function updateRemainingQuestions() {
+        remainingQuestionsLabel.textContent = allQuestions.length - answeredQuestions.size;
+    }
+
+    function checkAnswers() {
+        stopTimer();
+        score = 0;
+        wrongQuestions = [];
+
+        answers.forEach(answer => {
+            if (answer.isCorrect) {
+                score++;
+            } else {
+                wrongQuestions.push(answer);
+            }
+        });
+
+        scoreDisplay.textContent = score;
+        showResult();
+    }
+
+    function showResult() {
+        quizModal.querySelector('.quiz-body').style.display = 'none';
+        resultArea.style.display = 'block';
+        resultSummary.textContent = `Votre score est de ${score} sur ${answers.length}.`;
+        
+        answersList.innerHTML = '';
+        answers.forEach(item => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'answer-item';
+            const statusIcon = item.isCorrect ? '✅' : '❌';
+            const userAnswerText = item.userAnswer.map(i => item.options[i]).join(', ');
+            const correctAnswerText = item.answer.map(i => item.options[i]).join(', ');
+            resultItem.innerHTML = `
+                <b>${statusIcon} ${item.question}</b>
+                <p>Votre réponse: ${userAnswerText || 'Aucune'}</p>
+                <p>Bonne réponse: ${correctAnswerText}</p>
+            `;
+            answersList.appendChild(resultItem);
+        });
+
+        retryBtn.style.display = wrongQuestions.length > 0 ? 'block' : 'none';
+    }
+
+    function resetQuiz() {
+        currentSet = [];
+        currentIndex = 0;
+        answers = [];
+        score = 0;
+        timeLeft = 30 * 60;
+        wrongQuestions = [];
+        retryMode = false;
+        answeredQuestions.clear();
+
+        scoreDisplay.textContent = '0';
+        timerDisplay.textContent = '30:00';
+        resultArea.style.display = 'none';
+        quizModal.querySelector('.quiz-body').style.display = 'grid';
+        startBtn.style.display = 'block';
+        quizTypeSelect.disabled = false;
+        endEarlyBtn.style.display = 'none';
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        submitBtn.style.display = 'none';
+        optionsContainer.innerHTML = '';
+        questionText.textContent = 'Choisissez un type puis démarrez.';
+        questionIndex.textContent = 'Question — / —';
+        remainingQuestionsLabel.textContent = '100';
+    }
+
+    function startNewQuiz(questions) {
+        currentSet = questions;
+        shuffleArray(currentSet);
+        totalQuestionsLabel.textContent = currentSet.length;
+        remainingQuestionsLabel.textContent = currentSet.length;
+        currentIndex = 0;
+        answers = [];
+        score = 0;
+        timeLeft = 30 * 60;
+        retryMode = false;
+        answeredQuestions.clear();
+
+        quizModal.querySelector('.quiz-body').style.display = 'grid';
+        resultArea.style.display = 'none';
+        startBtn.style.display = 'none';
+        endEarlyBtn.style.display = 'inline-block';
+        quizTypeSelect.disabled = true;
+        
+        showQuestion(currentIndex);
+        startTimer();
+    }
+
+    function startRetryQuiz() {
+        if (wrongQuestions.length === 0) return;
+        
+        currentSet = wrongQuestions;
+        shuffleArray(currentSet);
+        totalQuestionsLabel.textContent = currentSet.length;
+        remainingQuestionsLabel.textContent = currentSet.length;
+        currentIndex = 0;
+        answers = [];
+        score = 0;
+        timeLeft = 30 * 60;
+        retryMode = true;
+        answeredQuestions.clear();
+
+        quizModal.querySelector('.quiz-body').style.display = 'grid';
+        resultArea.style.display = 'none';
+        startBtn.style.display = 'none';
+        endEarlyBtn.style.display = 'inline-block';
+        quizTypeSelect.disabled = true;
+
+        showQuestion(currentIndex);
+        startTimer();
+    }
+
+    /* Event Listeners */
+    openQuizBtn.addEventListener('click', () => {
+        resetQuiz();
+        quizModal.style.display = 'flex';
+        quizModal.setAttribute('aria-hidden', 'false');
+    });
+
+    closeQuizBtn.addEventListener('click', () => {
+        stopTimer();
+        quizModal.style.display = 'none';
+        quizModal.setAttribute('aria-hidden', 'true');
+    });
+
+    closeResultBtn.addEventListener('click', () => {
+        quizModal.style.display = 'none';
+        quizModal.setAttribute('aria-hidden', 'true');
+    });
+
+    startBtn.addEventListener('click', () => {
+        const selectedType = quizTypeSelect.value;
+        const questionsOfType = allQuestions.filter(q => q.type === selectedType);
+        selectedTypeLabel.textContent = selectedType;
+        startNewQuiz(questionsOfType);
+    });
+
+    endEarlyBtn.addEventListener('click', () => {
+        saveAnswer();
+        checkAnswers();
+    });
+
+    prevBtn.addEventListener('click', () => {
+        saveAnswer();
+        showQuestion(currentIndex - 1);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        saveAnswer();
+        showQuestion(currentIndex + 1);
+    });
+
+    submitBtn.addEventListener('click', () => {
+        saveAnswer();
+        checkAnswers();
+    });
+
+    retryBtn.addEventListener('click', () => {
+        startRetryQuiz();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (quizModal.style.display === 'flex') {
+            if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                nextBtn.click();
+            } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                prevBtn.click();
+            }
+        }
+    });
+
+    // Initial state setup on load
+    resetQuiz();
+</script>
+
+</body>
+</html>
