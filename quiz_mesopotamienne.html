@@ -16,6 +16,7 @@
       color: #111;
       display: flex;
       min-height: 100vh;
+      flex-wrap: wrap; /* لضمان التجاوب على الأجهزة الصغيرة */
     }
 
     aside {
@@ -33,7 +34,9 @@
       z-index: 998;
     }
 
-    aside.hidden { transform: translateX(-260px); }
+    aside.hidden {
+      transform: translateX(-260px);
+    }
 
     .back-button {
       margin-bottom: 20px;
@@ -58,6 +61,7 @@
       font-size: 18px;
       border-radius: 6px;
       cursor: pointer;
+      transition: left 0.3s ease;
     }
 
     main {
@@ -67,6 +71,10 @@
       transition: margin-left 0.3s ease;
     }
 
+    main.expanded {
+      margin-left: 0;
+    }
+    
     .section-title {
       font-size: 26px;
       margin-bottom: 20px;
@@ -85,6 +93,12 @@
       font-size: 16px;
       cursor: pointer;
       background-color:#fff;
+      text-decoration: none; /* لمنع خط التسطير على الروابط */
+      color: #111; /* للحفاظ على لون النص */
+    }
+    
+    .buttons a {
+      display: inline-block; /* لكي يأخذ الـ`<a>` نفس حجم الزر */
     }
 
     /* Modal quiz (copy of your original style) */
@@ -135,6 +149,32 @@
       .sidebar-panel { order: -1; }
       .quiz-card { max-width: 96%; }
     }
+    
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      aside {
+        height: auto;
+        position: relative;
+        width: 100%;
+        transform: translateX(0);
+        box-shadow: none;
+        transition: none;
+      }
+      main {
+        margin-left: 0;
+      }
+      aside.hidden {
+        display: none;
+      }
+      #toggleSidebar {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin-bottom: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -177,9 +217,7 @@
       </span>
     </h3>
     <div class="buttons">
-      <a href="LA CIVILISATION MESOPOTAMIENNEzd.pdf">
-        <button>📄 PDF</button>
-      </a>
+      <a href="LA CIVILISATION MESOPOTAMIENNEzd.pdf">📄 PDF</a>
       <button>🎥 Vidéo</button>
       <button>⭐ Premium</button>
     </div>
@@ -191,7 +229,6 @@
   </footer>
 </main>
 
-<!-- === Modal Quiz === -->
 <div id="quizModal" class="quiz-modal" aria-hidden="true">
   <div class="quiz-card" role="dialog" aria-modal="true">
     <div class="quiz-header">
@@ -266,439 +303,433 @@
 </div>
 
 <script>
-/* Sidebar toggle */
-const sidebar = document.querySelector('aside');
-const toggleBtn = document.getElementById('toggleSidebar');
-toggleBtn.addEventListener('click', () => sidebar.classList.toggle('hidden'));
+    /* Sidebar toggle */
+    const sidebar = document.querySelector('aside');
+    const mainContent = document.querySelector('main');
+    const toggleBtn = document.getElementById('toggleSidebar');
 
-/* Quiz logic elements */
-const openQuizBtn = document.getElementById('openQuizBtn');
-const quizModal = document.getElementById('quizModal');
-const closeQuizBtn = document.getElementById('closeQuizBtn');
-const startBtn = document.getElementById('startBtn');
-const endEarlyBtn = document.getElementById('endEarlyBtn');
-const submitBtn = document.getElementById('submitBtn');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const questionText = document.getElementById('questionText');
-const optionsContainer = document.getElementById('optionsContainer');
-const questionIndex = document.getElementById('questionIndex');
-const timerDisplay = document.getElementById('timerDisplay');
-const scoreDisplay = document.getElementById('scoreDisplay');
-const selectedTypeLabel = document.getElementById('selectedType');
-const totalQuestionsLabel = document.getElementById('totalQuestions');
-const remainingQuestionsLabel = document.getElementById('remainingQuestions');
-const retryWrongInput = document.getElementById('retryWrong');
-const resultArea = document.getElementById('resultArea');
-const resultSummary = document.getElementById('resultSummary');
-const answersList = document.getElementById('answersList');
-const retryBtn = document.getElementById('retryBtn');
-const closeResultBtn = document.getElementById('closeResultBtn');
-const quizTypeSelect = document.getElementById('quizTypeSelect');
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('hidden');
+        mainContent.classList.toggle('expanded');
+    });
 
-let allQuestions = [];
-let currentSet = [];
-let currentIndex = 0;
-let answers = [];
-let score = 0;
-let timer = null;
-let timeLeft = 30 * 60; // 30 minutes
-let wrongQuestions = [];
-let retryMode = false;
+    /* Quiz logic elements */
+    const openQuizBtn = document.getElementById('openQuizBtn');
+    const quizModal = document.getElementById('quizModal');
+    const closeQuizBtn = document.getElementById('closeQuizBtn');
+    const startBtn = document.getElementById('startBtn');
+    const endEarlyBtn = document.getElementById('endEarlyBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const questionIndex = document.getElementById('questionIndex');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    const selectedTypeLabel = document.getElementById('selectedType');
+    const totalQuestionsLabel = document.getElementById('totalQuestions');
+    const remainingQuestionsLabel = document.getElementById('remainingQuestions');
+    const retryWrongInput = document.getElementById('retryWrong');
+    const resultArea = document.getElementById('resultArea');
+    const resultSummary = document.getElementById('resultSummary');
+    const answersList = document.getElementById('answersList');
+    const retryBtn = document.getElementById('retryBtn');
+    const closeResultBtn = document.getElementById('closeResultBtn');
+    const quizTypeSelect = document.getElementById('quizTypeSelect');
 
-/* ===========================
-   QUESTIONS DATA — 100 أسئلة
-   — التوزيع: 40 QCM (choix multiples), 30 QCS (choix unique), 30 VF (Vrai/Faux)
-   — مستوى: صعب → صعب جدًا
-   =========================== */
-allQuestions = [
-/* ----- QCM 1..40 (choix multiples) ----- */
-/* قمت بترتيب الأسئلة من صعب إلى أصعب تدريجياً */
-{ id:'q1', type:'QCM', question:"Quels rôles remplissait une ziggurat dans la cité mésopotamienne ?", options:["Sanctuaire religieux","Plate-forme cérémonielle","Résidence du roi","Usine de poterie"], answer:[0,1]},
-{ id:'q2', type:'QCM', question:"Quels matériaux dominent la construction en Mésopotamie antique ?", options:["Brique crue (pisé)","Pierre de taille abondante","Brique cuite","Bois importé"], answer:[0,2]},
-{ id:'q3', type:'QCM', question:"Parmi ces fonctions, lesquelles pouvaient être attribuées au temple-ménos (temple économique) ?", options:["Stockage des récoltes","Centre administratif","Bureau de prêt de grains","Manufacture d'armes"], answer:[0,1,2]},
-{ id:'q4', type:'QCM', question:"Quelles caractéristiques définissent l'urbanisme sumérien classique ?", options:["Agglomération autour du temple","Rues sinueuses","Présence d'une enceinte fortifiée","Grands axes orthogonaux"], answer:[0,1,2]},
-{ id:'q5', type:'QCM', question:"Quelles techniques constructives assyriennes sont reconnues ?", options:["Usage intensif de la brique cuite","Revêtements d'argile décoratifs","Corbelement pour voûtes","Béton romain"], answer:[0,1,2]},
-{ id:'q6', type:'QCM', question:"Quels éléments décoratifs trouve-t-on fréquemment sur les façades mésopotamiennes ?", options:["Plaques d'émail (glazed bricks)","Bas-reliefs narratifs","Mosaïques de marbre","Panneaux en bronze estampé"], answer:[0,1]},
-{ id:'q7', type:'QCM', question:"Quels sont des exemples de cités-États mésopotamiennes ?", options:["Uruk","Ur","Babylone","Athènes"], answer:[0,1,2]},
-{ id:'q8', type:'QCM', question:"Quelles innovations rurales ont influencé l'architecture mésopotamienne ?", options:["Systèmes d'irrigation","Barrage et digues","Serres en verre","Canaux de drainage"], answer:[0,1,3]},
-{ id:'q9', type:'QCM', question:"Quelles fonctions remplissaient les murs d'enceinte dans les cités mésopotamiennes ?", options:["Défense militaire","Régulation du commerce","Délimitation religieuse","Contrôle des impôts"], answer:[0,1,3]},
-{ id:'q10', type:'QCM', question:"Quels sont les usages des cours intérieures dans les maisons urbaines mésopotamiennes ?", options:["Ventilation et lumière","Espace de stockage","Atelier artisanal","Étable pour animaux"], answer:[0,1,2]},
-{ id:'q11', type:'QCM', question:"Quels attributs associe-t-on aux palais royaux assyriens ?", options:["Salles d'apparat colossales","Bas-reliefs célébrant les conquêtes","Plans axiaux très rigides","Toits en pointe gothique"], answer:[0,1,2]},
-{ id:'q12', type:'QCM', question:"Quelles preuves archéologiques indiquent une administration centralisée ?", options:["Tablettes d'argile comptables","Inventaires de stockage","Plans de voirie","Monuments funéraires privés"], answer:[0,1]},
-{ id:'q13', type:'QCM', question:"Quels usages des cylindres-sceaux (cylinder seals) ont un impact sur l'architecture ?", options:["Authentification des documents de stockage","Marquage des portes et biens","Décoration murale","Planification urbaine"], answer:[0,1]},
-{ id:'q14', type:'QCM', question:"Quelsités religieuses étaient liées à l'élévation d'une ziggurat ?", options:["Lieu d'intermédiation entre ciel et terre","Sanctuaire pour la statue du dieu","Accès routinier pour tous les habitants","Performances rituelles élitistes"], answer:[0,1,3]},
-{ id:'q15', type:'QCM', question:"Quels éléments rendent fragiles les constructions mésopotamiennes pour la conservation archéologique ?", options:["Matériaux organiques (bois)","Erosion due à inondations","Utilisation majoritaire de terre crue","Sismicité"], answer:[1,2]},
-{ id:'q16', type:'QCM', question:"Quelles méthodes utilisaient-ils pour élever de grandes masses (comme les ziggurats) ?", options:["Ramps (ramps) et talus","Structures en coffrage de bois","Grues mécaniques modernes","Empilement de mastabas"], answer:[0,1]},
-{ id:'q17', type:'QCM', question:"Quelles caractéristiques distinguent l'architecture babylonienne tardive ?", options:["Décor émaillé polychrome","Portes monumentales à décor animalier","Plan de cité romain","Usage du marbre importé"], answer:[0,1]},
-{ id:'q18', type:'QCM', question:"Quels types de voûtes sont attestés en Mésopotamie ?", options:["Corbelement (voûtes en encorbellement)","Voûte en plein cintre standard romain","Dômes en brique","Voûtes nervurées gothiques"], answer:[0,2]},
-{ id:'q19', type:'QCM', question:"Quels facteurs déterminent l'implantation d'une cité mésopotamienne ?", options:["Accès à l'eau douce","Vias commerciales fluviales","Proximité de carrières de pierre","Ressources minérales rares"], answer:[0,1,2]},
-{ id:'q20', type:'QCM', question:"Quelles fonctions la «cour du temple» pouvait-elle inclure ?", options:["Espace de redistribution des biens","Lieu de réunions judiciaires","Zone d'artisanat lié au culte","Habitat privé royal"], answer:[0,1,2]},
-{ id:'q21', type:'QCM', question:"Quelles sont les implications de l'usage de la brique cuite pour les élévations ?", options:["Meilleure durabilité","Possibilité d'ornement émaillé","Augmentation du coût","Réduction de la flexibilité constructive"], answer:[0,1,2]},
-{ id:'q22', type:'QCM', question:"Quelles caractéristiques défissent l'art monumental assyrien ?", options:["Panel narratif montrant campagnes militaires","Sculpture en ronde-bosse massive","Préférence pour motifs végétaux abstraits","Inscriptions royales abondantes"], answer:[0,3]},
-{ id:'q23', type:'QCM', question:"Quels systèmes hydrauliques ont été développés ?", options:["Canaux d'irrigation complexes","Bassins de rétention","Écluses de style européen","Systèmes de drainage urbains"], answer:[0,1,3]},
-{ id:'q24', type:'QCM', question:"Quels types de planimétries domestiques sont observés ?", options:["Maisons agglutinées sans rue devant","Maisons avec cour centrale","Maisons à accès par ruelle","Immeubles à étages médiévaux"], answer:[0,1,2]},
-{ id:'q25', type:'QCM', question:"Quelles fonctions économiques étaient liées aux temples ?", options:["Récolte et stockage des taxes","Redistribution alimentaire","Production artisanale sous contrôle religieux","Centre bancaire de prêts"], answer:[0,1,2,3]},
-{ id:'q26', type:'QCM', question:"Quels éléments apparaissent sur les portes monumentales babyloniennes ?", options:["Motifs d'animaux mythiques (taureaux, dragons)","Inscriptions royales","Fenêtres panoramiques","Polychromie en brique émaillée"], answer:[0,1,3]},
-{ id:'q27', type:'QCM', question:"Quelles différences architecturales observe-t-on entre Uruk et Nineveh ?", options:["Uruk: premières murailles massives / Nineveh: palais assyriens monumentaux","Uruk: usage intensif du marbre / Nineveh: bois dominant","Uruk: plan urbain romain / Nineveh: plan organique"], answer:[0]},
-{ id:'q28', type:'QCM', question:"Quelles fonctions assurait la rue principale en cité mésopotamienne ?", options:["Flux commercial","Rituels publics","Accès aux entrepôts du temple","Réseau sanitaire moderne"], answer:[0,1,2]},
-{ id:'q29', type:'QCM', question:"Quels procédés permettaient la décoration pérenne des façades ?", options:["Briques émaillées polychromes","Plaques d'argile sculptée","Tapisseries murales","Revêtements métalliques"], answer:[0,1]},
-{ id:'q30', type:'QCM', question:"Quelles innovations techniques facilitèrent la construction de voûtes/dômes en brique ?", options:["Connaissance du mortier argileux","Sélection de briques cuites régulières","Usage de coffrages de bois temporaires","Introduction du ciment romain"], answer:[0,1,2]},
-{ id:'q31', type:'QCM', question:"Quels usages des cités-États ont un impact sur l'architecture religieuse ?", options:["Rivalité entre cités favorisant monuments sacrés","Centralisation du pouvoir royal","Influence de cultes étrangers sur styles","Réduction des dépenses publiques"], answer:[0,1,2]},
-{ id:'q32', type:'QCM', question:"Quelles sources archéologiques sont essentielles pour reconstituer l'architecture mésopotamienne ?", options:["Plans et fondations fouillées","Tablettes cunéiformes décrivant bâtiments","Reconstitutions artistiques anciennes","Reliefs sculptés montrant élévations"], answer:[0,1,3]},
-{ id:'q33', type:'QCM', question:"Quels rôles jouait l'articulation axiale (axe central) dans les temples mésopotamiens ?", options:["Rangement des processions","Hiérarchisation des espaces","Alignement astronomique précis","Confort thermique"], answer:[0,1]},
-{ id:'q34', type:'QCM', question:"Quels sont des exemples d'occupation continue créant des 'tells' ?", options:["Accumulation de niveaux d'habitat successifs","Réutilisation des briques anciennes comme remblai","Dépôts d'objets sacrificiels","Construction de pyramides"] , answer:[0,1]},
-{ id:'q35', type:'QCM', question:"Qu'est-ce qui explique l'importance des entrepôts dans le plan urbain ?", options:["Économie de surplus agricole","Administration centralisée des taxes","Nécessité de stocker affaires militaires","Usage comme lieux de culte"], answer:[0,1]},
-{ id:'q36', type:'QCM', question:"Quels sont les liens entre iconographie sculptée et propagande royale ?", options:["Bas-reliefs montrant roi dominants ennemis","Inscriptions glorifiant conquêtes","Emploi de scènes quotidiennes uniquement","Usage de motifs divins pour légitimer pouvoir"], answer:[0,1,3]},
-{ id:'q37', type:'QCM', question:"Quelles techniques permettaient l'étanchéité des bassins et canaux ?", options:["Revêtement argileux compacté","Utilisation de mortier bitumineux","Carrelage de pierre jointif","Tapis d'étanchéité moderne"], answer:[0,1,2]},
-{ id:'q38', type:'QCM', question:"Quelles réponses architecturales aux inondations observait-on ?", options:["Surélever niveaux d'occupation (terrasses)","Construire digues et canaux","Imposer zones inondables agricoles","Créer systèmes d'évacuation souterrains"], answer:[0,1,2]},
-{ id:'q39', type:'QCM', question:"Quels éléments reflètent l'autorité religieuse dans les bâtiments ?", options:["Accès restreint aux sanctuaires","Statues cultuelles centralisées","Archives et trésors stockés dans le temple","Grandes fenêtres publiques"], answer:[0,1,2]},
-{ id:'q40', type:'QCM', question:"Quelles transformations techniques sont apportées par l'usage massif de la brique cuite ?", options:["Possibilité d'élévations plus hautes","Décor polychrome permanent","Standardisation modulaire","Amélioration de la résistance au feu"], answer:[0,1,2]},
+    let allQuestions = [];
+    let currentSet = [];
+    let currentIndex = 0;
+    let answers = [];
+    let score = 0;
+    let timer = null;
+    let timeLeft = 30 * 60; // 30 minutes
+    let wrongQuestions = [];
+    let retryMode = false;
 
-/* ----- QCS 41..70 (choix simple) ----- */
-{ id:'q41', type:'QCS', question:"Quelle ville est célèbre pour son ziggurat dédiée au dieu Nanna (Lune) ?", options:["Babylone","Ur","Nineveh","Assur"], answer:[1]},
-{ id:'q42', type:'QCS', question:"La principale matière de construction en Mésopotamie était :", options:["Marbre taillé","Brique crue et cuite","Pierre calcaire","Bois massif"], answer:[1]},
-{ id:'q43', type:'QCS', question:"Quel roi est associé à la reconstruction et aux murailles polychromes de Babylone (porte d'Ishtar) ?", options:["Sargon d'Akkad","Hammurabi","Nabuchodonosor II","Assurbanipal"], answer:[2]},
-{ id:'q44', type:'QCS', question:"Quel énoncé décrit le mieux une 'ziggurat' ?", options:["Tombe royale souterraine","Plate-forme temple surélevée","Maison urbaine traditionnelle","Hangar industriel"], answer:[1]},
-{ id:'q45', type:'QCS', question:"Le système d'écriture utilisé largement en Mésopotamie est :", options:["Hiéroglyphes","Cunéiforme","Alphabet phénicien","Linéaire B"], answer:[1]},
-{ id:'q46', type:'QCS', question:"Quel site est souvent cité comme l'une des premières villes d'Uruk ?", options:["Gizeh","Çatal Höyük","Uruk elle-même","Knossos"], answer:[2]},
-{ id:'q47', type:'QCS', question:"Les temples mésopotamiens servaient principalement à :", options:["Résider le roi en permanence","Cérémonies religieuses et stockage économique","Habitat collectif","Université"], answer:[1]},
-{ id:'q48', type:'QCS', question:"Quel matériau permettait la polychromie durable sur façades ?", options:["Brique émaillée (glazed bricks)","Enduit en plâtre blanc","Peinture à l'huile","Papier peint"], answer:[0]},
-{ id:'q49', type:'QCS', question:"Quel plan est caractéristique des palais assyriens ?", options:["Plan centralisé en cour","Plan axial avec salles successives","Plan circulaire","Plan en croix grecque"], answer:[1]},
-{ id:'q50', type:'QCS', question:"L'eau dans les cités mésopotamiennes était gérée par :", options:["Des aqueducs en pierre comme Rome","Canaux et bassins d'irrigation","Puits artésiens modernes","Siphons hydraulique avancés"], answer:[1]},
-{ id:'q51', type:'QCS', question:"Quel type de voûte était le plus courant pour les larges espaces en brique ?", options:["Voûte en plein cintre romaine","Voûte en encorbellement (corbeled)","Voûte nervurée gothique","Voûte lambrissée en bois"], answer:[1]},
-{ id:'q52', type:'QCS', question:"Les bas-reliefs assyriens représentent surtout :", options:["Scènes de la vie domestique","Campagnes militaires et chasses royales","Mythes agricoles uniquement","Périodes astronomiques"], answer:[1]},
-{ id:'q53', type:'QCS', question:"Quel rôle urbain avait la place du temple à Nippur ?", options:["Centre religieux majeur et administratif","Aire résidentielle de l'aristocratie","Zone d'artisanat intensif","Place de marché uniquement"], answer:[0]},
-{ id:'q54', type:'QCS', question:"Le terme 'tell' (monticule) est lié à :", options:["Accumulation stratifiée d'occupations","Type de construction en pierre","Système d'irrigation","Édifice religieux spécifique"], answer:[0]},
-{ id:'q55', type:'QCS', question:"Quel peuple est célèbre pour ses palais monumentaux à Nimrud et Khorsabad ?", options:["Sumériens","Babyloniens","Assyriens","Hittites"], answer:[2]},
-{ id:'q56', type:'QCS', question:"La richesse des décorations en briques émaillées est surtout associée à :", options:["Période néolithique","Babylonie néo-babylonienne","Empire romain","Période hellénistique"], answer:[1]},
-{ id:'q57', type:'QCS', question:"Quel usage principal des tablettes cunéiformes influence notre connaissance architecturale ?", options:["Inventaires et contrats de construction","Poèmes épiques","Recettes culinaires","Calendriers rituels uniquement"], answer:[0]},
-{ id:'q58', type:'QCS', question:"Les portes monumentales babyloniennes comportaient souvent :", options:["Statues en bronze grandeur nature","Reliefs d'animaux mythiques","Vitraux colorés","Fenêtres en verre"], answer:[1]},
-{ id:'q59', type:'QCS', question:"La gestion des surplus agricoles par le temple entraînait :", options:["Développement d'entrepôts et silos","Disparition du commerce interrégional","Construction en pierre uniquement","Diminution de la population urbaine"], answer:[0]},
-{ id:'q60', type:'QCS', question:"Quel rite influençait le plan cérémoniel des ziggurats ?", options:["Processions menant au sommet","Funérailles royales en surface","Agrégation des maisons autour d'un puits","Danse de la moisson"], answer:[0]},
+    /* ===========================
+        QUESTIONS DATA — 100 أسئلة
+        — التوزيع: 40 QCM (choix multiples), 30 QCS (choix unique), 30 VF (Vrai/Faux)
+        — مستوى: صعب → صعب جدًا
+    =========================== */
+    allQuestions = [
+        /* ----- QCM 1..40 (choix multiples) ----- */
+        { id:'q1', type:'QCM', question:"Quels rôles remplissait une ziggurat dans la cité mésopotamienne ?", options:["Sanctuaire religieux","Plate-forme cérémonielle","Résidence du roi","Usine de poterie"], answer:[0,1]},
+        { id:'q2', type:'QCM', question:"Quels matériaux dominent la construction en Mésopotamie antique ?", options:["Brique crue (pisé)","Pierre de taille abondante","Brique cuite","Bois importé"], answer:[0,2]},
+        { id:'q3', type:'QCM', question:"Parmi ces fonctions, lesquelles pouvaient être attribuées au temple-ménos (temple économique) ?", options:["Stockage des récoltes","Centre administratif","Bureau de prêt de grains","Manufacture d'armes"], answer:[0,1,2]},
+        { id:'q4', type:'QCM', question:"Quelles caractéristiques définissent l'urbanisme sumérien classique ?", options:["Agglomération autour du temple","Rues sinueuses","Présence d'une enceinte fortifiée","Grands axes orthogonaux"], answer:[0,1,2]},
+        { id:'q5', type:'QCM', question:"Quelles techniques constructives assyriennes sont reconnues ?", options:["Usage intensif de la brique cuite","Revêtements d'argile décoratifs","Corbelement pour voûtes","Béton romain"], answer:[0,1,2]},
+        { id:'q6', type:'QCM', question:"Quels éléments décoratifs trouve-t-on fréquemment sur les façades mésopotamiennes ?", options:["Plaques d'émail (glazed bricks)","Bas-reliefs narratifs","Mosaïques de marbre","Panneaux en bronze estampé"], answer:[0,1]},
+        { id:'q7', type:'QCM', question:"Quels sont des exemples de cités-États mésopotamiennes ?", options:["Uruk","Ur","Babylone","Athènes"], answer:[0,1,2]},
+        { id:'q8', type:'QCM', question:"Quelles innovations rurales ont influencé l'architecture mésopotamienne ?", options:["Systèmes d'irrigation","Barrage et digues","Serres en verre","Canaux de drainage"], answer:[0,1,3]},
+        { id:'q9', type:'QCM', question:"Quelles fonctions remplissaient les murs d'enceinte dans les cités mésopotamiennes ?", options:["Défense militaire","Régulation du commerce","Délimitation religieuse","Contrôle des impôts"], answer:[0,1,3]},
+        { id:'q10', type:'QCM', question:"Quels sont les usages des cours intérieures dans les maisons urbaines mésopotamiennes ?", options:["Ventilation et lumière","Espace de stockage","Atelier artisanal","Étable pour animaux"], answer:[0,1,2]},
+        { id:'q11', type:'QCM', question:"Quels attributs associe-t-on aux palais royaux assyriens ?", options:["Salles d'apparat colossales","Bas-reliefs célébrant les conquêtes","Plans axiaux très rigides","Toits en pointe gothique"], answer:[0,1,2]},
+        { id:'q12', type:'QCM', question:"Quelles preuves archéologiques indiquent une administration centralisée ?", options:["Tablettes d'argile comptables","Inventaires de stockage","Plans de voirie","Monuments funéraires privés"], answer:[0,1]},
+        { id:'q13', type:'QCM', question:"Quels usages des cylindres-sceaux (cylinder seals) ont un impact sur l'architecture ?", options:["Authentification des documents de stockage","Marquage des portes et biens","Décoration murale","Planification urbaine"], answer:[0,1]},
+        { id:'q14', type:'QCM', question:"Quelles motivations religieuses étaient liées à l'élévation d'une ziggurat ?", options:["Lieu d'intermédiation entre ciel et terre","Sanctuaire pour la statue du dieu","Accès routinier pour tous les habitants","Performances rituelles élitistes"], answer:[0,1,3]},
+        { id:'q15', type:'QCM', question:"Quels éléments rendent fragiles les constructions mésopotamiennes pour la conservation archéologique ?", options:["Matériaux organiques (bois)","Erosion due à inondations","Utilisation majoritaire de terre crue","Sismicité"], answer:[1,2]},
+        { id:'q16', type:'QCM', question:"Quelles méthodes utilisaient-ils pour élever de grandes masses (comme les ziggurats) ?", options:["Ramps (ramps) et talus","Structures en coffrage de bois","Grues mécaniques modernes","Empilement de mastabas"], answer:[0,1]},
+        { id:'q17', type:'QCM', question:"Quelles caractéristiques distinguent l'architecture babylonienne tardive ?", options:["Décor émaillé polychrome","Portes monumentales à décor animalier","Plan de cité romain","Usage du marbre importé"], answer:[0,1]},
+        { id:'q18', type:'QCM', question:"Quels types de voûtes sont attestés en Mésopotamie ?", options:["Corbelement (voûtes en encorbellement)","Voûte en plein cintre standard romain","Dômes en brique","Voûtes nervurées gothiques"], answer:[0,2]},
+        { id:'q19', type:'QCM', question:"Quels facteurs déterminent l'implantation d'une cité mésopotamienne ?", options:["Accès à l'eau douce","Vias commerciales fluviales","Proximité de carrières de pierre","Ressources minérales rares"], answer:[0,1,2]},
+        { id:'q20', type:'QCM', question:"Quelles fonctions la «cour du temple» pouvait-elle inclure ?", options:["Espace de redistribution des biens","Lieu de réunions judiciaires","Zone d'artisanat lié au culte","Habitat privé royal"], answer:[0,1,2]},
+        { id:'q21', type:'QCM', question:"Quelles sont les implications de l'usage de la brique cuite pour les élévations ?", options:["Meilleure durabilité","Possibilité d'ornement émaillé","Augmentation du coût","Réduction de la flexibilité constructive"], answer:[0,1,2]},
+        { id:'q22', type:'QCM', question:"Quelles caractéristiques défissent l'art monumental assyrien ?", options:["Panel narratif montrant campagnes militaires","Sculpture en ronde-bosse massive","Préférence pour motifs végétaux abstraits","Inscriptions royales abondantes"], answer:[0,3]},
+        { id:'q23', type:'QCM', question:"Quels systèmes hydrauliques ont été développés ?", options:["Canaux d'irrigation complexes","Bassins de rétention","Écluses de style européen","Systèmes de drainage urbains"], answer:[0,1,3]},
+        { id:'q24', type:'QCM', question:"Quels types de planimétries domestiques sont observés ?", options:["Maisons agglutinées sans rue devant","Maisons avec cour centrale","Maisons à accès par ruelle","Immeubles à étages médiévaux"], answer:[0,1,2]},
+        { id:'q25', type:'QCM', question:"Quelles fonctions économiques étaient liées aux temples ?", options:["Récolte et stockage des taxes","Redistribution alimentaire","Production artisanale sous contrôle religieux","Centre bancaire de prêts"], answer:[0,1,2,3]},
+        { id:'q26', type:'QCM', question:"Quels éléments apparaissent sur les portes monumentales babyloniennes ?", options:["Motifs d'animaux mythiques (taureaux, dragons)","Inscriptions royales","Fenêtres panoramiques","Polychromie en brique émaillée"], answer:[0,1,3]},
+        { id:'q27', type:'QCM', question:"Quelles différences architecturales observe-t-on entre Uruk et Nineveh ?", options:["Uruk: premières murailles massives / Nineveh: palais assyriens monumentaux","Uruk: usage intensif du marbre / Nineveh: bois dominant","Uruk: plan urbain romain / Nineveh: plan organique"], answer:[0]},
+        { id:'q28', type:'QCM', question:"Quelles fonctions assurait la rue principale en cité mésopotamienne ?", options:["Flux commercial","Rituels publics","Accès aux entrepôts du temple","Réseau sanitaire moderne"], answer:[0,1,2]},
+        { id:'q29', type:'QCM', question:"Quels procédés permettaient la décoration pérenne des façades ?", options:["Briques émaillées polychromes","Plaques d'argile sculptée","Tapisseries murales","Revêtements métalliques"], answer:[0,1]},
+        { id:'q30', type:'QCM', question:"Quelles innovations techniques facilitèrent la construction de voûtes/dômes en brique ?", options:["Connaissance du mortier argileux","Sélection de briques cuites régulières","Usage de coffrages de bois temporaires","Introduction du ciment romain"], answer:[0,1,2]},
+        { id:'q31', type:'QCM', question:"Quels usages des cités-États ont un impact sur l'architecture religieuse ?", options:["Rivalité entre cités favorisant monuments sacrés","Centralisation du pouvoir royal","Influence de cultes étrangers sur styles","Réduction des dépenses publiques"], answer:[0,1,2]},
+        { id:'q32', type:'QCM', question:"Quelles sources archéologiques sont essentielles pour reconstituer l'architecture mésopotamienne ?", options:["Plans et fondations fouillées","Tablettes cunéiformes décrivant bâtiments","Reconstitutions artistiques anciennes","Reliefs sculptés montrant élévations"], answer:[0,1,3]},
+        { id:'q33', type:'QCM', question:"Quels rôles jouait l'articulation axiale (axe central) dans les temples mésopotamiens ?", options:["Rangement des processions","Hiérarchisation des espaces","Alignement astronomique précis","Confort thermique"], answer:[0,1]},
+        { id:'q34', type:'QCM', question:"Quels sont des exemples d'occupation continue créant des 'tells' ?", options:["Accumulation de niveaux d'habitat successifs","Réutilisation des briques anciennes comme remblai","Dépôts d'objets sacrificiels","Construction de pyramides"] , answer:[0,1]},
+        { id:'q35', type:'QCM', question:"Qu'est-ce qui explique l'importance des entrepôts dans le plan urbain ?", options:["Économie de surplus agricole","Administration centralisée des taxes","Nécessité de stocker affaires militaires","Usage comme lieux de culte"], answer:[0,1]},
+        { id:'q36', type:'QCM', question:"Quels sont les liens entre iconographie sculptée et propagande royale ?", options:["Bas-reliefs montrant roi dominants ennemis","Inscriptions glorifiant conquêtes","Emploi de scènes quotidiennes uniquement","Usage de motifs divins pour légitimer pouvoir"], answer:[0,1,3]},
+        { id:'q37', type:'QCM', question:"Quelles techniques permettaient l'étanchéité des bassins et canaux ?", options:["Revêtement argileux compacté","Utilisation de mortier bitumineux","Carrelage de pierre jointif","Tapis d'étanchéité moderne"], answer:[0,1,2]},
+        { id:'q38', type:'QCM', question:"Quelles réponses architecturales aux inondations observait-on ?", options:["Surélever niveaux d'occupation (terrasses)","Construire digues et canaux","Imposer zones inondables agricoles","Créer systèmes d'évacuation souterrains"], answer:[0,1,2]},
+        { id:'q39', type:'QCM', question:"Quels éléments reflètent l'autorité religieuse dans les bâtiments ?", options:["Accès restreint aux sanctuaires","Statues cultuelles centralisées","Archives et trésors stockés dans le temple","Grandes fenêtres publiques"], answer:[0,1,2]},
+        { id:'q40', type:'QCM', question:"Quelles transformations techniques sont apportées par l'usage massif de la brique cuite ?", options:["Possibilité d'élévations plus hautes","Décor polychrome permanent","Standardisation modulaire","Amélioration de la résistance au feu"], answer:[0,1,2]},
+        
+        /* ----- QCS 41..70 (choix simple) ----- */
+        { id:'q41', type:'QCS', question:"Quelle ville est célèbre pour son ziggurat dédiée au dieu Nanna (Lune) ?", options:["Babylone","Ur","Nineveh","Assur"], answer:[1]},
+        { id:'q42', type:'QCS', question:"La principale matière de construction en Mésopotamie était :", options:["Marbre taillé","Brique crue et cuite","Pierre calcaire","Bois massif"], answer:[1]},
+        { id:'q43', type:'QCS', question:"Quel roi est associé à la reconstruction et aux murailles polychromes de Babylone (porte d'Ishtar) ?", options:["Sargon d'Akkad","Hammurabi","Nabuchodonosor II","Assurbanipal"], answer:[2]},
+        { id:'q44', type:'QCS', question:"Quel énoncé décrit le mieux une 'ziggurat' ?", options:["Tombe royale souterraine","Plate-forme temple surélevée","Maison urbaine traditionnelle","Hangar industriel"], answer:[1]},
+        { id:'q45', type:'QCS', question:"Le système d'écriture utilisé largement en Mésopotamie est :", options:["Hiéroglyphes","Cunéiforme","Alphabet phénicien","Linéaire B"], answer:[1]},
+        { id:'q46', type:'QCS', question:"Quel site est souvent cité comme l'une des premières villes d'Uruk ?", options:["Gizeh","Çatal Höyük","Uruk elle-même","Knossos"], answer:[2]},
+        { id:'q47', type:'QCS', question:"Les temples mésopotamiens servaient principalement à :", options:["Résider le roi en permanence","Cérémonies religieuses et stockage économique","Habitat collectif","Université"], answer:[1]},
+        { id:'q48', type:'QCS', question:"Quel matériau permettait la polychromie durable sur façades ?", options:["Brique émaillée (glazed bricks)","Enduit en plâtre blanc","Peinture à l'huile","Papier peint"], answer:[0]},
+        { id:'q49', type:'QCS', question:"Quel plan est caractéristique des palais assyriens ?", options:["Plan centralisé en cour","Plan axial avec salles successives","Plan circulaire","Plan en croix grecque"], answer:[1]},
+        { id:'q50', type:'QCS', question:"L'eau dans les cités mésopotamiennes était gérée par :", options:["Des aqueducs en pierre comme Rome","Canaux et bassins d'irrigation","Puits artésiens modernes","Siphons hydraulique avancés"], answer:[1]},
+        { id:'q51', type:'QCS', question:"Quel type de voûte était le plus courant pour les larges espaces en brique ?", options:["Voûte en plein cintre romaine","Voûte en encorbellement (corbeled)","Voûte nervurée gothique","Voûte lambrissée en bois"], answer:[1]},
+        { id:'q52', type:'QCS', question:"Les bas-reliefs assyriens représentent surtout :", options:["Scènes de la vie domestique","Campagnes militaires et chasses royales","Mythes agricoles uniquement","Périodes astronomiques"], answer:[1]},
+        { id:'q53', type:'QCS', question:"Quel rôle urbain avait la place du temple à Nippur ?", options:["Centre religieux majeur et administratif","Aire résidentielle de l'aristocratie","Zone d'artisanat intensif","Place de marché uniquement"], answer:[0]},
+        { id:'q54', type:'QCS', question:"Le terme 'tell' (monticule) est lié à :", options:["Accumulation stratifiée d'occupations","Type de construction en pierre","Système d'irrigation","Édifice religieux spécifique"], answer:[0]},
+        { id:'q55', type:'QCS', question:"Quel peuple est célèbre pour ses palais monumentaux à Nimrud et Khorsabad ?", options:["Sumériens","Babyloniens","Assyriens","Hittites"], answer:[2]},
+        { id:'q56', type:'QCS', question:"La richesse des décorations en briques émaillées est surtout associée à :", options:["Période néolithique","Babylonie néo-babylonienne","Empire romain","Période hellénistique"], answer:[1]},
+        { id:'q57', type:'QCS', question:"Quel usage principal des tablettes cunéiformes influence notre connaissance architecturale ?", options:["Inventaires et contrats de construction","Poèmes épiques","Recettes culinaires","Calendriers rituels uniquement"], answer:[0]},
+        { id:'q58', type:'QCS', question:"Les portes monumentales babyloniennes comportaient souvent :", options:["Statues en bronze grandeur nature","Reliefs d'animaux mythiques","Vitraux colorés","Fenêtres en verre"], answer:[1]},
+        { id:'q59', type:'QCS', question:"La gestion des surplus agricoles par le temple entraînait :", options:["Développement d'entrepôts et silos","Disparition du commerce interrégional","Construction en pierre uniquement","Diminution de la population urbaine"], answer:[0]},
+        { id:'q60', type:'QCS', question:"Quel rite influençait le plan cérémoniel des ziggurats ?", options:["Processions menant au sommet","Funérailles royales en surface","Agrégation des maisons autour d'un puits","Danse de la moisson"], answer:[0]},
 
-/* ----- VF 61..90 (Vrai/Faux) ----- */
-{ id:'q61', type:'VF', question:"Les ziggurats étaient des tombes pour les rois.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q62', type:'VF', question:"La brique crue (mudbrick) était le matériau le plus courant.", options:["Vrai","Faux"], answer:[0]},
-{ id:'q63', type:'VF', question:"Les portes d'Ishtar de Babylone sont décorées de brique émaillée polychrome.", options:["Vrai","Faux"], answer:[0]},
-{ id:'q64', type:'VF', question:"Les cités mésopotamiennes n'avaient aucune administration centralisée.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q65', type:'VF', question:"Les plans des palais assyriens sont souvent organisés selon un axe cérémoniel.", options:["Vrai","Faux"], answer:[0]},
-{ id:'q66', type:'VF', question:"Les Mésopotamiens utilisaient le béton comme les Romains.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q67', type:'VF', question:"Les canaux mésopotamiens servaient uniquement pour l'irrigation.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q68', type:'VF', question:"Les bas-reliefs assyriens étaient placés principalement dans des espaces publics et palatiaux.", options:["Vrai","Faux"], answer:[0]},
-{ id:'q69', type:'VF', question:"Les villes mésopotamiennes étaient toutes planifiées selon un quadrillage orthogonal strict.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q70', type:'VF', question:"Les temples mésopotamiens associaient fonctions rituelles et économiques.", options:["Vrai","Faux"], answer:[0]},
-{ id:'q71', type:'VF', question:"Les murailles de villes pouvaient atteindre plusieurs dizaines de mètres d'épaisseur.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q72', type:'VF', question:"Les artisans et ateliers étaient souvent rattachés au temple ou au palais.", options:["Vrai","Faux"], answer:[0]},
-{ id:'q73', type:'VF', question:"Les techniques de construction étaient uniformes sur l'ensemble de la Mésopotamie sans variation régionale.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q74', type:'VF', question:"Les ziggurats comportaient un accès public libre jusqu'au sommet pour tous.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q75', type:'VF', question:"La documentation cunéiforme a permis de reconstituer des contrats de construction.", options:["Vrai","Faux"], answer:[0]},
-{ id:'q76', type:'VF', question:"Le climat et les crues du Tigre et de l'Euphrate n'influaient pas sur l'architecture.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q77', type:'VF', question:"L'emploi de briques cuites a permis des ornements durables sur les façades.", options:["Vrai","Faux"], answer:[0]},
-{ id:'q78', type:'VF', question:"Les palais assyriens sont dépourvus d'inscriptions royales.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q79', type:'VF', question:"Les techniques mésopotamiennes n'ont eu aucune influence sur l'architecture des régions voisines.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q80', type:'VF', question:"La notion de cité-État est centrale dans l'histoire urbaine mésopotamienne.", options:["Vrai","Faux"], answer:[0]},
+        /* ----- VF 61..90 (Vrai/Faux) ----- */
+        { id:'q61', type:'VF', question:"Les ziggurats étaient des tombes pour les rois.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q62', type:'VF', question:"La brique crue (mudbrick) était le matériau le plus courant.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q63', type:'VF', question:"Les portes d'Ishtar de Babylone sont décorées de brique émaillée polychrome.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q64', type:'VF', question:"Les cités mésopotamiennes n'avaient aucune administration centralisée.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q65', type:'VF', question:"Les plans des palais assyriens sont souvent organisés selon un axe cérémoniel.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q66', type:'VF', question:"Les Mésopotamiens utilisaient le béton comme les Romains.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q67', type:'VF', question:"Les canaux mésopotamiens servaient uniquement pour l'irrigation.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q68', type:'VF', question:"Les bas-reliefs assyriens étaient placés principalement dans des espaces publics et palatiaux.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q69', type:'VF', question:"Les villes mésopotamiennes étaient toutes planifiées selon un quadrillage orthogonal strict.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q70', type:'VF', question:"Les temples mésopotamiens associaient fonctions rituelles et économiques.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q71', type:'VF', question:"Les murailles de villes pouvaient atteindre plusieurs dizaines de mètres d'épaisseur.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q72', type:'VF', question:"Les artisans et ateliers étaient souvent rattachés au temple ou au palais.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q73', type:'VF', question:"Les techniques de construction étaient uniformes sur l'ensemble de la Mésopotamie sans variation régionale.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q74', type:'VF', question:"Les ziggurats comportaient un accès public libre jusqu'au sommet pour tous.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q75', type:'VF', question:"La documentation cunéiforme a permis de reconstituer des contrats de construction.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q76', type:'VF', question:"Le climat et les crues du Tigre et de l'Euphrate n'influaient pas sur l'architecture.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q77', type:'VF', question:"L'emploi de briques cuites a permis des ornements durables sur les façades.", options:["Vrai","Faux"], answer:[0]},
+        { id:'q78', type:'VF', question:"Les palais assyriens sont dépourvus d'inscriptions royales.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q79', type:'VF', question:"Les techniques mésopotamiennes n'ont eu aucune influence sur l'architecture des régions voisines.", options:["Vrai","Faux"], answer:[1]},
+        { id:'q80', type:'VF', question:"La notion de cité-État est centrale dans l'histoire urbaine mésopotamienne.", options:["Vrai","Faux"], answer:[0]},
+        
+        /* ----- QCM 81..90 (mix hard extra) ----- */
+        { id:'q81', type:'QCM', question:"Quels facteurs expliquent la monumentalité de certains édifices mésopotamiens ?", options:["Compétition entre cités","Affirmation du pouvoir royal","Capacité technique et ressources","Nécessité agricole"], answer:[0,1,2]},
+        { id:'q82', type:'QCM', question:"Quels signes de planification urbaine complexe observe-t-on ?", options:["Réseaux de canaux intégrés","Répartition zonale des fonctions (temple, palais, habitations)","Présence d'infrastructures routières pavées à l'échelle régionale","Usage systématique d'épurations sanitaires modernes"], answer:[0,1]},
+        { id:'q83', type:'QCM', question:"Quels éléments de sécurité urbaine sont attestés ?", options:["Tours et bastions","Portes monumentales contrôlées","Systèmes de verrous métalliques complexes","Fossés et contre-fossés"], answer:[0,1,3]},
+        { id:'q84', type:'QCM', question:"Quelles missions de l'architecte/maître d'œuvre apparaissent dans les tablettes ?", options:["Gestion des approvisionnements","Supervision de main d'œuvre","Conception symbolique","Calculs structuraux modernes"], answer:[0,1,2]},
+        { id:'q85', type:'QCM', question:"Quels types d'ornements racontent un récit mythologique ?", options:["Bas-reliefs narratifs","Stèles inscrites","Briques moulées illustrées","Fenêtres vitrées illustrées"], answer:[0,1,2]},
+        { id:'q86', type:'QCM', question:"Quelles conséquences architecturales de l'économie centralisée ?", options:["Grandes réserves et entrepôts","Standardisation des modules de construction","Investissements dans monuments publics","Diminution des habitats privés"], answer:[0,1,2]},
+        { id:'q87', type:'QCM', question:"Quels éléments techniques pouvaient améliorer la durabilité des murs en brique crue ?", options:["Enduit bitumineux","Succession de couches de briques cuites","Fondations en pierre","Séchage naturel long"], answer:[0,2]},
+        { id:'q88', type:'QCM', question:"Quels aspects de l'architecture mésopotamienne servent aujourd'hui d'information pour la génie civil ?", options:["Techniques de drainage et gestion des eaux","Étude de la résistance des voûtes en encorbellement","Principes de la stratification urbaine","Calculs de structure en béton armé"], answer:[0,1,2]},
+        { id:'q89', type:'QCM', question:"Quels matériaux servaient pour les fondations des bâtiments monumentaux ?", options:["Briques cuites","Pierres de rivière","Tapis de roseaux","Sable compacté"], answer:[0,1]},
+        { id:'q90', type:'QCM', question:"Quelles sont les caractéristiques de l'architecture domestique ?", options:["Façades aveugles sur la rue","Organisation autour d'une cour","Absence de fenêtres sur l'extérieur","Plans standardisés rigides"], answer:[0,1,2]},
 
-/* ----- QCM 81..90 (mix hard extra) ----- */
-{ id:'q81', type:'QCM', question:"Quels facteurs expliquent la monumentalité de certains édifices mésopotamiens ?", options:["Compétition entre cités","Affirmation du pouvoir royal","Capacité technique et ressources","Nécessité agricole"], answer:[0,1,2]},
-{ id:'q82', type:'QCM', question:"Quels signes de planification urbaine complexe observe-t-on ?", options:["Réseaux de canaux intégrés","Répartition zonale des fonctions (temple, palais, habitations)","Présence d'infrastructures routières pavées à l'échelle régionale","Usage systématique d'épurations sanitaires modernes"], answer:[0,1]},
-{ id:'q83', type:'QCM', question:"Quels éléments de sécurité urbaine sont attestés ?", options:["Tours et bastions","Portes monumentales contrôlées","Systèmes de verrous métalliques complexes","Fossés et contre-fossés"], answer:[0,1,3]},
-{ id:'q84', type:'QCM', question:"Quelles missions de l'architecte/maître d'œuvre apparaissent dans les tablettes ?", options:["Gestion des approvisionnements","Supervision de main d'œuvre","Conception symbolique","Calculs structuraux modernes"], answer:[0,1,2]},
-{ id:'q85', type:'QCM', question:"Quels types d'ornements racontent un récit mythologique ?", options:["Bas-reliefs narratifs","Stèles inscrites","Briques moulées illustrées","Fenêtres vitrées illustrées"], answer:[0,1,2]},
-{ id:'q86', type:'QCM', question:"Quelles conséquences architecturales de l'économie centralisée ?", options:["Grandes réserves et entrepôts","Standardisation des modules de construction","Investissements dans monuments publics","Diminution des habitats privés"], answer:[0,1,2]},
-{ id:'q87', type:'QCM', question:"Quels éléments techniques pouvaient améliorer la durabilité des murs en brique crue ?", options:["Enduit bitumineux","Succession de couches de briques cuites","Fondations en pierre","Séchage naturel long"], answer:[0,2]},
-{ id:'q88', type:'QCM', question:"Quels aspects de l'architecture mésopotamienne servent aujourd'hui d'information pour la génie civil ?", options:["Techniques de drainage et gestion des eaux","Empilement modulaire des briques","Systèmes de défense urbaine","Utilisation du béton ferraillé"], answer:[0,1,2]},
-{ id:'q89', type:'QCM', question:"Quels types de documents figurent souvent dans les archives du temple ?", options:["Registres de stockage (grains)","Listes d'ouvriers et rations","Plans ou instructions de construction","Correspondance diplomatique"], answer:[0,1,2]},
-{ id:'q90', type:'QCM', question:"Quels éléments distinguent la phase néo-babylonienne (ex: Nabuchodonosor) ?", options:["Restauration et décor polychrome des monuments","Expansion impériale massive","Introduction du marbre local","Transformation de systèmes d'irrigation"], answer:[0,1]},
+        /* ----- QCS 91..100 (mix hard extra) ----- */
+        { id:'q91', type:'QCS', question:"Quel peuple a construit les jardins suspendus de Babylone, l'une des Sept Merveilles du Monde antique ?", options:["Sumériens","Assyriens","Akkadiens","Babyloniens"], answer:[3]},
+        { id:'q92', type:'QCS', question:"L'architecture mésopotamienne a été principalement influencée par :", options:["La disponibilité de la pierre","La technologie du verre","L'abondance de l'argile","L'ingénierie du métal"], answer:[2]},
+        { id:'q93', type:'QCS', question:"Quelle technique était couramment utilisée pour la construction de voûtes sans coffrage de bois ?", options:["Voûte en plein cintre","Voûte en encorbellement","Voûte d'ogives","Voûte en berceau"], answer:[1]},
+        { id:'q94', type:'QCS', question:"Le tell est un monticule créé par l'accumulation de :", options:["Sédiments fluviaux","Matériaux de construction","Cendres volcaniques","Ruines de villes superposées"], answer:[3]},
+        { id:'q95', type:'QCS', question:"Quel était le rôle principal de la cour intérieure dans une maison mésopotamienne ?", options:["Espace de réception public","Cuisine collective","Source de lumière et ventilation","Garage"], answer:[2]},
+        { id:'q96', type:'QCS', question:"Les bas-reliefs assyriens servaient de support pour :", options:["L'art abstrait","La propagande royale","Les scènes de vie quotidienne","Les cartes géographiques"], answer:[1]},
+        { id:'q97', type:'QCS', question:"Quel est le nom de la porte monumentale de Babylone ?", options:["Porte du Soleil","Porte d'Ishtar","Porte de l'Éternité","Porte de Sargon"], answer:[1]},
+        { id:'q98', type:'QCS', question:"Quelle fonction n'était pas associée au temple ?", options:["Centre religieux","Banque","Entrepôt de céréales","Résidence du peuple"], answer:[3]},
+        { id:'q99', type:'QCS', question:"L'architecture mésopotamienne était principalement une architecture de :", options:["Pierre","Brique crue et cuite","Bois","Métal"], answer:[1]},
+        { id:'q100', type:'QCS', question:"Quel élément architectural n'était pas courant dans les bâtiments mésopotamiens ?", options:["Arcs et voûtes","Murs épais","Colonnes en pierre","Ziggurats"], answer:[2]},
+    ];
 
-/* ----- QCS 91..95 (choix simple — très صعب) ----- */
-{ id:'q91', type:'QCS', question:"Lequel des énoncés suit une logique historique correcte ?", options:["Les ziggurats sont apparus après les palais assyriens","Les premières grandes villes sumériennes émergent avant l'usage systématique de la brique cuite","La brique cuite est une invention romaine","L'architecture mésopotamienne ignore totalement la dimension religieuse"], answer:[1]},
-{ id:'q92', type:'QCS', question:"Laquelle des pratiques suivantes est la mieux reconnue pour la stabilisation des monticules (tells) ?", options:["Remplacement systématique de briques","Rehaussement progressif d'occupation","Enlèvement complet des niveaux antérieurs","Cimentage par chaux"], answer:[1]},
-{ id:'q93', type:'QCS', question:"Quel fait correspond à l'usage des ziggurats ?", options:["Elles servaient comme observatoires astronomiques publics","Elles abritaient la statue cultuelle du dieu et les rituels","Elles étaient des salles de marché couvertes","Elles stockaient le surplus agricole"], answer:[1]},
-{ id:'q94', type:'QCS', question:"Quel type d'information nous fournit surtout la documentation cunéiforme sur les chantiers ?", options:["Calendriers rituels sans détails techniques","Listes de matériaux, noms d'ouvriers et rations","Dessins d'élévations en couleur","Renseignements sur importation de marbre"], answer:[1]},
-{ id:'q95', type:'QCS', question:"Le style narratif des reliefs assyriens vise principalement à :", options:["Documenter une chronologie de la construction","Légitimer et célébrer la puissance royale","Orner simplement sans message politique","Servir d'instructions techniques de construction"], answer:[1]},
+    /* Quiz State Management */
+    let answeredQuestions = new Set();
 
-/* ----- VF 96..100 (Vrai/Faux — جولة أخيرة صعبة جدا) ----- */
-{ id:'q96', type:'VF', question:"La ville de Nimrud est surtout associée à l'Empire assyrien et à des palais monumentaux.", options:["Vrai","Faux"], answer:[0]},
-{ id:'q97', type:'VF', question:"Les techniques mésopotamiennes n'ont eu aucune influence sur les architectes mésopotamiens ultérieurs (contradiction), i.e. elles demeurent statiques.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q98', type:'VF', question:"La poterie et les textes montrent que les ateliers étaient parfois localisés dans la même zone que les entrepôts du temple.", options:["Vrai","Faux"], answer:[0]},
-{ id:'q99', type:'VF', question:"Les ziggurats comportaient généralement des chambres funéraires souterraines similaires aux pyramides égyptiennes.", options:["Vrai","Faux"], answer:[1]},
-{ id:'q100', type:'VF', question:"Les documents administratifs cunéiformes ont permis l'identification d'architectes/maîtres de chantier responsables.", options:["Vrai","Faux"], answer:[0]}
-]; // end allQuestions
-
-/* Helper to filter questions by type */
-function getQuestionsByType(type) {
-  if (type === 'QCM') return allQuestions.filter(q => q.type === 'QCM');
-  if (type === 'QCS') return allQuestions.filter(q => q.type === 'QCS');
-  return allQuestions.filter(q => q.type === 'VF');
-}
-
-/* Open/close modal */
-openQuizBtn.addEventListener('click', () => {
-  quizModal.style.display = 'flex';
-  quizModal.setAttribute('aria-hidden','false');
-  selectedTypeLabel.textContent = quizTypeSelect.value;
-  resetQuizState();
-});
-closeQuizBtn.addEventListener('click', closeQuiz);
-closeResultBtn.addEventListener('click', closeQuiz);
-
-function closeQuiz() {
-  quizModal.style.display = 'none';
-  quizModal.setAttribute('aria-hidden','true');
-  stopTimer();
-  resultArea.style.display = 'none';
-}
-
-/* Start quiz */
-startBtn.addEventListener('click', () => {
-  startQuiz(quizTypeSelect.value);
-});
-
-/* End early */
-endEarlyBtn.addEventListener('click', () => {
-  finishQuiz();
-});
-
-/* Navigation */
-prevBtn.addEventListener('click', () => {
-  saveCurrentAnswer();
-  if (currentIndex > 0) currentIndex--;
-  renderQuestion();
-});
-nextBtn.addEventListener('click', () => {
-  saveCurrentAnswer();
-  if (currentIndex < currentSet.length - 1) currentIndex++;
-  renderQuestion();
-});
-
-/* Submit */
-submitBtn.addEventListener('click', () => {
-  saveCurrentAnswer();
-  finishQuiz();
-});
-
-/* Retry wrong */
-retryBtn.addEventListener('click', () => {
-  if (wrongQuestions.length === 0) return;
-  retryMode = true;
-  currentSet = wrongQuestions.map(id => allQuestions.find(q => q.id === id));
-  totalQuestionsLabel.textContent = currentSet.length;
-  remainingQuestionsLabel.textContent = currentSet.length;
-  answers = Array(currentSet.length).fill(null);
-  wrongQuestions = [];
-  currentIndex = 0;
-  score = 0;
-  scoreDisplay.textContent = score;
-  resultArea.style.display = 'none';
-  selectedTypeLabel.textContent = quizTypeSelect.value + ' (reprise)';
-  startTimer(); // restart timer
-  renderQuestion();
-});
-
-/* Utilities */
-function resetQuizState(){
-  stopTimer();
-  resultArea.style.display = 'none';
-  selectedTypeLabel.textContent = quizTypeSelect.value;
-  totalQuestionsLabel.textContent = 30; // placeholder, will be updated on start
-  remainingQuestionsLabel.textContent = 30;
-  questionText.textContent = "Choisissez un type puis cliquez sur Commencer.";
-  optionsContainer.innerHTML = '';
-  questionIndex.textContent = "Question —";
-  scoreDisplay.textContent = '0';
-  startBtn.disabled = false;
-  submitBtn.style.display = 'none';
-  prevBtn.disabled = true;
-  nextBtn.disabled = true;
-}
-
-function startQuiz(type) {
-  retryMode = false;
-  selectedTypeLabel.textContent = type;
-  currentSet = getQuestionsByType(type);
-  // we keep provided order (difficult -> very difficult as organized)
-  answers = Array(currentSet.length).fill(null);
-  currentIndex = 0;
-  score = 0;
-  wrongQuestions = [];
-  totalQuestionsLabel.textContent = currentSet.length;
-  remainingQuestionsLabel.textContent = currentSet.length;
-  startBtn.disabled = true;
-  submitBtn.style.display = 'inline-block';
-  prevBtn.disabled = false;
-  nextBtn.disabled = false;
-  scoreDisplay.textContent = score;
-  // start timer (global)
-  timeLeft = 30 * 60; // 30 minutes
-  startTimer();
-  renderQuestion();
-}
-
-/* Timer functions */
-function startTimer() {
-  stopTimer();
-  updateTimerDisplay();
-  timer = setInterval(() => {
-    timeLeft--;
-    updateTimerDisplay();
-    if (timeLeft <= 0) {
-      stopTimer();
-      finishQuiz();
+    /* Helper Functions */
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
     }
-  }, 1000);
-}
-function stopTimer() {
-  if (timer) { clearInterval(timer); timer = null; }
-}
-function updateTimerDisplay() {
-  const m = Math.floor(timeLeft/60).toString().padStart(2,'0');
-  const s = (timeLeft%60).toString().padStart(2,'0');
-  timerDisplay.textContent = `${m}:${s}`;
-}
 
-/* Render question */
-function renderQuestion(){
-  const q = currentSet[currentIndex];
-  questionIndex.textContent = `Question ${currentIndex+1} / ${currentSet.length}`;
-  questionText.textContent = q.question;
-  optionsContainer.innerHTML = '';
-  remainingQuestionsLabel.textContent = currentSet.length - currentIndex;
-  selectedTypeLabel.textContent = quizTypeSelect.value + (retryMode ? ' (reprise)' : '');
-  // build options depending on type
-  if (q.type === 'QCM') {
-    q.options.forEach((opt, i) => {
-      const div = document.createElement('label');
-      div.className = 'option';
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      input.name = 'opt';
-      input.value = i;
-      const prev = answers[currentIndex];
-      if (Array.isArray(prev) && prev.includes(i)) input.checked = true;
-      div.appendChild(input);
-      const span = document.createElement('span');
-      span.textContent = opt;
-      div.appendChild(span);
-      optionsContainer.appendChild(div);
-    });
-  } else if (q.type === 'QCS') {
-    q.options.forEach((opt, i) => {
-      const div = document.createElement('label');
-      div.className = 'option';
-      const input = document.createElement('input');
-      input.type = 'radio';
-      input.name = 'opt';
-      input.value = i;
-      if (Array.isArray(answers[currentIndex]) && answers[currentIndex][0] === i) input.checked = true;
-      div.appendChild(input);
-      const span = document.createElement('span');
-      span.textContent = opt;
-      div.appendChild(span);
-      optionsContainer.appendChild(div);
-    });
-  } else { // VF
-    ['Vrai','Faux'].forEach((opt, i) => {
-      const div = document.createElement('label');
-      div.className = 'option';
-      const input = document.createElement('input');
-      input.type = 'radio';
-      input.name = 'opt';
-      input.value = i;
-      if (Array.isArray(answers[currentIndex]) && answers[currentIndex][0] === i) input.checked = true;
-      div.appendChild(input);
-      const span = document.createElement('span');
-      span.textContent = opt;
-      div.appendChild(span);
-      optionsContainer.appendChild(div);
-    });
-  }
-
-  prevBtn.disabled = currentIndex === 0;
-  nextBtn.disabled = currentIndex === currentSet.length - 1;
-}
-
-/* Save answer for current question */
-function saveCurrentAnswer(){
-  const q = currentSet[currentIndex];
-  const inputs = Array.from(optionsContainer.querySelectorAll('input[name="opt"]'));
-  if (q.type === 'QCM') {
-    const chosen = inputs.filter(i => i.checked).map(i => parseInt(i.value));
-    answers[currentIndex] = chosen.length ? chosen : null;
-  } else {
-    const chosen = inputs.find(i => i.checked);
-    answers[currentIndex] = chosen ? [parseInt(chosen.value)] : null;
-  }
-}
-
-/* Finish quiz, compute score */
-function finishQuiz(){
-  stopTimer();
-  saveCurrentAnswer();
-  score = 0;
-  wrongQuestions = [];
-  currentSet.forEach((q, idx) => {
-    const userAns = answers[idx];
-    const correct = q.answer;
-    if (!userAns || userAns.length === 0) {
-      wrongQuestions.push(q.id);
-      return;
+    function startTimer() {
+        if (timer) clearInterval(timer);
+        timer = setInterval(() => {
+            timeLeft--;
+            const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+            const seconds = String(timeLeft % 60).padStart(2, '0');
+            timerDisplay.textContent = `${minutes}:${seconds}`;
+            if (timeLeft <= 0) {
+                endQuiz();
+            }
+        }, 1000);
     }
-    const sortedUser = userAns.slice().sort((a,b)=>a-b);
-    const sortedCorr = correct.slice().sort((a,b)=>a-b);
-    const equal = sortedUser.length === sortedCorr.length && sortedUser.every((v,i)=>v===sortedCorr[i]);
-    if (equal) score++;
-    else wrongQuestions.push(q.id);
-  });
 
-  scoreDisplay.textContent = score + " / " + currentSet.length;
-  showResults();
-}
+    function stopTimer() {
+        if (timer) clearInterval(timer);
+    }
 
-/* Show result details and correct answers */
-function showResults(){
-  resultArea.style.display = 'block';
-  resultSummary.innerHTML = `<p>Vous avez obtenu <strong>${score}</strong> sur <strong>${currentSet.length}</strong>.</p>
-    <p>Questions correctes : ${score}. Questions incorrectes : ${currentSet.length - score}.</p>`;
-  answersList.innerHTML = '';
-  currentSet.forEach((q, idx) => {
-    const userAns = answers[idx];
-    const corr = q.answer;
-    const item = document.createElement('div');
-    item.className = 'answer-item';
-    const title = document.createElement('div');
-    title.style.fontWeight = '700';
-    title.textContent = `Q${idx+1} — ${q.question}`;
-    item.appendChild(title);
-    const ua = document.createElement('div');
-    ua.style.marginTop = '8px';
-    let uaText = 'Votre réponse : ';
-    if (!userAns || userAns.length === 0) uaText += '<em>Pas de réponse</em>';
-    else uaText += userAns.map(i => q.options[i]).join(', ');
-    ua.innerHTML = uaText;
-    item.appendChild(ua);
-    const ca = document.createElement('div');
-    ca.style.marginTop = '6px';
-    ca.innerHTML = `<strong>Réponse correcte :</strong> ${corr.map(i => q.options[i]).join(', ')}`;
-    item.appendChild(ca);
-    const mark = document.createElement('div');
-    mark.style.marginTop = '8px';
-    const isCorrect = userAns && userAns.length && (userAns.slice().sort().toString() === corr.slice().sort().toString());
-    mark.innerHTML = isCorrect ? `<span style="color:green;font-weight:700">✔ Bonne réponse</span>` : `<span style="color:#d6336c;font-weight:700">✖ Mauvaise réponse</span>`;
-    item.appendChild(mark);
-    answersList.appendChild(item);
-  });
+    function createOptions(question) {
+        optionsContainer.innerHTML = '';
+        const inputType = question.type === 'QCM' ? 'checkbox' : 'radio';
+        question.options.forEach((option, index) => {
+            const optionDiv = document.createElement('label');
+            optionDiv.className = 'option';
+            optionDiv.innerHTML = `
+                <input type="${inputType}" name="question${question.id}" value="${index}">
+                <span>${option}</span>
+            `;
+            optionsContainer.appendChild(optionDiv);
+        });
+    }
 
-  if (!retryWrongInput.checked || wrongQuestions.length === 0) {
-    retryBtn.disabled = true;
-  } else {
-    retryBtn.disabled = false;
-  }
-}
+    function showQuestion(index) {
+        if (index >= 0 && index < currentSet.length) {
+            currentIndex = index;
+            const question = currentSet[currentIndex];
+            questionIndex.textContent = `Question ${currentIndex + 1} / ${currentSet.length}`;
+            questionText.textContent = question.question;
+            createOptions(question);
+            
+            // Check for previous answers and mark them
+            const prevAnswer = answers.find(a => a.id === question.id);
+            if (prevAnswer) {
+                prevAnswer.userAnswer.forEach(ansIndex => {
+                    const input = optionsContainer.querySelector(`input[value="${ansIndex}"]`);
+                    if (input) input.checked = true;
+                });
+            }
 
-/* End of script */
+            // Update button states
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === currentSet.length - 1;
+            submitBtn.style.display = 'none';
+        }
+        if (currentIndex === currentSet.length - 1) {
+            submitBtn.style.display = 'block';
+        } else {
+            submitBtn.style.display = 'none';
+        }
+    }
+
+    function saveAnswer() {
+        const question = currentSet[currentIndex];
+        const selectedOptions = Array.from(optionsContainer.querySelectorAll('input:checked')).map(input => parseInt(input.value));
+        
+        const existingAnswerIndex = answers.findIndex(a => a.id === question.id);
+        const isCorrect = (JSON.stringify(selectedOptions.sort()) === JSON.stringify(question.answer.sort()));
+
+        if (existingAnswerIndex > -1) {
+            answers[existingAnswerIndex] = { ...question, userAnswer: selectedOptions, isCorrect };
+        } else {
+            answers.push({ ...question, userAnswer: selectedOptions, isCorrect });
+        }
+        answeredQuestions.add(question.id);
+        updateRemainingQuestions();
+    }
+
+    function updateRemainingQuestions() {
+        remainingQuestionsLabel.textContent = allQuestions.length - answeredQuestions.size;
+    }
+
+    function checkAnswers() {
+        stopTimer();
+        score = 0;
+        wrongQuestions = [];
+
+        answers.forEach(answer => {
+            if (answer.isCorrect) {
+                score++;
+            } else {
+                wrongQuestions.push(answer);
+            }
+        });
+
+        scoreDisplay.textContent = score;
+        showResult();
+    }
+
+    function showResult() {
+        quizModal.querySelector('.quiz-body').style.display = 'none';
+        resultArea.style.display = 'block';
+        resultSummary.textContent = `Votre score est de ${score} sur ${answers.length}.`;
+        
+        answersList.innerHTML = '';
+        answers.forEach(item => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'answer-item';
+            const statusIcon = item.isCorrect ? '✅' : '❌';
+            const userAnswerText = item.userAnswer.map(i => item.options[i]).join(', ');
+            const correctAnswerText = item.answer.map(i => item.options[i]).join(', ');
+            resultItem.innerHTML = `
+                <b>${statusIcon} ${item.question}</b>
+                <p>Votre réponse: ${userAnswerText || 'Aucune'}</p>
+                <p>Bonne réponse: ${correctAnswerText}</p>
+            `;
+            answersList.appendChild(resultItem);
+        });
+
+        retryBtn.style.display = wrongQuestions.length > 0 ? 'block' : 'none';
+    }
+
+    function resetQuiz() {
+        currentSet = [];
+        currentIndex = 0;
+        answers = [];
+        score = 0;
+        timeLeft = 30 * 60;
+        wrongQuestions = [];
+        retryMode = false;
+        answeredQuestions.clear();
+
+        scoreDisplay.textContent = '0';
+        timerDisplay.textContent = '30:00';
+        resultArea.style.display = 'none';
+        quizModal.querySelector('.quiz-body').style.display = 'grid';
+        startBtn.style.display = 'block';
+        quizTypeSelect.disabled = false;
+        endEarlyBtn.style.display = 'none';
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        submitBtn.style.display = 'none';
+        optionsContainer.innerHTML = '';
+        questionText.textContent = 'Choisissez un type puis démarrez.';
+        questionIndex.textContent = 'Question — / —';
+        remainingQuestionsLabel.textContent = '100';
+    }
+
+    function startNewQuiz(questions) {
+        currentSet = questions;
+        shuffleArray(currentSet);
+        totalQuestionsLabel.textContent = currentSet.length;
+        remainingQuestionsLabel.textContent = currentSet.length;
+        currentIndex = 0;
+        answers = [];
+        score = 0;
+        timeLeft = 30 * 60;
+        retryMode = false;
+        answeredQuestions.clear();
+
+        quizModal.querySelector('.quiz-body').style.display = 'grid';
+        resultArea.style.display = 'none';
+        startBtn.style.display = 'none';
+        endEarlyBtn.style.display = 'inline-block';
+        quizTypeSelect.disabled = true;
+        
+        showQuestion(currentIndex);
+        startTimer();
+    }
+
+    function startRetryQuiz() {
+        if (wrongQuestions.length === 0) return;
+        
+        currentSet = wrongQuestions;
+        shuffleArray(currentSet);
+        totalQuestionsLabel.textContent = currentSet.length;
+        remainingQuestionsLabel.textContent = currentSet.length;
+        currentIndex = 0;
+        answers = [];
+        score = 0;
+        timeLeft = 30 * 60;
+        retryMode = true;
+        answeredQuestions.clear();
+
+        quizModal.querySelector('.quiz-body').style.display = 'grid';
+        resultArea.style.display = 'none';
+        startBtn.style.display = 'none';
+        endEarlyBtn.style.display = 'inline-block';
+        quizTypeSelect.disabled = true;
+
+        showQuestion(currentIndex);
+        startTimer();
+    }
+
+    /* Event Listeners */
+    openQuizBtn.addEventListener('click', () => {
+        resetQuiz();
+        quizModal.style.display = 'flex';
+        quizModal.setAttribute('aria-hidden', 'false');
+    });
+
+    closeQuizBtn.addEventListener('click', () => {
+        stopTimer();
+        quizModal.style.display = 'none';
+        quizModal.setAttribute('aria-hidden', 'true');
+    });
+
+    closeResultBtn.addEventListener('click', () => {
+        quizModal.style.display = 'none';
+        quizModal.setAttribute('aria-hidden', 'true');
+    });
+
+    startBtn.addEventListener('click', () => {
+        const selectedType = quizTypeSelect.value;
+        const questionsOfType = allQuestions.filter(q => q.type === selectedType);
+        selectedTypeLabel.textContent = selectedType;
+        startNewQuiz(questionsOfType);
+    });
+
+    endEarlyBtn.addEventListener('click', () => {
+        saveAnswer();
+        checkAnswers();
+    });
+
+    prevBtn.addEventListener('click', () => {
+        saveAnswer();
+        showQuestion(currentIndex - 1);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        saveAnswer();
+        showQuestion(currentIndex + 1);
+    });
+
+    submitBtn.addEventListener('click', () => {
+        saveAnswer();
+        checkAnswers();
+    });
+
+    retryBtn.addEventListener('click', () => {
+        startRetryQuiz();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (quizModal.style.display === 'flex') {
+            if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                nextBtn.click();
+            } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                prevBtn.click();
+            }
+        }
+    });
+
+    // Initial state setup on load
+    resetQuiz();
 </script>
 
 </body>
 </html>
-
