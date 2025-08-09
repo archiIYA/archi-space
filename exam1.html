@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Examens d'architecture par année - archi.space">
+  <title>Examens - archi.space</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+    }
+    header {
+      background: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-size: 1.5em;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .emoji {
+      font-size: 2em;
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>📝 Examens par année</header>
+  <div class="container">
+    <div class="card" onclick="location.href='exam1.html'"><span class="emoji">🧰</span>1ère année</div>
+    <div class="card" onclick="location.href='exam2.html'"><span class="emoji">📐</span>2ème année</div>
+    <div class="card" onclick="location.href='exam3.html'"><span class="emoji">🏗️</span>3ème année</div>
+    <div class="card" onclick="location.href='exam4.html'"><span class="emoji">🏛️</span>4ème année</div>
+    <div class="card" onclick="location.href='exam5.html'"><span class="emoji">🎓</span>5ème année</div>
+  </div>
+</body>
+</html>
