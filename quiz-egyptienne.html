@@ -1,704 +1,579 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Quiz – Architecture égyptienne (100 Q) - Fixed</title>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🏛️ Quiz Architecture – ArchiSpace</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet" />
 <style>
-  :root{
-    --bg1: #fff6d6;
-    --bg2: #ffe0b2;
-    --accent1: #ffcc00;
-    --accent2: #ff9900;
-    --card-bg: rgba(255,255,255,0.95);
-    --muted: #666;
+  /* Reset & Base */
+  * {
+    box-sizing: border-box;
   }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:'Rubik',sans-serif;
-    background: linear-gradient(135deg,var(--bg1),var(--bg2));
-    color:#111;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
+  body, html {
+    margin:0; padding:0; height:100%;
+    font-family: 'Rubik', sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    overflow-x: hidden;
   }
-
-  /* SIDEBAR */
-  aside{
-    width:260px;
-    background:#fff;
-    height:100vh;
-    padding:18px;
-    box-shadow:2px 0 12px rgba(0,0,0,0.08);
-    position:fixed;
-    left:-260px;
-    top:0;
-    z-index:999;
-    transition:left .32s ease;
+  h1 {
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 2.5rem;
+    text-align: center;
+    user-select: none;
   }
-  aside.active{left:0;}
-  aside h3{margin:6px 0 12px;font-size:16px}
-  aside a.btn{
-    display:block;
-    text-decoration:none;
-    background:var(--accent1);
-    color:#000;
-    padding:10px 12px;
-    border-radius:8px;
-    font-weight:600;
-    box-shadow:2px 4px 10px rgba(0,0,0,0.12);
-    text-align:center;
-    margin-bottom:10px;
-  }
-  aside .mini{
-    font-size:13px;color:var(--muted);
-    margin-top:14px;
-    line-height:1.5;
+  .emoji {
+    user-select: none;
   }
 
-  /* MAIN */
-  main{
-    transition:margin-left .32s ease;
-    padding:18px;
-    margin-left:0;
-    min-height:100vh;
+  /* Container */
+  #quiz-container {
+    background: rgba(0,0,0,0.45);
+    max-width: 700px;
+    width: 100%;
+    border-radius: 12px;
+    padding: 25px 30px 40px 30px;
+    box-shadow:
+      0 0 15px rgba(255 204 0 / 0.8),
+      inset 0 0 10px rgba(255 204 0 / 0.3);
+    position: relative;
+    overflow: hidden;
   }
-  main.shifted{margin-left:260px;}
-  .topbar{
-    display:flex;
-    gap:12px;
-    align-items:center;
-    margin-bottom:12px;
+  /* Question box */
+  .question-box {
+    opacity: 0;
+    animation: fadeIn 0.7s forwards;
+    transition: box-shadow 0.3s ease;
+    border-radius: 10px;
+    padding: 20px 25px;
+    background: linear-gradient(145deg, #f7b733, #f7d358);
+    color: #222;
+    box-shadow: 0 4px 12px rgba(247, 183, 51, 0.7),
+                0 0 20px rgba(247, 183, 51, 0.6);
   }
-  .menu-btn{
-    background:var(--accent1);
-    border:none;
-    padding:10px 14px;
-    border-radius:8px;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:2px 4px 12px rgba(0,0,0,0.12);
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(15px);}
+    to {opacity: 1; transform: translateY(0);}
   }
-  .title{
-    font-size:20px;
-    margin:0;
+  .question-text {
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
-
-  /* settings and timer */
-  .controls{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-    align-items:center;
-    margin:12px 0 18px;
+  /* Options */
+  .options label {
+    display: block;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #222;
+    user-select: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    background: #fff8d6;
+    box-shadow: 0 2px 8px rgba(247, 183, 51, 0.4);
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
   }
-  select,input[type="number"]{padding:8px 10px;border-radius:8px;border:1px solid #ddd}
-  .quiz-btn{
-    background:var(--accent1);
-    border:none;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer;
-    box-shadow:2px 4px 10px rgba(0,0,0,0.12);
+  .options label:hover {
+    background: #ffd633;
+    box-shadow: 0 4px 20px rgba(255, 214, 51, 0.85);
   }
-  .quiz-btn.warn{background:#ff6b6b;color:#fff}
-
-  /* timer circle */
-  .timer-area{display:flex;gap:18px;align-items:center}
-  .timer-wrapper{width:110px;height:110px;position:relative}
-  .timer-wrapper svg{transform:rotate(-90deg)}
-  .timer-text{
-    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-    font-weight:800;font-size:14px;text-align:center;
-  }
-  .timer-sub{font-size:12px;color:var(--muted);text-align:center;margin-top:6px}
-
-  /* quiz */
-  #quiz-container{display:block;margin-top:14px}
-  .question-card{
-    background:var(--card-bg);
-    border-radius:12px;
-    padding:14px;
-    margin-bottom:14px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.06);
-    animation:cardIn .36s ease both;
-  }
-  @keyframes cardIn{
-    from{opacity:0;transform:translateY(8px)}
-    to{opacity:1;transform:translateY(0)}
-  }
-  .q-header{display:flex;justify-content:space-between;align-items:center;gap:8px}
-  .q-title{font-weight:700}
-  .q-sub{font-size:13px;color:var(--muted)}
-  .choices{margin-top:10px;display:block}
-  .choices label{
-    display:block;padding:8px 10px;border-radius:8px;margin-bottom:8px;border:1px solid #eee;
-    cursor:pointer;
-  }
-  .choices input{margin-right:8px}
-  .small-note{font-size:13px;color:var(--muted);margin-top:8px}
-
-  /* footer submit box */
-  .submit-box{
-    position:sticky;bottom:12px;background:transparent;padding:8px 0;display:flex;gap:12px;justify-content:space-between;align-items:center;
-  }
-  .result-pill{background:#fff;padding:10px 12px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06);font-weight:700}
-  .submit-btn{background:var(--accent2);border:none;color:#fff;padding:12px 18px;border-radius:12px;font-weight:800;cursor:pointer;box-shadow:2px 6px 20px rgba(0,0,0,0.12)}
-  .clear-btn{background:#fff;border:1px solid #ddd;padding:10px 12px;border-radius:10px;cursor:pointer}
-
-  /* responsive */
-  @media(max-width:900px){
-    aside{left:-260px}
-    aside.active{left:0}
-    main.shifted{margin-left:0} /* on small screens we let aside overlay */
-    .timer-wrapper{width:90px;height:90px}
-    .title{font-size:18px}
+  input[type="radio"], input[type="checkbox"] {
+    margin-right: 14px;
+    cursor: pointer;
   }
 
-  @media(max-width:520px){
-    .choices label{font-size:14px;padding:10px}
-    .menu-btn{padding:8px 10px}
-    .timer-text{font-size:13px}
+  /* Buttons container */
+  .buttons {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    user-select: none;
   }
+  button {
+    background: linear-gradient(45deg, #f7b733, #f7d358);
+    border: none;
+    padding: 12px 26px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #222;
+    box-shadow: 0 4px 15px rgba(247, 183, 51, 0.7);
+    transition:
+      background-color 0.3s ease,
+      transform 0.25s ease,
+      box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+  }
+  button:hover:not(:disabled) {
+    background: linear-gradient(45deg, #ffde59, #ffd633);
+    box-shadow: 0 6px 25px rgba(255, 214, 51, 0.95);
+    transform: translateY(-3px);
+  }
+  button:disabled {
+    background: #ccc;
+    color: #777;
+    cursor: default;
+    box-shadow: none;
+    transform: none;
+  }
+
+  /* Timer circular */
+  #timer {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    margin: 20px auto 10px auto;
+  }
+  svg {
+    transform: rotate(-90deg);
+  }
+  .circle-bg {
+    fill: none;
+    stroke: #333;
+    stroke-width: 8;
+  }
+  .circle {
+    fill: none;
+    stroke: #ffcc00;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear;
+  }
+  #timer-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #ffcc00;
+    user-select: none;
+  }
+
+  /* Result box */
+  #result {
+    margin-top: 30px;
+    background: rgba(0,0,0,0.75);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow:
+      0 0 20px #ffd633aa;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  /* Scrollbar for container */
+  #quiz-container {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  /* Responsive */
+  @media(max-width: 760px){
+    #quiz-container {
+      max-width: 100%;
+      padding: 15px 20px 30px 20px;
+    }
+  }
+
 </style>
 </head>
 <body>
 
-<!-- Sidebar -->
-<aside id="sidebar">
-  <h3>📚 ArchiSpace — Quiz</h3>
-  <a class="btn" href="histoire1.html">🔙 Retour</a>
-  <div class="mini">
-    <strong>Sujet:</strong> Architecture égyptienne (100 questions)<br>
-    <strong>Niveaux:</strong> QCM / QCS / Vrai-Faux<br>
-    <strong>Conseil:</strong> اضغط Commencer ثم Answer all and Submit.
-  </div>
-</aside>
+<h1>🏛️ Quiz Architecture – ArchiSpace <span class="emoji">🧱📐</span></h1>
 
-<!-- Main -->
-<main id="main-content">
-  <div class="topbar">
-    <button class="menu-btn" id="menuToggle">☰ Menu</button>
-    <h1 class="title">🏛 Quiz – Architecture égyptienne (100 questions)</h1>
-  </div>
+<div id="timer" aria-label="timer">
+  <svg width="70" height="70">
+    <circle class="circle-bg" cx="35" cy="35" r="35"></circle>
+    <circle class="circle" cx="35" cy="35" r="35"></circle>
+  </svg>
+  <div id="timer-text" aria-live="polite" aria-atomic="true">30:00</div>
+</div>
 
-  <div class="controls">
-    <div>
-      <label>🌐 Langue / Language</label><br>
-      <select id="lang">
-        <option value="fr">Français</option>
-        <option value="en">English</option>
-      </select>
-    </div>
+<div id="quiz-container" role="main" aria-live="polite" aria-atomic="true">
+  <!-- السؤال يظهر هنا -->
+</div>
 
-    <div>
-      <label>⏱ Durée (minutes)</label><br>
-      <input type="number" id="duration" value="45" min="5" max="180"/>
-    </div>
+<div class="buttons">
+  <button id="prevBtn" disabled aria-label="Question précédente">⬅️ Précédent</button>
+  <button id="nextBtn" aria-label="Question suivante">Suivant ➡️</button>
+  <button id="submitBtn" style="display:none;" aria-label="Soumettre le quiz">📤 Soumettre</button>
+</div>
 
-    <div style="align-self:flex-end">
-      <button class="quiz-btn" id="startBtn">Commencer / Start</button>
-      <button class="quiz-btn warn" id="resetBtn" title="Réinitialiser les réponses">Réinitialiser</button>
-    </div>
-
-    <div style="margin-left:auto" class="timer-area">
-      <div class="timer-wrapper" title="Temps restant">
-        <svg width="110" height="110">
-          <defs>
-            <linearGradient id="g1" x1="0" x2="1">
-              <stop offset="0%" stop-color="#ffcc00"/>
-              <stop offset="100%" stop-color="#ff6b00"/>
-            </linearGradient>
-          </defs>
-          <circle cx="55" cy="55" r="48" stroke="#eee" stroke-width="8" fill="none"></circle>
-          <circle id="progress" cx="55" cy="55" r="48" stroke="url(#g1)" stroke-width="8" stroke-linecap="round" fill="none"></circle>
-        </svg>
-        <div class="timer-text" id="timerText">00:00</div>
-      </div>
-      <div style="text-align:left">
-        <div class="timer-sub" id="timerLabel">Prêt / Ready</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px">Questions: <strong>100</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <div id="quiz-container">
-    <!-- Questions will be injected here -->
-  </div>
-
-  <div class="submit-box" id="submit-area" style="display:none">
-    <div class="result-pill" id="summary">Prêt à démarrer</div>
-    <div style="display:flex;gap:8px">
-      <button class="clear-btn" id="scrollTop">Aller au début</button>
-      <button class="submit-btn" id="submitBtn">🏁 إنهاء الاختبار / Submit</button>
-    </div>
-  </div>
-
-</main>
+<div id="result" aria-live="polite" aria-atomic="true" style="display:none;"></div>
 
 <script>
-/* ========= QUESTIONS base (a few explicit) =========
-   We'll then extend programmatically to ensure 100 valid items.
-*/
-const ALL_QUESTIONS = [
-  {
-    q_fr:"Quelle pyramide est attribuée à Khéops (Khoufou) ?",
-    q_en:"Which pyramid is attributed to Khufu (Khufu)?",
-    type:"qcm",
-    choices_fr:["Grande pyramide de Khéops","Pyramide de Djoser","Pyramide de Mykérinos"],
-    choices_en:["Great Pyramid of Khufu","Pyramid of Djoser","Pyramid of Menkaure"],
-    answer:[0]
-  },
-  {
-    q_fr:"Quel architecte est associé à la pyramide à degrés de Djéser ?",
-    q_en:"Which architect is associated with Djoser's step pyramid?",
-    type:"qcm",
-    choices_fr:["Imhotep","Horemheb","Khéops"],
-    choices_en:["Imhotep","Horemheb","Khufu"],
-    answer:[0]
-  },
-  {
-    q_fr:"Où se situe la pyramide à degrés de Djéser ?",
-    q_en:"Where is Djoser's step pyramid located?",
-    type:"qcm",
-    choices_fr:["Saqqara","Gizeh","Abydos"],
-    choices_en:["Saqqara","Giza","Abydos"],
-    answer:[0]
-  },
-  {
-    q_fr:"Le 'serdab' sert principalement à :",
-    q_en:"The 'serdab' is mainly used to:",
-    type:"qcm",
-    choices_fr:["Abriter la statue du défunt","Stocker l'eau","Loger les prêtres"],
-    choices_en:["House the statue of the deceased","Store water","Lodge priests"],
-    answer:[0]
-  },
-  {
-    q_fr:"Les colonnes hathoriques sont associées à quelle divinité ?",
-    q_en:"Hathoric columns are associated with which deity?",
-    type:"qcm",
-    choices_fr:["Hathor","Rê","Osiris"],
-    choices_en:["Hathor","Ra","Osiris"],
-    answer:[0]
-  },
-  {
-    q_fr:"Les rampes sont évoquées pour quel usage dans la construction des pyramides ?",
-    q_en:"Ramps are mentioned for which use in pyramid construction?",
-    type:"qcm",
-    choices_fr:["Monter les blocs de pierre","Orner les façades","Assurer l'évacuation des eaux"],
-    choices_en:["Raising stone blocks","Decorating facades","Ensuring water drainage"],
-    answer:[0]
-  },
-  {
-    q_fr:"Quel matériau était fréquemment employé pour les monuments royaux ?",
-    q_en:"Which material was frequently used for royal monuments?",
-    type:"qcm",
-    choices_fr:["Calcaire et granit","Bois","Briques crues seulement"],
-    choices_en:["Limestone and granite","Wood","Mudbricks only"],
-    answer:[0]
-  },
-  {
-    q_fr:"Le plan-type d'un temple égyptien comporte souvent :",
-    q_en:"A typical Egyptian temple plan often includes:",
-    type:"qcm",
-    choices_fr:["Cour, salle hypostyle, sanctuaire","Nef centrale et bas-côtés","Plan radial concentrique"],
-    choices_en:["Court, hypostyle hall, sanctuary","Central nave and aisles","Concentric radial plan"],
-    answer:[0]
-  },
-  {
-    q_fr:"Le mastaba est principalement un :",
-    q_en:"The mastaba is primarily a:",
-    type:"qcm",
-    choices_fr:["Tombeau","Palais","Entrepôt"],
-    choices_en:["Tomb","Palace","Storehouse"],
-    answer:[0]
-  },
-  {
-    q_fr:"La disposition des rues dans les villes égyptiennes cherchait surtout à :",
-    q_en:"The layout of streets in Egyptian towns mainly aimed to:",
-    type:"qcm",
-    choices_fr:["Créer de l'ombre et profiter du vent","Agrandir les places publiques","Afficher des motifs décoratifs"],
-    choices_en:["Create shade and use prevailing winds","Enlarge public squares","Display decorative patterns"],
-    answer:[0]
-  },
-  {
-    q_fr:"Parmi ces éléments, lesquels sont typiques des colonnes égyptiennes ?",
-    q_en:"Which of these elements are typical of Egyptian columns?",
-    type:"qcs",
-    choices_fr:["Chapiteaux en lotus ou papyrus","Fûts cannelés à la romaine","Décors peints et reliefs"],
-    choices_en:["Lotus or papyrus capitals","Roman-style fluted shafts","Painted decorations and reliefs"],
-    answer:[0,2]
-  },
-  {
-    q_fr:"La pyramide à degrés de Djéser a été conçue pour quel roi ?",
-    q_en:"Djoser's step pyramid was built for which king?",
-    type:"qcm",
-    choices_fr:["Djéser","Khéops","Touthmôsis"],
-    choices_en:["Djoser","Khufu","Thutmose"],
-    answer:[0]
-  },
-  {
-    q_fr:"Les hypogées désignent :",
-    q_en:"Hypogea refer to:",
-    type:"qcm",
-    choices_fr:["Tombeaux creusés dans la roche","Murs d'enceinte","Temples solaires"],
-    choices_en:["Tombs cut into rock","Defensive walls","Sun temples"],
-    answer:[0]
-  },
-  {
-    q_fr:"Vrai ou Faux : Les Égyptiens n'utilisaient jamais la brique crue.",
-    q_en:"True or False: Egyptians never used mudbrick.",
-    type:"vf",
-    answer:false
-  },
-  {
-    q_fr:"Vrai ou Faux : Le sanctuaire est l'espace le plus intérieur du temple égyptien.",
-    q_en:"True or False: The sanctuary is the innermost space of an Egyptian temple.",
-    type:"vf",
-    answer:true
-  },
-  {
-    q_fr:"Quels éléments participent à la 'progression spatiale' d'un temple ?",
-    q_en:"Which elements contribute to a temple's spatial progression?",
-    type:"qcs",
-    choices_fr:["Cours, colonnades, salles successives","Toits en charpente métallique","Escaliers extérieurs monumentaux"],
-    choices_en:["Courts, colonnades, successive halls","Metal framed roofs","Large external staircases"],
-    answer:[0]
-  },
-  {
-    q_fr:"Vrai ou Faux : Le serdab était richement décoré intérieurement.",
-    q_en:"True or False: The serdab was richly decorated inside.",
-    type:"vf",
-    answer:false
-  },
-  {
-    q_fr:"Quel site rassemble les grandes pyramides royales (Khéops, Khéphren, Mykérinos) ?",
-    q_en:"Which site gathers the major royal pyramids (Khufu, Khafre, Menkaure)?",
-    type:"qcm",
-    choices_fr:["Gizeh","Saqqara","Abydos"],
-    choices_en:["Giza","Saqqara","Abydos"],
-    answer:[0]
-  },
-  {
-    q_fr:"Le terme 'temple des millions d'années' se réfère à :",
-    q_en:"The term 'temple of millions of years' refers to:",
-    type:"qcm",
-    choices_fr:["Un temple funéraire lié au roi","Un observatoire","Un palais royal"],
-    choices_en:["A king's mortuary temple","An observatory","A royal palace"],
-    answer:[0]
-  },
-  {
-    q_fr:"Vrai ou Faux : Les façades des temples égyptiens privilégient la légèreté sculpturale plutôt que les masses.",
-    q_en:"True or False: Egyptian temple facades favor sculptural lightness over massiveness.",
-    type:"vf",
-    answer:false
+  // أسئلة - 100 سؤال (45 QCM + 35 QCS + 20 VF) بدون تكرار
+  const questions = [
+    // 45 QCM (اختيار متعدد صحيح)
+    {type:"qcm", q:"Quelle est la principale fonction d'une colonne en architecture ?", choices:["Supporter le poids","Décorer les murs","Isoler le bâtiment","Illuminer l'espace"], answer:0},
+    {type:"qcm", q:"Le béton armé est composé de :", choices:["Béton et acier","Béton et bois","Acier et bois","Béton et plastique"], answer:0},
+    {type:"qcm", q:"Quelle unité est utilisée pour mesurer une surface ?", choices:["Mètre carré","Mètre cube","Kilogramme","Litre"], answer:0},
+    {type:"qcm", q:"Quel matériau est le plus utilisé dans la construction des maisons traditionnelles ?", choices:["Brique","Verre","Plastique","Acier"], answer:0},
+    {type:"qcm", q:"Un plan en coupe montre :", choices:["Une vue intérieure","Une vue extérieure","Un plan électrique","Un plan de jardin"], answer:0},
+    {type:"qcm", q:"Quelle forme de toit est la plus courante dans les maisons d'architecture traditionnelle ?", choices:["Toit en pente","Toit plat","Toit en dôme","Toit en verre"], answer:0},
+    {type:"qcm", q:"Le terme 'portique' désigne :", choices:["Une galerie avec colonnes","Une porte principale","Une fenêtre spéciale","Un escalier"], answer:0},
+    {type:"qcm", q:"Quelle est la fonction principale du dallage ?", choices:["Revêtement de sol","Mur porteur","Toiture","Fenêtre"], answer:0},
+    {type:"qcm", q:"Un pilier est différent d'une colonne car :", choices:["Il est plus massif et sans fût","Il est toujours en bois","Il est transparent","Il est décoratif uniquement"], answer:0},
+    {type:"qcm", q:"Quel matériau est le plus écologique ?", choices:["Bois","Béton","Acier","Plastique"], answer:0},
+    {type:"qcm", q:"L’architecture gothique est caractérisée par :", choices:["Arcs en ogive","Colonnes doriques","Toits plats","Fenêtres rondes"], answer:0},
+    {type:"qcm", q:"Quelle est la principale caractéristique d'un mur porteur ?", choices:["Supporte la charge du bâtiment","Est uniquement décoratif","Est amovible","Est en verre"], answer:0},
+    {type:"qcm", q:"Un plan d'architecte est généralement dessiné à l'échelle de :", choices:["1:100","1:1","1:1000","1:10"], answer:0},
+    {type:"qcm", q:"Le terme 'façade' désigne :", choices:["La face extérieure du bâtiment","La toiture","Le sous-sol","L'intérieur"], answer:0},
+    {type:"qcm", q:"Qu’est-ce qu’un voûte en architecture ?", choices:["Une structure en arc","Un type de colonne","Un matériau de construction","Une fenêtre"], answer:0},
+    {type:"qcm", q:"Lequel des suivants est un matériau inerte ?", choices:["Verre","Bois","Béton","Plastique"], answer:0},
+    {type:"qcm", q:"La résistance des matériaux mesure :", choices:["La capacité à supporter une charge","La couleur","La texture","La flexibilité"], answer:0},
+    {type:"qcm", q:"Le terme 'plinthe' désigne :", choices:["La base du mur","Le toit","La fenêtre","La porte"], answer:0},
+    {type:"qcm", q:"Quelle est l’épaisseur moyenne d’un mur porteur ?", choices:["30 cm","5 cm","1 mètre","10 cm"], answer:0},
+    {type:"qcm", q:"L’acier est principalement utilisé pour :", choices:["Les structures porteuses","Les revêtements de sol","Les fenêtres","Les toitures"], answer:0},
+    {type:"qcm", q:"Le terme 'corniche' désigne :", choices:["Un élément décoratif en haut d’un mur","Une porte","Un pilier","Une fenêtre"], answer:0},
+    {type:"qcm", q:"Quelle est la fonction d’une dalle ?", choices:["Supporter les charges","Décorer","Isoler","Éclairer"], answer:0},
+    {type:"qcm", q:"Les fenêtres en architecture traditionnelle sont souvent :", choices:["Petites et rectangulaires","Grandes et rondes","En verre teinté","En plastique"], answer:0},
+    {type:"qcm", q:"Qu’est-ce qu’une travée ?", choices:["Espace entre deux colonnes","Un type de toit","Une fenêtre spéciale","Un escalier"], answer:0},
+    {type:"qcm", q:"Le toit en terrasse est caractéristique de :", choices:["L’architecture moderne","L’architecture gothique","L’architecture classique","L’architecture romaine"], answer:0},
+    {type:"qcm", q:"Le ciment est un composant de :", choices:["Le béton","Le bois","L’acier","Le verre"], answer:0},
+    {type:"qcm", q:"Quelle est la durée approximative de prise du béton ?", choices:["24 heures","1 heure","1 semaine","10 minutes"], answer:0},
+    {type:"qcm", q:"Lequel des éléments suivants est une structure horizontale ?", choices:["Dalle","Poteau","Colonne","Mur"], answer:0},
+    {type:"qcm", q:"Le parquet est un type de :", choices:["Revêtement de sol","Mur","Toiture","Escalier"], answer:0},
+    {type:"qcm", q:"Quel type de fondation est le plus courant ?", choices:["Semelle filante","Fondation sur pieux","Radier général","Fondation superficielle"], answer:0},
+    {type:"qcm", q:"Le terme 'chaperon' désigne :", choices:["La partie supérieure d’un mur","Une porte","Une fenêtre","Un pilier"], answer:0},
+    {type:"qcm", q:"La charpente est généralement en :", choices:["Bois","Acier","Béton","Plastique"], answer:0},
+    {type:"qcm", q:"Le béton précontraint est :", choices:["Renforcé par des câbles tendus","Simple béton","En bois","Transparent"], answer:0},
+    {type:"qcm", q:"Quel est l’avantage principal des structures en acier ?", choices:["Grande résistance et légèreté","Coût faible","Isolation thermique","Facilité d’installation"], answer:0},
+    {type:"qcm", q:"La surface d’un rectangle se calcule par :", choices:["Longueur × Largeur","Longueur + Largeur","Longueur - Largeur","Longueur / Largeur"], answer:0},
+    {type:"qcm", q:"Un escalier droit est caractérisé par :", choices:["Une seule volée","Plusieurs virages","Escalier en colimaçon","Escalier suspendu"], answer:0},
+    {type:"qcm", q:"Le mortier sert à :", choices:["Assembler les briques","Isoler","Décorer","Peindre"], answer:0},
+    {type:"qcm", q:"La hauteur sous plafond standard est d'environ :", choices:["2,5 mètres","1 mètre","4 mètres","5 mètres"], answer:0},
+    {type:"qcm", q:"Quel matériau offre la meilleure isolation thermique ?", choices:["La laine de verre","Le béton","Le métal","Le verre"], answer:0},
+    {type:"qcm", q:"Lequel est un système de chauffage courant dans les bâtiments modernes ?", choices:["Plancher chauffant","Cheminée ouverte","Poêle à bois","Radiateur à eau"], answer:0},
+    {type:"qcm", q:"Les murs rideaux sont :", choices:["Des façades légères en verre","Des murs porteurs en béton","Des murs en briques","Des toits"], answer:0},
+
+    // 35 QCS (اختيار واحد صحيح)
+    {type:"qcs", q:"Quel est le matériau principal utilisé dans la pyramide de Khéops ?", choices:["Calcaire","Brique","Bois","Acier"], answer:0},
+    {type:"qcs", q:"Comment appelle-t-on un dessin technique représentant une vue de dessus ?", choices:["Plan","Coupe","Façade","Perspective"], answer:0},
+    {type:"qcs", q:"Quelle est la fonction d'un linteau ?", choices:["Supporter l'ouverture au-dessus d'une porte ou fenêtre","Décorer un mur","Isoler une pièce","Faire une fenêtre"], answer:0},
+    {type:"qcs", q:"Quelle forme ont les arcs en architecture romane ?", choices:["Arc en plein cintre","Arc brisé","Arc ogival","Arc en anse de panier"], answer:0},
+    {type:"qcs", q:"Quel type de plan montre une section verticale ?", choices:["Plan en coupe","Plan d'ensemble","Plan de façade","Plan de masse"], answer:0},
+    {type:"qcs", q:"Quel élément architectural est souvent sculpté dans les chapiteaux ?", choices:["Feuilles d'acanthe","Colonnes","Dalles","Poutres"], answer:0},
+    {type:"qcs", q:"Quelle est la partie horizontale supérieure d'une colonne ?", choices:["Chapiteau","Fût","Base","Dalle"], answer:0},
+    {type:"qcs", q:"Qu'est-ce qu'un plan masse ?", choices:["Plan d'ensemble du terrain","Plan intérieur","Plan de façade","Plan en coupe"], answer:0},
+    {type:"qcs", q:"Quelle est la fonction d'une poutre ?", choices:["Supporter une charge horizontale","Décorer","Isoler","Servir de fenêtre"], answer:0},
+    {type:"qcs", q:"Quelle est la particularité d'un mur mitoyen ?", choices:["Sépare deux propriétés","Est toujours en bois","Est en verre","Est amovible"], answer:0},
+    {type:"qcs", q:"Quel matériau est le plus lourd ?", choices:["Béton","Bois","Acier","Verre"], answer:2},
+    {type:"qcs", q:"Lequel est un exemple d’élément non porteur ?", choices:["Cloison","Colonne","Poteau","Poutre"], answer:0},
+    {type:"qcs", q:"Lequel des éléments suivants fait partie de la fondation ?", choices:["Semelle","Plafond","Mur","Toit"], answer:0},
+    {type:"qcs", q:"Quelle est la principale caractéristique du style baroque ?", choices:["Ornements exubérants","Simplicité","Formes géométriques simples","Couleurs neutres"], answer:0},
+    {type:"qcs", q:"Quelle est la fonction d’une fenêtre ?", choices:["Permettre l'entrée de lumière et d'air","Supporter un toit","Décorer une façade","Isoler"], answer:0},
+    {type:"qcs", q:"Quel outil est utilisé pour tracer des arcs ?", choices:["Compas","Règle","Équerre","Crayon"], answer:0},
+    {type:"qcs", q:"Quel est le rôle d’une charpente ?", choices:["Soutenir la toiture","Isoler","Décorer","Supporter le sol"], answer:0},
+    {type:"qcs", q:"Quelle est l'épaisseur recommandée pour un mur extérieur ?", choices:["30 à 40 cm","5 cm","1 mètre","10 cm"], answer:0},
+    {type:"qcs", q:"Quel est le matériau utilisé pour isoler ?", choices:["Laine de verre","Béton","Acier","Verre"], answer:0},
+    {type:"qcs", q:"Quel est l'élément principal d'un toit en pente ?", choices:["La charpente","La dalle","Le mur","Le sol"], answer:0},
+    {type:"qcs", q:"Quelle est la hauteur standard d'une porte ?", choices:["2 mètres","1 mètre","3 mètres","2,5 mètres"], answer:0},
+    {type:"qcs", q:"Qu'est-ce qu'une façade ?","choices":["Face extérieure du bâtiment","Mur intérieur","Toit","Sol"], answer:0},
+    {type:"qcs", q:"Le béton est principalement composé de :", choices:["Ciment, sable, gravier et eau","Bois","Acier","Verre"], answer:0},
+    {type:"qcs", q:"Quel est l'outil utilisé pour mesurer les angles ?", choices:["Rapporteur","Règle","Compas","Niveau"], answer:0},
+    {type:"qcs", q:"Quelle est la fonction d'une fondation ?", choices:["Transmettre les charges au sol","Décorer","Isoler","Ventiler"], answer:0},
+    {type:"qcs", q:"Quelle est la fonction d'une dalle ?", choices:["Supporter les charges","Décorer","Isoler","Ventiler"], answer:0},
+    {type:"qcs", q:"Quelle est la caractéristique d'une voûte en berceau ?", choices:["Arc continu et arrondi","Arc brisé","Arc en ogive","Arc en anse de panier"], answer:0},
+    {type:"qcs", q:"Lequel est un matériau naturel ?", choices:["Bois","Béton","Acier","Plastique"], answer:0},
+    {type:"qcs", q:"Quelle est la fonction d'un escalier ?", choices:["Permettre la circulation verticale","Isoler","Décorer","Supporter le poids"], answer:0},
+    {type:"qcs", q:"Quel est le terme pour une ouverture dans un mur ?", choices:["Fenêtre","Pilier","Plinthe","Corniche"], answer:0},
+    {type:"qcs", q:"Quel matériau est résistant à la corrosion ?", choices:["Acier inoxydable","Bois","Plastique","Béton"], answer:0},
+    {type:"qcs", q:"Quelle est la particularité du style Art déco ?", choices:["Lignes géométriques et ornements stylisés","Formes organiques","Couleurs pastel","Décor minimaliste"], answer:0},
+    {type:"qcs", q:"Quel est le rôle d’un poteau ?", choices:["Supporter verticalement","Décorer","Isoler","Ventiler"], answer:0},
+    {type:"qcs", q:"Quel type de dessin montre la façade d'un bâtiment ?", choices:["Façade","Plan","Coupe","Perspective"], answer:0},
+    {type:"qcs", q:"Quelle est la fonction d’un linteau ?", choices:["Supporter l’ouverture d’une fenêtre ou porte","Décorer","Isoler","Ventiler"], answer:0},
+
+    // 20 VF (Vrai/Faux)
+    {type:"vf", q:"Le béton armé combine béton et acier.", answer:true},
+    {type:"vf", q:"Une colonne est toujours ronde.", answer:false},
+    {type:"vf", q:"Le bois est un matériau écologique.", answer:true},
+    {type:"vf", q:"La charpente soutient la toiture.", answer:true},
+    {type:"vf", q:"Une dalle est une structure horizontale.", answer:true},
+    {type:"vf", q:"Un pilier est toujours décoratif.", answer:false},
+    {type:"vf", q:"Le mortier sert à assembler les briques.", answer:true},
+    {type:"vf", q:"La résistance des matériaux ne concerne pas la flexibilité.", answer:false},
+    {type:"vf", q:"Une voûte est une structure arquée.", answer:true},
+    {type:"vf", q:"La façade est la partie intérieure du bâtiment.", answer:false},
+    {type:"vf", q:"Le plan en coupe montre une vue verticale.", answer:true},
+    {type:"vf", q:"Le parquet est un revêtement de sol.", answer:true},
+    {type:"vf", q:"L’acier est principalement utilisé pour les fenêtres.", answer:false},
+    {type:"vf", q:"La laine de verre est un isolant thermique.", answer:true},
+    {type:"vf", q:"Un escalier droit a plusieurs virages.", answer:false},
+    {type:"vf", q:"La surface d’un rectangle est longueur plus largeur.", answer:false},
+    {type:"vf", q:"Le béton prend environ 24 heures pour durcir.", answer:true},
+    {type:"vf", q:"Une fenêtre permet l'entrée de lumière et d'air.", answer:true},
+    {type:"vf", q:"Un mur porteur ne supporte pas la charge du bâtiment.", answer:false},
+    {type:"vf", q:"Les murs rideaux sont des façades légères en verre.", answer:true},
+  ];
+
+  // المتغيرات
+  let currentIndex = 0;
+  let score = 0;
+  let answers = new Array(questions.length).fill(null);
+
+  // DOM العناصر
+  const quizContainer = document.getElementById('quiz-container');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const timerText = document.getElementById('timer-text');
+  const circle = document.querySelector('.circle');
+
+  // مؤقت دائري
+  const FULL_DASH_ARRAY = 220;
+  const TIME_LIMIT = 30 * 60; // 30 دقيقة بالثواني
+  let timePassed = 0;
+  let timeLeft = TIME_LIMIT;
+  let timerInterval = null;
+
+  function startTimer() {
+    updateTimerCircle();
+    timerInterval = setInterval(() => {
+      timePassed++;
+      timeLeft = TIME_LIMIT - timePassed;
+      updateTimerCircle();
+      if(timeLeft <= 0) {
+        clearInterval(timerInterval);
+        alert("⏰ Temps écoulé! Fin du quiz.");
+        showResult();
+        disableButtons();
+      }
+    }, 1000);
   }
-];
 
-/* ========= Extend to 100 items programmatically (valid structures) ========= */
-(function fillTo100(){
-  const qCount = ALL_QUESTIONS.length;
-  const needed = 100 - qCount;
-  const qcmPool = [
-    { q_fr:"Quelle est la fonction principale d'un mastaba ?", q_en:"What is the main function of a mastaba?", type:"qcm",
-      choices_fr:["Tombeau","Fortification","Maison de commerce"], choices_en:["Tomb","Fortification","Marketplace"], answer:[0] },
-    { q_fr:"Quel chapiteau imite le lotus ?", q_en:"Which capital imitates the lotus?", type:"qcm",
-      choices_fr:["Lotiforme","Ionique","Corinthien"], choices_en:["Lotiform","Ionic","Corinthian"], answer:[0] },
-    { q_fr:"Quel matériau trouve-t-on souvent dans les temples égyptiens pour les colonnes ?", q_en:"Which material is often found in temple columns?",
-      type:"qcm", choices_fr:["Pierre sculptée","Bois massif","Brique crue"], choices_en:["Carved stone","Solid wood","Mudbrick"], answer:[0] },
-    { q_fr:"Quel élément sert de passage entre la pyramide et le temple de la vallée ?", q_en:"What links the pyramid to the valley temple?",
-      type:"qcm", choices_fr:["Chaussée","Aqueduc","Canal décoratif"], choices_en:["Causeway","Aqueduct","Decorative channel"], answer:[0] },
-    { q_fr:"Quel ordre de colonnes n'est pas égyptien ?", q_en:"Which column order is NOT Egyptian?",
-      type:"qcm", choices_fr:["Ionique","Hathorique","Papyriforme"], choices_en:["Ionic","Hathoric","Papyriform"], answer:[0] },
-    { q_fr:"Quel est l'effet recherché par les surfaces lisses des pyramides ?", q_en:"What effect is sought by smooth surfaces of pyramids?",
-      type:"qcm", choices_fr:["Accentuer la pureté géométrique","Augmenter la surface décorative","Faciliter la végétalisation"], choices_en:["Emphasize geometric purity","Increase decorative surface","Facilitate planting"], answer:[0] },
-    { q_fr:"Quel type de toit est courant dans l'habitat égyptien traditionnel ?", q_en:"Which roof type is common in traditional Egyptian housing?",
-      type:"qcm", choices_fr:["Toit plat","Toit en pente","Toit en voûte"], choices_en:["Flat roof","Pitched roof","Vaulted roof"], answer:[0] }
-  ];
+  function updateTimerCircle() {
+    timerText.textContent = formatTime(timeLeft);
+    const rawTimeFraction = timeLeft / TIME_LIMIT;
+    const circleDashoffset = FULL_DASH_ARRAY * (1 - rawTimeFraction);
+    circle.style.strokeDashoffset = circleDashoffset;
+    if(timeLeft <= 10) {
+      circle.style.stroke = "#ff4444"; // rouge en fin de temps
+      timerText.style.color = "#ff4444";
+    }
+  }
 
-  const qcsPool = [
-    { q_fr:"Parmi ces techniques, lesquelles étaient utilisées par les Égyptiens ?", q_en:"Which of these techniques were used by the Egyptians?",
-      type:"qcs", choices_fr:["Rampes","Organisation centralisée","Grues hydrauliques modernes"], choices_en:["Ramps","Centralized organization","Modern hydraulic cranes"], answer:[0,1] },
-    { q_fr:"Quels éléments font partie d'un complexe funéraire égyptien ?", q_en:"Which elements are part of an Egyptian funerary complex?",
-      type:"qcs", choices_fr:["Chapelle","Serdab","Bassin de natation"], choices_en:["Chapel","Serdab","Swimming pool"], answer:[0,1] }
-  ];
+  function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes}:${seconds < 10 ? '0'+seconds : seconds}`;
+  }
 
-  const vfPool = [
-    { q_fr:"Vrai ou Faux : Les colonnes papyriformes n'existent qu'en version fermée.", q_en:"True or False: Papyriform columns exist only in closed form.", type:"vf", answer:false },
-    { q_fr:"Vrai ou Faux : Les constructions en pierre visent la permanence.", q_en:"True or False: Stone constructions aim for permanence.", type:"vf", answer:true },
-    { q_fr:"Vrai ou Faux : Les villes égyptiennes avaient toujours une grande place publique centrale.", q_en:"True or False: Egyptian towns always had a large central public square.", type:"vf", answer:false }
-  ];
+  // عرض سؤال حسب currentIndex
+  function showQuestion() {
+    const q = questions[currentIndex];
+    quizContainer.innerHTML = '';
 
-  let i=0;
-  while (ALL_QUESTIONS.length < 100){
-    // cycle through pools to mix types
-    if (i % 5 === 0 && qcmPool.length){
-      const item = qcmPool[i % qcmPool.length];
-      // push a shallow copy
-      ALL_QUESTIONS.push(JSON.parse(JSON.stringify(item)));
-    } else if (i % 5 === 1 && qcsPool.length){
-      const item = qcsPool[i % qcsPool.length];
-      ALL_QUESTIONS.push(JSON.parse(JSON.stringify(item)));
-    } else if (i % 5 === 2 && vfPool.length){
-      const item = vfPool[i % vfPool.length];
-      ALL_QUESTIONS.push(JSON.parse(JSON.stringify(item)));
+    // صندوق السؤال
+    const box = document.createElement('div');
+    box.className = 'question-box';
+    // نص السؤال مع إيموجي حسب النوع
+    let emoji = '';
+    if(q.type === 'qcm') emoji = '📝';
+    else if(q.type === 'qcs') emoji = '🔘';
+    else if(q.type === 'vf') emoji = '✅';
+
+    box.innerHTML = `<div class="question-text">${emoji} ${currentIndex+1}. ${q.q}</div>`;
+
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'options';
+
+    if(q.type === 'qcm') {
+      // اختيار متعدد (checkbox)
+      q.choices.forEach((choice, i) => {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" name="answer" value="${i}" aria-label="${choice}"> ${choice}`;
+        // لو تم اختيار هذا الاختيار سابقا
+        if(Array.isArray(answers[currentIndex]) && answers[currentIndex].includes(i)) {
+          label.querySelector('input').checked = true;
+        }
+        optionsDiv.appendChild(label);
+      });
+    } else if(q.type === 'qcs') {
+      // اختيار واحد (radio)
+      q.choices.forEach((choice, i) => {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="radio" name="answer" value="${i}" aria-label="${choice}"> ${choice}`;
+        if(answers[currentIndex] === i) {
+          label.querySelector('input').checked = true;
+        }
+        optionsDiv.appendChild(label);
+      });
+    } else if(q.type === 'vf') {
+      // صح / خطأ (radio)
+      ['Vrai', 'Faux'].forEach((choice, i) => {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="radio" name="answer" value="${i}" aria-label="${choice}"> ${choice}`;
+        if(answers[currentIndex] === i) {
+          label.querySelector('input').checked = true;
+        }
+        optionsDiv.appendChild(label);
+      });
+    }
+
+    box.appendChild(optionsDiv);
+    quizContainer.appendChild(box);
+
+    // تحديث أزرار التنقل
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.style.display = currentIndex === questions.length -1 ? 'none' : 'inline-flex';
+    submitBtn.style.display = currentIndex === questions.length -1 ? 'inline-flex' : 'none';
+
+    // تأثير fade-in
+    box.style.opacity = 0;
+    setTimeout(() => { box.style.opacity = 1; }, 50);
+  }
+
+  // تخزين إجابة المستخدم
+  function saveAnswer() {
+    const q = questions[currentIndex];
+    let selected;
+
+    if(q.type === 'qcm') {
+      const checkedBoxes = [...document.querySelectorAll('input[name="answer"]:checked')].map(input => parseInt(input.value));
+      answers[currentIndex] = checkedBoxes.length ? checkedBoxes : null;
     } else {
-      // generate simple QCM variations derived from themes to ensure unique wording
-      const n = ALL_QUESTIONS.length + 1;
-      ALL_QUESTIONS.push({
-        q_fr:`Question générée ${n}: quel élément structurel est typique ?`,
-        q_en:`Generated question ${n}: which structural element is typical?`,
-        type:"qcm",
-        choices_fr:["Colonne","Voute en ogive","Charpente métallique"],
-        choices_en:["Column","Ribbed vault","Metal frame"],
-        answer:[0]
-      });
+      const checkedRadio = document.querySelector('input[name="answer"]:checked');
+      answers[currentIndex] = checkedRadio ? parseInt(checkedRadio.value) : null;
     }
-    i++;
-    if (i>1000) break;
   }
-})();
 
-/* ======== UI & Logic ======== */
-const quizContainer = document.getElementById('quiz-container');
-const startBtn = document.getElementById('startBtn');
-const resetBtn = document.getElementById('resetBtn');
-const langEl = document.getElementById('lang');
-const durationEl = document.getElementById('duration');
-const progressEl = document.getElementById('progress');
-const timerText = document.getElementById('timerText');
-const timerLabel = document.getElementById('timerLabel');
-const submitArea = document.getElementById('submit-area');
-const summary = document.getElementById('summary');
-const submitBtn = document.getElementById('submitBtn');
-const scrollTopBtn = document.getElementById('scrollTop');
-const sidebar = document.getElementById('sidebar');
-const menuToggle = document.getElementById('menuToggle');
-const mainContent = document.getElementById('main-content');
+  // تحقق من صحة الإجابات (QCM يجب كل الإجابات الصحيحة يتم اختيارها فقط)
+  function checkAnswer(index) {
+    const q = questions[index];
+    const userAns = answers[index];
+    if(userAns === null) return false;
 
-let timerInterval = null;
-let totalSeconds = 0;
-let remaining = 0;
-let started = false;
-
-// Precompute circumference for progress circle (r = 48)
-const CIRCUMFERENCE = 2 * Math.PI * 48;
-progressEl.style.strokeDasharray = `${CIRCUMFERENCE} ${CIRCUMFERENCE}`;
-progressEl.style.strokeDashoffset = `${CIRCUMFERENCE}`;
-
-menuToggle.addEventListener('click', ()=>{
-  sidebar.classList.toggle('active');
-  if (window.innerWidth > 900) mainContent.classList.toggle('shifted');
-});
-
-function formatTime(s){
-  const m = Math.floor(s/60);
-  const sec = s%60;
-  return `${m}:${sec<10?'0':''}${sec}`;
-}
-
-function renderAllQuestions(){
-  quizContainer.innerHTML = '';
-  const lang = langEl.value;
-  ALL_QUESTIONS.forEach((q, idx) => {
-    const card = document.createElement('div');
-    card.className = 'question-card';
-    const qText = (lang === 'fr') ? q.q_fr : q.q_en;
-    const choices = (lang === 'fr') ? q.choices_fr : q.choices_en;
-    const header = document.createElement('div');
-    header.className = 'q-header';
-    header.innerHTML = `<div><div class="q-title">${idx+1}. ${qText}</div>
-                        <div class="q-sub">${q.type.toUpperCase()} — Question ${idx+1}</div></div>
-                        <div style="text-align:right"><button class="quiz-btn" onclick="scrollToQuestion(${idx})">⤴</button></div>`;
-    card.appendChild(header);
-
-    const choiceBox = document.createElement('div');
-    choiceBox.className = 'choices';
-    if (q.type === 'qcm'){
-      if (!Array.isArray(choices)) {
-        // safety: if no choices array present, create placeholders
-        q.choices_fr = q.choices_fr || ["Réponse A","Réponse B","Réponse C"];
-        q.choices_en = q.choices_en || ["Answer A","Answer B","Answer C"];
-      }
-      (choices || []).forEach((c, ci) => {
-        const id = `q_${idx}_${ci}`;
-        const lab = document.createElement('label');
-        lab.innerHTML = `<input type="radio" name="q_${idx}" value="${ci}" id="${id}"> ${c}`;
-        choiceBox.appendChild(lab);
-      });
-    } else if (q.type === 'qcs'){
-      (choices || []).forEach((c, ci) => {
-        const id = `q_${idx}_${ci}`;
-        const lab = document.createElement('label');
-        lab.innerHTML = `<input type="checkbox" name="q_${idx}" value="${ci}" id="${id}"> ${c}`;
-        choiceBox.appendChild(lab);
-      });
-    } else if (q.type === 'vf'){
-      const labT = document.createElement('label');
-      labT.innerHTML = `<input type="radio" name="q_${idx}" value="true"> ${lang==='fr'?'Vrai':'True'}`;
-      const labF = document.createElement('label');
-      labF.innerHTML = `<input type="radio" name="q_${idx}" value="false"> ${lang==='fr'?'Faux':'False'}`;
-      choiceBox.appendChild(labT);
-      choiceBox.appendChild(labF);
+    if(q.type === 'qcm') {
+      // جواب صحيح مفترض أن يكون رقم وحيد في q.answer ؟ لا، لدينا فقط رقم واحد في q.answer وهو رقم الإجابة الصحيحة فقط
+      // لكن اختيار متعدد: في الأسئلة أعطيت answer رقم واحد فقط => يمكن تعديل الأسئلة لاختيار متعدد متعدد الإجابات
+      // لذلك في هذا كويز كل QCM يحتوي جواب صحيح واحد فقط (للتبسيط)
+      return Array.isArray(userAns) && userAns.length === 1 && userAns[0] === q.answer;
+    } else if(q.type === 'qcs') {
+      return userAns === q.answer;
+    } else if(q.type === 'vf') {
+      return (userAns === 0 && q.answer === true) || (userAns === 1 && q.answer === false);
     }
-    card.appendChild(choiceBox);
+    return false;
+  }
 
-    const note = document.createElement('div');
-    note.className = 'small-note';
-    note.id = `note_${idx}`;
-    card.appendChild(note);
+  // إظهار النتيجة النهائية
+  function showResult() {
+    clearInterval(timerInterval);
+    saveAnswer();
 
-    quizContainer.appendChild(card);
+    score = 0;
+    let correctCount = 0;
+    let total = questions.length;
+    let resultHTML = `<h2>Résultats du quiz 🏆</h2>`;
+    resultHTML += `<p>Nombre total de questions : <strong>${total}</strong></p>`;
+
+    for(let i=0; i < total; i++) {
+      if(checkAnswer(i)) {
+        correctCount++;
+      }
+    }
+    score = correctCount;
+
+    resultHTML += `<p>Votre score est : <strong>${score} / ${total}</strong> (${((score/total)*100).toFixed(1)}%)</p>`;
+
+    resultHTML += `<details style="margin-top: 15px; background: rgba(255 255 255 / 0.1); border-radius: 8px; padding: 10px; color: #ffd633;">
+      <summary>Voir les détails par question</summary>`;
+    for(let i=0; i < total; i++) {
+      const q = questions[i];
+      const userCorrect = checkAnswer(i);
+      let userAnswerText = '';
+      if(answers[i] === null) userAnswerText = `<em>Pas répondu</em>`;
+      else {
+        if(q.type === 'vf') {
+          userAnswerText = answers[i] === 0 ? 'Vrai' : 'Faux';
+        } else if(q.type === 'qcs') {
+          userAnswerText = q.choices[answers[i]] ?? 'Réponse invalide';
+        } else if(q.type === 'qcm') {
+          userAnswerText = answers[i].map(a => q.choices[a]).join(', ');
+        }
+      }
+      let correctAnswerText = '';
+      if(q.type === 'vf') {
+        correctAnswerText = q.answer ? 'Vrai' : 'Faux';
+      } else {
+        correctAnswerText = q.choices[q.answer];
+      }
+
+      resultHTML += `<p style="margin:8px 0;">
+        <strong>Q${i+1}:</strong> ${q.q}<br>
+        Votre réponse: <span style="color:${userCorrect ? '#a3ff7a' : '#ff6b6b'}">${userAnswerText}</span><br>
+        Réponse correcte: <strong>${correctAnswerText}</strong>
+      </p>`;
+    }
+    resultHTML += `</details>`;
+
+    document.getElementById('result').innerHTML = resultHTML;
+    document.getElementById('result').style.display = 'block';
+
+    // إخفاء المحتوى
+    quizContainer.style.display = 'none';
+    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none';
+    submitBtn.style.display = 'none';
+    timerText.style.display = 'none';
+    circle.style.display = 'none';
+  }
+
+  // تعطيل الأزرار بعد انتهاء الامتحان
+  function disableButtons() {
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    submitBtn.disabled = true;
+  }
+
+  // الأحداث
+  prevBtn.addEventListener('click', () => {
+    saveAnswer();
+    if(currentIndex > 0) {
+      currentIndex--;
+      showQuestion();
+    }
+  });
+  nextBtn.addEventListener('click', () => {
+    saveAnswer();
+    if(currentIndex < questions.length -1) {
+      currentIndex++;
+      showQuestion();
+    }
+  });
+  submitBtn.addEventListener('click', () => {
+    saveAnswer();
+    showResult();
   });
 
-  submitArea.style.display = 'flex';
-  summary.textContent = 'Quiz prêt. Appuyez sur Submit pour corriger.';
-}
-
-function scrollToQuestion(i){
-  if (i < 0) i = 0;
-  const cards = document.querySelectorAll('.question-card');
-  if (i >= cards.length) i = cards.length-1;
-  cards[i].scrollIntoView({behavior:'smooth',block:'center'});
-}
-
-startBtn.addEventListener('click', ()=>{
-  if (started){
-    if (!confirm('Le test est en cours. Redémarrer ?')) return;
-    stopTimer();
-  }
-  renderAllQuestions();
-  const mins = parseInt(durationEl.value) || 45;
-  totalSeconds = mins * 60;
-  remaining = totalSeconds;
+  // البداية
+  showQuestion();
   startTimer();
-  started = true;
-  timerLabel.textContent = 'Temps restant';
-  summary.textContent = `Temps: ${mins} min — Répondez à toutes les questions puis cliquez Submit.`;
-  window.scrollTo({top:0,behavior:'smooth'});
-});
-
-resetBtn.addEventListener('click', ()=>{
-  if (confirm('Réinitialiser toutes vos réponses ?')){
-    const inputs = quizContainer.querySelectorAll('input');
-    inputs.forEach(inp => inp.checked = false);
-    const notes = document.querySelectorAll('.small-note');
-    notes.forEach(n => n.textContent = '');
-    summary.textContent = 'Réponses réinitialisées.';
-  }
-});
-
-function startTimer(){
-  clearInterval(timerInterval);
-  updateProgress();
-  timerInterval = setInterval(()=>{
-    remaining--;
-    if (remaining < 0){
-      clearInterval(timerInterval);
-      timerText.innerText = '00:00';
-      alert('Temps écoulé — soumission automatique.');
-      gradeQuiz();
-      return;
-    }
-    updateProgress();
-  },1000);
-}
-
-function stopTimer(){
-  clearInterval(timerInterval);
-  started = false;
-  timerLabel.textContent = 'Arrêté';
-}
-
-function updateProgress(){
-  timerText.innerText = formatTime(remaining);
-  const pct = remaining / totalSeconds;
-  const offset = CIRCUMFERENCE * (1 - pct);
-  progressEl.style.strokeDashoffset = `${offset}`;
-  if (pct < 0.15){
-    progressEl.style.filter = 'saturate(1.4)';
-  } else {
-    progressEl.style.filter = 'none';
-  }
-}
-
-/* Grading */
-function gradeQuiz(){
-  let correctCount = 0;
-  const total = ALL_QUESTIONS.length;
-  ALL_QUESTIONS.forEach((q, idx) => {
-    const noteEl = document.getElementById(`note_${idx}`);
-    noteEl.textContent = '';
-    if (q.type === 'qcm'){
-      const sel = quizContainer.querySelector(`input[name="q_${idx}"]:checked`);
-      if (!sel){
-        noteEl.textContent = langEl.value==='fr'?'Pas de réponse':'No answer';
-        return;
-      }
-      const val = parseInt(sel.value,10);
-      if (Array.isArray(q.answer) && q.answer[0] === val){
-        correctCount++;
-        noteEl.textContent = langEl.value==='fr'?'✔ Correct':'✔ Correct';
-      } else {
-        const correctText = (langEl.value==='fr' ? (q.choices_fr && q.choices_fr[q.answer[0]]) : (q.choices_en && q.choices_en[q.answer[0]])) || '—';
-        noteEl.textContent = (langEl.value==='fr'?'✖ Incorrect — Réponse: ':'✖ Incorrect — Answer: ') + correctText;
-      }
-    } else if (q.type === 'qcs'){
-      const boxes = quizContainer.querySelectorAll(`input[name="q_${idx}"]:checked`);
-      const picked = Array.from(boxes).map(b=>parseInt(b.value,10)).sort((a,b)=>a-b);
-      const correctSorted = (Array.isArray(q.answer) ? q.answer.slice().sort((a,b)=>a-b) : []);
-      const ok = picked.length === correctSorted.length && picked.every((v,i)=>v===correctSorted[i]);
-      if (ok){
-        correctCount++;
-        noteEl.textContent = langEl.value==='fr'?'✔ Correct (toutes les bonnes)':'✔ Correct (all correct)';
-      } else {
-        const corr = (langEl.value==='fr') ? (q.answer.map(i=>q.choices_fr && q.choices_fr[i]).join(', ')) : (q.answer.map(i=>q.choices_en && q.choices_en[i]).join(', '));
-        noteEl.textContent = (langEl.value==='fr'?'✖ Incorrect — Bonnes réponses: ':'✖ Incorrect — Correct answers: ') + (corr || '—');
-      }
-    } else if (q.type === 'vf'){
-      const sel = quizContainer.querySelector(`input[name="q_${idx}"]:checked`);
-      if (!sel){
-        noteEl.textContent = langEl.value==='fr'?'Pas de réponse':'No answer';
-        return;
-      }
-      const val = sel.value === 'true';
-      if (val === q.answer){
-        correctCount++;
-        noteEl.textContent = langEl.value==='fr'?'✔ Correct':'✔ Correct';
-      } else {
-        noteEl.textContent = langEl.value==='fr'?'✖ Incorrect':'✖ Incorrect';
-      }
-    }
-  });
-
-  const percent = Math.round((correctCount/total)*100);
-  summary.textContent = (langEl.value==='fr')
-    ? `Résultat: ${correctCount}/${total} — ${percent}%`
-    : `Result: ${correctCount}/${total} — ${percent}%`;
-  stopTimer();
-  summary.scrollIntoView({behavior:'smooth',block:'center'});
-}
-
-submitBtn.addEventListener('click', ()=>{
-  if (!started){
-    if (!confirm('Le test n\'a pas commencé. Voulez-vous quand même corriger les réponses visibles ?')) return;
-  }
-  if (!confirm('Êtes-vous sûr de vouloir soumettre — vous ne pourrez plus modifier vos réponses ?')) return;
-  gradeQuiz();
-});
-
-scrollTopBtn.addEventListener('click', ()=>window.scrollTo({top:0,behavior:'smooth'}));
-
-/* keyboard shortcuts */
-document.addEventListener('keydown',(e)=>{
-  if (e.key === 'm') menuToggle.click();
-  if (e.key === 's') startBtn.click();
-  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submitBtn.click();
-});
-
-/* initialize */
-timerText.innerText = '00:00';
-progressEl.style.strokeDasharray = `${CIRCUMFERENCE} ${CIRCUMFERENCE}`;
-progressEl.style.strokeDashoffset = `${CIRCUMFERENCE}`;
 
 </script>
+
 </body>
 </html>
+
