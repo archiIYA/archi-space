@@ -1,172 +1,232 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quiz – Architecture égyptienne</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Rubik', sans-serif;
-      background: #fff;
-      color: #111;
-      display: flex;
-    }
-    aside {
-      width: 240px;
-      background-color: #f4f4f4;
-      height: 100vh;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      overflow-y: auto;
-      position: fixed;
-      left: 0;
-      top: 0;
-      z-index: 998;
-    }
-    main {
-      flex-grow: 1;
-      padding: 30px;
-      margin-left: 240px;
-    }
-    .section-title {
-      font-size: 26px;
-      margin-bottom: 20px;
-      color: #000;
-    }
-    .quiz-settings {
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #fafafa;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    select, button {
-      padding: 8px 12px;
-      margin-right: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    .quiz-btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #ffcc00;
-      color: #000;
-      font-weight: bold;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 16px;
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .quiz-btn:hover {
-      background-color: #ff9900;
-      transform: translateY(-2px);
-    }
-    .question {
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #fff;
-      border-radius: 8px;
-      border: 1px solid #eee;
-    }
-    footer {
-      margin-top: 50px;
-      font-size: 13px;
-      color: #888;
-      text-align: center;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Quiz – Architecture égyptienne</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    font-family: 'Rubik', sans-serif;
+    background: linear-gradient(135deg, #fff6d6, #ffe0b2);
+    color: #111;
+    overflow-x: hidden;
+  }
+  /* ====== Sidebar ====== */
+  aside {
+    width: 240px;
+    background: #fff;
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    position: fixed;
+    left: -240px;
+    top: 0;
+    z-index: 998;
+    transition: left 0.3s ease;
+  }
+  aside.active { left: 0; }
+  aside a {
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #ffcc00;
+    color: #000;
+    font-weight: bold;
+    border-radius: 6px;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
+  }
+  /* ====== Main ====== */
+  main {
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+  }
+  .menu-btn {
+    background: #ffcc00;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  }
+  .section-title {
+    font-size: 24px;
+    margin: 15px 0;
+  }
+  /* ====== Quiz Container ====== */
+  .quiz-settings, .question-box {
+    padding: 15px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+    animation: fadeIn 0.5s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  select, button {
+    padding: 8px 12px;
+    margin-right: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  .quiz-btn {
+    background: #ffcc00;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    cursor: pointer;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+  }
+  .quiz-btn:hover { background: #ff9900; }
+  /* ====== Timer Circle ====== */
+  .timer-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 6px solid #ffcc00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin: 15px auto;
+    box-shadow: 0 0 10px rgba(255,204,0,0.7);
+  }
+  /* ====== Navigation ====== */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  /* ====== Responsive ====== */
+  @media(max-width:768px) {
+    aside { width: 200px; left: -200px; }
+    main { padding: 15px; }
+  }
+</style>
 </head>
 <body>
 
-<aside>
-  <a href="histoire1.html" class="quiz-btn">🔙 Retour</a>
+<aside id="sidebar">
+  <a href="histoire1.html">🔙 Retour</a>
 </aside>
 
 <main>
+  <button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
   <h1 class="section-title">🏛️ Quiz – Architecture égyptienne</h1>
 
   <div class="quiz-settings">
-    <label for="lang">🌐 Langue / Language:</label>
+    <label>🌐 Langue:</label>
     <select id="lang">
       <option value="fr">Français</option>
       <option value="en">English</option>
     </select>
-
-    <label for="type">📝 Type:</label>
+    <label>📝 Type:</label>
     <select id="type">
       <option value="qcm">QCM</option>
-      <option value="qcs">QCS</option>
       <option value="vf">Vrai / Faux</option>
     </select>
-
-    <button class="quiz-btn" onclick="startQuiz()">Commencer / Start</button>
+    <button class="quiz-btn" onclick="startQuiz()">Commencer</button>
   </div>
 
+  <div class="timer-circle" id="timer">30:00</div>
   <div id="quiz-container"></div>
-  <div id="timer" style="font-weight:bold; margin-top:20px;"></div>
 
-  <footer>
-    © 2025 ArchiSpace – Tous droits réservés.
-  </footer>
+  <div class="nav-buttons">
+    <button class="quiz-btn" onclick="prevQuestion()">⏮ Précédent</button>
+    <button class="quiz-btn" onclick="nextQuestion()">Suivant ⏭</button>
+  </div>
+
 </main>
 
 <script>
-  let timerInterval;
-  let timeLeft = 30 * 60; // 30 minutes
-  const questions = {
-    fr: [
-      { q: "Quelle est la plus célèbre pyramide d'Égypte ?", type: "qcm", choices: ["Pyramide de Khéops", "Pyramide de Djoser", "Pyramide de Mykérinos"], answer: 0 },
-      { q: "Les Égyptiens utilisaient principalement la pierre calcaire pour leurs monuments.", type: "vf", answer: true }
-    ],
-    en: [
-      { q: "What is the most famous pyramid in Egypt?", type: "qcm", choices: ["Great Pyramid of Khufu", "Pyramid of Djoser", "Pyramid of Menkaure"], answer: 0 },
-      { q: "The Egyptians mainly used limestone for their monuments.", type: "vf", answer: true }
-    ]
-  };
+let timerInterval;
+let timeLeft = 30 * 60; 
+let currentIndex = 0;
+let currentQuestions = [];
 
-  function startQuiz() {
-    const lang = document.getElementById('lang').value;
-    const type = document.getElementById('type').value;
-    const container = document.getElementById('quiz-container');
-    container.innerHTML = '';
-    const filtered = questions[lang].filter(q => q.type === type || type === 'qcm' && q.type === 'qcm' || type === 'vf' && q.type === 'vf' || type === 'qcs' && q.type === 'qcs');
-    filtered.forEach((q, i) => {
-      const div = document.createElement('div');
-      div.className = 'question';
-      div.innerHTML = `<p>${i+1}. ${q.q}</p>`;
-      if(q.type === 'qcm') {
-        q.choices.forEach((c, idx) => {
-          div.innerHTML += `<label><input type="radio" name="q${i}">${c}</label><br>`;
-        });
-      } else if(q.type === 'vf') {
-        div.innerHTML += `<label><input type="radio" name="q${i}">Vrai / True</label><br>
-                          <label><input type="radio" name="q${i}">Faux / False</label>`;
-      }
-      container.appendChild(div);
-    });
-    startTimer();
-  }
+const questions = {
+  fr: [
+    { q: "Quelle est la plus célèbre pyramide d'Égypte ?", type: "qcm", choices: ["Pyramide de Khéops", "Pyramide de Djoser", "Pyramide de Mykérinos"], answer: 0 },
+    { q: "Les Égyptiens utilisaient principalement la pierre calcaire pour leurs monuments.", type: "vf", answer: true }
+  ],
+  en: [
+    { q: "What is the most famous pyramid in Egypt?", type: "qcm", choices: ["Great Pyramid of Khufu", "Pyramid of Djoser", "Pyramid of Menkaure"], answer: 0 },
+    { q: "The Egyptians mainly used limestone for their monuments.", type: "vf", answer: true }
+  ]
+};
 
-  function startTimer() {
-    clearInterval(timerInterval);
-    timeLeft = 30 * 60;
-    const timerEl = document.getElementById('timer');
-    timerInterval = setInterval(() => {
-      const minutes = Math.floor(timeLeft / 60);
-      const seconds = timeLeft % 60;
-      timerEl.textContent = `⏳ ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-      if (timeLeft <= 0) {
-        clearInterval(timerInterval);
-        alert("Temps écoulé / Time's up!");
-      }
-      timeLeft--;
-    }, 1000);
+function toggleMenu() {
+  document.getElementById('sidebar').classList.toggle('active');
+}
+
+function startQuiz() {
+  const lang = document.getElementById('lang').value;
+  const type = document.getElementById('type').value;
+  currentQuestions = questions[lang].filter(q => q.type === type);
+  currentIndex = 0;
+  showQuestion();
+  startTimer();
+}
+
+function showQuestion() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  if (currentQuestions.length > 0) {
+    const q = currentQuestions[currentIndex];
+    const div = document.createElement('div');
+    div.className = 'question-box';
+    div.innerHTML = `<p><b>${currentIndex + 1}.</b> ${q.q}</p>`;
+    if (q.type === 'qcm') {
+      q.choices.forEach((c, idx) => {
+        div.innerHTML += `<label><input type="radio" name="q${currentIndex}"> ${c}</label><br>`;
+      });
+    } else if (q.type === 'vf') {
+      div.innerHTML += `<label><input type="radio" name="q${currentIndex}"> Vrai / True</label><br>
+                        <label><input type="radio" name="q${currentIndex}"> Faux / False</label>`;
+    }
+    container.appendChild(div);
   }
+}
+
+function nextQuestion() {
+  if (currentIndex < currentQuestions.length - 1) {
+    currentIndex++;
+    showQuestion();
+  }
+}
+
+function prevQuestion() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    showQuestion();
+  }
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = 30 * 60;
+  timerInterval = setInterval(() => {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      alert("Temps écoulé / Time's up!");
+    }
+    timeLeft--;
+  }, 1000);
+}
 </script>
-
 </body>
 </html>
+
