@@ -1,92 +1,96 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تعريف تخصص الهندسة المعمارية</title>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تعريف تخصص الهندسة المعمارية</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap');
+
     body {
-        font-family: 'Cairo', sans-serif;
-        margin: 0;
-        padding: 0;
-        background: url('https://i.ibb.co/zH8LWk7/blueprint-bg.png') no-repeat center center fixed;
-        background-size: cover;
-        color: #fff;
-        line-height: 1.8;
-        text-align: center;
-        position: relative;
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(270deg, #1e3c72, #2a5298, #4a90e2, #9013fe);
+      background-size: 800% 800%;
+      animation: gradientMove 20s ease infinite;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
     }
-    /* طبقة شفافة فوق الخلفية */
-    body::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.6);
-        z-index: 0;
+
+    @keyframes gradientMove {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
     }
-    .container {
-        position: relative;
-        z-index: 1;
-        padding: 30px;
-        max-width: 900px;
-        margin: auto;
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.3), 0 0 60px rgba(255,255,255,0.1) inset;
+      padding: 30px;
+      max-width: 700px;
+      animation: fadeIn 2s ease;
     }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
     h1 {
-        color: #FFD700;
-        font-size: 2.5em;
-        margin-bottom: 20px;
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
     }
+
     .question {
-        background: rgba(255,255,255,0.1);
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 12px;
-        padding: 20px;
-        margin: 15px 0;
-        transition: transform 0.3s ease, background 0.3s ease;
+      font-size: 1.3em;
+      margin: 15px 0 5px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
     }
-    .question:hover {
-        background: rgba(255,255,255,0.2);
-        transform: scale(1.02);
+
+    .question span {
+      margin-left: 8px;
     }
-    .question h2 {
-        color: #00FFCC;
-        font-size: 1.4em;
-        margin-bottom: 10px;
+
+    .answer {
+      background: rgba(255,255,255,0.15);
+      padding: 10px 15px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2) inset;
+      margin-bottom: 15px;
+      line-height: 1.6;
     }
-    .question p {
-        color: #f0f0f0;
-        font-size: 1.1em;
-    }
-</style>
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>✨ هل أنت مستعد لاكتشاف عالم الهندسة المعمارية؟ ✨</h1>
+  <div class="card">
+    <h1>🏛️ تخصص الهندسة المعمارية في الجزائر</h1>
 
-    <div class="question">
-        <h2>🏛 ما هو تخصص الهندسة المعمارية؟</h2>
-        <p>الهندسة المعمارية ليست فقط بناء الجدران، بل هي فن وعلم تصميم المساحات التي نعيش فيها، نعمل ونتفاعل داخلها. المعماري هو الفنان والمهندس في نفس الوقت.</p>
-    </div>
+    <div class="question"><span>🤔</span> ما هو تخصص الهندسة المعمارية؟</div>
+    <div class="answer">الهندسة المعمارية هي فن وعلم تصميم المباني والمساحات، تجمع بين الإبداع الفني والدقة التقنية لإنتاج بيئات مريحة، جميلة، ووظيفية.</div>
 
-    <div class="question">
-        <h2>💡 ماذا ستتعلم في هذا التخصص؟</h2>
-        <p>ستتعلم التصميم المعماري، الرسم التقني، تاريخ العمارة، تقنيات البناء، والبرمجيات المتخصصة مثل AutoCAD وRevit، إضافة إلى مهارات الإبداع والتفكير النقدي.</p>
-    </div>
+    <div class="question"><span>🎯</span> ما الفرق بين دراسته في الجامعة والمدرسة العليا (EPAU)؟</div>
+    <div class="answer">في الجامعة، الدراسة تمتد عادةً لخمس سنوات (ليسانس + ماستر) مع تنوع في البرامج بين النظرية والتطبيق. أما في المدرسة العليا للهندسة المعمارية (EPAU)، فهي تكوين نخبة أكثر تخصصًا يمتد لـ 6 سنوات متواصلة، مع تركيز أكبر على المشاريع المعمارية المعقدة والتدريب الميداني المكثف.</div>
 
-    <div class="question">
-        <h2>🏫 ما الفرق بين الدراسة في الجامعة والمدرسة العليا EPAU؟</h2>
-        <p><strong>الجامعة:</strong> توفر مسار أكاديمي متنوع مدة 5سنوات وهي موجودة في أغلب ولايات الجزائر.<br>
-           <strong>EPAU (المدرسة العليا للهندسة المعمارية):</strong> مؤسسة مرموقة في الجزائر العاصمة، تركّز بشكل أكبر على العمق التطبيقي والتكوين الاحترافي، وتفتح آفاق واسعة للعمل في المشاريع الكبرى.</p>
-    </div>
+    <div class="question"><span>💡</span> لماذا تختار هذا التخصص؟</div>
+    <div class="answer">لأنك ستشارك في تشكيل مدن الغد، وتمزج بين الفن والتكنولوجيا، وتبتكر حلولًا لمساحات معيشية أفضل.</div>
 
-    <div class="question">
-        <h2>🌍 لماذا تختار الهندسة المعمارية؟</h2>
-        <p>لأنك ستشارك في تشكيل ملامح المدن والمجتمعات، وتترك بصمة إبداعية تدوم لعقود. كل مبنى تصممه هو قصة ستُحكى للأجيال.</p>
-    </div>
+    <div class="question"><span>📚</span> ماذا ستتعلم خلال مسارك الدراسي؟</div>
+    <div class="answer">ستتعلم الرسم الهندسي، التصميم المعماري، تاريخ العمارة، الإنشاءات، تقنيات البناء، والبرمجيات المتخصصة مثل AutoCAD وRevit، بالإضافة إلى تطوير الحس الجمالي والقدرة على حل المشكلات المعمارية.</div>
 
-</div>
+    <div class="question"><span>🚀</span> ماذا بعد التخرج؟</div>
+    <div class="answer">يمكنك العمل كمهندس معماري، مصمم داخلي، مخطط حضري، أو متابعة دراسات عليا والبحث الأكاديمي. المجال واسع ويتيح فرصًا للعمل الحر أو ضمن مكاتب هندسية كبرى.</div>
+  </div>
 
 </body>
 </html>
