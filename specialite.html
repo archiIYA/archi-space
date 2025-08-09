@@ -1,240 +1,111 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>التعريف بتخصص الهندسة المعمارية — archi.space</title>
-  <meta name="description" content="تعريف جذاب لتخصص الهندسة المعمارية والفروق بين الدراسة في المدرسة العليا والجامعة (بالعربية)"/>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>التعريف بتخصص الهندسة المعمارية</title>
+  <meta name="description" content="تعريف شامل بتخصص الهندسة المعمارية في الجزائر والفروق بين الدراسة في الجامعة والمدرسة العليا EPAU.">
   <style>
-    :root{
-      --bg: #fbfaf7;
-      --card: #ffffff;
-      --accent: #c08457;
-      --accent-2: #e0a16b;
-      --muted: #66625b;
-      --glass: rgba(255,255,255,0.8);
+    body {
+      font-family: "Tahoma", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:"Cairo",system-ui,Arial; background:linear-gradient(160deg,var(--bg), #f1eadf); color:#222}
-    /* Sidebar */
-    .sidebar{
-      position:fixed; left:0; top:0; bottom:0; width:260px; background:#fff; border-right:1px solid #eee;
-      padding:18px; box-shadow:6px 0 30px rgba(0,0,0,0.04); overflow:auto;
+
+    header {
+      background-color: #004d40;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 1.4em;
     }
-    .sidebar h2{margin:0 0 14px;font-size:20px;color:var(--accent);text-align:center}
-    .sidebar a{display:block;padding:10px;border-radius:8px;color:#333;text-decoration:none;margin:6px 0}
-    .sidebar a:hover{background:#f6efe8}
-    .sidebar .contact{position:absolute;bottom:16px;left:18px;right:18px;color:var(--muted);font-size:13px}
 
-    /* Main */
-    main{margin-right:280px;padding:36px;max-width:1100px}
-    header{margin-bottom:18px}
-    .kicker{display:inline-block;padding:8px 14px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;font-weight:700}
-    h1{margin:12px 0 6px;font-size:32px}
-    p.lead{color:var(--muted);margin:0 0 18px;line-height:1.8}
-
-    /* Questions list */
-    .qa{display:grid;gap:12px;margin-top:22px}
-    .q{
-      background:var(--card);border-radius:12px;padding:14px 16px;box-shadow:0 10px 30px rgba(10,10,10,0.04);cursor:pointer;
-      transition:transform .28s ease, box-shadow .28s ease;
-      overflow:hidden;
+    .content {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
     }
-    .q:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(10,10,10,0.06)}
-    .q .q-head{display:flex;align-items:center;gap:12px;justify-content:space-between}
-    .q .q-head .left{display:flex;align-items:center;gap:12px}
-    .icon{
-      width:56px;height:56px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:26px;
-      background:linear-gradient(180deg, #fff, #fff);box-shadow:0 6px 18px rgba(0,0,0,0.03);
+
+    .qa {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
-    .q h3{margin:0;font-size:18px;color:#222}
-    .chev{font-size:20px;color:var(--accent);transition:transform .22s ease}
-    .q .answer{margin-top:12px;color:var(--muted);line-height:1.8;max-height:0;transition:max-height .36s ease;padding-right:2px}
-    .q.open .answer{max-height:800px}
 
-    /* Comparison table */
-    .compare{margin-top:26px;background:var(--card);padding:16px;border-radius:12px;box-shadow:0 10px 30px rgba(10,10,10,0.04)}
-    .compare table{width:100%;border-collapse:collapse}
-    .compare th, .compare td{padding:12px 10px;text-align:right;border-bottom:1px solid #f1e1d8}
-    .compare th{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;border-bottom:none;text-align:right}
-    .note{color:var(--muted);font-size:14px;margin-top:10px}
+    .question {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #00695c;
+    }
 
-    /* CTA */
-    .cta{margin-top:20px;display:flex;gap:12px}
-    .btn{padding:12px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
-    .btn-primary{background:var(--accent);color:#fff;box-shadow:0 10px 30px rgba(192,128,87,0.14)}
-    .btn-outline{background:transparent;border:2px solid rgba(0,0,0,0.06)}
+    .answer {
+      font-size: 1em;
+      line-height: 1.6;
+      color: #444;
+    }
 
-    /* Responsive */
-    @media (max-width:900px){
-      main{margin-right:20px;padding:20px}
-      .sidebar{display:none}
+    .emoji {
+      font-size: 1.3em;
+      margin-left: 5px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 15px 0;
     }
   </style>
 </head>
 <body>
 
-  <!-- Sidebar -->
-  <aside class="sidebar" aria-label="القائمة الجانبية">
-    <h2>🎓 archi.space</h2>
-    <a href="lecteur.html">🔙 العودة للرئيسية</a>
-    <a href="exam.html">📝 الامتحانات</a>
-    <a href="quiz.html">❓ كويز</a>
-    <a href="divertissement.html">🎮 ترفيه</a>
-    <a href="specialite.html" style="background:#f6efe8">🏛️ التعريف بالتخصص</a>
-    <div class="contact">📬 تواصل: contact@archi.space</div>
-  </aside>
+<header>
+  🏛️ التعريف بتخصص الهندسة المعمارية
+</header>
 
-  <!-- Main content -->
-  <main>
-    <header>
-      <span class="kicker">✨ هل تفكّر بمستقبلك؟</span>
-      <h1>من هو المهندس المعماري؟ ولماذا الهندسة المعمارية؟</h1>
-      <p class="lead">هنا تعريف حيّ وبسيط للتخصص، بصياغة تساؤلات تجيبك خطوة بخطوة — للطالب الذي يريد أن يفهم الجوهر قبل أي قرار.</p>
-    </header>
+<div class="content">
 
-    <!-- Questions -->
-    <div class="qa" id="qa">
-      <!-- Q1 -->
-      <article class="q" data-id="q1">
-        <div class="q-head">
-          <div class="left">
-            <div class="icon">🏗️</div>
-            <div>
-              <h3>ما الذي يعنيه "الهندسة المعمارية" بالفعل؟</h3>
-            </div>
-          </div>
-          <div class="chev">▸</div>
-        </div>
-        <div class="answer">
-          الهندسة المعمارية هي فن تصميم الفراغات والبُنى بحيث تخدم الإنسان، تحميه، وتعبّر عن ثقافته. ليست مجرد مبانٍ — بل خلق لبيئة تفاعلية تجمع بين الجمال، الوظيفة، والاعتبارات التقنية (الإنارة، التهوية، السلامة، المواد).
-        </div>
-      </article>
+  <div class="qa">
+    <div class="question"><span class="emoji">❓</span>ما هو تخصص الهندسة المعمارية؟</div>
+    <div class="answer">الهندسة المعمارية هي فن وعلم تصميم المباني والفضاءات، بهدف الجمع بين الجمال والوظيفة والابتكار، مع مراعاة احتياجات الإنسان والبيئة المحيطة.</div>
+  </div>
 
-      <!-- Q2 -->
-      <article class="q" data-id="q2">
-        <div class="q-head">
-          <div class="left">
-            <div class="icon">✏️</div>
-            <div><h3>ماذا سأدرس خلال سنوات التكوين؟</h3></div>
-          </div>
-          <div class="chev">▸</div>
-        </div>
-        <div class="answer">
-          ستدرس مزيجًا من: ورشات التصميم (Ateliers)، الرسم اليدوي والرقمي، مواد البناء، مقاومة المواد والهياكل، التاريخ والنظرية، تكنولوجيا البناء، قواعد الصحة والسلامة، بالإضافة إلى دروس مساعدة مثل الرياضيات، الفيزياء، وتحليل الفضاء.
-        </div>
-      </article>
+  <div class="qa">
+    <div class="question"><span class="emoji">🏫</span>أين يمكن دراسة الهندسة المعمارية في الجزائر؟</div>
+    <div class="answer">يمكن دراسة التخصص في الجامعات بمختلف ولايات الوطن أو في المدرسة العليا للهندسة المعمارية والعمران (EPAU) بالجزائر العاصمة.</div>
+  </div>
 
-      <!-- Q3 -->
-      <article class="q" data-id="q3">
-        <div class="q-head">
-          <div class="left">
-            <div class="icon">🧰</div>
-            <div><h3>هل الطابع عملي أم نظري أكثر؟</h3></div>
-          </div>
-          <div class="chev">▸</div>
-        </div>
-        <div class="answer">
-          الطابع عملي بقوة — خاصة عبر ورشات المشاريع التي تشكل قلب التكوين. لكن لا غنى عن الأساس النظري: فهم التاريخ، الفلسفة، ونماذج التصميم يكمل قدرة المهندس على اتخاذ قرارات مدروسة ومبدعة.
-        </div>
-      </article>
-
-      <!-- Q4 -->
-      <article class="q" data-id="q4">
-        <div class="q-head">
-          <div class="left">
-            <div class="icon">🌍</div>
-            <div><h3>هل يناسبني هذا التخصص إن كنت أحب الفن أم الهندسة؟</h3></div>
-          </div>
-          <div class="chev">▸</div>
-        </div>
-        <div class="answer">
-          نعم تمامًا — الهندسة المعمارية للذين يجمعون بين الحس الجمالي والقدرات التحليلية. ستستخدم خيالك الفني لكن أيضًا ستطبق قواعد تقنية لحل مشاكل حقيقية: المساحة، التكلفة، والبيئة.
-        </div>
-      </article>
-
-      <!-- Q5 -->
-      <article class="q" data-id="q5">
-        <div class="q-head">
-          <div class="left">
-            <div class="icon">🔎</div>
-            <div><h3>ماذا يمكن أن أفعل بعد التخرج؟</h3></div>
-          </div>
-          <div class="chev">▸</div>
-        </div>
-        <div class="answer">
-          المسارات متعددة: العمل في مكتب هندسي، العمل بالمؤسسات العمومية، تخصص في التخطيط العمراني، الترميم، التصميم الداخلي، متابعة دراسات عليا أو البحث، أو إنشاء مكتبك الخاص. المجال يمنحك مرونة كبيرة.
-        </div>
-      </article>
+  <div class="qa">
+    <div class="question"><span class="emoji">⚖️</span>ما الفرق بين دراسة التخصص في الجامعة وفي المدرسة العليا EPAU؟</div>
+    <div class="answer">
+      <strong>في الجامعة:</strong> التكوين أكاديمي مرن، يشمل مواد نظرية وتطبيقية، مع مدة دراسة عادة 5 سنوات للحصول على شهادة مهندس معماري.  
+      <strong>في المدرسة العليا EPAU:</strong> التكوين أكثر تخصصًا وصرامة، مع تركيز كبير على التصميم المعماري والمشاريع، وهي مؤسسة مرموقة على المستوى الوطني والإفريقي.
     </div>
+  </div>
 
-    <!-- Comparison -->
-    <section class="compare" aria-labelledby="compare-title">
-      <h2 id="compare-title" style="text-align:right;margin:0 0 10px;color:var(--accent)">المدرسة العليا (EPAU) أم الجامعة — ما الفرق؟</h2>
-      <table>
-        <thead>
-          <tr>
-            <th style="text-align:right">المعيار</th>
-            <th style="text-align:right">المدرسة العليا (EPAU)</th>
-            <th style="text-align:right">الجامعة</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="text-align:right">نمط القبول</td>
-            <td style="text-align:right">انتقائي، غالبًا عبر امتحان/معدل تنافسي</td>
-            <td style="text-align:right">قبول أوسع، يعتمد على معدل البكالوريا أو المسار الوطني</td>
-          </tr>
-          <tr>
-            <td style="text-align:right">التركيز الدراسي</td>
-            <td style="text-align:right">تركيز مبكر على التصميم والورشات العملية والمشاريع الكبرى</td>
-            <td style="text-align:right">توازن بين النظري والعملي، وتدرج في المشاريع</td>
-          </tr>
-          <tr>
-            <td style="text-align:right">الفرص الأكاديمية والمهنية</td>
-            <td style="text-align:right">شبكات أقوى مع ممارسين، فرص تبادل دولي أحيانًا، توجه بحثي وتخصصي</td>
-            <td style="text-align:right">تغطية جغرافية أوسع وتنوع في التخصصات المساندة</td>
-          </tr>
-          <tr>
-            <td style="text-align:right">البيئة التعليمية</td>
-            <td style="text-align:right">ورش متقدمة ومختبرات متخصصة وأحيانًا موارد أفضل</td>
-            <td style="text-align:right">حياة طلابية أوسع وتنوع في التخصصات والأنشطة</td>
-          </tr>
-          <tr>
-            <td style="text-align:right">مدة التكوين</td>
-            <td style="text-align:right">عادة نفس المدة (خمسة سنوات) لكن مع تركيز مختلف على المخرجات</td>
-            <td style="text-align:right">خمس سنوات (10 فصول) مع وقت أطول للتدرج</td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="note">خلاصة: كلا المسارين يؤهّلان لمهنة المعماري، لكن المدرسة العليا تقدّم مسارًا أكثر تخصصًا وتركيزًا عمليًا منذ البداية، بينما الجامعة تمنح قاعدة أوسع وتدرّجًا أكاديميًا أوسع.</p>
+  <div class="qa">
+    <div class="question"><span class="emoji">📊</span>ما هي معدلات القبول في السنوات الأخيرة؟</div>
+    <div class="answer">
+      تختلف معدلات القبول من سنة لأخرى وحسب المؤسسة:  
+      <ul>
+        <li>المدرسة العليا EPAU: بين 15 و 16.5 في السنوات الأخيرة.</li>
+        <li>الجامعات: بين 12 و 14 حسب الولاية وسنة البكالوريا.</li>
+      </ul>
+    </div>
+  </div>
 
-      <div class="cta" style="justify-content:flex-start;margin-top:14px">
-        <button class="btn btn-primary" onclick="alert('لمزيد من المعلومات تواصل معنا على contact@archi.space')">📩 تواصل معنا</button>
-        <button class="btn btn-outline" onclick="openFAQ()">📚 الأسئلة الشائعة</button>
-      </div>
-    </section>
+  <div class="qa">
+    <div class="question"><span class="emoji">💡</span>لماذا تختار دراسة الهندسة المعمارية؟</div>
+    <div class="answer">لأنها تمنحك فرصة الإبداع، المساهمة في بناء مدن أجمل، والعمل في مشاريع تلهم الأجيال القادمة، مع فرص واسعة للعمل محليًا ودوليًا.</div>
+  </div>
 
-  </main>
+</div>
 
-  <script>
-    // تفعيل طي/فتح الأسئلة
-    document.querySelectorAll('.q').forEach(q => {
-      q.addEventListener('click', () => {
-        q.classList.toggle('open');
-        const chev = q.querySelector('.chev');
-        if(q.classList.contains('open')) chev.style.transform = 'rotate(90deg)';
-        else chev.style.transform = 'rotate(0deg)';
-      });
-    });
-
-    function openFAQ(){
-      // افتح أول سؤال كمثال
-      const first = document.querySelector('.q');
-      if(first) { first.classList.add('open'); first.querySelector('.chev').style.transform='rotate(90deg)'; first.scrollIntoView({behavior:'smooth',block:'center'}); }
-    }
-  </script>
 </body>
 </html>
+
 
