@@ -2,1361 +2,1535 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Quiz — Architecture égyptienne (100 questions)</title>
-  <meta name="description" content="Quiz complet sur l'architecture égyptienne : techniques de construction, colonnes, mesures et vocabulaire (45 QCM, 35 QCS, 20 V/F)." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz — Architecture égyptienne</title>
+  <meta name="description" content="Quiz pour Histoire de l'Architecture — Architecture égyptienne. 100 questions FR/EN, responsive." />
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
+    /* --- Design principal (conserve ton style) --- */
     :root{
-      --bg:#ffffff; --muted:#64748b; --accent:#06b6d4; --card:#ffffff; --shadow: rgba(2,6,23,0.12);
-      --sidebar-width: 260px;
+      --accent:#06b6d4;
+      --accent-2:#0ea5a4;
+      --muted:#64748b;
+      --card-bg:#fbfdff;
+      --panel-bg:#ffffff;
     }
     *{box-sizing:border-box}
     body{
-      margin:0; font-family:'Rubik',sans-serif; background:var(--bg); color:#0f172a;
-      display:flex; min-height:100vh; overflow-y:auto;
+      margin:0;
+      font-family:'Rubik',sans-serif;
+      background:#fff;
+      color:#111;
+      display:flex;
+      min-height:100vh;
     }
-
-    /* Sidebar (push content — does not overlay) */
     aside{
-      width:var(--sidebar-width);
+      width:240px;
       background:#f4f4f4;
       height:100vh;
       padding:20px;
-      box-shadow:2px 0 8px var(--shadow);
+      box-shadow:2px 0 5px rgba(0,0,0,.08);
       position:fixed;
-      left:0; top:0;
-      transition:transform .28s ease, width .28s ease;
-      z-index:998;
-      overflow-y:auto;
+      left:0;top:0;
+      overflow:auto;
+      transition:transform .25s ease;
+      z-index:50;
     }
-    aside.hidden{ transform:translateX(-280px); }
-    main{ flex:1; padding:28px; margin-left:var(--sidebar-width); transition:margin-left .28s ease; }
-    aside.hidden ~ main{ margin-left:0; }
-
-    /* Controls */
+    aside.hidden{transform:translateX(-260px)}
     #toggleSidebar{
-      position:fixed; top:18px; left:18px; z-index:1100;
+      position:fixed; left:20px; top:20px; z-index:1000;
       background:#111; color:#fff; border:0; padding:10px 14px; border-radius:8px; cursor:pointer;
     }
+    .back-button{display:block; width:100%; margin-bottom:12px; background:#ddd; border:0; padding:10px; border-radius:8px; font-weight:600; text-align:center; cursor:pointer}
+    .sidebar-header h2{margin-top:8px; font-size:18px}
+    main{flex-grow:1; padding:30px; margin-left:240px; transition:margin-left .25s ease}
+    aside.hidden ~ main{margin-left:0}
+    .section-title{font-size:26px; margin-bottom:20px; color:#000}
+    .lesson{margin-bottom:24px; background:linear-gradient(180deg,#fbfbfb 0,#fff 100%); padding:18px; border-radius:10px; box-shadow:0 6px 18px rgba(8,24,40,.05); border:1px solid rgba(15,23,42,.04)}
+    .lesson h3{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px 0;font-size:20px}
+    .buttons{display:flex;gap:10px;align-items:center}
+    .buttons button, .buttons a button{background:#fff;border:1px solid #e6e6e6;padding:8px 12px;border-radius:8px;cursor:pointer}
+    footer{margin-top:40px;text-align:center;color:#888;font-size:13px}
 
-    .back-button{ display:block; width:100%; text-align:center; margin-bottom:12px; padding:10px 12px; background:#ddd; border-radius:8px; text-decoration:none; color:#111; font-weight:600; }
-    .sidebar-header h2{ margin:0 0 12px 0; font-size:18px; }
-    .sidebar-menu{ padding:0; margin:0; list-style:none; }
-    .sidebar-menu li a{ display:block; padding:10px; text-decoration:none; color:#333; border-radius:8px; margin-bottom:8px; }
-    .sidebar-menu li a:hover{ background:#e9e9e9; }
+    /* --- Modal quiz --- */
+    .quiz-modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:1200; background:rgba(2,6,23,0.55); padding:20px}
+    .quiz-card{width:100%; max-width:980px; background:var(--panel-bg); border-radius:12px; overflow:hidden; box-shadow:0 24px 60px rgba(2,6,23,0.4); display:flex; flex-direction:column; animation:pop .14s ease}
+    @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+    .quiz-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:linear-gradient(90deg,var(--accent-2),var(--accent)); color:#fff}
+    .quiz-header .title{font-size:18px;font-weight:700}
+    .quiz-controls{display:flex;gap:10px;align-items:center}
+    .quiz-controls select, .quiz-controls input[type="checkbox"]{padding:8px;border-radius:8px;border:0;font-weight:600}
+    .close-quiz{background:transparent;border:0;color:white;font-size:20px;cursor:pointer}
 
-    /* Content */
-    .section-title{ font-size:26px; margin-bottom:18px; color:#000; }
-    .lesson{ margin-bottom:18px; background:linear-gradient(180deg,#fbfbfb,#fff); padding:18px; border-radius:10px; box-shadow:0 10px 28px rgba(2,6,23,0.04); border:1px solid rgba(15,23,42,0.04); }
-    .lesson h3{ display:flex; justify-content:space-between; align-items:center; margin:0 0 8px 0; font-size:18px; }
-    .buttons{ display:flex; gap:10px; align-items:center; }
-    .buttons button, .buttons a button{ background:none; border:1px solid #e6e6e6; padding:8px 12px; border-radius:8px; cursor:pointer; font-size:15px; }
-    footer{ margin-top:36px; color:#888; font-size:13px; text-align:center; }
+    /* fixed timer row below header but inside modal so always visible and not overlapping content */
+    .quiz-timer{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:#f8fafc;border-bottom:1px solid #eef2f7}
+    .timer-box{display:flex;gap:10px;align-items:center}
+    .timer{font-weight:800;font-size:18px;color:#0f172a;background:#e6f6f7;padding:6px 10px;border-radius:8px}
+    .lang-indicator{font-size:14px;color:var(--muted)}
 
-    /* Modal quiz */
-    .quiz-modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:2000; background:rgba(2,6,23,0.56); padding:18px; }
-    .quiz-card{ width:100%; max-width:1100px; background:var(--card); border-radius:12px; overflow:hidden; box-shadow:0 28px 80px rgba(2,6,23,0.45); display:flex; flex-direction:column; }
-    .quiz-header{ padding:16px 20px; background:linear-gradient(90deg,var(--accent),#0aa8bf); color:#fff; display:flex; align-items:center; justify-content:space-between; gap:12px; }
-    .quiz-controls{ display:flex; gap:10px; align-items:center; }
-    .quiz-body{ display:grid; grid-template-columns:1fr 360px; gap:18px; padding:18px; }
-    .question-area{ background:#fbfdff; padding:16px; border-radius:10px; min-height:320px; }
-    .question-index{ font-size:13px; color:var(--muted); margin-bottom:8px; }
-    .question-text{ font-size:18px; color:#0f172a; margin-bottom:12px; min-height:58px; }
-    .options{ display:flex; flex-direction:column; gap:10px; }
-    .option{ background:#fff; border:1px solid #e6eef2; padding:12px 14px; border-radius:10px; display:flex; align-items:center; gap:12px; cursor:pointer; }
-    .option input{ transform:scale(1.12); }
-    .sidebar-panel{ background:#fff; padding:14px; border-radius:10px; border:1px solid #eef6f9; height:100%; display:flex; flex-direction:column; }
-    .timer{ font-weight:800; font-size:20px; color:#0f172a; }
-    .meta{ margin-top:10px; color:var(--muted); font-size:14px; }
-    .nav-buttons{ margin-top:12px; display:flex; gap:10px; }
-    .btn{ padding:10px 14px; border-radius:8px; background:var(--accent); color:#fff; border:0; cursor:pointer; font-weight:700; }
-    .btn.secondary{ background:#e6eef2; color:#0f172a; font-weight:700; }
-    .close-quiz{ background:transparent; border:0; color:#fff; font-weight:800; cursor:pointer; font-size:18px; }
+    .quiz-body{display:grid;grid-template-columns:1fr 320px;gap:18px;padding:18px;background:linear-gradient(180deg,#fff,#fbfdff)}
+    .question-area{background:var(--card-bg);padding:16px;border-radius:10px;min-height:340px}
+    .question-index{font-size:13px;color:var(--muted);margin-bottom:8px}
+    .question-text{font-size:18px;color:#0f172a;margin-bottom:14px;line-height:1.4}
+    .options{display:flex;flex-direction:column;gap:10px}
+    .option{display:flex;align-items:center;gap:12px;padding:10px;border-radius:8px;border:1px solid #e6eef2;background:#fff;cursor:pointer}
+    .option input{transform:scale(1.15)}
+    .option.disabled{opacity:.6;pointer-events:none}
 
-    .result{ padding:16px; display:none; }
-    .answers-list{ margin-top:12px; display:flex; flex-direction:column; gap:10px; max-height:360px; overflow:auto; }
-    .answer-item{ background:#fcfcff; border:1px solid #eef2ff; padding:12px; border-radius:8px; }
-
-    @media (max-width:960px){
-      .quiz-body{ grid-template-columns:1fr; }
-      .sidebar-panel{ order:-1; }
-      main{ padding:18px; }
-      aside{ transform:translateX(-280px); }
-      aside.hidden{ transform:translateX(-280px); }
-      aside ~ main{ margin-left:0; }
+    .sidebar-panel{background:#fff;padding:14px;border-radius:10px;border:1px solid #eef6f9;height:100%}
+    .meta{color:var(--muted);font-size:14px;margin-top:8px}
+    .nav-buttons{display:flex;gap:10px;margin-top:14px}
+    .btn{padding:10px 14px;border-radius:8px;background:var(--accent-2);color:#fff;border:0;cursor:pointer;font-weight:700}
+    .btn.secondary{background:#e6eef2;color:#0f172a}
+    .small{font-size:13px}
+    .result{padding:18px}
+    .answers-list{display:flex;flex-direction:column;gap:10px;max-height:320px;overflow:auto;margin-top:12px}
+    .answer-item{background:#fcfcff;border:1px solid #eef2ff;padding:12px;border-radius:8px}
+    .muted{color:var(--muted)}
+    /* responsive */
+    @media (max-width:880px){
+      aside{width:220px}
+      main{margin-left:0;padding:16px}
+      .quiz-body{grid-template-columns:1fr}
+      .quiz-card{max-width:96%}
+      .quiz-header{flex-direction:column;gap:8px;align-items:flex-start}
+      .quiz-timer{flex-direction:column;align-items:flex-start;gap:8px}
+      .sidebar-panel{order:-1}
     }
-
-    /* ensure sidebar doesn't cover content text; content margin-left equals sidebar width */
   </style>
 </head>
 <body>
-  <button id="toggleSidebar" aria-label="Toggle sidebar">☰</button>
+  <button id="toggleSidebar">☰ Menu</button>
 
-  <aside id="sidebar" aria-label="Navigation sidebar">
-    <a class="back-button" href="index.html">🔙 Retour</a>
+  <aside class="sidebar" id="sidebar">
+    <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
+    <button class="back-button" onclick="history.back()">🔙 Retour</button>
     <div class="sidebar-header">
-      <h2>📚 Histoire Architecture</h2>
-      <p style="margin:8px 0 0 0; font-size:13px; color:var(--muted)">Quiz: Architecture égyptienne</p>
+      <h2>📚 Année 1 - Semestre 1</h2>
     </div>
     <ul class="sidebar-menu">
-      <li><a href="#">🏛️ Cours 1 — Préhistoire</a></li>
-      <li><a href="#">🏺 Cours 2 — Égypte ancienne (Quiz ici)</a></li>
-      <li><a href="#">📐 Cours 3 — Grèce</a></li>
-      <li><a href="#">🏛️ Cours 4 — Rome</a></li>
+      <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
+      <li><a href="dca1.html">📐 DCA 1</a></li>
+      <li><a href="dag1.html">🎨 DAG 1</a></li>
+      <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
+      <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
+      <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
+      <li><a href="tmc1.html">🧱 TMC 1</a></li>
+      <li><a href="math1.html">🧮 Mathématiques</a></li>
+      <li><a href="expression1.html">🗣️ Expression orale</a></li>
+      <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
       <hr>
+      <li><a href="projets.html">💼 Projets</a></li>
       <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
     </ul>
   </aside>
 
   <main>
-    <h1 class="section-title">🏛️ Quiz — Architecture égyptienne</h1>
+    <h1 class="section-title">🏛️ Histoire de l’Architecture 1</h1>
 
     <div class="lesson">
       <h3>
-        <span>Architecture égyptienne — Cours & Quiz complet (100 questions)</span>
-        <span><button id="openQuizBtn" class="btn">📝 Ouvrir/fermer Quiz</button></span>
+        <span>La préhistoire et les premiers refuges</span>
+        <span><button class="quiz-open-btn" title="Quiz préhistoire" style="background:#06b6d4;color:#fff;padding:8px 12px;border-radius:8px;border:0;cursor:pointer;font-weight:600;">📝 Quiz</button></span>
       </h3>
-      <div class="buttons" style="margin-top:8px;">
-        <a href="#"><button>📄 Cours PDF</button></a>
+      <div class="buttons">
+        <a href="cours_1_prehistoire.pdf"><button>📄 PDF</button></a>
         <button>🎥 Vidéo</button>
-        <button id="premiumButton">⭐ Premium</button>
+        <button id="premiumButton1">⭐ Premium</button>
       </div>
-      <p style="margin-top:12px; color:var(--muted); font-size:14px;">
-        Instructions : choisissez la langue (FR/EN), le type (mixed/QCM/QCS/VF) ou laissez « Mixed » pour mélange aléatoire. Chaque bonne réponse = +1, réponse incorrecte = −1, non répondu = 0. Vous pouvez reprendre les questions erronées.
-      </p>
     </div>
 
-    <footer>© 2025 ArchiSpace — Tous droits réservés.</footer>
+    <div class="lesson">
+      <h3>
+        <span>Architecture égyptienne</span>
+        <span><button id="openEgyptQuiz" title="Quiz Egypte" style="background:#06b6d4;color:#fff;padding:8px 12px;border-radius:8px;border:0;cursor:pointer;font-weight:600;">📝 Quiz</button></span>
+      </h3>
+      <div class="buttons">
+        <a href="Egyptian civilization ENG.pdf"><button>📄 PDF</button></a>
+        <button>🎥 Vidéo</button>
+        <button>⭐ Premium</button>
+      </div>
+    </div>
+
+    <footer>© 2025 ArchiSpace – Tous droits réservés.</footer>
   </main>
 
-  <!-- Quiz modal -->
-  <div id="quizModal" class="quiz-modal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="quiz-card" id="quizCard">
+  <!-- Quiz Modal (single modal used for Egyptian quiz) -->
+  <div id="quizModal" class="quiz-modal" aria-hidden="true" role="dialog" aria-labelledby="quizTitle">
+    <div class="quiz-card" role="document">
       <div class="quiz-header">
-        <h2 id="quizTitle">Quiz — Architecture égyptienne</h2>
-        <div class="quiz-controls" role="toolbar" aria-label="Quiz controls">
-          <label for="langSelect" style="color:rgba(255,255,255,0.95); font-weight:600;">Lang</label>
-          <select id="langSelect" style="padding:6px 10px; border-radius:8px; border:0; font-weight:700;">
-            <option value="fr">FR</option>
-            <option value="en">EN</option>
-          </select>
-
-          <label for="modeSelect" style="color:rgba(255,255,255,0.95); font-weight:600; margin-left:8px;">Mode</label>
-          <select id="modeSelect" style="padding:6px 10px; border-radius:8px; border:0; font-weight:700;">
-            <option value="mixed">Mixed (aléatoire)</option>
-            <option value="QCM">QCM</option>
-            <option value="QCS">QCS</option>
-            <option value="VF">V/F</option>
-          </select>
-
-          <button id="closeQuizBtn" class="close-quiz" aria-label="Close quiz">✕</button>
+        <div class="title" id="quizTitle">Quiz — Architecture égyptienne (Ancienne)</div>
+        <div class="quiz-controls">
+          <label class="lang-indicator small">Langue:
+            <select id="langSelect" aria-label="Choisir la langue">
+              <option value="fr">FR</option>
+              <option value="en">EN</option>
+            </select>
+          </label>
+          <label class="lang-indicator small">Type:
+            <select id="typeSelect" aria-label="Choisir le type">
+              <option value="ALL">Tous (mix)</option>
+              <option value="QCM">QCM (choix multiples)</option>
+              <option value="QCS">QCS (choix unique)</option>
+              <option value="VF">Vrai / Faux</option>
+            </select>
+          </label>
+          <label class="small"><input type="checkbox" id="shuffleCheckbox" checked> Mélanger</label>
+          <button class="close-quiz" id="closeQuizBtn" title="Fermer">✕</button>
         </div>
       </div>
 
-      <div class="quiz-body" id="quizBody">
-        <div class="question-area" id="questionArea">
-          <div class="question-index" id="questionIndex">—</div>
-          <div class="question-text" id="questionText">Choisissez "Commencer" pour lancer le quiz.</div>
-          <div class="options" id="optionsContainer" role="list"></div>
+      <div class="quiz-timer">
+        <div class="timer-box">
+          <div class="muted small">Temps restant :</div>
+          <div class="timer" id="timerDisplay">20:00</div>
+        </div>
+        <div class="lang-indicator small">Sélection: <span id="selectedLang">FR</span> · <span id="selectedTypeText">Tous</span></div>
+      </div>
 
-          <div class="nav-buttons" style="margin-top:14px;">
+      <div class="quiz-body">
+        <div class="question-area">
+          <div class="question-index" id="questionIndex">Question —</div>
+          <div class="question-text" id="questionText">Choisissez la langue et le type puis appuyez sur "Démarrer".</div>
+
+          <div class="options" id="optionsContainer"></div>
+
+          <div class="nav-buttons">
             <button class="btn secondary" id="prevBtn" disabled>◀ Précédent</button>
             <button class="btn secondary" id="nextBtn" disabled>Suivant ▶</button>
+            <button class="btn" id="startBtn">Démarrer</button>
             <button class="btn" id="submitBtn" style="display:none;">Soumettre</button>
           </div>
         </div>
 
-        <aside class="sidebar-panel" id="sidebarPanel">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="sidebar-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
             <div>
-              <div class="small">Timer</div>
-              <div class="timer" id="timerDisplay">00:00</div>
+              <div style="font-size:13px;color:var(--muted)">Timer</div>
+              <div class="timer" id="miniTimer">20:00</div>
             </div>
             <div style="text-align:right;">
-              <div class="small">Score</div>
-              <div id="scoreDisplay" style="font-weight:800; font-size:18px;">0</div>
+              <div style="font-size:13px;color:var(--muted)">Score</div>
+              <div style="font-weight:800;font-size:18px" id="scoreDisplay">0</div>
             </div>
           </div>
 
           <div class="meta">
-            <div>Leçon: <b id="lessonLabel">Égypte</b></div>
-            <div style="margin-top:8px;">Type: <b id="typeLabel">—</b></div>
-            <div style="margin-top:8px;">Total Q: <b id="totalLabel">0</b></div>
-            <div style="margin-top:6px;">Restantes: <b id="remainingLabel">0</b></div>
-            <div style="margin-top:8px;">Réessayer les mauvaises : <input type="checkbox" id="retryWrong" checked></div>
+            <div>Type: <b id="selectedType">—</b></div>
+            <div style="margin-top:8px;">Questions totales: <b id="totalQuestions">100</b></div>
+            <div style="margin-top:6px;">Question actuelle: <b id="currentNumber">0</b></div>
+            <div style="margin-top:8px;">Réessayer fautes: <input type="checkbox" id="retryWrong" checked></div>
+            <div style="margin-top:8px;">Barème: +1 correct, −1 incorrect, 0 non répondu</div>
+            <div style="margin-top:8px;">Astuce: pour QCM cochez toutes les cases correctes.</div>
           </div>
 
-          <div style="margin-top:14px;">
-            <button class="btn" id="startBtn">Commencer</button>
-            <button class="btn secondary" id="finishBtn" style="margin-left:8px;">Finir maintenant</button>
+          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn" id="endEarlyBtn">Finir maintenant</button>
+            <button class="btn secondary" id="resetBtn">Réinitialiser</button>
           </div>
 
-          <div style="margin-top:12px; font-size:13px; color:var(--muted);">
-            <p style="margin:0;">Navigation : utilisez les flèches ou les boutons. Les erreurs coûtent -1 point.</p>
+          <div style="margin-top:12px;font-size:13px;color:var(--muted)">
+            <div>Navigation: utilisez ◀ / ▶ ou les boutons.</div>
+            <div style="margin-top:8px">Après soumission : affichage détaillé + option reprise fautes.</div>
           </div>
-        </aside>
-      </div>
-
-      <div class="result" id="resultArea" aria-live="polite">
-        <h3>Résultats</h3>
-        <div id="resultSummary"></div>
-        <div class="answers-list" id="answersList"></div>
-        <div style="margin-top:12px;">
-          <button class="btn" id="retryBtn">Reprendre les questions incorrectes</button>
-          <button class="btn secondary" id="closeResultBtn" style="margin-left:10px;">Fermer</button>
         </div>
       </div>
+
+      <div id="resultArea" style="display:none;" class="result">
+        <h3 id="resultTitle">Résultat</h3>
+        <div id="resultSummary"></div>
+        <div class="answers-list" id="answersList"></div>
+        <div style="margin-top:14px;display:flex;gap:10px">
+          <button class="btn" id="retryBtn">Reprendre les questions incorrectes</button>
+          <button class="btn secondary" id="closeResultBtn">Fermer</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
-<script>
-/* ---------- UI references ---------- */
-const toggleSidebarBtn = document.getElementById('toggleSidebar');
-const sidebar = document.getElementById('sidebar');
-const main = document.querySelector('main');
+  <script>
+    /* Sidebar toggle */
+    const sidebar = document.getElementById('sidebar');
+    document.getElementById('toggleSidebar').addEventListener('click', () => sidebar.classList.toggle('hidden'));
 
-toggleSidebarBtn.addEventListener('click', () => {
-  sidebar.classList.toggle('hidden');
-  // main margin handled by CSS sibling selector
-});
+    /* Modal open/close toggle (same button toggles) */
+    const openEgyptQuizBtn = document.getElementById('openEgyptQuiz');
+    const quizModal = document.getElementById('quizModal');
+    const closeQuizBtn = document.getElementById('closeQuizBtn');
+    const startBtn = document.getElementById('startBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const questionText = document.getElementById('questionText');
+    const questionIndex = document.getElementById('questionIndex');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const miniTimer = document.getElementById('miniTimer');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    const selectedLangSpan = document.getElementById('selectedLang');
+    const selectedTypeSpan = document.getElementById('selectedTypeText');
+    const totalQuestionsLabel = document.getElementById('totalQuestions');
+    const currentNumberLabel = document.getElementById('currentNumber');
+    const selectedTypeBadge = document.getElementById('selectedType');
+    const langSelect = document.getElementById('langSelect');
+    const typeSelect = document.getElementById('typeSelect');
+    const shuffleCheckbox = document.getElementById('shuffleCheckbox');
+    const retryBtn = document.getElementById('retryBtn');
+    const resultArea = document.getElementById('resultArea');
+    const resultSummary = document.getElementById('resultSummary');
+    const answersList = document.getElementById('answersList');
+    const retryWrongInput = document.getElementById('retryWrong');
+    const endEarlyBtn = document.getElementById('endEarlyBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const closeResultBtn = document.getElementById('closeResultBtn');
 
-/* ---------- Quiz modal control (open/close same button) ---------- */
-const openQuizBtn = document.getElementById('openQuizBtn');
-const quizModal = document.getElementById('quizModal');
-const closeQuizBtn = document.getElementById('closeQuizBtn');
-const startBtn = document.getElementById('startBtn');
-const finishBtn = document.getElementById('finishBtn');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const submitBtn = document.getElementById('submitBtn');
-const questionIndexEl = document.getElementById('questionIndex');
-const questionTextEl = document.getElementById('questionText');
-const optionsContainer = document.getElementById('optionsContainer');
-const timerDisplay = document.getElementById('timerDisplay');
-const scoreDisplay = document.getElementById('scoreDisplay');
-const typeLabel = document.getElementById('typeLabel');
-const totalLabel = document.getElementById('totalLabel');
-const remainingLabel = document.getElementById('remainingLabel');
-const lessonLabel = document.getElementById('lessonLabel');
-const langSelect = document.getElementById('langSelect');
-const modeSelect = document.getElementById('modeSelect');
-const resultArea = document.getElementById('resultArea');
-const resultSummary = document.getElementById('resultSummary');
-const answersList = document.getElementById('answersList');
-const retryBtn = document.getElementById('retryBtn');
-const closeResultBtn = document.getElementById('closeResultBtn');
-const retryWrongCheckbox = document.getElementById('retryWrong');
-
-let quizOpen = false;
-
-/* Toggle open/close with same button */
-openQuizBtn.addEventListener('click', () => {
-  if (!quizOpen) openQuiz();
-  else closeQuiz();
-});
-closeQuizBtn.addEventListener('click', closeQuiz);
-closeResultBtn.addEventListener('click', closeQuiz);
-
-/* Close when clicking outside card */
-quizModal.addEventListener('click', (e) => {
-  if (e.target === quizModal) closeQuiz();
-});
-
-function openQuiz(){
-  quizModal.style.display = 'flex';
-  quizModal.setAttribute('aria-hidden','false');
-  quizOpen = true;
-  resetQuizUI();
-}
-function closeQuiz(){
-  quizModal.style.display = 'none';
-  quizModal.setAttribute('aria-hidden','true');
-  quizOpen = false;
-  stopTimer();
-  // hide results
-  resultArea.style.display = 'none';
-}
-
-/* ---------- Quiz state & data ---------- */
-let allQuestions = [];      // will hold 100 questions (lesson2)
-let currentSet = [];        // filtered/shuffled current set
-let currentIndex = 0;
-let userAnswers = [];       // user answers per question (array or null)
-let score = 0;
-let timer = null;
-let timeLeft = 0;
-let wrongIds = [];
-let retryMode = false;
-
-/* ---------- Utility helpers ---------- */
-function shuffleArray(a){
-  for(let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]]=[a[j],a[i]];
-  }
-  return a;
-}
-function clone(o){ return JSON.parse(JSON.stringify(o)); }
-
-/* ---------- Build the 100 unique questions (45 QCM, 35 QCS, 20 VF) ----------
-   Each question: {id, type:'QCM'|'QCS'|'VF', question_fr, question_en, options_fr[], options_en[], answer: [indices]}
-   VF answers: 0 => Vrai/True, 1 => Faux/False
-   All IDs unique: E1...E100
-*/
-allQuestions = [
-
-/* 45 QCM (E1..E45) - multiple correct answers allowed */
-{ id:'E1',  type:'QCM',
-  question_fr:'Quelles pierres servaient principalement pour les parements extérieurs des pyramides et temples ?',
-  question_en:'Which stones were mainly used for external facing of pyramids and temples?',
-  options_fr:['Calcaire fin','Granit d’Assouan','Basalte','Brique crue'],
-  options_en:['Fine limestone','Aswan granite','Basalt','Mudbrick'],
-  answer:[0,1,2]
-},
-{ id:'E2', type:'QCM',
-  question_fr:'Quelles méthodes étaient employées pour dégrossir les blocs en carrière ?',
-  question_en:'Which methods were used to rough-cut quarry blocks?',
-  options_fr:['Percussion à la dolérite','Sciage avec sable','Taille à la hache','Hydrofracturation'],
-  options_en:['Percussion with dolerite','Sawing with sand','Axe cutting','Hydrofracturing'],
-  answer:[0,1,2]
-},
-{ id:'E3', type:'QCM',
-  question_fr:'Quels outils en pierre étaient utilisés pour polir la surface des monuments ?',
-  question_en:'Which stone tools were used to polish monument surfaces?',
-  options_fr:['Diorite','Pumice (pierre ponce)','Silex abrasif','Burins en bronze'],
-  options_en:['Diorite','Pumice','Abrasive flint','Bronze chisels'],
-  answer:[0,1,2]
-},
-{ id:'E4', type:'QCM',
-  question_fr:'Quels moyens de transport de blocs sont attestés ?',
-  question_en:'Which means of transporting blocks are attested?',
-  options_fr:['Traîneaux sur sable humide','Barges sur le Nil','Charriots à roues en bois','Transport aérien'],
-  options_en:['Sledges on wetted sand','Barges on the Nile','Wooden wheeled carts','Air transport'],
-  answer:[0,1,2]
-},
-{ id:'E5', type:'QCM',
-  question_fr:'Quelles techniques d’élévation ont été proposées par les chercheurs pour construire les pyramides ?',
-  question_en:'Which raising techniques have researchers proposed for pyramid construction?',
-  options_fr:['Ramps linéaires','Ramps hélicoïdales','Hélioturcs (levage interne)','Montées par échafaudages temporaires'],
-  options_en:['Straight ramps','Spiral ramps','Internal lift theories','Temporary scaffolding assemblies'],
-  answer:[0,1,3]
-},
-{ id:'E6', type:'QCM',
-  question_fr:'Quels éléments faisaient partie intégrante d’un temple égyptien ?',
-  question_en:'Which elements were integral to an Egyptian temple?',
-  options_fr:['Pylône','Cour ouverte','Salle hypostyle','Minaret'],
-  options_en:['Pylon','Open court','Hypostyle hall','Minaret'],
-  answer:[0,1,2]
-},
-{ id:'E7', type:'QCM',
-  question_fr:'Quelles décorations architecturales sont fréquentes dans les temples ?',
-  question_en:'Which architectural decorations are frequent in temples?',
-  options_fr:['Hiéroglyphes en bas-relief','Peintures polychromes','Bandes de cartouches royaux','Façades en verre'],
-  options_en:['Hieroglyphic bas-relief','Polychrome paintings','Royal cartouche bands','Glass facades'],
-  answer:[0,1,2]
-},
-{ id:'E8', type:'QCM',
-  question_fr:'Quelles sont des fonctions pratiques des cours de temple ?',
-  question_en:'What are practical functions of temple courtyards?',
-  options_fr:['Rituel processional','Réunions publiques','Stockage de grains','Échanges économiques'],
-  options_en:['Processional rituals','Public gatherings','Grain storage','Economic exchanges'],
-  answer:[0,1,3]
-},
-{ id:'E9', type:'QCM',
-  question_fr:'Quelles colonnes existent dans l’architecture égyptienne ?',
-  question_en:'Which columns exist in Egyptian architecture?',
-  options_fr:['Papyriforme','Lotiforme','Palmiforme','Ionique'],
-  options_en:['Papyriform','Lotiform','Palmiform','Ionic'],
-  answer:[0,1,2]
-},
-{ id:'E10', type:'QCM',
-  question_fr:'Quelles chutes de toiture étaient courantes pour les habitations égyptiennes anciennes ?',
-  question_en:'Which roof coverings were common for early Egyptian dwellings?',
-  options_fr:['Toits plats en roseaux','Dalles de pierre sur poutres','Toits en tuiles','Couvertures en bitume'],
-  options_en:['Flat reed roofs','Stone slabs on beams','Tiled roofs','Bitumen coverings'],
-  answer:[0,1]
-},
-{ id:'E11', type:'QCM',
-  question_fr:'Quels éléments structuraient l’axe processionnel d’un complexe ?',
-  question_en:'Which elements structured a complex’s processional axis?',
-  options_fr:['Allée d’avenue','Séries de pylônes','Salles successives','Bâtiments résidentiels'],
-  options_en:['Causeway avenue','Series of pylons','Successive halls','Residential buildings'],
-  answer:[0,1,2]
-},
-{ id:'E12', type:'QCM',
-  question_fr:'Quelles techniques assuraient l’étanchéité des chambres funéraires ?',
-  question_en:'Which techniques ensured burial chamber waterproofing?',
-  options_fr:['Accès fermé par murs massifs','Remplissage de sable','Revêtements en stuc','Bouchage par blocs mobiles'],
-  options_en:['Sealed with massive walls','Sand backfilling','Stucco linings','Sealing with movable blocks'],
-  answer:[0,1,2]
-},
-{ id:'E13', type:'QCM',
-  question_fr:'Quels motifs végétaux symboliques étaient employés ?',
-  question_en:'Which vegetal symbolic motifs were used?',
-  options_fr:['Lotus','Papyrus','Palmes','Ombellifères'],
-  options_en:['Lotus','Papyrus','Palms','Umbellifers'],
-  answer:[0,1,2]
-},
-{ id:'E14', type:'QCM',
-  question_fr:'Quelles sources d’éclairage intérieur étaient utilisées ?',
-  question_en:'Which interior light sources were used?',
-  options_fr:['Petites fenêtres hautes','Fentes étroites','Lampes à huile','Miroirs réfléchissants'],
-  options_en:['High small windows','Narrow slits','Oil lamps','Reflecting mirrors'],
-  answer:[0,1,2]
-},
-{ id:'E15', type:'QCM',
-  question_fr:'Quelles mesures de prévention contre l’effondrement ?',
-  question_en:'Which measures prevented collapse?',
-  options_fr:['Épaisses parois en pierre','Contreforts internes','Colonnes de soutien','Charpentes métalliques'],
-  options_en:['Thick stone walls','Internal buttressing','Supporting columns','Metal frameworks'],
-  answer:[0,1,2]
-},
-{ id:'E16', type:'QCM',
-  question_fr:'Quelles sources d’approvisionnement en bois existaient pour la charpente ?',
-  question_en:'Which wood supply sources existed for carpentry?',
-  options_fr:['Bois importé du Liban','Bois local ramiers','Récupération d’épaves','Bois reconstitué'],
-  options_en:['Imported Lebanese cedar','Local acacias','Salvaged ship timber','Reconstituted wood'],
-  answer:[0,1,2]
-},
-{ id:'E17', type:'QCM',
-  question_fr:'Quelles techniques de sculpture monumentale utilisaient le contreponçage ?',
-  question_en:'Which monumental sculpting techniques used counter-pounding?',
-  options_fr:['Percussion en points successifs','Travail par abrasion','Taille de surface par outils durs','Projection abrasive'],
-  options_en:['Percussive point removal','Abrasive working','Hard tool surface cutting','Abrasive blasting'],
-  answer:[0,1,2]
-},
-{ id:'E18', type:'QCM',
-  question_fr:'Quelles pratiques de mesure guidaient la proportion des monuments ?',
-  question_en:'Which measurement practices guided monument proportions?',
-  options_fr:['Utilisation de la coudée royale','Grilles modulaires','Proportions basées sur corps humain','Unités métriques modernes'],
-  options_en:['Royal cubit','Modular grids','Human-based proportions','Modern metric units'],
-  answer:[0,1,2]
-},
-{ id:'E19', type:'QCM',
-  question_fr:'Quelles formes de fondations étaient observées ?',
-  question_en:'Which foundation forms were observed?',
-  options_fr:['Masses en pierre sur sol compacté','Radier continu en pierres plates','Fondations en pieux','Plots isolés en béton'],
-  options_en:['Stone mass on compacted ground','Continuous stone footing','Piled foundations','Isolated concrete pads'],
-  answer:[0,1]
-},
-{ id:'E20', type:'QCM',
-  question_fr:'Quelles méthodes limitaient l’érosion des façades ?',
-  question_en:'Which methods limited facade erosion?',
-  options_fr:['Revêtement poli en calcaire','Peinture de protection','Bandes décoratives pour masque','Enduits bitumineux'],
-  options_en:['Polished limestone facings','Protective paints','Decorative bands to mask wear','Bituminous coatings'],
-  answer:[0,1,2]
-},
-{ id:'E21', type:'QCM',
-  question_fr:'Quelles approches étaient utilisées pour aligner astronomiquement les temples ?',
-  question_en:'Which approaches were used to astronomically align temples?',
-  options_fr:['Observation de l’horizon','Alignement sur positions solaires','Utilisation d’étoiles fixes','Systèmes GPS antiques'],
-  options_en:['Horizon observation','Solar alignments','Use of fixed stars','Ancient GPS systems'],
-  answer:[0,1,2]
-},
-{ id:'E22', type:'QCM',
-  question_fr:'Quels types de joints structuraux étaient employés entre blocs ?',
-  question_en:'Which structural joint types were used between blocks?',
-  options_fr:['Joints secs serrés','Broches métalliques','Mortier peu épais','Joints compressifs en bois'],
-  options_en:['Tight dry joints','Metal dowels','Thin mortar','Compressible wooden joints'],
-  answer:[0,1,2]
-},
-{ id:'E23', type:'QCM',
-  question_fr:'Quelles pratiques de construction favorisaient la conservation ?',
-  question_en:'Which construction practices favored conservation?',
-  options_fr:['Utilisation de pierres dures','Orientation pour ombre','Surépaisseur de murs','Revêtements organiques'],
-  options_en:['Use of hard stones','Orientation for shade','Thickened walls','Organic coverings'],
-  answer:[0,1,2]
-},
-{ id:'E24', type:'QCM',
-  question_fr:'Quelles fonctions secondaires avaient les temples (économiques/administratives) ?',
-  question_en:'Which secondary functions did temples have (economic/administrative)?',
-  options_fr:['Stockage de grains','Ateliers d’artisanat','Archives administratives','Habitation royale'],
-  options_en:['Grain storage','Craft workshops','Administrative archives','Royal residence'],
-  answer:[0,1,2]
-},
-{ id:'E25', type:'QCM',
-  question_fr:'Quelles techniques de levage pouvaient être combinées ?',
-  question_en:'Which lifting techniques could be combined?',
-  options_fr:['Traîneaux + lubrification','Treuils + rampes','Barges + grue rudimentaire','Ballons gonflables'],
-  options_en:['Sledges + lubrication','Winches + ramps','Barges + crude crane','Balloons'],
-  answer:[0,1,2]
-},
-{ id:'E26', type:'QCM',
-  question_fr:'Quelles solutions pour la ventilation des pièces profondes ?',
-  question_en:'Which solutions for ventilation of deep rooms?',
-  options_fr:['Conduits discrets','Fentes étroites vers l’extérieur','Cour centrale ventilée','Ventilateurs mécaniques'],
-  options_en:['Discrete shafts','Narrow external slits','Central ventilated courtyard','Mechanical fans'],
-  answer:[0,1,2]
-},
-{ id:'E27', type:'QCM',
-  question_fr:'Quels types d’outils métalliques sont attestés pour finitions ?',
-  question_en:'Which metal tools are attested for finishing?',
-  options_fr:['Ciseaux en bronze','Limes métalliques','Scies en fer (tardif)','Outils de cuivre durci'],
-  options_en:['Bronze chisels','Metal files','Iron saws (late)','Hardened copper tools'],
-  answer:[0,1,3]
-},
-{ id:'E28', type:'QCM',
-  question_fr:'Quelles pratiques réduisaient les effets de tassement différentiel ?',
-  question_en:'Which practices reduced differential settlement effects?',
-  options_fr:['Fondations profondes localisées','Répartition uniforme des charges','Compactage par couches','Utilisation de pieux métalliques'],
-  options_en:['Localized deep footings','Uniform load distribution','Layered compaction','Metal piles'],
-  answer:[0,1,2]
-},
-{ id:'E29', type:'QCM',
-  question_fr:'Quelles décorations sculptées protégeaient symboliquement l’entrée ?',
-  question_en:'Which sculpted decorations protected the entrance symbolically?',
-  options_fr:['Statues colossales','Sphinx alignés','Stèles votives','Portails en bois']
-  , options_en:['Colossal statues','Aligned sphinxes','Votive stelae','Wooden gates'],
-  answer:[0,1,2]
-},
-{ id:'E30', type:'QCM',
-  question_fr:'Quelles stratégies limitaient l’humidité dans les structures souterraines ?',
-  question_en:'Which strategies limited moisture in underground structures?',
-  options_fr:['Drainage périphérique','Remblai imperméable','Enduits internes résistants','Pompes mécaniques']
-  , options_en:['Peripheral drainage','Impermeable backfill','Resistant internal coatings','Mechanical pumps'],
-  answer:[0,1,2]
-},
-{ id:'E31', type:'QCM',
-  question_fr:'Quelles parties du temple étaient strictement réservées aux prêtres ?',
-  question_en:'Which temple parts were strictly reserved for priests?',
-  options_fr:['Sanctuaire intérieur','Chambre du naos','Certaines cours','Toutes les entrées publiques']
-  , options_en:['Inner sanctuary','Naos chamber','Certain courts','All public entrances'],
-  answer:[0,1,2]
-},
-{ id:'E32', type:'QCM',
-  question_fr:'Quels motifs géométriques fréquents sur sols et plafonds ?',
-  question_en:'Which geometric motifs are common on floors and ceilings?',
-  options_fr:['Quadrillages','Rosaces','Bandes linéaires','Fleurons romans']
-  , options_en:['Grids','Rosettes','Linear bands','Roman fleurons'],
-  answer:[0,1,2]
-},
-{ id:'E33', type:'QCM',
-  question_fr:'Quelles formes d’enseignes royales marquaient les constructions ?',
-  question_en:'Which royal insignia forms marked constructions?',
-  options_fr:['Cartouches','Couronnes gravées','Titres hiérarchiques','Plaques métalliques modernes']
-  , options_en:['Cartouches','Engraved crowns','Hierarchical titles','Modern metal plates'],
-  answer:[0,1,2]
-},
-{ id:'E34', type:'QCM',
-  question_fr:'Quels déchets de chantier étaient recyclés ?',
-  question_en:'Which construction wastes were recycled?',
-  options_fr:['Fragments de pierre','Tiges de roseau','Chaux de déblais','Rien n’était recyclé']
-  , options_en:['Stone fragments','Reed stems','Lime debris','Nothing recycled'],
-  answer:[0,1,2]
-},
-{ id:'E35', type:'QCM',
-  question_fr:'Quelles pratiques réduisaient l’érosion due au vent et au sable ?',
-  question_en:'Which practices reduced wind and sand erosion?',
-  options_fr:['Barrières naturelles','Orientation des rues','Revêtements lisses','Utilisation de verre']
-  , options_en:['Natural windbreaks','Street orientation','Smooth facings','Use of glass'],
-  answer:[0,1,2]
-},
-{ id:'E36', type:'QCM',
-  question_fr:'Quelles approches sont utilisées pour lier les éléments architecturaux ?',
-  question_en:'Which approaches are used to bind architectural elements?',
-  options_fr:['Clefs en pierre','Broches en bronze','Mortier à base d’argile','Agrafes en acier moderne']
-  , options_en:['Stone keys','Bronze dowels','Clay-based mortar','Modern steel clamps'],
-  answer:[0,1,2]
-},
-{ id:'E37', type:'QCM',
-  question_fr:'Quelles sources d’inspiration formelle influençaient les chapiteaux ?',
-  question_en:'Which formal inspirations influenced capitals?',
-  options_fr:['Plantes locales','Symboles solaires','Formes anthropomorphes','Modes étrangers contemporains']
-  , options_en:['Local plants','Solar symbols','Anthropomorphic forms','Contemporary foreign fashions'],
-  answer:[0,1,2]
-},
-{ id:'E38', type:'QCM',
-  question_fr:'Quelles techniques limitaient le bruit et amélioraient l’acoustique ?',
-  question_en:'Which techniques reduced noise and improved acoustics?',
-  options_fr:['Salles hypostyles profondes','Revêtements rugueux','Formes absorbantes','Matériaux synthétiques modernes']
-  , options_en:['Deep hypostyle halls','Rough linings','Absorbing shapes','Modern synthetic materials'],
-  answer:[0,1,2]
-},
-{ id:'E39', type:'QCM',
-  question_fr:'Quelles fonctions utilitaires sont integrées aux complexes (logistique) ?',
-  question_en:'Which utilitarian functions are integrated in complexes (logistics)?',
-  options_fr:['Dépôts','Ateliers','Bureaux administratifs','Hôtels modernes']
-  , options_en:['Warehouses','Workshops','Administrative offices','Modern hotels'],
-  answer:[0,1,2]
-},
-{ id:'E40', type:'QCM',
-  question_fr:'Quelles techniques d’ancrage sont utilisées pour statues colossales ?',
-  question_en:'Which anchoring techniques are used for colossal statues?',
-  options_fr:['Encastrement dans socle','Broches internes','Fonds en pierres massives','Fixations métalliques externes']
-  , options_en:['Socketing into plinth','Internal dowels','Massive stone bases','External metal fasteners'],
-  answer:[0,1,2]
-},
-{ id:'E41', type:'QCM',
-  question_fr:'Quelles méthodes mesurables aidaient le contrôle qualité ?',
-  question_en:'Which measurable methods helped quality control?',
-  options_fr:['Gabarits de coudée','Niveaux à corde','Mesures à la main','Instruments lasers']
-  , options_en:['Cubit templates','String levels','Hand measures','Laser instruments'],
-  answer:[0,1,2]
-},
-{ id:'E42', type:'QCM',
-  question_fr:'Quelles adaptations sont visibles dans les zones inondables ?',
-  question_en:'Which adaptations are visible in flood-prone areas?',
-  options_fr:['Soubassements surélevés','Drainage périphérique','Pentes dirigées','Sous-sols étanches modernes']
-  , options_en:['Elevated plinths','Peripheral drainage','Directed slopes','Modern waterproof basements'],
-  answer:[0,1,2]
-},
-{ id:'E43', type:'QCM',
-  question_fr:'Quelles interventions récentes facilitent la conservation actuelle ?',
-  question_en:'Which recent interventions facilitate current conservation?',
-  options_fr:['Consolidation par résine','Monitoring climatique','Reconstitutions anastrophiques','Remplacement total par copies']
-  , options_en:['Resin consolidation','Climate monitoring','Anastrophic reconstructions','Total replacement with replicas'],
-  answer:[0,1,2]
-},
-{ id:'E44', type:'QCM',
-  question_fr:'Quelles approches sont utilisées pour protéger les inscriptions ?',
-  question_en:'Which approaches are used to protect inscriptions?',
-  options_fr:['Housses protectrices','Contrôles d’humidité','Réduire l’exposition publique','Peinture de protection moderne']
-  , options_en:['Protective covers','Humidity controls','Restrict public exposure','Modern protective paints'],
-  answer:[0,1,2]
-},
-{ id:'E45', type:'QCM',
-  question_fr:'Quels principes de conception structurale garantissaient durabilité et monumentalité ?',
-  question_en:'Which design principles ensured durability and monumentality?',
-  options_fr:['Simplicité massive','Proportions modulaires','Redondance structurelle','Utilisation de matériaux légers']
-  , options_en:['Massive simplicity','Modular proportions','Structural redundancy','Use of lightweight materials'],
-  answer:[0,1,2]
-},
-
-/* 35 QCS (E46..E80) - one correct answer */
-{ id:'E46', type:'QCS',
-  question_fr:'Quelle était la longueur de la coudée royale égyptienne (approx.) ?',
-  question_en:'What was the approximate length of the Egyptian royal cubit?',
-  options_fr:['52.3 cm','60 cm','45 cm','1 m'],
-  options_en:['52.3 cm','60 cm','45 cm','1 m'],
-  answer:[0]
-},
-{ id:'E47', type:'QCS',
-  question_fr:'Quelle carrière fournissait le granite pour beaucoup d’obélisques ?',
-  question_en:'Which quarry provided granite for many obelisks?',
-  options_fr:['Assouan','Gizeh','Saqqarah','Memphis'],
-  options_en:['Aswan','Giza','Saqqara','Memphis'],
-  answer:[0]
-},
-{ id:'E48', type:'QCS',
-  question_fr:'Quel chapiteau imite la fleur de lotus ouverte ?',
-  question_en:'Which capital imitates the open lotus flower?',
-  options_fr:['Lotiforme','Papyriforme','Hathorique','Palmiforme'],
-  options_en:['Lotiform','Papyriform','Hathoric','Palmiform'],
-  answer:[0]
-},
-{ id:'E49', type:'QCS',
-  question_fr:'Quel élément marque l’entrée monumentale d’un temple ?',
-  question_en:'Which element marks a temple’s monumental entrance?',
-  options_fr:['Le pylône','L’obélisque','La statue colossale','La fontaine'],
-  options_en:['The pylon','The obelisk','Colossal statue','Fountain'],
-  answer:[0]
-},
-{ id:'E50', type:'QCS',
-  question_fr:'Quelle ville est célèbre pour le complexe funéraire de Khéops ?',
-  question_en:'Which city is famous for Khufu’s funerary complex?',
-  options_fr:['Gizeh','Thèbes','Alexandrie','Abydos'],
-  options_en:['Giza','Thebes','Alexandria','Abydos'],
-  answer:[0]
-},
-{ id:'E51', type:'QCS',
-  question_fr:'Quelle technique a probablement facilité la pose de lits de joints ?',
-  question_en:'Which technique likely facilitated laying bedding joints?',
-  options_fr:['Niveaux à fil','Niveaux laser','Marquage à la craie','Technique moderne de collage'],
-  options_en:['String levels','Laser levels','Chalk marking','Modern adhesive technique'],
-  answer:[0]
-},
-{ id:'E52', type:'QCS',
-  question_fr:'Quel matériau dominait pour les murs domestiques ?',
-  question_en:'Which material dominated domestic walls?',
-  options_fr:['Brique crue','Pierre taillée','Bois','Béton'],
-  options_en:['Mudbrick','Cut stone','Wood','Concrete'],
-  answer:[0]
-},
-{ id:'E53', type:'QCS',
-  question_fr:'Quel élément est caractéristique d’un hypostyle ?',
-  question_en:'What element characterizes a hypostyle?',
-  options_fr:['Colonnes nombreuses','Voûte en berceau','Fenêtres larges','Façade vitrée'],
-  options_en:['Many columns','Barrel vault','Large windows','Glass facade'],
-  answer:[0]
-},
-{ id:'E54', type:'QCS',
-  question_fr:'Quel type de chapiteau représente souvent un visage de déesse ?',
-  question_en:'Which type of capital often depicts a goddess face?',
-  options_fr:['Hathorique','Lotiforme','Papyriforme','Palmiforme'],
-  options_en:['Hathoric','Lotiform','Papyriform','Palmiform'],
-  answer:[0]
-},
-{ id:'E55', type:'QCS',
-  question_fr:'Quel instrument de mesure était utilisé pour la coudée ?',
-  question_en:'Which instrument was used for measuring the cubit?',
-  options_fr:['Gabarit de coudée','Règle en métal moderne','Mètre ruban','Niveau électronique'],
-  options_en:['Cubit rod','Modern metal ruler','Measuring tape','Electronic level'],
-  answer:[0]
-},
-{ id:'E56', type:'QCS',
-  question_fr:'Quel processus protégeait les momies et le mobilier funéraire ?',
-  question_en:'Which process protected mummies and funerary goods?',
-  options_fr:['Scellage du puits','Remplissage et rebouchage','Installation dans un hypogée profond','Transport vers musées modernes'],
-  options_en:['Sealing shafts','Backfilling and sealing','Placement in deep hypogea','Transport to modern museums'],
-  answer:[1]
-},
-{ id:'E57', type:'QCS',
-  question_fr:'Quelle plante est souvent représentée dans l’iconographie des chapiteaux ?',
-  question_en:'Which plant is often depicted in capital iconography?',
-  options_fr:['Papyrus','Chêne','Sapin','Vigne'],
-  options_en:['Papyrus','Oak','Fir','Vine'],
-  answer:[0]
-},
-{ id:'E58', type:'QCS',
-  question_fr:'Quelle méthode était utilisée pour lever les blocs sur des rampes ?',
-  question_en:'Which method was used to raise blocks on ramps?',
-  options_fr:['Traîneaux + lubrification','Ascenseurs hydrauliques','Systèmes pneumatiques','Grues motorisées'],
-  options_en:['Sledges + lubrication','Hydraulic elevators','Pneumatic systems','Motorized cranes'],
-  answer:[0]
-},
-{ id:'E59', type:'QCS',
-  question_fr:'Quel bâtiment abrite la salle hypostyle la plus célèbre ?',
-  question_en:'Which building houses the most famous hypostyle hall?',
-  options_fr:['Karnak','Gizeh','Saqqarah','Luxor'],
-  options_en:['Karnak','Giza','Saqqara','Luxor'],
-  answer:[0]
-},
-{ id:'E60', type:'QCS',
-  question_fr:'Quel est le principal matériau pour stèles et statues polies ?',
-  question_en:'What is the main material for polished stelae and statues?',
-  options_fr:['Granite','Brique crue','Bois','Plâtre'],
-  options_en:['Granite','Mudbrick','Wood','Plaster'],
-  answer:[0]
-},
-{ id:'E61', type:'QCS',
-  question_fr:'Quelle est la fonction symbolique d’un obélisque ?',
-  question_en:'What is the symbolic function of an obelisk?',
-  options_fr:['Symbole solaire et commémoratif','Tour défensive','Réservoir d’eau','Édifice résidentiel'],
-  options_en:['Solar and commemorative symbol','Defensive tower','Water reservoir','Residential building'],
-  answer:[0]
-},
-{ id:'E62', type:'QCS',
-  question_fr:'Quelle technique conservatoire est non destructive ?',
-  question_en:'Which conservation technique is non-destructive?',
-  options_fr:['Consolidation par résine','Remplacement total','Démolition contrôlée','Reconstruction intégrale'],
-  options_en:['Resin consolidation','Total replacement','Controlled demolition','Full reconstruction'],
-  answer:[0]
-},
-{ id:'E63', type:'QCS',
-  question_fr:'Quel instrument mesurait la planéité lors de la pose de dalles ?',
-  question_en:'Which instrument measured flatness during slab laying?',
-  options_fr:['Fil à plomb et corde','Géomètre laser moderne','Règle métallique longue','Niveau électronique'],
-  options_en:['Plumb-line and string','Modern laser surveyor','Long metal straightedge','Electronic level'],
-  answer:[0]
-},
-{ id:'E64', type:'QCS',
-  question_fr:'Quel rôle jouait le naos dans le temple ?',
-  question_en:'What role did the naos play in the temple?',
-  options_fr:['Abri du dieu (sanctuaire)','Espace public central','Magasin','Zone agricole'],
-  options_en:['God\'s dwelling (sanctuary)','Central public area','Storehouse','Agricultural area'],
-  answer:[0]
-},
-{ id:'E65', type:'QCS',
-  question_fr:'Quelle est la technique probable pour sceller les portes funéraires ?',
-  question_en:'What was the likely technique to seal funerary doors?',
-  options_fr:['Blocage par lourdes pierres','Serrures métalliques','Emprisonnement par clous','Huisseries modernes'],
-  options_en:['Blocking with heavy stones','Metal locks','Nail confinement','Modern frames'],
-  answer:[0]
-},
-{ id:'E66', type:'QCS',
-  question_fr:'Quelle proportion de monuments utilisaient du granite extérieur ?',
-  question_en:'Which proportion of monuments used exterior granite?',
-  options_fr:['Principalement obélisques et statues colossales','La plupart des maisons','L’essentiel des murs domestiques','Peu d’éléments modernes'],
-  options_en:['Mainly obelisks and colossi','Most houses','Most domestic walls','Few modern elements'],
-  answer:[0]
-},
-{ id:'E67', type:'QCS',
-  question_fr:'Quel élément marque un complexe funéraire royal complet ?',
-  question_en:'Which element marks a complete royal funerary complex?',
-  options_fr:['Pyramide + temple + chaussée','Simple tumulus','Mausolée isolé','Enceinte en bois'],
-  options_en:['Pyramid + temple + causeway','Simple barrow','Isolated mausoleum','Wooden enclosure'],
-  answer:[0]
-},
-{ id:'E68', type:'QCS',
-  question_fr:'Quel traitement protégeait les polychromies murales ?',
-  question_en:'Which treatment protected mural polychromies?',
-  options_fr:['Application d’un vernis organique','Recouvrement par panneaux','Remplacement par copies','Exposition directe sans protection'],
-  options_en:['Application of organic varnish','Covering with panels','Replacement by copies','Direct exposure without protection'],
-  answer:[0]
-},
-{ id:'E69', type:'QCS',
-  question_fr:'Quel terme désigne la chambre centrale d’un temple (sanctuaire) ?',
-  question_en:'Which term designates the central chamber of a temple (sanctuary)?',
-  options_fr:['Naos','Hypostyle','Pylône','Peristyle'],
-  options_en:['Naos','Hypostyle','Pylon','Peristyle'],
-  answer:[0]
-},
-{ id:'E70', type:'QCS',
-  question_fr:'Quel type de joint rendait étanche un puits funéraire ?',
-  question_en:'Which joint type made a burial shaft waterproof?',
-  options_fr:['Joints serrés sans mortier','Mortier bitumineux','Joint en textile','Assemblage boulonné'],
-  options_en:['Tight dry joints','Bituminous mortar','Textile joint','Bolted assembly'],
-  answer:[1]
-},
-{ id:'E71', type:'QCS',
-  question_fr:'Quelle est la fonction des rampes latérales hypothétiques ?',
-  question_en:'What is the function of hypothetical side ramps?',
-  options_fr:['Faciliter l’accès progressif','Élévation interne','Décoration','Système défensif'],
-  options_en:['Facilitate progressive access','Internal lifting','Decoration','Defensive system'],
-  answer:[0]
-},
-{ id:'E72', type:'QCS',
-  question_fr:'Quel matériau dominait pour sols monumentaux ?',
-  question_en:'Which material dominated monumental floors?',
-  options_fr:['Dalles de calcaire poli','Bois','Terre battue','Asphalte'],
-  options_en:['Polished limestone slabs','Wood','Compacted earth','Asphalt'],
-  answer:[0]
-},
-{ id:'E73', type:'QCS',
-  question_fr:'Quel matériau était rarement employé pour grandes structures ?',
-  question_en:'Which material was rarely used for large structures?',
-  options_fr:['Bois','Calcaire','Granit','Pierre volcanique'],
-  options_en:['Wood','Limestone','Granite','Volcanic stone'],
-  answer:[0]
-},
-{ id:'E74', type:'QCS',
-  question_fr:'Quel élément identifie souvent l’entrée d’un temple de la période ramesside ?',
-  question_en:'Which element often marks the entrance of a Ramesside period temple?',
-  options_fr:['Obélisque','Portail en verre','Fenêtre moderne','Pergola'],
-  options_en:['Obelisk','Glass portal','Modern window','Pergola'],
-  answer:[0]
-},
-{ id:'E75', type:'QCS',
-  question_fr:'Quelle technique aide à déplacer des obélisques de plusieurs tonnes ?',
-  question_en:'Which technique helps move multi-ton obelisks?',
-  options_fr:['Assemblage sur radeaux et navigation','Tir par chevaux seulement','Transport par avions','Usage de rails modernes'],
-  options_en:['Assembly on rafts and navigation','Horse-only pulling','Air transport','Modern railways'],
-  answer:[0]
-},
-{ id:'E76', type:'QCS',
-  question_fr:'Quelle méthode d’excavation était utilisée pour hypogées ?',
-  question_en:'Which excavation method was used for hypogea?',
-  options_fr:['Creusement dirigé par traçage','Dynamitage','Excavation mécanique moderne','Remplissage préalable'],
-  options_en:['Guided trenching','Blasting','Modern mechanical excavation','Pre-backfilling'],
-  answer:[0]
-},
-{ id:'E77', type:'QCS',
-  question_fr:'Quel motif sert à identifier des rues orientées pour l’ombre ?',
-  question_en:'Which motif identifies streets oriented for shade?',
-  options_fr:['Rues étroites parallèles','Rues larges ouvertes','Rues circulaires','Rues pavées modernes'],
-  options_en:['Narrow parallel streets','Wide open streets','Circular streets','Modern paved streets'],
-  answer:[0]
-},
-{ id:'E78', type:'QCS',
-  question_fr:'Quel terme désigne la base sur laquelle repose une statue ?',
-  question_en:'What term designates the base on which a statue rests?',
-  options_fr:['Socle','Naos','Dromos','Pylône'],
-  options_en:['Plinth','Naos','Dromos','Pylon'],
-  answer:[0]
-},
-{ id:'E79', type:'QCS',
-  question_fr:'Quel type d’eau est utilisé pour faciliter le transport sur le sol ?',
-  question_en:'Which water usage facilitated transport on the ground?',
-  options_fr:['Humidification du sable devant sledges','Submersion des berges','Irrigation agricole','Refroidissement des outils'],
-  options_en:['Wet the sand in front of sledges','Submerging banks','Agricultural irrigation','Cooling tools'],
-  answer:[0]
-},
-{ id:'E80', type:'QCS',
-  question_fr:'Quel élément distingue une chapelle funéraire (mastaba) d’une pyramide ?',
-  question_en:'What distinguishes a funerary chapel (mastaba) from a pyramid?',
-  options_fr:['Forme trapézoïdale à sommet plat','Forme pyramidale','Absence de couronne royale','Usage résidentiel'],
-  options_en:['Trapezoidal flat-topped form','Pyramidal form','Absence of royal crown','Residential use'],
-  answer:[0]
-},
-
-/* 20 V/F (E81..E100) */
-{ id:'E81', type:'VF',
-  question_fr:'Les obélisques étaient toujours transportés par des routes pavées sur terre.',
-  question_en:'Obelisks were always transported on paved roads over land.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[1]
-},
-{ id:'E82', type:'VF',
-  question_fr:'Le granite destiné aux obélisques provenait majoritairement d’Assouan.',
-  question_en:'Granite for obelisks mainly came from Aswan.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E83', type:'VF',
-  question_fr:'La coudée royale était utilisée comme module de proportion architecturale.',
-  question_en:'The royal cubit was used as a module for architectural proportion.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E84', type:'VF',
-  question_fr:'Les colonnes hathoriques représentent souvent la déesse Hathor par une tête sculptée.',
-  question_en:'Hathoric columns often represent the goddess Hathor with a sculpted head.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E85', type:'VF',
-  question_fr:'Les maisons néolithiques à Çatal Höyük sont un bon exemple d’architecture égyptienne.',
-  question_en:'Neolithic houses at Çatal Höyük are a good example of Egyptian architecture.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[1]
-},
-{ id:'E86', type:'VF',
-  question_fr:'Les rampes hélicoïdales internes ont été prouvées archéologiquement pour toutes les pyramides.',
-  question_en:'Internal spiral ramps have been archaeologically proven for all pyramids.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[1]
-},
-{ id:'E87', type:'VF',
-  question_fr:'Les temples égyptiens respectaient souvent un axe axé vers des phénomènes célestes.',
-  question_en:'Egyptian temples often respected an axis oriented to celestial phenomena.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E88', type:'VF',
-  question_fr:'La brique crue était courante dans l’habitat domestique égyptien ancien.',
-  question_en:'Mudbrick was common in ancient Egyptian domestic housing.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E89', type:'VF',
-  question_fr:'Les toits plats permettaient l’usage quotidien et la circulation sur les toits.',
-  question_en:'Flat roofs allowed daily use and circulation on rooftops.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E90', type:'VF',
-  question_fr:'Les pharaons construisaient uniquement des bâtiments en bois pour montrer leur richesse.',
-  question_en:'Pharaohs built only wooden buildings to show their wealth.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[1]
-},
-{ id:'E91', type:'VF',
-  question_fr:'Les colonnades massives contribuaient au soutien du poids de la couverture des temples.',
-  question_en:'Massive colonnades contributed to supporting the weight of temple roofs.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E92', type:'VF',
-  question_fr:'Le décor polychrome intérieur était rare dans les temples.',
-  question_en:'Polychrome interior decoration was rare in temples.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[1]
-},
-{ id:'E93', type:'VF',
-  question_fr:'Les souterrains hypogées étaient parfois protégés par des remplissages après l’inhumation.',
-  question_en:'Hypogeal undergrounds were sometimes protected by backfilling after burial.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E94', type:'VF',
-  question_fr:'La proportion des salles suivait toujours une grille mathématique simple identique pour tous les temples.',
-  question_en:'The proportion of rooms always followed a simple mathematical grid identical for all temples.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[1]
-},
-{ id:'E95', type:'VF',
-  question_fr:'Les reliefs hiéroglyphiques servaient à la fois d’information et de défense symbolique.',
-  question_en:'Hieroglyphic reliefs served as information and symbolic defense.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E96', type:'VF',
-  question_fr:'La plupart des grandes statues étaient taillées dans un seul bloc (monolithe).',
-  question_en:'Most large statues were carved from a single block (monolith).',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E97', type:'VF',
-  question_fr:'Les systèmes de drainage n’existaient pas dans l’architecture égyptienne classique.',
-  question_en:'Drainage systems did not exist in classical Egyptian architecture.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[1]
-},
-{ id:'E98', type:'VF',
-  question_fr:'Les colonnades externes permettaient parfois l’ombre et la circulation ombragée.',
-  question_en:'External colonnades sometimes provided shade and shaded circulation.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E99', type:'VF',
-  question_fr:'Les architectes égyptiens utilisaient des modèles en petite échelle (maquettes).',
-  question_en:'Egyptian architects used small-scale models (maquettes).',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[0]
-},
-{ id:'E100', type:'VF',
-  question_fr:'Les architectes égyptiens ignoraient complètement les principes de stabilité structurelle.',
-  question_en:'Egyptian architects were completely unaware of structural stability principles.',
-  options_fr:['Vrai','Faux'],
-  options_en:['True','False'],
-  answer:[1]
-}
-
-/* End of allQuestions list */
-];
-
-/* ---------- Ensure uniqueness and counts ---------- */
-const counts = {
-  QCM: allQuestions.filter(q => q.type==='QCM').length,
-  QCS: allQuestions.filter(q => q.type==='QCS').length,
-  VF:  allQuestions.filter(q => q.type==='VF').length,
-  total: allQuestions.length
-};
-// console.log('Counts', counts); // for debugging if needed
-
-/* ---------- Quiz control functions ---------- */
-function resetQuizUI(){
-  // reset displays
-  questionIndexEl.textContent = '—';
-  questionTextEl.textContent = 'Choisissez "Commencer" pour démarrer le quiz. Sélectionnez la langue et le mode si désiré.';
-  optionsContainer.innerHTML = '';
-  scoreDisplay.textContent = '0';
-  timerDisplay.textContent = '00:00';
-  typeLabel.textContent = '—';
-  totalLabel.textContent = '0';
-  remainingLabel.textContent = '0';
-  resultArea.style.display = 'none';
-  // reset variables
-  currentSet = [];
-  currentIndex = 0;
-  userAnswers = [];
-  score = 0;
-  stopTimer();
-  retryMode = false;
-  wrongIds = [];
-  started = false;
-}
-
-/* Start quiz with selected mode */
-startBtn.addEventListener('click', () => {
-  startQuiz();
-});
-finishBtn.addEventListener('click', () => {
-  finishQuiz();
-});
-
-prevBtn.addEventListener('click', () => {
-  saveCurrentAnswer();
-  if(currentIndex>0){ currentIndex--; renderQuestion(); }
-});
-nextBtn.addEventListener('click', () => {
-  saveCurrentAnswer();
-  if(currentIndex<currentSet.length-1){ currentIndex++; renderQuestion(); }
-});
-submitBtn.addEventListener('click', () => {
-  saveCurrentAnswer();
-  finishQuiz();
-});
-
-/* Save current answer state */
-function saveCurrentAnswer(){
-  const q = currentSet[currentIndex];
-  if(!q) return;
-  const inputs = Array.from(optionsContainer.querySelectorAll('input[name="opt"]'));
-  if(q.type==='QCM'){
-    const chosen = inputs.filter(i => i.checked).map(i => parseInt(i.value));
-    userAnswers[currentIndex] = chosen.length ? chosen : null;
-  } else {
-    const chosen = inputs.find(i => i.checked);
-    userAnswers[currentIndex] = chosen ? [parseInt(chosen.value)] : null;
-  }
-}
-
-/* Start quiz implementation */
-function startQuiz(){
-  // Prepare set based on mode
-  const mode = modeSelect.value; // mixed|QCM|QCS|VF
-  const lang = langSelect.value;
-  typeLabel.textContent = mode === 'mixed' ? 'Mixed' : mode;
-  lessonLabel.textContent = 'Égypte';
-  // Filter by type
-  if(mode==='mixed'){
-    // Mixed: use all questions, but shuffle to randomize complexity
-    currentSet = clone(allQuestions);
-  } else {
-    currentSet = clone(allQuestions.filter(q => q.type === mode));
-  }
-  // Shuffle for difficulty mixing
-  shuffleArray(currentSet);
-  userAnswers = Array(currentSet.length).fill(null);
-  currentIndex = 0;
-  score = 0;
-  wrongIds = [];
-  retryMode = false;
-  // Setup UI counts
-  totalLabel.textContent = currentSet.length;
-  remainingLabel.textContent = currentSet.length;
-  scoreDisplay.textContent = '0';
-  // Timer: give 1.5 min per 10 questions (approx) -> dynamic
-  timeLeft = Math.max(5*60, Math.floor(currentSet.length * 9)); // approx seconds per Q
-  startTimer();
-  renderQuestion();
-  started = true;
-  // Nav buttons
-  prevBtn.disabled = false;
-  nextBtn.disabled = false;
-  submitBtn.style.display = 'inline-block';
-}
-
-/* Render a question */
-function renderQuestion(){
-  optionsContainer.innerHTML = '';
-  const q = currentSet[currentIndex];
-  if(!q) return;
-  // language text
-  const lang = langSelect.value;
-  const qText = (lang==='fr') ? q.question_fr : q.question_en;
-  const opts = (lang==='fr') ? q.options_fr || q.options_fr : q.options_en || q.options_en;
-  questionIndexEl.textContent = `Question ${currentIndex+1} / ${currentSet.length}`;
-  questionTextEl.textContent = qText;
-  // render options depending on type
-  if(q.type === 'QCM'){
-    opts.forEach((opt,i) => {
-      const label = document.createElement('label');
-      label.className = 'option';
-      label.setAttribute('role','listitem');
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      input.name = 'opt';
-      input.value = i;
-      // restore if answered
-      const prev = userAnswers[currentIndex];
-      if(Array.isArray(prev) && prev.includes(i)) input.checked = true;
-      label.appendChild(input);
-      const span = document.createElement('span');
-      span.textContent = opt;
-      label.appendChild(span);
-      optionsContainer.appendChild(label);
-      // clicking label toggles
-      label.addEventListener('click', (e) => {
-        if(e.target.tagName !== 'INPUT') input.checked = !input.checked;
-      });
+    // Toggle modal open/close using the Egypt quiz button
+    document.getElementById('openEgyptQuiz').addEventListener('click', () => {
+      if (quizModal.style.display === 'flex') closeQuiz();
+      else openQuiz();
     });
-  } else if(q.type === 'QCS'){
-    opts.forEach((opt,i) => {
-      const label = document.createElement('label');
-      label.className = 'option';
-      const input = document.createElement('input');
-      input.type = 'radio';
-      input.name = 'opt';
-      input.value = i;
-      if(Array.isArray(userAnswers[currentIndex]) && userAnswers[currentIndex][0] === i) input.checked = true;
-      label.appendChild(input);
-      const span = document.createElement('span');
-      span.textContent = opt;
-      label.appendChild(span);
-      optionsContainer.appendChild(label);
-      label.addEventListener('click', (e) => {
-        if(e.target.tagName !== 'INPUT'){ input.checked = true; }
-      });
-    });
-  } else { // VF
-    const vfOpts = (lang==='fr')? ['Vrai','Faux'] : ['True','False'];
-    vfOpts.forEach((opt,i) => {
-      const label = document.createElement('label');
-      label.className = 'option';
-      const input = document.createElement('input');
-      input.type = 'radio';
-      input.name = 'opt';
-      input.value = i;
-      if(Array.isArray(userAnswers[currentIndex]) && userAnswers[currentIndex][0] === i) input.checked = true;
-      label.appendChild(input);
-      const span = document.createElement('span');
-      span.textContent = opt;
-      label.appendChild(span);
-      optionsContainer.appendChild(label);
-      label.addEventListener('click', (e) => {
-        if(e.target.tagName !== 'INPUT'){ input.checked = true; }
-      });
-    });
-  }
-  // update nav/remaining
-  prevBtn.disabled = currentIndex === 0;
-  nextBtn.disabled = currentIndex === currentSet.length - 1;
-  remainingLabel.textContent = currentSet.length - (currentIndex + 1);
-}
+    // Also allow the prehistoire quiz button to toggle same modal for demo (not loaded)
+    document.querySelectorAll('.quiz-open-btn').forEach(b=>b.addEventListener('click', openQuiz));
 
-/* Timer functions */
-function startTimer(){
-  stopTimer();
-  updateTimerDisplay();
-  timer = setInterval(() => {
-    timeLeft--;
-    updateTimerDisplay();
-    if(timeLeft <= 0){
+    // click outside to close
+    quizModal.addEventListener('click', (e) => {
+      if (e.target === quizModal) closeQuiz();
+    });
+    closeQuizBtn.addEventListener('click', closeQuiz);
+    closeResultBtn.addEventListener('click', closeQuiz);
+
+    function openQuiz(){
+      quizModal.style.display = 'flex';
+      quizModal.setAttribute('aria-hidden','false');
+      // default UI state
+      langSelect.value = 'fr';
+      typeSelect.value = 'ALL';
+      selectedLangSpan.textContent = langSelect.value.toUpperCase();
+      selectedTypeSpan.textContent = 'Tous';
+      resetQuizState();
+      renderInfo();
+    }
+    function closeQuiz(){
+      quizModal.style.display = 'none';
+      quizModal.setAttribute('aria-hidden','true');
       stopTimer();
-      finishQuiz();
+      resultArea.style.display = 'none';
     }
-  }, 1000);
-}
-function stopTimer(){
-  if(timer){ clearInterval(timer); timer = null; }
-}
-function updateTimerDisplay(){
-  const m = Math.floor(timeLeft/60).toString().padStart(2,'0');
-  const s = (timeLeft%60).toString().padStart(2,'0');
-  timerDisplay.textContent = `${m}:${s}`;
-}
 
-/* Finish quiz and scoring (+1 correct, -1 incorrect, 0 unanswered) */
-function finishQuiz(){
-  stopTimer();
-  // ensure last saved
-  saveCurrentAnswer();
-  score = 0;
-  wrongIds = [];
-  for(let i=0;i<currentSet.length;i++){
-    const q = currentSet[i];
-    const user = userAnswers[i];
-    const correct = q.answer.slice().sort((a,b)=>a-b);
-    if(!user || user.length===0){
-      // unanswered => 0
-      continue;
+    /* ---------------- Questions data (100 unique questions) ----------------
+       Each question object structure:
+       {
+         id: 'q1',
+         type: 'QCM'|'QCS'|'VF',
+         fr: 'question text in French',
+         en: 'question text in English',
+         options: [{fr:'...', en:'...'}, ...], // For VF use options ["Vrai","Faux"] / ["True","False"]
+         answer: [indices] // array of correct indices (single for QCS/VF)
+       }
+       NOTE: no duplicates, unique ids q1..q100
+    */
+    const allQuestions = [
+      /* ---------- QCM 1..45 (45 items) - multiple correct ---------- */
+      { id:'q1', type:'QCM',
+        fr:'Quels matériaux étaient couramment employés pour la construction des murs dans l’Égypte ancienne ?',
+        en:'Which materials were commonly used for wall construction in ancient Egypt?',
+        options:[
+          {fr:'Pierre calcaire', en:'Limestone'},
+          {fr:'Brique crue (adobe)', en:'Mudbrick (adobe)'},
+          {fr:'Bois massif (structure portante)', en:'Solid timber (load-bearing)'},
+          {fr:'Béton armé', en:'Reinforced concrete'}
+        ], answer:[0,1]
+      },
+      { id:'q2', type:'QCM',
+        fr:'Quelles techniques utilisaient les Égyptiens pour déplacer de grosses pierres ?',
+        en:'Which techniques did Egyptians use to move large stones?',
+        options:[
+          {fr:'Rampes et traîneaux', en:'Ramps and sledges'},
+          {fr:'Palans hydrauliques', en:'Hydraulic cranes'},
+          {fr:'Lubrification des sols (eau)', en:'Lubricating the ground (water)'},
+          {fr:'Transport aérien', en:'Air transport'}
+        ], answer:[0,2]
+      },
+      { id:'q3', type:'QCM',
+        fr:'Quelles fonctions remplissaient les hypogées et mastabas ?',
+        en:'What functions did hypogea and mastabas serve?',
+        options:[
+          {fr:'Sépultures', en:'Burials'},
+          {fr:'Lieux de culte pour les vivants', en:'Places of worship for the living'},
+          {fr:'Stockage de provisions', en:'Storage of provisions'},
+          {fr:'Habitat résidentiel moderne', en:'Modern residential housing'}
+        ], answer:[0,1,2]
+      },
+      { id:'q4', type:'QCM',
+        fr:'Quelles sont les caractéristiques d’une pyramide à degrés (ex : Djéser) ?',
+        en:'What are characteristics of a step pyramid (e.g. Djoser)?',
+        options:[
+          {fr:'Forme en terrasses superposées', en:'Terraced, stacked form'},
+          {fr:'Structure entièrement monolithique en acier', en:'Entirely monolithic steel structure'},
+          {fr:'Chambres funéraires souterraines', en:'Underground burial chambers'},
+          {fr:'Système axial de procession', en:'Axial processional way'}
+        ], answer:[0,2,3]
+      },
+      { id:'q5', type:'QCM',
+        fr:'Quels outils ou savoir-faire étaient essentiels dans la taille des pierres ?',
+        en:'Which tools or skills were essential in stone cutting?',
+        options:[
+          {fr:'Coins et maillets en bois et cuivre', en:'Wedges and mallets (wood & copper)'},
+          {fr:'Scies en acier modernes', en:'Modern steel saws'},
+          {fr:'Abrasion avec sable et eau', en:'Abrasion with sand and water'},
+          {fr:'Soudure laser', en:'Laser welding'}
+        ], answer:[0,2]
+      },
+      { id:'q6', type:'QCM',
+        fr:'Parmi ces éléments, lesquels sont des types de colonnes égyptiennes ?',
+        en:'Which of these are Egyptian column types?',
+        options:[
+          {fr:'Papyriforme', en:'Papyriform'},
+          {fr:'Doric', en:'Doric'},
+          {fr:'Lotiforme', en:'Lotiform'},
+          {fr:'Hathorique', en:'Hathoric'}
+        ], answer:[0,2,3]
+      },
+      { id:'q7', type:'QCM',
+        fr:'Les temples égyptiens présentent souvent quelle organisation spatiale ?',
+        en:'Egyptian temples often present which spatial organization?',
+        options:[
+          {fr:'Axe central menant au sanctuaire', en:'Central axis to the sanctuary'},
+          {fr:'Plan libre contemporain', en:'Contemporary open plan'},
+          {fr:'Salle hypostyle', en:'Hypostyle hall'},
+          {fr:'Orientation astronomique/solaire', en:'Astronomical/solar orientation'}
+        ], answer:[0,2,3]
+      },
+      { id:'q8', type:'QCM',
+        fr:'Quels éléments architecturaux servaient à la symbolique religieuse ?',
+        en:'Which architectural elements served religious symbolism?',
+        options:[
+          {fr:'Obélisques', en:'Obelisks'},
+          {fr:'Statues colossales', en:'Colossal statues'},
+          {fr:'Fenêtres en verre coloré', en:'Stained glass windows'},
+          {fr:'Cour à ciel ouvert', en:'Open courtyards'}
+        ], answer:[0,1,3]
+      },
+      { id:'q9', type:'QCM',
+        fr:'Quelles méthodes assuraient la stabilité des grandes pierres ?',
+        en:'Which methods ensured stability of large stones?',
+        options:[
+          {fr:'Encoches et tenons', en:'Notches and tenons'},
+          {fr:'Mortier à base d’argile', en:'Mud-based mortar'},
+          {fr:'Vis et boulons en acier', en:'Steel screws and bolts'},
+          {fr:'Pose sur lits de sable compacté', en:'Placement on compacted sand beds'}
+        ], answer:[0,1,3]
+      },
+      { id:'q10', type:'QCM',
+        fr:'Dans l’architecture funéraire, quels sont des éléments standards ?',
+        en:'In funerary architecture, which are standard elements?',
+        options:[
+          {fr:'Chapelle funéraire', en:'Mortuary chapel'},
+          {fr:'Serdab', en:'Serdab (statue chamber)'},
+          {fr:'Narthex occidental', en:'Western narthex'},
+          {fr:'Puits d’accès', en:'Shaft/pit access'}
+        ], answer:[0,1,3]
+      },
+      { id:'q11', type:'QCM',
+        fr:'Quelles techniques de levage sont documentées dans l’Égypte ancienne ?',
+        en:'Which lifting techniques are documented in ancient Egypt?',
+        options:[
+          {fr:'Levier et bascule', en:'Levers and seesaws'},
+          {fr:'Rampes d’élévation', en:'Raising ramps'},
+          {fr:'Treuils modernes électriques', en:'Modern electric winches'},
+          {fr:'Systèmes de contrepoids rudimentaires', en:'Primitive counterweight systems'}
+        ], answer:[0,1,3]
+      },
+      { id:'q12', type:'QCM',
+        fr:'Quelles références dimensionnelles employaient-ils souvent ?',
+        en:'Which dimensional references did they often use?',
+        options:[
+          {fr:'Le coude royal (coudée)', en:'Royal cubit'},
+          {fr:'Mesures en mètres', en:'Meters (modern)'},
+          {fr:'Unités proportionnelles basées sur le corps', en:'Body-based proportional units'},
+          {fr:'Système impérial anglais', en:'Imperial system'}
+        ], answer:[0,2]
+      },
+      { id:'q13', type:'QCM',
+        fr:'Quelles surfaces étaient privilégiées pour les sols et cours ?',
+        en:'Which surfaces were favored for floors and courtyards?',
+        options:[
+          {fr:'Dallage en pierre', en:'Stone paving'},
+          {fr:'Sols en terre battue', en:'Packed earth floors'},
+          {fr:'Parquet en bois lamellé', en:'Engineered wood floors'},
+          {fr:'Revêtement en marbre poli', en:'Polished marble'}
+        ], answer:[0,1]
+      },
+      { id:'q14', type:'QCM',
+        fr:'Quels motifs ornaient fréquemment les chapiteaux égyptiens ?',
+        en:'Which motifs frequently adorned Egyptian capitals?',
+        options:[
+          {fr:'Fleurs de lotus', en:'Lotus flowers'},
+          {fr:'Feuilles de papyrus', en:'Papyrus leaves'},
+          {fr:'Motifs corinthiens européens', en:'European Corinthian motifs'},
+          {fr:'Têtes de déesses (Hathor)', en:'Hathor-headed capitals'}
+        ], answer:[0,1,3]
+      },
+      { id:'q15', type:'QCM',
+        fr:'Quelles considérations climatiques influençaient l’orientation des bâtiments ?',
+        en:'Which climatic considerations influenced building orientation?',
+        options:[
+          {fr:'Protection solaire', en:'Sun protection'},
+          {fr:'Vent dominante pour ventilation', en:'Prevailing winds for ventilation'},
+          {fr:'Orientation vers pôle magnétique', en:'Orientation to magnetic pole'},
+          {fr:'Ombres et cours ombragées', en:'Shaded courtyards'}
+        ], answer:[0,1,3]
+      },
+      { id:'q16', type:'QCM',
+        fr:'Quels procédés étaient utilisés pour protéger contre l’humidité ?',
+        en:'Which methods were used to protect against moisture?',
+        options:[
+          {fr:'Relevés de fondation', en:'Raised foundations'},
+          {fr:'Enduits hydrophobes primaires', en:'Primitive waterproof coatings'},
+          {fr:'Systèmes modernes de drainage', en:'Modern drainage systems'},
+          {fr:'Sols en pierre sur lit de gravier', en:'Stone floors on gravel beds'}
+        ], answer:[0,1,3]
+      },
+      { id:'q17', type:'QCM',
+        fr:'Quelles fonctions remplissaient les colonnades dans les temples ?',
+        en:'What functions did colonnades serve in temples?',
+        options:[
+          {fr:'Support de toiture', en:'Roof support'},
+          {fr:'Disséminer lumière et ombre', en:'Distribute light and shade'},
+          {fr:'Délimiter espace sacré', en:'Define sacred space'},
+          {fr:'Servir de galeries commerciales', en:'Serve as commercial galleries'}
+        ], answer:[0,1,2]
+      },
+      { id:'q18', type:'QCM',
+        fr:'Quels types de voûtes ou structures de couverture utilisaient-ils ?',
+        en:'Which vault or roofing structures did they use?',
+        options:[
+          {fr:'Toit à poutres et solives (hypostyle)', en:'Beam-and-joist roofs (hypostyle)'},
+          {fr:'Voûte en berceau romaine', en:'Roman barrel vault'},
+          {fr:'Dômes maçonnés', en:'Masonry domes'},
+          {fr:'Toits plats en roseau et argile', en:'Flat reed-and-clay roofs'}
+        ], answer:[0,3]
+      },
+      { id:'q19', type:'QCM',
+        fr:'Quelles raisons expliquent l’emploi massif de la pierre pour monuments funéraires ?',
+        en:'Why was stone massively used for funerary monuments?',
+        options:[
+          {fr:'Durabilité', en:'Durability'},
+          {fr:'Signification symbolique d’éternité', en:'Symbolic meaning of eternity'},
+          {fr:'Facilité d’assemblage rapide', en:'Ease of quick assembly'},
+          {fr:'Rareté des autres matériaux', en:'Scarcity of other materials'}
+        ], answer:[0,1]
+      },
+      { id:'q20', type:'QCM',
+        fr:'Quels éléments faisaient partie du complexe funéraire autour d’une pyramide ?',
+        en:'What elements were part of a pyramid funerary complex?',
+        options:[
+          {fr:'Temple mortuaire', en:'Mortuary temple'},
+          {fr:'Chaussée processionale', en:'Processional causeway'},
+          {fr:'Portail romain', en:'Roman gate'},
+          {fr:'Temple funéraire de la vallée', en:'Valley temple'}
+        ], answer:[0,1,3]
+      },
+      { id:'q21', type:'QCM',
+        fr:'Quelles opérations de préparation du site sont attestées ?',
+        en:'What site preparation operations are attested?',
+        options:[
+          {fr:'Nivellement et compactage', en:'Leveling and compaction'},
+          {fr:'Piquetage et traçage axial', en:'Staking and axial layout'},
+          {fr:'Excavation de carrières locales', en:'Excavation of local quarries'},
+          {fr:'Injection de fondations modernes', en:'Injection of modern foundations'}
+        ], answer:[0,1,2]
+      },
+      { id:'q22', type:'QCM',
+        fr:'Quelles sont des sources principales pour connaître leurs techniques constructives ?',
+        en:'What are primary sources to understand their construction techniques?',
+        options:[
+          {fr:'Reliefs et peintures murales', en:'Reliefs and wall paintings'},
+          {fr:'Textes et papyrus techniques', en:'Technical papyri and texts'},
+          {fr:'Fouilles archéologiques (outils, rampes)', en:'Archaeological excavations (tools, ramps)'},
+          {fr:'Photographies aériennes modernes uniquement', en:'Only modern aerial photos'}
+        ], answer:[0,1,2]
+      },
+      { id:'q23', type:'QCM',
+        fr:'Quelles fonctions avaient les salles hypostyles ?',
+        en:'What functions did hypostyle halls have?',
+        options:[
+          {fr:'Espace de rassemblement cérémoniel', en:'Ceremonial gathering space'},
+          {fr:'Support structurel pour toitures vastes', en:'Structural support for large roofs'},
+          {fr:'Salle d’habitation', en:'Residential hall'},
+          {fr:'Ambiance de pénombre sacrée', en:'Sacred dimness atmosphere'}
+        ], answer:[0,1,3]
+      },
+      { id:'q24', type:'QCM',
+        fr:'Parmi ces mesures, lesquelles sont liées au module de la coudée ?',
+        en:'Which measures are related to the cubit module?',
+        options:[
+          {fr:'Proportions pour colonnes', en:'Column proportions'},
+          {fr:'Hauteur de portes et linteaux', en:'Door and lintel heights'},
+          {fr:'Distances en kilomètres', en:'Distances in kilometers'},
+          {fr:'Dimensions de la chambre funéraire', en:'Burial chamber dimensions'}
+        ], answer:[0,1,3]
+      },
+      { id:'q25', type:'QCM',
+        fr:'Quelles opérations de finition décorative utilisaient-ils ?',
+        en:'Which finishing and decorative operations did they use?',
+        options:[
+          {fr:'Polissage de la pierre', en:'Stone polishing'},
+          {fr:'Peinture sur enduit', en:'Painting on plaster'},
+          {fr:'Placage d’or et incrustations', en:'Gilding and inlays'},
+          {fr:'Revêtement en plastique', en:'Plastic cladding'}
+        ], answer:[0,1,2]
+      },
+      { id:'q26', type:'QCM',
+        fr:'Quels types de fondations étaient employés selon le sol ?',
+        en:'Which foundation types were used based on soil?',
+        options:[
+          {fr:'Assises sur lit de gravier', en:'Beds on gravel layers'},
+          {fr:'Assises sur sol compacté', en:'Beds on compacted soil'},
+          {fr:'Fondations sur pieux modernes', en:'Modern pile foundations'},
+          {fr:'Socles en pierre massive', en:'Massive stone plinths'}
+        ], answer:[0,1,3]
+      },
+      { id:'q27', type:'QCM',
+        fr:'Quelles fonctions assurait l’orientation astronomique des temples ?',
+        en:'What functions did temples\' astronomical orientation serve?',
+        options:[
+          {fr:'Marquer solstices/équinoxes', en:'Mark solstices/equinoxes'},
+          {fr:'Aligner la procession solaire', en:'Align processional solar path'},
+          {fr:'Calculer longueurs en mètres', en:'Calculate lengths in meters'},
+          {fr:'Rituels calendaires', en:'Calendar rituals'}
+        ], answer:[0,1,3]
+      },
+      { id:'q28', type:'QCM',
+        fr:'Quelles sont des raisons d’utiliser le calcaire près du Nil ?',
+        en:'Why use limestone near the Nile?',
+        options:[
+          {fr:'Disponibilité locale', en:'Local availability'},
+          {fr:'Facilité de taille', en:'Ease of carving'},
+          {fr:'Grande résistance structurelle', en:'High structural strength'},
+          {fr:'Transparence optique', en:'Optical transparency'}
+        ], answer:[0,1,2]
+      },
+      { id:'q29', type:'QCM',
+        fr:'Quelles composantes font partie d’un plan axial égyptien classique ?',
+        en:'Which components are part of a classic Egyptian axial plan?',
+        options:[
+          {fr:'Entrée monumentale (pylône)', en:'Monumental entrance (pylon)'},
+          {fr:'Cour à portiques', en:'Columned courtyard'},
+          {fr:'Salle hypostyle', en:'Hypostyle hall'},
+          {fr:'Atrium romain', en:'Roman atrium'}
+        ], answer:[0,1,2]
+      },
+      { id:'q30', type:'QCM',
+        fr:'Quelles pratiques d’alignement utilisaient-ils pour grands axes ?',
+        en:'Which alignment practices were used for major axes?',
+        options:[
+          {fr:'Visée astronomique (étoile)', en:'Astronomical sighting (star)'},
+          {fr:'Cordeau et piquets', en:'Cord and pegs'},
+          {fr:'Lasers modernes', en:'Modern lasers'},
+          {fr:'Observation du soleil levant', en:'Observation of sunrise'}
+        ], answer:[0,1,3]
+      },
+      { id:'q31', type:'QCM',
+        fr:'Quels usages avaient les portiques dans les complexes ?',
+        en:'What were colonnades used for in complexes?',
+        options:[
+          {fr:'Circulation abritée', en:'Sheltered circulation'},
+          {fr:'Lieu d’exposition rituelle', en:'Ritual exhibition space'},
+          {fr:'Stockage d’eau potable', en:'Potable water storage'},
+          {fr:'Dégagement d’espaces ombragés', en:'Creation of shaded spaces'}
+        ], answer:[0,1,3]
+      },
+      { id:'q32', type:'QCM',
+        fr:'Quelles sont des caractéristiques des linteaux égyptiens ?',
+        en:'What are characteristics of Egyptian lintels?',
+        options:[
+          {fr:'Pièces horizontales massives', en:'Massive horizontal members'},
+          {fr:'Souvent en pierre taillée', en:'Often carved from stone'},
+          {fr:'Suspension avec câbles', en:'Suspension by cables'},
+          {fr:'Un rôle porteur crucial', en:'Crucial load-bearing role'}
+        ], answer:[0,1,3]
+      },
+      { id:'q33', type:'QCM',
+        fr:'Quelles techniques de finition géométrique sont utilisées sur les murs ?',
+        en:'Which geometric finishing techniques were used on walls?',
+        options:[
+          {fr:'Nivellation précise des assises', en:'Precise leveling of courses'},
+          {fr:'Traitement alterné de bossage', en:'Alternating bossage treatment'},
+          {fr:'Enduits peints avec motifs', en:'Painted plaster with motifs'},
+          {fr:'Revêtement en tuiles industrielles', en:'Industrial tile cladding'}
+        ], answer:[0,1,2]
+      },
+      { id:'q34', type:'QCM',
+        fr:'Quels outils servaient au polissage de la pierre ?',
+        en:'What tools were used for stone polishing?',
+        options:[
+          {fr:'Sable fin et eau', en:'Fine sand and water'},
+          {fr:'Pierre abrasive', en:'Abrasive stones'},
+          {fr:'Disques diamantés modernes', en:'Modern diamond discs'},
+          {fr:'Peaux et cires organiques', en:'Organic skins and waxes'}
+        ], answer:[0,1,3]
+      },
+      { id:'q35', type:'QCM',
+        fr:'Quelles méthodes étaient utilisées pour assurer l’alignement vertical des colonnes ?',
+        en:'Which methods were used to ensure vertical alignment of columns?',
+        options:[
+          {fr:'Cordeau vertical et fil à plomb', en:'Plumb line and vertical cord'},
+          {fr:'Échafaudages et gabarits', en:'Scaffolding and templates'},
+          {fr:'Nivellement laser', en:'Laser leveling'},
+          {fr:'Utilisation de mortaises', en:'Use of mortises'}
+        ], answer:[0,1,3]
+      },
+      { id:'q36', type:'QCM',
+        fr:'Pourquoi la navigation fluviale était-elle importante pour la construction ?',
+        en:'Why was river navigation important for construction?',
+        options:[
+          {fr:'Transport des blocs lourds', en:'Transport of heavy blocks'},
+          {fr:'Approvisionnement en matériaux', en:'Supply of materials'},
+          {fr:'Déplacement des ouvriers', en:'Movement of workers'},
+          {fr:'Évacuation des déchets modernes', en:'Removal of modern waste'}
+        ], answer:[0,1,2]
+      },
+      { id:'q37', type:'QCM',
+        fr:'Quelles sont des caractéristiques du pylône d’entrée ?',
+        en:'What are characteristics of the entrance pylon?',
+        options:[
+          {fr:'Deux tours massives séparant l’entrée', en:'Two massive towers flanking the entrance'},
+          {fr:'Surface décorée de bas-reliefs', en:'Surface decorated with bas-reliefs'},
+          {fr:'Ouvertures vitrées modernes', en:'Modern glazed openings'},
+          {fr:'Fonction symbolique et défensive', en:'Symbolic and defensive function'}
+        ], answer:[0,1,3]
+      },
+      { id:'q38', type:'QCM',
+        fr:'Quelles pratiques d’éclairage intérieur utilisaient-ils ?',
+        en:'Which interior lighting practices did they use?',
+        options:[
+          {fr:'Coupoles et puits de lumière', en:'Domes and light wells'},
+          {fr:'Fentes d’éclairage axial', en:'Axial lighting slits'},
+          {fr:'Éclairage électrique', en:'Electric lighting'},
+          {fr:'Ouvertures en haut des murs', en:'High wall openings'}
+        ], answer:[0,1,3]
+      },
+      { id:'q39', type:'QCM',
+        fr:'Quelles caractéristiques des statues colossales ?',
+        en:'What characteristics of colossal statues?',
+        options:[
+          {fr:'Ancrage sur socle massif', en:'Anchoring on a massive plinth'},
+          {fr:'Proportions hiérarchiques', en:'Hierarchical proportions'},
+          {fr:'Usage de matériaux légers modernes', en:'Use of modern lightweight materials'},
+          {fr:'Fonction votive et commémorative', en:'Votive and commemorative function'}
+        ], answer:[0,1,3]
+      },
+      { id:'q40', type:'QCM',
+        fr:'Quelles méthodes utilisaient-ils pour créer surfaces lisses et faces géométriques ?',
+        en:'Which methods were used to create smooth surfaces and geometric faces?',
+        options:[
+          {fr:'Rabots et meules abrasives', en:'Planes and abrasive mills'},
+          {fr:'Lixiviation chimique', en:'Chemical leaching'},
+          {fr:'Cales et coins pour fracturation contrôlée', en:'Wedges and shims for controlled splitting'},
+          {fr:'Polissage au sable fin', en:'Fine sand polishing'}
+        ], answer:[0,2,3]
+      },
+      { id:'q41', type:'QCM',
+        fr:'Quels critères déterminent l’emplacement d’un temple ?',
+        en:'What criteria determine the siting of a temple?',
+        options:[
+          {fr:'Rapport au Nil et voies fluviales', en:'Relation to Nile and waterways'},
+          {fr:'Orientation rituelle', en:'Ritual orientation'},
+          {fr:'Proximité de carrières', en:'Proximity to quarries'},
+          {fr:'Accès routier moderne', en:'Modern road access'}
+        ], answer:[0,1,2]
+      },
+      { id:'q42', type:'QCM',
+        fr:'Quelles pratiques rendaient un espace sacré distinct ?',
+        en:'Which practices made a space distinctively sacred?',
+        options:[
+          {fr:'Séparation par pylônes et portiques', en:'Separation by pylons and porticoes'},
+          {fr:'Progression vers des espaces de plus en plus intimes', en:'Progression to more intimate spaces'},
+          {fr:'Usage de portes vitrées', en:'Use of glazed doors'},
+          {fr:'Décors iconographiques spécifiques', en:'Specific iconographic decoration'}
+        ], answer:[0,1,3]
+      },
+      { id:'q43', type:'QCM',
+        fr:'Quelles techniques employaient-ils pour assurer les joints entre pierres ?',
+        en:'Which techniques were used to secure joints between stones?',
+        options:[
+          {fr:'Chocs et ajustements à la taille', en:'Fitting by chipping and dressing'},
+          {fr:'Clavettes métalliques', en:'Metal clamps'},
+          {fr:'Mortier moderne à la chaux', en:'Modern lime mortar'},
+          {fr:'Plugs en bois gonflant', en:'Wooden plugs that swell'}
+        ], answer:[0,1,3]
+      },
+      { id:'q44', type:'QCM',
+        fr:'Quels types d’espaces mesurables distinguaient les temples ?',
+        en:'Which measurable spaces distinguished temples?',
+        options:[
+          {fr:'Cours ouvertes', en:'Open courtyards'},
+          {fr:'Salles hypostyles', en:'Hypostyle halls'},
+          {fr:'Sanctuaires clos', en:'Enclosed sanctuaries'},
+          {fr:'Nef centrale gothique', en:'Gothic central nave'}
+        ], answer:[0,1,2]
+      },
+      { id:'q45', type:'QCM',
+        fr:'Quels procédés étaient employés pour la décoration pigmentée ?',
+        en:'Which processes were employed for painted decoration?',
+        options:[
+          {fr:'Pigments minéraux broyés', en:'Ground mineral pigments'},
+          {fr:'Séchage au soleil et couche d’attente', en:'Sun-drying and intermediary layers'},
+          {fr:'Peinture à l’huile', en:'Oil painting'},
+          {fr:'Application sur enduit frais', en:'Application on fresh plaster (fresco-like)'}
+        ], answer:[0,1,3]
+      },
+
+      /* ---------- QCS 46..80 (35 items) single choice ---------- */
+      { id:'q46', type:'QCS',
+        fr:'Quel matériau compose principalement la Grande Pyramide de Gizeh (Khéops) ?',
+        en:'What material mainly composes the Great Pyramid of Khufu (Cheops)?',
+        options:[
+          {fr:'Granite', en:'Granite'},
+          {fr:'Calcaire', en:'Limestone'},
+          {fr:'Marbre', en:'Marble'},
+          {fr:'Brique crue', en:'Mudbrick'}
+        ], answer:[1]
+      },
+      { id:'q47', type:'QCS',
+        fr:'Quel architecte est traditionnellement associé à la pyramide à degrés de Djéser ?',
+        en:'Which architect is traditionally associated with the Step Pyramid of Djoser?',
+        options:[
+          {fr:'Imhotep', en:'Imhotep'},
+          {fr:'Senmut', en:'Senmut'},
+          {fr:'Hemiunu', en:'Hemiunu'},
+          {fr:'Imhot', en:'Imhot'}
+        ], answer:[0]
+      },
+      { id:'q48', type:'QCS',
+        fr:'Quel ordre de colonne est spécifique à l’Égypte antique (basé sur végétaux) ?',
+        en:'Which column order is specific to ancient Egypt (plant-based)?',
+        options:[
+          {fr:'Corinthien', en:'Corinthian'},
+          {fr:'Ionique', en:'Ionic'},
+          {fr:'Papyriforme', en:'Papyriform'},
+          {fr:'Toscan', en:'Tuscan'}
+        ], answer:[2]
+      },
+      { id:'q49', type:'QCS',
+        fr:'Quel élément marque typiquement l’entrée principale d’un temple égyptien ?',
+        en:'What element typically marks the main entrance of an Egyptian temple?',
+        options:[
+          {fr:'Pylône', en:'Pylon'},
+          {fr:'Édicule baroque', en:'Baroque edicule'},
+          {fr:'Atrium romain', en:'Roman atrium'},
+          {fr:'Loggia italienne', en:'Italian loggia'}
+        ], answer:[0]
+      },
+      { id:'q50', type:'QCS',
+        fr:'Quel matériau était souvent utilisé pour les colonnes intérieures destinées au polissage fin ?',
+        en:'What material was often used for inner columns intended for fine polishing?',
+        options:[
+          {fr:'Granit', en:'Granite'},
+          {fr:'Bois tendre', en:'Softwood'},
+          {fr:'Brique cuite', en:'Fired brick'},
+          {fr:'Plâtre', en:'Plaster'}
+        ], answer:[0]
+      },
+      { id:'q51', type:'QCS',
+        fr:'Quel type de chapiteau imite une corolle de fleur repliée (forme fermée) ?',
+        en:'Which capital imitates a folded flower corolla (closed form)?',
+        options:[
+          {fr:'Papyriforme ouvert', en:'Open papyriform'},
+          {fr:'Papyriforme fermé (papyriforme fermée)', en:'Closed papyriform'},
+          {fr:'Lotiforme', en:'Lotiform'},
+          {fr:'Hathorique', en:'Hathoric'}
+        ], answer:[1]
+      },
+      { id:'q52', type:'QCS',
+        fr:'Quel rôle avait le "serdab" dans une tombe égyptienne ?',
+        en:'What role did the "serdab" have in an Egyptian tomb?',
+        options:[
+          {fr:'Chambre pour les statues des morts', en:'Chamber for the statue of the deceased'},
+          {fr:'Réserve d’eau', en:'Water reserve'},
+          {fr:'Salle de banquet', en:'Banquet hall'},
+          {fr:'Atelier d’artisan', en:'Artisan workshop'}
+        ], answer:[0]
+      },
+      { id:'q53', type:'QCS',
+        fr:'Quelle est la principale raison de l’usage du granit pour certaines parties (obélisques, chambres) ?',
+        en:'What is the main reason for using granite for certain parts (obelisks, chambers)?',
+        options:[
+          {fr:'Facilité de taillage', en:'Ease of carving'},
+          {fr:'Dureté et résistance', en:'Hardness and durability'},
+          {fr:'Légèreté', en:'Lightness'},
+          {fr:'Transparence', en:'Transparency'}
+        ], answer:[1]
+      },
+      { id:'q54', type:'QCS',
+        fr:'Quel type de toiture est typique des maisons domestiques égyptiennes ?',
+        en:'What type of roof is typical of Egyptian domestic houses?',
+        options:[
+          {fr:'Toit plat en roseau et argile', en:'Flat reed-and-clay roof'},
+          {fr:'Toit à double pente', en:'Gabled roof'},
+          {fr:'Voûte nervurée', en:'Ribbed vault'},
+          {fr:'Toit en tôle', en:'Sheet metal roof'}
+        ], answer:[0]
+      },
+      { id:'q55', type:'QCS',
+        fr:'Quel instrument de mesure fondamental utilisaient-ils en architecture ?',
+        en:'What fundamental measuring instrument did they use in architecture?',
+        options:[
+          {fr:'Coudée (cubit)', en:'Cubit'},
+          {fr:'Mètre', en:'Meter'},
+          {fr:'Yard', en:'Yard'},
+          {fr:'Pied impérial', en:'Imperial foot'}
+        ], answer:[0]
+      },
+      { id:'q56', type:'QCS',
+        fr:'Quel édifice égyptien est réputé pour sa salle hypostyle monumentale ?',
+        en:'Which Egyptian building is famed for its monumental hypostyle hall?',
+        options:[
+          {fr:'Temple de Karnak', en:'Karnak Temple'},
+          {fr:'Pyramide de Khufu', en:'Pyramid of Khufu'},
+          {fr:'Mastaba de Saqqara', en:'Mastaba of Saqqara'},
+          {fr:'Temple de Louxor moderne', en:'Modern Luxor temple'}
+        ], answer:[0]
+      },
+      { id:'q57', type:'QCS',
+        fr:'Quel motif végétal symbolisait souvent la renaissance et l’eau ?',
+        en:'Which plant motif often symbolized rebirth and water?',
+        options:[
+          {fr:'Papyrus', en:'Papyrus'},
+          {fr:'Chêne', en:'Oak'},
+          {fr:'Saule', en:'Willow'},
+          {fr:'Olive', en:'Olive'}
+        ], answer:[0]
+      },
+      { id:'q58', type:'QCS',
+        fr:'Quel élément structurel portait l’essentiel de la toiture dans la salle hypostyle ?',
+        en:'Which structural element carried most of the roof in the hypostyle hall?',
+        options:[
+          {fr:'Colonnes', en:'Columns'},
+          {fr:'Murs porteurs uniquement', en:'Only load-bearing walls'},
+          {fr:'Arcs en acier', en:'Steel arches'},
+          {fr:'Toit autoportant moderne', en:'Modern self-supporting roof'}
+        ], answer:[0]
+      },
+      { id:'q59', type:'QCS',
+        fr:'Quelle pierre était privilégiée pour les statues colossales faciales (visage) ?',
+        en:'Which stone was preferred for colossal statues faces?',
+        options:[
+          {fr:'Granit rose', en:'Pink granite'},
+          {fr:'Calcaire tendre', en:'Soft limestone'},
+          {fr:'Marbre blanc', en:'White marble'},
+          {fr:'Basalte', en:'Basalt'}
+        ], answer:[0]
+      },
+      { id:'q60', type:'QCS',
+        fr:'Quel type de décor caractérise principalement les sanctuaires égyptiens intérieurs ?',
+        en:'What type of decoration mainly characterizes interior Egyptian sanctuaries?',
+        options:[
+          {fr:'Bas-reliefs et inscriptions hiéroglyphiques', en:'Bas-reliefs and hieroglyphic inscriptions'},
+          {fr:'Peintures fresques baroques', en:'Baroque fresco paintings'},
+          {fr:'Mosaïques romaines', en:'Roman mosaics'},
+          {fr:'Tapisseries gothiques', en:'Gothic tapestries'}
+        ], answer:[0]
+      },
+      { id:'q61', type:'QCS',
+        fr:'Quel espace correspond au "péristyle" dans un temple égyptien ?',
+        en:'Which space corresponds to the "peristyle" in an Egyptian temple?',
+        options:[
+          {fr:'Cour entourée de colonnes', en:'Courtyard surrounded by columns'},
+          {fr:'Chambre souterraine', en:'Underground chamber'},
+          {fr:'Escalier extérieur', en:'External staircase'},
+          {fr:'Vestibule romain', en:'Roman vestibule'}
+        ], answer:[0]
+      },
+      { id:'q62', type:'QCS',
+        fr:'Quel matériau on utilisait pour les revêtements intérieurs délicats ?',
+        en:'Which material was used for delicate interior finishes?',
+        options:[
+          {fr:'Plâtre fin (enduit)', en:'Fine plaster (stucco)'},
+          {fr:'PVC moderne', en:'Modern PVC'},
+          {fr:'Brique brute', en:'Raw brick'},
+          {fr:'Tôle galvanisée', en:'Galvanized sheet'}
+        ], answer:[0]
+      },
+      { id:'q63', type:'QCS',
+        fr:'Quel élément architectonique servait souvent à recevoir inscriptions royales ?',
+        en:'Which architectural element often received royal inscriptions?',
+        options:[
+          {fr:'Pylônes et façades', en:'Pylons and façades'},
+          {fr:'Planchers en bois', en:'Wooden floors'},
+          {fr:'Fossés extérieurs', en:'Outer moats'},
+          {fr:'Toitures en chaume', en:'Thatched roofs'}
+        ], answer:[0]
+      },
+      { id:'q64', type:'QCS',
+        fr:'Quel type de colonne porte un chapiteau en forme de tête de déesse ?',
+        en:'Which column type bears a capital in the form of a goddess\' head?',
+        options:[
+          {fr:'Hathorique', en:'Hathoric'},
+          {fr:'Ionique', en:'Ionic'},
+          {fr:'Corinthien', en:'Corinthian'},
+          {fr:'Toscan', en:'Tuscan'}
+        ], answer:[0]
+      },
+      { id:'q65', type:'QCS',
+        fr:'Quel espace est appelé "naos" dans un temple égyptien ?',
+        en:'Which space is called the "naos" in an Egyptian temple?',
+        options:[
+          {fr:'Sanctuaire interne (cœur sacré)', en:'Inner sanctuary (sacred core)'},
+          {fr:'Cour extérieure', en:'Outer courtyard'},
+          {fr:'Salle hypostyle', en:'Hypostyle hall'},
+          {fr:'Lieu de stockage', en:'Storage area'}
+        ], answer:[0]
+      },
+      { id:'q66', type:'QCS',
+        fr:'Quelle technique participait au nivellement précis sur grandes étendues?',
+        en:'Which technique aided precise leveling over large areas?',
+        options:[
+          {fr:'Alignement par corde et piquets', en:'Cord and peg alignment'},
+          {fr:'Nivellement par GPS', en:'GPS leveling'},
+          {fr:'Laser rotatif', en:'Rotary laser'},
+          {fr:'Mesure par fumée', en:'Smoke measurement'}
+        ], answer:[0]
+      },
+      { id:'q67', type:'QCS',
+        fr:'Quel monument sert d’exemple de complexité funéraire (pyramide + temple + chaussée) ?',
+        en:'Which monument exemplifies funerary complexity (pyramid + temple + causeway)?',
+        options:[
+          {fr:'Complexe de Gizeh', en:'Giza complex'},
+          {fr:'Temple de Kom Ombo', en:'Kom Ombo temple'},
+          {fr:'Mastaba isolée', en:'Isolated mastaba'},
+          {fr:'Hypogée étrusque', en:'Etruscan hypogeum'}
+        ], answer:[0]
+      },
+      { id:'q68', type:'QCS',
+        fr:'Quel matériau revêtait parfois les faces extérieures pour un fini lisse ?',
+        en:'What material sometimes covered outer faces for a smooth finish?',
+        options:[
+          {fr:'Calcite ou pierre polie (revêtement)', en:'Polished calcite or stone facing'},
+          {fr:'Enduit moderne en plastique', en:'Modern plastic coating'},
+          {fr:'Peinture à l’huile', en:'Oil paint'},
+          {fr:'Tissu tendu', en:'Stretched fabric'}
+        ], answer:[0]
+      },
+      { id:'q69', type:'QCS',
+        fr:'Quel est le rôle principal de l’obélisque ?',
+        en:'What is the primary role of the obelisk?',
+        options:[
+          {fr:'Monument commémoratif et solaire', en:'Commemorative and solar monument'},
+          {fr:'Soutien structurel', en:'Structural support'},
+          {fr:'Habitat', en:'Housing'},
+          {fr:'Réservoir d’eau', en:'Water reservoir'}
+        ], answer:[0]
+      },
+      { id:'q70', type:'QCS',
+        fr:'Quel élément servait souvent de limite entre espace profane et sacré ?',
+        en:'Which element often served as a boundary between profane and sacred space?',
+        options:[
+          {fr:'Pylône', en:'Pylon'},
+          {fr:'Portail moderne', en:'Modern gate'},
+          {fr:'Palissade en bois', en:'Wooden fence'},
+          {fr:'Mur mitoyen', en:'Party wall'}
+        ], answer:[0]
+      },
+
+      /* continuing QCS to reach 80 (we have 46..70 => 25 items; need 35 total QCS -> items 46..80) */
+      { id:'q71', type:'QCS',
+        fr:'Quelle forme de cour était courante devant le pylône ?',
+        en:'Which courtyard form was common before the pylon?',
+        options:[
+          {fr:'Cour à portiques', en:'Columned courtyard'},
+          {fr:'Atrium intérieur', en:'Interior atrium'},
+          {fr:'Place publique romaine', en:'Roman public square'},
+          {fr:'Cour pavée gothique', en:'Gothic paved yard'}
+        ], answer:[0]
+      },
+      { id:'q72', type:'QCS',
+        fr:'Quel artisanat spécialisé pouvait être repéré sur un site (indices) ?',
+        en:'Which specialized craft could be identified on a site (evidence)?',
+        options:[
+          {fr:'Atelier de sculpture', en:'Sculpture workshop'},
+          {fr:'Usine industrielle moderne', en:'Modern factory'},
+          {fr:'Laverie collective', en:'Communal laundry'},
+          {fr:'Appareillage électrique', en:'Electrical workshop'}
+        ], answer:[0]
+      },
+      { id:'q73', type:'QCS',
+        fr:'Quel matériau était préféré pour les colonnes exposées aux intempéries ?',
+        en:'Which material was preferred for columns exposed to weather?',
+        options:[
+          {fr:'Granit', en:'Granite'},
+          {fr:'Plâtre', en:'Plaster'},
+          {fr:'Bois tendre', en:'Softwood'},
+          {fr:'Brique crue', en:'Mudbrick'}
+        ], answer:[0]
+      },
+      { id:'q74', type:'QCS',
+        fr:'Quel artifice était utilisé pour que les inscriptions soient visibles de loin ?',
+        en:'What device was used so inscriptions were visible from afar?',
+        options:[
+          {fr:'Peinture contrastée sur relief', en:'Contrasting paint on reliefs'},
+          {fr:'Éclairage LED', en:'LED lighting'},
+          {fr:'Usage de lettres en métal', en:'Metal lettering'},
+          {fr:'Gravure très profonde sans finition', en:'Deep carving without finish'}
+        ], answer:[0]
+      },
+      { id:'q75', type:'QCS',
+        fr:'Quel élément structurel protégeait l’accès aux chambres internes ?',
+        en:'Which structural element protected access to inner chambers?',
+        options:[
+          {fr:'Couloir ou puits d’accès scellé', en:'Sealed passage or shaft'},
+          {fr:'Portail en verre', en:'Glass gate'},
+          {fr:'Mur en briques légères', en:'Light brick wall'},
+          {fr:'Portique ouvert', en:'Open portico'}
+        ], answer:[0]
+      },
+      { id:'q76', type:'QCS',
+        fr:'Quel matériau permettait l’incrustation de couleurs vives ?',
+        en:'Which material allowed inlay of vivid colors?',
+        options:[
+          {fr:'Pierre polie et enduit', en:'Polished stone and plaster'},
+          {fr:'Acier inoxydable', en:'Stainless steel'},
+          {fr:'Béton brut', en:'Raw concrete'},
+          {fr:'Tissu peint', en:'Painted fabric'}
+        ], answer:[0]
+      },
+      { id:'q77', type:'QCS',
+        fr:'Quel élément marquait la présence royale dans un complexe ?',
+        en:'Which element marked royal presence in a complex?',
+        options:[
+          {fr:'Cartouches et titulature royale', en:'Cartouches and royal titulary'},
+          {fr:'Drapeaux modernes', en:'Modern flags'},
+          {fr:'Panneaux publics', en:'Public signs'},
+          {fr:'Timbres postaux', en:'Postal stamps'}
+        ], answer:[0]
+      },
+      { id:'q78', type:'QCS',
+        fr:'Quelle infrastructure facilitait l’approvisionnement des chantiers ?',
+        en:'Which infrastructure facilitated supply to construction sites?',
+        options:[
+          {fr:'Quais sur le Nil', en:'Quays on the Nile'},
+          {fr:'Réseau routier asphalté', en:'Asphalt road network'},
+          {fr:'Chemins de fer', en:'Railways'},
+          {fr:'Stations-service', en:'Service stations'}
+        ], answer:[0]
+      },
+      { id:'q79', type:'QCS',
+        fr:'Quel élément est souvent au centre d’une cour monumentale ?',
+        en:'What element is often at the center of a monumental courtyard?',
+        options:[
+          {fr:'Statue du souverain ou divinité', en:'Statue of the ruler or deity'},
+          {fr:'Fontaine moderne', en:'Modern fountain'},
+          {fr:'Parking', en:'Parking lot'},
+          {fr:'Kiosque commercial', en:'Commercial kiosk'}
+        ], answer:[0]
+      },
+      { id:'q80', type:'QCS',
+        fr:'Quel type d’ornement se retrouve fréquemment sur les murs extérieurs royaux ?',
+        en:'Which ornament frequently appears on royal exterior walls?',
+        options:[
+          {fr:'Bas-reliefs narratifs', en:'Narrative bas-reliefs'},
+          {fr:'Sticker publicitaire', en:'Advertising sticker'},
+          {fr:'Tissage mural', en:'Wall tapestry'},
+          {fr:'Peinture murale contemporaine', en:'Contemporary mural painting'}
+        ], answer:[0]
+      },
+
+      /* ---------- VF 81..100 (20 items) True/False ---------- */
+      { id:'q81', type:'VF',
+        fr:'Les pyramides égyptiennes ont été construites uniquement en brique crue.', 
+        en:'Egyptian pyramids were built only of mudbrick.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[1]
+      },
+      { id:'q82', type:'VF',
+        fr:'La coudée royale était une unité de mesure utilisée couramment.', 
+        en:'The royal cubit was a commonly used unit of measurement.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      },
+      { id:'q83', type:'VF',
+        fr:'Les colonnes hathoriques représentent souvent des visages féminins.', 
+        en:'Hathoric columns often depict female faces.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      },
+      { id:'q84', type:'VF',
+        fr:'Les rampes sont une hypothèse pour la construction des pyramides.', 
+        en:'Ramps are a hypothesis for pyramid construction.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      },
+      { id:'q85', type:'VF',
+        fr:'Les temples égyptiens sont toujours orientés exactement au nord.', 
+        en:'Egyptian temples are always oriented exactly north.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[1]
+      },
+      { id:'q86', type:'VF',
+        fr:'Le granit était utilisé pour des éléments nécessitant une grande résistance.', 
+        en:'Granite was used for elements requiring great strength.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      },
+      { id:'q87', type:'VF',
+        fr:'Les colonnes papyriformes imitent des tiges de papyrus.', 
+        en:'Papyriform columns imitate papyrus stems.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      },
+      { id:'q88', type:'VF',
+        fr:'Les ouvriers transportaient les blocs uniquement par la mer.', 
+        en:'Workers transported blocks only by sea.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[1]
+      },
+      { id:'q89', type:'VF',
+        fr:'Les bas-reliefs égyptiens étaient souvent peints après la sculpture.', 
+        en:'Egyptian bas-reliefs were often painted after carving.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      },
+      { id:'q90', type:'VF',
+        fr:'Le serdab permettait la circulation des vivants.', 
+        en:'The serdab allowed circulation of the living.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[1]
+      },
+      { id:'q91', type:'VF',
+        fr:'Les linteaux en pierre ne supportaient pas de charge importante.', 
+        en:'Stone lintels did not support significant loads.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[1]
+      },
+      { id:'q92', type:'VF',
+        fr:'Les rampes pouvaient être droites, en spirale ou à gradins.', 
+        en:'Ramps could be straight, spiral or stepped.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      },
+      { id:'q93', type:'VF',
+        fr:'Les salles hypostyles sont caractérisées par de nombreuses colonnes.', 
+        en:'Hypostyle halls are characterized by many columns.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      },
+      { id:'q94', type:'VF',
+        fr:'Les obélisques étaient taillés dans un seul bloc', 
+        en:'Obelisks were carved from a single block.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      },
+      { id:'q95', type:'VF',
+        fr:'Les enduits peints permettaient d’isoler thermiquement les murs.', 
+        en:'Painted plasters provided thermal insulation to walls.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[1]
+      },
+      { id:'q96', type:'VF',
+        fr:'L’orientation des temples pouvait être liée à la course du soleil.', 
+        en:'Temple orientation could be linked to the sun’s course.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      },
+      { id:'q97', type:'VF',
+        fr:'Les natifs utilisaient la brique crue pour l’ensemble des monuments royaux.', 
+        en:'Natives used mudbrick for all royal monuments.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[1]
+      },
+      { id:'q98', type:'VF',
+        fr:'Les colonnes lotiformes rappellent la corolle du lotus.', 
+        en:'Lotiform columns recall the lotus corolla.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      },
+      { id:'q99', type:'VF',
+        fr:'La navigation fluviale n’était pas pertinente pour l’approvisionnement des chantiers.', 
+        en:'River navigation was not relevant for supplying construction sites.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[1]
+      },
+      { id:'q100', type:'VF',
+        fr:'Les bas-reliefs racontent souvent des scènes de la vie quotidienne ou rituelle.', 
+        en:'Bas-reliefs often depict scenes of daily or ritual life.',
+        options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
+      }
+    ]; // end allQuestions
+
+    /* -------------- Quiz runtime logic -------------- */
+    let currentSet = [];
+    let currentIndex = 0;
+    let answers = []; // each entry: array of chosen indices or null
+    let score = 0;
+    let timer = null;
+    let timeLeft = 20 * 60; // default total seconds for full set (20 min)
+    let wrongIds = [];
+    let retryMode = false;
+
+    function renderInfo(){
+      selectedLangSpan.textContent = langSelect.value.toUpperCase();
+      selectedTypeSpan.textContent = (typeSelect.value === 'ALL')? 'Tous' : typeSelect.value;
+      selectedTypeBadge.textContent = (typeSelect.value==='ALL')? 'Tous' : typeSelect.value;
     }
-    // compare sets for QCM: exact match required
-    const u = user.slice().sort((a,b)=>a-b);
-    const equal = (u.length === correct.length) && u.every((v,j)=>v===correct[j]);
-    if(equal){
-      score += 1;
-    } else {
-      score -= 1;
-      wrongIds.push(q.id);
+
+    // Helper: shuffle array in-place
+    function shuffle(array){
+      for(let i=array.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [array[i],array[j]]=[array[j],array[i]];
+      }
+      return array;
     }
-  }
-  // display score and details
-  scoreDisplay.textContent = `${score}`;
-  showResults();
-}
 
-/* Show results with answers and option to retry wrong ones */
-function showResults(){
-  resultArea.style.display = 'block';
-  // summary
-  resultSummary.innerHTML = `<p>Score final : <strong>${score}</strong> (sur ${currentSet.length} questions).<br>
-    Correctes : <strong>${Math.max(0, score)}</strong> (approx), Incorrectes : <strong>${wrongIds.length}</strong>.</p>`;
-  // answers list
-  answersList.innerHTML = '';
-  const lang = langSelect.value;
-  currentSet.forEach((q,i) => {
-    const item = document.createElement('div');
-    item.className = 'answer-item';
-    const qtitle = document.createElement('div');
-    qtitle.style.fontWeight = '700';
-    qtitle.textContent = `Q${i+1} — ${ (lang==='fr')? q.question_fr : q.question_en }`;
-    item.appendChild(qtitle);
+    // Filter questions by selected type
+    function buildSet(){
+      const t = typeSelect.value;
+      let set = (t==='ALL')? allQuestions.slice() : allQuestions.filter(q=>q.type===t);
+      if (shuffleCheckbox.checked) shuffle(set);
+      return set;
+    }
 
-    const ua = document.createElement('div');
-    ua.style.marginTop = '6px';
-    let uaText = 'Votre réponse : ';
-    if(!userAnswers[i] || userAnswers[i].length===0){
-      uaText += '<em>Pas de réponse</em>';
-    } else {
-      uaText += userAnswers[i].map(idx => {
-        if(q.type==='VF'){
-          return (lang==='fr') ? (idx===0? 'Vrai':'Faux') : (idx===0? 'True':'False');
-        } else {
-          return (lang==='fr') ? q.options_fr[idx] : q.options_en[idx];
+    function resetQuizState(){
+      stopTimer();
+      resultArea.style.display='none';
+      currentSet = [];
+      currentIndex = 0;
+      answers = [];
+      score = 0;
+      wrongIds = [];
+      retryMode = false;
+      scoreDisplay.textContent = '0';
+      timerDisplay.textContent = formatTime(timeLeft);
+      miniTimer.textContent = formatTime(timeLeft);
+      questionText.textContent = 'Choisissez la langue et le type puis appuyez sur "Démarrer".';
+      optionsContainer.innerHTML = '';
+      questionIndex.textContent = 'Question —';
+      prevBtn.disabled = true; nextBtn.disabled = true;
+      startBtn.disabled = false; submitBtn.style.display='none';
+      totalQuestionsLabel.textContent = '0';
+      currentNumberLabel.textContent = '0';
+      selectedLangSpan.textContent = langSelect.value.toUpperCase();
+      selectedTypeSpan.textContent = (typeSelect.value==='ALL')? 'Tous' : typeSelect.value;
+    }
+
+    function formatTime(sec){
+      const m=Math.floor(sec/60).toString().padStart(2,'0');
+      const s=(sec%60).toString().padStart(2,'0');
+      return `${m}:${s}`;
+    }
+
+    // Start quiz with chosen language & type
+    startBtn.addEventListener('click', () => {
+      // build set
+      currentSet = buildSet();
+      if (currentSet.length===0){ alert('Aucune question disponible pour ce type.'); return; }
+      // initialize
+      answers = Array(currentSet.length).fill(null);
+      currentIndex = 0;
+      score = 0;
+      wrongIds = [];
+      retryMode = false;
+      totalQuestionsLabel.textContent = currentSet.length;
+      currentNumberLabel.textContent = currentIndex+1;
+      startBtn.disabled = true;
+      submitBtn.style.display = 'inline-block';
+      prevBtn.disabled = true;
+      nextBtn.disabled = (currentSet.length===1);
+      // timer default proportionally: set 12 seconds per question as baseline if many questions — keep 20min cap
+      const baseline = Math.min(20*60, Math.max(5*60, Math.floor(currentSet.length * 12)));
+      timeLeft = baseline;
+      timerDisplay.textContent = formatTime(timeLeft);
+      miniTimer.textContent = formatTime(timeLeft);
+      startTimer();
+      renderQuestion();
+    });
+
+    // Render current question
+    function renderQuestion(){
+      const q = currentSet[currentIndex];
+      const lang = langSelect.value;
+      questionIndex.textContent = `Question ${currentIndex+1} / ${currentSet.length}`;
+      questionText.textContent = (lang==='fr')? q.fr : q.en;
+      optionsContainer.innerHTML = '';
+      currentNumberLabel.textContent = currentIndex+1;
+      selectedLangSpan.textContent = lang.toUpperCase();
+      selectedTypeSpan.textContent = (typeSelect.value==='ALL')? 'Tous' : typeSelect.value;
+
+      if (q.type==='QCM'){
+        q.options.forEach((opt,i)=>{
+          const label = document.createElement('label');
+          label.className='option';
+          const input = document.createElement('input');
+          input.type='checkbox';
+          input.name='opt';
+          input.value=i;
+          input.id=`opt-${q.id}-${i}`;
+          // restore
+          if (Array.isArray(answers[currentIndex]) && answers[currentIndex].includes(i)) input.checked=true;
+          const span = document.createElement('span');
+          span.textContent = (lang==='fr')? opt.fr : opt.en;
+          label.appendChild(input); label.appendChild(span);
+          optionsContainer.appendChild(label);
+        });
+      } else if (q.type==='QCS' || q.type==='VF'){
+        // radio options
+        q.options.forEach((opt,i)=>{
+          const label=document.createElement('label');
+          label.className='option';
+          const input=document.createElement('input');
+          input.type='radio';
+          input.name='opt';
+          input.value=i;
+          input.id=`opt-${q.id}-${i}`;
+          if (Array.isArray(answers[currentIndex]) && answers[currentIndex][0]===i) input.checked=true;
+          const span=document.createElement('span');
+          span.textContent = (lang==='fr')? opt.fr : opt.en;
+          label.appendChild(input); label.appendChild(span);
+          optionsContainer.appendChild(label);
+        });
+      }
+
+      // update navigation
+      prevBtn.disabled = (currentIndex===0);
+      nextBtn.disabled = (currentIndex===currentSet.length-1);
+    }
+
+    // Save current answer
+    function saveCurrentAnswer(){
+      const q = currentSet[currentIndex];
+      const inputs = Array.from(optionsContainer.querySelectorAll('input[name="opt"]'));
+      if (q.type==='QCM'){
+        const chosen = inputs.filter(i=>i.checked).map(i=>parseInt(i.value));
+        answers[currentIndex] = chosen.length? chosen : null;
+      } else {
+        const chosen = inputs.find(i=>i.checked);
+        answers[currentIndex] = chosen? [parseInt(chosen.value)] : null;
+      }
+    }
+
+    // Navigation buttons
+    prevBtn.addEventListener('click', ()=>{
+      saveCurrentAnswer();
+      if (currentIndex>0){ currentIndex--; renderQuestion(); }
+    });
+    nextBtn.addEventListener('click', ()=>{
+      saveCurrentAnswer();
+      if (currentIndex<currentSet.length-1){ currentIndex++; renderQuestion(); }
+    });
+
+    // Submit / Finish quiz
+    submitBtn.addEventListener('click', finishQuiz);
+    endEarlyBtn.addEventListener('click', finishQuiz);
+
+    function finishQuiz(){
+      stopTimer();
+      saveCurrentAnswer();
+      // scoring
+      score = 0;
+      wrongIds = [];
+      currentSet.forEach((q, idx)=>{
+        const user = answers[idx];
+        const corr = q.answer.slice().sort((a,b)=>a-b);
+        if (!user || user.length===0){
+          // no answer => 0 points
+          return;
         }
-      }).join(', ');
+        const u = user.slice().sort((a,b)=>a-b);
+        // compare arrays
+        let equal = (u.length===corr.length && u.every((v,i)=>v===corr[i]));
+        if (equal) score += 1;
+        else {
+          score -= 1;
+          wrongIds.push(q.id);
+        }
+      });
+
+      scoreDisplay.textContent = `${score} / ${currentSet.length}`;
+      showResults();
     }
-    ua.innerHTML = uaText;
-    item.appendChild(ua);
 
-    const ca = document.createElement('div');
-    ca.style.marginTop = '6px';
-    ca.innerHTML = `<strong>Réponse correcte :</strong> ${ q.answer.map(idx => {
-      if(q.type==='VF') return (lang==='fr') ? (q.options_fr[idx]) : (q.options_en[idx]);
-      return (lang==='fr') ? q.options_fr[idx] : q.options_en[idx];
-    }).join(', ') }`;
-    item.appendChild(ca);
+    // show results details
+    function showResults(){
+      resultArea.style.display = 'block';
+      // summary
+      resultSummary.innerHTML = `<p>Score final: <strong>${score}</strong> (barème: +1 / −1 / 0 pour non répondu)</p>
+        <p>Questions totales: <strong>${currentSet.length}</strong>. Incorrectes: <strong>${wrongIds.length}</strong>.</p>`;
+      // list each question with user answer and correct answer (language)
+      answersList.innerHTML = '';
+      const lang = langSelect.value;
+      currentSet.forEach((q, idx)=>{
+        const item = document.createElement('div'); item.className='answer-item';
+        const title = document.createElement('div'); title.style.fontWeight='700';
+        title.textContent = `Q${idx+1} — ${lang==='fr'? q.fr : q.en}`;
+        item.appendChild(title);
+        const ua = document.createElement('div'); ua.style.marginTop='8px';
+        let uaText = 'Votre réponse : ';
+        if (!answers[idx] || answers[idx].length===0) uaText += '(Non répondu)';
+        else uaText += answers[idx].map(i => (lang==='fr'? q.options[i].fr : q.options[i].en)).join(' ; ');
+        ua.innerHTML = uaText;
+        item.appendChild(ua);
+        const ca = document.createElement('div'); ca.style.marginTop='6px';
+        ca.innerHTML = `<strong>Réponse correcte :</strong> ${q.answer.map(i => (lang==='fr'? q.options[i].fr : q.options[i].en)).join(' ; ')}`;
+        item.appendChild(ca);
+        const isCorrect = answers[idx] && answers[idx].length && (answers[idx].slice().sort().toString() === q.answer.slice().sort().toString());
+        const mark = document.createElement('div'); mark.style.marginTop='8px';
+        mark.innerHTML = isCorrect? `<span style="color:green;font-weight:700">✔ Correct</span>` : `<span style="color:#d6336c;font-weight:700">✖ Incorrect</span>`;
+        item.appendChild(mark);
+        answersList.appendChild(item);
+      });
+      // set retry button state
+      if (wrongIds.length===0 || !retryWrongInput.checked) retryBtn.disabled = true;
+      else retryBtn.disabled = false;
+    }
 
-    const mark = document.createElement('div');
-    mark.style.marginTop = '8px';
-    const isCorrect = userAnswers[i] && userAnswers[i].length && ( userAnswers[i].slice().sort().toString() === q.answer.slice().sort().toString() );
-    mark.innerHTML = isCorrect ? `<span style="color:green;font-weight:700">✔ Bonne réponse</span>` : `<span style="color:#d6336c;font-weight:700">✖ Mauvaise réponse</span>`;
-    item.appendChild(mark);
+    // Retry wrong questions only
+    retryBtn.addEventListener('click', ()=>{
+      if (wrongIds.length===0) return;
+      retryMode = true;
+      // build new currentSet from ids order preserved
+      currentSet = wrongIds.map(id => allQuestions.find(q => q.id===id));
+      answers = Array(currentSet.length).fill(null);
+      currentIndex = 0;
+      score = 0;
+      wrongIds = [];
+      totalQuestionsLabel.textContent = currentSet.length;
+      currentNumberLabel.textContent = '1';
+      resultArea.style.display = 'none';
+      // restart timer short
+      timeLeft = Math.max(3*60, Math.floor(currentSet.length*12));
+      timerDisplay.textContent = formatTime(timeLeft);
+      miniTimer.textContent = formatTime(timeLeft);
+      startTimer();
+      renderQuestion();
+      submitBtn.style.display = 'inline-block';
+      startBtn.disabled = true;
+    });
 
-    answersList.appendChild(item);
-  });
+    // Reset quiz (clear state)
+    resetBtn.addEventListener('click', resetQuizState);
 
-  // enable/disable retry
-  if(retryWrongCheckbox.checked && wrongIds.length>0){
-    retryBtn.disabled = false;
-  } else {
-    retryBtn.disabled = true;
-  }
-}
+    // Timer functions
+    function startTimer(){
+      stopTimer();
+      updateTimerDisplay();
+      timer = setInterval(()=>{
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft<=0) { stopTimer(); finishQuiz(); }
+      }, 1000);
+    }
+    function stopTimer(){ if (timer){ clearInterval(timer); timer=null; } }
+    function updateTimerDisplay(){
+      timerDisplay.textContent = formatTime(timeLeft);
+      miniTimer.textContent = formatTime(timeLeft);
+    }
 
-/* Retry wrong questions */
-retryBtn.addEventListener('click', () => {
-  if(wrongIds.length===0) return;
-  // build new currentSet with wrong questions
-  const newSet = [];
-  wrongIds.forEach(id => {
-    const q = allQuestions.find(x => x.id === id);
-    if(q) newSet.push(clone(q));
-  });
-  currentSet = newSet;
-  userAnswers = Array(currentSet.length).fill(null);
-  currentIndex = 0;
-  score = 0;
-  wrongIds = [];
-  retryMode = true;
-  totalLabel.textContent = currentSet.length;
-  remainingLabel.textContent = currentSet.length;
-  timeLeft = Math.max(3*60, Math.floor(currentSet.length*9));
-  startTimer();
-  resultArea.style.display = 'none';
-  renderQuestion();
-});
+    // Utility: save answer on navigation or periodic
+    // Also support keyboard arrows
+    document.addEventListener('keydown', (e)=>{
+      if (quizModal.style.display !== 'flex') return;
+      if (e.key === 'ArrowRight') nextBtn.click();
+      if (e.key === 'ArrowLeft') prevBtn.click();
+      if (e.key === 'Escape') closeQuiz();
+    });
 
-/* Initialize UI default */
-resetQuizUI();
+    // Make clicking option toggle appropriate input (label wrapper already)
+    optionsContainer.addEventListener('change', (e)=>{
+      // no immediate auto-next; user can navigate
+    });
 
-/* Accessibility: allow keyboard navigation arrows */
-document.addEventListener('keydown', (e) => {
-  if(!quizOpen) return;
-  if(e.key === 'ArrowRight'){ nextBtn.click(); }
-  if(e.key === 'ArrowLeft'){ prevBtn.click(); }
-});
+    // close result or modal
+    document.getElementById('closeResultBtn').addEventListener('click', closeQuiz);
 
-/* Prevent accidental form submissions or interactions */
-document.addEventListener('click', (e) => {
-  // keep clicks functional
-});
+    // on language or type change update labels
+    langSelect.addEventListener('change', ()=>{ selectedLangSpan.textContent = langSelect.value.toUpperCase(); renderQuestion(); });
+    typeSelect.addEventListener('change', ()=>{ selectedTypeSpan.textContent = (typeSelect.value==='ALL')? 'Tous' : typeSelect.value; selectedTypeBadge.textContent = (typeSelect.value==='ALL')? 'Tous' : typeSelect.value; });
 
-/* Ensure modal open state if user presses open button again */
-openQuizBtn.addEventListener('dblclick', () => {
-  // optional: reset if double clicked
-  resetQuizUI();
-});
-
-/* Minor: prevent sidebar covering content on small screens by default hidden */
-if(window.innerWidth < 960){
-  sidebar.classList.add('hidden');
-}
-
-/* End of script */
-</script>
+    // initialize UI
+    resetQuizState();
+  </script>
 </body>
 </html>
