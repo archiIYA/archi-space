@@ -11,14 +11,16 @@
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       font-family: 'Poppins', sans-serif;
       display: flex;
       background: linear-gradient(145deg, #fffaf5, #f1e2d2);
       color: #1d1d1d;
+      min-height: 100vh;
     }
 
     .sidebar {
@@ -29,6 +31,7 @@
       border-right: 1px solid #ddd;
       box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
       z-index: 100;
+      overflow-y: auto;
     }
 
     .sidebar h2 {
@@ -39,6 +42,7 @@
       background: linear-gradient(to right, #c08457, #e0a16b);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      margin: 0;
     }
 
     .sidebar ul {
@@ -51,6 +55,7 @@
       padding: 12px 20px;
       cursor: pointer;
       transition: background 0.3s;
+      border-bottom: 1px solid #f0f0f0;
     }
 
     .sidebar li:hover {
@@ -65,11 +70,14 @@
 
     .submenu li {
       padding-left: 40px;
+      border-bottom: none;
     }
 
     .submenu li a {
       text-decoration: none;
       color: #222;
+      display: block;
+      width: 100%;
     }
 
     .submenu li a:hover {
@@ -92,9 +100,10 @@
 
     .content {
       margin-left: 250px;
-      padding: 50px;
+      padding: 30px;
       flex-grow: 1;
       animation: fadeIn 1s ease-in-out;
+      width: calc(100% - 250px);
     }
 
     .logout {
@@ -107,6 +116,7 @@
       float: right;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       transition: background 0.3s;
+      margin-bottom: 20px;
     }
 
     .logout:hover {
@@ -114,14 +124,16 @@
     }
 
     h1 {
-      margin-top: 0;
+      margin: 0 0 20px 0;
       font-size: 2em;
       color: #333;
+      clear: both;
+      padding-top: 10px;
     }
 
     .search-bar {
       max-width: 600px;
-      margin: 30px 0;
+      margin: 20px 0;
     }
 
     .search-bar input {
@@ -134,41 +146,69 @@
     }
 
     .cards {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 20px;
+      margin-top: 20px;
     }
 
     .card {
-      flex: 1 1 260px;
       background: #ffffff;
-      padding: 30px;
+      padding: 25px;
       border-radius: 20px;
       box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.05);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
-      position: relative;
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
 
     .card:hover {
-      transform: translateY(-10px);
+      transform: translateY(-5px);
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
 
     .card span {
-      font-size: 3.2em;
+      font-size: 2.5em;
       display: block;
       margin-bottom: 15px;
     }
 
     .card h3 {
-      margin: 0;
+      margin: 0 0 10px 0;
       color: #c08457;
+    }
+
+    .card p {
+      margin: 0;
+      color: #666;
+      font-size: 0.9em;
+      line-height: 1.5;
     }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      
+      .content {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+      }
+      
+      .cards {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -207,7 +247,7 @@
         <li><a href="sem10.html">🏆 Semestre 10</a></li>
       </ul>
 
-      <li><a href="projets.html" style="display:block;padding:12px 20px;">🗃️ Projets étudiants</a></li>
+      <li><a href="projets.html" style="display:block;padding:12px 20px;text-decoration:none;color:inherit;">🗃️ Projets étudiants</a></li>
     </ul>
 
     <div class="contact">
@@ -224,51 +264,48 @@
       <input type="text" placeholder="🔍 Rechercher un cours, un projet ou un livre..." />
     </div>
 
-   
- <div class="cards">
-  <a href="bibliotheque.html" class="card">
-    <span>📘</span>
-    <h3>Bibliothèque</h3>
-    <p>Consultez les livres et ressources utiles.</p>
-  </a>
+    <div class="cards">
+      <a href="bibliotheque.html" class="card">
+        <span>📘</span>
+        <h3>Bibliothèque</h3>
+        <p>Consultez les livres et ressources utiles.</p>
+      </a>
 
-  <a href="dossiers.html" class="card">
-    <span>📚</span>
-    <h3>Dossiers de cours</h3>
-    <p>Explorez les contenus pédagogiques classés par année.</p>
-  </a>
+      <a href="dossiers.html" class="card">
+        <span>📚</span>
+        <h3>Dossiers de cours</h3>
+        <p>Explorez les contenus pédagogiques classés par année.</p>
+      </a>
 
-  <a href="exam.html" class="card">
-    <span>📝</span>
-    <h3>EXAM</h3>
-    <p>Accès sécurisé aux examens et épreuves précédentes.</p>
-  </a>
+      <a href="exam.html" class="card">
+        <span>📝</span>
+        <h3>EXAM</h3>
+        <p>Accès sécurisé aux examens et épreuves précédentes.</p>
+      </a>
 
-  <a href="projets.html" class="card">
-    <span>🗃️</span>
-    <h3>Projets étudiants</h3>
-    <p>Accès Premium aux meilleurs PFE protégés.</p>
-  </a>
+      <a href="projets.html" class="card">
+        <span>🗃️</span>
+        <h3>Projets étudiants</h3>
+        <p>Accès Premium aux meilleurs PFE protégés.</p>
+      </a>
 
-  <a href="quiz.html" class="card">
-    <span>❓</span>
-    <h3>Quiz</h3>
-    <p>Testez vos connaissances avec des quiz interactifs.</p>
-  </a>
+      <a href="quiz.html" class="card">
+        <span>❓</span>
+        <h3>Quiz</h3>
+        <p>Testez vos connaissances avec des quiz interactifs.</p>
+      </a>
 
-  <a href="divertissement.html" class="card">
-    <span>🎮</span>
-    <h3>Divertissement</h3>
-    <p>Jeux, vidéos et contenu amusant pour se détendre.</p>
-  </a>
+      <a href="divertissement.html" class="card">
+        <span>🎮</span>
+        <h3>Divertissement</h3>
+        <p>Jeux, vidéos et contenu amusant pour se détendre.</p>
+      </a>
 
-  <a href="specialite.html" class="card">
-    <span>🎓</span>
-    <h3>Présentation de la spécialité</h3>
-    <p>Découvrez la filière et les moyennes d'admission.</p>
-  </a>
-</div>
-
+      <a href="specialite.html" class="card">
+        <span>🎓</span>
+        <h3>Présentation de la spécialité</h3>
+        <p>Découvrez la filière et les moyennes d'admission.</p>
+      </a>
     </div>
   </div>
 
@@ -280,7 +317,7 @@
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
       projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.firebasestorage.app",
+      storageBucket: "archi-space-72624.appspot.com",
       messagingSenderId: "407015246505",
       appId: "1:407015246505:web:c914a78566b882b80df7b8",
       measurementId: "G-RZV7LSDQBD"
