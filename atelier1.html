@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Atelier de projet 1</title>
+  <title>Examens Semestre 5 - EPau</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -100,7 +100,7 @@
       color: #000;
     }
 
-    .lesson {
+    .exam-container {
       margin-bottom: 30px;
       background: #fafafa;
       padding: 20px;
@@ -108,26 +108,42 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
-    .lesson h3 {
+    .exam-container h3 {
       font-size: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       color: #222;
     }
 
+    .pdf-viewer {
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+
     .buttons {
-      margin-top: 10px;
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
     }
 
     .buttons button {
-      background: none;
+      background: #e0e0e0;
       border: none;
-      margin-right: 10px;
-      font-size: 16px;
+      padding: 8px 15px;
+      border-radius: 6px;
+      font-size: 14px;
       cursor: pointer;
+      transition: all 0.3s;
     }
 
     .buttons button:hover {
-      opacity: 0.7;
+      background: #d0d0d0;
+    }
+
+    .buttons button i {
+      margin-right: 5px;
     }
 
     footer {
@@ -136,106 +152,124 @@
       color: #888;
       text-align: center;
     }
+
+    .error-message {
+      color: #e74c3c;
+      padding: 15px;
+      background: #fdeaea;
+      border-radius: 6px;
+      margin-top: 15px;
+      display: none;
+    }
   </style>
-
-  <!-- Firebase SDKs -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-      authDomain: "archi-space-72624.firebaseapp.com",
-      projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.appspot.com",
-      messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:c914a78566b882b80df7b8",
-      measurementId: "G-RZV7LSDQBD"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // التحقق من حالة تسجيل الدخول
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-      }
-    });
-  </script>
 </head>
 <body>
 
 <button id="toggleSidebar">☰ Menu</button>
 
 <aside class="sidebar">
-  <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
   <button class="back-button" onclick="history.back()">🔙 Retour</button>
 
   <div class="sidebar-header">
-    <h2>📚 Année 1 - Semestre 1</h2>
+    <h2>📚 Année 3 - Semestre 5</h2>
   </div>
 
   <ul class="sidebar-menu">
-    <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
-    <li><a href="dca1.html">📐 DCA 1</a></li>
-    <li><a href="dag1.html">🎨 DAG 1</a></li>
-    <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
-    <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
-    <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
-    <li><a href="tmc1.html">🧱 TMC 1</a></li>
-    <li><a href="math1.html">🧮 Mathématiques</a></li>
-    <li><a href="expression1.html">🗣️ Expression orale</a></li>
-    <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
+    <li><a href="sem5-cours.html">📖 Cours</a></li>
+    <li><a href="sem5-td.html">✍️ Travaux Dirigés</a></li>
+    <li><a href="sem5-exam.html" class="active">📝 Examens</a></li>
+    <li><a href="sem5-projets.html">🏗️ Projets</a></li>
     <hr>
-    <li><a href="projets.html">💼 Projets</a></li>
-    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+    <li><a href="ressources.html">📚 Ressources</a></li>
+    <li><a href="contact.html">📩 Contact</a></li>
   </ul>
 </aside>
 
 <main>
-  <h1 class="section-title">🏗️ Atelier de projet 1</h1>
+  <h1 class="section-title">📝 Examens Semestre 5</h1>
 
-  <div class="lesson">
-    <h3>Initiation au projet architectural</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+  <div class="exam-container">
+    <h3>EPAU - Sujet 3ème Année</h3>
+    
+    <div id="pdf-display">
+      <embed class="pdf-viewer" src="epau_sujet_3eme_annee.pdf" type="application/pdf">
     </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Esquisse et analyse du site</h3>
-    <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+    
+    <div class="error-message" id="error-message">
+      <p>⚠️ Impossible de charger le fichier PDF. Veuillez vérifier :</p>
+      <ul>
+        <li>Que le fichier existe bien sous le nom <strong>epau_sujet_3eme_annee.pdf</strong></li>
+        <li>Que le fichier n'est pas corrompu</li>
+        <li>Votre connexion internet</li>
+      </ul>
+      <p>Vous pouvez aussi <a href="epau_sujet_3eme_annee.pdf" download>télécharger le fichier directement</a>.</p>
     </div>
-  </div>
-
-  <div class="lesson">
-    <h3>Conception de l’espace</h3>
+    
     <div class="buttons">
-      <button>📄 PDF</button>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+      <button onclick="downloadPdf()"><i class="fas fa-download"></i> Télécharger</button>
+      <button onclick="printPdf()"><i class="fas fa-print"></i> Imprimer</button>
+      <button onclick="fullscreenPdf()"><i class="fas fa-expand"></i> Plein écran</button>
     </div>
   </div>
 
   <footer>
-    © 2025 ArchiSpace – Tous droits réservés.
+    © 2025 EPau - Tous droits réservés.
   </footer>
 </main>
 
+<!-- Font Awesome pour les icônes -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 <script>
+  // Gestion de la sidebar
   const sidebar = document.querySelector('aside');
   const toggleBtn = document.getElementById('toggleSidebar');
 
   toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('hidden');
   });
-</script>
 
+  // Vérification du chargement du PDF
+  document.addEventListener('DOMContentLoaded', function() {
+    const pdfViewer = document.querySelector('.pdf-viewer');
+    const errorMsg = document.getElementById('error-message');
+    
+    pdfViewer.onerror = function() {
+      pdfViewer.style.display = 'none';
+      errorMsg.style.display = 'block';
+    };
+    
+    // Vérification supplémentaire après 3 secondes
+    setTimeout(function() {
+      if (pdfViewer.offsetHeight === 0) {
+        pdfViewer.style.display = 'none';
+        errorMsg.style.display = 'block';
+      }
+    }, 3000);
+  });
+
+  // Fonctions des boutons
+  function downloadPdf() {
+    window.open('epau_sujet_3eme_annee.pdf', '_blank');
+  }
+  
+  function printPdf() {
+    const pdfWindow = window.open('epau_sujet_3eme_annee.pdf', '_blank');
+    pdfWindow.onload = function() {
+      pdfWindow.print();
+    };
+  }
+  
+  function fullscreenPdf() {
+    const pdf = document.querySelector('.pdf-viewer');
+    if (pdf.requestFullscreen) {
+      pdf.requestFullscreen();
+    } else if (pdf.webkitRequestFullscreen) {
+      pdf.webkitRequestFullscreen();
+    } else if (pdf.msRequestFullscreen) {
+      pdf.msRequestFullscreen();
+    }
+  }
+</script>
 </body>
 </html>
