@@ -2,20 +2,116 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>امتحان الفصل الخامس</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>امتحانات السنة الثالثة EPau</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #3498db;
+            --danger: #e74c3c;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
+            font-family: 'Tajawal', Arial, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
         }
+        
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .error {
-            color: #d9534f;
+        
+        h1 {
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .pdf-container {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+        
+        .error-box {
+            background: #fff8f8;
+            border: 1px solid var(--danger);
+            border-radius: 5px;
+            padding: 20px;
             margin: 20px 0;
+            text-align: right;
+        }
+        
+        .error-title {
+            color: var(--danger);
+            margin-bottom: 10px;
+        }
+        
+        .error-list {
+            padding-right: 20px;
+            margin: 15px 0;
+        }
+        
+        .error-list li {
+            margin-bottom: 8px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--primary);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .btn i {
+            margin-left: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+            
+            .pdf-container {
+                height: 400px;
+            }
         }
     </style>
 </head>
@@ -24,49 +120,76 @@
         <h1>امتحانات السنة الثالثة EPau</h1>
         
         <div id="pdf-viewer">
-            <p>جاري تحميل ملف الامتحان...</p>
+            <div class="loading-state">
+                <p><i class="fas fa-spinner fa-spin"></i> جاري تحميل ملف الامتحان...</p>
+            </div>
         </div>
         
-        <div class="alternative">
-            <p>إذا لم يظهر الملف أعلاه، يمكنك:</p>
-            <a href="epau_sujet_3eme_annee.pdf" download class="btn">تحميل الملف مباشرة</a>
+        <div id="error-message" class="error-box" style="display: none;">
+            <h3 class="error-title"><i class="fas fa-exclamation-triangle"></i> تعذر تحميل ملف PDF</h3>
+            <p>الرجاء التأكد من:</p>
+            <ul class="error-list">
+                <li>وجود الملف في مجلد <strong>/exams/</strong> باسم <strong>epau_sujet_3eme_annee.pdf</strong></li>
+                <li>تطابق اسم الملف مع الرابط (بدون مسافات)</li>
+                <li>أن الملف غير محمي بكلمة مرور</li>
+                <li>أن حجم الملف لا يتجاوز 10MB</li>
+            </ul>
+            <p>إذا استمرت المشكلة، يرجى التواصل مع الدعم الفني.</p>
+        </div>
+        
+        <div class="actions" style="text-align: center;">
+            <a href="epau_sujet_3eme_annee.pdf" download class="btn">
+                <i class="fas fa-download"></i> تحميل الملف مباشرة
+            </a>
+            <a href="javascript:history.back()" class="btn" style="background: #95a5a6;">
+                <i class="fas fa-arrow-left"></i> العودة
+            </a>
         </div>
     </div>
 
     <script>
-        // محاولة عرض PDF مع وجود بديل عند الفشل
-        const pdfViewer = document.getElementById('pdf-viewer');
-        
-        setTimeout(function() {
-            fetch('epau_sujet_3eme_annee.pdf')
-                .then(response => {
-                    if(response.ok) {
-                        pdfViewer.innerHTML = `
-                            <embed src="epau_sujet_3eme_annee.pdf" 
-                                   type="application/pdf" 
-                                   width="100%" 
-                                   height="600px">
-                        `;
-                    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            const pdfViewer = document.getElementById('pdf-viewer');
+            const errorBox = document.getElementById('error-message');
+            
+            // محاولة تحميل PDF
+            setTimeout(function() {
+                fetch('epau_sujet_3eme_annee.pdf')
+                    .then(response => {
+                        if(response.ok) {
+                            pdfViewer.innerHTML = `
+                                <embed class="pdf-container" 
+                                       src="epau_sujet_3eme_annee.pdf" 
+                                       type="application/pdf">
+                            `;
+                        } else {
+                            showError();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
                         showError();
-                    }
-                })
-                .catch(() => showError());
-        }, 1000);
-
-        function showError() {
-            pdfViewer.innerHTML = `
-                <div class="error">
-                    <p>عفواً، تعذر تحميل ملف PDF.</p>
-                    <p>الرجاء التأكد من:</p>
-                    <ul style="text-align: right; list-style-position: inside;">
-                        <li>وجود الملف في المكان الصحيح</li>
-                        <li>تطابق اسم الملف مع الرابط</li>
-                        <li>صلاحيات القراءة للملف</li>
-                    </ul>
-                </div>
-            `;
-        }
+                    });
+            }, 1000);
+            
+            function showError() {
+                pdfViewer.style.display = 'none';
+                errorBox.style.display = 'block';
+                
+                // إضافة تأثير ظهور
+                errorBox.style.animation = 'fadeIn 0.5s ease-out';
+            }
+        });
+        
+        // إضافة أنيميشن للأخطاء
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
