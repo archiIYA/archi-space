@@ -82,16 +82,20 @@
       margin-bottom: 10px;
     }
 
-    .buttons button {
-      background: none;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
+    .buttons a {
+      display: inline-block;
+      padding: 6px 12px;
       margin-right: 10px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 15px;
+      color: #111;
+      background-color: #eee;
+      transition: background-color 0.2s;
     }
 
-    .buttons button:hover {
-      opacity: 0.7;
+    .buttons a:hover {
+      background-color: #ddd;
     }
 
     footer {
@@ -131,29 +135,29 @@
     <h1 class="section-title">📏 Géométrie de l’espace 1</h1>
 
     <div class="lesson">
-      <h3>cour 1 ET 2 ET 3</h3>
+      <h3>Cours 1, 2 et 3</h3>
       <div class="buttons">
-        <a href="Cours 1,2,3 Géométrie de l'epace.pdf">📄 PDF</a>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
+        <a href="Cours%201-2-3%20Geometrie.pdf">📄 PDF</a>
+        <a href="#">🎥 Vidéo</a>
+        <a href="#">⭐ Premium</a>
       </div>
     </div>
 
     <div class="lesson">
-      <h3>cour 4</h3>
+      <h3>Cours 4</h3>
       <div class="buttons">
-        <a href="Cours 4 Géométrie de l'epace.pdf">📄 PDF</a>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
+        <a href="Cours%204%20Geometrie.pdf">📄 PDF</a>
+        <a href="#">🎥 Vidéo</a>
+        <a href="#">⭐ Premium</a>
       </div>
     </div>
 
     <div class="lesson">
-      <h3>cour 5</h3>
+      <h3>Cours 5</h3>
       <div class="buttons">
-         <a href="Cours 5 Les solides.pdf">📄 PDF</a>
-        <button>🎥 Vidéo</button>
-        <button>⭐ Premium</button>
+        <a href="Cours%205%20Les%20solides.pdf">📄 PDF</a>
+        <a href="#">🎥 Vidéo</a>
+        <a href="#">⭐ Premium</a>
       </div>
     </div>
 
@@ -162,7 +166,7 @@
     </footer>
   </main>
 
-<!-- 🔐 كود الحماية هنا -->
+<!-- 🔐 Protection Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
