@@ -163,13 +163,24 @@
       max-width: 600px;
       margin: 20px 0;
     }
-    .search-bar input {
-      width: 100%;
-      padding: 15px;
-      font-size: 1em;
+    .search-bar > div {
+      padding: 20px;
+      background: #f0f7ff;
       border-radius: 15px;
-      border: 1px solid #ccc;
-      box-shadow: inset 2px 2px 6px #e2d6c7, inset -2px -2px 6px #fff;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      color: #1f9afe;
+      font-weight: 600;
+    }
+    .mobile-info-message {
+      display: none;
+      background:#f0f7ff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      color: #1f9afe;
+      margin-bottom: 15px;
+      font-weight: 600;
+      text-align: center;
     }
     .cards {
       display: grid;
@@ -233,12 +244,14 @@
         width: 100%;
         padding: 20px;
       }
+      .mobile-info-message {
+        display: block !important;
+      }
     }
   </style>
 </head>
 <body>
   <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
-
   <div class="sidebar">
     <h2>🎓 archi.space</h2>
     <ul>
@@ -275,25 +288,38 @@
     </div>
   </div>
   <div class="content">
-    <div class="mobile-info-message" style="display:none; background:#f0f7ff; padding:12px 20px; border-radius: 10px; color:#1f9afe; margin-bottom:15px; font-weight:600; text-align:center;">
-  ملاحظة لمستخدمي الهاتف: السنوات الدراسية موجودة في القائمة الجانبية ☰ أعلى اليسار.
-</div>
-
     <button class="logout" onclick="logout()">Déconnexion</button>
-    <h1>🏠 Accueil étudiant</h1>
-    <div class="search-bar" style="padding: 20px; background: #f0f7ff; border-radius: 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 600px; margin: 20px 0;">
-  <h3 style="color:#1f9afe; margin-bottom: 10px;">🚧 العمل على الموقع جاري</h3>
-  <p style="color:#555; font-size: 1em;">
-    حاليًا متوفرة دروس السماستر الأول فقط.<br/>
-    شكراً لصبركم وتفهّمكم.
-  </p>
-</div>
 
+    <!-- بطاقة حالة الموقع مكان خانة البحث -->
+    <div class="search-bar">
+      <div>
+        🚧 العمل جاري على الموقع <br />
+        الدروس المتوفرة حالياً هي دروس السماستر الأول فقط. <br />
+        شكراً لصبركم وتفهّمكم.
+      </div>
+    </div>
+
+    <!-- رسالة مخصصة لمستخدمي الهاتف -->
+    <div class="mobile-info-message">
+      ملاحظة لمستخدمي الهاتف: السنوات الدراسية موجودة في القائمة الجانبية ☰ أعلى اليسار.
+    </div>
+
+    <h1>🏠 Accueil étudiant</h1>
     <div class="cards">
       <a href="https://t.me/+DJAWFkqTVvJkYWU8" target="_blank" rel="noopener" class="card">
         <span>📝</span>
         <h3>Demande de résumés</h3>
         <p>Rejoignez notre groupe Telegram pour demander des résumés de cours et projets.</p>
+      </a>
+      <a href="https://www.instagram.com/architecture_hunter/" target="_blank" rel="noopener" class="card">
+        <span>📸</span>
+        <h3>Meilleures chaînes Instagram</h3>
+        <p>Découvrez les plus intéressantes chaînes Instagram pour l'architecture.</p>
+      </a>
+      <a href="https://www.example.com/bibliotheque-outils" target="_blank" rel="noopener" class="card">
+        <span>📚</span>
+        <h3>Meilleure bibliothèque pour les outils</h3>
+        <p>Accédez à la bibliothèque recommandée pour commander et emprunter des outils.</p>
       </a>
       <a href="bibliotheque.html" class="card">
         <span>📘</span>
