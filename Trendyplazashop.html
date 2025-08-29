@@ -1,166 +1,299 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nos Packs - Archi Store</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>طلب باقات الطلبة الجدد - متجر الأدوات</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #fff;
-      color: #000;
+    :root {
+      --red: #b00020;
+      --white: #fff;
+      --black: #000;
     }
-    header {
-      background: #b00020;
-      color: #fff;
-      padding: 15px;
-      text-align: center;
+    body {
+      margin: 0; padding: 20px;
+      font-family: "Cairo", sans-serif;
+      background: var(--white);
+      color: var(--black);
+      direction: rtl;
     }
     h1 {
-      margin: 0;
+      text-align: center;
+      color: var(--red);
+      margin-bottom: 30px;
     }
-    .container {
+    .pack-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
-      padding: 20px;
+      margin-bottom: 40px;
     }
     .pack {
-      border: 2px solid #000;
+      border: 2px solid var(--black);
       border-radius: 12px;
       padding: 20px;
-      background: #fff;
+      background: var(--white);
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       transition: transform 0.2s ease;
+      cursor: pointer;
     }
     .pack:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(176,0,32,0.3);
     }
     .pack h2 {
-      color: #b00020;
       margin-top: 0;
+      color: var(--red);
     }
-    ul {
+    .pack ul {
       padding-left: 20px;
     }
-    ul li {
-      margin-bottom: 6px;
+    .pack ul li {
+      margin-bottom: 8px;
     }
     .price {
-      font-size: 1.2em;
       font-weight: bold;
+      font-size: 1.2em;
       margin: 15px 0;
-      color: #000;
+      color: var(--black);
     }
-    button {
-      background: #b00020;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 1em;
+    .selected-pack {
+      border: 2px solid var(--red);
+      background: #fee;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: var(--red);
+      text-align: center;
       border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s ease;
     }
-    button:hover {
-      background: #ff002b;
+    form {
+      max-width: 600px;
+      margin: auto;
+      background: var(--white);
+      border: 2px solid var(--red);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(176,0,32,0.4);
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+      color: var(--red);
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1.5px solid var(--red);
+      font-size: 16px;
+      color: var(--black);
+      box-sizing: border-box;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #800014;
+      outline: none;
+    }
+    button.submit-btn {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      font-weight: 700;
+      font-size: 18px;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+    button.submit-btn:hover {
+      background: #800014;
+    }
+    .status-msg {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: 700;
+    }
+    .status-success {
+      color: green;
+    }
+    .status-error {
+      color: red;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>🎁 Choisissez Votre Pack</h1>
-  </header>
-  <div class="container">
 
-    <div class="pack">
-      <h2>1️⃣ Pack Essentiel</h2>
-      <ul>
-        <li>✅ 16 outils essentiels</li>
-        <li>✅ Fichier DRIVE complet</li>
-        <li>✅ Cadeau spécial 🎁</li>
-      </ul>
-      <div class="price">💵 3950 DA (395alf)</div>
-      <button onclick="order('Pack Essentiel',3950)">Commander</button>
-    </div>
+<h1>🎯 عرض باقات الطلبة الجدد في الهندسة المعمارية</h1>
 
-    <div class="pack">
-      <h2>2️⃣ Pack Sous Main</h2>
-      <ul>
-        <li>✅ 16 outils essentiels</li>
-        <li>✅ Sous main (grande pochette)</li>
-        <li>✅ Fichier DRIVE complet</li>
-        <li>✅ Cadeau spécial 🎁</li>
-      </ul>
-      <div class="price">💵 4850 DA (485alf)</div>
-      <button onclick="order('Pack Sous Main',4850)">Commander</button>
-    </div>
-
-    <div class="pack">
-      <h2>3️⃣ Pack Bazooka (Petit)</h2>
-      <ul>
-        <li>✅ 16 outils essentiels</li>
-        <li>✅ Bazooka petit</li>
-        <li>✅ Fichier DRIVE complet</li>
-        <li>✅ Cadeau spécial 🎁</li>
-      </ul>
-      <div class="price">💵 4950 DA (495alf)</div>
-      <button onclick="order('Pack Bazooka Petit',4950)">Commander</button>
-    </div>
-
-    <div class="pack">
-      <h2>4️⃣ Pack Bazooka (Grand)</h2>
-      <ul>
-        <li>✅ 16 outils essentiels</li>
-        <li>✅ Bazooka grand</li>
-        <li>✅ Fichier DRIVE complet</li>
-        <li>✅ Cadeau spécial 🎁</li>
-      </ul>
-      <div class="price">💵 5200 DA (520alf)</div>
-      <button onclick="order('Pack Bazooka Grand',5200)">Commander</button>
-    </div>
-
-    <div class="pack">
-      <h2>5️⃣ Pack VIP</h2>
-      <ul>
-        <li>✅ 16 outils essentiels</li>
-        <li>✅ Bazooka petit</li>
-        <li>✅ Sous main</li>
-        <li>✅ Fichier DRIVE complet</li>
-        <li>✅ Cadeau spécial 🎁</li>
-      </ul>
-      <div class="price">💵 6200 DA (620alf)</div>
-      <button onclick="order('Pack VIP',6200)">Commander</button>
-    </div>
-
+<div class="pack-list" aria-label="قائمة الباقات">
+  <div class="pack" role="button" tabindex="0" data-pack-name="الباقة الأساسية" data-pack-price="3950" onclick="selectPack(this)" onkeypress="if(event.key==='Enter') selectPack(this)">
+    <h2>1️⃣ الباقة الأساسية</h2>
+    <ul>
+      <li>✅ 16 أداة أساسية</li>
+      <li>✅ ملف DRIVE كامل</li>
+      <li>✅ هدية مميزة 🎁</li>
+    </ul>
+    <div class="price">3950 دج</div>
   </div>
 
-  <script>
-    // ⚡ ضع هنا رابط Google Apps Script Web App الخاص بك
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbzmHDHqpMpEvrwjOQ6aXGU419gWunObR0vM6lF2Bcxhq6bouGnXsfFJvG4zoW5kqbri/exec";
+  <div class="pack" role="button" tabindex="0" data-pack-name="باقة Sous main" data-pack-price="4850" onclick="selectPack(this)" onkeypress="if(event.key==='Enter') selectPack(this)">
+    <h2>2️⃣ باقة Sous main</h2>
+    <ul>
+      <li>✅ 16 أداة أساسية</li>
+      <li>✅ محفظة Sous main كبيرة</li>
+      <li>✅ ملف DRIVE كامل</li>
+      <li>✅ هدية مميزة 🎁</li>
+    </ul>
+    <div class="price">4850 دج</div>
+  </div>
 
-    function order(packName, price){
-      const name = prompt("Entrez votre nom:");
-      const phone = prompt("Entrez votre numéro de téléphone:");
-      if(!name || !phone) return alert("❌ Merci de remplir les champs.");
+  <div class="pack" role="button" tabindex="0" data-pack-name="باقة بازوكا صغيرة" data-pack-price="4950" onclick="selectPack(this)" onkeypress="if(event.key==='Enter') selectPack(this)">
+    <h2>3️⃣ باقة بازوكا صغيرة</h2>
+    <ul>
+      <li>✅ 16 أداة أساسية</li>
+      <li>✅ بازوكا صغيرة</li>
+      <li>✅ ملف DRIVE كامل</li>
+      <li>✅ هدية مميزة 🎁</li>
+    </ul>
+    <div class="price">4950 دج</div>
+  </div>
 
-      fetch(GAS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          pack: packName,
-          prix: price,
-          nom: name,
-          telephone: phone,
-          date: new Date().toLocaleString()
-        })
-      });
-      alert("✅ Votre commande a été envoyée avec succès!");
+  <div class="pack" role="button" tabindex="0" data-pack-name="باقة بازوكا كبيرة" data-pack-price="5200" onclick="selectPack(this)" onkeypress="if(event.key==='Enter') selectPack(this)">
+    <h2>4️⃣ باقة بازوكا كبيرة</h2>
+    <ul>
+      <li>✅ 16 أداة أساسية</li>
+      <li>✅ بازوكا كبيرة</li>
+      <li>✅ ملف DRIVE كامل</li>
+      <li>✅ هدية مميزة 🎁</li>
+    </ul>
+    <div class="price">5200 دج</div>
+  </div>
+
+  <div class="pack" role="button" tabindex="0" data-pack-name="باقة VIP" data-pack-price="6200" onclick="selectPack(this)" onkeypress="if(event.key==='Enter') selectPack(this)">
+    <h2>5️⃣ باقة VIP</h2>
+    <ul>
+      <li>✅ 16 أداة أساسية</li>
+      <li>✅ بازوكا صغيرة</li>
+      <li>✅ محفظة Sous main</li>
+      <li>✅ ملف DRIVE كامل</li>
+      <li>✅ هدية مميزة 🎁</li>
+    </ul>
+    <div class="price">6200 دج</div>
+  </div>
+</div>
+
+<div class="selected-pack" id="selectedPackMsg" aria-live="polite" aria-atomic="true">
+  لم يتم اختيار أي باقة بعد.
+</div>
+
+<form id="orderForm" aria-label="نموذج تقديم الطلب">
+  <input type="hidden" id="packName" name="packName" required />
+  <input type="hidden" id="packPrice" name="packPrice" required />
+
+  <label for="fullName">الاسم الكامل</label>
+  <input type="text" id="fullName" name="fullName" required placeholder="أدخل اسمك الكامل" />
+
+  <label for="phone">رقم الهاتف</label>
+  <input type="tel" id="phone" name="phone" required pattern="^(\+?213|0)(5|6|7)\d{8}$" placeholder="05xxxxxxxx" />
+
+  <label for="wilaya">الولاية</label>
+  <input type="text" id="wilaya" name="wilaya" required placeholder="مثال: الجزائر العاصمة" />
+
+  <label for="commune">البلدية</label>
+  <input type="text" id="commune" name="commune" required placeholder="مثال: الدار البيضاء" />
+
+  <label for="delivery">طريقة التوصيل</label>
+  <select id="delivery" name="delivery" required>
+    <option value="" disabled selected>اختر طريقة التوصيل</option>
+    <option value="home">المنزل</option>
+    <option value="office">المكتب</option>
+  </select>
+
+  <button type="submit" class="submit-btn">إرسال الطلب</button>
+  <div id="formStatus" role="alert" class="status-msg" aria-live="polite"></div>
+</form>
+
+<script>
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbzmHDHqpMpEvrwjOQ6aXGU419gWunObR0vM6lF2Bcxhq6bouGnXsfFJvG4zoW5kqbri/exec";
+
+  const selectedPackMsg = document.getElementById('selectedPackMsg');
+  const packNameInput = document.getElementById('packName');
+  const packPriceInput = document.getElementById('packPrice');
+  const formStatus = document.getElementById('formStatus');
+
+  function selectPack(element) {
+    const name = element.getAttribute('data-pack-name');
+    const price = element.getAttribute('data-pack-price');
+    packNameInput.value = name;
+    packPriceInput.value = price;
+    selectedPackMsg.textContent = `تم اختيار الباقة: ${name} بسعر ${price} دج.`;
+  }
+
+  const orderForm = document.getElementById('orderForm');
+  orderForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formStatus.textContent = '';
+    formStatus.className = 'status-msg';
+
+    if (!packNameInput.value) {
+      formStatus.textContent = 'يرجى اختيار باقة قبل إرسال الطلب.';
+      formStatus.classList.add('status-error');
+      return;
     }
-  </script>
+
+    const data = {
+      orderId: `ORD-${Date.now().toString(36).toUpperCase()}`,
+      timestamp: new Date().toISOString(),
+      pack: {
+        type: packNameInput.value,
+        price: parseInt(packPriceInput.value),
+      },
+      customer: {
+        fullName: orderForm.fullName.value.trim(),
+        phone: orderForm.phone.value.trim(),
+        city: orderForm.wilaya.value.trim(),
+        commune: orderForm.commune.value.trim(),
+        notes: "",
+      },
+      shipping: {
+        method: orderForm.delivery.value,
+        fee: 0 // يمكن تعديل التكلفة حسب اختيار التوصيل في المستقبل
+      },
+      totals: {
+        total: parseInt(packPriceInput.value)
+      }
+    };
+
+    try {
+      const response = await fetch(GAS_URL, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) throw new Error(`خطأ في الإرسال: ${response.status}`);
+
+      const result = await response.json();
+
+      if (result.result === 'success') {
+        formStatus.textContent = "✅ تم إرسال الطلب بنجاح سيتم التواصل معك قريباً.";
+        formStatus.classList.add('status-success');
+        orderForm.reset();
+        selectedPackMsg.textContent = "لم يتم اختيار أي باقة بعد.";
+      } else {
+        throw new Error(result.message || 'حدث خطأ غير متوقع');
+      }
+    } catch (error) {
+      formStatus.textContent = `❌ ${error.message}`;
+      formStatus.classList.add('status-error');
+    }
+  });
+</script>
+
 </body>
+</html>
+
 </html>
