@@ -11,8 +11,7 @@
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
     }
     body {
       font-family: 'Poppins', sans-serif;
@@ -37,14 +36,15 @@
     }
     .sidebar {
       width: 250px;
-      background-color: #fff;
+      background: #fff;
       height: 100vh;
       position: fixed;
       border-right: 1px solid #ddd;
-      box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+      box-shadow: 5px 0 15px rgba(0,0,0,0.05);
       z-index: 100;
       overflow-y: auto;
       transition: transform 0.3s ease;
+      padding: 20px 0;
     }
     .sidebar.hidden {
       transform: translateX(-100%);
@@ -60,7 +60,7 @@
       background: linear-gradient(to right, #c08457, #e0a16b);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin: 0;
+      margin-bottom: 1rem;
     }
     .sidebar ul {
       list-style: none;
@@ -70,10 +70,10 @@
     .sidebar li {
       padding: 12px 20px;
       cursor: pointer;
-      transition: background 0.3s;
       border-bottom: 1px solid #f0f0f0;
       user-select: none;
       position: relative;
+      transition: background 0.3s;
     }
     .sidebar li:hover {
       background-color: #f0e4d4;
@@ -153,15 +153,10 @@
       background-color: #d6583f;
     }
     h1 {
-      margin: 0 0 20px 0;
+      margin-bottom: 15px;
       font-size: 2em;
       color: #333;
       clear: both;
-      padding-top: 10px;
-    }
-    .search-bar {
-      max-width: 600px;
-      margin: 20px 0;
     }
     .search-bar > div {
       padding: 20px;
@@ -171,6 +166,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
       color: #1f9afe;
       font-weight: 600;
+      margin-bottom: 20px;
     }
     .mobile-info-message {
       display: none;
@@ -184,9 +180,8 @@
     }
     .cards {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-      margin-top: 20px;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 30px;
     }
     .card {
       background: #ffffff;
@@ -218,11 +213,22 @@
       font-size: 0.85em;
       line-height: 1.3;
     }
+    .telegram-list ul {
+      list-style: disc inside;
+      text-align: left;
+      padding-left: 15px;
+      margin: 10px 0 0 0;
+      color: #333;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+    .telegram-list ul li {
+      margin-bottom: 8px;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    /* Responsive */
     @media (max-width: 768px) {
       .sidebar-toggle {
         display: block;
@@ -243,6 +249,9 @@
         margin-left: 0;
         width: 100%;
         padding: 20px;
+      }
+      .cards {
+        grid-template-columns: 1fr;
       }
       .mobile-info-message {
         display: block !important;
@@ -289,8 +298,6 @@
   </div>
   <div class="content">
     <button class="logout" onclick="logout()">Déconnexion</button>
-
-    <!-- بطاقة حالة الموقع مكان خانة البحث -->
     <div class="search-bar">
       <div>
         🚧 العمل جاري على الموقع <br />
@@ -298,64 +305,80 @@
         شكراً لصبركم وتفهّمكم.
       </div>
     </div>
-
-    <!-- رسالة مخصصة لمستخدمي الهاتف -->
     <div class="mobile-info-message">
       ملاحظة لمستخدمي الهاتف: السنوات الدراسية موجودة في القائمة الجانبية ☰ أعلى اليسار.
     </div>
-
     <h1>🏠 Accueil étudiant</h1>
     <div class="cards">
+      <!-- يمين - دروس وتعليم -->
       <a href="https://t.me/+DJAWFkqTVvJkYWU8" target="_blank" rel="noopener" class="card">
         <span>📝</span>
         <h3>Demande de résumés</h3>
         <p>Rejoignez notre groupe Telegram pour demander des résumés de cours et projets.</p>
       </a>
-      <a href="https://www.instagram.com/urfav_sam_archi_epau?utm_source=ig_web_button_share_sheet&igsh=a29pNjZvNTN2YWQ5" target="_blank" rel="noopener" class="card">
+      <!-- يسار - ترفيه ونصائح -->
+      <a href="https://www.instagram.com/urfav_sam_archi_epau?igsh=MTRxbzF0dnludnBqbQ%3D%3D" target="_blank" rel="noopener" class="card">
         <span>📸</span>
         <h3>Meilleures chaînes Instagram</h3>
         <p>Découvrez les plus intéressantes chaînes Instagram pour l'architecture.</p>
       </a>
-      <a href="             " target="_blank" rel="noopener" class="card">
-        <span>📚</span>
-        <h3>Meilleure bibliothèque pour les outils</h3>
-        <p>Accédez à la bibliothèque recommandée pour commander et emprunter des outils.</p>
-      </a>
+
       <a href="bibliotheque.html" class="card">
         <span>📘</span>
         <h3>Bibliothèque</h3>
         <p>Consultez les livres et ressources utiles.</p>
       </a>
+      <a href="https://www.instagram.com/trendyplaza10?igsh=MXNiano2ZzRqemVxbA%3D%3D" target="_blank" rel="noopener" class="card">
+        <span>📚</span>
+        <h3>Meilleure bibliothèque pour les outils</h3>
+        <p>Accédez à la bibliothèque recommandée pour commander et emprunter des outils.</p>
+      </a>
+
       <a href="dossiers.html" class="card">
         <span>📚</span>
         <h3>Dossiers de cours</h3>
         <p>Explorez les contenus pédagogiques classés par année.</p>
-      </a>
-      <a href="exam.html" class="card">
-        <span>📝</span>
-        <h3>EXAM</h3>
-        <p>Accès sécurisé aux examens et épreuves précédentes.</p>
-      </a>
-      <a href="projets.html" class="card">
-        <span>🗃️</span>
-        <h3>Projets étudiants</h3>
-        <p>Accès Premium aux meilleurs PFE protégés.</p>
-      </a>
-      <a href="quiz.html" class="card">
-        <span>❓</span>
-        <h3>Quiz</h3>
-        <p>Testez vos connaissances avec des quiz interactifs.</p>
       </a>
       <a href="divertissement.html" class="card">
         <span>🎮</span>
         <h3>Divertissement</h3>
         <p>Jeux, vidéos et contenu amusant pour se détendre.</p>
       </a>
+
+      <a href="exam.html" class="card">
+        <span>📝</span>
+        <h3>EXAM</h3>
+        <p>Accès sécurisé aux examens et épreuves précédentes.</p>
+      </a>
+      <a href="quiz.html" class="card">
+        <span>❓</span>
+        <h3>Quiz</h3>
+        <p>Testez vos connaissances avec des quiz interactifs.</p>
+      </a>
+
+      <a href="projets.html" class="card">
+        <span>🗃️</span>
+        <h3>Projets étudiants</h3>
+        <p>Accès Premium aux meilleurs PFE protégés.</p>
+      </a>
       <a href="specialite.html" class="card">
         <span>🎓</span>
         <h3>Présentation de la spécialité</h3>
         <p>Découvrez la filière et les moyennes d'admission.</p>
       </a>
+
+      <!-- بطاقة قنوات التلغرام -->
+      <div class="card">
+        <span>💬</span>
+        <h3>Meilleures chaînes Telegram</h3>
+        <div class="telegram-list">
+          <ul>
+            <li><a href="https://t.me/+IpSoJKmM9y5kMjU0" target="_blank" rel="noopener">سنة اولى</a></li>
+            <li><a href="https://t.me/+PZlrwvdw8jllMTRk" target="_blank" rel="noopener">سنة ثانية</a></li>
+            <li><a href="https://t.me/+kUPR2XI-dlZmM2Vk" target="_blank" rel="noopener">سنة ثالثة</a></li
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
   <script type="module">
