@@ -1,118 +1,114 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boutique - Archi Space</title>
+  <title>عرض خاص لطلبة الهندسة المعمارية 🏛✨</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #fff;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
       margin: 0;
       padding: 0;
-      color: #000;
-    }
-    header {
-      background-color: #b30000;
-      color: #fff;
-      padding: 20px;
       text-align: center;
+    }
+    h1 {
+      margin-top: 20px;
+      font-size: 28px;
     }
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      padding: 30px;
-    }
-    .product {
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       padding: 20px;
-      text-align: center;
-      transition: transform 0.3s ease;
     }
-    .product:hover {
-      transform: translateY(-5px);
+    .card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .product img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.5);
     }
-    .product h3 {
-      margin: 15px 0 10px;
-      color: #b30000;
+    .price {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 15px 0;
+      color: #ffd700;
     }
-    .product p {
-      font-size: 14px;
-      margin: 10px 0;
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #ffd700;
+      color: #000;
+      font-weight: bold;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.3s ease;
     }
-    .product button {
-      background-color: #000;
+    .btn:hover {
+      background: #ff9900;
       color: #fff;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s;
     }
-    .product button:hover {
-      background-color: #b30000;
+    footer {
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Notre Boutique</h1>
-    <p>Commandez vos packs facilement</p>
-  </header>
+
+  <h1>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية 🏛✨</h1>
+  <p>كل ما تحتاجه للنجاح في سنتك الأولى… في باقة واحدة!</p>
 
   <div class="container">
-    <div class="product">
-      <img src="https://via.placeholder.com/250x150" alt="Pack 1">
-      <h3>Pack Dessin</h3>
-      <p>Contient des outils de dessin pour étudiants en architecture.</p>
-      <button onclick="envoyerCommande('Pack Dessin')">Acheter</button>
+    <div class="card">
+      <h2>1️⃣ الباقة الأساسية</h2>
+      <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
+      <p class="price">3950 دج (395alf)</p>
+      <a href="https://script.google.com/macros/s/AKfycbzmHDHqpMpEvrwjOQ6aXGU419gWunObR0vM6lF2Bcxhq6bouGnXsfFJvG4zoW5kqbri/exec" class="btn">اطلب الآن</a>
     </div>
 
-    <div class="product">
-      <img src="https://via.placeholder.com/250x150" alt="Pack 2">
-      <h3>Pack Maquette</h3>
-      <p>Tout le nécessaire pour réaliser vos maquettes facilement.</p>
-      <button onclick="envoyerCommande('Pack Maquette')">Acheter</button>
+    <div class="card">
+      <h2>2️⃣ باقة Sous main</h2>
+      <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+      <p class="price">4850 دج (485alf)</p>
+      <a href="https://script.google.com/macros/s/AKfycbzmHDHqpMpEvrwjOQ6aXGU419gWunObR0vM6lF2Bcxhq6bouGnXsfFJvG4zoW5kqbri/exec" class="btn">اطلب الآن</a>
     </div>
 
-    <div class="product">
-      <img src="https://via.placeholder.com/250x150" alt="Pack 3">
-      <h3>Pack Premium</h3>
-      <p>Une sélection complète d’outils et accessoires pro.</p>
-      <button onclick="envoyerCommande('Pack Premium')">Acheter</button>
+    <div class="card">
+      <h2>3️⃣ باقة البازوكا الصغيرة</h2>
+      <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
+      <p class="price">4950 دج (495alf)</p>
+      <a href="https://script.google.com/macros/s/AKfycbzmHDHqpMpEvrwjOQ6aXGU419gWunObR0vM6lF2Bcxhq6bouGnXsfFJvG4zoW5kqbri/exec" class="btn">اطلب الآن</a>
+    </div>
+
+    <div class="card">
+      <h2>4️⃣ باقة البازوكا الكبيرة</h2>
+      <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
+      <p class="price">5200 دج (520alf)</p>
+      <a href="https://script.google.com/macros/s/AKfycbzmHDHqpMpEvrwjOQ6aXGU419gWunObR0vM6lF2Bcxhq6bouGnXsfFJvG4zoW5kqbri/exec" class="btn">اطلب الآن</a>
+    </div>
+
+    <div class="card">
+      <h2>5️⃣ باقة VIP</h2>
+      <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+      <p class="price">6200 دج (620alf)</p>
+      <a href="https://script.google.com/macros/s/AKfycbzmHDHqpMpEvrwjOQ6aXGU419gWunObR0vM6lF2Bcxhq6bouGnXsfFJvG4zoW5kqbri/exec" class="btn">اطلب الآن</a>
     </div>
   </div>
 
-  <script>
-    function envoyerCommande(produit) {
-      const url = "https://script.google.com/macros/s/AKfycbzmHDHqpMpEvrwjOQ6aXGU419gWunObR0vM6lF2Bcxhq6bouGnXsfFJvG4zoW5kqbri/exec";
+  <footer>
+    🚚 التوصيل: متوفر في 58 ولاية خلال 24 ساعة كحد أقصى!<br>
+    💳 الدفع عند الاستلام بعد المعاينة ❤️<br>
+    💬 لأي سؤال، نحن دائمًا هنا لمساعدتك 🥰
+  </footer>
 
-      // البيانات التي سترسل إلى Google Sheets
-      const data = {
-        produit: produit,
-        date: new Date().toLocaleString()
-      };
-
-      fetch(url, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
-
-      alert("Votre commande pour " + produit + " a été envoyée ✅");
-    }
-  </script>
 </body>
 </html>
-
