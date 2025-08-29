@@ -1,98 +1,103 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>عروض الهندسة المعمارية 🎯</title>
   <style>
     body {
-      font-family: "Tahoma", sans-serif;
+      font-family: "Cairo", sans-serif;
       margin: 0;
       padding: 0;
       background: #fff;
       color: #000;
-      text-align: center;
+      direction: rtl;
+      text-align: right;
     }
 
     header {
-      background: #b30000;
-      color: white;
+      background: linear-gradient(135deg, #d32f2f, #000);
+      color: #fff;
       padding: 20px;
+      text-align: center;
       font-size: 22px;
       font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     }
 
     .container {
-      padding: 20px;
       max-width: 700px;
-      margin: auto;
+      margin: 30px auto;
+      padding: 20px;
     }
 
-    .offer-box {
-      border: 2px solid #b30000;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 15px 0;
+    .offer {
       background: #f9f9f9;
-      transition: transform 0.2s, box-shadow 0.2s;
+      border: 2px solid #d32f2f;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: 0.3s;
     }
 
-    .offer-box:hover {
+    .offer:hover {
       transform: scale(1.02);
-      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
     }
 
-    .offer-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #b30000;
-      margin-bottom: 8px;
+    .offer h3 {
+      color: #d32f2f;
+      margin-bottom: 10px;
     }
 
-    .price {
-      font-size: 16px;
-      font-weight: bold;
-      color: black;
-      margin: 8px 0;
+    .offer p {
+      margin: 5px 0;
     }
 
     form {
-      margin-top: 25px;
-      border: 2px solid #000;
-      border-radius: 10px;
-      padding: 20px;
       background: #fff;
+      border: 2px solid #000;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    form h2 {
+      margin-bottom: 15px;
+      color: #d32f2f;
+      text-align: center;
     }
 
     input, select, button {
       width: 100%;
-      padding: 10px;
-      margin: 8px 0;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #aaa;
       border-radius: 8px;
-      border: 1px solid #b30000;
-      font-size: 15px;
+      font-size: 16px;
     }
 
     button {
-      background: #b30000;
+      background: #d32f2f;
       color: white;
-      font-size: 17px;
       font-weight: bold;
-      cursor: pointer;
       border: none;
-      transition: background 0.3s;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
     button:hover {
-      background: black;
+      background: #000;
+      color: #fff;
     }
 
     .success {
+      text-align: center;
+      font-size: 18px;
+      color: green;
       margin-top: 15px;
-      padding: 10px;
-      background: #28a745;
-      color: white;
-      border-radius: 8px;
       display: none;
     }
   </style>
@@ -104,82 +109,55 @@
   </header>
 
   <div class="container">
-    <p>كل ما تحتاجه للنجاح في سنتك الأولى… في باقة واحدة! 🤩</p>
-
-    <div class="offer-box">
-      <div class="offer-title">📦 محتويات العرض:</div>
-      <p>✅ 16 أداة أساسية<br>
-         ✅ محفظة كبيرة للأوراق (Sous main)<br>
-         ✅ بازوكا لحمل المخططات<br>
-         ✅ ملف DRIVE فيه جميع الدروس + الملخصات + الامتحانات<br>
-         ✅ هدية مميزة 🎁</p>
+    <div class="offer">
+      <h3>📦 محتويات العرض:</h3>
+      <p>✅ 16 أداة أساسية</p>
+      <p>✅ محفظة كبيرة للأوراق (Sous main)</p>
+      <p>✅ بازوكا لحمل المخططات</p>
+      <p>✅ ملف DRIVE فيه جميع الدروس + الملخصات + الامتحانات</p>
+      <p>✅ هدية مميزة 🎁🤩</p>
     </div>
 
-    <div class="offer-box">
-      <div class="offer-title">1️⃣ الباقة الأساسية</div>
-      <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
-      <p class="price">💵 3950 دج (395alf)</p>
+    <div class="offer">
+      <h3>💡 اختر الباقة:</h3>
+      <p>1️⃣ الباقة الأساسية — 3950 دج</p>
+      <p>2️⃣ باقة Sous main — 4850 دج</p>
+      <p>3️⃣ باقة البازوكا الصغيرة — 4950 دج</p>
+      <p>4️⃣ باقة البازوكا الكبيرة — 5200 دج</p>
+      <p>5️⃣ باقة VIP — 6200 دج</p>
     </div>
-
-    <div class="offer-box">
-      <div class="offer-title">2️⃣ باقة Sous main</div>
-      <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
-      <p class="price">💵 4850 دج (485alf)</p>
-    </div>
-
-    <div class="offer-box">
-      <div class="offer-title">3️⃣ باقة البازوكا الصغيرة</div>
-      <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
-      <p class="price">💵 4950 دج (495alf)</p>
-    </div>
-
-    <div class="offer-box">
-      <div class="offer-title">4️⃣ باقة البازوكا الكبيرة</div>
-      <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
-      <p class="price">💵 5200 دج (520alf)</p>
-    </div>
-
-    <div class="offer-box">
-      <div class="offer-title">5️⃣ باقة VIP</div>
-      <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
-      <p class="price">💵 6200 دج (620alf)</p>
-    </div>
-
-    <p>🚚 التوصيل: متوفر في 58 ولاية خلال 24 ساعة كحد أقصى!<br>
-       💳 الدفع عند الاستلام بعد المعاينة ❤️<br>
-       💬 لأي سؤال، نحن دائمًا هنا لمساعدتك 🥰</p>
 
     <form id="orderForm">
-      <h3>📋 اطلب الآن:</h3>
-      <input type="text" name="name" placeholder="✍️ الاسم الكامل" required>
-      <input type="tel" name="phone" placeholder="📞 رقم الهاتف" required>
-      <input type="text" name="wilaya" placeholder="📍 الولاية" required>
+      <h2>📝 تسجيل طلبك</h2>
+      <input type="text" name="name" placeholder="الاسم الكامل" required>
+      <input type="tel" name="phone" placeholder="رقم الهاتف" required>
+      <input type="text" name="wilaya" placeholder="الولاية" required>
       <select name="pack" required>
-        <option value="">💡 اختر الباقة</option>
-        <option value="الباقة الأساسية - 3950 دج">1️⃣ الباقة الأساسية - 3950 دج</option>
-        <option value="باقة Sous main - 4850 دج">2️⃣ باقة Sous main - 4850 دج</option>
-        <option value="باقة البازوكا الصغيرة - 4950 دج">3️⃣ باقة البازوكا الصغيرة - 4950 دج</option>
-        <option value="باقة البازوكا الكبيرة - 5200 دج">4️⃣ باقة البازوكا الكبيرة - 5200 دج</option>
-        <option value="باقة VIP - 6200 دج">5️⃣ باقة VIP - 6200 دج</option>
+        <option value="">اختر الباقة</option>
+        <option value="الباقة الأساسية">الباقة الأساسية - 3950 دج</option>
+        <option value="باقة Sous main">باقة Sous main - 4850 دج</option>
+        <option value="البازوكا الصغيرة">باقة البازوكا الصغيرة - 4950 دج</option>
+        <option value="البازوكا الكبيرة">باقة البازوكا الكبيرة - 5200 دج</option>
+        <option value="VIP">باقة VIP - 6200 دج</option>
       </select>
-      <button type="submit">🚀 إرسال الطلب</button>
-      <div class="success" id="successMsg">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا ❤️</div>
+      <button type="submit">🚀 أرسل طلبي الآن</button>
+      <div class="success">✅ تم تسجيل طلبك بنجاح! سنتواصل معك قريبًا ❤️</div>
     </form>
   </div>
 
   <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbznTBVwherkrYYXtkbLTe0DGhLM0H8wz9J2hdqZmyb06mZSQxQC9tFhHtwQ24YPH7cS/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbznTBVwherkrYYXtkbLTe0DGhLM0H8wz9J2hdqZmyb06mZSQxQC9tFhHtwQ24YPH7cS/exec";
+    const form = document.getElementById("orderForm");
+    const successMsg = document.querySelector(".success");
 
-    document.getElementById("orderForm").addEventListener("submit", function(e){
+    form.addEventListener("submit", e => {
       e.preventDefault();
-      const formData = new FormData(this);
-      fetch(GAS_URL, { method: "POST", body: formData })
-        .then(res => res.text())
-        .then(() => {
-          document.getElementById("successMsg").style.display = "block";
-          this.reset();
+      fetch(scriptURL, { method: "POST", body: new FormData(form)})
+        .then(response => {
+          successMsg.style.display = "block";
+          form.reset();
         })
-        .catch(err => alert("حدث خطأ ❌: " + err.message));
+        .catch(error => alert("⚠️ حدث خطأ: " + error.message));
     });
   </script>
 
