@@ -74,14 +74,33 @@
       cursor: pointer;
       transition: background 0.3s;
       border-bottom: 1px solid #f0f0f0;
+      user-select: none;
+      position: relative;
     }
     .sidebar li:hover {
       background-color: #f0e4d4;
     }
+    .sidebar li::after {
+      content: "▼";
+      font-size: 0.7em;
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: transform 0.3s ease;
+    }
+    .sidebar li.active::after {
+      transform: translateY(-50%) rotate(-180deg);
+    }
     .submenu {
-      display: none;
+      max-height: 0;
+      overflow: hidden;
       background-color: #fcf7f2;
       border-left: 3px solid #cba47e;
+      transition: max-height 0.35s ease;
+    }
+    .submenu.show {
+      max-height: 500px; /* يكفي لعرض المحتوى */
     }
     .submenu li {
       padding-left: 40px;
@@ -156,7 +175,7 @@
     }
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: 1fr; /* عمود واحد */
       gap: 20px;
       margin-top: 20px;
     }
@@ -216,9 +235,6 @@
         width: 100%;
         padding: 20px;
       }
-      .cards {
-        grid-template-columns: 1fr;
-      }
     }
   </style>
 </head>
@@ -229,27 +245,27 @@
   <div class="sidebar">
     <h2>🎓 archi.space</h2>
     <ul>
-      <li onclick="toggleMenu(1)">🧰 1ère année</li>
+      <li onclick="toggleMenu(1, this)">🧰 1ère année</li>
       <ul class="submenu" id="submenu1">
         <li><a href="sem1.html">📚 Semestre 1</a></li>
         <li><a href="sem2.html">✏️ Semestre 2</a></li>
       </ul>
-      <li onclick="toggleMenu(2)">📐 2ème année</li>
+      <li onclick="toggleMenu(2, this)">📐 2ème année</li>
       <ul class="submenu" id="submenu2">
         <li><a href="sem3.html">🧱 Semestre 3</a></li>
         <li><a href="sem4.html">🧪 Semestre 4</a></li>
       </ul>
-      <li onclick="toggleMenu(3)">🏗️ 3ème année</li>
+      <li onclick="toggleMenu(3, this)">🏗️ 3ème année</li>
       <ul class="submenu" id="submenu3">
         <li><a href="sem5.html">🧭 Semestre 5</a></li>
         <li><a href="sem6.html">🛰️ Semestre 6</a></li>
       </ul>
-      <li onclick="toggleMenu(4)">🏛️ 4ème année</li>
+      <li onclick="toggleMenu(4, this)">🏛️ 4ème année</li>
       <ul class="submenu" id="submenu4">
         <li><a href="sem7.html">🏙️ Semestre 7</a></li>
         <li><a href="sem8.html">🗂️ Semestre 8</a></li>
       </ul>
-      <li onclick="toggleMenu(5)">🎓 5ème année</li>
+      <li onclick="toggleMenu(5, this)">🎓 5ème année</li>
       <ul class="submenu" id="submenu5">
         <li><a href="sem9.html">🏢 Semestre 9</a></li>
         <li><a href="sem10.html">🏆 Semestre 10</a></li>
@@ -268,6 +284,13 @@
       <input type="text" placeholder="🔍 Rechercher un cours, un projet ou un livre..." />
     </div>
     <div class="cards">
+      <!-- بطاقة طلب ملخصات أولاً -->
+      <a href="https://t.me/+DJAWFkqTVvJkYWU8" target="_blank" rel="noopener" class="card">
+        <span>📝</span>
+        <h3>Demande de résumés</h3>
+        <p>Rejoignez notre groupe Telegram pour demander des résumés de cours et projets.</p>
+      </a>
+
       <a href="bibliotheque.html" class="card">
         <span>📘</span>
         <h3>Bibliothèque</h3>
@@ -303,12 +326,6 @@
         <h3>Présentation de la spécialité</h3>
         <p>Découvrez la filière et les moyennes d'admission.</p>
       </a>
-      <!-- بطاقة طلب ملخصات -->
-      <a href="demande_resume.html" class="card">
-        <span>📝</span>
-        <h3>طلب ملخصات</h3>
-        <p>اطلب ملخصات للدروس والمشاريع المختلفة.</p>
-      </a>
     </div>
   </div>
   <script type="module">
@@ -335,21 +352,34 @@
         window.location.href = "login.html";
       });
     };
-    window.toggleMenu = function(id) {
+    // جعل القوائم الفرعية تتحرك بسلاسة وفتح/إغلاق
+    window.toggleMenu = function(id, element) {
       for (let i = 1; i <= 5; i++) {
         const menu = document.getElementById("submenu" + i);
-        menu.style.display = (i === id && menu.style.display !== "block") ? "block" : "none";
+        const li = document.querySelector(`.sidebar ul > li[onclick^="toggleMenu(${i}"]`);
+        if(i === id) {
+          if(menu.classList.contains("show")) {
+            menu.classList.remove("show");
+            element.classList.remove("active");
+          } else {
+            menu.classList.add("show");
+            element.classList.add("active");
+          }
+        } else {
+          menu.classList.remove("show");
+          // إزالة تفعيل أي عنصر قديم
+          const otherLi = document.querySelector(`.sidebar ul > li[onclick^="toggleMenu(${i}"]`);
+          if(otherLi) otherLi.classList.remove("active");
+        }
       }
     };
-    // دالة لإظهار وإخفاء القائمة الجانبية على الشاشات الصغيرة والكمبيوتر
+    // دالة إظهار/إخفاء القائمة الجانبية على الجوال والكمبيوتر
     window.toggleSidebar = function() {
       const sidebar = document.querySelector('.sidebar');
       const content = document.querySelector('.content');
       if (window.innerWidth <= 768) {
-        // على الجوال نستخدم show class
         sidebar.classList.toggle('show');
       } else {
-        // على الكمبيوتر نستخدم hidden class
         sidebar.classList.toggle('hidden');
         content.classList.toggle('fullwidth');
       }
