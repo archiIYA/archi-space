@@ -2,164 +2,162 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
+  <title>طلب جديد</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>عروض الهندسة المعمارية 🎯</title>
+
   <style>
     body {
-      font-family: "Cairo", sans-serif;
+      font-family: Arial, sans-serif;
+      background: #fff;
       margin: 0;
       padding: 0;
-      background: #fff;
       color: #000;
-      direction: rtl;
-      text-align: right;
     }
-
     header {
-      background: linear-gradient(135deg, #d32f2f, #000);
+      background: #c00;
       color: #fff;
-      padding: 20px;
+      padding: 15px;
       text-align: center;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: bold;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     }
-
-    .container {
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 20px;
-    }
-
-    .offer {
-      background: #f9f9f9;
-      border: 2px solid #d32f2f;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 25px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: 0.3s;
-    }
-
-    .offer:hover {
-      transform: scale(1.02);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-    }
-
-    .offer h3 {
-      color: #d32f2f;
-      margin-bottom: 10px;
-    }
-
-    .offer p {
-      margin: 5px 0;
-    }
-
     form {
-      background: #fff;
+      max-width: 600px;
+      margin: 20px auto;
+      background: #f9f9f9;
       border: 2px solid #000;
-      border-radius: 12px;
+      border-radius: 10px;
       padding: 20px;
-      margin-top: 30px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-
-    form h2 {
-      margin-bottom: 15px;
-      color: #d32f2f;
-      text-align: center;
-    }
-
-    input, select, button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #aaa;
-      border-radius: 8px;
-      font-size: 16px;
-    }
-
-    button {
-      background: #d32f2f;
-      color: white;
+    label {
+      display: block;
+      margin: 10px 0 5px;
       font-weight: bold;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
     }
-
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #c00;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background: #c00;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
     button:hover {
       background: #000;
       color: #fff;
     }
-
-    .success {
+    .success, .error {
       text-align: center;
-      font-size: 18px;
-      color: green;
-      margin-top: 15px;
-      display: none;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 16px;
     }
+    .success { color: green; }
+    .error { color: red; }
   </style>
 </head>
 <body>
 
-  <header>
-    🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية 🏛✨
-  </header>
+  <header>🛒 نموذج طلب - TRENDY TEAM</header>
 
-  <div class="container">
-    <div class="offer">
-      <h3>📦 محتويات العرض:</h3>
-      <p>✅ 16 أداة أساسية</p>
-      <p>✅ محفظة كبيرة للأوراق (Sous main)</p>
-      <p>✅ بازوكا لحمل المخططات</p>
-      <p>✅ ملف DRIVE فيه جميع الدروس + الملخصات + الامتحانات</p>
-      <p>✅ هدية مميزة 🎁🤩</p>
-    </div>
+  <form id="orderForm">
+    <label>الاسم الكامل</label>
+    <input type="text" id="fullName" required>
 
-    <div class="offer">
-      <h3>💡 اختر الباقة:</h3>
-      <p>1️⃣ الباقة الأساسية — 3950 دج</p>
-      <p>2️⃣ باقة Sous main — 4850 دج</p>
-      <p>3️⃣ باقة البازوكا الصغيرة — 4950 دج</p>
-      <p>4️⃣ باقة البازوكا الكبيرة — 5200 دج</p>
-      <p>5️⃣ باقة VIP — 6200 دج</p>
-    </div>
+    <label>الهاتف</label>
+    <input type="text" id="phone" required>
 
-    <form id="orderForm">
-      <h2>📝 تسجيل طلبك</h2>
-      <input type="text" name="name" placeholder="الاسم الكامل" required>
-      <input type="tel" name="phone" placeholder="رقم الهاتف" required>
-      <input type="text" name="wilaya" placeholder="الولاية" required>
-      <select name="pack" required>
-        <option value="">اختر الباقة</option>
-        <option value="الباقة الأساسية">الباقة الأساسية - 3950 دج</option>
-        <option value="باقة Sous main">باقة Sous main - 4850 دج</option>
-        <option value="البازوكا الصغيرة">باقة البازوكا الصغيرة - 4950 دج</option>
-        <option value="البازوكا الكبيرة">باقة البازوكا الكبيرة - 5200 دج</option>
-        <option value="VIP">باقة VIP - 6200 دج</option>
-      </select>
-      <button type="submit">🚀 أرسل طلبي الآن</button>
-      <div class="success">✅ تم تسجيل طلبك بنجاح! سنتواصل معك قريبًا ❤️</div>
-    </form>
-  </div>
+    <label>تأكيد الهاتف</label>
+    <input type="text" id="phoneConfirm">
+
+    <label>الولاية</label>
+    <input type="text" id="city" required>
+
+    <label>البلدية</label>
+    <input type="text" id="commune">
+
+    <label>المنتج</label>
+    <input type="text" id="packType" placeholder="مثال: باك أساسي">
+
+    <label>سعر المنتج</label>
+    <input type="number" id="packPrice">
+
+    <label>نوع التوصيل</label>
+    <select id="deliveryType">
+      <option value="standard">عادي</option>
+      <option value="express">سريع</option>
+    </select>
+
+    <label>سعر التوصيل</label>
+    <input type="number" id="deliveryPrice">
+
+    <label>ملاحظات</label>
+    <textarea id="notes"></textarea>
+
+    <button type="submit">إرسال الطلب ✅</button>
+  </form>
+
+  <div class="success" id="successMsg" style="display:none;">✅ تم إرسال الطلب بنجاح</div>
+  <div class="error" id="errorMsg" style="display:none;">❌ حدث خطأ، حاول مرة أخرى</div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbznTBVwherkrYYXtkbLTe0DGhLM0H8wz9J2hdqZmyb06mZSQxQC9tFhHtwQ24YPH7cS/exec";
-    const form = document.getElementById("orderForm");
-    const successMsg = document.querySelector(".success");
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbznTBVwherkrYYXtkbLTe0DGhLM0H8wz9J2hdqZmyb06mZSQxQC9tFhHtwQ24YPH7cS/exec";
 
-    form.addEventListener("submit", e => {
+    document.getElementById("orderForm").addEventListener("submit", async function(e) {
       e.preventDefault();
-      fetch(scriptURL, { method: "POST", body: new FormData(form)})
-        .then(response => {
-          successMsg.style.display = "block";
-          form.reset();
-        })
-        .catch(error => alert("⚠️ حدث خطأ: " + error.message));
+
+      const data = {
+        customer: {
+          fullName: document.getElementById("fullName").value,
+          phone: document.getElementById("phone").value,
+          phoneConfirm: document.getElementById("phoneConfirm").value,
+          city: document.getElementById("city").value,
+          commune: document.getElementById("commune").value,
+          notes: document.getElementById("notes").value
+        },
+        shipping: {
+          method: document.getElementById("deliveryType").value,
+          fee: document.getElementById("deliveryPrice").value
+        },
+        pack: {
+          type: document.getElementById("packType").value,
+          price: document.getElementById("packPrice").value
+        },
+        totals: {
+          total: (Number(document.getElementById("packPrice").value) || 0) + 
+                 (Number(document.getElementById("deliveryPrice").value) || 0)
+        }
+      };
+
+      try {
+        let res = await fetch(GAS_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        let result = await res.json();
+        if (result.result === "success") {
+          document.getElementById("successMsg").style.display = "block";
+          document.getElementById("errorMsg").style.display = "none";
+          document.getElementById("orderForm").reset();
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (err) {
+        document.getElementById("errorMsg").style.display = "block";
+        document.getElementById("successMsg").style.display = "none";
+      }
     });
   </script>
-
 </body>
 </html>
