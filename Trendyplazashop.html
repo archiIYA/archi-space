@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nos Packs - Archi Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      color: #000;
+    }
+    header {
+      background: #b00020;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .pack {
+      border: 2px solid #000;
+      border-radius: 12px;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+    .pack:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(176,0,32,0.3);
+    }
+    .pack h2 {
+      color: #b00020;
+      margin-top: 0;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    ul li {
+      margin-bottom: 6px;
+    }
+    .price {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 15px 0;
+      color: #000;
+    }
+    button {
+      background: #b00020;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    button:hover {
+      background: #ff002b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎁 Choisissez Votre Pack</h1>
+  </header>
+  <div class="container">
+
+    <div class="pack">
+      <h2>1️⃣ Pack Essentiel</h2>
+      <ul>
+        <li>✅ 16 outils essentiels</li>
+        <li>✅ Fichier DRIVE complet</li>
+        <li>✅ Cadeau spécial 🎁</li>
+      </ul>
+      <div class="price">💵 3950 DA (395alf)</div>
+      <button onclick="order('Pack Essentiel',3950)">Commander</button>
+    </div>
+
+    <div class="pack">
+      <h2>2️⃣ Pack Sous Main</h2>
+      <ul>
+        <li>✅ 16 outils essentiels</li>
+        <li>✅ Sous main (grande pochette)</li>
+        <li>✅ Fichier DRIVE complet</li>
+        <li>✅ Cadeau spécial 🎁</li>
+      </ul>
+      <div class="price">💵 4850 DA (485alf)</div>
+      <button onclick="order('Pack Sous Main',4850)">Commander</button>
+    </div>
+
+    <div class="pack">
+      <h2>3️⃣ Pack Bazooka (Petit)</h2>
+      <ul>
+        <li>✅ 16 outils essentiels</li>
+        <li>✅ Bazooka petit</li>
+        <li>✅ Fichier DRIVE complet</li>
+        <li>✅ Cadeau spécial 🎁</li>
+      </ul>
+      <div class="price">💵 4950 DA (495alf)</div>
+      <button onclick="order('Pack Bazooka Petit',4950)">Commander</button>
+    </div>
+
+    <div class="pack">
+      <h2>4️⃣ Pack Bazooka (Grand)</h2>
+      <ul>
+        <li>✅ 16 outils essentiels</li>
+        <li>✅ Bazooka grand</li>
+        <li>✅ Fichier DRIVE complet</li>
+        <li>✅ Cadeau spécial 🎁</li>
+      </ul>
+      <div class="price">💵 5200 DA (520alf)</div>
+      <button onclick="order('Pack Bazooka Grand',5200)">Commander</button>
+    </div>
+
+    <div class="pack">
+      <h2>5️⃣ Pack VIP</h2>
+      <ul>
+        <li>✅ 16 outils essentiels</li>
+        <li>✅ Bazooka petit</li>
+        <li>✅ Sous main</li>
+        <li>✅ Fichier DRIVE complet</li>
+        <li>✅ Cadeau spécial 🎁</li>
+      </ul>
+      <div class="price">💵 6200 DA (620alf)</div>
+      <button onclick="order('Pack VIP',6200)">Commander</button>
+    </div>
+
+  </div>
+
+  <script>
+    const GAS_URL = "COLLEZ_ICI_VOTRE_URL_APPS_SCRIPT";https://script.google.com/macros/s/AKfycbzmHDHqpMpEvrwjOQ6aXGU419gWunObR0vM6lF2Bcxhq6bouGnXsfFJvG4zoW5kqbri/exec
+
+    function order(packName, price){
+      const name = prompt("Entrez votre nom:");
+      const phone = prompt("Entrez votre numéro de téléphone:");
+      if(!name || !phone) return alert("❌ Merci de remplir les champs.");
+
+      fetch(GAS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          pack: packName,
+          prix: price,
+          nom: name,
+          telephone: phone,
+          date: new Date().toLocaleString()
+        })
+      });
+      alert("✅ Votre commande a été envoyée avec succès!");
+    }
+  </script>
+</body>
+</html>
