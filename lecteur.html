@@ -3,11 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="archi.space est une plateforme éducative d’architecture : cours, projets, livres." />
-  <meta name="keywords" content="architecture, cours architecture, archi.space, PFE, projet étudiant, دروس معمارية, fac architecture" />
-  <meta name="author" content="archi.space" />
-  <title>archi.space - Accueil</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <title>MedSpace - Accueil</title>
   <style>
     * {
       box-sizing: border-box;
@@ -16,8 +12,8 @@
     body {
       font-family: 'Poppins', sans-serif;
       display: flex;
-      background: #fff; /* أبيض */
-      color: #000;     /* أسود نص */
+      background: #fff;
+      color: #000;
       min-height: 100vh;
       overflow-x: hidden;
     }
@@ -26,92 +22,75 @@
       position: fixed;
       top: 15px;
       left: 15px;
-      background-color: #8B0000; /* أحمر بارد */
+      background-color: #222;
       color: white;
       border: none;
       padding: 10px 15px;
       border-radius: 8px;
       cursor: pointer;
       z-index: 110;
-      box-shadow: 0 2px 8px rgba(139,0,0,0.6);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
       transition: background-color 0.3s ease;
     }
     .sidebar-toggle:hover {
-      background-color: #5C0000;
+      background-color: #555;
     }
     .sidebar {
       width: 220px;
-      background: #fff; /* أبيض */
+      background: #fff;
       height: 100vh;
       position: fixed;
       border-right: 1px solid #ccc;
       box-shadow: 3px 0 8px rgba(0,0,0,0.1);
       z-index: 100;
       overflow-y: auto;
-      transition: transform 0.3s ease;
-      padding: 0;
+      padding-top: 20px;
       font-weight: 600;
-    }
-    .sidebar.hidden {
-      transform: translateX(-100%);
-    }
-    .sidebar.show {
-      transform: translateX(0);
+      color: #000;
+      user-select: none;
     }
     .sidebar ul {
       list-style: none;
-      padding: 20px 0;
+      padding: 0;
       margin: 0;
+    }
+    .sidebar li, .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      cursor: pointer;
+      color: #000;
+      text-decoration: none;
+      border-left: 4px solid transparent;
+      transition: background-color 0.3s ease, border-left-color 0.3s ease;
+      font-size: 1rem;
+    }
+    .sidebar li:hover, .sidebar a:hover {
+      background-color: #f5f5f5;
+      border-left-color: #000;
+      color: #000;
+    }
+    .sidebar li.active, .sidebar a.active {
+      background-color: #e0e0e0;
+      border-left-color: #000;
+      color: #000;
+      font-weight: 700;
+    }
+    .sidebar li span.icon, .sidebar a span.icon {
+      font-size: 1.3rem;
       user-select: none;
     }
-    .sidebar li {
-      padding: 14px 20px;
-      cursor: pointer;
-      border-bottom: 1px solid #eee;
-      color: #222;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: background 0.3s, color 0.3s ease;
-    }
-    .sidebar li:hover {
-      background-color: #f6e8e8;
-      color: #8B0000;
-    }
-    .sidebar li.active {
-      background-color: #f6e8e8;
-      color: #8B0000;
-      font-weight: 700;
-      border-left: 4px solid #8B0000;
-    }
-    .sidebar li svg, .sidebar li img {
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-      fill: #8B0000;
-    }
-    .sidebar a {
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: 100%;
-    }
-    .sidebar a:hover {
-      color: #8B0000;
-    }
     .contact {
-      margin-top: 36px;
-      padding: 15px;
-      text-align: center;
+      margin-top: 40px;
+      padding: 15px 24px;
       font-size: 0.9em;
-      color: #333;
       border-top: 1px solid #ddd;
+      color: #333;
       user-select: none;
     }
     .contact a {
-      color: #8B0000;
+      color: #000;
       text-decoration: none;
       font-weight: 600;
     }
@@ -126,47 +105,45 @@
       background: #fff;
       color: #000;
     }
-
     .logout {
-      background-color: #8B0000;
+      background-color: #000;
       color: white;
       border: none;
       padding: 10px 20px;
       cursor: pointer;
       border-radius: 8px;
       float: right;
-      box-shadow: 0 4px 10px rgba(139,0,0,0.3);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       transition: background 0.3s ease;
       margin-bottom: 20px;
       font-weight: 600;
     }
     .logout:hover {
-      background-color: #5C0000;
+      background-color: #555;
     }
     h1 {
       margin-bottom: 15px;
       font-size: 2em;
-      color: #000;
       clear: both;
       user-select: none;
     }
     .search-bar > div {
       padding: 20px;
-      background: #fff0f0; /* خلفية أحمر فاتح */
+      background: #f0f0f0;
       border-radius: 15px;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(139,0,0,0.1);
-      color: #8B0000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      color: #000;
       font-weight: 600;
       margin-bottom: 20px;
       user-select: none;
     }
     .mobile-info-message {
       display: none;
-      background:#fff0f0;
+      background:#f0f0f0;
       padding: 12px 20px;
       border-radius: 10px;
-      color: #8B0000;
+      color: #000;
       margin-bottom: 15px;
       font-weight: 600;
       text-align: center;
@@ -191,8 +168,8 @@
     }
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(139,0,0,0.3);
-      color: #8B0000;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      color: #000;
     }
     .card span {
       font-size: 2.5em;
@@ -201,14 +178,22 @@
     }
     .card h3 {
       margin: 0 0 10px 0;
-      color: #8B0000;
+      color: #000;
       font-weight: 600;
     }
-    .card p {
+    .card p, .card ul {
       margin: 0;
       color: #333;
       font-size: 0.85em;
       line-height: 1.3;
+    }
+    .card ul {
+      list-style: disc inside;
+      padding-left: 15px;
+      margin-top: 5px;
+    }
+    .card ul li {
+      margin-bottom: 6px;
     }
     .telegram-list ul {
       list-style: disc inside;
@@ -218,6 +203,7 @@
       color: #000;
       font-size: 0.9em;
       line-height: 1.4;
+      user-select: text;
     }
     .telegram-list ul li {
       margin-bottom: 8px;
@@ -226,7 +212,6 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @media (max-width: 768px) {
       .sidebar-toggle {
         display: block;
@@ -238,7 +223,7 @@
         left: 0;
         transform: translateX(-100%);
         width: 220px;
-        box-shadow: 5px 0 15px rgba(139, 0, 0, 0.2);
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
       }
       .sidebar.show {
         transform: translateX(0);
@@ -261,23 +246,20 @@
   <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
   <div class="sidebar" role="navigation" aria-label="Navigation principale">
     <ul>
-      <li class="active"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12h18M3 6h18M3 18h18" stroke="#8B0000" stroke-width="2" stroke-linecap="round"/></svg> Accueil</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="#8B0000" stroke-width="2" stroke-linecap="round"/></svg> Statistiques</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#8B0000" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="#8B0000" stroke-width="2"/></svg> Suivi Cours</li>
-      <li><a href="courses.html" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap:8px;">
-        <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M3 4h18M3 10h18M3 16h18M3 22h18" stroke="#8B0000" stroke-width="2" stroke-linecap="round"/></svg>
-        Site des Cours
-      </a></li>
-      <li><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="3" fill="#8B0000"/><rect x="3" y="14" width="18" height="3" fill="#ccc"/></svg> Sessions Questions</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="20" height="3" fill="#8B0000"/><rect x="2" y="14" width="20" height="3" fill="#ccc"/></svg> Sessions Examens</li>
-      <li style="color: #aaa; cursor: default;">Sessions Résidanat</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#8B0000" stroke-width="2"/><line x1="8" y1="12" x2="16" y2="12" stroke="#8B0000" stroke-width="2"/></svg> Labels</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="5" width="14" height="14" stroke="#8B0000" stroke-width="2"/></svg> Notes</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="#8B0000" stroke-width="2"/></svg> Signals</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#8B0000" stroke-width="2"/><path d="M8 12h8" stroke="#8B0000" stroke-width="2"/></svg> Notification</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="7" width="16" height="10" stroke="#8B0000" stroke-width="2"/></svg> Abonnement</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#8B0000" stroke-width="2"/><path d="M9 10h6v4H9v-4z" stroke="#8B0000" stroke-width="2"/></svg> Support</li>
-      <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#8B0000" stroke-width="2"/></svg> Profile</li>
+      <li class="active">🏠 Accueil</li>
+      <li>📊 Statistiques</li>
+      <li>📚 Suivi Cours</li>
+      <li><a href="courses.html" class="">📖 Site des Cours</a></li>
+      <li>❓ Sessions Questions</li>
+      <li>📝 Sessions Examens</li>
+      <li style="color: #aaa; cursor: default;">👨‍⚕️ Sessions Résidanat</li>
+      <li>🏷️ Labels</li>
+      <li>🗒️ Notes</li>
+      <li>🚩 Signals</li>
+      <li>🔔 Notification</li>
+      <li>💳 Abonnement</li>
+      <li>🛠️ Support</li>
+      <li>👤 Profile</li>
     </ul>
     <div class="contact">
       📬 Contact :<br />
@@ -304,12 +286,16 @@
         <h3>Demande de résumés</h3>
         <p>Rejoignez notre groupe Telegram pour demander des résumés de cours et projets.</p>
       </a>
-      <!-- يسار - ترفيه ونصائح -->
-      <a href="https://www.instagram.com/ikraam_bks?igsh=ZWJvbjc2NHF0bXc0" target="_blank" rel="noopener" class="card">
+      <!-- تعديل بطاقة قنوات الإنستجرام -->
+      <div class="card">
         <span>📸</span>
         <h3>Meilleures chaînes Instagram</h3>
-        <p>Découvrez les plus intéressantes chaînes Instagram pour l'architecture.</p>
-      </a>
+        <ul>
+          <li><a href="https://www.instagram.com/ikraam_bks?igsh=ZWJvbjc2NHF0bXc0" target="_blank" rel="noopener" style="color:#000;text-decoration:none;">ikraam_bks</a></li>
+          <li><a href="https://www.instagram.com/urfav_sam_archi_epau?igsh=MTRxbzF0dnludnBqbQ%3D%3D" target="_blank" rel="noopener" style="color:#000;text-decoration:none;">urfav_sam_archi_epau</a></li>
+          <li><a href="https://www.instagram.com/urfav_sam_archi_epau?igsh=MTRxbzF0dnludnBqbQ%3D%3D" target="_blank" rel="noopener" style="color:#000;text-decoration:none;">urfav_sam_archi_epau</a></li>
+        </ul>
+      </div>
       <a href="bibliotheque.html" class="card">
         <span>📘</span>
         <h3>Bibliothèque</h3>
@@ -362,9 +348,9 @@
         <h3>Meilleures chaînes Telegram</h3>
         <div class="telegram-list">
           <ul>
-            <li><a href="https://t.me/+IpSoJKmM9y5kMjU0" target="_blank" rel="noopener"><h3>سنة اولى</h3></a></li>
-            <li><a href="https://t.me/+PZlrwvdw8jllMTRk" target="_blank" rel="noopener"><h3>سنة ثانية</h3></a></li>
-            <li><a href="https://t.me/+kUPR2XI-dlZmM2Vk" target="_blank" rel="noopener"><h3>سنة ثالثة</h3></a></li>
+            <li><a href="https://t.me/+IpSoJKmM9y5kMjU0" target="_blank" rel="noopener">سنة اولى</a></li>
+            <li><a href="https://t.me/+PZlrwvdw8jllMTRk" target="_blank" rel="noopener">سنة ثانية</a></li>
+            <li><a href="https://t.me/+kUPR2XI-dlZmM2Vk" target="_blank" rel="noopener">سنة ثالثة</a></li>
           </ul>
         </div>
       </div>
