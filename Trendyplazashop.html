@@ -1,660 +1,205 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>طلب الباقات - الهندسة المعمارية</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary-color: #b30000;
-      --secondary-color: #000;
-      --accent-color: #ff5252;
-      --light-color: #f8f9fa;
-      --dark-color: #333;
-      --success-color: #28a745;
-      --warning-color: #ffc107;
-      --info-color: #17a2b8;
-    }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
     body {
       font-family: 'Cairo', Arial, sans-serif;
+      background: #f8f9fa;
       margin: 0;
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-      color: var(--dark-color);
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-    
-    .header-container {
-      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-      padding: 15px 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    
-    .logo-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    .logo {
-      width: 80px;
-      height: 80px;
-      margin-left: 15px;
-      background: #fff;
-      border-radius: 50%;
-      padding: 5px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 24px;
-      color: var(--primary-color);
-    }
-    
-    .header-text {
-      text-align: center;
-      color: #fff;
-    }
-    
-    .header-text h1 {
-      font-size: 1.8rem;
-      margin-bottom: 5px;
-    }
-    
-    .header-text p {
-      font-size: 1rem;
-      opacity: 0.9;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
       padding: 20px;
     }
-    
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-      margin: 25px 0;
-    }
-    
     .card {
-      border: 2px solid var(--primary-color);
-      border-radius: 15px;
-      padding: 20px;
-      background: #fff;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      text-align: center;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-    }
-    
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 30px rgba(179, 0, 0, 0.18);
-    }
-    
-    .package-image {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      border: 2px solid #eee;
-    }
-    
-    .card h3 {
-      color: var(--primary-color);
-      margin: 12px 0;
-      font-size: 1.4rem;
-    }
-    
-    .price {
-      font-weight: 800;
-      color: var(--secondary-color);
-      margin: 15px 0;
-      font-size: 1.6rem;
-      background: #f8f8f8;
-      padding: 12px;
-      border-radius: 10px;
-      border: 2px dashed var(--primary-color);
-    }
-    
-    .btn {
-      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-      color: #fff;
-      padding: 14px 20px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      font-size: 1.1rem;
-      margin-top: auto;
-      box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
-    }
-    
-    .btn:hover {
-      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-      transform: scale(1.03);
-    }
-    
-    #formWrap {
-      display: none;
-      max-width: 600px;
-      margin: 30px auto;
-      padding: 28px;
-      border: 2px solid var(--secondary-color);
-      border-radius: 15px;
-      background: #fff;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    #formWrap::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-    }
-    
-    #formWrap h3 {
-      text-align: center;
-      color: var(--primary-color);
-      margin-bottom: 22px;
-      font-size: 1.6rem;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #f0f0f0;
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      color: var(--dark-color);
-    }
-    
-    input, select, textarea {
-      width: 100%;
-      padding: 14px;
-      margin: 6px 0;
-      border-radius: 8px;
-      border: 2px solid #ddd;
-      font-size: 16px;
-      font-family: 'Cairo', Arial, sans-serif;
-      transition: all 0.3s;
-    }
-    
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(179, 0, 0, 0.2);
-    }
-    
-    button.submit-btn {
-      width: 100%;
-      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-      border: none;
-      color: #fff;
-      padding: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 8px;
-      margin-top: 20px;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
-    }
-    
-    button.submit-btn:hover {
-      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-      transform: scale(1.02);
-    }
-    
-    .success {
-      display: none;
-      text-align: center;
-      padding: 20px;
-      background: var(--success-color);
-      color: #fff;
-      border-radius: 10px;
-      margin: 25px auto;
-      max-width: 600px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
-    
-    .error {
-      display: none;
-      text-align: center;
-      padding: 18px;
-      background: var(--warning-color);
-      color: #856404;
-      border-radius: 10px;
-      margin: 20px auto;
-      max-width: 600px;
-      font-weight: bold;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
-    
-    .info {
-      display: none;
-      text-align: center;
-      padding: 20px;
-      background: var(--info-color);
-      color: #fff;
-      border-radius: 10px;
-      margin: 25px auto;
-      max-width: 600px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
-    
-    .loading {
-      display: none;
-      text-align: center;
-      margin: 20px 0;
-    }
-    
-    .loading-spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid var(--primary-color);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 15px auto;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    .contact-info {
-      text-align: center;
-      margin: 30px 0;
-      padding: 20px;
       background: #fff;
       border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
-    
-    .contact-info h3 {
-      color: var(--primary-color);
-      margin-bottom: 15px;
-    }
-    
-    .contact-info p {
-      font-size: 1.2rem;
-      margin: 10px 0;
-    }
-    
-    .whatsapp-btn {
-      display: inline-block;
-      background: #25D366;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      margin-top: 15px;
-      transition: all 0.3s ease;
-    }
-    
-    .whatsapp-btn:hover {
-      background: #128C7E;
-      transform: scale(1.05);
-    }
-    
-    .order-data {
-      display: none;
-      background: #f8f9fa;
-      border: 2px solid #dee2e6;
-      border-radius: 10px;
       padding: 20px;
-      margin: 20px 0;
-      font-family: monospace;
-      white-space: pre-wrap;
-      word-break: break-all;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: 20px auto;
+      text-align: center;
     }
-    
-    .copy-btn {
-      background: var(--info-color);
-      color: white;
+    .card h2 {
+      margin-bottom: 10px;
+      color: #b30000;
+    }
+    .btn, button {
+      background: #b30000;
+      color: #fff;
       border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 1rem;
       cursor: pointer;
-      margin-top: 10px;
-      transition: all 0.3s ease;
+      transition: background 0.3s;
+      margin-top: 15px;
     }
-    
-    .copy-btn:hover {
-      background: #138496;
+    .btn:hover, button:hover {
+      background: #8a0000;
     }
-    
-    @media (max-width: 768px) {
-      .grid {
-        grid-template-columns: 1fr;
-        padding: 15px;
-      }
-      
-      .header-text h1 {
-        font-size: 1.5rem;
-      }
-      
-      #formWrap {
-        margin: 15px;
-        padding: 20px;
-      }
-      
-      .card {
-        padding: 18px;
-      }
-      
-      .logo {
-        width: 60px;
-        height: 60px;
-        font-size: 18px;
-      }
+    form {
+      background: #fff;
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 2px solid #ccc;
+      font-size: 1rem;
+      font-family: 'Cairo', Arial, sans-serif;
+    }
+    textarea {
+      resize: vertical;
+    }
+    #loadingIndicator {
+      display: none;
+      text-align: center;
+      margin-top: 15px;
+    }
+    #successBox, #errorBox {
+      display: none;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+    }
+    #successBox {
+      background: #d4edda;
+      color: #155724;
+    }
+    #errorBox {
+      background: #f8d7da;
+      color: #721c24;
     }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="header-container">
-    <div class="logo-header">
-      <div class="logo">AR<br>CH</div>
-      <div class="header-text">
-        <h1>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية</h1>
-        <p>اطلب الآن واحصل على أفضل الباقات بأفضل الأسعار</p>
-      </div>
-    </div>
-  </div>
-  
-  <div class="container">
-    <div class="grid" aria-label="قائمة الباقات">
-      <div class="card" tabindex="0" onclick="openForm('الباقة الأساسية', 3950)">
-        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=الباقة+الأساسية" alt="الباقة الأساسية" class="package-image">
-        <h3>1️⃣ الباقة الأساسية</h3>
-        <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
-        <div class="price">3950 دج</div>
-        <button class="btn" type="button" onclick="openForm('الباقة الأساسية', 3950)">اطلب الآن</button>
-      </div>
-      
-      <div class="card" tabindex="0" onclick="openForm('باقة Sous main', 4850)">
-        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+Sous+main" alt="باقة Sous main" class="package-image">
-        <h3>2️⃣ باقة Sous main</h3>
-        <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
-        <div class="price">4850 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة Sous main', 4850)">اطلب الآن</button>
-      </div>
-      
-      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الصغيرة', 4950)">
-        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+البازوكا+الصغيرة" alt="باقة البازوكا الصغيرة" class="package-image">
-        <h3>3️⃣ باقة البازوكا الصغيرة</h3>
-        <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
-        <div class="price">4950 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة البازوكا الصغيرة', 4950)">اطلب الآن</button>
-      </div>
-      
-      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الكبيرة', 5200)">
-        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+البازوكا+الكبيرة" alt="باقة البازوكا الكبيرة" class="package-image">
-        <h3>4️⃣ باقة البازوكا الكبيرة</h3>
-        <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
-        <div class="price">5200 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة البازوكا الكبيرة', 5200)">اطلب الآن</button>
-      </div>
-      
-      <div class="card" tabindex="0" onclick="openForm('باقة VIP', 6200)">
-        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+VIP" alt="باقة VIP" class="package-image">
-        <h3>5️⃣ باقة VIP</h3>
-        <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
-        <div class="price">6200 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة VIP', 6200)">اطلب الآن</button>
-      </div>
-    </div>
 
-    <div id="formWrap">
-      <form id="orderForm">
-        <h3>📋 اكمل بيانات الطلب</h3>
-        <input type="hidden" name="package" id="package">
-        <input type="hidden" name="price" id="price">
-        
-        <div class="form-group">
-          <label for="name">الاسم الكامل</label>
-          <input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل">
-        </div>
-        
-        <div class="form-group">
-          <label for="phone">رقم الهاتف</label>
-          <input type="tel" id="phone" name="phone" required pattern="^(\+?213|0)(5|6|7)\d{8}$" placeholder="مثال: 0551234567">
-        </div>
-        
-        <div class="form-group">
-          <label for="wilaya">الولاية</label>
-          <select id="wilaya" name="wilaya" required>
-            <option value="">اختر الولاية</option>
-            <option>أدرار</option><option>الشلف</option><option>الأغواط</option><option>أم البواقي</option><option>باتنة</option>
-            <option>بجاية</option><option>بسكرة</option><option>بشار</option><option>البليدة</option><option>البويرة</option>
-            <option>تمنراست</option><option>تبسة</option><option>تلمسان</option><option>تيارت</option><option>تيزي وزو</option>
-            <option>الجزائر</option><option>الجلفة</option><option>جيجل</option><option>سطيف</option><option>سعيدة</option>
-            <option>سكيكدة</option><option>سيدي بلعباس</option><option>عنابة</option><option>قالمة</option><option>قسنطينة</option>
-            <option>المدية</option><option>مستغانم</option><option>المسيلة</option><option>معسكر</option><option>ورقلة</option>
-            <option>وهران</option><option>البيض</option><option>إليزي</option><option>برج بوعريريج</option><option>بومرداس</option>
-            <option>الطارف</option><option>تندوف</option><option>تيسمسيلت</option><option>الوادي</option><option>خنشلة</option>
-            <option>سوق أهراس</option><option>تيبازة</option><option>ميلة</option><option>عين الدفلى</option><option>النعامة</option>
-            <option>عين تموشنت</option><option>غرداية</option><option>غليزان</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="commune">البلدية</label>
-          <input type="text" id="commune" name="commune" required placeholder="أدخل اسم البلدية">
-        </div>
-        
-        <div class="form-group">
-          <label for="delivery">نوع التوصيل</label>
-          <select id="delivery" name="delivery" required>
-            <option value="">اختر نوع التوصيل</option>
-            <option value="À domicile">À domicile (التوصيل إلى المنزل)</option>
-            <option value="Tifawt bureau">Tifawt bureau</option>
-            <option value="Bureau">Bureau (التوصيل إلى المكتب)</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="notes">ملاحظات إضافية (اختياري)</label>
-          <textarea id="notes" name="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة"></textarea>
-        </div>
-        
-        <div class="loading" id="loadingIndicator">
-          <div class="loading-spinner"></div>
-          <p>جاري إرسال الطلب...</p>
-        </div>
-        
-        <button type="submit" class="submit-btn">✅ تأكيد الطلب</button>
-      </form>
-      
-      <div id="successBox" class="success">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
-      <div id="errorBox" class="error">❌ حدث خطأ في الاتصال بالخادم. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.</div>
-    
+  <!-- بطاقة اختيار الباقة -->
+  <div class="card">
+    <h2>الباقة الأساسية</h2>
+    <p>السعر: 3950 دج</p>
+    <button class="btn" type="button" onclick="openForm('الباقة الأساسية', 3950)">
+      اطلب الآن
+    </button>
+  </div>
+
+  <!-- نموذج الطلب (مخفي في البداية) -->
+  <div id="formWrap" style="display:none;">
+    <form id="orderForm">
+      <h2>أكمل بيانات طلبك</h2>
+
+      <input type="hidden" id="package" name="package">
+      <input type="hidden" id="price" name="price">
+
+      <label for="name">الاسم الكامل</label>
+      <input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل">
+
+      <label for="phone">رقم الهاتف</label>
+      <input type="tel" id="phone" name="phone" required
+             placeholder="مثال: 0551234567" pattern="^(\+?213|0)(5|6|7)\d{8}$">
+
+      <label for="wilaya">الولاية</label>
+      <input type="text" id="wilaya" name="wilaya" required placeholder="أدخل اسم الولاية">
+
+      <label for="commune">البلدية</label>
+      <input type="text" id="commune" name="commune" required placeholder="أدخل اسم البلدية">
+
+      <label for="delivery">نوع التوصيل</label>
+      <select id="delivery" name="delivery" required>
+        <option value="">-- اختر نوع التوصيل --</option>
+        <option value="إلى المنزل">إلى المنزل</option>
+        <option value="مكتب البريد">مكتب البريد</option>
+      </select>
+
+      <label for="notes">ملاحظات إضافية (اختياري)</label>
+      <textarea id="notes" name="notes" rows="3" placeholder="اكتب ملاحظتك"></textarea>
+
+      <button type="submit">إرسال الطلب</button>
+
+      <div id="loadingIndicator">⏳ جاري إرسال الطلب...</div>
+      <div id="successBox">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريباً.</div>
+      <div id="errorBox">❌ حدث خطأ، حاول مرة أخرى لاحقاً.</div>
+    </form>
+  </div>
 
   <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbwHMEmXN95Rehwot7p7OAgHVXtc8sjJgSdVExiNBcNaDywC_gb5PD3LBlEZFAFkD_o/exec";
-    let currentOrderData = null;
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwMTVOfnvA12Xh0cqSeeDCs7fKUcZR9tZJ4aYpHQSCyg-ZdfecFuDe3lhtFWJQsD1B1/exec";
 
     function openForm(packName, price) {
       document.getElementById('formWrap').style.display = 'block';
       document.getElementById('package').value = packName;
       document.getElementById('price').value = price;
-      
-      // إخفاء الرسائل السابقة
       document.getElementById('successBox').style.display = 'none';
       document.getElementById('errorBox').style.display = 'none';
-      document.getElementById('infoBox').style.display = 'none';
-      document.getElementById('orderData').style.display = 'none';
-      
-      window.scrollTo({ top: document.getElementById('formWrap').offsetTop - 50, behavior: 'smooth' });
+      window.scrollTo({ top: document.getElementById('formWrap').offsetTop - 40, behavior: 'smooth' });
     }
 
     document.getElementById('orderForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      
-      // إظهار مؤشر التحميل وإخفاء الرسائل
+
       document.getElementById('loadingIndicator').style.display = 'block';
       document.getElementById('successBox').style.display = 'none';
       document.getElementById('errorBox').style.display = 'none';
-      document.getElementById('infoBox').style.display = 'none';
-      document.getElementById('orderData').style.display = 'none';
-      
+
       const formEl = e.target;
       const formData = new FormData(formEl);
-      let obj = {};
-      formData.forEach((value, key) => {
-        obj[key] = value;
-      });
-      
-      // إعداد البيانات للإرسال
-      currentOrderData = {
+      const obj = {};
+      formData.forEach((val, key) => obj[key] = val);
+
+      const flatData = {
+        name: obj.name,
+        phone: obj.phone,
+        wilaya: obj.wilaya,
+        commune: obj.commune,
+        delivery: obj.delivery,
         package: obj.package,
-        customer: {
-          fullName: obj.name,
-          phone: obj.phone,
-          city: obj.wilaya,
-          commune: obj.commune,
-          notes: obj.notes
-        },
-        shipping: {
-          method: obj.delivery,
-          fee: 0
-        },
-        totals: { 
-          total: parseInt(obj.price) 
-        },
-        promo: "",
-        timestamp: new Date().toLocaleString('ar-AR')
+        notes: obj.notes,
+        price: obj.price
       };
-      
-      // تخزين البيانات محلياً
-      localStorage.setItem('lastOrder', JSON.stringify(currentOrderData));
-      
-      // عرض بيانات الطلب
-      document.getElementById('orderData').textContent = JSON.stringify(currentOrderData, null, 2);
-      
-      // محاولة الإرسال إلى Google Apps Script
+
       fetch(GAS_URL, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(currentOrderData)
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('خطأ في استجابة الخادم');
-        }
-        return response.json();
+        body: JSON.stringify(flatData)
       })
       .then(res => {
-        if (res.result === 'success') {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
+      .then(data => {
+        if (data.result === 'success') {
           document.getElementById('successBox').style.display = 'block';
           formEl.reset();
           setTimeout(() => {
             document.getElementById('formWrap').style.display = 'none';
-            document.getElementById('successBox').style.display = 'none';
             document.getElementById('loadingIndicator').style.display = 'none';
+            document.getElementById('successBox').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }, 4000);
         } else {
-          throw new Error('خطأ في معالجة الطلب');
+          throw new Error('Server error');
         }
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch(err => {
+        console.error(err);
         document.getElementById('errorBox').style.display = 'block';
-        document.getElementById('infoBox').style.display = 'block';
-        document.getElementById('orderData').style.display = 'block';
         document.getElementById('loadingIndicator').style.display = 'none';
-        
-        // التمرير إلى رسالة الخطأ
-        setTimeout(() => {
-          document.getElementById('errorBox').scrollIntoView({ behavior: 'smooth' });
-        }, 300);
-      });
-    });
-
-    function copyOrderData() {
-      if (!currentOrderData) return;
-      
-      const textToCopy = `طلب جديد من موقع الباقات المعمارية:
-      
-الاسم: ${currentOrderData.customer.fullName}
-الهاتف: ${currentOrderData.customer.phone}
-الولاية: ${currentOrderData.customer.city}
-البلدية: ${currentOrderData.customer.commune}
-نوع التوصيل: ${currentOrderData.shipping.method}
-الباقة: ${currentOrderData.package}
-السعر: ${currentOrderData.totals.total} دج
-الملاحظات: ${currentOrderData.customer.notes || "لا يوجد"}
-التاريخ: ${currentOrderData.timestamp}`;
-      
-      navigator.clipboard.writeText(textToCopy)
-        .then(() => {
-          alert('تم نسخ بيانات الطلب إلى الحافظة، يمكنك الآن إرسالها عبر الواتساب');
-        })
-        .catch(err => {
-          console.error('Failed to copy: ', err);
-          alert('تعذر نسخ البيانات، يرجى نسخها يدوياً');
-        });
-    }
-
-    // إضافة تأثيرات للبطاقات عند التمرير
-    document.addEventListener('DOMContentLoaded', function() {
-      const cards = document.querySelectorAll('.card');
-      cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        
-        setTimeout(() => {
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, 100 * index);
+        setTimeout(() => document.getElementById('errorBox').scrollIntoView({ behavior: 'smooth'}), 200);
       });
     });
   </script>
