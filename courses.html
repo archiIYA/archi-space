@@ -3,157 +3,222 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Site des Cours - MedSpace</title>
+<title>Années Universitaires - MedSpace</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-  /* Reset & base */
   body {
     font-family: 'Poppins', sans-serif;
-    margin: 0; background: #fff; color: #111;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  header {
+    background: #fff;
+    margin: 20px;
+    color: #111;
     text-align: center;
-    padding: 3rem 1rem 2rem 1rem;
-    max-width: 800px;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 0.2em;
     user-select: none;
   }
-  header h1 {
-    font-weight: 700;
-    font-size: 2.8rem;
-    margin-bottom: 0.2rem;
-  }
-  header p {
-    font-weight: 400;
-    color: #333;
+  p.subtitle {
     font-size: 1.1rem;
+    margin-bottom: 2em;
+    color: #555;
+    user-select: none;
   }
-
-  main {
-    width: 90%;
-    max-width: 1000px;
-    margin-bottom: 3rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+  .year-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 2rem;
   }
-
-  /* البطاقات الحديثة */
-  .card {
-    background: #000; /* أسود */
-    color: #fff;     /* أبيض */
+  .year-card {
+    position: relative;
+    width: 250px;
+    background: #000;
+    color: #fff;
+    padding: 2rem 1.5rem 5.5rem 1.5rem;
     border-radius: 1rem;
-    padding: 2rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     cursor: pointer;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    box-shadow:
-      0 4px 6px rgba(0,0,0,0.3),
-      inset 0 0 10px rgba(255,255,255,0.07);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .card:hover {
-    transform: translateY(-12px) scale(1.03);
-    box-shadow:
-      0 15px 25px rgba(0,0,0,0.5),
-      inset 0 0 15px rgba(255,255,255,0.12);
-  }
-  .card .emoji {
-    font-size: 3.5rem;
+    transition: transform 0.3s ease;
     user-select: none;
   }
-  .card h3 {
-    font-weight: 700;
+  .year-card:hover {
+    transform: translateY(-15px) scale(1.05);
+  }
+  .year-title {
     font-size: 1.7rem;
-    margin: 0;
-    text-align: center;
-    letter-spacing: 0.02em;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
-  .card .desc {
-    font-weight: 400;
-    font-size: 1rem;
-    color: #ddd;
-    text-align: center;
+  .year-title .emoji {
+    font-size: 1.8rem;
+    user-select: none;
   }
-  .card small {
+  .year-subtitle {
+    font-weight: 500;
+    color: #ccc;
+  }
+  
+  /* السمسترات المنبثقة */
+  .semesters-container {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1.2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .year-card:hover .semesters-container {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .semester-card {
+    background: #111;
+    color: #eee;
+    border-radius: 0.8rem;
+    padding: 1rem 1.2rem;
+    width: 110px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+    transition: background-color 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
     display: block;
+  }
+  .semester-card:hover {
+    background: #333;
+  }
+  .semester-title {
     font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+  }
+  .semester-desc {
+    font-weight: 400;
+    font-size: 0.9rem;
     color: #bbb;
   }
 
-  /* روابط */
-  a.card {
-    text-decoration: none;
+  a.semester-card:focus-visible, a.semester-card:focus {
+    outline: 2px solid #555;
+    outline-offset: 2px;
   }
 
-  /* تحجيم متناغم للهاتف */
-  @media(max-width: 480px) {
-    header h1 {
-      font-size: 2rem;
+  @media (max-width: 600px) {
+    .year-grid {
+      flex-direction: column;
+      align-items: center;
     }
-    header p {
-      font-size: 1rem;
+    .year-card {
+      width: 90%;
+      padding-bottom: 7rem;
+    }
+    .semesters-container {
+      bottom: 2rem;
+      gap: 1rem;
     }
   }
 </style>
 </head>
 <body>
-<header>
-  <h1>Années Universitaires</h1>
-  <p>Choisissez votre année d'étude pour explorer les semestres et modules disponibles.</p>
-</header>
+  <h1>Années <strong>Universitaires</strong></h1>
+  <p class="subtitle">Survolez chaque année pour voir les deux semestres associés</p>
+  <div class="year-grid">
 
-<main>
-  <a href="sem1.html" class="card">
-    <div class="emoji">🎓</div>
-    <h3>Première Année</h3>
-    <small>1ère année</small>
-    <small>8 Modules</small>
-  </a>
+    <div class="year-card" tabindex="0" aria-label="Première Année - afficher semestres 1 et 2">
+      <div class="year-title"><span class="emoji">🎓</span> Première Année</div>
+      <div class="year-subtitle">1ère année</div>
+      <div class="semesters-container" aria-hidden="true">
+        <a href="sem1.html" class="semester-card" aria-label="Semestre 1 Première Année">
+          <div class="semester-title">Semestre 1</div>
+          <div class="semester-desc">8 Modules</div>
+        </a>
+        <a href="sem2.html" class="semester-card" aria-label="Semestre 2 Première Année">
+          <div class="semester-title">Semestre 2</div>
+          <div class="semester-desc">8 Modules</div>
+        </a>
+      </div>
+    </div>
 
-  <a href="sem3.html" class="card">
-    <div class="emoji">📐</div>
-    <h3>Deuxième Année</h3>
-    <small>2ème année</small>
-    <small>5 Unités</small>
-  </a>
+    <div class="year-card" tabindex="0" aria-label="Deuxième Année - afficher semestres 3 و 4">
+      <div class="year-title"><span class="emoji">📐</span> Deuxième Année</div>
+      <div class="year-subtitle">2ème année</div>
+      <div class="semesters-container" aria-hidden="true">
+        <a href="sem3.html" class="semester-card" aria-label="Semestre 3 Deuxième Année">
+          <div class="semester-title">Semestre 3</div>
+          <div class="semester-desc">5 Unités</div>
+        </a>
+        <a href="sem4.html" class="semester-card" aria-label="Semestre 4 Deuxième Année">
+          <div class="semester-title">Semestre 4</div>
+          <div class="semester-desc">5 Unités</div>
+        </a>
+      </div>
+    </div>
 
-  <a href="sem5.html" class="card">
-    <div class="emoji">🏗️</div>
-    <h3>Troisième Année</h3>
-    <small>3ème année</small>
-    <small>5 Modules, 4 Unités</small>
-  </a>
+    <div class="year-card" tabindex="0" aria-label="Troisième Année - afficher semestres 5 و 6">
+      <div class="year-title"><span class="emoji">🏗️</span> Troisième Année</div>
+      <div class="year-subtitle">3ème année</div>
+      <div class="semesters-container" aria-hidden="true">
+        <a href="sem5.html" class="semester-card" aria-label="Semestre 5 Troisième Année">
+          <div class="semester-title">Semestre 5</div>
+          <div class="semester-desc">5 Modules</div>
+          <div class="semester-desc">4 Unités</div>
+        </a>
+        <a href="sem6.html" class="semester-card" aria-label="Semestre 6 Troisième Année">
+          <div class="semester-title">Semestre 6</div>
+          <div class="semester-desc">5 Modules</div>
+          <div class="semester-desc">4 Unités</div>
+        </a>
+      </div>
+    </div>
 
-  <a href="sem7.html" class="card">
-    <div class="emoji">🏛️</div>
-    <h3>Quatrième Année</h3>
-    <small>4ème année</small>
-    <small>7 Modules</small>
-  </a>
+    <div class="year-card" tabindex="0" aria-label="Quatrième Année - afficher semestres 7 و 8">
+      <div class="year-title"><span class="emoji">🏛️</span> Quatrième Année</div>
+      <div class="year-subtitle">4ème année</div>
+      <div class="semesters-container" aria-hidden="true">
+        <a href="sem7.html" class="semester-card" aria-label="Semestre 7 Quatrième Année">
+          <div class="semester-title">Semestre 7</div>
+          <div class="semester-desc">7 Modules</div>
+        </a>
+        <a href="sem8.html" class="semester-card" aria-label="Semestre 8 Quatrième Année">
+          <div class="semester-title">Semestre 8</div>
+          <div class="semester-desc">7 Modules</div>
+        </a>
+      </div>
+    </div>
 
-  <a href="sem9.html" class="card">
-    <div class="emoji">📚</div>
-    <h3>Cinquième Année</h3>
-    <small>5ème année</small>
-    <small>7 Modules</small>
-  </a>
+    <div class="year-card" tabindex="0" aria-label="Cinquième Année - afficher semestres 9 و 10">
+      <div class="year-title"><span class="emoji">📚</span> Cinquième Année</div>
+      <div class="year-subtitle">5ème année</div>
+      <div class="semesters-container" aria-hidden="true">
+        <a href="sem9.html" class="semester-card" aria-label="Semestre 9 Cinquième Année">
+          <div class="semester-title">Semestre 9</div>
+          <div class="semester-desc">7 Modules</div>
+        </a>
+        <a href="sem10.html" class="semester-card" aria-label="Semestre 10 Cinquième Année">
+          <div class="semester-title">Semestre 10</div>
+          <div class="semester-desc">7 Modules</div>
+        </a>
+      </div>
+    </div>
 
-  <a href="#" class="card">
-    <div class="emoji">🎯</div>
-    <h3>Sixième Année</h3>
-    <small>6ème année</small>
-    <small>9 Modules</small>
-  </a>
+    <div class="year-card" tabindex="0" aria-label="Sixième Année - modules disponibles">
+      <div class="year-title"><span class="emoji">🎯</span> Sixième Année</div>
+      <div class="year-subtitle">6ème année</div>
+      <div class="semesters-container" aria-hidden="true" style="opacity:1; pointer-events:auto;">
+        <div class="semester-card" aria-label="Modules Sixième Année" style="background:#111;">
+          <div class="semester-title">9 Modules</div>
+        </div>
+      </div>
+    </div>
 
-</main>
-
+  </div>
 </body>
 </html>
