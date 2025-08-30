@@ -201,7 +201,6 @@
 
   <div class="container">
     <div class="grid" aria-label="قائمة الباقات">
-      <!-- مثال بطاقة -->
       <div class="card" tabindex="0" onclick="openForm('الباقة الأساسية', 3950)">
         <img src="https://placehold.co/600x400/ececec/ba0e0e?text=الباقة+الأساسية" alt="الباقة الأساسية" class="package-image" />
         <h3>1️⃣ الباقة الأساسية</h3>
@@ -209,7 +208,38 @@
         <div class="price">3950 دج</div>
         <button class="btn" type="button" onclick="openForm('الباقة الأساسية', 3950)">اطلب الآن</button>
       </div>
-      <!-- يمكن تكرار البطاقات الأخرى بنفس الأسلوب -->
+
+      <div class="card" tabindex="0" onclick="openForm('باقة Sous main', 4850)">
+        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+Sous+main" alt="باقة Sous main" class="package-image" />
+        <h3>2️⃣ باقة Sous main</h3>
+        <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+        <div class="price">4850 دج</div>
+        <button class="btn" type="button" onclick="openForm('باقة Sous main', 4850)">اطلب الآن</button>
+      </div>
+
+      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الصغيرة', 4950)">
+        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+البازوكا+الصغيرة" alt="باقة البازوكا الصغيرة" class="package-image" />
+        <h3>3️⃣ باقة البازوكا الصغيرة</h3>
+        <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
+        <div class="price">4950 دج</div>
+        <button class="btn" type="button" onclick="openForm('باقة البازوكا الصغيرة', 4950)">اطلب الآن</button>
+      </div>
+
+      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الكبيرة', 5200)">
+        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+البازوكا+الكبيرة" alt="باقة البازوكا الكبيرة" class="package-image" />
+        <h3>4️⃣ باقة البازوكا الكبيرة</h3>
+        <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
+        <div class="price">5200 دج</div>
+        <button class="btn" type="button" onclick="openForm('باقة البازوكا الكبيرة', 5200)">اطلب الآن</button>
+      </div>
+
+      <div class="card" tabindex="0" onclick="openForm('باقة VIP', 6200)">
+        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+VIP" alt="باقة VIP" class="package-image" />
+        <h3>5️⃣ باقة VIP</h3>
+        <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+        <div class="price">6200 دج</div>
+        <button class="btn" type="button" onclick="openForm('باقة VIP', 6200)">اطلب الآن</button>
+      </div>
     </div>
 
     <div id="formWrap">
@@ -229,8 +259,16 @@
           <label for="wilaya">الولاية</label>
           <select id="wilaya" name="wilaya" required>
             <option value="">اختر الولاية</option>
-            <option>أدرار</option><option>الشلف</option><option>الأغواط</option>
-            <!-- أضف بقية الولايات هنا -->
+            <option>أدرار</option><option>الشلف</option><option>الأغواط</option><option>أم البواقي</option><option>باتنة</option>
+            <option>بجاية</option><option>بسكرة</option><option>بشار</option><option>البليدة</option><option>البويرة</option>
+            <option>تمنراست</option><option>تبسة</option><option>تلمسان</option><option>تيارت</option><option>تيزي وزو</option>
+            <option>الجزائر</option><option>الجلفة</option><option>جيجل</option><option>سطيف</option><option>سعيدة</option>
+            <option>سكيكدة</option><option>سيدي بلعباس</option><option>عنابة</option><option>قالمة</option><option>قسنطينة</option>
+            <option>المدية</option><option>مستغانم</option><option>المسيلة</option><option>معسكر</option><option>ورقلة</option>
+            <option>وهران</option><option>البيض</option><option>إليزي</option><option>برج بوعريريج</option><option>بومرداس</option>
+            <option>الطارف</option><option>تندوف</option><option>تيسمسيلت</option><option>الوادي</option><option>خنشلة</option>
+            <option>سوق أهراس</option><option>تيبازة</option><option>ميلة</option><option>عين الدفلى</option><option>النعامة</option>
+            <option>عين تموشنت</option><option>غرداية</option><option>غليزان</option>
           </select>
         </div>
         <div class="form-group">
@@ -268,24 +306,15 @@
       const formEl = e.target;
       const formData = new FormData(formEl);
       let obj = {};
-      formData.forEach((value, key) => obj[key] = value);
+      formData.forEach((value, key) => { obj[key] = value; });
 
-      // إرسال البيانات متوافقة مع Google Apps Script
+      // إرسال البيانات مباشرة للـ Google Sheet
       fetch(GAS_URL, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          name: obj.name,
-          phone: obj.phone,
-          wilaya: obj.wilaya,
-          commune: obj.commune,
-          delivery: obj.delivery,
-          package: obj.package,
-          notes: obj.notes || "",
-          price: obj.price
-        })
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: new URLSearchParams(obj)
       })
-      .then(res => res.json())
+      .then(response => response.json())
       .then(res => {
         if(res.result === 'success') {
           document.getElementById('successBox').style.display = 'block';
