@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>عروض الطلبة الجدد - الهندسة المعمارية</title>
+  <title>طلب الباقات - الهندسة المعمارية</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -14,6 +14,7 @@
       --dark-color: #333;
       --success-color: #28a745;
       --warning-color: #ffc107;
+      --info-color: #17a2b8;
     }
     
     * {
@@ -273,6 +274,18 @@
       box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     }
     
+    .info {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: var(--info-color);
+      color: #fff;
+      border-radius: 10px;
+      margin: 25px auto;
+      max-width: 600px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    
     .loading {
       display: none;
       text-align: center;
@@ -328,6 +341,33 @@
     .whatsapp-btn:hover {
       background: #128C7E;
       transform: scale(1.05);
+    }
+    
+    .order-data {
+      display: none;
+      background: #f8f9fa;
+      border: 2px solid #dee2e6;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    
+    .copy-btn {
+      background: var(--info-color);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .copy-btn:hover {
+      background: #138496;
     }
     
     @media (max-width: 768px) {
@@ -474,12 +514,25 @@
       
       <div id="successBox" class="success">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
       <div id="errorBox" class="error">❌ حدث خطأ في الاتصال بالخادم. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.</div>
+      <div id="infoBox" class="info">
+        <p>⚠️ يمكنك نسخ بيانات الطلب وإرسالها لنا يدوياً عبر الواتساب</p>
+        <button class="copy-btn" onclick="copyOrderData()">نسخ بيانات الطلب</button>
+      </div>
+      
+      <div id="orderData" class="order-data"></div>
     </div>
 
-      </div>
+    <div class="contact-info">
+      <h3>📞 للاستفسار أو الطلب المباشر</h3>
+      <p>الهاتف: <strong>0551234567</strong></p>
+      <p>واتساب: <strong>0551234567</strong></p>
+      <a href="https://wa.me/213551234567" class="whatsapp-btn" target="_blank">💬 تواصل معنا على واتساب</a>
+    </div>
+  </div>
 
   <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbwHMEmXN95Rehwot7p7OAgHVXtc8sjJgSdVExiNBcNaDywC_gb5PD3LBlEZFAFkD_o/exec";
+    let currentOrderData = null;
 
     function openForm(packName, price) {
       document.getElementById('formWrap').style.display = 'block';
@@ -489,6 +542,8 @@
       // إخفاء الرسائل السابقة
       document.getElementById('successBox').style.display = 'none';
       document.getElementById('errorBox').style.display = 'none';
+      document.getElementById('infoBox').style.display = 'none';
+      document.getElementById('orderData').style.display = 'none';
       
       window.scrollTo({ top: document.getElementById('formWrap').offsetTop - 50, behavior: 'smooth' });
     }
@@ -500,6 +555,8 @@
       document.getElementById('loadingIndicator').style.display = 'block';
       document.getElementById('successBox').style.display = 'none';
       document.getElementById('errorBox').style.display = 'none';
+      document.getElementById('infoBox').style.display = 'none';
+      document.getElementById('orderData').style.display = 'none';
       
       const formEl = e.target;
       const formData = new FormData(formEl);
@@ -509,7 +566,7 @@
       });
       
       // إعداد البيانات للإرسال
-      const orderData = {
+      currentOrderData = {
         package: obj.package,
         customer: {
           fullName: obj.name,
@@ -525,17 +582,21 @@
         totals: { 
           total: parseInt(obj.price) 
         },
-        promo: ""
+        promo: "",
+        timestamp: new Date().toLocaleString('ar-AR')
       };
       
-      // تخزين البيانات محلياً كنسخة احتياطية
-      localStorage.setItem('lastOrder', JSON.stringify(orderData));
+      // تخزين البيانات محلياً
+      localStorage.setItem('lastOrder', JSON.stringify(currentOrderData));
+      
+      // عرض بيانات الطلب
+      document.getElementById('orderData').textContent = JSON.stringify(currentOrderData, null, 2);
       
       // محاولة الإرسال إلى Google Apps Script
       fetch(GAS_URL, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(orderData)
+        body: JSON.stringify(currentOrderData)
       })
       .then(response => {
         if (!response.ok) {
@@ -560,6 +621,8 @@
       .catch(error => {
         console.error('Error:', error);
         document.getElementById('errorBox').style.display = 'block';
+        document.getElementById('infoBox').style.display = 'block';
+        document.getElementById('orderData').style.display = 'block';
         document.getElementById('loadingIndicator').style.display = 'none';
         
         // التمرير إلى رسالة الخطأ
@@ -568,6 +631,31 @@
         }, 300);
       });
     });
+
+    function copyOrderData() {
+      if (!currentOrderData) return;
+      
+      const textToCopy = `طلب جديد من موقع الباقات المعمارية:
+      
+الاسم: ${currentOrderData.customer.fullName}
+الهاتف: ${currentOrderData.customer.phone}
+الولاية: ${currentOrderData.customer.city}
+البلدية: ${currentOrderData.customer.commune}
+نوع التوصيل: ${currentOrderData.shipping.method}
+الباقة: ${currentOrderData.package}
+السعر: ${currentOrderData.totals.total} دج
+الملاحظات: ${currentOrderData.customer.notes || "لا يوجد"}
+التاريخ: ${currentOrderData.timestamp}`;
+      
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          alert('تم نسخ بيانات الطلب إلى الحافظة، يمكنك الآن إرسالها عبر الواتساب');
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+          alert('تعذر نسخ البيانات، يرجى نسخها يدوياً');
+        });
+    }
 
     // إضافة تأثيرات للبطاقات عند التمرير
     document.addEventListener('DOMContentLoaded', function() {
