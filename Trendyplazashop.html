@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>طلب الباقات - الهندسة المعمارية</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --primary-color: #b30000;
@@ -14,22 +14,18 @@
       --dark-color: #333;
       --success-color: #28a745;
     }
-    
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-    
     body {
       font-family: 'Cairo', Arial, sans-serif;
       background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
       color: var(--dark-color);
       min-height: 100vh;
-      margin: 0;
       padding: 0 20px;
     }
-    
     .header-container {
       background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
       padding: 15px 0;
@@ -41,49 +37,38 @@
       margin: 0 -20px;
       padding: 15px 20px;
     }
-    
     .logo {
-      width: 80px;
-      height: 80px;
-      background: #fff;
+      width: 100px;
+      height: 100px;
+      background: #fff url('https://raw.githubusercontent.com/archiIYA/archi-space/main/IMG_2132.PNG') no-repeat center/contain;
       border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 24px;
-      color: var(--primary-color);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.5);
+      flex-shrink: 0;
     }
-    
     .header-text {
       color: #fff;
       text-align: center;
+      flex-grow: 1;
     }
-    
     .header-text h1 {
-      font-size: 1.8rem;
+      font-size: 2rem;
       margin-bottom: 5px;
     }
-    
     .header-text p {
-      font-size: 1rem;
+      font-size: 1.1rem;
       opacity: 0.9;
     }
-    
     .container {
       max-width: 1200px;
       margin: 20px auto;
       padding: 0;
     }
-    
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 25px;
       margin-bottom: 30px;
     }
-    
     .card {
       background: #fff;
       border: 2px solid var(--primary-color);
@@ -97,12 +82,10 @@
       display: flex;
       flex-direction: column;
     }
-    
     .card:hover {
       transform: translateY(-8px);
       box-shadow: 0 15px 30px rgba(179, 0, 0, 0.18);
     }
-    
     .package-image {
       width: 100%;
       height: 180px;
@@ -112,13 +95,11 @@
       border: 2px solid #eee;
       background-color: #f8f8f8;
     }
-    
     .card h3 {
       color: var(--primary-color);
       margin: 12px 0;
       font-size: 1.4rem;
     }
-    
     .price {
       font-weight: 800;
       color: var(--secondary-color);
@@ -129,7 +110,6 @@
       border-radius: 10px;
       border: 2px dashed var(--primary-color);
     }
-    
     .btn {
       background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
       color: #fff;
@@ -142,15 +122,12 @@
       transition: all 0.3s ease;
       margin-top: auto;
       cursor: pointer;
-      display: block;
       width: 100%;
     }
-    
     .btn:hover {
       background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
       transform: scale(1.03);
     }
-    
     #formWrap {
       display: none;
       max-width: 600px;
@@ -162,7 +139,6 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       text-align: right;
     }
-    
     #formWrap h3 {
       text-align: center;
       color: var(--primary-color);
@@ -171,18 +147,15 @@
       border-bottom: 2px solid #f0f0f0;
       padding-bottom: 10px;
     }
-    
     .form-group {
       margin-bottom: 20px;
     }
-    
     label {
       font-weight: bold;
       display: block;
       margin: 12px 0 6px 0;
       color: var(--dark-color);
     }
-    
     input, select, textarea {
       width: 100%;
       padding: 14px;
@@ -193,13 +166,11 @@
       transition: border-color 0.3s;
       box-sizing: border-box;
     }
-    
     input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--primary-color);
       box-shadow: 0 0 0 3px rgba(179, 0, 0, 0.2);
     }
-    
     button.submit-btn {
       width: 100%;
       background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
@@ -214,12 +185,10 @@
       transition: all 0.3s ease;
       box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
     }
-    
     button.submit-btn:hover {
       background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
       transform: scale(1.02);
     }
-    
     .success {
       display: none;
       text-align: center;
@@ -233,103 +202,67 @@
       font-size: 1.2rem;
       box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     }
-    
-    .error {
-      display: none;
-      text-align: center;
-      padding: 15px;
-      background: #f8d7da;
-      color: #721c24;
-      border-radius: 8px;
-      margin: 15px 0;
-      font-weight: bold;
-    }
-    
-    @media (max-width: 768px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .header-container {
-        flex-direction: column;
-        text-align: center;
-      }
-      
-      .logo {
-        margin-bottom: 10px;
-      }
-    }
   </style>
 </head>
 <body>
   <div class="header-container">
-    <div class="logo">AR<br>CH</div>
+    <div class="logo"></div>
     <div class="header-text">
       <h1>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية</h1>
       <p>اطلب الآن واحصل على أفضل الباقات بأفضل الأسعار</p>
     </div>
   </div>
-
   <div class="container">
     <div class="grid" aria-label="قائمة الباقات">
-      <div class="card" tabindex="0">
-        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/%D9%82%D8%AB%D9%84%D8%B3%D9%82.png" alt="الباقة الأساسية" class="package-image" />
-        
+      <div class="card" tabindex="0" onclick="openForm('الباقة الأساسية', 3950)">
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/1.PNG" alt="الباقة الأساسية" class="package-image" />
         <h3>1️⃣ الباقة الأساسية</h3>
         <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
         <div class="price">3950 دج</div>
         <button class="btn" type="button" onclick="openForm('الباقة الأساسية', 3950)">اطلب الآن</button>
       </div>
-
-      <div class="card" tabindex="0">
-        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/blob/main/2.PNG" alt="باقة Sous main" class="package-image" />
+      <div class="card" tabindex="0" onclick="openForm('باقة Sous main', 4850)">
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/3.PNG" alt="باقة Sous main" class="package-image" />
         <h3>2️⃣ باقة Sous main</h3>
         <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
         <div class="price">4850 دج</div>
         <button class="btn" type="button" onclick="openForm('باقة Sous main', 4850)">اطلب الآن</button>
       </div>
-
-      <div class="card" tabindex="0">
-        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/blob/main/IM---------------.PNG" alt="باقة البازوكا الصغيرة" class="package-image" />
+      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الصغيرة', 4950)">
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/2.PNG" alt="باقة البازوكا الصغيرة" class="package-image" />
         <h3>3️⃣ باقة البازوكا الصغيرة</h3>
         <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
         <div class="price">4950 دج</div>
         <button class="btn" type="button" onclick="openForm('باقة البازوكا الصغيرة', 4950)">اطلب الآن</button>
       </div>
-
-      <div class="card" tabindex="0">
-        <img src="https:///archiIYA/archi-space/blob/main/%D9%82%D8%AB%D9%84%D8%B3%D9%824.png" alt="باقة البازوكا الكبيرة" class="package-image" />
+      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الكبيرة', 5200)">
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/4.PNG" alt="باقة البازوكا الكبيرة" class="package-image" />
         <h3>4️⃣ باقة البازوكا الكبيرة</h3>
         <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
         <div class="price">5200 دج</div>
         <button class="btn" type="button" onclick="openForm('باقة البازوكا الكبيرة', 5200)">اطلب الآن</button>
       </div>
-
-      <div class="card" tabindex="0">
-        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/blob/main/%D9%82%D8%AB%D9%84%D8%B3%D9%825.png" alt="باقة VIP" class="package-image" />
+      <div class="card" tabindex="0" onclick="openForm('باقة VIP', 6200)">
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/5.PNG" alt="باقة VIP" class="package-image" />
         <h3>5️⃣ باقة VIP</h3>
         <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
         <div class="price">6200 دج</div>
         <button class="btn" type="button" onclick="openForm('باقة VIP', 6200)">اطلب الآن</button>
       </div>
     </div>
-
     <div id="formWrap">
       <form id="orderForm">
         <h3>📋 اكمل بيانات الطلب</h3>
         <input type="hidden" name="package" id="package" />
         <input type="hidden" name="price" id="price" />
-        
         <div class="form-group">
           <label for="name">الاسم الكامل</label>
           <input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل" />
         </div>
-        
         <div class="form-group">
           <label for="phone">رقم الهاتف</label>
           <input type="tel" id="phone" name="phone" required pattern="^(\+?213|0)(5|6|7)\d{8}$" placeholder="مثال: 0551234567" />
         </div>
-        
         <div class="form-group">
           <label for="wilaya">الولاية</label>
           <select id="wilaya" name="wilaya" required>
@@ -346,12 +279,10 @@
             <option>عين تموشنت</option><option>غرداية</option><option>غليزان</option>
           </select>
         </div>
-        
         <div class="form-group">
           <label for="commune">البلدية</label>
           <input type="text" id="commune" name="commune" required placeholder="أدخل اسم البلدية" />
         </div>
-        
         <div class="form-group">
           <label for="delivery">نوع التوصيل</label>
           <select id="delivery" name="delivery" required>
@@ -361,41 +292,27 @@
             <option value="Bureau">Bureau (التوصيل إلى المكتب)</option>
           </select>
         </div>
-        
         <button type="submit" class="submit-btn">✅ تأكيد الطلب</button>
       </form>
-      
       <div id="successBox" class="success">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
-      <div id="errorBox" class="error"></div>
     </div>
   </div>
-
   <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbxhLToEKUlCfWh3tj5H6A25YykEh36Zf7ngAjEbkrBX0PgWWWgXNAbvM0pXnOGv-jQ/exec";
-
     function openForm(packName, price) {
       document.getElementById('formWrap').style.display = 'block';
       document.getElementById('package').value = packName;
       document.getElementById('price').value = price;
       document.getElementById('successBox').style.display = 'none';
-      document.getElementById('errorBox').style.display = 'none';
       window.scrollTo({ top: document.getElementById('formWrap').offsetTop - 20, behavior: 'smooth' });
     }
-
     document.getElementById('orderForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const formEl = e.target;
       const formData = new FormData(formEl);
       let obj = {};
       formData.forEach((value, key) => { obj[key] = value; });
-
-      // إظهار رسالة تحميل
-      document.getElementById('errorBox').style.display = 'block';
-      document.getElementById('errorBox').textContent = 'جاري إرسال الطلب...';
-      document.getElementById('errorBox').style.background = '#d4edda';
-      document.getElementById('errorBox').style.color = '#155724';
-
-      // إرسال البيانات مباشرة للـ Google Sheet
+      // إرسال البيانات مباشرة للـ Google Sheet بصيغة x-www-form-urlencoded
       fetch(GAS_URL, {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -405,7 +322,6 @@
       .then(res => {
         if(res.result === 'success') {
           document.getElementById('successBox').style.display = 'block';
-          document.getElementById('errorBox').style.display = 'none';
           formEl.reset();
           setTimeout(() => {
             document.getElementById('formWrap').style.display = 'none';
@@ -413,34 +329,12 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }, 4000);
         } else {
-          document.getElementById('errorBox').style.display = 'block';
-          document.getElementById('errorBox').textContent = 'حدث خطأ أثناء إرسال الطلب، حاول لاحقًا.';
-          document.getElementById('errorBox').style.background = '#f8d7da';
-          document.getElementById('errorBox').style.color = '#721c24';
+          alert('حدث خطأ أثناء إرسال الطلب، حاول لاحقًا.');
         }
       })
-      .catch(() => {
-        document.getElementById('errorBox').style.display = 'block';
-        document.getElementById('errorBox').textContent = 'حدث خطأ في الاتصال بالخادم، حاول لاحقًا.';
-        document.getElementById('errorBox').style.background = '#f8d7da';
-        document.getElementById('errorBox').style.color = '#721c24';
-      });
-    });
-
-    // إضافة تأثيرات للبطاقات عند التحميل
-    document.addEventListener('DOMContentLoaded', function() {
-      const cards = document.querySelectorAll('.card');
-      cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        
-        setTimeout(() => {
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, 100 * index);
-      });
+      .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
     });
   </script>
 </body>
 </html>
+
