@@ -1,206 +1,340 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>طلب الباقات - الهندسة المعمارية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --primary-color: #b30000;
+      --secondary-color: #000;
+      --accent-color: #ff5252;
+      --light-color: #f8f9fa;
+      --dark-color: #333;
+      --success-color: #28a745;
+    }
     body {
       font-family: 'Cairo', Arial, sans-serif;
-      background: #f8f9fa;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      color: var(--dark-color);
+      min-height: 100vh;
       margin: 0;
-      padding: 20px;
+      padding: 0 20px;
+    }
+    .header-container {
+      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+      padding: 15px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: #fff url('https://upload.wikimedia.org/wikipedia/commons/8/88/Algeria_Flag.png') no-repeat center/contain;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .header-text {
+      color: #fff;
+      text-align: center;
+    }
+    .header-text h1 {
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+    }
+    .header-text p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
     }
     .card {
       background: #fff;
-      border-radius: 12px;
+      border: 2px solid var(--primary-color);
+      border-radius: 15px;
       padding: 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      max-width: 400px;
-      margin: 20px auto;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
       text-align: center;
-    }
-    .card h2 {
-      margin-bottom: 10px;
-      color: #b30000;
-    }
-    .btn, button {
-      background: #b30000;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 20px;
-      font-size: 1rem;
       cursor: pointer;
-      transition: background 0.3s;
-      margin-top: 15px;
+      user-select: none;
+      transition: all 0.3s ease;
     }
-    .btn:hover, button:hover {
-      background: #8a0000;
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(179, 0, 0, 0.18);
     }
-    form {
+    .package-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border: 2px solid #eee;
+    }
+    .card h3 {
+      color: var(--primary-color);
+      margin: 12px 0;
+      font-size: 1.4rem;
+    }
+    .price {
+      font-weight: 800;
+      color: var(--secondary-color);
+      margin: 15px 0;
+      font-size: 1.6rem;
+      background: #f8f8f8;
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px dashed var(--primary-color);
+    }
+    .btn {
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      margin-top: auto;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+      transform: scale(1.03);
+    }
+    #formWrap {
+      display: none;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 28px;
+      border: 2px solid var(--secondary-color);
+      border-radius: 15px;
       background: #fff;
-      max-width: 500px;
-      margin: 20px auto;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: right;
+      overflow: hidden;
+    }
+    #formWrap h3 {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 22px;
+      font-size: 1.6rem;
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 10px;
     }
     label {
-      display: block;
-      margin-top: 15px;
       font-weight: bold;
+      display: block;
+      margin: 12px 0 6px 0;
+      color: var(--dark-color);
     }
     input, select, textarea {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 6px;
-      border: 2px solid #ccc;
-      font-size: 1rem;
-      font-family: 'Cairo', Arial, sans-serif;
-    }
-    textarea {
-      resize: vertical;
-    }
-    #loadingIndicator {
-      display: none;
-      text-align: center;
-      margin-top: 15px;
-    }
-    #successBox, #errorBox {
-      display: none;
-      padding: 12px;
-      margin-top: 15px;
+      padding: 14px;
       border-radius: 8px;
-      text-align: center;
+      border: 2px solid #ddd;
+      font-size: 16px;
+      font-family: 'Cairo', Arial, sans-serif;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(179, 0, 0, 0.2);
+    }
+    button.submit-btn {
+      width: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      border: none;
+      color: #fff;
+      padding: 16px;
       font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
     }
-    #successBox {
-      background: #d4edda;
-      color: #155724;
+    button.submit-btn:hover {
+      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+      transform: scale(1.02);
     }
-    #errorBox {
-      background: #f8d7da;
-      color: #721c24;
+    .success {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: var(--success-color);
+      color: #fff;
+      border-radius: 10px;
+      margin: 25px auto;
+      max-width: 600px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
-  <!-- بطاقة اختيار الباقة -->
-  <div class="card">
-    <h2>الباقة الأساسية</h2>
-    <p>السعر: 3950 دج</p>
-    <button class="btn" type="button" onclick="openForm('الباقة الأساسية', 3950)">
-      اطلب الآن
-    </button>
+  <div class="header-container">
+    <div class="logo"></div>
+    <div class="header-text">
+      <h1>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية</h1>
+      <p>اطلب الآن واحصل على أفضل الباقات بأفضل الأسعار</p>
+    </div>
   </div>
-
-  <!-- نموذج الطلب (مخفي في البداية) -->
-  <div id="formWrap" style="display:none;">
-    <form id="orderForm">
-      <h2>أكمل بيانات طلبك</h2>
-
-      <input type="hidden" id="package" name="package">
-      <input type="hidden" id="price" name="price">
-
-      <label for="name">الاسم الكامل</label>
-      <input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل">
-
-      <label for="phone">رقم الهاتف</label>
-      <input type="tel" id="phone" name="phone" required
-             placeholder="مثال: 0551234567" pattern="^(\+?213|0)(5|6|7)\d{8}$">
-
-      <label for="wilaya">الولاية</label>
-      <input type="text" id="wilaya" name="wilaya" required placeholder="أدخل اسم الولاية">
-
-      <label for="commune">البلدية</label>
-      <input type="text" id="commune" name="commune" required placeholder="أدخل اسم البلدية">
-
-      <label for="delivery">نوع التوصيل</label>
-      <select id="delivery" name="delivery" required>
-        <option value="">-- اختر نوع التوصيل --</option>
-        <option value="إلى المنزل">إلى المنزل</option>
-        <option value="مكتب البريد">مكتب البريد</option>
-      </select>
-
-      <label for="notes">ملاحظات إضافية (اختياري)</label>
-      <textarea id="notes" name="notes" rows="3" placeholder="اكتب ملاحظتك"></textarea>
-
-      <button type="submit">إرسال الطلب</button>
-
-      <div id="loadingIndicator">⏳ جاري إرسال الطلب...</div>
-      <div id="successBox">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريباً.</div>
-      <div id="errorBox">❌ حدث خطأ، حاول مرة أخرى لاحقاً.</div>
-    </form>
+  <div class="container">
+    <div class="grid" aria-label="قائمة الباقات">
+      <div class="card" tabindex="0" onclick="openForm('الباقة الأساسية', 3950)">
+        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=الباقة+الأساسية" alt="الباقة الأساسية" class="package-image" />
+        <h3>1️⃣ الباقة الأساسية</h3>
+        <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
+        <div class="price">3950 دج</div>
+        <button class="btn" type="button" onclick="openForm('الباقة الأساسية', 3950)">اطلب الآن</button>
+      </div>
+      <div class="card" tabindex="0" onclick="openForm('باقة Sous main', 4850)">
+        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+Sous+main" alt="باقة Sous main" class="package-image" />
+        <h3>2️⃣ باقة Sous main</h3>
+        <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+        <div class="price">4850 دج</div>
+        <button class="btn" type="button" onclick="openForm('باقة Sous main', 4850)">اطلب الآن</button>
+      </div>
+      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الصغيرة', 4950)">
+        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+البازوكا+الصغيرة" alt="باقة البازوكا الصغيرة" class="package-image" />
+        <h3>3️⃣ باقة البازوكا الصغيرة</h3>
+        <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
+        <div class="price">4950 دج</div>
+        <button class="btn" type="button" onclick="openForm('باقة البازوكا الصغيرة', 4950)">اطلب الآن</button>
+      </div>
+      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الكبيرة', 5200)">
+        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+البازوكا+الكبيرة" alt="باقة البازوكا الكبيرة" class="package-image" />
+        <h3>4️⃣ باقة البازوكا الكبيرة</h3>
+        <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
+        <div class="price">5200 دج</div>
+        <button class="btn" type="button" onclick="openForm('باقة البازوكا الكبيرة', 5200)">اطلب الآن</button>
+      </div>
+      <div class="card" tabindex="0" onclick="openForm('باقة VIP', 6200)">
+        <img src="https://placehold.co/600x400/ececec/ba0e0e?text=باقة+VIP" alt="باقة VIP" class="package-image" />
+        <h3>5️⃣ باقة VIP</h3>
+        <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+        <div class="price">6200 دج</div>
+        <button class="btn" type="button" onclick="openForm('باقة VIP', 6200)">اطلب الآن</button>
+      </div>
+    </div>
+    <div id="formWrap">
+      <form id="orderForm">
+        <h3>📋 اكمل بيانات الطلب</h3>
+        <input type="hidden" name="package" id="package" />
+        <input type="hidden" name="price" id="price" />
+        <div class="form-group">
+          <label for="name">الاسم الكامل</label>
+          <input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل" />
+        </div>
+        <div class="form-group">
+          <label for="phone">رقم الهاتف</label>
+          <input type="tel" id="phone" name="phone" required pattern="^(\+?213|0)(5|6|7)\d{8}$" placeholder="مثال: 0551234567" />
+        </div>
+        <div class="form-group">
+          <label for="wilaya">الولاية</label>
+          <select id="wilaya" name="wilaya" required>
+            <option value="">اختر الولاية</option>
+            <option>أدرار</option><option>الشلف</option><option>الأغواط</option><option>أم البواقي</option><option>باتنة</option>
+            <option>بجاية</option><option>بسكرة</option><option>بشار</option><option>البليدة</option><option>البويرة</option>
+            <option>تمنراست</option><option>تبسة</option><option>تلمسان</option><option>تيارت</option><option>تيزي وزو</option>
+            <option>الجزائر</option><option>الجلفة</option><option>جيجل</option><option>سطيف</option><option>سعيدة</option>
+            <option>سكيكدة</option><option>سيدي بلعباس</option><option>عنابة</option><option>قالمة</option><option>قسنطينة</option>
+            <option>المدية</option><option>مستغانم</option><option>المسيلة</option><option>معسكر</option><option>ورقلة</option>
+            <option>وهران</option><option>البيض</option><option>إليزي</option><option>برج بوعريريج</option><option>بومرداس</option>
+            <option>الطارف</option><option>تندوف</option><option>تيسمسيلت</option><option>الوادي</option><option>خنشلة</option>
+            <option>سوق أهراس</option><option>تيبازة</option><option>ميلة</option><option>عين الدفلى</option><option>النعامة</option>
+            <option>عين تموشنت</option><option>غرداية</option><option>غليزان</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="commune">البلدية</label>
+          <input type="text" id="commune" name="commune" required placeholder="أدخل اسم البلدية" />
+        </div>
+        <div class="form-group">
+          <label for="delivery">نوع التوصيل</label>
+          <select id="delivery" name="delivery" required>
+            <option value="">اختر نوع التوصيل</option>
+            <option value="À domicile">À domicile (التوصيل إلى المنزل)</option>
+            <option value="Tifawt bureau">Tifawt bureau</option>
+            <option value="Bureau">Bureau (التوصيل إلى المكتب)</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn">✅ تأكيد الطلب</button>
+      </form>
+      <div id="successBox" class="success">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
+    </div>
   </div>
-
   <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbwMTVOfnvA12Xh0cqSeeDCs7fKUcZR9tZJ4aYpHQSCyg-ZdfecFuDe3lhtFWJQsD1B1/exec";
-
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwHMEmXN95Rehwot7p7OAgHVXtc8sjJgSdVExiNBcNaDywC_gb5PD3LBlEZFAFkD_o/exec";
     function openForm(packName, price) {
       document.getElementById('formWrap').style.display = 'block';
       document.getElementById('package').value = packName;
       document.getElementById('price').value = price;
       document.getElementById('successBox').style.display = 'none';
-      document.getElementById('errorBox').style.display = 'none';
-      window.scrollTo({ top: document.getElementById('formWrap').offsetTop - 40, behavior: 'smooth' });
+      window.scrollTo({ top: document.getElementById('formWrap').offsetTop - 20, behavior: 'smooth' });
     }
-
     document.getElementById('orderForm').addEventListener('submit', function(e) {
       e.preventDefault();
-
-      document.getElementById('loadingIndicator').style.display = 'block';
-      document.getElementById('successBox').style.display = 'none';
-      document.getElementById('errorBox').style.display = 'none';
-
       const formEl = e.target;
       const formData = new FormData(formEl);
-      const obj = {};
-      formData.forEach((val, key) => obj[key] = val);
-
-      const flatData = {
-        name: obj.name,
-        phone: obj.phone,
-        wilaya: obj.wilaya,
-        commune: obj.commune,
-        delivery: obj.delivery,
-        package: obj.package,
-        notes: obj.notes,
-        price: obj.price
-      };
-
+      let obj = {};
+      formData.forEach((value, key) => {
+        obj[key] = value;
+      });
       fetch(GAS_URL, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(flatData)
+        body: JSON.stringify({
+          package: obj.package,
+          customer: {
+            fullName: obj.name,
+            phone: obj.phone,
+            city: obj.wilaya,
+            commune: obj.commune,
+            notes: obj.notes
+          },
+          shipping: {
+            method: obj.delivery,
+            fee: 0
+          },
+          totals: { total: parseInt(obj.price) },
+          promo: ""
+        })
       })
+      .then(response => response.json())
       .then(res => {
-        if (!res.ok) throw new Error('Network response was not ok');
-        return res.json();
-      })
-      .then(data => {
-        if (data.result === 'success') {
+        if(res.result === 'success') {
           document.getElementById('successBox').style.display = 'block';
           formEl.reset();
           setTimeout(() => {
             document.getElementById('formWrap').style.display = 'none';
-            document.getElementById('loadingIndicator').style.display = 'none';
             document.getElementById('successBox').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }, 4000);
         } else {
-          throw new Error('Server error');
+          alert('حدث خطأ أثناء إرسال الطلب، حاول لاحقًا.');
         }
       })
-      .catch(err => {
-        console.error(err);
-        document.getElementById('errorBox').style.display = 'block';
-        document.getElementById('loadingIndicator').style.display = 'none';
-        setTimeout(() => document.getElementById('errorBox').scrollIntoView({ behavior: 'smooth'}), 200);
-      });
+      .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
     });
   </script>
 </body>
