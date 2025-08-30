@@ -85,12 +85,12 @@
         <option>جانت</option><option>المغير</option><option>المنيعة</option>
       </select>
       
+      
       <label for="delivery">نوع التوصيل</label>
       <select id="delivery" name="delivery" required>
-        <option value="" disabled selected>اختر نوع التوصيل</option>
-        <option value="À domicile">À domicile</option>
-        <option value="Tifawt bureau">Tifawt bureau</option>
-        <option value="Bureau">Bureau</option>
+        <option value="" disabled selected>اختر النوع</option>
+        <option value="مكتب">التوصيل إلى المكتب</option>
+        <option value="منزل">التوصيل إلى المنزل</option>
       </select>
       
       <label for="notes">ملاحظات إضافية (اختياري)</label>
@@ -100,7 +100,7 @@
     </form>
   </div>
 
-  <p id="successMessage" class="success" style="display:none;">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</p>
+  <p id="successMessage" class="success">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</p>
 
   <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbx3KnXxFc5b1JGs51Ady5TJGU9tTHC2GmjIILUGG6YAg8ugPPZknVEFkD6b6qY0iGYF/exec";
@@ -131,7 +131,7 @@
           fullName: orderForm.name.value.trim(),
           phone: orderForm.phone.value.trim(),
           city: orderForm.wilaya.value,
-          commune: "",
+          commune: orderForm.commune.value.trim(),
           notes: orderForm.notes.value.trim()
         },
         shipping: {
@@ -171,3 +171,6 @@
   </script>
 </body>
 </html>
+
+      
+    
