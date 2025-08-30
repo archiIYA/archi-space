@@ -5,61 +5,56 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>عروض الطلبة الجدد - اطلب الآن</title>
   <style>
-    body{font-family:Cairo, Arial; margin:0; background:#fff; color:#000}
-    header{background:linear-gradient(90deg,#000,#b30000); color:#fff; padding:18px; text-align:center}
-    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; padding:20px; max-width:1100px; margin:0 auto}
-    .card{border:2px solid #b30000; border-radius:12px; padding:16px; background:#fff; box-shadow:0 6px 16px rgba(0,0,0,0.08); text-align:center}
-    .card h3{color:#b30000; margin:6px 0}
-    .price{font-weight:800; color:#000; margin:8px 0}
+    body{font-family:Cairo, Arial; margin:0; background:#fff; color:#000; text-align:center; padding: 20px;}
+    header{background:linear-gradient(90deg,#000,#b30000); color:#fff; padding:18px; font-weight:bold; margin-bottom: 20px;}
+    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; max-width:1100px; margin:0 auto 20px auto;}
+    .card{border:2px solid #b30000; border-radius:12px; padding:16px; background:#fff; box-shadow:0 6px 16px rgba(0,0,0,0.08); cursor:pointer; transition:0.3s; user-select:none;}
+    .card:hover{transform: scale(1.05); box-shadow:0 6px 20px rgba(0,0,0,0.2);}
+    .card h3{color:#b30000; margin:6px 0;}
+    .price{font-weight:800; color:#000; margin:8px 0;}
     .btn{background:#b30000;color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer}
     .btn:hover{background:#000}
-    #formWrap{display:none; max-width:520px; margin:20px auto; padding:18px; border:2px solid #000; border-radius:12px; background:#f9f9f9}
-    input, select, textarea{width:100%; padding:10px; margin:8px 0; border-radius:6px; border:1px solid #ccc; font-size:15px}
+    #formWrap{display:none; max-width:520px; margin:20px auto; padding:18px; border:2px solid #000; border-radius:12px; background:#f9f9f9; text-align:right;}
+    input, select, textarea{width:100%; padding:10px; margin:8px 0; border-radius:6px; border:1px solid #ccc; font-size:15px; box-sizing: border-box;}
+    button.submit-btn { width: 100%; background: #b30000; border: none; color: #fff; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 8px; margin-top: 15px; }
+    button.submit-btn:hover { background: #000; }
     .success{display:none; text-align:center; padding:12px; background:#28a745; color:#fff; border-radius:8px; margin-top:12px}
   </style>
 </head>
 <body>
-  <header>
-    🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية — اطلب الآن
-  </header>
-
+  <header>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية — اطلب الآن</header>
   <div class="grid">
-    <div class="card">
+    <div class="card" onclick="openForm('الباقة الأساسية - 3950 دج')">
       <h3>1️⃣ الباقة الأساسية</h3>
       <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
       <div class="price">3950 دج</div>
-      <button class="btn" onclick="openForm('الباقة الأساسية - 3950 دج')">اطلب الآن</button>
+      <button class="btn" type="button" onclick="openForm('الباقة الأساسية - 3950 دج')">اطلب الآن</button>
     </div>
-
-    <div class="card">
+    <div class="card" onclick="openForm('باقة Sous main - 4850 دج')">
       <h3>2️⃣ باقة Sous main</h3>
       <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
       <div class="price">4850 دج</div>
-      <button class="btn" onclick="openForm('باقة Sous main - 4850 دج')">اطلب الآن</button>
+      <button class="btn" type="button" onclick="openForm('باقة Sous main - 4850 دج')">اطلب الآن</button>
     </div>
-
-    <div class="card">
+    <div class="card" onclick="openForm('باقة البازوكا الصغيرة - 4950 دج')">
       <h3>3️⃣ باقة البازوكا الصغيرة</h3>
       <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
       <div class="price">4950 دج</div>
-      <button class="btn" onclick="openForm('باقة البازوكا الصغيرة - 4950 دج')">اطلب الآن</button>
+      <button class="btn" type="button" onclick="openForm('باقة البازوكا الصغيرة - 4950 دج')">اطلب الآن</button>
     </div>
-
-    <div class="card">
+    <div class="card" onclick="openForm('باقة البازوكا الكبيرة - 5200 دج')">
       <h3>4️⃣ باقة البازوكا الكبيرة</h3>
       <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
       <div class="price">5200 دج</div>
-      <button class="btn" onclick="openForm('باقة البازوكا الكبيرة - 5200 دج')">اطلب الآن</button>
+      <button class="btn" type="button" onclick="openForm('باقة البازوكا الكبيرة - 5200 دج')">اطلب الآن</button>
     </div>
-
-    <div class="card">
+    <div class="card" onclick="openForm('باقة VIP - 6200 دج')">
       <h3>5️⃣ باقة VIP</h3>
       <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
       <div class="price">6200 دج</div>
-      <button class="btn" onclick="openForm('باقة VIP - 6200 دج')">اطلب الآن</button>
+      <button class="btn" type="button" onclick="openForm('باقة VIP - 6200 دج')">اطلب الآن</button>
     </div>
   </div>
-
   <!-- النموذج -->
   <div id="formWrap">
     <form id="orderForm">
@@ -72,7 +67,6 @@
       <label>الولاية</label>
       <select name="wilaya" required>
         <option value="">اختر الولاية</option>
-        <!-- جميع الولايات الـ58 -->
         <option>أدرار</option><option>الشلف</option><option>الأغواط</option><option>أم البواقي</option><option>باتنة</option>
         <option>بجاية</option><option>بسكرة</option><option>بشار</option><option>البليدة</option><option>البويرة</option>
         <option>تمنراست</option><option>تبسة</option><option>تلمسان</option><option>تيارت</option><option>تيزي وزو</option>
@@ -86,55 +80,79 @@
         <option>أولاد جلال</option><option>بني عباس</option><option>عين صالح</option><option>عين قزام</option><option>تقرت</option>
         <option>جانت</option><option>المغير</option><option>المنيعة</option>
       </select>
-
+      <label>البلدية</label>
+      <input name="commune" placeholder="أدخل اسم البلدية" />
+      <label>نوع التوصيل</label>
+      <select name="delivery" required>
+        <option value="">اختر نوع التوصيل</option>
+        <option value="منزل">التوصيل إلى المنزل</option>
+        <option value="مكتب">التوصيل إلى المكتب</option>
+      </select>
       <label>ملاحظات إضافية (اختياري)</label>
       <textarea name="notes" rows="3"></textarea>
-
       <button type="submit" class="btn">✅ تأكيد الطلب</button>
     </form>
-
     <div id="successBox" class="success">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
   </div>
-
   <script>
-    // ضع هنا رابط Web App الصحيح (الذي نشرتَه)
+    // ضع هنا رابط Web App الخاص بك
     const GAS_URL = "https://script.google.com/macros/s/AKfycbx3KnXxFc5b1JGs51Ady5TJGU9tTHC2GmjIILUGG6YAg8ugPPZknVEFkD6b6qY0iGYF/exec";
-
+    
     function openForm(packName) {
       document.getElementById('formWrap').style.display = 'block';
       document.getElementById('package').value = packName;
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
-
+    
     document.getElementById('orderForm').addEventListener('submit', function(e){
       e.preventDefault();
       const formEl = e.target;
-      const fd = new FormData(formEl); // نستخدم FormData لتجنب preflight (CORS)
+      const formData = new FormData(formEl); // استخدم FormData لتجنب مشاكل CORS مع FormData
+      
+      // لتحويل FormData إلى كائن JSON
+      let obj = {};
+      formData.forEach((value, key) => {
+        obj[key] = value;
+      });
 
-      // إرسال بدون ترويسات إضافية
+      // إرسال البيانات بشكل JSON في POST
       fetch(GAS_URL, {
         method: 'POST',
-        body: fd
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          package: obj.package,
+          customer: {
+            fullName: obj.name,
+            phone: obj.phone,
+            city: obj.wilaya,
+            commune: obj.commune,
+            notes: obj.notes
+          },
+          shipping: {
+            method: obj.delivery,
+            fee: 0
+          },
+          totals: { total: 0 }, // يمكن تعديلها مع حساب الأسعار إن أردت
+          promo: ""
+        })
       })
-      .then(response => {
-        // نحاول قراءة JSON — لكن بعض الأحيان قد لا يسمح المتصفح بقراءة الاستجابة إن لم تنشر كـ Anyone
-        return response.json().catch(() => ({ result: 'ok' })); 
-      })
+      .then(response => response.json())
       .then(res => {
-        // عرض رسالة نجاح دائمًا عند وصول الطلب للـ server
-        document.getElementById('successBox').style.display = 'block';
-        formEl.reset();
-        setTimeout(() => {
-          document.getElementById('formWrap').style.display = 'none';
-          document.getElementById('successBox').style.display = 'none';
-        }, 3000);
+        if (res.result === 'success') {
+          document.getElementById('successBox').style.display = 'block';
+          formEl.reset();
+          setTimeout(() => {
+            document.getElementById('formWrap').style.display = 'none';
+            document.getElementById('successBox').style.display = 'none';
+          }, 4000);
+        } else {
+          alert('خطأ في الإرسال: ' + (res.message || 'يرجى المحاولة لاحقًا'));
+        }
       })
-      .catch(err => {
-        console.error('Fetch error:', err);
-        alert('❌ فشل في الإرسال — افتح Console (F12) للمزيد من التفاصيل.');
-      });
+      .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
     });
   </script>
 </body>
 </html>
+
 
