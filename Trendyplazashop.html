@@ -1,421 +1,504 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>عروض الطلبة الجدد - اطلب الآن</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      font-family: 'Cairo', 'Arial', sans-serif;
-      margin: 0;
-      background: #f9f9f9;
-      color: #333;
-      text-align: center;
-      padding: 0;
-      line-height: 1.6;
-    }
-    
-    header {
-      background: linear-gradient(90deg, #000, #b30000);
-      color: #fff;
-      padding: 22px;
-      font-weight: bold;
-      margin-bottom: 25px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      font-size: 1.4rem;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 15px;
-    }
-    
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 22px;
-      margin: 0 auto 30px auto;
-    }
-    
-    .card {
-      border: 2px solid #b30000;
-      border-radius: 15px;
-      padding: 20px;
-      background: #fff;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      user-select: none;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-    
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 20px rgba(179, 0, 0, 0.18);
-    }
-    
-    .card h3 {
-      color: #b30000;
-      margin: 12px 0;
-      font-size: 1.4rem;
-      min-height: 65px;
-    }
-    
-    .card p {
-      color: #555;
-      flex-grow: 1;
-      margin-bottom: 15px;
-      font-size: 1.05rem;
-      line-height: 1.5;
-    }
-    
-    .price {
-      font-weight: 800;
-      color: #000;
-      margin: 12px 0;
-      font-size: 1.5rem;
-    }
-    
-    .btn {
-      background: #b30000;
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-      margin-top: auto;
-    }
-    
-    .btn:hover {
-      background: #000;
-      transform: scale(1.03);
-    }
-    
-    #formWrap {
-      display: none;
-      max-width: 550px;
-      margin: 30px auto;
-      padding: 25px;
-      border: 2px solid #000;
-      border-radius: 15px;
-      background: #fff;
-      text-align: right;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-    
-    #formWrap h3 {
-      color: #b30000;
-      margin-bottom: 20px;
-      font-size: 1.5rem;
-    }
-    
-    .form-group {
-      margin-bottom: 18px;
-      text-align: right;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      color: #333;
-      text-align: right;
-    }
-    
-    input, select, textarea {
-      width: 100%;
-      padding: 14px;
-      margin: 5px 0;
-      border-radius: 8px;
-      border: 1.5px solid #ddd;
-      font-size: 16px;
-      font-family: 'Cairo', sans-serif;
-      transition: border 0.3s ease;
-    }
-    
-    input:focus, select:focus, textarea:focus {
-      border-color: #b30000;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(179, 0, 0, 0.2);
-    }
-    
-    button.submit-btn {
-      width: 100%;
-      background: #b30000;
-      border: none;
-      color: #fff;
-      padding: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 8px;
-      margin-top: 20px;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-    }
-    
-    button.submit-btn:hover {
-      background: #000;
-      transform: scale(1.02);
-    }
-    
-    .success {
-      display: none;
-      text-align: center;
-      padding: 20px;
-      background: #28a745;
-      color: #fff;
-      border-radius: 10px;
-      margin: 30px auto;
-      max-width: 600px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-    }
-    
-    .loading {
-      display: none;
-      text-align: center;
-      margin: 15px 0;
-    }
-    
-    .loading-spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #b30000;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    @media (max-width: 768px) {
-      .grid {
-        grid-template-columns: 1fr;
-        max-width: 400px;
-      }
-      
-      header {
-        padding: 18px;
-        font-size: 1.2rem;
-      }
-      
-      #formWrap {
-        padding: 20px;
-        margin: 20px 15px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلب الباقات - الهندسة المعمارية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #000, #b30000);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .packages-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .package-card {
+            background: #fff;
+            border: 2px solid #b30000;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(179, 0, 0, 0.18);
+        }
+        
+        .package-card h2 {
+            color: #b30000;
+            margin-bottom: 15px;
+            font-size: 22px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        
+        .package-card p {
+            color: #555;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            margin: 15px 0;
+            background: #f8f8f8;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .select-btn {
+            background-color: #b30000;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+            margin-top: auto;
+        }
+        
+        .select-btn:hover {
+            background-color: #000;
+        }
+        
+        .order-form {
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            margin: 30px auto;
+            max-width: 600px;
+            display: none;
+        }
+        
+        .order-form h2 {
+            color: #b30000;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 24px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Tajawal', sans-serif;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #b30000;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(179, 0, 0, 0.2);
+        }
+        
+        .submit-btn {
+            background-color: #b30000;
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 18px;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #000;
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 30px auto;
+            max-width: 600px;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #b30000;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .selected-package {
+            background-color: #fff8f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #b30000;
+        }
+        
+        .selected-package h3 {
+            color: #b30000;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .packages-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-form {
+                padding: 20px;
+                margin: 20px;
+            }
+            
+            header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية — اطلب الآن</header>
-  
-  <div class="container">
-    <div class="grid" aria-label="قائمة الباقات">
-      <div class="card" tabindex="0" onclick="openForm('الباقة الأساسية', 3950)">
-        <h3>1️⃣ الباقة الأساسية</h3>
-        <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
-        <div class="price">3950 دج</div>
-        <button class="btn" type="button" onclick="openForm('الباقة الأساسية', 3950)">اطلب الآن</button>
-      </div>
-      
-      <div class="card" tabindex="0" onclick="openForm('باقة Sous main', 4850)">
-        <h3>2️⃣ باقة Sous main</h3>
-        <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
-        <div class="price">4850 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة Sous main', 4850)">اطلب الآن</button>
-      </div>
-      
-      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الصغيرة', 4950)">
-        <h3>3️⃣ باقة البازوكا الصغيرة</h3>
-        <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
-        <div class="price">4950 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة البازوكا الصغيرة', 4950)">اطلب الآن</button>
-      </div>
-      
-      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الكبيرة', 5200)">
-        <h3>4️⃣ باقة البازوكا الكبيرة</h3>
-        <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
-        <div class="price">5200 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة البازوكا الكبيرة', 5200)">اطلب الآن</button>
-      </div>
-      
-      <div class="card" tabindex="0" onclick="openForm('باقة VIP', 6200)">
-        <h3>5️⃣ باقة VIP</h3>
-        <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
-        <div class="price">6200 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة VIP', 6200)">اطلب الآن</button>
-      </div>
+    <div class="container">
+        <header>
+            <h1>📦 اختر باقتك واملأ بيانات الطلب</h1>
+            <p>عروض خاصة لطلبة الهندسة المعمارية</p>
+        </header>
+        
+        <div class="packages-container" id="packagesContainer">
+            <div class="package-card" onclick="selectPackage('الباقة الأساسية', 3950)">
+                <h2>الباقة الأساسية</h2>
+                <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
+                <div class="price">3950 دج</div>
+                <button class="select-btn">اختر هذه الباقة</button>
+            </div>
+            
+            <div class="package-card" onclick="selectPackage('باقة Sous main', 4850)">
+                <h2>باقة Sous main</h2>
+                <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+                <div class="price">4850 دج</div>
+                <button class="select-btn">اختر هذه الباقة</button>
+            </div>
+            
+            <div class="package-card" onclick="selectPackage('باقة البازوكا الصغيرة', 4950)">
+                <h2>باقة البازوكا الصغيرة</h2>
+                <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
+                <div class="price">4950 دج</div>
+                <button class="select-btn">اختر هذه الباقة</button>
+            </div>
+            
+            <div class="package-card" onclick="selectPackage('باقة البازوكا الكبيرة', 5200)">
+                <h2>باقة البازوكا الكبيرة</h2>
+                <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
+                <div class="price">5200 دج</div>
+                <button class="select-btn">اختر هذه الباقة</button>
+            </div>
+            
+            <div class="package-card" onclick="selectPackage('باقة VIP', 6200)">
+                <h2>باقة VIP</h2>
+                <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+                <div class="price">6200 دج</div>
+                <button class="select-btn">اختر هذه الباقة</button>
+            </div>
+        </div>
+        
+        <div class="order-form" id="orderForm">
+            <h2>📋 اكمل بيانات الطلب</h2>
+            
+            <div class="selected-package" id="selectedPackageInfo">
+                <h3 id="packageNameDisplay"></h3>
+                <p id="packagePriceDisplay"></p>
+            </div>
+            
+            <form id="customerForm">
+                <div class="form-group">
+                    <label for="fullName">الاسم الكامل</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="أدخل اسمك الكامل" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" name="phone" placeholder="05xxxxxxxx" required pattern="^(\+?213|0)(5|6|7)\d{8}$">
+                </div>
+                
+                <div class="form-group">
+                    <label for="wilaya">الولاية</label>
+                    <select id="wilaya" name="wilaya" required>
+                        <option value="" disabled selected>اختر الولاية</option>
+                        <option>أدرار</option><option>الشلف</option><option>الأغواط</option><option>أم البواقي</option><option>باتنة</option>
+                        <option>بجاية</option><option>بسكرة</option><option>بشار</option><option>البليدة</option><option>البويرة</option>
+                        <option>تمنراست</option><option>تبسة</option><option>تلمسان</option><option>تيارت</option><option>تيزي وزو</option>
+                        <option>الجزائر</option><option>الجلفة</option><option>جيجل</option><option>سطيف</option><option>سعيدة</option>
+                        <option>سكيكدة</option><option>سيدي بلعباس</option><option>عنابة</option><option>قالمة</option><option>قسنطينة</option>
+                        <option>المدية</option><option>مستغانم</option><option>المسيلة</option><option>معسكر</option><option>ورقلة</option>
+                        <option>وهران</option><option>البيض</option><option>إليزي</option><option>برج بوعريريج</option><option>بومرداس</option>
+                        <option>الطارف</option><option>تندوف</option><option>تيسمسيلت</option><option>الوادي</option><option>خنشلة</option>
+                        <option>سوق أهراس</option><option>تيبازة</option><option>ميلة</option><option>عين الدفلى</option><option>النعامة</option>
+                        <option>عين تموشنت</option><option>غرداية</option><option>غليزان</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="commune">البلدية</label>
+                    <input type="text" id="commune" name="commune" placeholder="أدخل اسم البلدية" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="delivery">نوع التوصيل</label>
+                    <select id="delivery" name="delivery" required>
+                        <option value="" disabled selected>اختر النوع</option>
+                        <option value="مكتب">التوصيل إلى المكتب</option>
+                        <option value="منزل">التوصيل إلى المنزل</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">ملاحظات إضافية (اختياري)</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="إضافة ملاحظات"></textarea>
+                </div>
+                
+                <div class="loading" id="loadingIndicator">
+                    <div class="loading-spinner"></div>
+                    <p>جاري إرسال الطلب...</p>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitButton">إرسال الطلب</button>
+            </form>
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            ✅ تم تسجيل طلبك بنجاح! سنتواصل معك قريبًا.
+        </div>
     </div>
 
-    <div id="formWrap" role="form" aria-live="polite" aria-atomic="true">
-      <form id="orderForm" novalidate>
-        <h3>📋 اكمل بيانات الطلب</h3>
-        <input type="hidden" name="package" id="package" />
-        <input type="hidden" name="price" id="price" />
+    <script>
+        // بيانات التخزين
+        let selectedPackage = {
+            name: '',
+            price: 0
+        };
         
-        <div class="form-group">
-          <label for="fullName">الاسم الكامل</label>
-          <input type="text" id="fullName" name="name" placeholder="أدخل اسمك الكامل" required />
-        </div>
+        // عناصر DOM
+        const orderForm = document.getElementById('orderForm');
+        const successMessage = document.getElementById('successMessage');
+        const packagesContainer = document.getElementById('packagesContainer');
+        const packageNameDisplay = document.getElementById('packageNameDisplay');
+        const packagePriceDisplay = document.getElementById('packagePriceDisplay');
+        const selectedPackageInfo = document.getElementById('selectedPackageInfo');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const submitButton = document.getElementById('submitButton');
+        const customerForm = document.getElementById('customerForm');
         
-        <div class="form-group">
-          <label for="phone">رقم الهاتف</label>
-          <input type="tel" id="phone" name="phone" placeholder="05xxxxxxxx" pattern="^(\+?213|0)(5|6|7)\d{8}$" required />
-        </div>
+        // رابط Google Apps Script (استبدله برابطك الخاص)
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbx3KnXxFc5b1JGs51Ady5TJGU9tTHC2GmjIILUGG6YAg8ugPPZknVEFkD6b6qY0iGYF/exec";
         
-        <div class="form-group">
-          <label for="wilaya">الولاية</label>
-          <select id="wilaya" name="wilaya" required>
-            <option value="" disabled selected>اختر الولاية</option>
-            <option>أدرار</option><option>الشلف</option><option>الأغواط</option><option>أم البواقي</option><option>باتنة</option>
-            <option>بجاية</option><option>بسكرة</option><option>بشار</option><option>البليدة</option><option>البويرة</option>
-            <option>تمنراست</option><option>تبسة</option><option>تلمسان</option><option>تيارت</option><option>تيزي وزو</option>
-            <option>الجزائر</option><option>الجلفة</option><option>جيجل</option><option>سطيف</option><option>سعيدة</option>
-            <option>سكيكدة</option><option>سيدي بلعباس</option><option>عنابة</option><option>قالمة</option><option>قسنطينة</option>
-            <option>المدية</option><option>مستغانم</option><option>المسيلة</option><option>معسكر</option><option>ورقلة</option>
-            <option>وهران</option><option>البيض</option><option>إليزي</option><option>برج بوعريريج</option><option>بومرداس</option>
-            <option>الطارف</option><option>تندوف</option><option>تيسمسيلت</option><option>الوادي</option><option>خنشلة</option>
-            <option>سوق أهراس</option><option>تيبازة</option><option>ميلة</option><option>عين الدفلى</option><option>النعامة</option>
-            <option>عين تموشنت</option><option>غرداية</option><option>غليزان</option>
-          </select>
-        </div>
+        // اختيار الباقة
+        function selectPackage(name, price) {
+            selectedPackage = { name, price };
+            
+            // عرض معلومات الباقة المحددة
+            packageNameDisplay.textContent = `الباقة المحددة: ${name}`;
+            packagePriceDisplay.textContent = `السعر: ${price} دج`;
+            selectedPackageInfo.style.display = 'block';
+            
+            // إظهار نموذج الطلب
+            orderForm.style.display = 'block';
+            
+            // التمرير إلى النموذج
+            window.scrollTo({
+                top: orderForm.offsetTop - 20,
+                behavior: 'smooth'
+            });
+        }
         
-        <div class="form-group">
-          <label for="commune">البلدية</label>
-          <input type="text" id="commune" name="commune" placeholder="أدخل اسم البلدية" required />
-        </div>
-        
-        <div class="form-group">
-          <label for="delivery">نوع التوصيل</label>
-          <select id="delivery" name="delivery" required>
-            <option value="" disabled selected>اختر النوع</option>
-            <option value="مكتب">التوصيل إلى المكتب</option>
-            <option value="منزل">التوصيل إلى المنزل</option>
-          </select>
-        </div>
-        
-        <div class="form-group">
-          <label for="notes">ملاحظات إضافية (اختياري)</label>
-          <textarea id="notes" name="notes" rows="3" placeholder="إضافة ملاحظات"></textarea>
-        </div>
-        
-        <div class="loading" id="loadingIndicator">
-          <div class="loading-spinner"></div>
-          <p>جاري إرسال الطلب...</p>
-        </div>
-        
-        <button type="submit" class="submit-btn" id="submitButton">✅ تأكيد الطلب</button>
-      </form>
-    </div>
-
-    <p id="successMessage" class="success">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</p>
-  </div>
-
-  <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbx3KnXxFc5b1JGs51Ady5TJGU9tTHC2GmjIILUGG6YAg8ugPPZknVEFkD6b6qY0iGYF/exec";
-
-    const orderForm = document.getElementById('orderForm');
-    const successMessage = document.getElementById('successMessage');
-    const formWrap = document.getElementById('formWrap');
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    const submitButton = document.getElementById('submitButton');
-
-    function openForm(packName, price) {
-      formWrap.style.display = 'block';
-      document.getElementById('package').value = packName;
-      document.getElementById('price').value = price;
-      window.scrollTo({ top: formWrap.offsetTop - 50, behavior: 'smooth' });
-    }
-
-    orderForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      if (!orderForm.checkValidity()) {
-        // إذا كان النموذج غير صالح، عرض رسائل التحقق
-        orderForm.reportValidity();
-        return;
-      }
-
-      // إظهار مؤشر التحميل وإخفاء زر الإرسال
-      loadingIndicator.style.display = 'block';
-      submitButton.style.display = 'none';
-
-      const data = {
-        orderId: `ORD-${Date.now().toString(36).toUpperCase()}`,
-        timestamp: new Date().toISOString(),
-        pack: {
-          type: orderForm.package.value,
-          price: parseInt(orderForm.price.value)
-        },
-        customer: {
-          fullName: orderForm.name.value.trim(),
-          phone: orderForm.phone.value.trim(),
-          city: orderForm.wilaya.value,
-          commune: orderForm.commune.value.trim(),
-          notes: orderForm.notes.value.trim()
-        },
-        shipping: {
-          method: orderForm.delivery.value,
-          fee: 0
-        },
-        totals: { total: parseInt(orderForm.price.value) },
-        promo: ""
-      };
-
-      try {
-        // استخدام FormData بدلاً من JSON مباشرة لحل مشاكل الترميز
-        const formData = new FormData();
-        formData.append('data', JSON.stringify(data));
-        
-        const response = await fetch(GAS_URL, {
-          method: "POST",
-          body: formData
+        // إرسال النموذج
+        customerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // التحقق من صحة النموذج
+            if (!customerForm.checkValidity()) {
+                customerForm.reportValidity();
+                return;
+            }
+            
+            // إظهار مؤشر التحميل
+            loadingIndicator.style.display = 'block';
+            submitButton.style.display = 'none';
+            
+            // جمع بيانات النموذج
+            const formData = new FormData(customerForm);
+            const customerData = {
+                fullName: formData.get('fullName'),
+                phone: formData.get('phone'),
+                wilaya: formData.get('wilaya'),
+                commune: formData.get('commune'),
+                delivery: formData.get('delivery'),
+                notes: formData.get('notes')
+            };
+            
+            // إعداد بيانات الطلب
+            const orderData = {
+                orderId: `ORD-${Date.now().toString(36).toUpperCase()}`,
+                timestamp: new Date().toISOString(),
+                package: selectedPackage,
+                customer: customerData,
+                status: 'pending'
+            };
+            
+            try {
+                // إرسال البيانات إلى Google Apps Script
+                const response = await fetch(GAS_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(orderData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`فشل إرسال الطلب: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.result === 'success') {
+                    // إظهار رسالة النجاح
+                    successMessage.style.display = 'block';
+                    orderForm.style.display = 'none';
+                    
+                    // إخفاء رسالة النجاح بعد 5 ثوان
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+                    
+                    // إعادة تعيين النموذج
+                    customerForm.reset();
+                } else {
+                    throw new Error(result.message || 'حدث خطأ غير متوقع');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`حدث خطأ: ${error.message}`);
+            } finally {
+                // إخفاء مؤشر التحميل
+                loadingIndicator.style.display = 'none';
+                submitButton.style.display = 'block';
+            }
         });
-
-        if (!response.ok) {
-          throw new Error(`فشل الاتصال: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (result.result === "success") {
-          successMessage.style.display = "block";
-          orderForm.reset();
-          formWrap.style.display = "none";
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          
-          setTimeout(() => {
-            successMessage.style.display = "none";
-          }, 5000);
-        } else {
-          alert("حدث خطأ أثناء إرسال الطلب: " + (result.message || ""));
-        }
-      } catch(err) {
-        console.error("Error:", err);
-        alert("خطأ في الإرسال: " + err.message);
-      } finally {
-        // إعادة عرض زر الإرسال وإخفاء مؤشر التحميل
-        loadingIndicator.style.display = 'none';
-        submitButton.style.display = 'block';
-      }
-    });
-  </script>
+        
+        // إضافة تأثيرات للبطاقات عند التمرير
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // تطبيق تأثيرات الظهور على البطاقات
+        document.querySelectorAll('.package-card').forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
 </body>
 </html>
