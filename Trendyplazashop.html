@@ -1,661 +1,173 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طلب الباقات - الهندسة المعمارية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #b30000;
-            --secondary-color: #000;
-            --accent-color: #ff5252;
-            --light-color: #f8f9fa;
-            --dark-color: #333;
-            --success-color: #28a745;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            color: var(--dark-color);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-            color: white;
-            padding: 25px;
-            text-align: center;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::before {
-            content: "";
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
-            z-index: -1;
-            filter: blur(20px);
-            opacity: 0.7;
-        }
-        
-        header h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
-        
-        header p {
-            font-size: 18px;
-            opacity: 0.9;
-        }
-        
-        .packages-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        
-        .package-card {
-            background: #fff;
-            border: 2px solid var(--primary-color);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .package-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-        }
-        
-        .package-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(179, 0, 0, 0.2);
-        }
-        
-        .package-card h2 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 24px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-        }
-        
-        .package-card p {
-            color: #555;
-            margin-bottom: 20px;
-            flex-grow: 1;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-        
-        .price {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--secondary-color);
-            margin: 15px 0;
-            background: #f8f8f8;
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            border: 2px dashed var(--primary-color);
-        }
-        
-        .select-btn {
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-            color: #fff;
-            border: none;
-            padding: 14px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 17px;
-            margin-top: auto;
-            box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
-        }
-        
-        .select-btn:hover {
-            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-            transform: scale(1.03);
-        }
-        
-        .order-form {
-            background: #fff;
-            border: 2px solid var(--secondary-color);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            margin: 30px auto;
-            max-width: 650px;
-            display: none;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .order-form::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-        }
-        
-        .order-form h2 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 26px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--dark-color);
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            font-family: 'Tajawal', sans-serif;
-            transition: all 0.3s;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(179, 0, 0, 0.2);
-        }
-        
-        .submit-btn {
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-            color: #fff;
-            border: none;
-            padding: 16px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 18px;
-            width: 100%;
-            margin-top: 15px;
-            box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
-        }
-        
-        .submit-btn:hover {
-            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-            transform: scale(1.02);
-        }
-        
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 25px;
-            border-radius: 10px;
-            text-align: center;
-            margin: 30px auto;
-            max-width: 600px;
-            display: none;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            font-weight: bold;
-            font-size: 20px;
-            border: 2px solid #c3e6cb;
-        }
-        
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            margin: 20px auto;
-            max-width: 600px;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            font-weight: bold;
-            border: 2px solid #f5c6cb;
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .loading-spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary-color);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .selected-package {
-            background-color: #fff8f8;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border-left: 5px solid var(--primary-color);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .selected-package h3 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            font-size: 20px;
-        }
-        
-        .selected-package p {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-        
-        .package-icon {
-            font-size: 24px;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-        
-        @media (max-width: 768px) {
-            .packages-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .order-form {
-                padding: 20px;
-                margin: 20px;
-            }
-            
-            header h1 {
-                font-size: 26px;
-            }
-            
-            .price {
-                font-size: 24px;
-            }
-        }
-        
-        .debug-info {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 20px 0;
-            font-family: monospace;
-            font-size: 14px;
-            display: none;
-        }
-        
-        .debug-toggle {
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px 0;
-            font-size: 14px;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>عروض الطلبة الجدد - اطلب الآن</title>
+  <style>
+    body{font-family:Cairo, Arial; margin:0; background:#fff; color:#000; text-align:center; padding: 20px;}
+    header{background:linear-gradient(90deg,#000,#b30000); color:#fff; padding:18px; font-weight:bold; margin-bottom: 20px;}
+    .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; max-width:1100px; margin:0 auto 20px auto;}
+    .card{border:2px solid #b30000; border-radius:12px; padding:16px; background:#fff; box-shadow:0 6px 16px rgba(0,0,0,0.08); cursor:pointer; transition:0.3s; user-select:none;}
+    .card:hover{transform: scale(1.05); box-shadow:0 6px 20px rgba(0,0,0,0.2);}
+    .card h3{color:#b30000; margin:6px 0;}
+    .price{font-weight:800; color:#000; margin:8px 0;}
+    .btn{background:#b30000;color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer}
+    .btn:hover{background:#000}
+    #formWrap{display:none; max-width:520px; margin:20px auto; padding:18px; border:2px solid #000; border-radius:12px; background:#f9f9f9; text-align:right;}
+    input, select, textarea{width:100%; padding:10px; margin:8px 0; border-radius:6px; border:1px solid #ccc; font-size:15px; box-sizing: border-box;}
+    button.submit-btn { width: 100%; background: #b30000; border: none; color: #fff; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 8px; margin-top: 15px; }
+    button.submit-btn:hover { background: #000; }
+    .success{display:none; text-align:center; padding:12px; background:#28a745; color:#fff; border-radius:8px; margin-top:12px}
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📦 اختر باقتك واملأ بيانات الطلب</h1>
-            <p>عروض خاصة لطلبة الهندسة المعمارية - الأسعار المخفضة لفترة محدودة</p>
-        </header>
-        
-        <div class="packages-container" id="packagesContainer">
-            <div class="package-card" onclick="selectPackage('الباقة الأساسية', 3950)">
-                <h2>الباقة الأساسية</h2>
-                <p>جميع الأدوات + ملف DRIVE + هدية 🎁 - الحل الأمثل للبداية القوية</p>
-                <div class="price">3950 دج</div>
-                <button class="select-btn">اختر هذه الباقة</button>
-            </div>
-            
-            <div class="package-card" onclick="selectPackage('باقة Sous main', 4850)">
-                <h2>باقة Sous main</h2>
-                <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁 - لتنظيم أفضل</p>
-                <div class="price">4850 دج</div>
-                <button class="select-btn">اختر هذه الباقة</button>
-            </div>
-            
-            <div class="package-card" onclick="selectPackage('باقة البازوكا الصغيرة', 4950)">
-                <h2>باقة البازوكا الصغيرة</h2>
-                <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁 - لأعمال دقيقة</p>
-                <div class="price">4950 دج</div>
-                <button class="select-btn">اختر هذه الباقة</button>
-            </div>
-            
-            <div class="package-card" onclick="selectPackage('باقة البازوكا الكبيرة', 5200)">
-                <h2>باقة البازوكا الكبيرة</h2>
-                <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁 - لمشاريع أكبر</p>
-                <div class="price">5200 دج</div>
-                <button class="select-btn">اختر هذه الباقة</button>
-            </div>
-            
-            <div class="package-card" onclick="selectPackage('باقة VIP', 6200)">
-                <h2>باقة VIP</h2>
-                <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁 - الحل الشامل</p>
-                <div class="price">6200 دج</div>
-                <button class="select-btn">اختر هذه الباقة</button>
-            </div>
-        </div>
-        
-        <div class="order-form" id="orderForm">
-            <h2>📋 اكمل بيانات الطلب</h2>
-            
-            <div class="selected-package" id="selectedPackageInfo">
-                <h3><span class="package-icon">📦</span> <span id="packageNameDisplay"></span></h3>
-                <p>السعر: <span id="packagePriceDisplay"></span> دج</p>
-            </div>
-            
-            <form id="customerForm">
-                <div class="form-group">
-                    <label for="fullName">الاسم الكامل</label>
-                    <input type="text" id="fullName" name="fullName" placeholder="أدخل اسمك الكامل" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="phone">رقم الهاتف</label>
-                    <input type="tel" id="phone" name="phone" placeholder="05xxxxxxxx" required pattern="^(\+?213|0)(5|6|7)\d{8}$">
-                    <small>يجب أن يكون الرقم صحيحاً (مثال: 0551234567)</small>
-                </div>
-                
-                <div class="form-group">
-                    <label for="wilaya">الولاية</label>
-                    <select id="wilaya" name="wilaya" required>
-                        <option value="" disabled selected>اختر الولاية</option>
-                        <option>أدرار</option><option>الشلف</option><option>الأغواط</option><option>أم البواقي</option><option>باتنة</option>
-                        <option>بجاية</option><option>بسكرة</option><option>بشار</option><option>البليدة</option><option>البويرة</option>
-                        <option>تمنراست</option><option>تبسة</option><option>تلمسان</option><option>تيارت</option><option>تيزي وزو</option>
-                        <option>الجزائر</option><option>الجلفة</option><option>جيجل</option><option>سطيف</option><option>سعيدة</option>
-                        <option>سكيكدة</option><option>سيدي بلعباس</option><option>عنابة</option><option>قالمة</option><option>قسنطينة</option>
-                        <option>المدية</option><option>مستغانم</option><option>المسيلة</option><option>معسكر</option><option>ورقلة</option>
-                        <option>وهران</option><option>البيض</option><option>إليزي</option><option>برج بوعريريج</option><option>بومرداس</option>
-                        <option>الطارف</option><option>تندوف</option><option>تيسمسيلت</option><option>الوادي</option><option>خنشلة</option>
-                        <option>سوق أهراس</option><option>تيبازة</option><option>ميلة</option><option>عين الدفلى</option><option>النعامة</option>
-                        <option>عين تموشنت</option><option>غرداية</option><option>غليزان</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="commune">البلدية</label>
-                    <input type="text" id="commune" name="commune" placeholder="أدخل اسم البلدية" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="address">العنوان بالتفصيل</label>
-                    <textarea id="address" name="address" rows="2" placeholder="أدخل عنوانك بالتفصيل" required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="delivery">نوع التوصيل</label>
-                    <select id="delivery" name="delivery" required>
-                        <option value="" disabled selected>اختر النوع</option>
-                        <option value="التوصيل إلى المكتب">التوصيل إلى المكتب</option>
-                        <option value="التوصيل إلى المنزل">التوصيل إلى المنزل</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="notes">ملاحظات إضافية (اختياري)</label>
-                    <textarea id="notes" name="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة"></textarea>
-                </div>
-                
-                <div class="loading" id="loadingIndicator">
-                    <div class="loading-spinner"></div>
-                    <p>جاري إرسال الطلب...</p>
-                </div>
-                
-                <button type="submit" class="submit-btn" id="submitButton">إرسال الطلب</button>
-            </form>
-        </div>
-        
-        <div class="success-message" id="successMessage">
-            ✅ تم تسجيل طلبك بنجاح! سنتواصل معك قريبًا لتأكيد التفاصيل.
-        </div>
-        
-        <div class="error-message" id="errorMessage">
-            ❌ حدث خطأ في إرسال الطلب. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.
-        </div>
-        
-        <button class="debug-toggle" onclick="toggleDebug()">عرض معلومات التصحيح</button>
-        
-        <div class="debug-info" id="debugInfo">
-            <h3>معلومات التصحيح</h3>
-            <p>هذه المعلومات للمساعدة في تشخيص أي مشاكل في إرسال البيانات.</p>
-            <div id="debugContent"></div>
-        </div>
+  <header>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية — اطلب الآن</header>
+  <div class="grid" aria-label="قائمة الباقات">
+    <div class="card" tabindex="0" onclick="openForm('الباقة الأساسية', 3950)">
+      <h3>1️⃣ الباقة الأساسية</h3>
+      <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
+      <div class="price">3950 دج</div>
+      <button class="btn" type="button" onclick="openForm('الباقة الأساسية', 3950)">اطلب الآن</button>
     </div>
+    <div class="card" tabindex="0" onclick="openForm('باقة Sous main', 4850)">
+      <h3>2️⃣ باقة Sous main</h3>
+      <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+      <div class="price">4850 دج</div>
+      <button class="btn" type="button" onclick="openForm('باقة Sous main', 4850)">اطلب الآن</button>
+    </div>
+    <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الصغيرة', 4950)">
+      <h3>3️⃣ باقة البازوكا الصغيرة</h3>
+      <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
+      <div class="price">4950 دج</div>
+      <button class="btn" type="button" onclick="openForm('باقة البازوكا الصغيرة', 4950)">اطلب الآن</button>
+    </div>
+    <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الكبيرة', 5200)">
+      <h3>4️⃣ باقة البازوكا الكبيرة</h3>
+      <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
+      <div class="price">5200 دج</div>
+      <button class="btn" type="button" onclick="openForm('باقة البازوكا الكبيرة', 5200)">اطلب الآن</button>
+    </div>
+    <div class="card" tabindex="0" onclick="openForm('باقة VIP', 6200)">
+      <h3>5️⃣ باقة VIP</h3>
+      <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+      <div class="price">6200 دج</div>
+      <button class="btn" type="button" onclick="openForm('باقة VIP', 6200)">اطلب الآن</button>
+    </div>
+  </div>
 
-    <script>
-        // بيانات التخزين
-        let selectedPackage = {
-            name: '',
-            price: 0
-        };
-        
-        // عناصر DOM
-        const orderForm = document.getElementById('orderForm');
-        const successMessage = document.getElementById('successMessage');
-        const errorMessage = document.getElementById('errorMessage');
-        const packageNameDisplay = document.getElementById('packageNameDisplay');
-        const packagePriceDisplay = document.getElementById('packagePriceDisplay');
-        const selectedPackageInfo = document.getElementById('selectedPackageInfo');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const submitButton = document.getElementById('submitButton');
-        const customerForm = document.getElementById('customerForm');
-        const debugInfo = document.getElementById('debugInfo');
-        const debugContent = document.getElementById('debugContent');
-        
-        // رابط Google Apps Script (استبدله برابطك الخاص)
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbx3KnXxFc5b1JGs51Ady5TJGU9tTHC2GmjIILUGG6YAg8ugPPZknVEFkD6b6qY0iGYF/exec";
-        
-        // اختيار الباقة
-        function selectPackage(name, price) {
-            selectedPackage = { name, price };
-            
-            // عرض معلومات الباقة المحددة
-            packageNameDisplay.textContent = name;
-            packagePriceDisplay.textContent = price;
-            selectedPackageInfo.style.display = 'block';
-            
-            // إظهار نموذج الطلب
-            orderForm.style.display = 'block';
-            
-            // إخفاء رسائل الخطأ إن وجدت
-            errorMessage.style.display = 'none';
-            
-            // التمرير إلى النموذج
-            window.scrollTo({
-                top: orderForm.offsetTop - 20,
-                behavior: 'smooth'
-            });
+  <div id="formWrap" role="form" aria-live="polite" aria-atomic="true">
+    <form id="orderForm" novalidate>
+      <h3>📋 اكمل بيانات الطلب</h3>
+      <input type="hidden" name="package" id="package" />
+      <input type="hidden" name="price" id="price" />
+      
+      <label for="fullName">الاسم الكامل</label>
+      <input type="text" id="fullName" name="name" placeholder="أدخل اسمك الكامل" required />
+      
+      <label for="phone">رقم الهاتف</label>
+      <input type="tel" id="phone" name="phone" placeholder="05xxxxxxxx" pattern="^(\+?213|0)(5|6|7)\d{8}$" required />
+      
+      <label for="wilaya">الولاية</label>
+      <select id="wilaya" name="wilaya" required>
+        <option value="" disabled selected>اختر الولاية</option>
+        <option>أدرار</option><option>الشلف</option><option>الأغواط</option><option>أم البواقي</option><option>باتنة</option>
+        <option>بجاية</option><option>بسكرة</option><option>بشار</option><option>البليدة</option><option>البويرة</option>
+        <option>تمنراست</option><option>تبسة</option><option>تلمسان</option><option>تيارت</option><option>تيزي وزو</option>
+        <option>الجزائر</option><option>الجلفة</option><option>جيجل</option><option>سطيف</option><option>سعيدة</option>
+        <option>سكيكدة</option><option>سيدي بلعباس</option><option>عنابة</option><option>قالمة</option><option>قسنطينة</option>
+        <option>المدية</option><option>مستغانم</option><option>المسيلة</option><option>معسكر</option><option>ورقلة</option>
+        <option>وهران</option><option>البيض</option><option>إليزي</option><option>برج بوعريريج</option><option>بومرداس</option>
+        <option>الطارف</option><option>تندوف</option><option>تيسمسيلت</option><option>الوادي</option><option>خنشلة</option>
+        <option>سوق أهراس</option><option>تيبازة</option><option>ميلة</option><option>عين الدفلى</option><option>النعامة</option>
+        <option>عين تموشنت</option><option>غرداية</option><option>غليزان</option><option>تيميمون</option><option>برج باجي مختار</option>
+        <option>أولاد جلال</option><option>بني عباس</option><option>عين صالح</option><option>عين قزام</option><option>تقرت</option>
+        <option>جانت</option><option>المغير</option><option>المنيعة</option>
+      </select>
+      
+      <label for="delivery">نوع التوصيل</label>
+      <select id="delivery" name="delivery" required>
+        <option value="" disabled selected>اختر نوع التوصيل</option>
+        <option value="À domicile">À domicile</option>
+        <option value="Tifawt bureau">Tifawt bureau</option>
+        <option value="Bureau">Bureau</option>
+      </select>
+      
+      <label for="notes">ملاحظات إضافية (اختياري)</label>
+      <textarea id="notes" name="notes" rows="3" placeholder="إضافة ملاحظات"></textarea>
+      
+      <button type="submit" class="submit-btn">✅ تأكيد الطلب</button>
+    </form>
+  </div>
+
+  <p id="successMessage" class="success" style="display:none;">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</p>
+
+  <script>
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbx3KnXxFc5b1JGs51Ady5TJGU9tTHC2GmjIILUGG6YAg8ugPPZknVEFkD6b6qY0iGYF/exec";
+
+    const orderForm = document.getElementById('orderForm');
+    const successMessage = document.getElementById('successMessage');
+
+    function openForm(packName, price) {
+      document.getElementById('formWrap').style.display = 'block';
+      document.getElementById('package').value = packName;
+      document.getElementById('price').value = price;
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    orderForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      if(!orderForm.reportValidity()) return;
+
+      const data = {
+        orderId: `ORD-${Date.now().toString(36).toUpperCase()}`,
+        timestamp: new Date().toISOString(),
+        pack: {
+          type: orderForm.package.value,
+          price: parseInt(orderForm.price.value)
+        },
+        customer: {
+          fullName: orderForm.name.value.trim(),
+          phone: orderForm.phone.value.trim(),
+          city: orderForm.wilaya.value,
+          commune: "",
+          notes: orderForm.notes.value.trim()
+        },
+        shipping: {
+          method: orderForm.delivery.value,
+          fee: 0
+        },
+        totals: { total: parseInt(orderForm.price.value) },
+        promo: ""
+      };
+
+      try {
+        const response = await fetch(GAS_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if(!response.ok) throw new Error(`فشل الاتصال: ${response.status}`);
+
+        const result = await response.json();
+
+        if(result.result === "success") {
+          successMessage.style.display = "block";
+          orderForm.reset();
+          document.getElementById('formWrap').style.display = "none";
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(() => {
+            successMessage.style.display = "none";
+          }, 4000);
+        } else {
+          alert("حدث خطأ أثناء إرسال الطلب، حاول لاحقاً.");
         }
-        
-        // إرسال النموذج
-        customerForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // التحقق من صحة النموذج
-            if (!customerForm.checkValidity()) {
-                customerForm.reportValidity();
-                return;
-            }
-            
-            // إظهار مؤشر التحميل
-            loadingIndicator.style.display = 'block';
-            submitButton.style.display = 'none';
-            errorMessage.style.display = 'none';
-            
-            // جمع بيانات النموذج
-            const formData = new FormData(customerForm);
-            const customerData = {
-                fullName: formData.get('fullName'),
-                phone: formData.get('phone'),
-                wilaya: formData.get('wilaya'),
-                commune: formData.get('commune'),
-                address: formData.get('address'),
-                delivery: formData.get('delivery'),
-                notes: formData.get('notes')
-            };
-            
-            // إعداد بيانات الطلب
-            const orderData = {
-                orderId: `ORD-${Date.now().toString(36).toUpperCase()}`,
-                timestamp: new Date().toISOString(),
-                package: selectedPackage,
-                customer: customerData,
-                status: 'pending'
-            };
-            
-            // عرض بيانات التصحيح
-            debugContent.innerHTML = `<pre>${JSON.stringify(orderData, null, 2)}</pre>`;
-            
-            try {
-                // إرسال البيانات إلى Google Apps Script باستخدام FormData
-                const formDataToSend = new FormData();
-                formDataToSend.append('data', JSON.stringify(orderData));
-                
-                const response = await fetch(GAS_URL, {
-                    method: 'POST',
-                    body: formDataToSend
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`فشل إرسال الطلب: ${response.status}`);
-                }
-                
-                const result = await response.json();
-                
-                if (result.result === 'success') {
-                    // إظهار رسالة النجاح
-                    successMessage.style.display = 'block';
-                    orderForm.style.display = 'none';
-                    
-                    // إخفاء رسالة النجاح بعد 5 ثوان
-                    setTimeout(() => {
-                        successMessage.style.display = 'none';
-                    }, 5000);
-                    
-                    // إعادة تعيين النموذج
-                    customerForm.reset();
-                    selectedPackageInfo.style.display = 'none';
-                } else {
-                    throw new Error(result.message || 'حدث خطأ غير متوقع');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                errorMessage.style.display = 'block';
-                errorMessage.innerHTML = `❌ حدث خطأ: ${error.message}. يرجى المحاولة مرة أخرى أو الاتصال بنا على الرقم 0551234567`;
-                
-                // التمرير إلى رسالة الخطأ
-                window.scrollTo({
-                    top: errorMessage.offsetTop - 20,
-                    behavior: 'smooth'
-                });
-            } finally {
-                // إخفاء مؤشر التحميل
-                loadingIndicator.style.display = 'none';
-                submitButton.style.display = 'block';
-            }
-        });
-        
-        // تبديل عرض معلومات التصحيح
-        function toggleDebug() {
-            debugInfo.style.display = debugInfo.style.display === 'none' ? 'block' : 'none';
-        }
-        
-        // إضافة تأثيرات للبطاقات عند التمرير
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-        
-        // تطبيق تأثيرات الظهور على البطاقات
-        document.querySelectorAll('.package-card').forEach(card => {
-            card.style.opacity = 0;
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            observer.observe(card);
-        });
-        
-        // إضافة تأثيرات للعناصر عند التحميل
-        window.addEventListener('load', () => {
-            document.querySelector('header').style.opacity = 1;
-            document.querySelector('header').style.transform = 'translateY(0)';
-        });
-    </script>
+      } catch(err) {
+        alert("خطأ في الإرسال: " + err.message);
+      }
+    });
+  </script>
 </body>
 </html>
