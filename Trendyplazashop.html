@@ -1,179 +1,231 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>عروض الطلبة الجدد 🏛✨</title>
+  <title>عروض الهندسة المعمارية</title>
   <style>
     body {
-      font-family: "Cairo", sans-serif;
-      background: linear-gradient(135deg, #f0f4ff, #e0f7fa);
-      margin: 0; padding: 0;
+      font-family: "Tajawal", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      color: #000;
+      direction: rtl;
+    }
+
+    header {
+      background: linear-gradient(135deg, #b30000, #000);
+      color: white;
+      padding: 15px;
       text-align: center;
-      color: #333;
     }
-    h1 { color: #2c3e50; margin-top: 20px; }
-    .packs {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin: 30px auto;
-      max-width: 1200px;
-    }
-    .pack {
-      background: #fff;
+
+    .offer {
+      background: #f9f9f9;
+      border: 2px solid #b30000;
       border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      margin: 15px;
       padding: 20px;
-      width: 260px;
-      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
     }
-    .pack:hover { transform: translateY(-5px); }
-    .pack h3 { color: #16a085; }
-    .price { font-size: 1.2em; font-weight: bold; margin: 10px 0; }
-    .btn {
-      display: inline-block;
-      background: #16a085;
-      color: #fff;
-      padding: 10px 15px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: 0.3s;
+
+    .offer:hover {
+      transform: scale(1.03);
     }
-    .btn:hover { background: #1abc9c; }
-    #orderForm {
-      display: none;
-      background: #fff;
-      padding: 25px;
-      max-width: 500px;
-      margin: 30px auto;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-      text-align: right;
+
+    h2 {
+      color: #b30000;
     }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-    }
+
     button {
-      background: #16a085;
-      color: #fff;
-      padding: 10px 20px;
+      background: #b30000;
+      color: white;
+      padding: 12px 18px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+      transition: 0.3s;
     }
-    button:hover { background: #1abc9c; }
+
+    button:hover {
+      background: #000;
+    }
+
+    form {
+      display: none;
+      margin: 20px auto;
+      padding: 20px;
+      border: 2px solid #000;
+      border-radius: 12px;
+      max-width: 400px;
+      background: #fff;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .success {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      margin-top: 15px;
+    }
   </style>
 </head>
 <body>
+  <header>
+    <h1>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية 🏛✨</h1>
+    <p>كل ما تحتاجه للنجاح في سنتك الأولى… في باقة واحدة!</p>
+  </header>
 
-  <h1>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية 🏛✨</h1>
-  <p>اختر الباقة التي تناسبك واضغط "اطلب الآن"</p>
+  <section class="offer">
+    <h2>1️⃣ الباقة الأساسية</h2>
+    <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
+    <p><strong>💵 3950 دج</strong></p>
+    <button onclick="showForm('الباقة الأساسية')">اطلب الآن</button>
+  </section>
 
-  <div class="packs">
-    <div class="pack">
-      <h3>الباقة الأساسية</h3>
-      <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
-      <p class="price">3950 دج</p>
-      <a href="#" class="btn" onclick="selectPack('الباقة الأساسية', '3950')">اطلب الآن</a>
-    </div>
-    <div class="pack">
-      <h3>باقة Sous main</h3>
-      <p>جميع الأدوات + محفظة + ملف DRIVE + هدية 🎁</p>
-      <p class="price">4850 دج</p>
-      <a href="#" class="btn" onclick="selectPack('باقة Sous main', '4850')">اطلب الآن</a>
-    </div>
-    <div class="pack">
-      <h3>باقة البازوكا الصغيرة</h3>
-      <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
-      <p class="price">4950 دج</p>
-      <a href="#" class="btn" onclick="selectPack('باقة البازوكا الصغيرة', '4950')">اطلب الآن</a>
-    </div>
-    <div class="pack">
-      <h3>باقة البازوكا الكبيرة</h3>
-      <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
-      <p class="price">5200 دج</p>
-      <a href="#" class="btn" onclick="selectPack('باقة البازوكا الكبيرة', '5200')">اطلب الآن</a>
-    </div>
-    <div class="pack">
-      <h3>باقة VIP</h3>
-      <p>جميع الأدوات + بازوكا صغيرة + محفظة + ملف DRIVE + هدية 🎁</p>
-      <p class="price">6200 دج</p>
-      <a href="#" class="btn" onclick="selectPack('باقة VIP', '6200')">اطلب الآن</a>
-    </div>
-  </div>
+  <section class="offer">
+    <h2>2️⃣ باقة Sous main</h2>
+    <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+    <p><strong>💵 4850 دج</strong></p>
+    <button onclick="showForm('باقة Sous main')">اطلب الآن</button>
+  </section>
 
-  <!-- Formulaire de commande -->
+  <section class="offer">
+    <h2>3️⃣ باقة البازوكا الصغيرة</h2>
+    <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
+    <p><strong>💵 4950 دج</strong></p>
+    <button onclick="showForm('باقة البازوكا الصغيرة')">اطلب الآن</button>
+  </section>
+
+  <section class="offer">
+    <h2>4️⃣ باقة البازوكا الكبيرة</h2>
+    <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
+    <p><strong>💵 5200 دج</strong></p>
+    <button onclick="showForm('باقة البازوكا الكبيرة')">اطلب الآن</button>
+  </section>
+
+  <section class="offer">
+    <h2>5️⃣ باقة VIP</h2>
+    <p>جميع الأدوات + بازوكا صغيرة+ محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+    <p><strong>💵 6200 دج</strong></p>
+    <button onclick="showForm('باقة VIP')">اطلب الآن</button>
+  </section>
+
   <form id="orderForm">
-    <h2>📋 استمارة الطلب</h2>
-    <input type="text" id="fullName" placeholder="الاسم الكامل" required>
-    <input type="tel" id="phone" placeholder="رقم الهاتف" required>
-    <input type="tel" id="phoneConfirm" placeholder="تأكيد رقم الهاتف">
-    <select id="wilaya" required>
-      <option value="">اختر الولاية</option>
-      
-      <option>الجزائر العاصمة</option>
-      <option>وهران</option>
-      <option>قسنطينة</option>
-      <option>سطيف</option>
+    <h3>📋 استمارة الطلب</h3>
+    <input type="hidden" id="selectedPack" name="الباقة">
+
+    <label>الاسم الكامل:</label>
+    <input type="text" id="name" name="الاسم" required>
+
+    <label>رقم الهاتف:</label>
+    <input type="tel" id="phone" name="الهاتف" required>
+
+    <label>الولاية:</label>
+    <select id="wilaya" name="الولاية" required>
+      <option value="">اختر ولايتك</option>
+      <option>أدرار</option>
+      <option>الشلف</option>
+      <option>الأغواط</option>
+      <option>أم البواقي</option>
       <option>باتنة</option>
+      <option>بجاية</option>
+      <option>بسكرة</option>
+      <option>بشار</option>
+      <option>البليدة</option>
+      <option>البويرة</option>
+      <option>تمنراست</option>
+      <option>تبسة</option>
+      <option>تلمسان</option>
+      <option>تيارت</option>
+      <option>تيزي وزو</option>
+      <option>الجزائر</option>
+      <option>الجلفة</option>
+      <option>جيجل</option>
+      <option>سطيف</option>
+      <option>سعيدة</option>
+      <option>سكيكدة</option>
+      <option>سيدي بلعباس</option>
       <option>عنابة</option>
+      <option>قالمة</option>
+      <option>قسنطينة</option>
+      <option>المدية</option>
+      <option>مستغانم</option>
+      <option>المسيلة</option>
+      <option>معسكر</option>
+      <option>ورقلة</option>
+      <option>وهران</option>
+      <option>البيض</option>
+      <option>إليزي</option>
+      <option>برج بوعريريج</option>
+      <option>بومرداس</option>
+      <option>الطارف</option>
+      <option>تندوف</option>
+      <option>تيسمسيلت</option>
+      <option>الوادي</option>
+      <option>خنشلة</option>
+      <option>سوق أهراس</option>
+      <option>تيبازة</option>
+      <option>ميلة</option>
+      <option>عين الدفلى</option>
+      <option>النعامة</option>
+      <option>عين تموشنت</option>
+      <option>غرداية</option>
+      <option>غليزان</option>
+      <option>تيميمون</option>
+      <option>برج باجي مختار</option>
+      <option>أولاد جلال</option>
+      <option>بني عباس</option>
+      <option>إن صالح</option>
+      <option>إن قزام</option>
+      <option>توقرت</option>
+      <option>جانت</option>
+      <option>المغير</option>
+      <option>المنيعة</option>
     </select>
-    <input type="text" id="commune" placeholder="البلدية" required>
-    <textarea id="notes" placeholder="ملاحظات إضافية"></textarea>
-    <input type="hidden" id="selectedPack">
-    <input type="hidden" id="packPrice">
-    <button type="submit">✅ تأكيد الطلب</button>
+
+    <button type="submit">إرسال الطلب</button>
+    <div id="successMessage" class="success"></div>
   </form>
 
   <script>
-    function selectPack(packName, price) {
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbznTBVwherkrYYXtkbLTe0DGhLM0H8wz9J2hdqZmyb06mZSQxQC9tFhHtwQ24YPH7cS/exec";
+
+    function showForm(pack) {
       document.getElementById("orderForm").style.display = "block";
-      document.getElementById("selectedPack").value = packName;
-      document.getElementById("packPrice").value = price;
+      document.getElementById("selectedPack").value = pack;
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    document.getElementById("orderForm").addEventListener("submit", async function(e){
+    document.getElementById("orderForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      
-      const data = {
-        customer: {
-          fullName: document.getElementById("fullName").value,
-          phone: document.getElementById("phone").value,
-          phoneConfirm: document.getElementById("phoneConfirm").value,
-          city: document.getElementById("wilaya").value,
-          commune: document.getElementById("commune").value,
-          notes: document.getElementById("notes").value
-        },
-        pack: {
-          type: document.getElementById("selectedPack").value,
-          price: document.getElementById("packPrice").value
-        },
-        shipping: { method: "Livraison", fee: "0" },
-        totals: { total: document.getElementById("packPrice").value }
-      };
+      const formData = new FormData(this);
 
-      const response = await fetch("https://script.google.com/macros/s/AKfycbznTBVwherkrYYXtkbLTe0DGhLM0H8wz9J2hdqZmyb06mZSQxQC9tFhHtwQ24YPH7cS/exec", {
-        method: "POST",
-        body: JSON.stringify(data)
-      });
-
-      const result = await response.json();
-      if(result.result === "success"){
-        alert("✅ تم تسجيل طلبك بنجاح! سنتصل بك قريبًا");
-        document.getElementById("orderForm").reset();
-        document.getElementById("orderForm").style.display = "none";
-      } else {
-        alert("❌ حدث خطأ: " + result.message);
-      }
+      fetch(GAS_URL, { method: "POST", body: formData })
+        .then(res => res.text())
+        .then(() => {
+          document.getElementById("successMessage").textContent = "✅ تم إرسال طلبك بنجاح!";
+          this.reset();
+          setTimeout(() => {
+            document.getElementById("orderForm").style.display = "none";
+            document.getElementById("successMessage").textContent = "";
+          }, 3000);
+        })
+        .catch(() => {
+          document.getElementById("successMessage").textContent = "❌ حدث خطأ، حاول مجددًا.";
+        });
     });
   </script>
-
 </body>
 </html>
