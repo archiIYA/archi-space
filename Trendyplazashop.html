@@ -6,6 +6,15 @@
     <title>طلب الباقات - الهندسة المعمارية</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #b30000;
+            --secondary-color: #000;
+            --accent-color: #ff5252;
+            --light-color: #f8f9fa;
+            --dark-color: #333;
+            --success-color: #28a745;
+        }
+        
         * {
             box-sizing: border-box;
             margin: 0;
@@ -14,9 +23,10 @@
         
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: var(--dark-color);
             line-height: 1.6;
+            min-height: 100vh;
             padding: 0;
             margin: 0;
         }
@@ -28,18 +38,34 @@
         }
         
         header {
-            background: linear-gradient(90deg, #000, #b30000);
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
             color: white;
             padding: 25px;
             text-align: center;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.7;
         }
         
         header h1 {
-            font-size: 28px;
+            font-size: 32px;
             margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         }
         
         header p {
@@ -56,26 +82,38 @@
         
         .package-card {
             background: #fff;
-            border: 2px solid #b30000;
-            border-radius: 12px;
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .package-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
         }
         
         .package-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(179, 0, 0, 0.18);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(179, 0, 0, 0.2);
         }
         
         .package-card h2 {
-            color: #b30000;
+            color: var(--primary-color);
             margin-bottom: 15px;
-            font-size: 22px;
+            font-size: 24px;
             border-bottom: 2px solid #f0f0f0;
             padding-bottom: 10px;
         }
@@ -85,53 +123,68 @@
             margin-bottom: 20px;
             flex-grow: 1;
             font-size: 16px;
-            line-height: 1.5;
+            line-height: 1.6;
         }
         
         .price {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
-            color: #000;
+            color: var(--secondary-color);
             margin: 15px 0;
             background: #f8f8f8;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 10px;
             text-align: center;
+            border: 2px dashed var(--primary-color);
         }
         
         .select-btn {
-            background-color: #b30000;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
             color: #fff;
             border: none;
-            padding: 12px 20px;
+            padding: 14px 20px;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 16px;
+            transition: all 0.3s ease;
+            font-size: 17px;
             margin-top: auto;
+            box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
         }
         
         .select-btn:hover {
-            background-color: #000;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            transform: scale(1.03);
         }
         
         .order-form {
             background: #fff;
-            border: 2px solid #000;
-            border-radius: 12px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             margin: 30px auto;
-            max-width: 600px;
+            max-width: 650px;
             display: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .order-form::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
         }
         
         .order-form h2 {
-            color: #b30000;
+            color: var(--primary-color);
             text-align: center;
             margin-bottom: 25px;
-            font-size: 24px;
+            font-size: 26px;
             padding-bottom: 10px;
             border-bottom: 2px solid #f0f0f0;
         }
@@ -144,59 +197,76 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #333;
+            color: var(--dark-color);
         }
         
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 14px;
-            border: 1.5px solid #ddd;
+            padding: 15px;
+            border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
             font-family: 'Tajawal', sans-serif;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
         
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: #b30000;
+            border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(179, 0, 0, 0.2);
+            box-shadow: 0 0 0 3px rgba(179, 0, 0, 0.2);
         }
         
         .submit-btn {
-            background-color: #b30000;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
             color: #fff;
             border: none;
             padding: 16px;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             font-size: 18px;
             width: 100%;
             margin-top: 15px;
+            box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
         }
         
         .submit-btn:hover {
-            background-color: #000;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            transform: scale(1.02);
         }
         
         .success-message {
             background-color: #d4edda;
             color: #155724;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 10px;
             text-align: center;
             margin: 30px auto;
             max-width: 600px;
             display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             font-weight: bold;
-            font-size: 18px;
+            font-size: 20px;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px auto;
+            max-width: 600px;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            border: 2px solid #f5c6cb;
         }
         
         .loading {
@@ -207,10 +277,10 @@
         
         .loading-spinner {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #b30000;
+            border-top: 4px solid var(--primary-color);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
             margin: 0 auto 15px auto;
         }
@@ -222,15 +292,29 @@
         
         .selected-package {
             background-color: #fff8f8;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid #b30000;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
         
         .selected-package h3 {
-            color: #b30000;
+            color: var(--primary-color);
             margin-bottom: 10px;
+            font-size: 20px;
+        }
+        
+        .selected-package p {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .package-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
         }
         
         @media (max-width: 768px) {
@@ -244,8 +328,34 @@
             }
             
             header h1 {
+                font-size: 26px;
+            }
+            
+            .price {
                 font-size: 24px;
             }
+        }
+        
+        .debug-info {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .debug-toggle {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -253,41 +363,41 @@
     <div class="container">
         <header>
             <h1>📦 اختر باقتك واملأ بيانات الطلب</h1>
-            <p>عروض خاصة لطلبة الهندسة المعمارية</p>
+            <p>عروض خاصة لطلبة الهندسة المعمارية - الأسعار المخفضة لفترة محدودة</p>
         </header>
         
         <div class="packages-container" id="packagesContainer">
             <div class="package-card" onclick="selectPackage('الباقة الأساسية', 3950)">
                 <h2>الباقة الأساسية</h2>
-                <p>جميع الأدوات + ملف DRIVE + هدية 🎁</p>
+                <p>جميع الأدوات + ملف DRIVE + هدية 🎁 - الحل الأمثل للبداية القوية</p>
                 <div class="price">3950 دج</div>
                 <button class="select-btn">اختر هذه الباقة</button>
             </div>
             
             <div class="package-card" onclick="selectPackage('باقة Sous main', 4850)">
                 <h2>باقة Sous main</h2>
-                <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+                <p>جميع الأدوات + محفظة Sous main + ملف DRIVE + هدية 🎁 - لتنظيم أفضل</p>
                 <div class="price">4850 دج</div>
                 <button class="select-btn">اختر هذه الباقة</button>
             </div>
             
             <div class="package-card" onclick="selectPackage('باقة البازوكا الصغيرة', 4950)">
                 <h2>باقة البازوكا الصغيرة</h2>
-                <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁</p>
+                <p>جميع الأدوات + بازوكا صغيرة + ملف DRIVE + هدية 🎁 - لأعمال دقيقة</p>
                 <div class="price">4950 دج</div>
                 <button class="select-btn">اختر هذه الباقة</button>
             </div>
             
             <div class="package-card" onclick="selectPackage('باقة البازوكا الكبيرة', 5200)">
                 <h2>باقة البازوكا الكبيرة</h2>
-                <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁</p>
+                <p>جميع الأدوات + بازوكا كبيرة + ملف DRIVE + هدية 🎁 - لمشاريع أكبر</p>
                 <div class="price">5200 دج</div>
                 <button class="select-btn">اختر هذه الباقة</button>
             </div>
             
             <div class="package-card" onclick="selectPackage('باقة VIP', 6200)">
                 <h2>باقة VIP</h2>
-                <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁</p>
+                <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + ملف DRIVE + هدية 🎁 - الحل الشامل</p>
                 <div class="price">6200 دج</div>
                 <button class="select-btn">اختر هذه الباقة</button>
             </div>
@@ -297,8 +407,8 @@
             <h2>📋 اكمل بيانات الطلب</h2>
             
             <div class="selected-package" id="selectedPackageInfo">
-                <h3 id="packageNameDisplay"></h3>
-                <p id="packagePriceDisplay"></p>
+                <h3><span class="package-icon">📦</span> <span id="packageNameDisplay"></span></h3>
+                <p>السعر: <span id="packagePriceDisplay"></span> دج</p>
             </div>
             
             <form id="customerForm">
@@ -310,6 +420,7 @@
                 <div class="form-group">
                     <label for="phone">رقم الهاتف</label>
                     <input type="tel" id="phone" name="phone" placeholder="05xxxxxxxx" required pattern="^(\+?213|0)(5|6|7)\d{8}$">
+                    <small>يجب أن يكون الرقم صحيحاً (مثال: 0551234567)</small>
                 </div>
                 
                 <div class="form-group">
@@ -335,17 +446,22 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="address">العنوان بالتفصيل</label>
+                    <textarea id="address" name="address" rows="2" placeholder="أدخل عنوانك بالتفصيل" required></textarea>
+                </div>
+                
+                <div class="form-group">
                     <label for="delivery">نوع التوصيل</label>
                     <select id="delivery" name="delivery" required>
                         <option value="" disabled selected>اختر النوع</option>
-                        <option value="مكتب">التوصيل إلى المكتب</option>
-                        <option value="منزل">التوصيل إلى المنزل</option>
+                        <option value="التوصيل إلى المكتب">التوصيل إلى المكتب</option>
+                        <option value="التوصيل إلى المنزل">التوصيل إلى المنزل</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
                     <label for="notes">ملاحظات إضافية (اختياري)</label>
-                    <textarea id="notes" name="notes" rows="3" placeholder="إضافة ملاحظات"></textarea>
+                    <textarea id="notes" name="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة"></textarea>
                 </div>
                 
                 <div class="loading" id="loadingIndicator">
@@ -358,7 +474,19 @@
         </div>
         
         <div class="success-message" id="successMessage">
-            ✅ تم تسجيل طلبك بنجاح! سنتواصل معك قريبًا.
+            ✅ تم تسجيل طلبك بنجاح! سنتواصل معك قريبًا لتأكيد التفاصيل.
+        </div>
+        
+        <div class="error-message" id="errorMessage">
+            ❌ حدث خطأ في إرسال الطلب. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.
+        </div>
+        
+        <button class="debug-toggle" onclick="toggleDebug()">عرض معلومات التصحيح</button>
+        
+        <div class="debug-info" id="debugInfo">
+            <h3>معلومات التصحيح</h3>
+            <p>هذه المعلومات للمساعدة في تشخيص أي مشاكل في إرسال البيانات.</p>
+            <div id="debugContent"></div>
         </div>
     </div>
 
@@ -372,13 +500,15 @@
         // عناصر DOM
         const orderForm = document.getElementById('orderForm');
         const successMessage = document.getElementById('successMessage');
-        const packagesContainer = document.getElementById('packagesContainer');
+        const errorMessage = document.getElementById('errorMessage');
         const packageNameDisplay = document.getElementById('packageNameDisplay');
         const packagePriceDisplay = document.getElementById('packagePriceDisplay');
         const selectedPackageInfo = document.getElementById('selectedPackageInfo');
         const loadingIndicator = document.getElementById('loadingIndicator');
         const submitButton = document.getElementById('submitButton');
         const customerForm = document.getElementById('customerForm');
+        const debugInfo = document.getElementById('debugInfo');
+        const debugContent = document.getElementById('debugContent');
         
         // رابط Google Apps Script (استبدله برابطك الخاص)
         const GAS_URL = "https://script.google.com/macros/s/AKfycbx3KnXxFc5b1JGs51Ady5TJGU9tTHC2GmjIILUGG6YAg8ugPPZknVEFkD6b6qY0iGYF/exec";
@@ -388,12 +518,15 @@
             selectedPackage = { name, price };
             
             // عرض معلومات الباقة المحددة
-            packageNameDisplay.textContent = `الباقة المحددة: ${name}`;
-            packagePriceDisplay.textContent = `السعر: ${price} دج`;
+            packageNameDisplay.textContent = name;
+            packagePriceDisplay.textContent = price;
             selectedPackageInfo.style.display = 'block';
             
             // إظهار نموذج الطلب
             orderForm.style.display = 'block';
+            
+            // إخفاء رسائل الخطأ إن وجدت
+            errorMessage.style.display = 'none';
             
             // التمرير إلى النموذج
             window.scrollTo({
@@ -415,6 +548,7 @@
             // إظهار مؤشر التحميل
             loadingIndicator.style.display = 'block';
             submitButton.style.display = 'none';
+            errorMessage.style.display = 'none';
             
             // جمع بيانات النموذج
             const formData = new FormData(customerForm);
@@ -423,6 +557,7 @@
                 phone: formData.get('phone'),
                 wilaya: formData.get('wilaya'),
                 commune: formData.get('commune'),
+                address: formData.get('address'),
                 delivery: formData.get('delivery'),
                 notes: formData.get('notes')
             };
@@ -436,14 +571,17 @@
                 status: 'pending'
             };
             
+            // عرض بيانات التصحيح
+            debugContent.innerHTML = `<pre>${JSON.stringify(orderData, null, 2)}</pre>`;
+            
             try {
-                // إرسال البيانات إلى Google Apps Script
+                // إرسال البيانات إلى Google Apps Script باستخدام FormData
+                const formDataToSend = new FormData();
+                formDataToSend.append('data', JSON.stringify(orderData));
+                
                 const response = await fetch(GAS_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(orderData)
+                    body: formDataToSend
                 });
                 
                 if (!response.ok) {
@@ -464,18 +602,31 @@
                     
                     // إعادة تعيين النموذج
                     customerForm.reset();
+                    selectedPackageInfo.style.display = 'none';
                 } else {
                     throw new Error(result.message || 'حدث خطأ غير متوقع');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert(`حدث خطأ: ${error.message}`);
+                errorMessage.style.display = 'block';
+                errorMessage.innerHTML = `❌ حدث خطأ: ${error.message}. يرجى المحاولة مرة أخرى أو الاتصال بنا على الرقم 0551234567`;
+                
+                // التمرير إلى رسالة الخطأ
+                window.scrollTo({
+                    top: errorMessage.offsetTop - 20,
+                    behavior: 'smooth'
+                });
             } finally {
                 // إخفاء مؤشر التحميل
                 loadingIndicator.style.display = 'none';
                 submitButton.style.display = 'block';
             }
         });
+        
+        // تبديل عرض معلومات التصحيح
+        function toggleDebug() {
+            debugInfo.style.display = debugInfo.style.display === 'none' ? 'block' : 'none';
+        }
         
         // إضافة تأثيرات للبطاقات عند التمرير
         const observerOptions = {
@@ -498,6 +649,12 @@
             card.style.transform = 'translateY(20px)';
             card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             observer.observe(card);
+        });
+        
+        // إضافة تأثيرات للعناصر عند التحميل
+        window.addEventListener('load', () => {
+            document.querySelector('header').style.opacity = 1;
+            document.querySelector('header').style.transform = 'translateY(0)';
         });
     </script>
 </body>
