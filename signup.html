@@ -3,89 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Créer un compte - archi.space</title>
+  <title>Créer un compte - Archi.Space</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
+      margin: 0;
       font-family: 'Rubik', sans-serif;
-      background: #f5f5f5;
+      background: linear-gradient(135deg, #2c3e50, #3498db);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
     }
-    .signup-box {
+
+    .container {
       background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      width: 380px;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      width: 350px;
       text-align: center;
     }
-    .signup-box h2 {
-      margin-bottom: 20px;
+
+    h2 {
+      margin-bottom: 1rem;
+      color: #2c3e50;
     }
-    input, select {
+
+    input {
       width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+      padding: 0.8rem;
+      margin: 0.6rem 0;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      outline: none;
+      transition: border 0.3s;
     }
+
+    input:focus {
+      border: 1px solid #3498db;
+    }
+
     button {
       width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      background: #2a9d8f;
-      color: white;
+      padding: 0.8rem;
+      margin-top: 1rem;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
+      background: #3498db;
+      color: #fff;
+      font-weight: 600;
       cursor: pointer;
-      font-weight: bold;
+      transition: background 0.3s;
     }
+
     button:hover {
-      background: #21867a;
+      background: #2980b9;
     }
-    .message {
-      margin-top: 12px;
-      font-size: 0.9em;
+
+    .error, .success {
+      margin-top: 1rem;
+      font-size: 14px;
+      padding: 0.6rem;
+      border-radius: 8px;
+      display: none;
     }
-    .success {
-      color: green;
-    }
+
     .error {
-      color: red;
+      background: #ffe5e5;
+      color: #e74c3c;
+    }
+
+    .success {
+      background: #e6ffed;
+      color: #27ae60;
+    }
+
+    p {
+      margin-top: 1rem;
+      font-size: 14px;
+    }
+
+    a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="signup-box">
+  <div class="container">
     <h2>Créer un compte</h2>
-    <input type="text" id="nom" placeholder="Nom" required>
-    <input type="text" id="prenom" placeholder="Prénom" required>
     <input type="email" id="email" placeholder="Email" required>
     <input type="password" id="password" placeholder="Mot de passe" required>
-    <input type="password" id="confirmPassword" placeholder="Confirmer le mot de passe" required>
-    <select id="universite" required>
-      <option value="">-- Choisir votre université --</option>
-      <option value="Université d'Alger">Université d'Alger</option>
-      <option value="Université de Constantine">Université de Constantine</option>
-      <option value="Université d'Oran">Université d'Oran</option>
-      <option value="Autre">Autre</option>
-    </select>
-    <button onclick="register()">S'inscrire</button>
-    <p class="message" id="message"></p>
+    <button onclick="signup()">S’inscrire</button>
+    <div class="error" id="errorBox"></div>
+    <div class="success" id="successBox"></div>
+    <p>Vous avez déjà un compte ? <a href="login.html">Se connecter</a></p>
   </div>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { v4 as uuidv4 } from "https://jspm.dev/uuid";
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
 
-    // ✅ Config Firebase
+  <script>
+    // ✅ Firebase config (من مشروعك)
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -96,65 +122,38 @@
       measurementId: "G-RZV7LSDQBD"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.getAuth(app);
 
-    // ✅ Fonction d'inscription
-    async function register() {
-      const nom = document.getElementById("nom").value.trim();
-      const prenom = document.getElementById("prenom").value.trim();
-      const email = document.getElementById("email").value.trim();
+    async function signup() {
+      const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      const confirmPassword = document.getElementById("confirmPassword").value;
-      const universite = document.getElementById("universite").value;
-      const message = document.getElementById("message");
+      const errorBox = document.getElementById("errorBox");
+      const successBox = document.getElementById("successBox");
 
-      message.textContent = "";
-      message.className = "message";
-
-      // Vérif mots de passe
-      if (password !== confirmPassword) {
-        message.textContent = "❌ Les mots de passe ne correspondent pas";
-        message.classList.add("error");
-        return;
-      }
+      errorBox.style.display = "none";
+      successBox.style.display = "none";
 
       try {
-        // Création utilisateur Firebase
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // Générer un numéro d'inscription unique
-        const registrationId = uuidv4();
-
-        // Sauvegarder les infos dans Firestore
-        await setDoc(doc(db, "users", user.uid), {
-          nom,
-          prenom,
-          email,
-          universite,
-          registrationId,
-          createdAt: new Date()
-        });
-
-        // Succès
-        message.textContent = `✅ Inscription réussie ! Votre N°: ${registrationId}`;
-        message.classList.add("success");
-
-        // Redirection après 2 secondes
+        await firebase.createUserWithEmailAndPassword(auth, email, password);
+        successBox.style.display = "block";
+        successBox.innerText = "✅ Compte créé avec succès ! Redirection...";
         setTimeout(() => {
-          window.location.href = "accueil.html";
+          window.location.href = "lecteur.html"; // ✅ بعد التسجيل يوجه لصفحة الدروس
         }, 2000);
-
       } catch (error) {
-        message.textContent = "❌ Erreur : " + error.message;
-        message.classList.add("error");
+        errorBox.style.display = "block";
+        if (error.code === "auth/email-already-in-use") {
+          errorBox.innerText = "⚠️ Cet email est déjà utilisé. Essayez de vous connecter.";
+        } else if (error.code === "auth/weak-password") {
+          errorBox.innerText = "⚠️ Mot de passe trop faible (minimum 6 caractères).";
+        } else if (error.code === "auth/invalid-email") {
+          errorBox.innerText = "⚠️ Email invalide.";
+        } else {
+          errorBox.innerText = "⚠️ Erreur: " + error.message;
+        }
       }
     }
-
-    window.register = register;
   </script>
 </body>
 </html>
-
