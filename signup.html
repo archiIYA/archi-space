@@ -1,159 +1,235 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Créer un compte - Archi.Space</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Rubik', sans-serif;
-      background: linear-gradient(135deg, #2c3e50, #3498db);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .container {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      width: 350px;
-      text-align: center;
-    }
-
-    h2 {
-      margin-bottom: 1rem;
-      color: #2c3e50;
-    }
-
-    input {
-      width: 100%;
-      padding: 0.8rem;
-      margin: 0.6rem 0;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      outline: none;
-      transition: border 0.3s;
-    }
-
-    input:focus {
-      border: 1px solid #3498db;
-    }
-
-    button {
-      width: 100%;
-      padding: 0.8rem;
-      margin-top: 1rem;
-      border: none;
-      border-radius: 10px;
-      background: #3498db;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: #2980b9;
-    }
-
-    .error, .success {
-      margin-top: 1rem;
-      font-size: 14px;
-      padding: 0.6rem;
-      border-radius: 8px;
-      display: none;
-    }
-
-    .error {
-      background: #ffe5e5;
-      color: #e74c3c;
-    }
-
-    .success {
-      background: #e6ffed;
-      color: #27ae60;
-    }
-
-    p {
-      margin-top: 1rem;
-      font-size: 14px;
-    }
-
-    a {
-      color: #3498db;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Inscription</title>
+<style>
+  body, html {
+    margin:0; padding:0; height:100%; font-family: Arial, sans-serif; background:#f8f9fb;
+  }
+  .container {
+    display: flex; height: 100vh;
+  }
+  .left-side {
+    flex: 1; background: #e9ecef; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px;
+  }
+  .left-side p {
+    margin-top: 20px; font-size: 1rem; color: #333;
+  }
+  .left-side button {
+    margin-top: 10px; padding: 8px 15px; font-size: 0.9rem; cursor: pointer; border: 1px solid #333; background: transparent; color: #333; border-radius: 3px;
+  }
+  .right-side {
+    flex: 1; background: white; display: flex; flex-direction: column; justify-content: center; padding: 40px 60px;
+  }
+  h2 { text-align: center; margin-bottom: 20px; }
+  form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 20px;
+  }
+  form > div, select, button, input {
+    grid-column: span 2;
+  }
+  input, select {
+    width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #cfd4db; border-radius: 3px;
+  }
+  button[type="submit"] {
+    background: #0d013d; color: white; padding: 12px; border: none; border-radius: 3px; cursor: pointer; font-size: 1rem;
+  }
+  button[type="submit"]:hover { background: #060429; }
+  .or { text-align: center; margin: 15px 0; color: #555; }
+  .google-btn {
+    border: 1px solid #dc3545; background: white; color: #dc3545; padding: 10px; cursor: pointer; border-radius: 3px; font-weight: bold;
+  }
+  .error-message {
+    color: red; font-size: 0.85rem; grid-column: span 2;
+  }
+  input.error {
+    border: 2px solid red;
+  }
+  .captcha {
+    grid-column: span 2; margin: 10px 0;
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h2>Créer un compte</h2>
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Mot de passe" required>
-    <button onclick="signup()">S’inscrire</button>
-    <div class="error" id="errorBox"></div>
-    <div class="success" id="successBox"></div>
-    <p>Vous avez déjà un compte ? <a href="login.html">Se connecter</a></p>
+
+<div class="container">
+  <div class="left-side">
+    <div style="width: 100%; height: 400px; background: #ccc; border-radius: 8px;"></div>
+    <p>Vous avez déjà un compte</p>
+    <button onclick="window.location.href='login.html'">Se Connecter</button>
   </div>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <div class="right-side">
+    <h2>Inscription</h2>
+    <form id="signup-form" novalidate>
+      <input type="text" id="nom" placeholder="Nom *" required />
+      <input type="text" id="prenom" placeholder="Prénom *" required />
+      <input type="text" id="username" placeholder="Nom d'utilisateur *" required />
+      <input type="email" id="email" placeholder="Email *" required />
+      <input type="password" id="password" placeholder="Mot de passe *" required />
+      <input type="password" id="confirm-password" placeholder="Confirmer votre mot de passe *" required />
+      <select id="university" required>
+        <option value="">Choisissez votre université</option>
+        <option value="ENMP">École Nationale Polytechnique Multitechniques d'Architecture et d'Urbanisme, Alger</option>
+        <option value="Constantine3">Université Constantine 3 - Enregistrement national</option>
+        <option value="Tabessa">Université Cheikh Larbi Tebessi, Tébessa</option>
+        <option value="Batna">Université Hadj Lakhdar, Batna</option>
+        <option value="Setif">Université Ferhat Abbas, Sétif</option>
+        <option value="OumElBouaghi">Université Larbi Ben M'hidi, Oum El Bouaghi</option>
+        <option value="Jijel">Université Abdelhafid Ben Hamouda, Jijel</option>
+        <option value="Laghouat">Université Ammar Telidji, Laghouat</option>
+        <option value="Chlef">Université Hassiba Ben Bouali, Chlef</option>
+        <option value="Oran">Université Mohamed Boudiaf des Sciences et de Technologie, Oran</option>
+        <option value="Tlemcen">Université Abou Bekr Belkaid, Tlemcen</option>
+        <option value="Biskra">Université Mohamed Khider, Biskra</option>
+        <option value="Guelma">Université 8 Mai 1945, Guelma</option>
+        <option value="Annaba">Université Badji Mokhtar, Annaba</option>
+        <option value="Blida">Université Saad Dahlab, Blida</option>
+        <option value="TiziOuzou">Université Mouloud Mammeri, Tizi Ouzou</option>
+        <option value="Bejaia">Université Abderrahmane Mira, Bejaia</option>
+        <option value="Mostaganem">Université Ibn Badis, Mostaganem</option>
+        <option value="Bechar">Université de Béchar</option>
+      </select>
+      <div class="captcha">
+        <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+      </div>
+      <button type="submit">S'inscrire</button>
+      <div class="or">Or</div>
+      <button type="button" class="google-btn" onclick="signInWithGoogle()">
+        G S'inscrire avec Google
+      </button>
+      <div id="signup-error" class="error-message"></div>
+    </form>
+  </div>
+</div>
 
-  <script>
-    // ✅ Firebase config (من مشروعك)
-    const firebaseConfig = {
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-      authDomain: "archi-space-72624.firebaseapp.com",
-      projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.firebasestorage.app",
-      messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:c914a78566b882b80df7b8",
-      measurementId: "G-RZV7LSDQBD"
-    };
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.getAuth(app);
+<script>
+  // إعداد Firebase
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
 
-    async function signup() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const errorBox = document.getElementById("errorBox");
-      const successBox = document.getElementById("successBox");
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
-      errorBox.style.display = "none";
-      successBox.style.display = "none";
+  const signupForm = document.getElementById("signup-form");
 
-      try {
-        await firebase.createUserWithEmailAndPassword(auth, email, password);
-        successBox.style.display = "block";
-        successBox.innerText = "✅ Compte créé avec succès ! Redirection...";
-        setTimeout(() => {
-          window.location.href = "lecteur.html"; // ✅ بعد التسجيل يوجه لصفحة الدروس
-        }, 2000);
-      } catch (error) {
-        errorBox.style.display = "block";
-        if (error.code === "auth/email-already-in-use") {
-          errorBox.innerText = "⚠️ Cet email est déjà utilisé. Essayez de vous connecter.";
-        } else if (error.code === "auth/weak-password") {
-          errorBox.innerText = "⚠️ Mot de passe trop faible (minimum 6 caractères).";
-        } else if (error.code === "auth/invalid-email") {
-          errorBox.innerText = "⚠️ Email invalide.";
-        } else {
-          errorBox.innerText = "⚠️ Erreur: " + error.message;
-        }
-      }
+  // إزالة جميع الرسائل والألوان الحمراء من الحقول
+  function clearErrors() {
+    ['nom', 'prenom', 'username', 'email', 'password', 'confirm-password', 'university'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.classList.remove("error");
+    });
+    document.getElementById("signup-error").textContent = "";
+  }
+
+  // التعامل مع إرسال النموذج
+  signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    clearErrors();
+
+    // الحصول على قيم الحقول
+    const nom = document.getElementById("nom").value.trim();
+    const prenom = document.getElementById("prenom").value.trim();
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+    const university = document.getElementById("university").value;
+
+    let hasError = false;
+
+    // التحقق من الحقول وإضافة رسائل خطأ
+    if(!nom) { hasError = true; markError("nom", "الاسم مطلوب"); }
+    if(!prenom) { hasError = true; markError("prenom", "اللقب مطلوب"); }
+    if(!username) { hasError = true; markError("username", "اسم المستخدم مطلوب"); }
+    if(!email) { hasError = true; markError("email", "الايميل مطلوب"); }
+    if(!password) { hasError = true; markError("password", "كلمة السر مطلوبة"); }
+    if(password !== confirmPassword) { hasError = true; markError("confirm-password", "تأكيد كلمة السر غير متطابق"); }
+    if(!university) { hasError = true; markError("university", "اختر الجامعة"); }
+
+    // التحقق من reCAPTCHA
+    if(grecaptcha.getResponse() === "") {
+      hasError = true;
+      document.getElementById("signup-error").textContent = "الرجاء التحقق من reCAPTCHA";
     }
-  </script>
+
+    if(hasError) return;
+
+    // محاولة تسجيل المستخدم
+    try {
+      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+      // حفظ بيانات المستخدم في قاعدة البيانات
+      await db.collection("users").doc(user.uid).set({
+        nom, prenom, username, email, university
+      });
+      // حفظ البيانات محليًا لصفحة PROFILE
+      localStorage.setItem("userProfile", JSON.stringify({nom, prenom, username, email, university}));
+      // التحويل لصفحة LECTURE
+      window.location.href = "lecture.html";
+    } catch(error) {
+      handleFirebaseError(error);
+    }
+  });
+
+  // تلوين الحقل وعرض رسالة الخطأ
+  function markError(fieldId, message) {
+    const el = document.getElementById(fieldId);
+    if(el) el.classList.add("error");
+    const signupError = document.getElementById("signup-error");
+    signupError.textContent = message;
+  }
+
+  // ترجمة أخطاء Firebase إلى رسائل بالعربية وعرضها
+  function handleFirebaseError(error) {
+    let messageArabic = "حدث خطأ غير معروف";
+    if(error.code === "auth/email-already-in-use") {
+      messageArabic = "البريد الإلكتروني مستخدم بالفعل";
+      markError("email", messageArabic);
+    } else if(error.code === "auth/invalid-email") {
+      messageArabic = "البريد الإلكتروني غير صحيح";
+      markError("email", messageArabic);
+    } else if(error.code === "auth/weak-password") {
+      messageArabic = "كلمة السر ضعيفة جدًا";
+      markError("password", messageArabic);
+    }
+    document.getElementById("signup-error").textContent = messageArabic;
+  }
+
+  // تسجيل الدخول عبر Google
+  function signInWithGoogle() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).then(result => {
+      const user = result.user;
+      localStorage.setItem("userProfile", JSON.stringify({
+        nom: user.displayName || '',
+        prenom: '',
+        username: user.email.split("@")[0],
+        email: user.email,
+        university: ''
+      }));
+      window.location.href = "lecture.html";
+    }).catch(error => {
+      document.getElementById("signup-error").textContent = "فشل تسجيل الدخول عبر Google";
+    });
+  }
+</script>
+
 </body>
 </html>
