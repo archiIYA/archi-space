@@ -10,13 +10,60 @@
       font-family: 'Rubik', sans-serif;
       background: #f5f6fa;
       margin: 0;
-      padding: 30px;
+      transition: margin-left 0.3s;
     }
+    /* Sidebar */
+    .sidebar {
+      height: 100%;
+      width: 220px;
+      position: fixed;
+      top: 0;
+      left: -220px;
+      background: #11152b;
+      padding-top: 60px;
+      transition: 0.3s;
+      z-index: 1000;
+    }
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .sidebar a:hover {
+      background: #1f2340;
+    }
+    .openbtn {
+      font-size: 22px;
+      cursor: pointer;
+      background: #11152b;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      margin: 10px;
+    }
+    .openbtn:hover { background: #000; }
+    .sidebar.active {
+      left: 0;
+    }
+    .main {
+      transition: margin-left 0.3s;
+      padding: 20px;
+      margin-left: 0;
+    }
+    .sidebar.active ~ .main {
+      margin-left: 220px;
+    }
+
+    /* Profile Cards */
     .container {
       display: flex;
       gap: 30px;
       max-width: 1000px;
       margin: auto;
+      flex-wrap: wrap;
     }
     .card {
       background: #fff;
@@ -24,6 +71,7 @@
       border-radius: 20px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       flex: 1;
+      min-width: 280px;
     }
     .profile-pic {
       width: 150px;
@@ -51,6 +99,7 @@
     .email {
       color: #999;
       font-size: 14px;
+      margin-bottom: 20px;
     }
     button {
       border: none;
@@ -83,157 +132,102 @@
       border: 1px solid #ccc;
       font-size: 14px;
     }
-    #fileInput {
-      display: none;
+    #fileInput { display: none; }
+    /* Themes */
+    .themes {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .theme-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+      cursor: pointer;
+    }
+    .theme-btn.active {
+      border: 3px solid black;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container { flex-direction: column; }
+      .sidebar { width: 180px; left: -180px; }
+      .sidebar.active ~ .main { margin-left: 180px; }
     }
   </style>
 </head>
 <body>
 
-  <h2>Gérez votre profil :</h2>
-  <div class="container">
+  <!-- Sidebar -->
+  <div class="sidebar" id="mySidebar">
+    <a href="#">🏠 Accueil</a>
+    <a href="profil.html">👤 Profil</a>
+    <a href="#">⚙️ Paramètres</a>
+    <a href="#">🚪 Déconnexion</a>
+  </div>
 
-    <!-- Left -->
-    <div class="card" style="text-align:center">
-      <div class="profile-pic" id="profilePic">M</div>
-      <div class="username" id="usernameDisplay">---</div>
-      <div class="email" id="emailDisplay">---</div>
-      
-      <input type="file" id="fileInput" accept="image/*" />
-      <button class="btn-dark" onclick="document.getElementById('fileInput').click()">Modifier votre photo</button>
-      <button class="btn-outline" onclick="resetPassword()">Modifier votre mot de passe</button>
-    </div>
+  <!-- Main -->
+  <div class="main">
+    <button class="openbtn" onclick="toggleSidebar()">☰ Menu</button>
+    <h2>Gérez votre profil :</h2>
 
-    <!-- Right -->
-    <div class="card">
-      <div class="form-group">
-        <label>Nom</label>
-        <input type="text" id="nom" placeholder="Nom"/>
-      </div>
-      <div class="form-group">
-        <label>Prénom</label>
-        <input type="text" id="prenom" placeholder="Prénom"/>
-      </div>
-      <div class="form-group">
-        <label>Nom d'utilisateur</label>
-        <input type="text" id="username" placeholder="Nom d'utilisateur"/>
-      </div>
-      <div class="form-group">
-        <label>Université</label>
-        <input type="text" id="universite" placeholder="Université"/>
+    <div class="container">
+      <!-- Left -->
+      <div class="card" style="text-align:center">
+        <div class="profile-pic" id="profilePic">M</div>
+        <div class="username" id="usernameDisplay">---</div>
+        <div class="email" id="emailDisplay">---</div>
+        
+        <input type="file" id="fileInput" accept="image/*" />
+        <button class="btn-dark" onclick="document.getElementById('fileInput').click()">Modifier votre photo</button>
+        <button class="btn-outline" onclick="resetPassword()">Modifier votre mot de passe</button>
+
+        <!-- اختيار الثيم -->
+        <h4 style="margin-top:25px">Thème</h4>
+        <div class="themes">
+          <div class="theme-btn" id="theme1" style="background:#11152b"></div>
+          <div class="theme-btn" id="theme2" style="background:#ff9800"></div>
+          <div class="theme-btn" id="theme3" style="background:#2196f3"></div>
+        </div>
       </div>
 
-      <button class="btn-dark" onclick="saveProfile()">Valider</button>
-      <button class="btn-danger" onclick="deleteAccount()">Supprimer mon compte</button>
+      <!-- Right -->
+      <div class="card">
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" id="nom" placeholder="Nom"/>
+        </div>
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" id="prenom" placeholder="Prénom"/>
+        </div>
+        <div class="form-group">
+          <label>Nom d'utilisateur</label>
+          <input type="text" id="username" placeholder="Nom d'utilisateur"/>
+        </div>
+        <div class="form-group">
+          <label>Université</label>
+          <input type="text" id="universite" placeholder="Université"/>
+        </div>
+
+        <button class="btn-dark" onclick="saveProfile()">Valider</button>
+        <button class="btn-danger" onclick="deleteAccount()">Supprimer mon compte</button>
+      </div>
     </div>
   </div>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
-
+  <!-- JS Sidebar -->
   <script>
-    // Config Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-      authDomain: "archi-space-72624.firebaseapp.com",
-      projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.appspot.com",
-      messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:c914a78566b882b80df7b8",
-      measurementId: "G-RZV7LSDQBD"
-    };
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const storage = firebase.storage();
-
-    let currentUserId = null;
-
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        currentUserId = user.uid;
-        document.getElementById("emailDisplay").innerText = user.email;
-
-        const userRef = db.collection("users").doc(user.uid);
-        userRef.get().then(doc => {
-          if (doc.exists) {
-            const data = doc.data();
-            document.getElementById("nom").value = data.nom || "";
-            document.getElementById("prenom").value = data.prenom || "";
-            document.getElementById("username").value = data.username || "";
-            document.getElementById("universite").value = data.universite || "";
-            document.getElementById("usernameDisplay").innerText = data.username || user.email.split("@")[0];
-
-            if (data.photoURL) {
-              document.getElementById("profilePic").innerHTML = `<img src="${data.photoURL}" alt="photo"/>`;
-            } else {
-              document.getElementById("profilePic").innerText = (data.username || user.email).charAt(0).toUpperCase();
-            }
-          } else {
-            document.getElementById("usernameDisplay").innerText = user.email.split("@")[0];
-            document.getElementById("profilePic").innerText = user.email.charAt(0).toUpperCase();
-          }
-        });
-      } else {
-        window.location.href = "login.html";
-      }
-    });
-
-    // حفظ البيانات
-    function saveProfile() {
-      if (currentUserId) {
-        const userRef = db.collection("users").doc(currentUserId);
-        userRef.set({
-          nom: document.getElementById("nom").value,
-          prenom: document.getElementById("prenom").value,
-          username: document.getElementById("username").value,
-          universite: document.getElementById("universite").value
-        }, { merge: true })
-        .then(() => alert("✅ Profil mis à jour"))
-        .catch(err => alert("Erreur: " + err));
-      }
-    }
-
-    // إعادة تعيين كلمة السر
-    function resetPassword() {
-      const user = auth.currentUser;
-      if (user) {
-        auth.sendPasswordResetEmail(user.email)
-          .then(() => alert("📩 Email de réinitialisation envoyé"))
-          .catch(err => alert("Erreur: " + err));
-      }
-    }
-
-    // رفع صورة جديدة
-    document.getElementById("fileInput").addEventListener("change", e => {
-      const file = e.target.files[0];
-      if (file && currentUserId) {
-        const storageRef = storage.ref("profilePics/" + currentUserId);
-        storageRef.put(file).then(snapshot => {
-          snapshot.ref.getDownloadURL().then(url => {
-            db.collection("users").doc(currentUserId).set({ photoURL: url }, { merge: true });
-            document.getElementById("profilePic").innerHTML = `<img src="${url}" alt="photo"/>`;
-          });
-        });
-      }
-    });
-
-    // حذف الحساب
-    function deleteAccount() {
-      const user = auth.currentUser;
-      if (user && confirm("⚠️ Voulez-vous vraiment supprimer votre compte ?")) {
-        db.collection("users").doc(user.uid).delete().then(() => {
-          user.delete().then(() => {
-            alert("Compte supprimé");
-            window.location.href = "signup.html";
-          });
-        });
-      }
+    function toggleSidebar() {
+      document.getElementById("mySidebar").classList.toggle("active");
     }
   </script>
+
+  <!-- Firebase (نفس السكريبت السابق: auth + firestore + storage + themes) -->
+  <!-- ⚠️ هنا تحط نفس كود Firebase اللي أعطيتك في الرسالة السابقة -->
 </body>
 </html>
 
