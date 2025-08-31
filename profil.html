@@ -12,25 +12,26 @@
       margin: 0;
       transition: margin-left 0.3s;
     }
-
     /* Sidebar */
     .sidebar {
       height: 100%;
       width: 220px;
       position: fixed;
       top: 0;
-      left: -220px;
-      background: #11152b;
+      left: 0;
+      background: #fff;
+      color: #000;
+      border-right: 1px solid #ccc;
       padding-top: 20px;
-      transition: 0.3s;
       z-index: 1000;
-      color: white;
     }
-    .sidebar.active { left: 0; }
     .sidebar-header {
       padding: 15px 20px;
-      border-bottom: 1px solid #2b2f4a;
+      border-bottom: 1px solid #ccc;
       margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .profile-mini {
       display: flex;
@@ -41,7 +42,7 @@
       width: 40px;
       height: 40px;
       border-radius: 8px;
-      background: #3c3c55;
+      background: #000;
       color: white;
       display: flex;
       justify-content: center;
@@ -49,7 +50,16 @@
       font-weight: bold;
     }
     .mini-username { font-size: 14px; font-weight: 600; }
-    .mini-email { font-size: 12px; color: #bbb; }
+    .mini-email { font-size: 12px; color: #555; }
+
+    .closebtn {
+      font-size: 20px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: #000;
+    }
+
     .sidebar ul {
       list-style: none;
       padding: 0;
@@ -61,37 +71,25 @@
       cursor: pointer;
     }
     .sidebar ul li a {
-      color: white;
+      color: #000;
       text-decoration: none;
       display: block;
     }
     .sidebar ul li:hover,
     .sidebar ul li.active,
     .sidebar ul li a:hover {
-      background: #1f2340;
+      background: #f0f0f0;
       border-radius: 6px;
     }
 
-    .openbtn {
-      font-size: 22px;
-      cursor: pointer;
-      background: #11152b;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 6px;
-      margin: 10px;
-    }
-    .openbtn:hover { background: #000; }
-
+    /* Main */
     .main {
-      transition: margin-left 0.3s;
+      margin-left: 220px;
       padding: 20px;
-      margin-left: 0;
+      transition: margin-left 0.3s;
     }
-    .sidebar.active ~ .main { margin-left: 220px; }
 
-    /* Profile Cards */
+    /* Cards */
     .container {
       display: flex;
       gap: 30px;
@@ -144,8 +142,8 @@
       margin-top: 15px;
       width: 100%;
     }
-    .btn-dark { background: #11152b; color: white; }
-    .btn-dark:hover { background: #000; }
+    .btn-dark { background: #000; color: white; }
+    .btn-dark:hover { background: #333; }
     .btn-outline { border: 1px solid orange; color: orange; background: transparent; }
     .btn-outline:hover { background: orange; color: white; }
     .btn-danger { background: #dc3545; color: white; }
@@ -166,27 +164,11 @@
     }
     #fileInput { display: none; }
 
-    /* Themes */
-    .themes {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    .theme-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      border: 2px solid #ccc;
-      cursor: pointer;
-    }
-    .theme-btn.active { border: 3px solid black; }
-
     /* Responsive */
     @media (max-width: 768px) {
       .container { flex-direction: column; }
-      .sidebar { width: 180px; left: -180px; }
-      .sidebar.active ~ .main { margin-left: 180px; }
+      .sidebar { width: 180px; }
+      .main { margin-left: 180px; }
     }
   </style>
 </head>
@@ -196,13 +178,15 @@
   <div class="sidebar" id="mySidebar">
     <div class="sidebar-header">
       <div class="profile-mini">
-        <div class="mini-pic">M</div>
+        <div class="mini-pic" id="miniPic">M</div>
         <div>
           <div class="mini-username" id="miniUsername">---</div>
           <div class="mini-email" id="miniEmail">---</div>
         </div>
       </div>
+      <button class="closebtn" onclick="closeSidebar()">❌</button>
     </div>
+
     <ul>
       <li class="active">🏠 Accueil</li>
       <li>📊 Statistiques</li>
@@ -221,8 +205,7 @@
   </div>
 
   <!-- Main -->
-  <div class="main">
-    <button class="openbtn" onclick="toggleSidebar()">☰ Menu</button>
+  <div class="main" id="mainContent">
     <h2>Gérez votre profil :</h2>
 
     <div class="container">
@@ -234,15 +217,7 @@
         
         <input type="file" id="fileInput" accept="image/*" />
         <button class="btn-dark" onclick="document.getElementById('fileInput').click()">Modifier votre photo</button>
-        <button class="btn-outline" onclick="resetPassword()">Modifier votre mot de passe</button>
-
-        <!-- اختيار الثيم -->
-        <h4 style="margin-top:25px">Thème</h4>
-        <div class="themes">
-          <div class="theme-btn" id="theme1" style="background:#11152b"></div>
-          <div class="theme-btn" id="theme2" style="background:#ff9800"></div>
-          <div class="theme-btn" id="theme3" style="background:#2196f3"></div>
-        </div>
+        <button class="btn-outline">Modifier votre mot de passe</button>
       </div>
 
       <!-- Right -->
@@ -260,25 +235,60 @@
           <input type="text" id="username" placeholder="Nom d'utilisateur"/>
         </div>
         <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="Email"/>
+        </div>
+        <div class="form-group">
           <label>Université</label>
           <input type="text" id="universite" placeholder="Université"/>
         </div>
 
         <button class="btn-dark" onclick="saveProfile()">Valider</button>
-        <button class="btn-danger" onclick="deleteAccount()">Supprimer mon compte</button>
+        <button class="btn-danger">Supprimer mon compte</button>
       </div>
     </div>
   </div>
 
-  <!-- JS Sidebar -->
+  <!-- JS -->
   <script>
-    function toggleSidebar() {
-      document.getElementById("mySidebar").classList.toggle("active");
+    function saveProfile() {
+      let nom = document.getElementById("nom").value;
+      let prenom = document.getElementById("prenom").value;
+      let username = document.getElementById("username").value;
+      let email = document.getElementById("email").value;
+
+      document.getElementById("usernameDisplay").textContent = username || "---";
+      document.getElementById("emailDisplay").textContent = email || "---";
+
+      document.getElementById("miniUsername").textContent = username || "---";
+      document.getElementById("miniEmail").textContent = email || "---";
+
+      // أول حرف للصورة
+      if (!document.querySelector("#profilePic img")) {
+        document.getElementById("profilePic").textContent = username ? username[0].toUpperCase() : "M";
+        document.getElementById("miniPic").textContent = username ? username[0].toUpperCase() : "M";
+      }
+    }
+
+    // تحميل صورة
+    document.getElementById("fileInput").addEventListener("change", function(e) {
+      let file = e.target.files[0];
+      if (file) {
+        let reader = new FileReader();
+        reader.onload = function(event) {
+          document.getElementById("profilePic").innerHTML = `<img src="${event.target.result}" />`;
+          document.getElementById("miniPic").textContent = ""; // نخليها فاضية لأن الصورة أخدت مكانها
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // إغلاق القائمة
+    function closeSidebar() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("mainContent").style.marginLeft = "0";
     }
   </script>
 
-  <!-- Firebase scripts هنا تضيف auth + firestore + storage -->
 </body>
 </html>
-
-
