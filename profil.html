@@ -1,254 +1,285 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Profil Utilisateur - MedSpace</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    /* Reset & base */
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: 'Rubik', sans-serif;
-      background: #f8f9fb;
-      color: #1a1a1a;
-      display: flex;
-      min-height: 100vh;
-    }
-    /* Sidebar */
-    .sidebar {
-      width: 220px;
-      background: #fff;
-      border-right: 1px solid #ddd;
-      padding-top: 20px;
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      overflow-y: auto;
-      user-select: none;
-    }
-    .sidebar-header {
-      padding: 20px;
-      border-bottom: 1px solid #ddd;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      justify-content: space-between;
-    }
-    .profile-mini {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .mini-pic {
-      background: #222;
-      color: #fff;
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      user-select: none;
-    }
-    .mini-info {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-    .mini-username {
-      font-weight: 600;
-      font-size: 14px;
-      color: #111;
-    }
-    .mini-email {
-      font-size: 12px;
-      color: #666;
-    }
-    .closebtn {
-      background: transparent;
-      border: none;
-      font-size: 22px;
-      color: #444;
-      cursor: pointer;
-      user-select: none;
-    }
-    ul.sidebar-nav {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      flex-grow: 1;
-    }
-    ul.sidebar-nav li {
-      font-size: 16px;
-      padding: 14px 22px;
-      cursor: pointer;
-      transition: background 0.25s ease;
-    }
-    ul.sidebar-nav li a {
-      text-decoration: none;
-      color: #111;
-      display: block;
-    }
-    ul.sidebar-nav li:hover,
-    ul.sidebar-nav li.active,
-    ul.sidebar-nav li a:hover {
-      background-color: #f0f0f0;
-      border-radius: 8px;
-    }
-    /* Main content */
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Profil Utilisateur - MedSpace</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  /* خطوط وألوان */
+  body {
+    margin: 0;
+    font-family: 'Rubik', sans-serif;
+    background: var(--bg-color, #f8f9fb);
+    color: var(--text-color, #1a1a1a);
+    display: flex;
+    min-height: 100vh;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  :root {
+    --bg-color: #f8f9fb;
+    --text-color: #1a1a1a;
+    --card-bg: #fff;
+    --btn-bg: #000;
+    --btn-text: #fff;
+  }
+  .dark-mode {
+    --bg-color: #121212;
+    --text-color: #ddd;
+    --card-bg: #1e1e1e;
+    --btn-bg: #444;
+    --btn-text: #fff;
+  }
+  /* Sidebar كما في السابق */
+  .sidebar {
+    width: 220px;
+    background: var(--card-bg);
+    border-right: 1px solid #ddd;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+  }
+  /* باقي التنسيق كما في الكود السابق مع ضبط الألوان من المتغيرات */
+  .sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: space-between;
+  }
+  .profile-mini {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .mini-pic {
+    background: #222;
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .mini-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .mini-username {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .mini-email {
+    font-size: 12px;
+    color: #666;
+  }
+  .closebtn {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: #444;
+    cursor: pointer;
+    user-select: none;
+  }
+  ul.sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+  }
+  ul.sidebar-nav li {
+    font-size: 16px;
+    padding: 14px 22px;
+    cursor: pointer;
+    transition: background 0.25s ease;
+  }
+  ul.sidebar-nav li a {
+    text-decoration: none;
+    color: var(--text-color);
+    display: block;
+  }
+  ul.sidebar-nav li:hover,
+  ul.sidebar-nav li.active,
+  ul.sidebar-nav li a:hover {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+  }
+  /* Main content */
+  .main-content {
+    flex-grow: 1;
+    margin-left: 220px;
+    padding: 40px 30px;
+    background: var(--bg-color);
+    min-height: 100vh;
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .profile-grid {
+    display: flex;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+  .profile-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    flex: 1 1 300px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .profile-pic {
+    width: 160px;
+    height: 160px;
+    background-color: #222;
+    color: white;
+    font-size: 80px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: border-radius 0.3s ease, background-color 0.3s ease;
+    border-radius: var(--pic-border-radius, 16px);
+  }
+  .profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .username-display {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 10px;
+  }
+  .email-display {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+  }
+
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  label {
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+  input {
+    width: 100%;
+    border: 1.8px solid #ccc;
+    padding: 11px 15px;
+    font-size: 1rem;
+    border-radius: 10px;
+    outline-offset: 2px;
+    transition: border-color 0.3s ease-in-out;
+  }
+  input:focus {
+    border-color: #000;
+    background-color: #f7f7f7;
+  }
+  .buttons-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  button {
+    flex: 1 1 auto;
+    padding: 14px 20px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    font-size: 1rem;
+  }
+  button.save-btn {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+  }
+  button.save-btn:hover {
+    background-color: #333;
+  }
+  button.delete-btn {
+    background-color: #b22222;
+    color: #fff;
+  }
+  button.delete-btn:hover {
+    background-color: #800000;
+  }
+  /* إضافات تحت الصورة */
+  .pic-settings {
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .pic-settings label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  /* زر الوضع الليلي */
+  .dark-mode-toggle {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: 700;
+    user-select: none;
+  }
+
+  @media (max-width: 768px) {
     .main-content {
-      flex-grow: 1;
-      margin-left: 220px;
-      padding: 40px 30px;
-      background: #f8f9fb;
-      min-height: 100vh;
-      user-select: none;
+      margin-left: 0;
+      padding: 20px 15px;
     }
-
-    h2 {
-      font-weight: 700;
-      font-size: 2rem;
-      margin-bottom: 2rem;
-      color: #222;
-    }
-
     .profile-grid {
-      display: flex;
-      gap: 40px;
-      max-width: 1000px;
-      margin: 0 auto;
-      flex-wrap: wrap;
-      user-select: text;
-    }
-
-    .profile-card {
-      background: #fff;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      flex: 1 1 300px;
-      min-width: 300px;
-      display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 16px;
+      gap: 30px;
     }
-
-    .profile-pic {
-      width: 160px;
-      height: 160px;
-      border-radius: 16px;
-      background-color: #222;
-      color: white;
-      font-size: 80px;
-      font-weight: 700;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
+    .sidebar {
+      width: 0;
+      display: none;
     }
-    .profile-pic img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .dark-mode-toggle {
+      top: 70px;
+      right: 15px;
     }
-
-    .username-display {
-      font-size: 22px;
-      font-weight: 700;
-      color: #111;
-      margin-top: 10px;
-    }
-    .email-display {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 15px;
-    }
-
-    form {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    label {
-      font-weight: 600;
-      color: #444;
-      margin-bottom: 6px;
-      display: block;
-      font-size: 15px;
-    }
-    input {
-      width: 100%;
-      border: 1.8px solid #ccc;
-      padding: 11px 15px;
-      font-size: 1rem;
-      border-radius: 10px;
-      outline-offset: 2px;
-      transition: border-color 0.3s ease-in-out;
-    }
-    input:focus {
-      border-color: #000;
-      background-color: #f7f7f7;
-    }
-
-    .buttons-group {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: space-between;
-    }
-
-    button {
-      flex: 1 1 auto;
-      padding: 14px 20px;
-      font-weight: 700;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      border: none;
-      font-size: 1rem;
-      user-select: none;
-    }
-
-    button.save-btn {
-      background-color: #000;
-      color: #fff;
-    }
-    button.save-btn:hover {
-      background-color: #333;
-    }
-    button.delete-btn {
-      background-color: #b22222;
-      color: #fff;
-    }
-    button.delete-btn:hover {
-      background-color: #800000;
-    }
-
-    @media (max-width: 768px) {
-      .main-content {
-        margin-left: 0;
-        padding: 20px 15px;
-      }
-      .profile-grid {
-        flex-direction: column;
-        gap: 30px;
-      }
-      .sidebar {
-        width: 0;
-        display: none;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <nav class="sidebar" id="sidebar">
@@ -279,11 +310,17 @@
     </ul>
   </nav>
 
+  <button class="dark-mode-toggle" id="darkModeToggle">🌙 Mode Nuit</button>
+
   <main class="main-content" id="mainContent">
     <h2>Mon Profil</h2>
     <div class="profile-grid">
       <section class="profile-card">
         <div class="profile-pic" id="profilePic">M</div>
+        <div class="pic-settings">
+          <label><input type="color" id="picColorPicker" value="#222222" title="Changer la couleur de la photo" /> Couleur</label>
+          <label><input type="checkbox" id="picShapeToggle" /> Cercle</label>
+        </div>
         <div class="username-display" id="usernameDisplay">---</div>
         <div class="email-display" id="emailDisplay">---</div>
       </section>
@@ -299,7 +336,7 @@
           <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required />
           
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="Votre email" required />
+          <input type="email" id="email" name="email" placeholder="Votre email" disabled />
           
           <label for="universite">Université</label>
           <input type="text" id="universite" name="universite" placeholder="Nom de l'université" />
@@ -316,8 +353,9 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, deleteUser } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, getDoc, deleteDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
+    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -327,53 +365,110 @@
       appId: "1:407015246505:web:c914a78566b882b80df7b8",
     };
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     let currentUserId = null;
+    let currentUserEmail = null;
 
+    // Dark mode toggle
+    const darkToggleBtn = document.getElementById("darkModeToggle");
+    function setDarkMode(on) {
+      if (on) {
+        document.body.classList.add("dark-mode");
+        darkToggleBtn.textContent = "☀️ Mode Jour";
+        localStorage.setItem("darkMode", "1");
+      } else {
+        document.body.classList.remove("dark-mode");
+        darkToggleBtn.textContent = "🌙 Mode Nuit";
+        localStorage.setItem("darkMode", "0");
+      }
+    }
+    darkToggleBtn.onclick = () => {
+      setDarkMode(!document.body.classList.contains("dark-mode"));
+    };
+    if(localStorage.getItem("darkMode") === "1") {
+      setDarkMode(true);
+    }
+
+    // Profile picture settings
+    const profilePicDiv = document.getElementById("profilePic");
+    const picColorPicker = document.getElementById("picColorPicker");
+    const picShapeToggle = document.getElementById("picShapeToggle");
+
+    picColorPicker.addEventListener("input", () => {
+      profilePicDiv.style.backgroundColor = picColorPicker.value;
+    });
+    picShapeToggle.addEventListener("change", () => {
+      profilePicDiv.style.borderRadius = picShapeToggle.checked ? "50%" : "16px";
+    });
+
+    // Authentication and Profile Load
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         currentUserId = user.uid;
-        loadProfile(currentUserId);
+        currentUserEmail = user.email;
+        document.getElementById("email").value = currentUserEmail || "";
+        await loadProfile(currentUserId);
       } else {
         window.location.href = "login.html";
       }
     });
 
     async function loadProfile(userId) {
-      try {
-        const snap = await getDoc(doc(db, "students", userId));
-        if (snap.exists()) {
-          const data = snap.data();
-          document.getElementById("nom").value = data.nom || "";
-          document.getElementById("prenom").value = data.prenom || "";
-          document.getElementById("username").value = data.username || "";
-          document.getElementById("email").value = data.email || "";
-          document.getElementById("universite").value = data.universite || "";
-          document.getElementById("usernameDisplay").textContent = data.username || "---";
-          document.getElementById("emailDisplay").textContent = data.email || "---";
-          const letter = data.username ? data.username[0].toUpperCase() : "M";
-          document.getElementById("profilePic").textContent = letter;
-          document.getElementById("miniPic").textContent = letter;
-          document.getElementById("miniUsername").textContent = data.username || "---";
-          document.getElementById("miniEmail").textContent = data.email || "---";
-        }
-      } catch (error) {
-        console.error("Erreur lors du chargement du profil:", error);
+      const snap = await getDoc(doc(db, "students", userId));
+      if (snap.exists()) {
+        const data = snap.data();
+        document.getElementById("nom").value = data.nom || "";
+        document.getElementById("prenom").value = data.prenom || "";
+        document.getElementById("username").value = data.username || "";
+        document.getElementById("universite").value = data.universite || "";
+        document.getElementById("usernameDisplay").textContent = data.username || "---";
+        document.getElementById("emailDisplay").textContent = currentUserEmail || "---";
+        const letter = data.username ? data.username[0].toUpperCase() : "M";
+        profilePicDiv.textContent = letter;
+        document.getElementById("miniPic").textContent = letter;
+        document.getElementById("miniUsername").textContent = data.username || "---";
+        document.getElementById("miniEmail").textContent = currentUserEmail || "---";
       }
     }
 
+    // Helper to check uniqueness username and email
+    async function isUsernameUnique(username) {
+      const q = query(collection(db, "students"), where("username", "==", username));
+      const querySnapshot = await getDocs(q);
+      for(let docSnap of querySnapshot.docs) {
+        if(docSnap.id !== currentUserId) return false;
+      }
+      return true;
+    }
+
+    // Form submit with validation and save
     document.getElementById("profileForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!currentUserId) return alert("Utilisateur non connecté");
+      const usernameInput = document.getElementById("username").value.trim();
+
+      if(usernameInput.length === 0) {
+        alert("Le nom d'utilisateur ne peut pas être vide.");
+        return;
+      }
+
+      const isUnique = await isUsernameUnique(usernameInput);
+      if(!isUnique) {
+        alert("Ce nom d'utilisateur est déjà pris. Veuillez en choisir un autre.");
+        return;
+      }
+
       const data = {
-        nom: document.getElementById("nom").value,
-        prenom: document.getElementById("prenom").value,
-        username: document.getElementById("username").value,
-        email: document.getElementById("email").value,
-        universite: document.getElementById("universite").value,
+        nom: document.getElementById("nom").value.trim(),
+        prenom: document.getElementById("prenom").value.trim(),
+        username: usernameInput,
+        universite: document.getElementById("universite").value.trim(),
+        email: currentUserEmail
       };
+
       try {
         await setDoc(doc(db, "students", currentUserId), data, { merge: true });
         alert("Profil mis à jour avec succès !");
@@ -383,6 +478,7 @@
       }
     });
 
+    // Delete account button
     document.getElementById("deleteBtn").addEventListener("click", async () => {
       if (!currentUserId) return alert("Utilisateur non connecté");
       if (!confirm("Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.")) return;
@@ -396,6 +492,7 @@
       }
     });
 
+    // Close sidebar function
     function closeSidebar() {
       document.getElementById("sidebar").style.display = "none";
       document.getElementById("mainContent").style.marginLeft = "0";
