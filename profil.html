@@ -1,209 +1,187 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Profil utilisateur</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Rubik', sans-serif; background: #f5f6fa; margin: 0; }
-    .sidebar { height: 100%; width: 220px; position: fixed; top: 0; left: 0;
-      background: #fff; border-right: 1px solid #ccc; padding-top: 20px; z-index: 1000; }
-    .sidebar-header { padding: 15px 20px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; align-items: center; }
-    .profile-mini { display: flex; align-items: center; gap: 10px; }
-    .mini-pic { width: 40px; height: 40px; border-radius: 8px; background: #000; color: white;
-      display: flex; justify-content: center; align-items: center; font-weight: bold; }
-    .mini-username { font-size: 14px; font-weight: 600; }
-    .mini-email { font-size: 12px; color: #555; }
-    .closebtn { font-size: 20px; cursor: pointer; border: none; background: transparent; color: #000; }
-    .sidebar ul { list-style: none; padding: 0; margin: 0; }
-    .sidebar ul li { padding: 12px 20px; font-size: 16px; cursor: pointer; }
-    .sidebar ul li a { color: #000; text-decoration: none; display: block; }
-    .sidebar ul li:hover, .sidebar ul li.active, .sidebar ul li a:hover {
-      background: #f0f0f0; border-radius: 6px;
-    }
-    .main { margin-left: 220px; padding: 20px; }
-    .container { display: flex; gap: 30px; max-width: 1000px; margin: auto; flex-wrap: wrap; }
-    .card { background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); flex: 1; min-width: 280px; }
-    .profile-pic { width: 150px; height: 150px; border-radius: 10px; background: #3c3c55;
-      display: flex; align-items: center; justify-content: center; font-size: 60px; color: white; margin: auto; overflow: hidden; }
-    .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
-    .username { margin-top: 15px; font-weight: 600; font-size: 18px; }
-    .email { color: #999; font-size: 14px; margin-bottom: 20px; }
-    button { border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-size: 14px; margin-top: 15px; width: 100%; }
-    .btn-dark { background: #000; color: white; }
-    .btn-dark:hover { background: #333; }
-    .btn-outline { border: 1px solid orange; color: orange; background: transparent; }
-    .btn-outline:hover { background: orange; color: white; }
-    .btn-danger { background: #dc3545; color: white; }
-    .btn-danger:hover { background: #b52a37; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; }
-    input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
-    #fileInput { display: none; }
-    @media (max-width: 768px) {
-      .container { flex-direction: column; }
-      .sidebar { width: 180px; }
-      .main { margin-left: 180px; }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Profil utilisateur - MedSpace</title>
+<style>
+  /* الخطوط والتنسيق كما في الكود السابق */
+  @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap');
+  body { font-family: 'Rubik', sans-serif; background: #f5f6fa; margin: 0; }
+  .sidebar { height: 100%; width: 220px; position: fixed; top: 0; left: 0; background: #fff; border-right: 1px solid #ccc; padding-top: 20px; z-index: 1000; }
+  .sidebar-header { padding: 15px 20px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; align-items: center; }
+  .profile-mini { display: flex; align-items: center; gap: 10px; }
+  .mini-pic { width: 40px; height: 40px; border-radius: 8px; background: #000; color: white; display: flex; justify-content: center; align-items: center; font-weight: bold; }
+  .mini-username { font-size: 14px; font-weight: 600; }
+  .mini-email { font-size: 12px; color: #555; }
+  .closebtn { font-size: 20px; cursor: pointer; border: none; background: transparent; color: #000; }
+  .sidebar ul { list-style: none; padding: 0; margin: 0; }
+  .sidebar ul li { padding: 12px 20px; font-size: 16px; cursor: pointer; }
+  .sidebar ul li a { color: #000; text-decoration: none; display: block; }
+  .sidebar ul li:hover, .sidebar ul li.active, .sidebar ul li a:hover { background: #f0f0f0; border-radius: 6px; }
+  .main { margin-left: 220px; padding: 20px; }
+  .container { display: flex; gap: 30px; max-width: 1000px; margin: auto; flex-wrap: wrap; }
+  .card { background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); flex: 1; min-width: 280px; }
+  .profile-pic { width: 150px; height: 150px; border-radius: 10px; background: #3c3c55; display: flex; align-items: center; justify-content: center; font-size: 60px; color: white; margin: auto; overflow: hidden; }
+  .profile-pic img { width: 100%; height: 100%; object-fit: cover; }
+  .username { margin-top: 15px; font-weight: 600; font-size: 18px; }
+  .email { color: #999; font-size: 14px; margin-bottom: 20px; }
+  button { border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-size: 14px; margin-top: 15px; width: 100%; }
+  .btn-dark { background: #000; color: white; }
+  .btn-dark:hover { background: #333; }
+  .btn-outline { border: 1px solid orange; color: orange; background: transparent; }
+  .btn-outline:hover { background: orange; color: white; }
+  .btn-danger { background: #dc3545; color: white; }
+  .btn-danger:hover { background: #b52a37; }
+  .form-group { margin-bottom: 15px; }
+  label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; }
+  input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
+  @media (max-width: 768px) {
+    .container { flex-direction: column; }
+    .sidebar { width: 180px; }
+    .main { margin-left: 180px; }
+  }
+</style>
 </head>
 <body>
-
-  <!-- Sidebar -->
-  <div class="sidebar" id="mySidebar">
-    <div class="sidebar-header">
-      <div class="profile-mini">
-        <div class="mini-pic" id="miniPic">M</div>
-        <div>
-          <div class="mini-username" id="miniUsername">---</div>
-          <div class="mini-email" id="miniEmail">---</div>
-        </div>
-      </div>
-      <button class="closebtn" onclick="closeSidebar()">❌</button>
-    </div>
-    <ul>
-      <li class="active">🏠 Accueil</li>
-      <li>📊 Statistiques</li>
-      <li>📚 Suivi Cours</li>
-      <li><a href="courses.html">📖 Site des Cours</a></li>
-      <li>❓ Sessions Questions</li>
-      <li>📝 Sessions Examens</li>
-      <li>🏷️ Labels</li>
-      <li>🗒️ Notes</li>
-      <li>🚩 Signals</li>
-      <li>🔔 Notification</li>
-      <li>💳 Abonnement</li>
-      <li>🛠️ Support</li>
-      <li><a href="profil.html">👤 Mon Profil</a></li>
-    </ul>
-  </div>
-
-  <!-- Main -->
-  <div class="main" id="mainContent">
-    <h2>Gérez votre profil :</h2>
-    <div class="container">
-      <!-- Left -->
-      <div class="card" style="text-align:center">
-        <div class="profile-pic" id="profilePic">M</div>
-        <div class="username" id="usernameDisplay">---</div>
-        <div class="email" id="emailDisplay">---</div>
-        
-        <input type="file" id="fileInput" accept="image/*" />
-        <button class="btn-dark" onclick="document.getElementById('fileInput').click()">Modifier votre photo</button>
-        <button class="btn-outline">Modifier votre mot de passe</button>
-      </div>
-      <!-- Right -->
-      <div class="card">
-        <div class="form-group"><label>Nom</label><input type="text" id="nom" placeholder="Nom"/></div>
-        <div class="form-group"><label>Prénom</label><input type="text" id="prenom" placeholder="Prénom"/></div>
-        <div class="form-group"><label>Nom d'utilisateur</label><input type="text" id="username" placeholder="Nom d'utilisateur"/></div>
-        <div class="form-group"><label>Email</label><input type="email" id="email" placeholder="Email"/></div>
-        <div class="form-group"><label>Université</label><input type="text" id="universite" placeholder="Université"/></div>
-        <button class="btn-dark" onclick="saveProfile()">Valider</button>
-        <button class="btn-danger" onclick="deleteAccount()">Supprimer mon compte</button>
+<div class="sidebar" id="mySidebar">
+  <div class="sidebar-header">
+    <div class="profile-mini">
+      <div class="mini-pic" id="miniPic">M</div>
+      <div>
+        <div class="mini-username" id="miniUsername">---</div>
+        <div class="mini-email" id="miniEmail">---</div>
       </div>
     </div>
+    <button class="closebtn" onclick="closeSidebar()">❌</button>
   </div>
+  <ul>
+    <li class="active">🏠 Accueil</li>
+    <li>📊 Statistiques</li>
+    <li>📚 Suivi Cours</li>
+    <li><a href="courses.html">📖 Site des Cours</a></li>
+    <li>❓ Sessions Questions</li>
+    <li>📝 Sessions Examens</li>
+    <li>🏷️ Labels</li>
+    <li>🗒️ Notes</li>
+    <li>🚩 Signals</li>
+    <li>🔔 Notification</li>
+    <li>💳 Abonnement</li>
+    <li>🛠️ Support</li>
+    <li><a href="profil.html">👤 Mon Profil</a></li>
+  </ul>
+</div>
+<div class="main" id="mainContent">
+  <h2>Gérez votre profil :</h2>
+  <div class="container">
+    <div class="card" style="text-align:center">
+      <div class="profile-pic" id="profilePic">M</div>
+      <div class="username" id="usernameDisplay">---</div>
+      <div class="email" id="emailDisplay">---</div>
+    </div>
+    <div class="card">
+      <div class="form-group"><label>Nom</label><input type="text" id="nom" placeholder="Nom"/></div>
+      <div class="form-group"><label>Prénom</label><input type="text" id="prenom" placeholder="Prénom"/></div>
+      <div class="form-group"><label>Nom d'utilisateur</label><input type="text" id="username" placeholder="Nom d'utilisateur"/></div>
+      <div class="form-group"><label>Email</label><input type="email" id="email" placeholder="Email"/></div>
+      <div class="form-group"><label>Université</label><input type="text" id="universite" placeholder="Université"/></div>
+      <button class="btn-dark" id="saveBtn">Valider</button>
+      <button class="btn-danger" id="deleteBtn">Supprimer mon compte</button>
+    </div>
+  </div>
+</div>
 
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, deleteUser } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged, deleteUser } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-      authDomain: "archi-space-72624.firebaseapp.com",
-      projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.appspot.com",
-      messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:c914a78566b882b80df7b8"
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.appspot.com",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  let currentUserId = null;
+
+  // عند تحميل الصفحة نتحقق من تسجيل الدخول، وإن لم يكن يتم توجيه المستخدم لصفحة تسجيل الدخول
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUserId = user.uid;
+      loadProfile(user.uid);
+    } else {
+      window.location.href = "login.html"; // إعادة التوجيه عند عدم تسجيل الدخول
+    }
+  });
+
+  async function loadProfile(userId) {
+    const snap = await getDoc(doc(db, "students", userId));
+    if (snap.exists()) {
+      const data = snap.data();
+      document.getElementById("nom").value = data.nom || "";
+      document.getElementById("prenom").value = data.prenom || "";
+      document.getElementById("username").value = data.username || "";
+      document.getElementById("email").value = data.email || "";
+      document.getElementById("universite").value = data.universite || "";
+
+      document.getElementById("usernameDisplay").textContent = data.username || "---";
+      document.getElementById("emailDisplay").textContent = data.email || "---";
+      document.getElementById("miniUsername").textContent = data.username || "---";
+      document.getElementById("miniEmail").textContent = data.email || "---";
+
+      // عرض أول حرف كبروفايل إذا لم توجد صورة
+      const letter = (data.username ? data.username[0].toUpperCase() : "M");
+      document.getElementById("profilePic").textContent = letter;
+      document.getElementById("miniPic").textContent = letter;
+    }
+  }
+
+  // حفظ المعلومات
+  document.getElementById("saveBtn").addEventListener("click", async () => {
+    if (!currentUserId) return alert("Utilisateur non connecté");
+    const data = {
+      nom: document.getElementById("nom").value,
+      prenom: document.getElementById("prenom").value,
+      username: document.getElementById("username").value,
+      email: document.getElementById("email").value,
+      universite: document.getElementById("universite").value,
     };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    let currentUserId = null;
-
-    // استرجاع بيانات الطالب
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        currentUserId = user.uid;
-        const snap = await getDoc(doc(db, "students", currentUserId));
-        if (snap.exists()) {
-          const data = snap.data();
-          document.getElementById("nom").value = data.nom || "";
-          document.getElementById("prenom").value = data.prenom || "";
-          document.getElementById("username").value = data.username || "";
-          document.getElementById("email").value = data.email || "";
-          document.getElementById("universite").value = data.universite || "";
-          document.getElementById("usernameDisplay").textContent = data.username || "---";
-          document.getElementById("emailDisplay").textContent = data.email || "---";
-          document.getElementById("miniUsername").textContent = data.username || "---";
-          document.getElementById("miniEmail").textContent = data.email || "---";
-          if (data.photoBase64) {
-            document.getElementById("profilePic").innerHTML = `<img src="${data.photoBase64}" />`;
-            document.getElementById("miniPic").textContent = "";
-          } else {
-            const letter = (data.username ? data.username[0].toUpperCase() : "M");
-            document.getElementById("profilePic").textContent = letter;
-            document.getElementById("miniPic").textContent = letter;
-          }
-        }
-      }
-    });
-
-    // حفظ البيانات
-    window.saveProfile = async function () {
-      if (!currentUserId) return;
-      const data = {
-        nom: document.getElementById("nom").value,
-        prenom: document.getElementById("prenom").value,
-        username: document.getElementById("username").value,
-        email: document.getElementById("email").value,
-        universite: document.getElementById("universite").value,
-      };
+    try {
       await setDoc(doc(db, "students", currentUserId), data, { merge: true });
       alert("✅ Profil mis à jour !");
-    };
+      loadProfile(currentUserId); // تحديث العرض بعد الحفظ
+    } catch (err) {
+      alert("Erreur lors de la sauvegarde: " + err.message);
+    }
+  });
 
-    // تحميل صورة وتخزينها في Firestore كـ base64
-    document.getElementById("fileInput").addEventListener("change", async (e) => {
-      if (!currentUserId) return;
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = async function(event) {
-          const base64Image = event.target.result;
-          await setDoc(doc(db, "students", currentUserId), { photoBase64: base64Image }, { merge: true });
-          document.getElementById("profilePic").innerHTML = `<img src="${base64Image}" />`;
-          document.getElementById("miniPic").textContent = "";
-        };
-        reader.readAsDataURL(file);
-      }
-    });
+  // حذف الحساب
+  document.getElementById("deleteBtn").addEventListener("click", async () => {
+    if (!currentUserId) return alert("Utilisateur non connecté");
+    if (!confirm("⚠️ Voulez-vous vraiment supprimer votre compte ?")) return;
 
-    // حذف الحساب
-    window.deleteAccount = async function () {
-      if (!currentUserId) return;
-      if (!confirm("⚠️ Voulez-vous vraiment supprimer votre compte ?")) return;
-      try {
-        await deleteDoc(doc(db, "students", currentUserId));
-        await deleteUser(auth.currentUser);
-        alert("✅ Compte supprimé !");
-        window.location.href = "index.html";
-      } catch (err) {
-        alert("Erreur: " + err.message);
-      }
-    };
+    try {
+      await deleteDoc(doc(db, "students", currentUserId));
+      await deleteUser(auth.currentUser);
+      alert("✅ Compte supprimé !");
+      window.location.href = "login.html";
+    } catch (err) {
+      alert("Erreur: " + err.message + "\n(Assurez-vous que la connexion est récente)");
+    }
+  });
 
-    // إغلاق القائمة
-    window.closeSidebar = function () {
-      document.getElementById("mySidebar").style.display = "none";
-      document.getElementById("mainContent").style.marginLeft = "0";
-    };
-  </script>
+  // إغلاق القائمة الجانبية (ميزة اختيارية)
+  function closeSidebar() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("mainContent").style.marginLeft = "0";
+  }
+</script>
+
 </body>
 </html>
