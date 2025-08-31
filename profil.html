@@ -10,61 +10,112 @@
       font-family: 'Rubik', sans-serif;
       background: #f5f6fa;
       margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      padding: 30px;
     }
-    .profile-card {
+    .container {
+      display: flex;
+      gap: 30px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .card {
       background: #fff;
       padding: 30px;
       border-radius: 20px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      width: 350px;
-      text-align: center;
+      flex: 1;
     }
-    h2 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-    .profile-card input {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
+    .profile-pic {
+      width: 150px;
+      height: 150px;
       border-radius: 10px;
+      background: #3c3c55;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      color: white;
+      margin: auto;
+    }
+    .username {
+      margin-top: 15px;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .email {
+      color: #999;
       font-size: 14px;
     }
-    .profile-card button {
-      background: #007bff;
-      color: white;
+    button {
       border: none;
       padding: 12px;
-      width: 100%;
-      margin-top: 15px;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 15px;
-    }
-    .profile-card button:hover {
-      background: #0056b3;
-    }
-    .logout {
+      font-size: 14px;
       margin-top: 15px;
-      background: #dc3545 !important;
+      width: 100%;
+    }
+    .btn-dark { background: #11152b; color: white; }
+    .btn-dark:hover { background: #000; }
+    .btn-outline { border: 1px solid orange; color: orange; background: transparent; }
+    .btn-outline:hover { background: orange; color: white; }
+    .btn-danger { background: #dc3545; color: white; }
+    .btn-danger:hover { background: #b52a37; }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
-  <div class="profile-card">
-    <h2>Mon Profil</h2>
-    <input type="text" id="prenom" placeholder="Prénom" />
-    <input type="text" id="nom" placeholder="Nom" />
-    <input type="text" id="username" placeholder="Nom d'utilisateur" />
-    <input type="text" id="universite" placeholder="Université" />
-    <button onclick="saveProfile()">💾 Enregistrer</button>
-    <button class="logout" onclick="logout()">🚪 Déconnexion</button>
+  <h2>Gérez votre profil :</h2>
+  <div class="container">
+
+    <!-- Left -->
+    <div class="card" style="text-align:center">
+      <div class="profile-pic" id="profilePic">M</div>
+      <div class="username" id="usernameDisplay">---</div>
+      <div class="email" id="emailDisplay">---</div>
+      
+      <button class="btn-dark">Modifier votre photo</button>
+      <button class="btn-outline" onclick="resetPassword()">Modifier votre mot de passe</button>
+    </div>
+
+    <!-- Right -->
+    <div class="card">
+      <div class="form-group">
+        <label>Nom</label>
+        <input type="text" id="nom" placeholder="Nom"/>
+      </div>
+      <div class="form-group">
+        <label>Prénom</label>
+        <input type="text" id="prenom" placeholder="Prénom"/>
+      </div>
+      <div class="form-group">
+        <label>Nom d'utilisateur</label>
+        <input type="text" id="username" placeholder="Nom d'utilisateur"/>
+      </div>
+      <div class="form-group">
+        <label>Université</label>
+        <input type="text" id="universite" placeholder="Université"/>
+      </div>
+
+      <button class="btn-dark" onclick="saveProfile()">Valider</button>
+      <button class="btn-danger" onclick="deleteAccount()">Supprimer mon compte</button>
+    </div>
   </div>
 
   <!-- Firebase -->
@@ -73,7 +124,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
   <script>
-    // 🔥 Config Firebase (نفس الذي عندك)
+    // Config Firebase (نفس تبعك)
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -83,50 +134,73 @@
       appId: "1:407015246505:web:c914a78566b882b80df7b8",
       measurementId: "G-RZV7LSDQBD"
     };
-
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // ✅ تحميل بيانات البروفيل عند الدخول
+    // تحميل بيانات المستخدم
     auth.onAuthStateChanged(user => {
       if (user) {
+        document.getElementById("emailDisplay").innerText = user.email;
+        document.getElementById("profilePic").innerText = user.email.charAt(0).toUpperCase();
+
         const userRef = db.collection("users").doc(user.uid);
         userRef.get().then(doc => {
           if (doc.exists) {
             const data = doc.data();
-            document.getElementById("prenom").value = data.prenom || "";
             document.getElementById("nom").value = data.nom || "";
+            document.getElementById("prenom").value = data.prenom || "";
             document.getElementById("username").value = data.username || "";
             document.getElementById("universite").value = data.universite || "";
+
+            document.getElementById("usernameDisplay").innerText = data.username || "Utilisateur";
+          } else {
+            document.getElementById("usernameDisplay").innerText = user.email.split("@")[0];
           }
         });
       } else {
-        window.location.href = "login.html"; // لو مش مسجل دخوله يرجع للتسجيل
+        window.location.href = "login.html";
       }
     });
 
-    // ✅ حفظ بيانات البروفيل
+    // حفظ البيانات
     function saveProfile() {
       const user = auth.currentUser;
       if (user) {
         const userRef = db.collection("users").doc(user.uid);
         userRef.set({
-          prenom: document.getElementById("prenom").value,
           nom: document.getElementById("nom").value,
+          prenom: document.getElementById("prenom").value,
           username: document.getElementById("username").value,
           universite: document.getElementById("universite").value
         }, { merge: true })
-        .then(() => alert("Profil mis à jour ✅"))
+        .then(() => alert("✅ Profil mis à jour"))
         .catch(err => alert("Erreur: " + err));
       }
     }
 
-    // ✅ تسجيل الخروج
-    function logout() {
-      auth.signOut().then(() => {
-        window.location.href = "login.html";
-      });
+    // إعادة تعيين كلمة السر
+    function resetPassword() {
+      const user = auth.currentUser;
+      if (user) {
+        auth.sendPasswordResetEmail(user.email)
+          .then(() => alert("📩 Email de réinitialisation envoyé"))
+          .catch(err => alert("Erreur: " + err));
+      }
+    }
+
+    // حذف الحساب
+    function deleteAccount() {
+      const user = auth.currentUser;
+      if (user && confirm("⚠️ Voulez-vous vraiment supprimer votre compte ?")) {
+        const userRef = db.collection("users").doc(user.uid);
+        userRef.delete().then(() => {
+          user.delete().then(() => {
+            alert("Compte supprimé");
+            window.location.href = "signup.html";
+          });
+        });
+      }
     }
   </script>
 </body>
