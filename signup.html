@@ -46,6 +46,9 @@
   .error-message {
     color: red; font-size: 0.85rem; grid-column: span 2;
   }
+  .success-message {
+    color: green; font-size: 0.9rem; grid-column: span 2; margin-top: 10px;
+  }
   input.error {
     border: 2px solid red;
   }
@@ -70,15 +73,15 @@
       <select id="university" required>
         <option value="">Choisissez votre université</option>
         <option value="ENMP">École Nationale Polytechnique Multitechniques d'Architecture et d'Urbanisme, Alger</option>
-        <option value="Constantine3">Université Constantine 3 - Enregistrement national</option>
+        <option value="Constantine3">Université Constantine 3</option>
         <option value="Tabessa">Université Cheikh Larbi Tebessi, Tébessa</option>
         <option value="Batna">Université Hadj Lakhdar, Batna</option>
         <option value="Setif">Université Ferhat Abbas, Sétif</option>
-        <option value="OumElBouaghi">Université Larbi Ben M'hidi, Oum El Bouaghi</option>
+        <option value="OumElBouaghi">Université Larbi Ben M'hidi</option>
         <option value="Jijel">Université Abdelhafid Ben Hamouda, Jijel</option>
         <option value="Laghouat">Université Ammar Telidji, Laghouat</option>
         <option value="Chlef">Université Hassiba Ben Bouali, Chlef</option>
-        <option value="Oran">Université Mohamed Boudiaf des Sciences et de Technologie, Oran</option>
+        <option value="Oran">Université Mohamed Boudiaf, Oran</option>
         <option value="Tlemcen">Université Abou Bekr Belkaid, Tlemcen</option>
         <option value="Biskra">Université Mohamed Khider, Biskra</option>
         <option value="Guelma">Université 8 Mai 1945, Guelma</option>
@@ -95,9 +98,11 @@
         G S'inscrire avec Google
       </button>
       <div id="signup-error" class="error-message"></div>
+      <div id="signup-success" class="success-message"></div>
     </form>
   </div>
 </div>
+
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
@@ -115,13 +120,19 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
   const signupForm = document.getElementById("signup-form");
+  const successBox = document.getElementById("signup-success");
+  const errorBox = document.getElementById("signup-error");
+
   function clearErrors() {
-    ['nom', 'prenom', 'username', 'email', 'password', 'confirm-password', 'university'].forEach(id => {
+    ['nom','prenom','username','email','password','confirm-password','university']
+    .forEach(id => {
       const el = document.getElementById(id);
       if(el) el.classList.remove("error");
     });
-    document.getElementById("signup-error").textContent = "";
+    errorBox.textContent = "";
+    successBox.textContent = "";
   }
+
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     clearErrors();
@@ -141,24 +152,35 @@
     if(password !== confirmPassword) { hasError = true; markError("confirm-password", "تأكيد كلمة السر غير متطابق"); }
     if(!university) { hasError = true; markError("university", "اختر الجامعة"); }
     if(hasError) return;
+
     try {
       const userCredential = await auth.createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
       await db.collection("users").doc(user.uid).set({
-        nom, prenom, username, email, university
+        nom, prenom, username, email, university,
+        createdAt: new Date()
       });
-      localStorage.setItem("userProfile", JSON.stringify({nom, prenom, username, email, university}));
-      window.location.href = "lecture.html";
+
+      // رقم التسجيل = UID من Firebase
+      successBox.textContent = `✅ تم التسجيل بنجاح ! رقم تسجيلك: ${user.uid}`;
+      
+      // تخزين بيانات المستخدم محلياً
+      localStorage.setItem("userProfile", JSON.stringify({nom, prenom, username, email, university, uid: user.uid}));
+
+      // تحويل للصفحة بعد 2 ثانية
+      setTimeout(()=> window.location.href = "lecture.html", 2000);
+
     } catch(error) {
       handleFirebaseError(error);
     }
   });
+
   function markError(fieldId, message) {
     const el = document.getElementById(fieldId);
     if(el) el.classList.add("error");
-    const signupError = document.getElementById("signup-error");
-    signupError.textContent = message;
+    errorBox.textContent = message;
   }
+
   function handleFirebaseError(error) {
     let messageArabic = "حدث خطأ غير معروف";
     if(error.code === "auth/email-already-in-use") {
@@ -171,8 +193,9 @@
       messageArabic = "كلمة السر ضعيفة جدًا";
       markError("password", messageArabic);
     }
-    document.getElementById("signup-error").textContent = messageArabic;
+    errorBox.textContent = messageArabic;
   }
+
   function signInWithGoogle() {
     var provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider).then(result => {
@@ -182,11 +205,12 @@
         prenom: '',
         username: user.email.split("@")[0],
         email: user.email,
-        university: ''
+        university: '',
+        uid: user.uid
       }));
       window.location.href = "lecture.html";
     }).catch(error => {
-      document.getElementById("signup-error").textContent = "فشل تسجيل الدخول عبر Google";
+      errorBox.textContent = "فشل تسجيل الدخول عبر Google";
     });
   }
 </script>
