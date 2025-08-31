@@ -21,7 +21,7 @@
       padding: 40px;
       border-radius: 15px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      width: 350px;
+      width: 380px;
       text-align: center;
     }
 
@@ -30,8 +30,7 @@
       color: #222;
     }
 
-    input[type="email"],
-    input[type="password"] {
+    input {
       width: 100%;
       padding: 12px;
       margin-bottom: 15px;
@@ -86,8 +85,15 @@
 
     <div class="error" id="errorMsg"></div>
 
-    <input type="email" id="email" placeholder="Adresse e-mail">
-    <input type="password" id="password" placeholder="Mot de passe">
+    <!-- Champs supplémentaires -->
+    <input type="text" id="prenom" placeholder="Prénom" required>
+    <input type="text" id="nom" placeholder="Nom" required>
+    <input type="text" id="username" placeholder="Nom d'utilisateur" required>
+    <input type="text" id="universite" placeholder="Université" required>
+
+    <input type="email" id="email" placeholder="Adresse e-mail" required>
+    <input type="password" id="password" placeholder="Mot de passe" required>
+    
     <button onclick="register()">S'inscrire</button>
 
     <div class="link">Vous avez déjà un compte ? <a href="login.html">Se connecter</a></div>
@@ -96,6 +102,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
@@ -109,15 +116,32 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
     window.register = function () {
+      const prenom = document.getElementById("prenom").value;
+      const nom = document.getElementById("nom").value;
+      const username = document.getElementById("username").value;
+      const universite = document.getElementById("universite").value;
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       const errorMsg = document.getElementById("errorMsg");
 
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          window.location.href = "lecteur.html";
+        .then(async (userCredential) => {
+          const user = userCredential.user;
+
+          // Enregistrer les infos supplémentaires dans Firestore
+          await setDoc(doc(db, "etudiants", user.uid), {
+            prenom: prenom,
+            nom: nom,
+            username: username,
+            universite: universite,
+            email: email,
+            createdAt: new Date()
+          });
+
+          window.location.href = "profil.html"; // Aller au profil après inscription
         })
         .catch((error) => {
           errorMsg.textContent = "❌ " + error.message;
