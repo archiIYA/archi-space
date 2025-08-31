@@ -36,6 +36,12 @@
       font-size: 60px;
       color: white;
       margin: auto;
+      overflow: hidden;
+    }
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .username {
       margin-top: 15px;
@@ -77,6 +83,9 @@
       border: 1px solid #ccc;
       font-size: 14px;
     }
+    #fileInput {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -90,7 +99,8 @@
       <div class="username" id="usernameDisplay">---</div>
       <div class="email" id="emailDisplay">---</div>
       
-      <button class="btn-dark">Modifier votre photo</button>
+      <input type="file" id="fileInput" accept="image/*" />
+      <button class="btn-dark" onclick="document.getElementById('fileInput').click()">Modifier votre photo</button>
       <button class="btn-outline" onclick="resetPassword()">Modifier votre mot de passe</button>
     </div>
 
@@ -122,14 +132,15 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
 
   <script>
-    // Config Firebase (نفس تبعك)
+    // Config Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
       projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.firebasestorage.app",
+      storageBucket: "archi-space-72624.appspot.com",
       messagingSenderId: "407015246505",
       appId: "1:407015246505:web:c914a78566b882b80df7b8",
       measurementId: "G-RZV7LSDQBD"
@@ -137,12 +148,14 @@
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
+    const storage = firebase.storage();
 
-    // تحميل بيانات المستخدم
+    let currentUserId = null;
+
     auth.onAuthStateChanged(user => {
       if (user) {
+        currentUserId = user.uid;
         document.getElementById("emailDisplay").innerText = user.email;
-        document.getElementById("profilePic").innerText = user.email.charAt(0).toUpperCase();
 
         const userRef = db.collection("users").doc(user.uid);
         userRef.get().then(doc => {
@@ -152,10 +165,16 @@
             document.getElementById("prenom").value = data.prenom || "";
             document.getElementById("username").value = data.username || "";
             document.getElementById("universite").value = data.universite || "";
+            document.getElementById("usernameDisplay").innerText = data.username || user.email.split("@")[0];
 
-            document.getElementById("usernameDisplay").innerText = data.username || "Utilisateur";
+            if (data.photoURL) {
+              document.getElementById("profilePic").innerHTML = `<img src="${data.photoURL}" alt="photo"/>`;
+            } else {
+              document.getElementById("profilePic").innerText = (data.username || user.email).charAt(0).toUpperCase();
+            }
           } else {
             document.getElementById("usernameDisplay").innerText = user.email.split("@")[0];
+            document.getElementById("profilePic").innerText = user.email.charAt(0).toUpperCase();
           }
         });
       } else {
@@ -165,9 +184,8 @@
 
     // حفظ البيانات
     function saveProfile() {
-      const user = auth.currentUser;
-      if (user) {
-        const userRef = db.collection("users").doc(user.uid);
+      if (currentUserId) {
+        const userRef = db.collection("users").doc(currentUserId);
         userRef.set({
           nom: document.getElementById("nom").value,
           prenom: document.getElementById("prenom").value,
@@ -189,12 +207,25 @@
       }
     }
 
+    // رفع صورة جديدة
+    document.getElementById("fileInput").addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (file && currentUserId) {
+        const storageRef = storage.ref("profilePics/" + currentUserId);
+        storageRef.put(file).then(snapshot => {
+          snapshot.ref.getDownloadURL().then(url => {
+            db.collection("users").doc(currentUserId).set({ photoURL: url }, { merge: true });
+            document.getElementById("profilePic").innerHTML = `<img src="${url}" alt="photo"/>`;
+          });
+        });
+      }
+    });
+
     // حذف الحساب
     function deleteAccount() {
       const user = auth.currentUser;
       if (user && confirm("⚠️ Voulez-vous vraiment supprimer votre compte ?")) {
-        const userRef = db.collection("users").doc(user.uid);
-        userRef.delete().then(() => {
+        db.collection("users").doc(user.uid).delete().then(() => {
           user.delete().then(() => {
             alert("Compte supprimé");
             window.location.href = "signup.html";
@@ -205,3 +236,4 @@
   </script>
 </body>
 </html>
+
