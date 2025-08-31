@@ -6,7 +6,8 @@
 <title>Profil Utilisateur - MedSpace</title>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet" />
 <style>
-  /* خطوط وألوان */
+  /* خطوط وألوان وCSS منسق وجاهز للاستجابة */
+  * { box-sizing: border-box; }
   body {
     margin: 0;
     font-family: 'Rubik', sans-serif;
@@ -30,7 +31,6 @@
     --btn-bg: #444;
     --btn-text: #fff;
   }
-  /* Sidebar كما في السابق */
   .sidebar {
     width: 220px;
     background: var(--card-bg);
@@ -42,7 +42,6 @@
     top: 0; left: 0; bottom: 0;
     overflow-y: auto;
   }
-  /* باقي التنسيق كما في الكود السابق مع ضبط الألوان من المتغيرات */
   .sidebar-header {
     padding: 20px;
     border-bottom: 1px solid #ddd;
@@ -112,7 +111,6 @@
     background-color: #f0f0f0;
     border-radius: 8px;
   }
-  /* Main content */
   .main-content {
     flex-grow: 1;
     margin-left: 220px;
@@ -120,13 +118,11 @@
     background: var(--bg-color);
     min-height: 100vh;
   }
-
   h2 {
     font-weight: 700;
     font-size: 2rem;
     margin-bottom: 2rem;
   }
-
   .profile-grid {
     display: flex;
     gap: 40px;
@@ -175,7 +171,6 @@
     color: #666;
     margin-bottom: 15px;
   }
-
   form {
     width: 100%;
     display: flex;
@@ -216,6 +211,7 @@
     transition: background-color 0.3s ease;
     border: none;
     font-size: 1rem;
+    user-select: none;
   }
   button.save-btn {
     background-color: var(--btn-bg);
@@ -231,7 +227,6 @@
   button.delete-btn:hover {
     background-color: #800000;
   }
-  /* إضافات تحت الصورة */
   .pic-settings {
     margin-top: 15px;
     width: 100%;
@@ -246,7 +241,6 @@
     font-weight: 600;
     cursor: pointer;
   }
-  /* زر الوضع الليلي */
   .dark-mode-toggle {
     position: fixed;
     top: 15px;
@@ -259,8 +253,11 @@
     border-radius: 8px;
     font-weight: 700;
     user-select: none;
+    transition: background-color 0.3s ease;
   }
-
+  .dark-mode-toggle:hover {
+    background-color: #333;
+  }
   @media (max-width: 768px) {
     .main-content {
       margin-left: 0;
@@ -282,221 +279,235 @@
 </style>
 </head>
 <body>
-  <nav class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="profile-mini">
-        <div class="mini-pic" id="miniPic">M</div>
-        <div class="mini-info">
-          <div class="mini-username" id="miniUsername">---</div>
-          <div class="mini-email" id="miniEmail">---</div>
-        </div>
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="profile-mini">
+      <div class="mini-pic" id="miniPic">M</div>
+      <div class="mini-info">
+        <div class="mini-username" id="miniUsername">---</div>
+        <div class="mini-email" id="miniEmail">---</div>
       </div>
-      <button class="closebtn" onclick="closeSidebar()">❌</button>
     </div>
-    <ul class="sidebar-nav">
-      <li class="active">🏠 Accueil</li>
-      <li>📊 Statistiques</li>
-      <li>📚 Suivi Cours</li>
-      <li><a href="courses.html">📖 Site des Cours</a></li>
-      <li>❓ Sessions Questions</li>
-      <li>📝 Sessions Examens</li>
-      <li>🏷️ Labels</li>
-      <li>🗒️ Notes</li>
-      <li>🚩 Signals</li>
-      <li>🔔 Notification</li>
-      <li>💳 Abonnement</li>
-      <li>🛠️ Support</li>
-      <li><a href="profil.html">👤 Mon Profil</a></li>
-    </ul>
-  </nav>
+    <button class="closebtn" onclick="closeSidebar()">❌</button>
+  </div>
+  <ul class="sidebar-nav">
+    <li class="active">🏠 Accueil</li>
+    <li>📊 Statistiques</li>
+    <li>📚 Suivi Cours</li>
+    <li><a href="courses.html">📖 Site des Cours</a></li>
+    <li>❓ Sessions Questions</li>
+    <li>📝 Sessions Examens</li>
+    <li>🏷️ Labels</li>
+    <li>🗒️ Notes</li>
+    <li>🚩 Signals</li>
+    <li>🔔 Notification</li>
+    <li>💳 Abonnement</li>
+    <li>🛠️ Support</li>
+    <li><a href="profil.html">👤 Mon Profil</a></li>
+  </ul>
+</nav>
 
-  <button class="dark-mode-toggle" id="darkModeToggle">🌙 Mode Nuit</button>
+<button class="dark-mode-toggle" id="darkModeToggle">🌙 Mode Nuit</button>
 
-  <main class="main-content" id="mainContent">
-    <h2>Mon Profil</h2>
-    <div class="profile-grid">
-      <section class="profile-card">
-        <div class="profile-pic" id="profilePic">M</div>
-        <div class="pic-settings">
-          <label><input type="color" id="picColorPicker" value="#222222" title="Changer la couleur de la photo" /> Couleur</label>
-          <label><input type="checkbox" id="picShapeToggle" /> Cercle</label>
+<main class="main-content" id="mainContent">
+  <h2>Mon Profil</h2>
+  <div class="profile-grid">
+    <section class="profile-card">
+      <div class="profile-pic" id="profilePic">M</div>
+      <div class="pic-settings">
+        <label><input type="color" id="picColorPicker" value="#222222" title="Changer la couleur de la photo" /> Couleur</label>
+        <label><input type="checkbox" id="picShapeToggle" /> Cercle</label>
+      </div>
+      <div class="username-display" id="usernameDisplay">---</div>
+      <div class="email-display" id="emailDisplay">---</div>
+    </section>
+    <section class="profile-card">
+      <form id="profileForm" autocomplete="off">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" name="nom" placeholder="Votre nom" required />
+        
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required />
+        
+        <label for="username">Nom d'utilisateur</label>
+        <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required />
+        
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Votre email" disabled />
+        
+        <label for="universite">Université</label>
+        <input type="text" id="universite" name="universite" placeholder="Nom de l'université" />
+        
+        <div class="buttons-group">
+          <button type="submit" class="save-btn">Enregistrer</button>
+          <button type="button" class="delete-btn" id="deleteBtn">Supprimer mon compte</button>
         </div>
-        <div class="username-display" id="usernameDisplay">---</div>
-        <div class="email-display" id="emailDisplay">---</div>
-      </section>
-      <section class="profile-card">
-        <form id="profileForm" autocomplete="off">
-          <label for="nom">Nom</label>
-          <input type="text" id="nom" name="nom" placeholder="Votre nom" required />
-          
-          <label for="prenom">Prénom</label>
-          <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required />
-          
-          <label for="username">Nom d'utilisateur</label>
-          <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required />
-          
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="Votre email" disabled />
-          
-          <label for="universite">Université</label>
-          <input type="text" id="universite" name="universite" placeholder="Nom de l'université" />
-          
-          <div class="buttons-group">
-            <button type="submit" class="save-btn">Enregistrer</button>
-            <button type="button" class="delete-btn" id="deleteBtn">Supprimer mon compte</button>
-          </div>
-        </form>
-      </section>
-    </div>
-  </main>
+      </form>
+    </section>
+  </div>
+</main>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, deleteUser } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, deleteDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged, deleteUser } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, deleteDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-      authDomain: "archi-space-72624.firebaseapp.com",
-      projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.appspot.com",
-      messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.appspot.com",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  let currentUserId = null;
+  let currentUserEmail = null;
+
+  // Dark mode toggle
+  const darkToggleBtn = document.getElementById("darkModeToggle");
+  function setDarkMode(on) {
+    if (on) {
+      document.body.classList.add("dark-mode");
+      darkToggleBtn.textContent = "☀️ Mode Jour";
+      localStorage.setItem("darkMode", "1");
+    } else {
+      document.body.classList.remove("dark-mode");
+      darkToggleBtn.textContent = "🌙 Mode Nuit";
+      localStorage.setItem("darkMode", "0");
+    }
+  }
+  darkToggleBtn.onclick = () => {
+    setDarkMode(!document.body.classList.contains("dark-mode"));
+  };
+  if(localStorage.getItem("darkMode") === "1") {
+    setDarkMode(true);
+  }
+
+  // Profile picture settings
+  const profilePicDiv = document.getElementById("profilePic");
+  const picColorPicker = document.getElementById("picColorPicker");
+  const picShapeToggle = document.getElementById("picShapeToggle");
+
+  // استرجاع لون وخيار الشكل من التخزين المحلي عند التحميل
+  window.addEventListener("DOMContentLoaded", () => {
+    const savedColor = localStorage.getItem("profilePicColor");
+    const savedShape = localStorage.getItem("profilePicShape");
+
+    if(savedColor) {
+      picColorPicker.value = savedColor;
+      profilePicDiv.style.backgroundColor = savedColor;
+    }
+    if(savedShape) {
+      const isCircle = savedShape === "circle";
+      picShapeToggle.checked = isCircle;
+      profilePicDiv.style.borderRadius = isCircle ? "50%" : "16px";
+    }
+  });
+
+  picColorPicker.addEventListener("input", () => {
+    const color = picColorPicker.value;
+    profilePicDiv.style.backgroundColor = color;
+    localStorage.setItem("profilePicColor", color);
+  });
+
+  picShapeToggle.addEventListener("change", () => {
+    const rounded = picShapeToggle.checked;
+    profilePicDiv.style.borderRadius = rounded ? "50%" : "16px";
+    localStorage.setItem("profilePicShape", rounded ? "circle" : "square");
+  });
+
+  // Authentication and load profile
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      currentUserId = user.uid;
+      currentUserEmail = user.email;
+      document.getElementById("email").value = currentUserEmail || "";
+      await loadProfile(currentUserId);
+    } else {
+      window.location.href = "login.html";
+    }
+  });
+
+  async function loadProfile(userId) {
+    const snap = await getDoc(doc(db, "students", userId));
+    if (snap.exists()) {
+      const data = snap.data();
+      document.getElementById("nom").value = data.nom || "";
+      document.getElementById("prenom").value = data.prenom || "";
+      document.getElementById("username").value = data.username || "";
+      document.getElementById("universite").value = data.universite || "";
+      document.getElementById("usernameDisplay").textContent = data.username || "---";
+      document.getElementById("emailDisplay").textContent = currentUserEmail || "---";
+      const letter = data.username ? data.username[0].toUpperCase() : "M";
+      profilePicDiv.textContent = letter;
+      document.getElementById("miniPic").textContent = letter;
+      document.getElementById("miniUsername").textContent = data.username || "---";
+      document.getElementById("miniEmail").textContent = currentUserEmail || "---";
+    }
+  }
+
+  async function isUsernameUnique(username) {
+    const q = query(collection(db, "students"), where("username", "==", username));
+    const querySnapshot = await getDocs(q);
+    for(let docSnap of querySnapshot.docs) {
+      if(docSnap.id !== currentUserId) return false;
+    }
+    return true;
+  }
+
+  document.getElementById("profileForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!currentUserId) return alert("Utilisateur non connecté");
+    const usernameInput = document.getElementById("username").value.trim();
+
+    if(usernameInput.length === 0) {
+      alert("Le nom d'utilisateur ne peut pas être vide.");
+      return;
+    }
+
+    const isUnique = await isUsernameUnique(usernameInput);
+    if(!isUnique) {
+      alert("Ce nom d'utilisateur est déjà pris. Veuillez en choisir un autre.");
+      return;
+    }
+
+    const data = {
+      nom: document.getElementById("nom").value.trim(),
+      prenom: document.getElementById("prenom").value.trim(),
+      username: usernameInput,
+      universite: document.getElementById("universite").value.trim(),
+      email: currentUserEmail
     };
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    let currentUserId = null;
-    let currentUserEmail = null;
-
-    // Dark mode toggle
-    const darkToggleBtn = document.getElementById("darkModeToggle");
-    function setDarkMode(on) {
-      if (on) {
-        document.body.classList.add("dark-mode");
-        darkToggleBtn.textContent = "☀️ Mode Jour";
-        localStorage.setItem("darkMode", "1");
-      } else {
-        document.body.classList.remove("dark-mode");
-        darkToggleBtn.textContent = "🌙 Mode Nuit";
-        localStorage.setItem("darkMode", "0");
-      }
+    try {
+      await setDoc(doc(db, "students", currentUserId), data, { merge: true });
+      alert("Profil mis à jour avec succès !");
+      loadProfile(currentUserId);
+    } catch (error) {
+      alert("Erreur lors de la sauvegarde : " + error.message);
     }
-    darkToggleBtn.onclick = () => {
-      setDarkMode(!document.body.classList.contains("dark-mode"));
-    };
-    if(localStorage.getItem("darkMode") === "1") {
-      setDarkMode(true);
+  });
+
+  document.getElementById("deleteBtn").addEventListener("click", async () => {
+    if (!currentUserId) return alert("Utilisateur non connecté");
+    if (!confirm("Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.")) return;
+    try {
+      await deleteDoc(doc(db, "students", currentUserId));
+      await deleteUser(auth.currentUser);
+      alert("Compte supprimé avec succès !");
+      window.location.href = "login.html";
+    } catch (error) {
+      alert("Erreur lors de la suppression : " + error.message + " (Assurez-vous que la session est récente)");
     }
+  });
 
-    // Profile picture settings
-    const profilePicDiv = document.getElementById("profilePic");
-    const picColorPicker = document.getElementById("picColorPicker");
-    const picShapeToggle = document.getElementById("picShapeToggle");
-
-    picColorPicker.addEventListener("input", () => {
-      profilePicDiv.style.backgroundColor = picColorPicker.value;
-    });
-    picShapeToggle.addEventListener("change", () => {
-      profilePicDiv.style.borderRadius = picShapeToggle.checked ? "50%" : "16px";
-    });
-
-    // Authentication and Profile Load
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        currentUserId = user.uid;
-        currentUserEmail = user.email;
-        document.getElementById("email").value = currentUserEmail || "";
-        await loadProfile(currentUserId);
-      } else {
-        window.location.href = "login.html";
-      }
-    });
-
-    async function loadProfile(userId) {
-      const snap = await getDoc(doc(db, "students", userId));
-      if (snap.exists()) {
-        const data = snap.data();
-        document.getElementById("nom").value = data.nom || "";
-        document.getElementById("prenom").value = data.prenom || "";
-        document.getElementById("username").value = data.username || "";
-        document.getElementById("universite").value = data.universite || "";
-        document.getElementById("usernameDisplay").textContent = data.username || "---";
-        document.getElementById("emailDisplay").textContent = currentUserEmail || "---";
-        const letter = data.username ? data.username[0].toUpperCase() : "M";
-        profilePicDiv.textContent = letter;
-        document.getElementById("miniPic").textContent = letter;
-        document.getElementById("miniUsername").textContent = data.username || "---";
-        document.getElementById("miniEmail").textContent = currentUserEmail || "---";
-      }
-    }
-
-    // Helper to check uniqueness username and email
-    async function isUsernameUnique(username) {
-      const q = query(collection(db, "students"), where("username", "==", username));
-      const querySnapshot = await getDocs(q);
-      for(let docSnap of querySnapshot.docs) {
-        if(docSnap.id !== currentUserId) return false;
-      }
-      return true;
-    }
-
-    // Form submit with validation and save
-    document.getElementById("profileForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (!currentUserId) return alert("Utilisateur non connecté");
-      const usernameInput = document.getElementById("username").value.trim();
-
-      if(usernameInput.length === 0) {
-        alert("Le nom d'utilisateur ne peut pas être vide.");
-        return;
-      }
-
-      const isUnique = await isUsernameUnique(usernameInput);
-      if(!isUnique) {
-        alert("Ce nom d'utilisateur est déjà pris. Veuillez en choisir un autre.");
-        return;
-      }
-
-      const data = {
-        nom: document.getElementById("nom").value.trim(),
-        prenom: document.getElementById("prenom").value.trim(),
-        username: usernameInput,
-        universite: document.getElementById("universite").value.trim(),
-        email: currentUserEmail
-      };
-
-      try {
-        await setDoc(doc(db, "students", currentUserId), data, { merge: true });
-        alert("Profil mis à jour avec succès !");
-        loadProfile(currentUserId);
-      } catch (error) {
-        alert("Erreur lors de la sauvegarde : " + error.message);
-      }
-    });
-
-    // Delete account button
-    document.getElementById("deleteBtn").addEventListener("click", async () => {
-      if (!currentUserId) return alert("Utilisateur non connecté");
-      if (!confirm("Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.")) return;
-      try {
-        await deleteDoc(doc(db, "students", currentUserId));
-        await deleteUser(auth.currentUser);
-        alert("Compte supprimé avec succès !");
-        window.location.href = "login.html";
-      } catch (error) {
-        alert("Erreur lors de la suppression : " + error.message + " (Assurez-vous que la session est récente)");
-      }
-    });
-
-    // Close sidebar function
-    function closeSidebar() {
-      document.getElementById("sidebar").style.display = "none";
-      document.getElementById("mainContent").style.marginLeft = "0";
-    }
-  </script>
+  function closeSidebar() {
+    document.getElementById("sidebar").style.display = "none";
+    document.getElementById("mainContent").style.marginLeft = "0";
+  }
+</script>
 </body>
 </html>
