@@ -12,6 +12,7 @@
       margin: 0;
       transition: margin-left 0.3s;
     }
+
     /* Sidebar */
     .sidebar {
       height: 100%;
@@ -20,20 +21,57 @@
       top: 0;
       left: -220px;
       background: #11152b;
-      padding-top: 60px;
+      padding-top: 20px;
       transition: 0.3s;
       z-index: 1000;
-    }
-    .sidebar a {
-      display: block;
       color: white;
+    }
+    .sidebar.active { left: 0; }
+    .sidebar-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid #2b2f4a;
+      margin-bottom: 10px;
+    }
+    .profile-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mini-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: #3c3c55;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+    .mini-username { font-size: 14px; font-weight: 600; }
+    .mini-email { font-size: 12px; color: #bbb; }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar ul li {
       padding: 12px 20px;
-      text-decoration: none;
       font-size: 16px;
+      cursor: pointer;
     }
-    .sidebar a:hover {
+    .sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      display: block;
+    }
+    .sidebar ul li:hover,
+    .sidebar ul li.active,
+    .sidebar ul li a:hover {
       background: #1f2340;
+      border-radius: 6px;
     }
+
     .openbtn {
       font-size: 22px;
       cursor: pointer;
@@ -45,17 +83,13 @@
       margin: 10px;
     }
     .openbtn:hover { background: #000; }
-    .sidebar.active {
-      left: 0;
-    }
+
     .main {
       transition: margin-left 0.3s;
       padding: 20px;
       margin-left: 0;
     }
-    .sidebar.active ~ .main {
-      margin-left: 220px;
-    }
+    .sidebar.active ~ .main { margin-left: 220px; }
 
     /* Profile Cards */
     .container {
@@ -116,9 +150,7 @@
     .btn-outline:hover { background: orange; color: white; }
     .btn-danger { background: #dc3545; color: white; }
     .btn-danger:hover { background: #b52a37; }
-    .form-group {
-      margin-bottom: 15px;
-    }
+    .form-group { margin-bottom: 15px; }
     label {
       display: block;
       margin-bottom: 6px;
@@ -133,6 +165,7 @@
       font-size: 14px;
     }
     #fileInput { display: none; }
+
     /* Themes */
     .themes {
       display: flex;
@@ -147,9 +180,7 @@
       border: 2px solid #ccc;
       cursor: pointer;
     }
-    .theme-btn.active {
-      border: 3px solid black;
-    }
+    .theme-btn.active { border: 3px solid black; }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -163,10 +194,30 @@
 
   <!-- Sidebar -->
   <div class="sidebar" id="mySidebar">
-    <a href="#">🏠 Accueil</a>
-    <a href="profil.html">👤 Profil</a>
-    <a href="#">⚙️ Paramètres</a>
-    <a href="#">🚪 Déconnexion</a>
+    <div class="sidebar-header">
+      <div class="profile-mini">
+        <div class="mini-pic">M</div>
+        <div>
+          <div class="mini-username" id="miniUsername">---</div>
+          <div class="mini-email" id="miniEmail">---</div>
+        </div>
+      </div>
+    </div>
+    <ul>
+      <li class="active">🏠 Accueil</li>
+      <li>📊 Statistiques</li>
+      <li>📚 Suivi Cours</li>
+      <li><a href="courses.html">📖 Site des Cours</a></li>
+      <li>❓ Sessions Questions</li>
+      <li>📝 Sessions Examens</li>
+      <li>🏷️ Labels</li>
+      <li>🗒️ Notes</li>
+      <li>🚩 Signals</li>
+      <li>🔔 Notification</li>
+      <li>💳 Abonnement</li>
+      <li>🛠️ Support</li>
+      <li><a href="profil.html">👤 Mon Profil</a></li>
+    </ul>
   </div>
 
   <!-- Main -->
@@ -226,8 +277,8 @@
     }
   </script>
 
-  <!-- Firebase (نفس السكريبت السابق: auth + firestore + storage + themes) -->
-  <!-- ⚠️ هنا تحط نفس كود Firebase اللي أعطيتك في الرسالة السابقة -->
+  <!-- Firebase scripts هنا تضيف auth + firestore + storage -->
 </body>
 </html>
+
 
