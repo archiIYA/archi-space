@@ -1,100 +1,96 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Créer un compte - archi.space</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #ffffff;
-      margin: 0;
-      padding: 0;
+      font-family: 'Rubik', sans-serif;
+      background: #f5f5f5;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
+      margin: 0;
     }
     .signup-box {
-      background: #f5f5f5;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       width: 380px;
       text-align: center;
     }
-    h2 {
-      margin-bottom: 30px;
-      color: #222;
+    .signup-box h2 {
+      margin-bottom: 20px;
     }
-    input {
+    input, select {
       width: 100%;
       padding: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
+      margin: 8px 0;
       border-radius: 8px;
-      font-size: 1em;
+      border: 1px solid #ccc;
     }
     button {
-      background-color: #2a9d8f;
-      color: white;
-      padding: 12px;
       width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background: #2a9d8f;
+      color: white;
       border: none;
       border-radius: 8px;
-      font-size: 1em;
       cursor: pointer;
+      font-weight: bold;
     }
     button:hover {
-      background-color: #21867a;
+      background: #21867a;
+    }
+    .message {
+      margin-top: 12px;
+      font-size: 0.9em;
+    }
+    .success {
+      color: green;
     }
     .error {
       color: red;
-      font-size: 0.9em;
-      margin-bottom: 10px;
-      min-height: 20px;
-    }
-    .link {
-      margin-top: 15px;
-      font-size: 0.9em;
-    }
-    .link a {
-      color: #2a9d8f;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .logo {
-      max-width: 100px;
-      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
   <div class="signup-box">
-    <img src="Capture d'écran 2025-07-21 212951.png" alt="Logo" class="logo" />
     <h2>Créer un compte</h2>
-    <div class="error" id="errorMsg"></div>
-    <!-- Champs d'inscription -->
-    <input type="text" id="prenom" placeholder="Prénom" required />
-    <input type="text" id="nom" placeholder="Nom" required />
-    <input type="text" id="username" placeholder="Nom d'utilisateur" required />
-    <input type="text" id="universite" placeholder="Université" required />
-    <input type="email" id="email" placeholder="Adresse e-mail" required />
-    <input type="password" id="password" placeholder="Mot de passe" required />
+    <input type="text" id="nom" placeholder="Nom" required>
+    <input type="text" id="prenom" placeholder="Prénom" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Mot de passe" required>
+    <input type="password" id="confirmPassword" placeholder="Confirmer le mot de passe" required>
+    <select id="universite" required>
+      <option value="">-- Choisir votre université --</option>
+      <option value="Université d'Alger">Université d'Alger</option>
+      <option value="Université de Constantine">Université de Constantine</option>
+      <option value="Université d'Oran">Université d'Oran</option>
+      <option value="Autre">Autre</option>
+    </select>
     <button onclick="register()">S'inscrire</button>
-    <div class="link">Vous avez déjà un compte ? <a href="login.html">Se connecter</a></div>
+    <p class="message" id="message"></p>
   </div>
 
+  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
+    // ✅ Config Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
       projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.appspot.com",
+      storageBucket: "archi-space-72624.firebasestorage.app",
       messagingSenderId: "407015246505",
       appId: "1:407015246505:web:c914a78566b882b80df7b8",
       measurementId: "G-RZV7LSDQBD"
@@ -103,57 +99,62 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const errorMsg = document.getElementById("errorMsg");
 
-    async function isUsernameUnique(username) {
-      const q = query(collection(db, "etudiants"), where("username", "==", username));
-      const docs = await getDocs(q);
-      return docs.empty;
-    }
-
-    window.register = async function () {
-      errorMsg.textContent = "";
-      const prenom = document.getElementById("prenom").value.trim();
+    // ✅ Fonction d'inscription
+    async function register() {
       const nom = document.getElementById("nom").value.trim();
-      const username = document.getElementById("username").value.trim();
-      const universite = document.getElementById("universite").value.trim();
+      const prenom = document.getElementById("prenom").value.trim();
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      const universite = document.getElementById("universite").value;
+      const message = document.getElementById("message");
 
-      if (!prenom || !nom || !username || !universite || !email || !password) {
-        errorMsg.textContent = "Veuillez remplir tous les champs.";
-        return;
-      }
+      message.textContent = "";
+      message.className = "message";
 
-      // تحقق من عدم تكرار اسم المستخدم
-      const usernameUnique = await isUsernameUnique(username);
-      if (!usernameUnique) {
-        errorMsg.textContent = "Ce nom d'utilisateur existe déjà. Veuillez en choisir un autre.";
+      // Vérif mots de passe
+      if (password !== confirmPassword) {
+        message.textContent = "❌ Les mots de passe ne correspondent pas";
+        message.classList.add("error");
         return;
       }
 
       try {
-        // إنشاء حساب Firebase Authentication
+        // Création utilisateur Firebase
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // تسجيل بيانات إضافية في Firestore تحت مجموعة etudiants مع معرف المستخدم كـ UID
-        await setDoc(doc(db, "etudiants", user.uid), {
-          prenom,
+        // Générer un numéro d'inscription unique
+        const registrationId = uuidv4();
+
+        // Sauvegarder les infos dans Firestore
+        await setDoc(doc(db, "users", user.uid), {
           nom,
-          username,
-          universite,
+          prenom,
           email,
+          universite,
+          registrationId,
           createdAt: new Date()
         });
 
-        // إعادة التوجيه إلى صفحة الملف الشخصي بعد تسجيل ناجح
-        window.location.href = "profil.html";
+        // Succès
+        message.textContent = `✅ Inscription réussie ! Votre N°: ${registrationId}`;
+        message.classList.add("success");
+
+        // Redirection après 2 secondes
+        setTimeout(() => {
+          window.location.href = "accueil.html";
+        }, 2000);
 
       } catch (error) {
-        errorMsg.textContent = "❌ " + error.message;
+        message.textContent = "❌ Erreur : " + error.message;
+        message.classList.add("error");
       }
-    };
+    }
+
+    window.register = register;
   </script>
 </body>
 </html>
+
