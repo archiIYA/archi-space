@@ -14,6 +14,9 @@
   .left-side {
     flex: 1; background: #e9ecef; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px;
   }
+  .left-side img {
+    width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;
+  }
   .left-side p {
     margin-top: 20px; font-size: 1rem; color: #333;
   }
@@ -57,7 +60,8 @@
 <body>
 <div class="container">
   <div class="left-side">
-    <div style="width: 100%; height: 400px; background: #ccc; border-radius: 8px;"></div>
+    <!-- 🔽 ضع رابط الصورة هنا بدل example.jpg -->
+    <img src="example.jpg" alt="Inscription image" />
     <p>Vous avez déjà un compte</p>
     <button onclick="window.location.href='login.html'">Se Connecter</button>
   </div>
@@ -103,18 +107,20 @@
   </div>
 </div>
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 <script>
   // إعداد Firebase
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.appspot.com",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+    measurementId: "G-RZV7LSDQBD"
   };
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
@@ -161,13 +167,8 @@
         createdAt: new Date()
       });
 
-      // رقم التسجيل = UID من Firebase
       successBox.textContent = `✅ تم التسجيل بنجاح ! رقم تسجيلك: ${user.uid}`;
-      
-      // تخزين بيانات المستخدم محلياً
       localStorage.setItem("userProfile", JSON.stringify({nom, prenom, username, email, university, uid: user.uid}));
-
-      // تحويل للصفحة بعد 2 ثانية
       setTimeout(()=> window.location.href = "lecture.html", 2000);
 
     } catch(error) {
