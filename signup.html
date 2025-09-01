@@ -9,20 +9,13 @@
     margin:0; padding:0; height:100%; font-family: Arial, sans-serif; background:#f8f9fb;
   }
   .container {
-    display: flex; height: 100vh; flex-wrap: wrap;
+    display: flex; height: 100vh;
   }
   .left-side {
-    flex: 1; background: #e9ecef; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding: 20px; position: relative;
+    flex: 1; background: #e9ecef; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px;
   }
-  /* ✅ مكان اللوغو */
-  .logo-box {
-    width: 100%; height: 120px; background: #dcdcdc; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; border-radius: 6px;
-  }
-  .logo-box img {
-    max-height: 100%; max-width: 100%; object-fit: contain;
-  }
-  .left-side img.cover {
-    width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px;
+  .left-side img {
+    width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;
   }
   .left-side p {
     margin-top: 20px; font-size: 1rem; color: #333;
@@ -63,38 +56,30 @@
     border: 2px solid red;
   }
 
-  /* ✅ Responsive */
-  @media(max-width: 768px) {
-    .container {
-      flex-direction: column;
-      height: auto;
-    }
-    .left-side, .right-side {
-      flex: unset;
-      width: 100%;
-      padding: 20px;
-    }
-    .left-side img.cover {
-      max-height: 200px;
-    }
-    .logo-box {
-      height: 80px;
-    }
+  /* 🟢 تنسيقات اللوغو */
+  .logo-container {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  .logo-container img {
+    max-width: 180px;
+    height: auto;
   }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="left-side">
-    <!-- ✅ مكان اللوغو -->
-    <div class="logo-box">
-      <img src="logo.png" alt="Logo" />
-    </div>
-    <img src="example.jpg" alt="Inscription image" class="cover" />
+    <img src="example.jpg" alt="Inscription image" />
     <p>Vous avez déjà un compte</p>
     <button onclick="window.location.href='login.html'">Se Connecter</button>
   </div>
   <div class="right-side">
+    <!-- 🟢 مكان اللوغو -->
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo" />
+    </div>
+
     <h2>Inscription</h2>
     <form id="signup-form" novalidate>
       <input type="text" id="nom" placeholder="Nom *" required />
@@ -136,7 +121,7 @@
   </div>
 </div>
 
-<!-- 🔥 Firebase JS (نفس كودك الأصلي بدون تعديل) -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
@@ -202,7 +187,10 @@
       successBox.textContent = `🎉 تم التسجيل بنجاح! سيتم تحويلك بعد لحظات...`;
       localStorage.setItem("userProfile", JSON.stringify({nom, prenom, username, email, university, uid: user.uid}));
 
-      setTimeout(() => window.location.href = "lecture.html", 2000);
+      // 🟢 التوجيه بعد النجاح
+      setTimeout(() => {
+        window.location.href = "./lecture.html";
+      }, 2000);
 
     } catch(error) {
       handleFirebaseError(error);
@@ -242,7 +230,7 @@
         university: '',
         uid: user.uid
       }));
-      window.location.href = "lecture.html";
+      window.location.href = "./lecture.html";
     }).catch(error => {
       errorBox.textContent = "فشل تسجيل الدخول عبر Google: " + error.message;
     });
