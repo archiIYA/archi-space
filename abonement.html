@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ARCHISpace </title>
+    <title>ARCHISpace 🚀</title>
     <link rel="icon" href="/logo-dba777a9.svg" />
 
     <!-- Fonts -->
@@ -11,8 +11,6 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
       rel="stylesheet"
     />
-
-    <!-- CSS -->
     <link rel="stylesheet" href="/index-2bc4f10a.css" />
 
     <style>
@@ -82,7 +80,6 @@
       }
     </style>
   </head>
-
   <body>
     <div class="container">
       <h2>🔑 Activer un abonnement avec un code</h2>
@@ -94,71 +91,52 @@
         />
         <button onclick="activateCode()">Valider</button>
       </div>
-
       <hr />
-       <div class="pack-card">
-          <p>ARCHITECTURE</p>
-          <h3>1ère année</h3>
-          <p>Pack 1ère Année 2025</p>
-          <button
-            class="btn-buy"
-            onclick="window.open('https://t.me/Trendyplaza_bot', '_blank')"
-          >
-            Achat en ligne
-          </button>
-        </div>
-      </div>
-    </div>
-     <div class="pack-card">
-          <p>ARCHITECTURE</p>
-          <h3>2ème année</h3>
-          <p>Pack 2ème Année 2025</p>
-          <button
-            class="btn-buy"
-            onclick="window.open('https://t.me/Trendyplaza_bot', '_blank')"
-          >
-            Achat en ligne
-          </button>
-        </div>
-      </div>
-    </div>
-     <div class="pack-card">
-          <p>ARCHITECTURE</p>
-          <h3>3ème année</h3>
-          <p>Pack 3ème Année 2025</p>
-          <button
-            class="btn-buy"
-            onclick="window.open('https://t.me/Trendyplaza_bot', '_blank')"
-          >
-            Achat en ligne
-          </button>
-        </div>
-      </div>
-    </div>
-
       <div class="packs">
         <h2>🎓 Acheter un abonnement</h2>
 
-        <div class="pack-card">
+        <!-- Exemple pour chaque année -->
+        <div class="pack-card" data-pack="1_annee">
           <p>ARCHITECTURE</p>
-          <h3>4ème année</h3>
-          <p>Pack 4ème Année 2025</p>
-          <button
-            class="btn-buy"
-            onclick="window.open('https://t.me/Trendyplaza_bot', '_blank')"
-          >
+          <h3>1ère année</h3>
+          <p>Pack 1ère Année 2025</p>
+          <button class="btn-buy" onclick="buyPack('1_annee')">
             Achat en ligne
           </button>
         </div>
 
-        <div class="pack-card">
+        <div class="pack-card" data-pack="2_annee">
+          <p>ARCHITECTURE</p>
+          <h3>2ème année</h3>
+          <p>Pack 2ème Année 2025</p>
+          <button class="btn-buy" onclick="buyPack('2_annee')">
+            Achat en ligne
+          </button>
+        </div>
+
+        <div class="pack-card" data-pack="3_annee">
+          <p>ARCHITECTURE</p>
+          <h3>3ème année</h3>
+          <p>Pack 3ème Année 2025</p>
+          <button class="btn-buy" onclick="buyPack('3_annee')">
+            Achat en ligne
+          </button>
+        </div>
+
+        <div class="pack-card" data-pack="4_annee">
+          <p>ARCHITECTURE</p>
+          <h3>4ème année</h3>
+          <p>Pack 4ème Année 2025</p>
+          <button class="btn-buy" onclick="buyPack('4_annee')">
+            Achat en ligne
+          </button>
+        </div>
+
+        <div class="pack-card" data-pack="5_annee">
           <p>ARCHITECTURE</p>
           <h3>5ème année</h3>
           <p>Pack 5ème Année 2025</p>
-          <button
-            class="btn-buy"
-            onclick="window.open('https://t.me/Trendyplaza_bot', '_blank')"
-          >
+          <button class="btn-buy" onclick="buyPack('5_annee')">
             Achat en ligne
           </button>
         </div>
@@ -174,18 +152,20 @@
           return;
         }
 
+        // هنا تقدر تزيد اختيار الباك يدوياً أو تخليه افتراضي
+        const selectedPack = "5_annee"; 
+
         try {
           const response = await fetch("http://127.0.0.1:5000/api/verify", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ code: code, pack: "5_ans" }),
+            body: JSON.stringify({ code: code, pack: selectedPack }),
           });
 
           const result = await response.json();
           alert(result.message);
 
           if (result.status === "success") {
-            // ✅ تحويل للداشبورد أو صفحة المواد
             window.location.href = "dashboard.html";
           }
         } catch (err) {
@@ -193,7 +173,12 @@
           alert("⚠️ Erreur de connexion au serveur.");
         }
       }
+
+      function buyPack(pack) {
+        // ممكن هنا تبعث الباك للباك إند أو تفتح البوت مباشرة
+        console.log("Pack choisi :", pack);
+        window.open("https://t.me/Trendyplaza_bot", "_blank");
+      }
     </script>
   </body>
 </html>
-
