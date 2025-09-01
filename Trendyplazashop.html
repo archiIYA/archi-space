@@ -522,5 +522,26 @@
       .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
     });
   </script>
+  <script>
+  // منع النقر بالزر الأيمن
+  document.addEventListener('contextmenu', event => event.preventDefault());
+
+  // تعطيل اختصارات لوحة المفاتيح
+  document.addEventListener('keydown', function(event) {
+    // منع Ctrl+U
+    if (event.ctrlKey && event.key === 'u') {
+      event.preventDefault();
+    }
+    // منع F12 (أدوات المطور)
+    if (event.key === 'F12') {
+      event.preventDefault();
+    }
+    // منع Ctrl+Shift+I (أدوات المطور)
+    if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+      event.preventDefault();
+    }
+  });
+</script>
+
 </body>
 </html>
