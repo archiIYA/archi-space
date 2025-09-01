@@ -107,7 +107,7 @@
     .top-banner {
       background: #0d013d;
       width: calc(100% + 80px);
-      height: 100px;
+      height: 120px; /* زيادة الارتفاع */
       position: absolute;
       top: 0;
       left: -40px;
@@ -119,8 +119,10 @@
       border-radius: 0 0 15px 15px;
     }
     .top-banner img {
-      max-width: 80px;
+      max-width: 120px; /* زيادة حجم الشعار */
       height: auto;
+      max-height: 80px; /* تحديد أقصى ارتفاع */
+      object-fit: contain; /* للحفاظ على التناسب */
     }
     h2 {
       margin-top: 20px; /* ✅ صارت أصغر لأن padding عوض */
@@ -317,8 +319,13 @@
       }
       .top-banner {
         width: calc(100% + 40px);
+        height: 100px; /* تعديل الارتفاع للشاشات الصغيرة */
         left: -20px;
         right: -20px;
+      }
+      .top-banner img {
+        max-width: 100px; /* تعديل حجم الشعار للشاشات الصغيرة */
+        max-height: 60px;
       }
       h2 {
         margin-top: 10px;
@@ -330,6 +337,27 @@
       .input-group {
         flex-direction: column;
         gap: 15px;
+      }
+    }
+
+    /* تحسينات إضافية للشاشات الكبيرة جدًا */
+    @media (min-width: 1200px) {
+      .top-banner {
+        height: 140px;
+      }
+      .top-banner img {
+        max-width: 150px;
+        max-height: 100px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .top-banner {
+        height: 90px;
+      }
+      .top-banner img {
+        max-width: 80px;
+        max-height: 50px;
       }
     }
   </style>
@@ -460,9 +488,13 @@
         await db.collection("users").doc(user.uid).set({
           nom, prenom, username, email, university, createdAt: new Date()
         });
+        
+        // تخزين معلومات المستخدم في localStorage
         localStorage.setItem("userProfile", JSON.stringify({nom, prenom, username, email, university, uid: user.uid}));
+        
         successBox.textContent = "🎉 Inscription réussie ! Redirection en cours...";
         setTimeout(() => {
+          // التأكد من أن المسار صحيح
           window.location.href = "lecteur.html";
         }, 1500);
       } catch (err) {
@@ -552,6 +584,22 @@
     } else {
       document.querySelector('.dark-mode-toggle').innerHTML = "☀️";
     }
+
+    // التحقق من حالة المصادقة عند تحميل الصفحة
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("User is signed in:", user.uid);
+        // إذا كان المستخدم مسجلاً دخوله بالفعل، يمكن توجيهه مباشرة
+        const userProfile = localStorage.getItem("userProfile");
+        if (userProfile && window.location.pathname.endsWith("index.html")) {
+          setTimeout(() => {
+            window.location.href = "lecteur.html";
+          }, 1000);
+        }
+      } else {
+        console.log("User is signed out");
+      }
+    });
   </script>
 </body>
 </html>
