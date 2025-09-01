@@ -97,7 +97,7 @@
       justify-content: flex-start;
       align-items: center;
       background: white;
-      padding: 150px 40px 30px 40px; 
+      padding: 150px 40px 30px 40px;
       transition: background-color 0.3s ease;
       position: relative;
     }
@@ -107,7 +107,7 @@
     .top-banner {
       background: #0d013d;
       width: calc(100% + 80px);
-      height: 120px; 
+      height: 120px;
       position: absolute;
       top: 0;
       left: -40px;
@@ -126,7 +126,7 @@
       max-height: none;
     }
     h2 {
-      margin-top: 20px; 
+      margin-top: 20px;
       margin-bottom: 25px;
       font-size: 2em;
       color: #0d013d;
@@ -316,11 +316,11 @@
         display: none;
       }
       .right-side {
-        padding: 130px 20px 20px 20px; 
+        padding: 130px 20px 20px 20px;
       }
       .top-banner {
         width: calc(100% + 40px);
-        height: 100px; 
+        height: 100px;
         left: -20px;
         right: -20px;
       }
@@ -381,6 +381,21 @@
       <form id="signup-form" novalidate>
         <p id="error-message"></p>
         <p id="success-message"></p>
+        
+        <input type="email" id="email" placeholder="Adresse e-mail *" required />
+        <div class="input-wrapper">
+          <input type="password" id="password" placeholder="Mot de passe *" required />
+          <span class="password-toggle" onclick="togglePasswordVisibility('password')">
+            <i class="far fa-eye"></i>
+          </span>
+        </div>
+        <div class="input-wrapper">
+          <input type="password" id="confirm-password" placeholder="Confirmer le mot de passe *" required />
+          <span class="password-toggle" onclick="togglePasswordVisibility('confirm-password')">
+            <i class="far fa-eye"></i>
+          </span>
+        </div>
+        
         <button type="submit">S'inscrire</button>
         <div class="or">Ou</div>
         <button type="button" class="google-btn" onclick="signInWithGoogle()">
@@ -410,26 +425,85 @@
     const db = firebase.firestore();
 
     const form = document.getElementById("signup-form");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirm-password");
     const errorBox = document.getElementById("error-message");
     const successBox = document.getElementById("success-message");
 
     function clearMessages() {
       errorBox.textContent = "";
       successBox.textContent = "";
-      // No input fields to clear errors from
+      emailInput.classList.remove('error');
+      passwordInput.classList.remove('error');
+      confirmPasswordInput.classList.remove('error');
+    }
+
+    function markError(elementId, message) {
+      document.getElementById(elementId).classList.add('error');
+      errorBox.textContent = message;
     }
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       clearMessages();
 
-      // Since there are no input fields, the form submission will not create a new user.
-      // You may need to reconsider the purpose of this form.
-      errorBox.textContent = "⚠️ No input fields to process registration.";
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      let hasError = false;
+      if (!email) {
+        hasError = true;
+        markError("email", "⚠️ Veuillez entrer votre adresse e-mail.");
+      } else if (!isValidEmail(email)) {
+          hasError = true;
+          markError("email", "⚠️ Veuillez entrer une adresse e-mail valide.");
+      }
+      if (!password) {
+        hasError = true;
+        markError("password", "⚠️ Veuillez choisir un mot de passe.");
+      } else if (password.length < 6) {
+        hasError = true;
+        markError("password", "⚠️ Le mot de passe doit contenir au moins 6 caractères.");
+      }
+      if (password !== confirmPassword) {
+        hasError = true;
+        markError("confirm-password", "⚠️ Les mots de passe ne correspondent pas.");
+      }
+      if (hasError) return;
+
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        await db.collection("users").doc(user.uid).set({
+          email,
+          createdAt: new Date()
+        });
+        localStorage.setItem("userProfile", JSON.stringify({ email, uid: user.uid }));
+        successBox.textContent = "🎉 Inscription réussie ! Redirection en cours...";
+        setTimeout(() => {
+          window.location.href = "lecteur.html";
+        }, 1500);
+      } catch (err) {
+        handleFirebaseError(err);
+      }
     });
 
     function handleFirebaseError(err) {
-      errorBox.textContent = "⚠️ Firebase error: " + err.message;
+      let errorMessage = "⚠️ Erreur lors de l'inscription. Veuillez réessayer.";
+      if (err.code === "auth/email-already-in-use") {
+        errorMessage = "⚠️ Cette adresse e-mail est déjà utilisée.";
+        markError("email", errorMessage);
+      } else if (err.code === "auth/invalid-email") {
+        errorMessage = "⚠️ L'adresse e-mail n'est pas valide.";
+        markError("email", errorMessage);
+      } else if (err.code === "auth/weak-password") {
+        errorMessage = "⚠️ Le mot de passe est trop faible. Il doit contenir au moins 6 caractères.";
+        markError("password", errorMessage);
+      } else {
+        errorBox.textContent = errorMessage;
+      }
     }
 
     async function signInWithGoogle() {
@@ -456,6 +530,11 @@
       }
     }
 
+    function isValidEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(String(email).toLowerCase());
+    }
+
     // Dark Mode Toggle Logic
     window.toggleDarkMode = function() {
       document.body.classList.toggle('dark-mode');
@@ -464,9 +543,19 @@
       document.querySelector('.dark-mode-toggle').innerHTML = isDarkMode ? "🌙" : "☀️";
     };
 
-    // Toggle Password Visibility (function is now redundant without password field)
+    // Toggle Password Visibility
     window.togglePasswordVisibility = function(fieldId) {
-      console.warn("Password toggle function called on a form without a password field.");
+      const passwordField = document.getElementById(fieldId);
+      const icon = passwordField.nextElementSibling.querySelector('i');
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        passwordField.type = "password";
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
     };
 
     // Apply saved mode on page load
