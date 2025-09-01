@@ -1,426 +1,557 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inscription</title>
-  <style>
-    /* Global Styles & Dark Mode */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body, html {
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      background: #f4f6fb;
-      color: #333;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    body.dark-mode {
-      background: #1a1a1a;
-      color: #e0e0e0;
-    }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Global Styles & Dark Mode */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body, html {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: #f4f6fb;
+      color: #333;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      direction: ltr;
+    }
+    body.dark-mode {
+      background: #1a1a1a;
+      color: #e0e0e0;
+    }
 
-    /* Main Container */
-    .container {
-      display: flex;
-      min-height: 100vh;
-    }
+    /* Main Container */
+    .container {
+      display: flex;
+      min-height: 100vh;
+      overflow: hidden;
+    }
 
-    /* Left Side (Image & Login) */
-    .left-side {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: #f1f3f8;
-      padding: 40px;
-      transition: background-color 0.3s ease;
-    }
-    body.dark-mode .left-side {
-      background: #2a2a2a;
-    }
-    .left-side img {
-      max-width: 350px;
-    }
-    .left-side p {
-      margin-top: 20px;
-    }
-    .left-side button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      border: 1px solid #333;
-      background: transparent;
-      cursor: pointer;
-      border-radius: 5px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    body.dark-mode .left-side button {
-      border-color: #e0e0e0;
-      color: #e0e0e0;
-    }
-    .left-side button:hover {
-      background: #333;
-      color: white;
-    }
-    body.dark-mode .left-side button:hover {
-      background: #e0e0e0;
-      color: #1a1a1a;
-    }
+    /* Left Side (Image & Login) */
+    .left-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #f1f3f8;
+      padding: 40px;
+      transition: background-color 0.3s ease;
+    }
+    body.dark-mode .left-side {
+      background: #2a2a2a;
+    }
+    .left-side img {
+      max-width: 80%;
+      height: auto;
+      margin-bottom: 30px;
+    }
+    .left-side p {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.1em;
+      color: #555;
+      transition: color 0.3s ease;
+    }
+    body.dark-mode .left-side p {
+      color: #bbb;
+    }
+    .left-side button {
+      padding: 12px 25px;
+      border: 1px solid #333;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+    body.dark-mode .left-side button {
+      border-color: #e0e0e0;
+      color: #e0e0e0;
+    }
+    .left-side button:hover {
+      background: #333;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    body.dark-mode .left-side button:hover {
+      background: #e0e0e0;
+      color: #1a1a1a;
+    }
 
-    /* Right Side (Form) */
-    .right-side {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: white;
-      padding: 40px;
-      transition: background-color 0.3s ease;
-    }
-    body.dark-mode .right-side {
-      background: #121212;
-    }
-    .logo-container img {
-      max-width: 150px;
-      margin-bottom: 20px;
-    }
-    h2 {
-      margin-bottom: 20px;
-    }
-    form {
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    input, select {
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background: #fdfdfd;
-      color: #333;
-      transition: border-color 0.3s ease, background-color 0.3s ease;
-    }
-    body.dark-mode input, body.dark-mode select {
-      background: #2a2a2a;
-      color: #e0e0e0;
-      border-color: #444;
-    }
-    input:focus, select:focus {
-      border-color: #0d013d;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(13, 1, 61, 0.2);
-    }
-    body.dark-mode input:focus, body.dark-mode select:focus {
-      border-color: #e0e0e0;
-      box-shadow: 0 0 0 2px rgba(224, 224, 224, 0.2);
-    }
-    input.error {
-      border: 2px solid #dc3545;
-    }
+    /* Right Side (Form) */
+    .right-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      background: white;
+      padding: 150px 40px 30px 40px; /* ✅ مساحة فوق كافية للبانر */
+      transition: background-color 0.3s ease;
+      position: relative;
+    }
+    body.dark-mode .right-side {
+      background: #121212;
+    }
+    .top-banner {
+      background: #0d013d;
+      width: calc(100% + 80px);
+      height: 100px;
+      position: absolute;
+      top: 0;
+      left: -40px;
+      right: -40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border-radius: 0 0 15px 15px;
+    }
+    .top-banner img {
+      max-width: 80px;
+      height: auto;
+    }
+    h2 {
+      margin-top: 20px; /* ✅ صارت أصغر لأن padding عوض */
+      margin-bottom: 25px;
+      font-size: 2em;
+      color: #0d013d;
+      transition: color 0.3s ease;
+    }
+    body.dark-mode h2 {
+      color: #e0e0e0;
+    }
+    form {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .input-group {
+      display: flex;
+      gap: 15px;
+    }
+    .input-group input {
+      flex: 1;
+    }
+    .input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    input, select {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #fdfdfd;
+      color: #333;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+      width: 100%;
+    }
+    body.dark-mode input, body.dark-mode select {
+      background: #2a2a2a;
+      color: #e0e0e0;
+      border-color: #444;
+    }
+    input::placeholder, select option {
+      color: #888;
+    }
+    body.dark-mode input::placeholder, body.dark-mode select option {
+      color: #aaa;
+    }
+    input:focus, select:focus {
+      border-color: #0d013d;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(13, 1, 61, 0.2);
+    }
+    body.dark-mode input:focus, body.dark-mode select:focus {
+      border-color: #e0e0e0;
+      box-shadow: 0 0 0 2px rgba(224, 224, 224, 0.2);
+    }
+    input.error {
+      border: 2px solid #dc3545;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #888;
+      transition: color 0.2s ease;
+    }
+    .password-toggle:hover {
+      color: #333;
+    }
+    body.dark-mode .password-toggle {
+      color: #aaa;
+    }
+    body.dark-mode .password-toggle:hover {
+      color: #e0e0e0;
+    }
 
-    /* Buttons */
-    button[type="submit"] {
-      background: #0d013d;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.3s ease;
-    }
-    button[type="submit"]:hover {
-      background: #060429;
-    }
-    .or {
-      text-align: center;
-      color: #888;
-      position: relative;
-      margin: 10px 0;
-    }
-    .or::before, .or::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 40%;
-      height: 1px;
-      background: #ccc;
-    }
-    body.dark-mode .or::before, body.dark-mode .or::after {
-      background: #444;
-    }
-    .or::before {
-      left: 0;
-    }
-    .or::after {
-      right: 0;
-    }
-    .google-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      border: 1px solid #ddd;
-      background: white;
-      color: #555;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    body.dark-mode .google-btn {
-      background: #2a2a2a;
-      color: #e0e0e0;
-      border-color: #444;
-    }
-    .google-btn:hover {
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    body.dark-mode .google-btn:hover {
-      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
-    }
+    /* Buttons */
+    button[type="submit"] {
+      background: #0d013d;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    button[type="submit"]:hover {
+      background: #060429;
+      transform: translateY(-2px);
+    }
+    .or {
+      text-align: center;
+      color: #888;
+      position: relative;
+      margin: 10px 0;
+    }
+    .or::before, .or::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: #ccc;
+    }
+    body.dark-mode .or::before, body.dark-mode .or::after {
+      background: #444;
+    }
+    .or::before {
+      left: 0;
+    }
+    .or::after {
+      right: 0;
+    }
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid #ddd;
+      background: white;
+      color: #555;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    body.dark-mode .google-btn {
+      background: #2a2a2a;
+      color: #e0e0e0;
+      border-color: #444;
+    }
+    .google-btn:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    body.dark-mode .google-btn:hover {
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+    }
+    .google-btn img {
+      width: 20px;
+      height: 20px;
+    }
 
-    /* Messages */
-    #error-message {
-      color: #dc3545;
-      text-align: center;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-    #success-message {
-      color: #28a745;
-      text-align: center;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
+    /* Messages */
+    #error-message {
+      color: #dc3545;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    #success-message {
+      color: #28a745;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
 
-    /* Dark Mode Toggle */
-    .dark-mode-toggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: transparent;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #555;
-      transition: color 0.3s ease;
-    }
-    body.dark-mode .dark-mode-toggle {
-      color: #e0e0e0;
-    }
+    /* Dark Mode Toggle */
+    .dark-mode-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #555;
+      z-index: 10;
+      transition: color 0.3s ease, transform 0.2s ease;
+    }
+    .dark-mode-toggle:hover {
+      transform: scale(1.1);
+    }
+    body.dark-mode .dark-mode-toggle {
+      color: #e0e0e0;
+    }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-      .left-side {
-        display: none;
-      }
-      .right-side {
-        padding: 30px;
-      }
-      .dark-mode-toggle {
-        top: 10px;
-        right: 10px;
-      }
-    }
-  </style>
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .left-side {
+        display: none;
+      }
+      .right-side {
+        padding: 130px 20px 20px 20px; /* ✅ متكيف مع الموبايل */
+      }
+      .top-banner {
+        width: calc(100% + 40px);
+        left: -20px;
+        right: -20px;
+      }
+      h2 {
+        margin-top: 10px;
+      }
+      .dark-mode-toggle {
+        top: 10px;
+        right: 10px;
+      }
+      .input-group {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <button class="dark-mode-toggle" onclick="toggleDarkMode()">☀️</button>
-  <div class="container">
-        <div class="left-side">
-      <img src="Design sans titre.png" alt="Illustration" />
-      <p>Vous avez déjà un compte</p>
-      <button onclick="window.location.href='login.html'">Se Connecter</button>
-    </div>
-        <div class="right-side">
-      <div class="logo-container">
-        <img src="00.png" alt="Logo">
-      </div>
-      <h2>Inscription</h2>
-      <form id="signup-form" novalidate>
-        <input type="text" id="nom" placeholder="Nom *" required />
-        <input type="text" id="prenom" placeholder="Prénom *" required />
-        <input type="text" id="username" placeholder="Nom d'utilisateur *" required />
-        <input type="email" id="email" placeholder="Email *" required />
-        <input type="password" id="password" placeholder="Mot de passe *" required />
-        <input type="password" id="confirm-password" placeholder="Confirmer votre mot de passe *" required />
-        <select id="university" required>
-          <option value="">Choisissez votre université</option>
-          <option value="ENMP">École Nationale Polytechnique Multitechniques d'Architecture</option>
-          <option value="Constantine3">Université Constantine 3</option>
-          <option value="Batna">Université Hadj Lakhdar, Batna</option>
-          <option value="Setif">Université Ferhat Abbas, Sétif</option>
-          <option value="OumElBouaghi">Université Larbi Ben M'hidi</option>
-          <option value="Jijel">Université Abdelhafid Ben Hamouda, Jijel</option>
-          <option value="Laghouat">Université Ammar Telidji, Laghouat</option>
-          <option value="Chlef">Université Hassiba Ben Bouali, Chlef</option>
-          <option value="Oran">Université Mohamed Boudiaf, Oran</option>
-          <option value="Tlemcen">Université Abou Bekr Belkaid, Tlemcen</option>
-          <option value="Biskra">Université Mohamed Khider, Biskra</option>
-          <option value="Guelma">Université 8 Mai 1945, Guelma</option>
-          <option value="Annaba">Université Badji Mokhtar, Annaba</option>
-          <option value="Blida">Université Saad Dahlab, Blida</option>
-          <option value="TiziOuzou">Université Mouloud Mammeri, Tizi Ouzou</option>
-          <option value="Bejaia">Université Abderrahmane Mira, Bejaia</option>
-          <option value="Mostaganem">Université Ibn Badis, Mostaganem</option>
-          <option value="Bechar">Université de Béchar</option>
-        </select>
-        <p id="error-message"></p>
-        <p id="success-message"></p>
-        <button type="submit">S'inscrire</button>
-        <div class="or">Ou</div>
-        <button type="button" class="google-btn" onclick="signInWithGoogle()">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:20px; height:20px;" alt="Google logo">
-          S'inscrire avec Google
-        </button>
-      </form>
-    </div>
-  </div>
+  <button class="dark-mode-toggle" onclick="toggleDarkMode()">☀️</button>
+  <div class="container">
+    <div class="left-side">
+      <img src="Design sans titre.png" alt="Illustration" />
+      <p>Vous avez déjà un compte ?</p>
+      <button onclick="window.location.href='login.html'">Se Connecter</button>
+    </div>
+    
+    <div class="right-side">
+      <div class="top-banner">
+        <img src="00.png" alt="Logo">
+      </div>
+      <h2>Inscription</h2>
+      <form id="signup-form" novalidate>
+        <div class="input-group">
+          <input type="text" id="nom" placeholder="Nom *" required />
+          <input type="text" id="prenom" placeholder="Prénom *" required />
+        </div>
+        <input type="text" id="username" placeholder="Nom d'utilisateur *" required />
+        <input type="email" id="email" placeholder="Email *" required />
+        <div class="input-wrapper">
+          <input type="password" id="password" placeholder="Mot de passe *" required />
+          <span class="password-toggle" onclick="togglePasswordVisibility('password')">
+            <i class="far fa-eye"></i>
+          </span>
+        </div>
+        <div class="input-wrapper">
+          <input type="password" id="confirm-password" placeholder="Confirmer votre mot de passe *" required />
+          <span class="password-toggle" onclick="togglePasswordVisibility('confirm-password')">
+            <i class="far fa-eye"></i>
+          </span>
+        </div>
+        <select id="university" required>
+          <option value="">Choisissez votre université</option>
+          <option value="ENMP">École Nationale Polytechnique Multitechniques d'Architecture</option>
+          <option value="Constantine3">Université Constantine 3</option>
+          <option value="Batna">Université Hadj Lakhdar, Batna</option>
+          <option value="Setif">Université Ferhat Abbas, Sétif</option>
+          <option value="OumElBouaghi">Université Larbi Ben M'hidi</option>
+          <option value="Jijel">Université Abdelhafid Ben Hamouda, Jijel</option>
+          <option value="Laghouat">Université Ammar Telidji, Laghouat</option>
+          <option value="Chlef">Université Hassiba Ben Bouali, Chlef</option>
+          <option value="Oran">Université Mohamed Boudiaf, Oran</option>
+          <option value="Tlemcen">Université Abou Bekr Belkaid, Tlemcen</option>
+          <option value="Biskra">Université Mohamed Khider, Biskra</option>
+          <option value="Guelma">Université 8 Mai 1945, Guelma</option>
+          <option value="Annaba">Université Badji Mokhtar, Annaba</option>
+          <option value="Blida">Université Saad Dahlab, Blida</option>
+          <option value="TiziOuzou">Université Mouloud Mammeri, Tizi Ouzou</option>
+          <option value="Bejaia">Université Abderrahmane Mira, Bejaia</option>
+          <option value="Mostaganem">Université Ibn Badis, Mostaganem</option>
+          <option value="Bechar">Université de Béchar</option>
+        </select>
+        <p id="error-message"></p>
+        <p id="success-message"></p>
+        <button type="submit">S'inscrire</button>
+        <div class="or">Ou</div>
+        <button type="button" class="google-btn" onclick="signInWithGoogle()">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:20px; height:20px;" alt="Google logo">
+          S'inscrire avec Google
+        </button>
+      </form>
+    </div>
+  </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-      authDomain: "archi-space-72624.firebaseapp.com",
-      projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.appspot.com",
-      messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:c914a78566b882b80df7b8",
-      measurementId: "G-RZV7LSDQBD"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+  
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.appspot.com",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-    const form = document.getElementById("signup-form");
-    const errorBox = document.getElementById("error-message");
-    const successBox = document.getElementById("success-message");
+    const form = document.getElementById("signup-form");
+    const errorBox = document.getElementById("error-message");
+    const successBox = document.getElementById("success-message");
 
-    function clearMessages() {
-      errorBox.textContent = "";
-      successBox.textContent = "";
-      ['nom', 'prenom', 'username', 'email', 'password', 'confirm-password', 'university']
-      .forEach(id => {
-        const el = document.getElementById(id);
-        if(el) el.classList.remove("error");
-      });
-    }
+    function clearMessages() {
+      errorBox.textContent = "";
+      successBox.textContent = "";
+      ['nom', 'prenom', 'username', 'email', 'password', 'confirm-password', 'university']
+      .forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.classList.remove("error");
+      });
+    }
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      clearMessages();
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearMessages();
 
-      const nom = document.getElementById("nom").value.trim();
-      const prenom = document.getElementById("prenom").value.trim();
-      const username = document.getElementById("username").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const confirmPassword = document.getElementById("confirm-password").value;
-      const university = document.getElementById("university").value;
+      const nom = document.getElementById("nom").value.trim();
+      const prenom = document.getElementById("prenom").value.trim();
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+      const university = document.getElementById("university").value;
 
-      let hasError = false;
-      if (!nom) { hasError = true; markError("nom", "⚠️ Veuillez entrer votre nom."); }
-      if (!prenom) { hasError = true; markError("prenom", "⚠️ Veuillez entrer votre prénom."); }
-      if (!username) { hasError = true; markError("username", "⚠️ Veuillez choisir un nom d'utilisateur."); }
-      if (!email) { hasError = true; markError("email", "⚠️ Veuillez entrer votre e-mail."); }
-      if (!password) { hasError = true; markError("password", "⚠️ Veuillez choisir un mot de passe."); }
-      if (password !== confirmPassword) { hasError = true; markError("confirm-password", "⚠️ Les mots de passe ne correspondent pas."); }
-      if (!university) { hasError = true; markError("university", "⚠️ Veuillez choisir votre université."); }
-      if (hasError) return;
+      let hasError = false;
+      if (!nom) { hasError = true; markError("nom", "⚠️ Veuillez entrer votre nom."); }
+      if (!prenom) { hasError = true; markError("prenom", "⚠️ Veuillez entrer votre prénom."); }
+      if (!username) { hasError = true; markError("username", "⚠️ Veuillez choisir un nom d'utilisateur."); }
+      if (!email) { hasError = true; markError("email", "⚠️ Veuillez entrer votre e-mail."); }
+      if (!password) { hasError = true; markError("password", "⚠️ Veuillez choisir un mot de passe."); }
+      if (password !== confirmPassword) { hasError = true; markError("confirm-password", "⚠️ Les mots de passe ne correspondent pas."); }
+      if (!university) { hasError = true; markError("university", "⚠️ Veuillez choisir votre université."); }
+      if (hasError) return;
 
-      try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-        await db.collection("users").doc(user.uid).set({
-          nom, prenom, username, email, university, createdAt: new Date()
-        });
-        localStorage.setItem("userProfile", JSON.stringify({nom, prenom, username, email, university, uid: user.uid}));
-        successBox.textContent = "🎉 Inscription réussie ! Redirection en cours...";
-        setTimeout(() => {
-          window.location.href = "lecteur.html";
-        }, 1500);
-      } catch (err) {
-        handleFirebaseError(err);
-      }
-    });
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        await db.collection("users").doc(user.uid).set({
+          nom, prenom, username, email, university, createdAt: new Date()
+        });
+        localStorage.setItem("userProfile", JSON.stringify({nom, prenom, username, email, university, uid: user.uid}));
+        successBox.textContent = "🎉 Inscription réussie ! Redirection en cours...";
+        setTimeout(() => {
+          window.location.href = "lecteur.html";
+        }, 1500);
+      } catch (err) {
+        console.error("Firebase error:", err);
+        if (!auth.currentUser) {
+          handleFirebaseError(err);
+        }
+      }
+    });
 
-    function markError(fieldId, message) {
-      const el = document.getElementById(fieldId);
-      if(el) el.classList.add("error");
-      errorBox.textContent = message;
-    }
+    function markError(fieldId, message) {
+      const el = document.getElementById(fieldId);
+      if(el) el.classList.add("error");
+      if(message) errorBox.textContent = message;
+    }
 
-    function handleFirebaseError(err) {
-      if (err.code === "auth/email-already-in-use") {
-        errorBox.textContent = "⚠️ Cet e-mail est déjà utilisé. Veuillez vous connecter ou utiliser un autre e-mail.";
-        markError("email", "");
-      } else if (err.code === "auth/invalid-email") {
-        errorBox.textContent = "⚠️ Le format de l'e-mail est invalide.";
-        markError("email", "");
-      } else if (err.code === "auth/weak-password") {
-        errorBox.textContent = "⚠️ Le mot de passe est trop faible. Il doit contenir au moins 6 caractères.";
-        markError("password", "");
-      } else {
-        errorBox.textContent = "⚠️ Erreur d'inscription : " + err.message;
-      }
-    }
+    function handleFirebaseError(err) {
+      if (err.code === "auth/email-already-in-use") {
+        errorBox.textContent = "⚠️ Cet e-mail est déjà utilisé. Veuillez vous connecter ou utiliser un autre e-mail.";
+        markError("email", "");
+      } else if (err.code === "auth/invalid-email") {
+        errorBox.textContent = "⚠️ Le format de l'e-mail est invalide.";
+        markError("email", "");
+      } else if (err.code === "auth/weak-password") {
+        errorBox.textContent = "⚠️ Le mot de passe est trop faible. Il doit contenir au moins 6 caractères.";
+        markError("password", "");
+      } else {
+        errorBox.textContent = "⚠️ Erreur d'inscription : " + err.message;
+      }
+    }
 
-    async function signInWithGoogle() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      try {
-        const result = await auth.signInWithPopup(provider);
-        const user = result.user;
-        const userRef = db.collection("users").doc(user.uid);
-        const doc = await userRef.get();
-        if (!doc.exists) {
-          await userRef.set({
-            nom: user.displayName?.split(" ").slice(1).join(" ") || '',
-            prenom: user.displayName?.split(" ")[0] || '',
-            username: user.email.split("@")[0],
-            email: user.email,
-            university: '',
-            createdAt: new Date()
-          });
-        }
-        const userData = (await userRef.get()).data();
-        localStorage.setItem("userProfile", JSON.stringify({...userData, uid: user.uid}));
-        successBox.textContent = "🎉 Connexion Google réussie ! Redirection en cours...";
-        setTimeout(() => {
-          window.location.href = "lecteur.html";
-        }, 1500);
-      } catch (err) {
-        errorBox.textContent = "⚠️ Erreur Google Sign-In : " + err.message;
-      }
-    }
+    async function signInWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+        const userRef = db.collection("users").doc(user.uid);
+        const doc = await userRef.get();
+        if (!doc.exists) {
+          await userRef.set({
+            nom: user.displayName?.split(" ").slice(1).join(" ") || '',
+            prenom: user.displayName?.split(" ")[0] || '',
+            username: user.email.split("@")[0],
+            email: user.email,
+            university: '',
+            createdAt: new Date()
+          });
+        }
+        const userData = (await userRef.get()).data();
+        localStorage.setItem("userProfile", JSON.stringify({...userData, uid: user.uid}));
+        successBox.textContent = "🎉 Connexion Google réussie ! Redirection en cours...";
+        setTimeout(() => {
+          window.location.href = "lecteur.html";
+        }, 1500);
+      } catch (err) {
+        errorBox.textContent = "⚠️ Erreur Google Sign-In : " + err.message;
+      }
+    }
 
-    // Dark Mode Toggle Logic
-    window.toggleDarkMode = function() {
-      document.body.classList.toggle('dark-mode');
-      const isDarkMode = document.body.classList.contains('dark-mode');
-      localStorage.setItem('darkMode', isDarkMode);
-      document.querySelector('.dark-mode-toggle').textContent = isDarkMode ? "🌙" : "☀️";
-    };
+    // Dark Mode Toggle Logic
+    window.toggleDarkMode = function() {
+      document.body.classList.toggle('dark-mode');
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode);
+      document.querySelector('.dark-mode-toggle').innerHTML = isDarkMode ? "🌙" : "☀️";
+    };
 
-    // Apply saved mode on page load
-    if (localStorage.getItem('darkMode') === 'true') {
-      document.body.classList.add('dark-mode');
-      document.querySelector('.dark-mode-toggle').textContent = "🌙";
-    }
-  </script>
+    // Toggle Password Visibility
+    window.togglePasswordVisibility = function(fieldId) {
+      const passwordField = document.getElementById(fieldId);
+      const toggleIcon = passwordField.nextElementSibling.querySelector('i');
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        toggleIcon.classList.remove("fa-eye");
+        toggleIcon.classList.add("fa-eye-slash");
+      } else {
+        passwordField.type = "password";
+        toggleIcon.classList.remove("fa-eye-slash");
+        toggleIcon.classList.add("fa-eye");
+      }
+    };
+
+    // Apply saved mode on page load
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.querySelector('.dark-mode-toggle').innerHTML = "🌙";
+    } else {
+      document.querySelector('.dark-mode-toggle').innerHTML = "☀️";
+    }
+  </script>
 </body>
 </html>
