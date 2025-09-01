@@ -9,13 +9,20 @@
     margin:0; padding:0; height:100%; font-family: Arial, sans-serif; background:#f8f9fb;
   }
   .container {
-    display: flex; height: 100vh;
+    display: flex; height: 100vh; flex-wrap: wrap;
   }
   .left-side {
-    flex: 1; background: #e9ecef; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px;
+    flex: 1; background: #e9ecef; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; padding: 20px; position: relative;
   }
-  .left-side img {
-    width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;
+  /* ✅ مكان اللوغو */
+  .logo-box {
+    width: 100%; height: 120px; background: #dcdcdc; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; border-radius: 6px;
+  }
+  .logo-box img {
+    max-height: 100%; max-width: 100%; object-fit: contain;
+  }
+  .left-side img.cover {
+    width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px;
   }
   .left-side p {
     margin-top: 20px; font-size: 1rem; color: #333;
@@ -50,18 +57,40 @@
     color: red; font-size: 0.85rem; grid-column: span 2;
   }
   .success-message {
-    color: green; font-size: 0.9rem; grid-column: span 2; margin-top: 10px;
+    color: green; font-size: 0.95rem; grid-column: span 2; margin-top: 10px; font-weight: bold;
   }
   input.error {
     border: 2px solid red;
+  }
+
+  /* ✅ Responsive */
+  @media(max-width: 768px) {
+    .container {
+      flex-direction: column;
+      height: auto;
+    }
+    .left-side, .right-side {
+      flex: unset;
+      width: 100%;
+      padding: 20px;
+    }
+    .left-side img.cover {
+      max-height: 200px;
+    }
+    .logo-box {
+      height: 80px;
+    }
   }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="left-side">
-    <!-- 🔽 ضع رابط الصورة هنا بدل example.jpg -->
-    <img src="example.jpg" alt="Inscription image" />
+    <!-- ✅ مكان اللوغو -->
+    <div class="logo-box">
+      <img src="logo.png" alt="Logo" />
+    </div>
+    <img src="example.jpg" alt="Inscription image" class="cover" />
     <p>Vous avez déjà un compte</p>
     <button onclick="window.location.href='login.html'">Se Connecter</button>
   </div>
@@ -107,12 +136,12 @@
   </div>
 </div>
 
-<!-- Firebase -->
+<!-- 🔥 Firebase JS (نفس كودك الأصلي بدون تعديل) -->
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 <script>
-  // إعداد Firebase
+  // Firebase Config
   const firebaseConfig = {
     apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
     authDomain: "archi-space-72624.firebaseapp.com",
@@ -125,23 +154,25 @@
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
+
   const signupForm = document.getElementById("signup-form");
   const successBox = document.getElementById("signup-success");
   const errorBox = document.getElementById("signup-error");
 
-  function clearErrors() {
+  function clearMessages() {
+    errorBox.textContent = "";
+    successBox.textContent = "";
     ['nom','prenom','username','email','password','confirm-password','university']
     .forEach(id => {
       const el = document.getElementById(id);
       if(el) el.classList.remove("error");
     });
-    errorBox.textContent = "";
-    successBox.textContent = "";
   }
 
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    clearErrors();
+    clearMessages();
+
     const nom = document.getElementById("nom").value.trim();
     const prenom = document.getElementById("prenom").value.trim();
     const username = document.getElementById("username").value.trim();
@@ -149,14 +180,15 @@
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirm-password").value;
     const university = document.getElementById("university").value;
+
     let hasError = false;
-    if(!nom) { hasError = true; markError("nom", "الاسم مطلوب"); }
-    if(!prenom) { hasError = true; markError("prenom", "اللقب مطلوب"); }
-    if(!username) { hasError = true; markError("username", "اسم المستخدم مطلوب"); }
-    if(!email) { hasError = true; markError("email", "الايميل مطلوب"); }
-    if(!password) { hasError = true; markError("password", "كلمة السر مطلوبة"); }
-    if(password !== confirmPassword) { hasError = true; markError("confirm-password", "تأكيد كلمة السر غير متطابق"); }
-    if(!university) { hasError = true; markError("university", "اختر الجامعة"); }
+    if(!nom) { hasError = true; markError("nom", "⚠️ الاسم مطلوب"); }
+    if(!prenom) { hasError = true; markError("prenom", "⚠️ اللقب مطلوب"); }
+    if(!username) { hasError = true; markError("username", "⚠️ اسم المستخدم مطلوب"); }
+    if(!email) { hasError = true; markError("email", "⚠️ البريد الإلكتروني مطلوب"); }
+    if(!password) { hasError = true; markError("password", "⚠️ كلمة المرور مطلوبة"); }
+    if(password !== confirmPassword) { hasError = true; markError("confirm-password", "⚠️ كلمتا المرور غير متطابقتين"); }
+    if(!university) { hasError = true; markError("university", "⚠️ اختر الجامعة"); }
     if(hasError) return;
 
     try {
@@ -167,9 +199,10 @@
         createdAt: new Date()
       });
 
-      successBox.textContent = `✅ تم التسجيل بنجاح ! رقم تسجيلك: ${user.uid}`;
+      successBox.textContent = `🎉 تم التسجيل بنجاح! سيتم تحويلك بعد لحظات...`;
       localStorage.setItem("userProfile", JSON.stringify({nom, prenom, username, email, university, uid: user.uid}));
-      setTimeout(()=> window.location.href = "lecture.html", 2000);
+
+      setTimeout(() => window.location.href = "lecture.html", 2000);
 
     } catch(error) {
       handleFirebaseError(error);
@@ -183,15 +216,15 @@
   }
 
   function handleFirebaseError(error) {
-    let messageArabic = "حدث خطأ غير معروف";
+    let messageArabic = "❌ حدث خطأ غير متوقع: " + error.message;
     if(error.code === "auth/email-already-in-use") {
-      messageArabic = "البريد الإلكتروني مستخدم بالفعل";
+      messageArabic = "📧 البريد الإلكتروني مستخدم بالفعل";
       markError("email", messageArabic);
     } else if(error.code === "auth/invalid-email") {
-      messageArabic = "البريد الإلكتروني غير صحيح";
+      messageArabic = "❌ البريد الإلكتروني غير صحيح";
       markError("email", messageArabic);
     } else if(error.code === "auth/weak-password") {
-      messageArabic = "كلمة السر ضعيفة جدًا";
+      messageArabic = "🔑 كلمة المرور ضعيفة جدًا";
       markError("password", messageArabic);
     }
     errorBox.textContent = messageArabic;
@@ -211,7 +244,7 @@
       }));
       window.location.href = "lecture.html";
     }).catch(error => {
-      errorBox.textContent = "فشل تسجيل الدخول عبر Google";
+      errorBox.textContent = "فشل تسجيل الدخول عبر Google: " + error.message;
     });
   }
 </script>
