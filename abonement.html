@@ -1,205 +1,199 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Abonnement | archiSpace</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f5f7fb;
-    }
-    header {
-      background: #1a1d36;
-      padding: 10px 20px;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      margin: 0;
-      color: #f39c12;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 30px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .form-code {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .form-code input {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    .form-code button {
-      background: #0a8f42;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .form-code button:hover {
-      background: #066b32;
-    }
-    .divider {
-      text-align: center;
-      margin: 20px 0;
-      font-weight: bold;
-      color: #555;
-    }
-    .carousel {
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
-    }
-    .carousel-inner {
-      display: flex;
-      transition: transform 0.4s ease;
-    }
-    .card {
-      min-width: 100%;
-      background: linear-gradient(135deg, #3a0ca3, #7209b7);
-      color: white;
-      text-align: center;
-      padding: 50px 20px;
-    }
-    .card h2 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-    .card p {
-      margin-bottom: 20px;
-    }
-    .btn-buy {
-      background: #f39c12;
-      padding: 12px 25px;
-      border-radius: 8px;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .btn-buy:hover {
-      background: #d9820e;
-    }
-    .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0,0,0,0.5);
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 50%;
-    }
-    .carousel-btn.left {
-      left: 10px;
-    }
-    .carousel-btn.right {
-      right: 10px;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>archiSpace</h1>
-    <button onclick="alert('Liste de vos abonnements')">MES ABONNEMENTS</button>
-  </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ARCHISpace </title>
+    <link rel="icon" href="/logo-dba777a9.svg" />
 
-  <div class="container">
-    <h3>Activer un abonnement avec un code d'activation</h3>
-    <div class="form-code">
-      <input type="text" id="activationCode" placeholder="Saisissez votre code d'activation" />
-      <button onclick="validerCode()">VALIDER</button>
-    </div>
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
 
-    <div class="divider">ou bien</div>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/index-2bc4f10a.css" />
 
-    <h3>Acheter un abonnement</h3>
-    <div class="carousel">
-      <div class="carousel-inner" id="carouselInner">
-        <div class="card">
-          <h4>archi</h4>
-          <h2>1ère année</h2>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 20px;
+        background: #f8f9fa;
+      }
+      .container {
+        max-width: 900px;
+        margin: auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      }
+      h2 {
+        margin-bottom: 15px;
+      }
+      .activation-box {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .activation-box input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+      .activation-box button {
+        background: green;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .activation-box button:hover {
+        background: darkgreen;
+      }
+      .packs {
+        margin-top: 30px;
+      }
+      .pack-card {
+        background: linear-gradient(135deg, #3b1fa0, #6a11cb);
+        color: white;
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .pack-card h3 {
+        margin: 10px 0;
+      }
+      .btn-buy {
+        background: orange;
+        color: black;
+        font-weight: bold;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+      .btn-buy:hover {
+        background: darkorange;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>🔑 Activer un abonnement avec un code</h2>
+      <div class="activation-box">
+        <input
+          type="text"
+          id="codeInput"
+          placeholder="Saisissez votre code d'activation"
+        />
+        <button onclick="activateCode()">Valider</button>
+      </div>
+
+      <hr />
+       <div class="pack-card">
+          <p>ARCHITECTURE</p>
+          <h3>1ère année</h3>
           <p>Pack 1ère Année 2025</p>
-          <a href="https://t.me/Trendyplaza_bot" target="_blank" class="btn-buy">ACHAT EN LIGNE</a>
-        </div>
-        <div class="card">
-          <h4>archi</h4>
-          <h2>2ème année</h2>
-          <p>Pack 2ème Année 2025</p>
-          <a href="https://t.me/Trendyplaza_bot" target="_blank" class="btn-buy">ACHAT EN LIGNE</a>
-        </div>
-        <div class="card">
-          <h4>archi</h4>
-          <h2>3ème année</h2>
-          <p>Pack 3ème Année 2025</p>
-          <a href="https://t.me/Trendyplaza_bot" target="_blank" class="btn-buy">ACHAT EN LIGNE</a>
-        </div>
-        <div class="card">
-          <h4>archi</h4>
-          <h2>4ème année</h2>
-          <p>Pack 4ème Année 2025</p>
-          <a href="https://t.me/Trendyplaza_bot" target="_blank" class="btn-buy">ACHAT EN LIGNE</a>
-        </div>
-        <div class="card">
-          <h4>archi</h4>
-          <h2>5ème année</h2>
-          <p>Pack 5ème Année 2025</p>
-          <a href="https://t.me/Trendyplaza_bot" target="_blank" class="btn-buy">ACHAT EN LIGNE</a>
+          <button
+            class="btn-buy"
+            onclick="window.open('https://t.me/Trendyplaza_bot', '_blank')"
+          >
+            Achat en ligne
+          </button>
         </div>
       </div>
-      <button class="carousel-btn left" onclick="moveSlide(-1)">❮</button>
-      <button class="carousel-btn right" onclick="moveSlide(1)">❯</button>
     </div>
-  </div>
+     <div class="pack-card">
+          <p>ARCHITECTURE</p>
+          <h3>2ème année</h3>
+          <p>Pack 2ème Année 2025</p>
+          <button
+            class="btn-buy"
+            onclick="window.open('https://t.me/Trendyplaza_bot', '_blank')"
+          >
+            Achat en ligne
+          </button>
+        </div>
+      </div>
+    </div>
+     <div class="pack-card">
+          <p>ARCHITECTURE</p>
+          <h3>3ème année</h3>
+          <p>Pack 3ème Année 2025</p>
+          <button
+            class="btn-buy"
+            onclick="window.open('https://t.me/Trendyplaza_bot', '_blank')"
+          >
+            Achat en ligne
+          </button>
+        </div>
+      </div>
+    </div>
 
-  <script>
-    // 🔹 Carousel
-    let index = 0;
-    function moveSlide(step) {
-      const inner = document.getElementById("carouselInner");
-      const total = inner.children.length;
-      index = (index + step + total) % total;
-      inner.style.transform = `translateX(${-index * 100}%)`;
-    }
+      <div class="packs">
+        <h2>🎓 Acheter un abonnement</h2>
 
-    // 🔹 Vérification du code d'activation
-    async function validerCode() {
-      const code = document.getElementById("activationCode").value.trim();
-      if (!code) {
-        alert("Veuillez entrer un code.");
-        return;
-      }
-      try {
-        const response = await fetch("http://127.0.0.1:5000/api/verify", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ code: code, pack: "5_ans" }) // Exemple: pack global
-        });
-        const data = await response.json();
-        if (data.status === "success") {
-          alert("✅ " + data.message);
-          window.location.href = "dashboard.html"; // Redirection après succès
-        } else {
-          alert("❌ " + data.message);
+        <div class="pack-card">
+          <p>ARCHITECTURE</p>
+          <h3>4ème année</h3>
+          <p>Pack 4ème Année 2025</p>
+          <button
+            class="btn-buy"
+            onclick="window.open('https://t.me/Trendyplaza_bot', '_blank')"
+          >
+            Achat en ligne
+          </button>
+        </div>
+
+        <div class="pack-card">
+          <p>ARCHITECTURE</p>
+          <h3>5ème année</h3>
+          <p>Pack 5ème Année 2025</p>
+          <button
+            class="btn-buy"
+            onclick="window.open('https://t.me/Trendyplaza_bot', '_blank')"
+          >
+            Achat en ligne
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script d'activation -->
+    <script>
+      async function activateCode() {
+        const code = document.getElementById("codeInput").value.trim();
+        if (!code) {
+          alert("Veuillez entrer un code !");
+          return;
         }
-      } catch (error) {
-        alert("Erreur de connexion au serveur.");
+
+        try {
+          const response = await fetch("http://127.0.0.1:5000/api/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code: code, pack: "5_ans" }),
+          });
+
+          const result = await response.json();
+          alert(result.message);
+
+          if (result.status === "success") {
+            // ✅ تحويل للداشبورد أو صفحة المواد
+            window.location.href = "dashboard.html";
+          }
+        } catch (err) {
+          console.error(err);
+          alert("⚠️ Erreur de connexion au serveur.");
+        }
       }
-    }
-  </script>
-</body>
+    </script>
+  </body>
 </html>
 
