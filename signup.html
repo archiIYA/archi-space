@@ -1,240 +1,194 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Inscription</title>
-<style>
-  body, html {
-    margin:0; padding:0; height:100%; font-family: Arial, sans-serif; background:#f8f9fb;
-  }
-  .container {
-    display: flex; height: 100vh;
-  }
-  .left-side {
-    flex: 1; background: #e9ecef; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px;
-  }
-  .left-side img {
-    width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;
-  }
-  .left-side p {
-    margin-top: 20px; font-size: 1rem; color: #333;
-  }
-  .left-side button {
-    margin-top: 10px; padding: 8px 15px; font-size: 0.9rem; cursor: pointer; border: 1px solid #333; background: transparent; color: #333; border-radius: 3px;
-  }
-  .right-side {
-    flex: 1; background: white; display: flex; flex-direction: column; justify-content: center; padding: 40px 60px;
-  }
-  h2 { text-align: center; margin-bottom: 20px; }
-  form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px 20px;
-  }
-  form > div, select, button, input {
-    grid-column: span 2;
-  }
-  input, select {
-    width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #cfd4db; border-radius: 3px;
-  }
-  button[type="submit"] {
-    background: #0d013d; color: white; padding: 12px; border: none; border-radius: 3px; cursor: pointer; font-size: 1rem;
-  }
-  button[type="submit"]:hover { background: #060429; }
-  .or { text-align: center; margin: 15px 0; color: #555; }
-  .google-btn {
-    border: 1px solid #dc3545; background: white; color: #dc3545; padding: 10px; cursor: pointer; border-radius: 3px; font-weight: bold;
-  }
-  .error-message {
-    color: red; font-size: 0.85rem; grid-column: span 2;
-  }
-  .success-message {
-    color: green; font-size: 0.95rem; grid-column: span 2; margin-top: 10px; font-weight: bold;
-  }
-  input.error {
-    border: 2px solid red;
-  }
-
-  /* 🟢 تنسيقات اللوغو */
-  .logo-container {
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  .logo-container img {
-    max-width: 180px;
-    height: auto;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
+      background: #f4f6fb; color: #333;
+    }
+    .container {
+      display: flex; min-height: 100vh;
+    }
+    /* Left side */
+    .left-side {
+      flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      background: #f1f3f8; padding: 40px;
+    }
+    .left-side img {
+      max-width: 350px;
+    }
+    .left-side p { margin-top: 20px; }
+    .left-side button {
+      margin-top: 10px; padding: 10px 20px; border: 1px solid #333;
+      background: transparent; cursor: pointer; border-radius: 5px;
+    }
+    .left-side button:hover {
+      background: #333; color: white;
+    }
+    /* Right side */
+    .right-side {
+      flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      background: white; padding: 40px;
+    }
+    .logo-container img {
+      max-width: 150px; margin-bottom: 20px;
+    }
+    h2 { margin-bottom: 20px; }
+    form {
+      width: 100%; max-width: 400px;
+      display: flex; flex-direction: column; gap: 15px;
+    }
+    input, select {
+      padding: 12px; border: 1px solid #ccc; border-radius: 5px;
+    }
+    input:focus, select:focus {
+      border-color: #0d013d; outline: none;
+    }
+    button[type="submit"] {
+      background: #0d013d; color: white; padding: 12px; border: none;
+      border-radius: 5px; cursor: pointer; font-weight: 600;
+    }
+    button[type="submit"]:hover {
+      background: #060429;
+    }
+    .or {
+      text-align: center; color: #888; position: relative; margin: 10px 0;
+    }
+    .or::before, .or::after {
+      content: ""; position: absolute; top: 50%; width: 40%; height: 1px; background: #ccc;
+    }
+    .or::before { left: 0; }
+    .or::after { right: 0; }
+    /* Google btn */
+    .google-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      border: 1px solid #ddd; background: white; color: #555;
+      padding: 10px; cursor: pointer; border-radius: 5px; font-weight: 600;
+    }
+    .google-btn:hover {
+      background: #f8f8f8;
+    }
+    /* Error message */
+    #error-message {
+      color: red; text-align: center; font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      .container { flex-direction: column; }
+      .left-side { display: none; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <div class="left-side">
-    <img src="example.jpg" alt="Inscription image" />
-    <p>Vous avez déjà un compte</p>
-    <button onclick="window.location.href='login.html'">Se Connecter</button>
-  </div>
-  <div class="right-side">
-    <!-- 🟢 مكان اللوغو -->
-    <div class="logo-container">
-      <img src="logo.png" alt="Logo" />
+  <div class="container">
+    <!-- Left -->
+    <div class="left-side">
+      <img src="example.jpg" alt="Illustration" />
+      <p>Vous avez déjà un compte</p>
+      <button onclick="window.location.href='login.html'">Se Connecter</button>
     </div>
-
-    <h2>Inscription</h2>
-    <form id="signup-form" novalidate>
-      <input type="text" id="nom" placeholder="Nom *" required />
-      <input type="text" id="prenom" placeholder="Prénom *" required />
-      <input type="text" id="username" placeholder="Nom d'utilisateur *" required />
-      <input type="email" id="email" placeholder="Email *" required />
-      <input type="password" id="password" placeholder="Mot de passe *" required />
-      <input type="password" id="confirm-password" placeholder="Confirmer votre mot de passe *" required />
-      <select id="university" required>
-        <option value="">Choisissez votre université</option>
-        <option value="ENMP">École Nationale Polytechnique Multitechniques d'Architecture et d'Urbanisme, Alger</option>
-        <option value="Constantine3">Université Constantine 3</option>
-        <option value="Tabessa">Université Cheikh Larbi Tebessi, Tébessa</option>
-        <option value="Batna">Université Hadj Lakhdar, Batna</option>
-        <option value="Setif">Université Ferhat Abbas, Sétif</option>
-        <option value="OumElBouaghi">Université Larbi Ben M'hidi</option>
-        <option value="Jijel">Université Abdelhafid Ben Hamouda, Jijel</option>
-        <option value="Laghouat">Université Ammar Telidji, Laghouat</option>
-        <option value="Chlef">Université Hassiba Ben Bouali, Chlef</option>
-        <option value="Oran">Université Mohamed Boudiaf, Oran</option>
-        <option value="Tlemcen">Université Abou Bekr Belkaid, Tlemcen</option>
-        <option value="Biskra">Université Mohamed Khider, Biskra</option>
-        <option value="Guelma">Université 8 Mai 1945, Guelma</option>
-        <option value="Annaba">Université Badji Mokhtar, Annaba</option>
-        <option value="Blida">Université Saad Dahlab, Blida</option>
-        <option value="TiziOuzou">Université Mouloud Mammeri, Tizi Ouzou</option>
-        <option value="Bejaia">Université Abderrahmane Mira, Bejaia</option>
-        <option value="Mostaganem">Université Ibn Badis, Mostaganem</option>
-        <option value="Bechar">Université de Béchar</option>
-      </select>
-      <button type="submit">S'inscrire</button>
-      <div class="or">Or</div>
-      <button type="button" class="google-btn" onclick="signInWithGoogle()">
-        G S'inscrire avec Google
-      </button>
-      <div id="signup-error" class="error-message"></div>
-      <div id="signup-success" class="success-message"></div>
-    </form>
+    <!-- Right -->
+    <div class="right-side">
+      <div class="logo-container">
+        <img src="logo.png" alt="Logo">
+      </div>
+      <h2>Inscription</h2>
+      <form id="signup-form" novalidate>
+        <input type="text" id="nom" placeholder="Nom *" required />
+        <input type="text" id="prenom" placeholder="Prénom *" required />
+        <input type="text" id="username" placeholder="Nom d'utilisateur *" required />
+        <input type="email" id="email" placeholder="Email *" required />
+        <input type="password" id="password" placeholder="Mot de passe *" required />
+        <input type="password" id="confirm-password" placeholder="Confirmer votre mot de passe *" required />
+        <select id="university" required>
+          <option value="">Choisissez votre université</option>
+          <option value="ENMP">École Nationale Polytechnique Multitechniques d'Architecture</option>
+          <option value="Constantine3">Université Constantine 3</option>
+          <option value="Batna">Université Hadj Lakhdar, Batna</option>
+          <option value="Setif">Université Ferhat Abbas, Sétif</option>
+          <!-- ajoutez d'autres -->
+        </select>
+        <p id="error-message"></p>
+        <button type="submit">S'inscrire</button>
+        <div class="or">Ou</div>
+        <button type="button" class="google-btn" onclick="signInWithGoogle()">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" 
+               style="width:20px; height:20px;"> 
+          S'inscrire avec Google
+        </button>
+      </form>
+    </div>
   </div>
-</div>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-<script>
-  // Firebase Config
-  const firebaseConfig = {
-    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-    authDomain: "archi-space-72624.firebaseapp.com",
-    projectId: "archi-space-72624",
-    storageBucket: "archi-space-72624.appspot.com",
-    messagingSenderId: "407015246505",
-    appId: "1:407015246505:web:c914a78566b882b80df7b8",
-    measurementId: "G-RZV7LSDQBD"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-
-  const signupForm = document.getElementById("signup-form");
-  const successBox = document.getElementById("signup-success");
-  const errorBox = document.getElementById("signup-error");
-
-  function clearMessages() {
-    errorBox.textContent = "";
-    successBox.textContent = "";
-    ['nom','prenom','username','email','password','confirm-password','university']
-    .forEach(id => {
-      const el = document.getElementById(id);
-      if(el) el.classList.remove("error");
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.appspot.com",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const form = document.getElementById("signup-form");
+    const errorBox = document.getElementById("error-message");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nom = document.getElementById("nom").value.trim();
+      const prenom = document.getElementById("prenom").value.trim();
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+      const university = document.getElementById("university").value;
+      if (password !== confirmPassword) {
+        errorBox.textContent = "⚠️ Les mots de passe ne correspondent pas.";
+        return;
+      }
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        await db.collection("users").doc(user.uid).set({
+          nom, prenom, username, email, university, createdAt: new Date()
+        });
+        localStorage.setItem("userProfile", JSON.stringify({nom, prenom, username, email, university, uid: user.uid}));
+        window.location.href = "lecteur.html#";
+      } catch (err) {
+        errorBox.textContent = "⚠️ Erreur d'inscription : " + err.message;
+      }
     });
-  }
-
-  signupForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    clearMessages();
-
-    const nom = document.getElementById("nom").value.trim();
-    const prenom = document.getElementById("prenom").value.trim();
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
-    const university = document.getElementById("university").value;
-
-    let hasError = false;
-    if(!nom) { hasError = true; markError("nom", "⚠️ الاسم مطلوب"); }
-    if(!prenom) { hasError = true; markError("prenom", "⚠️ اللقب مطلوب"); }
-    if(!username) { hasError = true; markError("username", "⚠️ اسم المستخدم مطلوب"); }
-    if(!email) { hasError = true; markError("email", "⚠️ البريد الإلكتروني مطلوب"); }
-    if(!password) { hasError = true; markError("password", "⚠️ كلمة المرور مطلوبة"); }
-    if(password !== confirmPassword) { hasError = true; markError("confirm-password", "⚠️ كلمتا المرور غير متطابقتين"); }
-    if(!university) { hasError = true; markError("university", "⚠️ اختر الجامعة"); }
-    if(hasError) return;
-
-    try {
-      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-      const user = userCredential.user;
-      await db.collection("users").doc(user.uid).set({
-        nom, prenom, username, email, university,
-        createdAt: new Date()
-      });
-
-      successBox.textContent = `🎉 تم التسجيل بنجاح! سيتم تحويلك بعد لحظات...`;
-      localStorage.setItem("userProfile", JSON.stringify({nom, prenom, username, email, university, uid: user.uid}));
-
-      // 🟢 التوجيه بعد النجاح
-      setTimeout(() => {
-        window.location.href = "./lecture.html";
-      }, 2000);
-
-    } catch(error) {
-      handleFirebaseError(error);
+    async function signInWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+        const userRef = db.collection("users").doc(user.uid);
+        const doc = await userRef.get();
+        if (!doc.exists) {
+          await userRef.set({
+            nom: user.displayName?.split(" ")[1] || '',
+            prenom: user.displayName?.split(" ")[0] || '',
+            username: user.email.split("@")[0],
+            email: user.email,
+            university: '',
+            createdAt: new Date()
+          });
+        }
+        const userData = (await userRef.get()).data();
+        localStorage.setItem("userProfile", JSON.stringify({...userData, uid: user.uid}));
+        window.location.href = "lecteur.html";
+      } catch (err) {
+        errorBox.textContent = "⚠️ Erreur Google Sign-In : " + err.message;
+      }
     }
-  });
-
-  function markError(fieldId, message) {
-    const el = document.getElementById(fieldId);
-    if(el) el.classList.add("error");
-    errorBox.textContent = message;
-  }
-
-  function handleFirebaseError(error) {
-    let messageArabic = "❌ حدث خطأ غير متوقع: " + error.message;
-    if(error.code === "auth/email-already-in-use") {
-      messageArabic = "📧 البريد الإلكتروني مستخدم بالفعل";
-      markError("email", messageArabic);
-    } else if(error.code === "auth/invalid-email") {
-      messageArabic = "❌ البريد الإلكتروني غير صحيح";
-      markError("email", messageArabic);
-    } else if(error.code === "auth/weak-password") {
-      messageArabic = "🔑 كلمة المرور ضعيفة جدًا";
-      markError("password", messageArabic);
-    }
-    errorBox.textContent = messageArabic;
-  }
-
-  function signInWithGoogle() {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).then(result => {
-      const user = result.user;
-      localStorage.setItem("userProfile", JSON.stringify({
-        nom: user.displayName || '',
-        prenom: '',
-        username: user.email.split("@")[0],
-        email: user.email,
-        university: '',
-        uid: user.uid
-      }));
-      window.location.href = "./lecture.html";
-    }).catch(error => {
-      errorBox.textContent = "فشل تسجيل الدخول عبر Google: " + error.message;
-    });
-  }
-</script>
+  </script>
 </body>
 </html>
