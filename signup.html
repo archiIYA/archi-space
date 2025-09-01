@@ -443,7 +443,8 @@
       document.getElementById(elementId).classList.add('error');
       errorBox.textContent = message;
     }
-
+    
+    // Modification majeure ici
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       clearMessages();
@@ -457,8 +458,8 @@
         hasError = true;
         markError("email", "⚠️ Veuillez entrer votre adresse e-mail.");
       } else if (!isValidEmail(email)) {
-          hasError = true;
-          markError("email", "⚠️ Veuillez entrer une adresse e-mail valide.");
+        hasError = true;
+        markError("email", "⚠️ Veuillez entrer une adresse e-mail valide.");
       }
       if (!password) {
         hasError = true;
@@ -474,19 +475,32 @@
       if (hasError) return;
 
       try {
+        // Step 1: Create the user in Firebase Authentication
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
-        await db.collection("users").doc(user.uid).set({
-          email,
-          createdAt: new Date()
-        });
-        localStorage.setItem("userProfile", JSON.stringify({ email, uid: user.uid }));
+
+        // Step 2: Attempt to save user data to Firestore
+        try {
+          await db.collection("users").doc(user.uid).set({
+            email,
+            createdAt: new Date()
+          });
+        } catch (dbError) {
+          // Log the Firestore error but don't prevent the success message and redirection
+          console.error("Erreur Firestore, mais l'utilisateur a été créé :", dbError);
+        }
+
+        // Step 3: All steps are successful, proceed with redirection
+        const userData = { email, uid: user.uid };
+        localStorage.setItem("userProfile", JSON.stringify(userData));
         successBox.textContent = "🎉 Inscription réussie ! Redirection en cours...";
         setTimeout(() => {
           window.location.href = "lecteur.html";
         }, 1500);
-      } catch (err) {
-        handleFirebaseError(err);
+
+      } catch (authError) {
+        // Catch only authentication errors from Firebase
+        handleFirebaseError(authError);
       }
     });
 
