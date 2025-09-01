@@ -538,7 +538,7 @@
         successBox.textContent = "🎉 Connexion Google réussie ! Redirection en cours...";
         setTimeout(() => {
           window.location.href = "profil.html";
-        }, 1500);
+        }, 100);
       } catch (err) {
         errorBox.textContent = "⚠️ Erreur Google Sign-In : " + err.message;
       }
