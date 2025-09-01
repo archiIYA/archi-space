@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Profil Utilisateur - Archispace</title>
+    <title>ملف تعريف المستخدم - Archispace</title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet" />
     <style>
         /* خطوط وألوان وCSS منسق وجاهز للاستجابة */
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
         body {
             margin: 0;
             font-family: 'Rubik', sans-serif;
@@ -39,7 +41,9 @@
             display: flex;
             flex-direction: column;
             position: fixed;
-            top: 0; left: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            bottom: 0;
             overflow-y: auto;
         }
         .sidebar-header {
@@ -134,7 +138,7 @@
             background: var(--card-bg);
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             flex: 1 1 300px;
             min-width: 300px;
             display: flex;
@@ -183,7 +187,7 @@
             margin-bottom: 6px;
             font-size: 15px;
         }
-        input {
+        input, select {
             width: 100%;
             border: 1.8px solid #ccc;
             padding: 11px 15px;
@@ -191,8 +195,9 @@
             border-radius: 10px;
             outline-offset: 2px;
             transition: border-color 0.3s ease-in-out;
+            background-color: transparent;
         }
-        input:focus {
+        input:focus, select:focus {
             border-color: #000;
             background-color: #f7f7f7;
         }
@@ -213,18 +218,18 @@
             font-size: 1rem;
             user-select: none;
         }
-        button.save-btn {
+        .save-btn {
             background-color: var(--btn-bg);
             color: var(--btn-text);
         }
-        button.save-btn:hover {
+        .save-btn:hover {
             background-color: #333;
         }
-        button.delete-btn {
+        .delete-btn {
             background-color: #b22222;
             color: #fff;
         }
-        button.delete-btn:hover {
+        .delete-btn:hover {
             background-color: #800000;
         }
         .pic-settings {
@@ -282,7 +287,7 @@
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="profile-mini">
-                <div class="mini-pic" id="miniPic">A</div>
+                <div class="mini-pic" id="miniPic">أ</div>
                 <div class="mini-info">
                     <div class="mini-username" id="miniUsername">---</div>
                     <div class="mini-email" id="miniEmail">---</div>
@@ -290,57 +295,79 @@
             </div>
             <button class="closebtn" onclick="closeSidebar()">❌</button>
         </div>
-        <ul class="sidebar-nav">
-            <li class="active">🏠 Accueil</li>
-            <li>📊 Statistiques</li>
-            <li>📚 Suivi Cours</li>
-            <li><a href="courses.html">📖 Site des Cours</a></li>
-            <li>❓ Sessions Questions</li>
-            <li>📝 Sessions Examens</li>
-            <li>🏷️ Labels</li>
-            <li>🗒️ Notes</li>
-            <li>🚩 Signals</li>
-            <li>🔔 Notification</li>
-            <li>💳 Abonnement</li>
-            <li>🛠️ Support</li>
-            <li><a href="profil.html">👤 Mon Profil</a></li>
-        </ul>
+       <ul>
+      <li class="active">🏠 Accueil</li>
+      <li>📊 Statistiques</li>
+      <li>📚 Suivi Cours</li>
+      <li><a href="courses.html" class="">📖 Site des Cours</a></li>
+      <li>❓ Sessions Questions</li>
+      <li>📝 Sessions Examens</li>
+      <li><a href="exam.html" class="">📖 Site des Cours</a></li>
+      <li>🏷️ Labels</li>
+      <li>🗒️ Notes</li>
+      <li>🚩 Signals</li>
+      <li>🔔 Notification</li>
+      <li>💳 Abonnement</li>
+      <li>🛠️ Support</li>
+     <li><a href="profil.html">👤 Mon Profil</a></li>
+    </ul>
     </nav>
 
-    <button class="dark-mode-toggle" id="darkModeToggle">🌙 Mode Nuit</button>
+    <button class="dark-mode-toggle" id="darkModeToggle">🌙 الوضع الليلي</button>
 
     <main class="main-content" id="mainContent">
-        <h2>Mon Profil</h2>
+        <h2>ملفي الشخصي</h2>
         <div class="profile-grid">
             <section class="profile-card">
-                <div class="profile-pic" id="profilePic">A</div>
+                <div class="profile-pic" id="profilePic">أ</div>
                 <div class="pic-settings">
-                    <label><input type="color" id="picColorPicker" value="#222222" title="Changer la couleur de la photo" /> Couleur</label>
-                    <label><input type="checkbox" id="picShapeToggle" /> Cercle</label>
+                    <label><input type="color" id="picColorPicker" value="#222222" title="تغيير لون الصورة" /> اللون</label>
+                    <label><input type="checkbox" id="picShapeToggle" /> دائرة</label>
                 </div>
                 <div class="username-display" id="usernameDisplay">---</div>
                 <div class="email-display" id="emailDisplay">---</div>
             </section>
             <section class="profile-card">
                 <form id="profileForm" autocomplete="off">
-                    <label for="nom">Nom</label>
-                    <input type="text" id="nom" name="nom" placeholder="Votre nom" required />
+                    <label for="nom">الاسم</label>
+                    <input type="text" id="nom" name="nom" placeholder="اسمك" required />
 
-                    <label for="prenom">Prénom</label>
-                    <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required />
+                    <label for="prenom">الاسم الأول</label>
+                    <input type="text" id="prenom" name="prenom" placeholder="اسمك الأول" required />
 
-                    <label for="username">Nom d'utilisateur</label>
-                    <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required />
+                    <label for="username">اسم المستخدم</label>
+                    <input type="text" id="username" name="username" placeholder="اسم المستخدم" required />
 
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Votre email" disabled />
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" name="email" placeholder="تم تعطيل بريدك الإلكتروني" disabled />
 
-                    <label for="universite">Université</label>
-                    <input type="text" id="universite" name="universite" placeholder="Nom de l'université" required />
+                    <label for="university">الجامعة</label>
+                    <select id="university" name="university" required>
+                        <option value="">اختر جامعتك</option>
+                        <option value="École Nationale Polytechnique d'Architecture et d'Urbanisme (ENAU), Alger">École Nationale Polytechnique d'Architecture et d'Urbanisme (ENAU), Alger</option>
+                        <option value="Université Constantine 3">Université Constantine 3</option>
+                        <option value="Université El Hadj Lakhdar, Batna">Université El Hadj Lakhdar, Batna</option>
+                        <option value="Université Ferhat Abbas, Sétif">Université Ferhat Abbas, Sétif</option>
+                        <option value="Université Larbi Ben M'hidi, Oum El Bouaghi">Université Larbi Ben M'hidi, Oum El Bouaghi</option>
+                        <option value="Université Abdelhak Benhamouda, Jijel">Université Abdelhak Benhamouda, Jijel</option>
+                        <option value="Université Amar Telidji, Laghouat">Université Amar Telidji, Laghouat</option>
+                        <option value="Université Hassiba Ben Bouali, Chlef">Université Hassiba Ben Bouali, Chlef</option>
+                        <option value="Université des Sciences et de la Technologie Mohamed Boudiaf, Oran">Université des Sciences et de la Technologie Mohamed Boudiaf, Oran</option>
+                        <option value="Université Abou Bekr Belkaïd, Tlemcen">Université Abou Bekr Belkaïd, Tlemcen</option>
+                        <option value="Université Mohamed Khider, Biskra">Université Mohamed Khider, Biskra</option>
+                        <option value="Université 8 Mai 1945, Guelma">Université 8 Mai 1945, Guelma</option>
+                        <option value="Université Badji Mokhtar, Annaba">Université Badji Mokhtar, Annaba</option>
+                        <option value="Université Larbi Tébessi, Tébessa">Université Larbi Tébessi, Tébessa</option>
+                        <option value="Université Saad Dahlab, Blida">Université Saad Dahlab, Blida</option>
+                        <option value="Université Mouloud Mammeri, Tizi Ouzou">Université Mouloud Mammeri, Tizi Ouzou</option>
+                        <option value="Université Abderrahmane Mira, Bejaia">Université Abderrahmane Mira, Bejaia</option>
+                        <option value="Université Ibn Badis, Mostaganem">Université Ibn Badis, Mostaganem</option>
+                        <option value="Université Béchar">Université Béchar</option>
+                    </select>
 
                     <div class="buttons-group">
-                        <button type="submit" class="save-btn">Enregistrer</button>
-                        <button type="button" class="delete-btn" id="deleteBtn">Supprimer mon compte</button>
+                        <button type="submit" class="save-btn">تسجيل</button>
+                        <button type="button" class="delete-btn" id="deleteBtn">حذف حسابي</button>
                     </div>
                 </form>
             </section>
@@ -367,27 +394,27 @@
         let currentUserEmail = null;
         let isNewUser = false;
 
-        // Dark mode toggle
+        // تبديل الوضع الداكن
         const darkToggleBtn = document.getElementById("darkModeToggle");
         function setDarkMode(on) {
             if (on) {
                 document.body.classList.add("dark-mode");
-                darkToggleBtn.textContent = "☀️ Mode Jour";
+                darkToggleBtn.textContent = "☀️ الوضع النهاري";
                 localStorage.setItem("darkMode", "1");
             } else {
                 document.body.classList.remove("dark-mode");
-                darkToggleBtn.textContent = "🌙 Mode Nuit";
+                darkToggleBtn.textContent = "🌙 الوضع الليلي";
                 localStorage.setItem("darkMode", "0");
             }
         }
         darkToggleBtn.onclick = () => {
             setDarkMode(!document.body.classList.contains("dark-mode"));
         };
-        if(localStorage.getItem("darkMode") === "1") {
+        if (localStorage.getItem("darkMode") === "1") {
             setDarkMode(true);
         }
 
-        // Profile picture settings
+        // إعدادات صورة الملف الشخصي
         const profilePicDiv = document.getElementById("profilePic");
         const picColorPicker = document.getElementById("picColorPicker");
         const picShapeToggle = document.getElementById("picShapeToggle");
@@ -396,11 +423,11 @@
             const savedColor = localStorage.getItem("profilePicColor");
             const savedShape = localStorage.getItem("profilePicShape");
 
-            if(savedColor) {
+            if (savedColor) {
                 picColorPicker.value = savedColor;
                 profilePicDiv.style.backgroundColor = savedColor;
             }
-            if(savedShape) {
+            if (savedShape) {
                 const isCircle = savedShape === "circle";
                 picShapeToggle.checked = isCircle;
                 profilePicDiv.style.borderRadius = isCircle ? "50%" : "16px";
@@ -419,7 +446,7 @@
             localStorage.setItem("profilePicShape", rounded ? "circle" : "square");
         });
 
-        // Authentication and load profile
+        // المصادقة وتحميل الملف الشخصي
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUserId = user.uid;
@@ -435,12 +462,7 @@
             const snap = await getDoc(doc(db, "students", userId));
             if (!snap.exists()) {
                 isNewUser = true;
-                alert("Bienvenue sur ArchiSpace ! Veuillez compléter votre profil pour continuer.");
-                // Ensure all fields are required for new users
-                document.getElementById("nom").required = true;
-                document.getElementById("prenom").required = true;
-                document.getElementById("username").required = true;
-                document.getElementById("universite").required = true;
+                alert("مرحبًا بك في ArchiSpace! يرجى إكمال ملفك الشخصي للمتابعة.");
             } else {
                 isNewUser = false;
                 await loadProfile(userId, snap.data());
@@ -451,10 +473,10 @@
             document.getElementById("nom").value = data.nom || "";
             document.getElementById("prenom").value = data.prenom || "";
             document.getElementById("username").value = data.username || "";
-            document.getElementById("universite").value = data.universite || "";
+            document.getElementById("university").value = data.university || "";
             document.getElementById("usernameDisplay").textContent = data.username || "---";
             document.getElementById("emailDisplay").textContent = currentUserEmail || "---";
-            const letter = data.username ? data.username[0].toUpperCase() : "A";
+            const letter = data.nom ? data.nom[0].toUpperCase() : "A";
             profilePicDiv.textContent = letter;
             document.getElementById("miniPic").textContent = letter;
             document.getElementById("miniUsername").textContent = data.username || "---";
@@ -464,9 +486,8 @@
         async function isUsernameUnique(username) {
             const q = query(collection(db, "students"), where("username", "==", username));
             const querySnapshot = await getDocs(q);
-            // Check if any document exists with the same username but a different ID
-            for(let docSnap of querySnapshot.docs) {
-                if(docSnap.id !== currentUserId) {
+            for (let docSnap of querySnapshot.docs) {
+                if (docSnap.id !== currentUserId) {
                     return false;
                 }
             }
@@ -476,30 +497,30 @@
         document.getElementById("profileForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             if (!currentUserId) {
-                alert("Utilisateur non connecté");
+                alert("المستخدم غير مسجل الدخول");
                 return;
             }
 
             const usernameInput = document.getElementById("username").value.trim();
             const nomInput = document.getElementById("nom").value.trim();
             const prenomInput = document.getElementById("prenom").value.trim();
-            const universiteInput = document.getElementById("universite").value.trim();
+            const universityInput = document.getElementById("university").value.trim();
 
             if (isNewUser) {
-                if (!nomInput || !prenomInput || !usernameInput || !universiteInput) {
-                    alert("Veuillez remplir tous les champs obligatoires.");
+                if (!nomInput || !prenomInput || !usernameInput || !universityInput) {
+                    alert("الرجاء ملء جميع الحقول المطلوبة.");
                     return;
                 }
             }
 
-            if(usernameInput.length === 0) {
-                alert("Le nom d'utilisateur ne peut pas être vide.");
+            if (usernameInput.length === 0) {
+                alert("لا يمكن أن يكون اسم المستخدم فارغًا.");
                 return;
             }
 
             const isUnique = await isUsernameUnique(usernameInput);
-            if(!isUnique) {
-                alert("Ce nom d'utilisateur est déjà pris. Veuillez en choisir un autre.");
+            if (!isUnique) {
+                alert("اسم المستخدم هذا مستخدم بالفعل. يرجى اختيار اسم آخر.");
                 return;
             }
 
@@ -507,33 +528,32 @@
                 nom: nomInput,
                 prenom: prenomInput,
                 username: usernameInput,
-                universite: universiteInput,
+                university: universityInput,
                 email: currentUserEmail
             };
 
             try {
                 await setDoc(doc(db, "students", currentUserId), data, { merge: true });
-                alert("Profil mis à jour avec succès !");
+                alert("تم تحديث الملف الشخصي بنجاح!");
                 await loadProfile(currentUserId, data);
-                // Redirect to main page for new users after saving
-                if(isNewUser) {
-                    window.location.href = "lecteur.html";
+                if (isNewUser) {
+                    window.location.href = "reader.html";
                 }
             } catch (error) {
-                alert("Erreur lors de la sauvegarde : " + error.message);
+                alert("خطأ في الحفظ: " + error.message);
             }
         });
 
         document.getElementById("deleteBtn").addEventListener("click", async () => {
-            if (!currentUserId) return alert("Utilisateur non connecté");
-            if (!confirm("Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.")) return;
+            if (!currentUserId) return alert("المستخدم غير مسجل الدخول");
+            if (!confirm("هل تريد حقًا حذف حسابك؟ هذا الإجراء لا رجعة فيه.")) return;
             try {
                 await deleteDoc(doc(db, "students", currentUserId));
                 await deleteUser(auth.currentUser);
-                alert("Compte supprimé avec succès !");
+                alert("تم حذف الحساب بنجاح!");
                 window.location.href = "login.html";
             } catch (error) {
-                alert("Erreur lors de la suppression : " + error.message + " (Assurez-vous que la session est récente)");
+                alert("خطأ في الحذف: " + error.message + " (تأكد من أن الجلسة حديثة)");
             }
         });
 
