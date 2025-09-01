@@ -537,7 +537,7 @@
         localStorage.setItem("userProfile", JSON.stringify({...userData, uid: user.uid}));
         successBox.textContent = "🎉 Connexion Google réussie ! Redirection en cours...";
         setTimeout(() => {
-          window.location.href = "lecteur.html";
+          window.location.href = "profil.html";
         }, 1500);
       } catch (err) {
         errorBox.textContent = "⚠️ Erreur Google Sign-In : " + err.message;
