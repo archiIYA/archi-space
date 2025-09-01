@@ -1,225 +1,481 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inscription - archiSpace</title>
+  <title>Inscription</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* Global Styles & Dark Mode */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+    body, html {
+      height: 100%;
       font-family: 'Poppins', sans-serif;
+      background: #f4f6fb;
+      color: #333;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      direction: ltr;
+    }
+    body.dark-mode {
+      background: #1a1a1a;
+      color: #e0e0e0;
     }
 
-    body {
-      min-height: 100vh;
+    /* Main Container */
+    .container {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      background: url("Design sans titre.png") no-repeat center center/cover;
+      min-height: 100vh;
       overflow: hidden;
     }
 
-    .overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 0;
+    /* Left Side (Image & Login) */
+    .left-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #f1f3f8;
+      padding: 40px;
+      transition: background-color 0.3s ease;
+    }
+    body.dark-mode .left-side {
+      background: #2a2a2a;
+    }
+    .left-side img {
+      max-width: 80%;
+      height: auto;
+      margin-bottom: 30px;
+    }
+    .left-side p {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.1em;
+      color: #555;
+      transition: color 0.3s ease;
+    }
+    body.dark-mode .left-side p {
+      color: #bbb;
+    }
+    .left-side button {
+      padding: 12px 25px;
+      border: 1px solid #333;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+    body.dark-mode .left-side button {
+      border-color: #e0e0e0;
+      color: #e0e0e0;
+    }
+    .left-side button:hover {
+      background: #333;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    body.dark-mode .left-side button:hover {
+      background: #e0e0e0;
+      color: #1a1a1a;
     }
 
-    .container {
+    /* Right Side (Form) */
+    .right-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      background: white;
+      padding: 150px 40px 30px 40px; 
+      transition: background-color 0.3s ease;
       position: relative;
-      z-index: 1;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      padding: 40px;
+    }
+    body.dark-mode .right-side {
+      background: #121212;
+    }
+    .top-banner {
+      background: #0d013d;
+      width: calc(100% + 80px);
+      height: 120px; 
+      position: absolute;
+      top: 0;
+      left: -40px;
+      right: -40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border-radius: 0 0 15px 15px;
+    }
+    .top-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      max-width: none;
+      max-height: none;
+    }
+    h2 {
+      margin-top: 20px; 
+      margin-bottom: 25px;
+      font-size: 2em;
+      color: #0d013d;
+      transition: color 0.3s ease;
+    }
+    body.dark-mode h2 {
+      color: #e0e0e0;
+    }
+    form {
       width: 100%;
       max-width: 400px;
-      text-align: center;
-      animation: fadeIn 1.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
-
-    .logo {
-      width: 80px;
-      margin-bottom: 15px;
+    .input-group {
+      display: flex;
+      gap: 15px;
     }
-
-    h2 {
-      margin-bottom: 20px;
-      font-weight: 600;
+    .input-group input {
+      flex: 1;
+    }
+    .input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    input, select {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #fdfdfd;
+      color: #333;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+      width: 100%;
+    }
+    body.dark-mode input, body.dark-mode select {
+      background: #2a2a2a;
+      color: #e0e0e0;
+      border-color: #444;
+    }
+    input::placeholder, select option {
+      color: #888;
+    }
+    body.dark-mode input::placeholder, body.dark-mode select option {
+      color: #aaa;
+    }
+    input:focus, select:focus {
+      border-color: #0d013d;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(13, 1, 61, 0.2);
+    }
+    body.dark-mode input:focus, body.dark-mode select:focus {
+      border-color: #e0e0e0;
+      box-shadow: 0 0 0 2px rgba(224, 224, 224, 0.2);
+    }
+    input.error {
+      border: 2px solid #dc3545;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #888;
+      transition: color 0.2s ease;
+    }
+    .password-toggle:hover {
       color: #333;
     }
-
-    .input-group {
-      margin-bottom: 15px;
-      text-align: left;
+    body.dark-mode .password-toggle {
+      color: #aaa;
+    }
+    body.dark-mode .password-toggle:hover {
+      color: #e0e0e0;
     }
 
-    .input-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 14px;
-      color: #444;
-    }
-
-    .input-group input {
-      width: 100%;
+    /* Buttons */
+    button[type="submit"] {
+      background: #0d013d;
+      color: white;
       padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      outline: none;
-      transition: all 0.3s ease;
-    }
-
-    .input-group input:focus {
-      border-color: #4CAF50;
-      box-shadow: 0 0 5px rgba(76, 175, 80, 0.6);
-    }
-
-    .btn {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
       border: none;
-      border-radius: 10px;
-      font-size: 15px;
+      border-radius: 5px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
-
-    .btn-primary {
-      background: linear-gradient(45deg, #4CAF50, #2E7D32);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
+    button[type="submit"]:hover {
+      background: #060429;
       transform: translateY(-2px);
-      box-shadow: 0 8px 15px rgba(76,175,80,0.4);
     }
-
-    .btn-google {
-      background: #fff;
-      color: #444;
-      border: 1px solid #ddd;
+    .or {
+      text-align: center;
+      color: #888;
+      position: relative;
+      margin: 10px 0;
+    }
+    .or::before, .or::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: #ccc;
+    }
+    body.dark-mode .or::before, body.dark-mode .or::after {
+      background: #444;
+    }
+    .or::before {
+      left: 0;
+    }
+    .or::after {
+      right: 0;
+    }
+    .google-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      margin-top: 15px;
-    }
-
-    .btn-google img {
-      width: 18px;
-    }
-
-    .btn-google:hover {
-      background: #f7f7f7;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-    }
-
-    p {
-      margin-top: 15px;
-      font-size: 14px;
+      gap: 10px;
+      border: 1px solid #ddd;
+      background: white;
       color: #555;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    body.dark-mode .google-btn {
+      background: #2a2a2a;
+      color: #e0e0e0;
+      border-color: #444;
+    }
+    .google-btn:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+    body.dark-mode .google-btn:hover {
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+    }
+    .google-btn img {
+      width: 20px;
+      height: 20px;
     }
 
-    p a {
-      color: #4CAF50;
-      text-decoration: none;
+    /* Messages */
+    #error-message {
+      color: #dc3545;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    #success-message {
+      color: #28a745;
+      text-align: center;
+      font-size: 0.9rem;
       font-weight: 500;
     }
 
-    p a:hover {
-      text-decoration: underline;
+    /* Dark Mode Toggle */
+    .dark-mode-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #555;
+      z-index: 10;
+      transition: color 0.3s ease, transform 0.2s ease;
+    }
+    .dark-mode-toggle:hover {
+      transform: scale(1.1);
+    }
+    body.dark-mode .dark-mode-toggle {
+      color: #e0e0e0;
     }
 
-    @keyframes fadeIn {
-      from {opacity: 0; transform: scale(0.9);}
-      to {opacity: 1; transform: scale(1);}
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .left-side {
+        display: none;
+      }
+      .right-side {
+        padding: 130px 20px 20px 20px; 
+      }
+      .top-banner {
+        width: calc(100% + 40px);
+        height: 100px; 
+        left: -20px;
+        right: -20px;
+      }
+      .top-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      h2 {
+        margin-top: 10px;
+      }
+      .dark-mode-toggle {
+        top: 10px;
+        right: 10px;
+      }
+      .input-group {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+    /* تحسينات إضافية للشاشات الكبيرة جدًا */
+    @media (min-width: 1200px) {
+      .top-banner {
+        height: 140px;
+      }
+      .top-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    @media (max-width: 480px) {
+      .top-banner {
+        height: 90px;
+      }
+      .top-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="overlay"></div>
-
+  <button class="dark-mode-toggle" onclick="toggleDarkMode()">☀️</button>
   <div class="container">
-    <img src="00.png" alt="Logo" class="logo">
-    <h2>Créer un compte</h2>
-
-    <form id="signup-form">
-      <div class="input-group">
-        <label for="email">Adresse Email</label>
-        <input type="email" id="email" required>
+    <div class="left-side">
+      <img src="Design sans titre.png" alt="Illustration" />
+      <p>Vous avez déjà un compte ?</p>
+      <button onclick="window.location.href='login.html'">Se Connecter</button>
+    </div>
+    
+    <div class="right-side">
+      <div class="top-banner">
+        <img src="00.png" alt="Logo">
       </div>
-
-      <div class="input-group">
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" required>
-      </div>
-
-      <button type="submit" class="btn btn-primary">S'inscrire</button>
-    </form>
-
-    <button id="google-signup" class="btn btn-google">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-      Continuer avec Google
-    </button>
-
-    <p>Déjà un compte ? <a href="login.html">Se connecter</a></p>
+      <h2>Inscription</h2>
+      <form id="signup-form" novalidate>
+        <p id="error-message"></p>
+        <p id="success-message"></p>
+        <button type="submit">S'inscrire</button>
+        <div class="or">Ou</div>
+        <button type="button" class="google-btn" onclick="signInWithGoogle()">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:20px; height:20px;" alt="Google logo">
+          S'inscrire avec Google
+        </button>
+      </form>
+    </div>
   </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
   <script>
-    // Config Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
       projectId: "archi-space-72624",
       storageBucket: "archi-space-72624.appspot.com",
       messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:1b3b54b87ca3f9a10df7b8",
-      measurementId: "G-3JF6KDRNBP"
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
     };
-
-    // Init Firebase
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const db = firebase.firestore();
 
-    // Inscription Email/Password
-    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+    const form = document.getElementById("signup-form");
+    const errorBox = document.getElementById("error-message");
+    const successBox = document.getElementById("success-message");
+
+    function clearMessages() {
+      errorBox.textContent = "";
+      successBox.textContent = "";
+      // No input fields to clear errors from
+    }
+
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      clearMessages();
 
-      try {
-        await auth.createUserWithEmailAndPassword(email, password);
-        alert("Inscription réussie ✅");
-        window.location.href = "lecteur.html";
-      } catch (error) {
-        alert(error.message);
-      }
+      // Since there are no input fields, the form submission will not create a new user.
+      // You may need to reconsider the purpose of this form.
+      errorBox.textContent = "⚠️ No input fields to process registration.";
     });
 
-    // Google Signup
-    document.getElementById("google-signup").addEventListener("click", async () => {
+    function handleFirebaseError(err) {
+      errorBox.textContent = "⚠️ Firebase error: " + err.message;
+    }
+
+    async function signInWithGoogle() {
       const provider = new firebase.auth.GoogleAuthProvider();
       try {
-        await auth.signInWithPopup(provider);
-        alert("Connexion Google réussie ✅");
-        window.location.href = "lecteur.html";
-      } catch (error) {
-        alert(error.message);
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+        const userRef = db.collection("users").doc(user.uid);
+        const doc = await userRef.get();
+        if (!doc.exists) {
+          await userRef.set({
+            email: user.email,
+            createdAt: new Date()
+          });
+        }
+        const userData = (await userRef.get()).data();
+        localStorage.setItem("userProfile", JSON.stringify({...userData, uid: user.uid}));
+        successBox.textContent = "🎉 Connexion Google réussie ! Redirection en cours...";
+        setTimeout(() => {
+          window.location.href = "lecteur.html";
+        }, 1500);
+      } catch (err) {
+        errorBox.textContent = "⚠️ Erreur Google Sign-In : " + err.message;
       }
-    });
+    }
+
+    // Dark Mode Toggle Logic
+    window.toggleDarkMode = function() {
+      document.body.classList.toggle('dark-mode');
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode);
+      document.querySelector('.dark-mode-toggle').innerHTML = isDarkMode ? "🌙" : "☀️";
+    };
+
+    // Toggle Password Visibility (function is now redundant without password field)
+    window.togglePasswordVisibility = function(fieldId) {
+      console.warn("Password toggle function called on a form without a password field.");
+    };
+
+    // Apply saved mode on page load
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.querySelector('.dark-mode-toggle').innerHTML = "🌙";
+    } else {
+      document.querySelector('.dark-mode-toggle').innerHTML = "☀️";
+    }
   </script>
 </body>
 </html>
