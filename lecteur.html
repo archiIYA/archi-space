@@ -4,11 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>archiSpace - Accueil</title>
+  <meta name="description" content="ArchiSpace - Plateforme éducative pour étudiants en architecture : cours, projets, examens, quiz et divertissement.">
+  <meta name="keywords" content="architecture, cours architecture, examens, projets étudiants, quiz, bibliothèque, archiSpace">
+  <meta name="author" content="ArchiSpace">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0; padding: 0;
-    }
+    /* Global Styles & Dark Mode */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Poppins', sans-serif;
       display: flex;
@@ -16,257 +17,168 @@
       color: #000;
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
-    .sidebar-toggle {
-      display: none;
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      background-color: #222;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 110;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
-      transition: background-color 0.3s ease;
+    body.dark-mode { background-color: #121212; color: #e0e0e0; }
+
+    /* Header & Logo */
+    .header-logo {
+      width: 100%; height: 150px; overflow: hidden;
+      margin-bottom: 20px; position: relative;
     }
-    .sidebar-toggle:hover {
-      background-color: #555;
-    }
-    .sidebar {
-      width: 220px;
-      background: #fff;
-      height: 100vh;
-      position: fixed;
-      border-right: 1px solid #ccc;
-      box-shadow: 3px 0 8px rgba(0,0,0,0.1);
-      z-index: 100;
-      overflow-y: auto;
-      padding-top: 20px;
-      font-weight: 600;
-      color: #000;
-      user-select: none;
-    }
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .sidebar li, .sidebar a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 24px;
-      cursor: pointer;
-      color: #000;
-      text-decoration: none;
-      border-left: 4px solid transparent;
-      transition: background-color 0.3s ease, border-left-color 0.3s ease;
-      font-size: 1rem;
-    }
-    .sidebar li:hover, .sidebar a:hover {
-      background-color: #f5f5f5;
-      border-left-color: #000;
-      color: #000;
-    }
-    .sidebar li.active, .sidebar a.active {
-      background-color: #e0e0e0;
-      border-left-color: #000;
-      color: #000;
-      font-weight: 700;
-    }
-    .sidebar li span.icon, .sidebar a span.icon {
-      font-size: 1.3rem;
-      user-select: none;
-    }
-    .contact {
-      margin-top: 40px;
-      padding: 15px 24px;
-      font-size: 0.9em;
-      border-top: 1px solid #ddd;
-      color: #333;
-      user-select: none;
-    }
-    .contact a {
-      color: #000;
-      text-decoration: none;
-      font-weight: 600;
+    .header-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .header-logo .logo-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
 
+    /* Sidebar */
+    .sidebar-toggle {
+      display: none; position: fixed; top: 15px; left: 15px;
+      background-color: #222; color: white; border: none;
+      padding: 10px 15px; border-radius: 8px; cursor: pointer;
+      z-index: 110; box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+    .sidebar-toggle:hover { background-color: #555; }
+    .sidebar {
+      width: 220px; background: #fff; height: 100vh; position: fixed;
+      border-right: 1px solid #ccc; box-shadow: 3px 0 8px rgba(0,0,0,0.1);
+      z-index: 100; overflow-y: auto; padding-top: 20px; font-weight: 600;
+      color: #000; user-select: none;
+    }
+    body.dark-mode .sidebar { background-color: #1a1a1a; border-right-color: #333; color: #e0e0e0; }
+    .sidebar ul { list-style: none; padding: 0; margin: 0; }
+    .sidebar a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 24px; cursor: pointer; color: #000; text-decoration: none;
+      border-left: 4px solid transparent;
+      transition: background-color 0.3s ease, border-left-color 0.3s ease, color 0.3s ease;
+      font-size: 1rem;
+    }
+    body.dark-mode .sidebar a { color: #e0e0e0; }
+    .sidebar a:hover {
+      background-color: #f5f5f5; border-left-color: #000; color: #000;
+    }
+    body.dark-mode .sidebar a:hover {
+      background-color: #2a2a2a; border-left-color: #e0e0e0; color: #e0e0e0;
+    }
+    .sidebar a.active {
+      background-color: #e0e0e0; border-left-color: #000; color: #000; font-weight: 700;
+    }
+    body.dark-mode .sidebar a.active {
+      background-color: #333; border-left-color: #e0e0e0; color: #e0e0e0;
+    }
+    .contact {
+      margin-top: 40px; padding: 15px 24px; font-size: 0.9em;
+      border-top: 1px solid #ddd; color: #333; user-select: none;
+    }
+    body.dark-mode .contact { border-top-color: #444; color: #aaa; }
+    .contact a { color: #000; text-decoration: none; font-weight: 600; }
+    body.dark-mode .contact a { color: #e0e0e0; }
+
+    /* Main Content */
     .content {
-      margin-left: 220px;
-      padding: 30px;
-      flex-grow: 1;
+      margin-left: 220px; padding: 30px; flex-grow: 1;
       animation: fadeIn 1s ease-in-out;
       width: calc(100% - 220px);
-      transition: margin-left 0.3s ease, width 0.3s ease;
-      background: #fff;
-      color: #000;
+      background: #fff; color: #000;
     }
+    body.dark-mode .content { background-color: #121212; color: #e0e0e0; }
     .logout {
-      background-color: #000;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      border-radius: 8px;
-      float: right;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: background 0.3s ease;
+      background-color: #000; color: white; border: none;
+      padding: 10px 20px; cursor: pointer; border-radius: 8px; float: right;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3); margin-bottom: 20px; font-weight: 600;
+    }
+    .logout:hover { background-color: #555; }
+    .dark-mode-toggle {
+      float: left; background: #f0f0f0; border: none; border-radius: 8px;
+      padding: 10px 15px; cursor: pointer; font-size: 1rem;
       margin-bottom: 20px;
-      font-weight: 600;
     }
-    .logout:hover {
-      background-color: #555;
-    }
-    h1 {
-      margin-bottom: 15px;
-      font-size: 2em;
-      clear: both;
-      user-select: none;
-    }
+    body.dark-mode .dark-mode-toggle { background: #333; color: white; }
+    h1 { margin-bottom: 15px; font-size: 2em; clear: both; user-select: none; }
     .search-bar > div {
-      padding: 20px;
-      background: #f0f0f0;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      color: #000;
-      font-weight: 600;
-      margin-bottom: 20px;
-      user-select: none;
+      padding: 20px; background: #f0f0f0; border-radius: 15px;
+      text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      color: #000; font-weight: 600; margin-bottom: 20px;
     }
+    body.dark-mode .search-bar > div { background-color: #222; color: #e0e0e0; }
     .mobile-info-message {
-      display: none;
-      background:#f0f0f0;
-      padding: 12px 20px;
-      border-radius: 10px;
-      color: #000;
-      margin-bottom: 15px;
-      font-weight: 600;
-      text-align: center;
-      user-select: none;
+      display: none; background:#f0f0f0; padding: 12px 20px;
+      border-radius: 10px; color: #000; margin-bottom: 15px;
+      font-weight: 600; text-align: center;
     }
+    body.dark-mode .mobile-info-message { background-color: #222; color: #e0e0e0; }
     .cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px 30px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px 30px;
     }
     .card {
-      background: #fff;
-      padding: 15px 20px;
-      border-radius: 15px;
-      box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+      background: #fff; padding: 15px 20px; border-radius: 15px;
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-      text-decoration: none;
-      color: #000;
-      display: block;
-      user-select: none;
+      cursor: pointer; text-decoration: none; color: #000; display: block;
+    }
+    body.dark-mode .card {
+      background-color: #1a1a1a; box-shadow: 4px 4px 12px rgba(0,0,0,0.3); color: #e0e0e0;
     }
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-      color: #000;
+      transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.3); color: #000;
     }
-    .card span {
-      font-size: 2.5em;
-      display: block;
-      margin-bottom: 15px;
-    }
-    .card h3 {
-      margin: 0 0 10px 0;
-      color: #000;
-      font-weight: 600;
-    }
-    .card p, .card ul {
-      margin: 0;
-      color: #333;
-      font-size: 0.85em;
-      line-height: 1.3;
-    }
-    .card ul {
-      list-style: disc inside;
-      padding-left: 15px;
-      margin-top: 5px;
-    }
-    .card ul li {
-      margin-bottom: 6px;
-    }
-    .telegram-list ul {
-      list-style: disc inside;
-      text-align: left;
-      padding-left: 15px;
-      margin: 10px 0 0 0;
-      color: #000;
-      font-size: 0.9em;
-      line-height: 1.4;
-      user-select: text;
-    }
-    .telegram-list ul li {
-      margin-bottom: 8px;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    body.dark-mode .card:hover { box-shadow: 0 10px 25px rgba(0,0,0,0.6); color: #e0e0e0; }
+    .card span { font-size: 2.5em; display: block; margin-bottom: 15px; }
+    .card h3 { margin: 0 0 10px 0; font-weight: 600; }
+    .card p, .card ul, .telegram-list ul { margin: 0; font-size: 0.85em; line-height: 1.3; }
+    .card ul { list-style: disc inside; padding-left: 15px; margin-top: 5px; }
+    .telegram-list ul { list-style: disc inside; padding-left: 15px; margin-top: 10px; font-size: 0.9em; line-height: 1.4; }
+    .telegram-list ul li { margin-bottom: 8px; }
+    @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+
+    /* Responsive */
     @media (max-width: 768px) {
-      .sidebar-toggle {
-        display: block;
-      }
-      .sidebar {
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        transform: translateX(-100%);
-        width: 220px;
-        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
-      }
-      .sidebar.show {
-        transform: translateX(0);
-      }
-      .content {
-        margin-left: 0;
-        width: 100%;
-        padding: 20px;
-      }
-      .cards {
-        grid-template-columns: 1fr;
-      }
-      .mobile-info-message {
-        display: block !important;
-      }
+      .sidebar-toggle { display: block; }
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+      .sidebar.show { transform: translateX(0); }
+      .content { margin-left: 0; width: 100%; padding: 20px; }
+      .cards { grid-template-columns: 1fr; }
+      .mobile-info-message { display: block !important; }
     }
   </style>
 </head>
 <body>
   <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
-  <div class="sidebar" role="navigation" aria-label="Navigation principale">
+  <div class="sidebar">
     <ul>
-      <li class="active">🏠 Accueil</li>
-      <li>📊 Statistiques</li>
-      <li>📚 Suivi Cours</li>
-      <li><a href="courses.html" class="">📖 Site des Cours</a></li>
-      <li>❓ Sessions Questions</li>
-      <li>📝 Sessions Examens</li>
-      <li>🏷️ Labels</li>
-      <li>🗒️ Notes</li>
-      <li>🚩 Signals</li>
-      <li>🔔 Notification</li>
-      <li>💳 Abonnement</li>
-      <li>🛠️ Support</li>
-     <li><a href="profil.html">👤 Mon Profil</a></li>
+      <a href="#" class="active">🏠 Accueil</a>
+      <a href="#">📊 Statistiques</a>
+      <a href="#">📚 Suivi Cours</a>
+      <a href="courses.html">📖 Site des Cours</a>
+      <a href="#">❓ Sessions Questions</a>
+      <a href="#">📝 Sessions Examens</a>
+      <a href="#">🏷️ Labels</a>
+      <a href="#">🗒️ Notes</a>
+      <a href="#">🚩 Signals</a>
+      <a href="#">🔔 Notification</a>
+      <a href="#">💳 Abonnement</a>
+      <a href="#">🛠️ Support</a>
+      <a href="profil.html">👤 Mon Profil</a>
     </ul>
     <div class="contact">
       📬 Contact :<br />
       <a href="mailto:contact@archi.space">contact@archi.space</a>
     </div>
   </div>
+
   <div class="content">
     <button class="logout" onclick="logout()">Déconnexion</button>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">☀️</button>
+
+    <div class="header-logo">
+      <img src="00.png" alt="ArchiSpace Banner" />
+      <div class="logo-overlay"><h1>ArchiSpace</h1></div>
+    </div>
+
     <div class="search-bar">
       <div>
         🚧 العمل جاري على الموقع <br />
@@ -274,87 +186,60 @@
         شكراً لصبركم وتفهّمكم.
       </div>
     </div>
-    <div class="mobile-info-message">
-       السنوات الدراسية موجودة في القائمة الجانبية ☰ أعلى اليسار.
-    </div>
+
+    <div class="mobile-info-message">السنوات الدراسية موجودة في القائمة الجانبية ☰ أعلى اليسار.</div>
+
     <h1>🏠 Accueil étudiant</h1>
     <div class="cards">
-      <!-- يمين - دروس وتعليم -->
-      <a href="https://t.me/+DJAWFkqTVvJkYWU8" target="_blank" rel="noopener" class="card">
-        <span>📝</span>
-        <h3>Demande de résumés</h3>
+      <a href="https://t.me/+DJAWFkqTVvJkYWU8" target="_blank" class="card">
+        <span>📝</span><h3>Demande de résumés</h3>
         <p>Rejoignez notre groupe Telegram pour demander des résumés de cours et projets.</p>
       </a>
-      <!-- تعديل بطاقة قنوات الإنستجرام -->
       <div class="card">
-        <span>📸</span>
-        <h3>Meilleures chaînes Instagram</h3>
+        <span>📸</span><h3>Meilleures chaînes Instagram</h3>
         <ul>
-          <li><a href="https://www.instagram.com/ikraam_bks?igsh=ZWJvbjc2NHF0bXc0" target="_blank" rel="noopener" style="color:#000;text-decoration:none;">ikraam_bks</a></li>
-          <li><a href="https://www.instagram.com/urfav_sam_archi_epau?igsh=MTRxbzF0dnludnBqbQ%3D%3D" target="_blank" rel="noopener" style="color:#000;text-decoration:none;">urfav_sam_archi_epau</a></li>
-          <li><a href="https://www.instagram.com/urfav_sam_archi_epau?igsh=MTRxbzF0dnludnBqbQ%3D%3D" target="_blank" rel="noopener" style="color:#000;text-decoration:none;">urfav_sam_archi_epau</a></li>
+          <li><a href="https://www.instagram.com/ikraam_bks" target="_blank">ikraam_bks</a></li>
+          <li><a href="https://www.instagram.com/urfav_sam_archi_epau" target="_blank">urfav_sam_archi_epau</a></li>
+          <li><a href="https://www.instagram.com/trendyplaza10" target="_blank">trendyplaza10</a></li>
         </ul>
       </div>
       <a href="bibliotheque.html" class="card">
-        <span>📘</span>
-        <h3>Bibliothèque</h3>
-        <p>Consultez les livres et ressources utiles.</p>
+        <span>📘</span><h3>Bibliothèque</h3><p>Consultez les livres et ressources utiles.</p>
       </a>
-      <!-- بطاقة التسوق الإلكتروني الجديدة -->
       <a href="Trendyplazashop.html" class="card">
-        <span>🛒</span>
-        <h3>Trendyplaza shop</h3>
-        <p>استكشف أفضل منتجات الأدوات المعمارية والتقنيات الحديثة.</p>
-      </a>
-      <a href="https://www.instagram.com/trendyplaza10?igsh=MXNiano2ZzRqemVxbA%3D%3D" target="_blank" rel="noopener" class="card">
-        <span>📚</span>
-        <h3>Meilleure bibliothèque pour les outils</h3>
-        <p>Accédez à la bibliothèque recommandée pour commander et emprunter des outils.</p>
+        <span>🛒</span><h3>Trendyplaza shop</h3><p>استكشف أفضل منتجات الأدوات المعمارية والتقنيات الحديثة.</p>
       </a>
       <a href="dossiers.html" class="card">
-        <span>📚</span>
-        <h3>Dossiers de cours</h3>
-        <p>Explorez les contenus pédagogiques classés par année.</p>
+        <span>📚</span><h3>Dossiers de cours</h3><p>Explorez les contenus pédagogiques classés par année.</p>
       </a>
       <a href="divertissement.html" class="card">
-        <span>🎮</span>
-        <h3>Divertissement</h3>
-        <p>Jeux, vidéos et contenu amusant pour se détendre.</p>
+        <span>🎮</span><h3>Divertissement</h3><p>Jeux, vidéos et contenu amusant pour se détendre.</p>
       </a>
       <a href="exam.html" class="card">
-        <span>📝</span>
-        <h3>EXAM</h3>
-        <p>Accès sécurisé aux examens et épreuves précédentes.</p>
+        <span>📝</span><h3>EXAM</h3><p>Accès sécurisé aux examens et épreuves précédentes.</p>
       </a>
       <a href="quiz.html" class="card">
-        <span>❓</span>
-        <h3>Quiz</h3>
-        <p>Testez vos connaissances avec des quiz interactifs.</p>
+        <span>❓</span><h3>Quiz</h3><p>Testez vos connaissances avec des quiz interactifs.</p>
       </a>
       <a href="projets.html" class="card">
-        <span>🗃️</span>
-        <h3>Projets étudiants</h3>
-        <p>Accès Premium aux meilleurs PFE protégés.</p>
+        <span>🗃️</span><h3>Projets étudiants</h3><p>Accès Premium aux meilleurs PFE protégés.</p>
       </a>
       <a href="specialite.html" class="card">
-        <span>🎓</span>
-        <h3>Présentation de la spécialité</h3>
-        <p>Découvrez la filière et les moyennes d'admission.</p>
+        <span>🎓</span><h3>Présentation de la spécialité</h3><p>Découvrez la filière et les moyennes d'admission.</p>
       </a>
-      <!-- بطاقة قنوات التلغرام -->
       <div class="card">
-        <span>💬</span>
-        <h3>Meilleures chaînes Telegram</h3>
+        <span>💬</span><h3>Meilleures chaînes Telegram</h3>
         <div class="telegram-list">
           <ul>
-            <li><a href="https://t.me/+IpSoJKmM9y5kMjU0" target="_blank" rel="noopener">سنة اولى</a></li>
-            <li><a href="https://t.me/+PZlrwvdw8jllMTRk" target="_blank" rel="noopener">سنة ثانية</a></li>
-            <li><a href="https://t.me/+kUPR2XI-dlZmM2Vk" target="_blank" rel="noopener">سنة ثالثة</a></li>
+            <li><a href="https://t.me/+IpSoJKmM9y5kMjU0" target="_blank">سنة اولى</a></li>
+            <li><a href="https://t.me/+PZlrwvdw8jllMTRk" target="_blank">سنة ثانية</a></li>
+            <li><a href="https://t.me/+kUPR2XI-dlZmM2Vk" target="_blank">سنة ثالثة</a></li>
           </ul>
         </div>
       </div>
     </div>
   </div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -372,28 +257,34 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // Vérifier si utilisateur est connecté
     onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-      }
+      if (!user) window.location.href = "login.html";
     });
 
+    // Déconnexion
     window.logout = function () {
-      signOut(auth).then(() => {
-        window.location.href = "login.html";
-      });
+      signOut(auth).then(() => window.location.href = "login.html");
     };
 
+    // Sidebar toggle (mobile uniquement)
     window.toggleSidebar = function() {
-      const sidebar = document.querySelector('.sidebar');
-      const content = document.querySelector('.content');
-      if (window.innerWidth <= 768) {
-        sidebar.classList.toggle('show');
-      } else {
-        sidebar.classList.toggle('hidden');
-        content.classList.toggle('fullwidth');
-      }
+      document.querySelector('.sidebar').classList.toggle('show');
     };
+
+    // Dark mode toggle
+    window.toggleDarkMode = function() {
+      document.body.classList.toggle('dark-mode');
+      let isDarkMode = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode);
+      document.querySelector('.dark-mode-toggle').textContent = isDarkMode ? "🌙" : "☀️";
+    };
+
+    // Initial mode
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.querySelector('.dark-mode-toggle').textContent = "🌙";
+    }
   </script>
 </body>
 </html>
