@@ -223,7 +223,7 @@
     #toolsList {
       display:none;
       position: fixed;
-      top: 10%; /* رفع القائمة 10% بدلاً من 20% */
+      top: 10%; /* رفع القائمة 10% بدل 20% */
       left: 50%;
       transform: translateX(-50%);
       background: #fff;
@@ -258,7 +258,7 @@
       transform: translateX(-50%);
       background: var(--primary-color);
       color: white;
-      padding: 15px 25px;
+      padding: 15px 20px 15px 15px;
       border-radius: 30px;
       font-weight: bold;
       font-size: 1.1rem;
@@ -268,10 +268,14 @@
       user-select: none;
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 10px;
     }
     #cartSummary span {
       pointer-events: none;
+    }
+    #cartSummary .cart-icon {
+      pointer-events: none;
+      font-size: 1.5rem;
     }
   </style>
 </head>
@@ -285,7 +289,6 @@
   </div>
   <div class="container">
     <div class="grid" aria-label="قائمة الباقات">
-
       <!-- الكروت مع مربع اختيار -->
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
@@ -295,7 +298,6 @@
         <div class="price" data-price="4100">4100 دج</div>
         <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
-
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20sous%20main.png" alt="باقة Sous main" class="package-image" />
@@ -304,7 +306,6 @@
         <div class="price" data-price="4950">4950 دج</div>
         <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
-
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
         <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20sghira.png" alt="باقة البازوكا الصغيرة" class="package-image" />
@@ -313,7 +314,6 @@
         <div class="price" data-price="5200">5200 دج</div>
         <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
-
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
         <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20kbira.png" alt="باقة البازوكا الكبيرة" class="package-image" />
@@ -322,7 +322,6 @@
         <div class="price" data-price="5600">5600 دج</div>
         <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
-
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20sghira.png" alt="باقة VIP" class="package-image" />
@@ -331,7 +330,6 @@
         <div class="price" data-price="6500">6500 دج</div>
         <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
-
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20kbira.png" alt="باقة VIP2" class="package-image" />
@@ -340,14 +338,11 @@
         <div class="price" data-price="6800">6800 دج</div>
         <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
-
     </div>
-
     <!-- سلة الطلب -->
     <div id="cartSummary" tabindex="0" role="button" aria-label="فتح نموذج الطلب مع الباقات المختارة" onclick="openFormMultiple()">
-      <span id="cartItemsCount">0</span> باقات مختارة | الإجمالي: <span id="cartTotalPrice">0</span> دج | اضغط لطلب
+      <span class="cart-icon">🛒</span> <span id="cartItemsCount">0</span> باقات مختارة | الإجمالي: <span id="cartTotalPrice">0</span> دج | اضغط لطلب
     </div>
-
     <div id="formWrap">
       <form id="orderForm">
         <h3>📋 اكمل بيانات الطلب</h3>
@@ -537,7 +532,6 @@
       "El M'Ghair": {"À domicile": 950, "Bureau": 0},
       "El Meniaa": {"À domicile": 1000, "Bureau": 0}
     };
-
     // عناصر الصفحة
     const formWrap = document.getElementById('formWrap');
     const orderForm = document.getElementById('orderForm');
@@ -552,19 +546,22 @@
     const cartSummary = document.getElementById('cartSummary');
     const cartItemsCount = document.getElementById('cartItemsCount');
     const cartTotalPrice = document.getElementById('cartTotalPrice');
-
-    // إخفاء قائمة الأدوات عند تحريك الماوس على بطاقة أو عند الصفح بالتمرير
+    // إخفاء قائمة الأدوات عند تحريك الماوس على بطاقة أو عند التمرير للأسفل فقط
     function hideToolsListOnHover() {
       if (toolsList.style.display !== 'none') {
         toggleToolsList(false);
       }
     }
+    // إخفاء القائمة فقط عند تمرير الصفحة للأسفل وليس للأعلى
+    let lastScrollTop = 0;
     window.addEventListener('scroll', () => {
-      if (toolsList.style.display !== 'none') {
+      let st = window.pageYOffset || document.documentElement.scrollTop;
+      if (toolsList.style.display !== 'none' && st > lastScrollTop) {
+        // التمرير للأسفل يخفي القائمة
         toggleToolsList(false);
       }
+      lastScrollTop = st <= 0 ? 0 : st; // للوقاية من القيم السلبية
     });
-
     // تحديث عرض السلة بناءً على اختيار الباقات
     function updateCart() {
       const checkboxes = document.querySelectorAll('.select-checkbox');
@@ -590,7 +587,6 @@
       }
       return { selectedCount, totalPrice, selectedPackages };
     }
-
     // دالة إظهار أو إخفاء قائمة الأدوات
     function toggleToolsList(forceShow = null) {
       if (forceShow === true) {
@@ -605,7 +601,6 @@
         }
       }
     }
-
     // فتح نموذج الطلب مع الباقات المختارة (أكثر من باقة)
     function openFormMultiple() {
       const cartData = updateCart();
@@ -617,13 +612,11 @@
       document.getElementById('successBox').style.display = 'none';
       priceBox.style.display = 'none';
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
-
       // تعبئة الحقول المختفية بمعلومات الباقات المختارة مجتمعة
       packageInput.value = cartData.selectedPackages.join(' + ');
       priceInput.value = cartData.totalPrice;
       updatePrices();
     }
-
     // فتح نموذج الطلب لمنفردة (مدعوم للاستخدام مع الأزرار في كل بطاقة)
     function openFormSingle(packName, price) {
       formWrap.style.display = 'block';
@@ -634,12 +627,10 @@
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
       updatePrices();
     }
-
     // تعامل مع نقر بطاقات الباقة (لمنع فتح غير مرغوب فيه عند الضغط على بطاقة)
     function cardClick(event) {
       event.stopPropagation();
     }
-
     // حساب وعرض أسعار التوصيل والمجموع
     function updatePrices() {
       const wilaya = wilayaSelect.value.trim();
@@ -673,13 +664,11 @@
       document.getElementById('delivery_price').value = delivery_price;
       document.getElementById('total').value = totalPrice;
     }
-
     // أحداث التغيير للحساب التلقائي
     wilayaSelect.addEventListener('change', updatePrices);
     deliverySelect.addEventListener('change', updatePrices);
     priceInput.addEventListener('change', updatePrices);
     priceInput.addEventListener('input', updatePrices);
-
     // إرسال النموذج
     orderForm.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -721,10 +710,8 @@
       })
       .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
     });
-
     // منع النقر بالزر الأيمن
     document.addEventListener('contextmenu', event => event.preventDefault());
-
     // تعطيل اختصارات لوحة المفاتيح
     document.addEventListener('keydown', function(event) {
       if (event.ctrlKey && event.key === 'u') {
