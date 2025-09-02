@@ -138,16 +138,14 @@
       text-align: center;
       font-weight: 600;
     }
-    /* تعديل مربع اختيار داخل البطاقة */
     .select-checkbox {
       position: absolute;
-      bottom: 15px; /* نقل للمسافة أسفل البطاقة */
+      bottom: 15px;
       left: 15px;
       transform: scale(1.3);
       cursor: pointer;
       z-index: 10;
     }
-    /* تحسين مظهر بطاقة على الشاشات الصغيرة */
     @media (max-width: 767px) {
       .select-checkbox {
         position: static;
@@ -157,7 +155,7 @@
         margin-left: 0;
       }
       .card {
-        padding-bottom: 30px; /* تقليل padding للاجهزة الصغيرة */
+        padding-bottom: 30px;
       }
     }
     #formWrap {
@@ -234,14 +232,12 @@
       font-size: 1.2rem;
       box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     }
-    /* جديد: التنسيق للنص القابل للضغط على "جميع الأدوات" */
     .tools-link {
       color: var(--primary-color);
       font-weight: bold;
       cursor: pointer;
       text-decoration: underline;
     }
-    /* صندوق قائمة الأدوات مع تحريك إلى الأعلى */
     #toolsList {
       display:none;
       position: fixed;
@@ -271,7 +267,6 @@
       font-weight: bold;
       font-size: 1rem;
     }
-    /* تعديل سلة الطلب لتكون شريط ثابت أسفل الصفحة */
     #cartSummary {
       display: none;
       position: fixed;
@@ -386,6 +381,10 @@
         <input type="hidden" name="delivery_price" id="delivery_price" />
         <input type="hidden" name="total" id="total" />
         <div class="form-group">
+          <label for="packageDisplay">الباقة المختارة</label>
+          <textarea id="packageDisplay" name="packageDisplay" readonly rows="2" style="resize:none; background:#eee; padding:10px; border-radius:8px;"></textarea>
+        </div>
+        <div class="form-group">
           <label for="name">الاسم الكامل</label>
           <input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل" />
         </div>
@@ -484,7 +483,6 @@
       <div id="successBox" class="success" role="alert">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
     </div>
   </div>
-  <!-- صندوق قائمة الأدوات -->
   <div id="toolsList" aria-label="قائمة الأدوات الأساسية">
     📦 Contenu du pack (16 outils essentiels) :<br><br>
     • 📐 Équerres 45 cm x2 (90/45° et 60/30°)<br>
@@ -571,6 +569,7 @@
     const formWrap = document.getElementById('formWrap');
     const orderForm = document.getElementById('orderForm');
     const packageInput = document.getElementById('package');
+    const packageDisplay = document.getElementById('packageDisplay');
     const priceInput = document.getElementById('price');
     const wilayaSelect = document.getElementById('wilaya');
     const deliverySelect = document.getElementById('delivery');
@@ -581,13 +580,11 @@
     const cartSummary = document.getElementById('cartSummary');
     const cartItemsCount = document.getElementById('cartItemsCount');
     const cartTotalPrice = document.getElementById('cartTotalPrice');
-
     function hideToolsListOnHover() {
       if (toolsList.style.display !== 'none') {
         toggleToolsList(false);
       }
     }
-
     let lastScrollTop = 0;
     window.addEventListener('scroll', () => {
       let st = window.pageYOffset || document.documentElement.scrollTop;
@@ -596,7 +593,6 @@
       }
       lastScrollTop = st <= 0 ? 0 : st;
     });
-
     function updateCart() {
       const checkboxes = document.querySelectorAll('.select-checkbox');
       let selectedCount = 0;
@@ -621,7 +617,6 @@
       }
       return { selectedCount, totalPrice, selectedPackages };
     }
-
     function toggleToolsList(forceShow = null) {
       if (forceShow === true) {
         toolsList.style.display = 'block';
@@ -635,7 +630,6 @@
         }
       }
     }
-
     function openFormMultiple() {
       const cartData = updateCart();
       if (cartData.selectedCount === 0) {
@@ -647,10 +641,10 @@
       priceBox.style.display = 'none';
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
       packageInput.value = cartData.selectedPackages.join(' + ');
+      packageDisplay.value = packageInput.value;
       priceInput.value = Number(cartData.totalPrice) || 0; // تأكد من كون القيمة رقم
       updatePrices();
     }
-
     // دالة الطلب المباشر للباقة المفردة بدون اختيار checkbox
     function orderSinglePack(packName, price) {
       formWrap.style.display = 'block';
@@ -658,14 +652,13 @@
       priceBox.style.display = 'none';
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
       packageInput.value = packName;
+      packageDisplay.value = packageInput.value;
       priceInput.value = price;
       updatePrices();
     }
-
     function cardClick(event) {
       event.stopPropagation();
     }
-
     function updatePrices() {
       const wilaya = wilayaSelect.value.trim();
       const delivery = deliverySelect.value;
@@ -706,12 +699,10 @@
       document.getElementById('delivery_price').value = delivery_price;
       document.getElementById('total').value = totalPrice;
     }
-
     wilayaSelect.addEventListener('change', updatePrices);
     deliverySelect.addEventListener('change', updatePrices);
     priceInput.addEventListener('change', updatePrices);
     priceInput.addEventListener('input', updatePrices);
-
     orderForm.addEventListener('submit', function(e) {
       e.preventDefault();
       const formEl = e.target;
@@ -740,6 +731,7 @@
           document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
           packageInput.value = '';
           priceInput.value = '';
+          packageDisplay.value = '';
           setTimeout(() => {
             formWrap.style.display = 'none';
             document.getElementById('successBox').style.display = 'none';
@@ -751,7 +743,6 @@
       })
       .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
     });
-
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.addEventListener('keydown', function(event) {
       if (event.ctrlKey && event.key === 'u') event.preventDefault();
