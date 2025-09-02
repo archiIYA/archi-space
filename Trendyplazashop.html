@@ -129,6 +129,13 @@
       background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
       transform: scale(1.03);
     }
+    .btn-note {
+      font-size: 0.9rem;
+      color: var(--dark-color);
+      margin-top: 6px;
+      text-align: center;
+      font-weight: 600;
+    }
     /* اضافة مربع اختيار داخل البطاقة */
     .select-checkbox {
       position: absolute;
@@ -287,7 +294,7 @@
     <div class="logo"></div>
     <div class="header-text">
       <h1>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية</h1>
-      <p>اطلب الآن واحصل على أفضل الباقات بأفضل الأسعار</p>
+      <p id="multiPackNote" style="font-weight:600; font-size:0.95rem; margin-top:8px;">للطلب أكثر من باقة حدد الباقات المختارة ثم اضغط على اطلب الآن</p>
     </div>
   </div>
   <div class="container">
@@ -299,7 +306,8 @@
         <h3>1️⃣ الباقة الأساسية</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + رابط الكتروني + هدية 🎁</p>
         <div class="price" data-price="4100">4100 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('الباقة الأساسية', 4100)">اطلب الآن</button>
+        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
       </div>
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
@@ -307,7 +315,8 @@
         <h3>2️⃣ باقة Sous main</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
         <div class="price" data-price="4950">4950 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة Sous main', 4950)">اطلب الآن</button>
+        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
       </div>
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
@@ -315,7 +324,8 @@
         <h3>3️⃣ باقة البازوكا الصغيرة</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا صغيرة + رابط الكتروني + هدية 🎁</p>
         <div class="price" data-price="5200">5200 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة البازوكا الصغيرة', 5200)">اطلب الآن</button>
+        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
       </div>
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
@@ -323,7 +333,8 @@
         <h3>4️⃣ باقة البازوكا الكبيرة</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا كبيرة + رابط الكتروني + هدية 🎁</p>
         <div class="price" data-price="5600">5600 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة البازوكا الكبيرة', 5600)">اطلب الآن</button>
+        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
       </div>
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
@@ -331,7 +342,8 @@
         <h3>5️⃣ باقة VIP</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا صغيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
         <div class="price" data-price="6500">6500 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة VIP', 6500)">اطلب الآن</button>
+        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
       </div>
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
@@ -339,7 +351,8 @@
         <h3>5️⃣ باقة VIP2</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا كبيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
         <div class="price" data-price="6800">6800 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة VIP2', 6800)">اطلب الآن</button>
+        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
       </div>
     </div>
     <!-- سلة الطلب -->
@@ -549,29 +562,27 @@
     const cartSummary = document.getElementById('cartSummary');
     const cartItemsCount = document.getElementById('cartItemsCount');
     const cartTotalPrice = document.getElementById('cartTotalPrice');
-    // إخفاء قائمة الأدوات عند تحريك الماوس على بطاقة أو عند التمرير للأسفل فقط
+
     function hideToolsListOnHover() {
       if (toolsList.style.display !== 'none') {
         toggleToolsList(false);
       }
     }
-    // إخفاء القائمة فقط عند تمرير الصفحة للأسفل وليس للأعلى
     let lastScrollTop = 0;
     window.addEventListener('scroll', () => {
       let st = window.pageYOffset || document.documentElement.scrollTop;
       if (toolsList.style.display !== 'none' && st > lastScrollTop) {
-        // التمرير للأسفل يخفي القائمة
         toggleToolsList(false);
       }
-      lastScrollTop = st <= 0 ? 0 : st; // للوقاية من القيم السلبية
+      lastScrollTop = st <= 0 ? 0 : st;
     });
-    // تحديث عرض السلة بناءً على اختيار الباقات
+
     function updateCart() {
       const checkboxes = document.querySelectorAll('.select-checkbox');
       let selectedCount = 0;
       let totalPrice = 0;
       let selectedPackages = [];
-      checkboxes.forEach((cb, idx) => {
+      checkboxes.forEach((cb) => {
         if (cb.checked) {
           selectedCount++;
           const card = cb.closest('.card');
@@ -590,7 +601,7 @@
       }
       return { selectedCount, totalPrice, selectedPackages };
     }
-    // دالة إظهار أو إخفاء قائمة الأدوات
+
     function toggleToolsList(forceShow = null) {
       if (forceShow === true) {
         toolsList.style.display = 'block';
@@ -604,7 +615,7 @@
         }
       }
     }
-    // فتح نموذج الطلب مع الباقات المختارة (أكثر من باقة)
+
     function openFormMultiple() {
       const cartData = updateCart();
       if (cartData.selectedCount === 0) {
@@ -615,26 +626,26 @@
       document.getElementById('successBox').style.display = 'none';
       priceBox.style.display = 'none';
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
-      // تعبئة الحقول المختفية بمعلومات الباقات المختارة مجتمعة
       packageInput.value = cartData.selectedPackages.join(' + ');
       priceInput.value = cartData.totalPrice;
       updatePrices();
     }
-    // فتح نموذج الطلب لمنفردة (مدعوم للاستخدام مع الأزرار في كل بطاقة)
-    function openFormSingle(packName, price) {
+
+    // دالة الطلب المباشر للباقة المفردة بدون اختيار checkbox
+    function orderSinglePack(packName, price) {
       formWrap.style.display = 'block';
-      packageInput.value = packName;
-      priceInput.value = price;
       document.getElementById('successBox').style.display = 'none';
       priceBox.style.display = 'none';
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
+      packageInput.value = packName;
+      priceInput.value = price;
       updatePrices();
     }
-    // تعامل مع نقر بطاقات الباقة (لمنع فتح غير مرغوب فيه عند الضغط على بطاقة)
+
     function cardClick(event) {
       event.stopPropagation();
     }
-    // حساب وعرض أسعار التوصيل والمجموع مع رسالة عند عدم توفر التوصيل (سعر 0 غير Tifawt bureau في Alger)
+
     function updatePrices() {
       const wilaya = wilayaSelect.value.trim();
       const delivery = deliverySelect.value;
@@ -675,12 +686,12 @@
       document.getElementById('delivery_price').value = delivery_price;
       document.getElementById('total').value = totalPrice;
     }
-    // أحداث التغيير للحساب التلقائي
+
     wilayaSelect.addEventListener('change', updatePrices);
     deliverySelect.addEventListener('change', updatePrices);
     priceInput.addEventListener('change', updatePrices);
     priceInput.addEventListener('input', updatePrices);
-    // إرسال النموذج
+
     orderForm.addEventListener('submit', function(e) {
       e.preventDefault();
       const formEl = e.target;
@@ -720,19 +731,12 @@
       })
       .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
     });
-    // منع النقر بالزر الأيمن
+
     document.addEventListener('contextmenu', event => event.preventDefault());
-    // تعطيل اختصارات لوحة المفاتيح
     document.addEventListener('keydown', function(event) {
-      if (event.ctrlKey && event.key === 'u') {
-        event.preventDefault();
-      }
-      if (event.key === 'F12') {
-        event.preventDefault();
-      }
-      if (event.ctrlKey && event.shiftKey && event.key === 'I') {
-        event.preventDefault();
-      }
+      if (event.ctrlKey && event.key === 'u') event.preventDefault();
+      if (event.key === 'F12') event.preventDefault();
+      if (event.ctrlKey && event.shiftKey && event.key === 'I') event.preventDefault();
     });
   </script>
 </body>
