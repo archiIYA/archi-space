@@ -70,6 +70,7 @@
       margin-bottom: 30px;
     }
     .card {
+      position: relative;
       background: #fff;
       border: 2px solid var(--primary-color);
       border-radius: 15px;
@@ -127,6 +128,15 @@
     .btn:hover {
       background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
       transform: scale(1.03);
+    }
+    /* اضافة مربع اختيار داخل البطاقة */
+    .select-checkbox {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      transform: scale(1.3);
+      cursor: pointer;
+      z-index: 10;
     }
     #formWrap {
       display: none;
@@ -209,11 +219,11 @@
       cursor: pointer;
       text-decoration: underline;
     }
-    /* صندوق قائمة الأدوات */
+    /* صندوق قائمة الأدوات مع تحريك إلى الأعلى */
     #toolsList {
       display:none;
       position: fixed;
-      top: 20%;
+      top: 10%; /* رفع القائمة 10% بدلاً من 20% */
       left: 50%;
       transform: translateX(-50%);
       background: #fff;
@@ -239,6 +249,30 @@
       font-weight: bold;
       font-size: 1rem;
     }
+    /* سلة الطلب */
+    #cartSummary {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary-color);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      box-shadow: 0 0 15px rgba(179, 0, 0, 0.7);
+      z-index: 1100;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    #cartSummary span {
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -251,49 +285,69 @@
   </div>
   <div class="container">
     <div class="grid" aria-label="قائمة الباقات">
-      <div class="card" tabindex="0" onclick="openForm('الباقة الأساسية', 4100)">
+
+      <!-- الكروت مع مربع اختيار -->
+      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
+        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20de%20base.png" alt="الباقة الأساسية" class="package-image" />
         <h3>1️⃣ الباقة الأساسية</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + رابط الكتروني + هدية 🎁</p>
-        <div class="price">4100 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('الباقة الأساسية', 4100)">اطلب الآن</button>
+        <div class="price" data-price="4100">4100 دج</div>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
-      <div class="card" tabindex="0" onclick="openForm('باقة Sous main', 4950)">
+
+      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
+        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20sous%20main.png" alt="باقة Sous main" class="package-image" />
         <h3>2️⃣ باقة Sous main</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
-        <div class="price">4950 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('باقة Sous main', 4950)">اطلب الآن</button>
+        <div class="price" data-price="4950">4950 دج</div>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
-      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الصغيرة', 5200)">
+
+      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
+        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
         <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20sghira.png" alt="باقة البازوكا الصغيرة" class="package-image" />
         <h3>3️⃣ باقة البازوكا الصغيرة</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا صغيرة + رابط الكتروني + هدية 🎁</p>
-        <div class="price">5200 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('باقة البازوكا الصغيرة', 5200)">اطلب الآن</button>
+        <div class="price" data-price="5200">5200 دج</div>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
-      <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الكبيرة', 5600)">
+
+      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
+        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
         <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20kbira.png" alt="باقة البازوكا الكبيرة" class="package-image" />
         <h3>4️⃣ باقة البازوكا الكبيرة</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا كبيرة + رابط الكتروني + هدية 🎁</p>
-        <div class="price">5600 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('باقة البازوكا الكبيرة', 5600)">اطلب الآن</button>
+        <div class="price" data-price="5600">5600 دج</div>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
-      <div class="card" tabindex="0" onclick="openForm('باقة VIP', 6500)">
+
+      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
+       <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20sghira.png" alt="باقة VIP" class="package-image" />
         <h3>5️⃣ باقة VIP</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا صغيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
-        <div class="price">6500 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('باقة VIP', 6500)">اطلب الآن</button>
+        <div class="price" data-price="6500">6500 دج</div>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
-      <div class="card" tabindex="0" onclick="openForm('باقة VIP', 6800)">
-       <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20kbira.png" alt="باقة VIP" class="package-image" />
+
+      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
+       <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
+       <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20kbira.png" alt="باقة VIP2" class="package-image" />
         <h3>5️⃣ باقة VIP2</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا كبيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
-        <div class="price">6800 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('باقة VIP', 6800)">اطلب الآن</button>
+        <div class="price" data-price="6800">6800 دج</div>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
+
     </div>
+
+    <!-- سلة الطلب -->
+    <div id="cartSummary" tabindex="0" role="button" aria-label="فتح نموذج الطلب مع الباقات المختارة" onclick="openFormMultiple()">
+      <span id="cartItemsCount">0</span> باقات مختارة | الإجمالي: <span id="cartTotalPrice">0</span> دج | اضغط لطلب
+    </div>
+
     <div id="formWrap">
       <form id="orderForm">
         <h3>📋 اكمل بيانات الطلب</h3>
@@ -387,9 +441,9 @@
           </select>
         </div>
         <div class="form-group">
-  <label for="notes">ملاحظات إضافية (اختياري)</label>
-  <textarea id="notes" name="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة"></textarea>
-</div>
+          <label for="notes">ملاحظات إضافية (اختياري)</label>
+          <textarea id="notes" name="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة"></textarea>
+        </div>
         <div id="priceBox" class="price-summary" aria-live="polite" style="display:none; margin-top:18px; background:#f8f9fa; border:2px dashed var(--primary-color); padding:14px; border-radius:10px; text-align:right; font-weight:700;">
           Prix de Livraison: <span id="displayDelivery" class="value">0</span> دج<br>
           Prix TOTAL: <span id="displayTotal" class="value">0</span> دج
@@ -397,10 +451,9 @@
         </div>
         <button type="submit" class="submit-btn">✅ تأكيد الطلب</button>
       </form>
-      <div id="successBox" class="success">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
+      <div id="successBox" class="success" role="alert">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
     </div>
   </div>
-
   <!-- صندوق قائمة الأدوات -->
   <div id="toolsList" aria-label="قائمة الأدوات الأساسية">
     📦 Contenu du pack (16 outils essentiels) :<br><br>
@@ -422,7 +475,6 @@
     • 🎁 Cadeau spécial HG<br>
     <button onclick="toggleToolsList()">إغلاق</button>
   </div>
-
   <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbxhLToEKUlCfWh3tj5H6A25YykEh36Zf7ngAjEbkrBX0PgWWWgXNAbvM0pXnOGv-jQ/exec";
     const deliveryPrices = {
@@ -485,7 +537,8 @@
       "El M'Ghair": {"À domicile": 950, "Bureau": 0},
       "El Meniaa": {"À domicile": 1000, "Bureau": 0}
     };
-    // العناصر المختارة من الصفحة
+
+    // عناصر الصفحة
     const formWrap = document.getElementById('formWrap');
     const orderForm = document.getElementById('orderForm');
     const packageInput = document.getElementById('package');
@@ -495,11 +548,84 @@
     const priceBox = document.getElementById('priceBox');
     const displayDelivery = document.getElementById('displayDelivery');
     const displayTotal = document.getElementById('displayTotal');
-    // صندوق قائمة الأدوات
     const toolsList = document.getElementById('toolsList');
+    const cartSummary = document.getElementById('cartSummary');
+    const cartItemsCount = document.getElementById('cartItemsCount');
+    const cartTotalPrice = document.getElementById('cartTotalPrice');
 
-    // فتح نموذج الطلب
-    function openForm(packName, price) {
+    // إخفاء قائمة الأدوات عند تحريك الماوس على بطاقة أو عند الصفح بالتمرير
+    function hideToolsListOnHover() {
+      if (toolsList.style.display !== 'none') {
+        toggleToolsList(false);
+      }
+    }
+    window.addEventListener('scroll', () => {
+      if (toolsList.style.display !== 'none') {
+        toggleToolsList(false);
+      }
+    });
+
+    // تحديث عرض السلة بناءً على اختيار الباقات
+    function updateCart() {
+      const checkboxes = document.querySelectorAll('.select-checkbox');
+      let selectedCount = 0;
+      let totalPrice = 0;
+      let selectedPackages = [];
+      checkboxes.forEach((cb, idx) => {
+        if (cb.checked) {
+          selectedCount++;
+          const card = cb.closest('.card');
+          const pkgName = card.querySelector('h3').textContent.trim();
+          const price = parseInt(card.querySelector('.price').dataset.price);
+          totalPrice += price;
+          selectedPackages.push(`${pkgName} (${price} دج)`);
+        }
+      });
+      if (selectedCount > 0) {
+        cartItemsCount.textContent = selectedCount;
+        cartTotalPrice.textContent = totalPrice;
+        cartSummary.style.display = 'flex';
+      } else {
+        cartSummary.style.display = 'none';
+      }
+      return { selectedCount, totalPrice, selectedPackages };
+    }
+
+    // دالة إظهار أو إخفاء قائمة الأدوات
+    function toggleToolsList(forceShow = null) {
+      if (forceShow === true) {
+        toolsList.style.display = 'block';
+      } else if (forceShow === false) {
+        toolsList.style.display = 'none';
+      } else {
+        if (toolsList.style.display === 'none' || toolsList.style.display === '') {
+          toolsList.style.display = 'block';
+        } else {
+          toolsList.style.display = 'none';
+        }
+      }
+    }
+
+    // فتح نموذج الطلب مع الباقات المختارة (أكثر من باقة)
+    function openFormMultiple() {
+      const cartData = updateCart();
+      if (cartData.selectedCount === 0) {
+        alert('يرجى اختيار باقة واحدة على الأقل للطلب.');
+        return;
+      }
+      formWrap.style.display = 'block';
+      document.getElementById('successBox').style.display = 'none';
+      priceBox.style.display = 'none';
+      window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
+
+      // تعبئة الحقول المختفية بمعلومات الباقات المختارة مجتمعة
+      packageInput.value = cartData.selectedPackages.join(' + ');
+      priceInput.value = cartData.totalPrice;
+      updatePrices();
+    }
+
+    // فتح نموذج الطلب لمنفردة (مدعوم للاستخدام مع الأزرار في كل بطاقة)
+    function openFormSingle(packName, price) {
       formWrap.style.display = 'block';
       packageInput.value = packName;
       priceInput.value = price;
@@ -508,14 +634,12 @@
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
       updatePrices();
     }
-    // عرض وإخفاء قائمة الأدوات
-    function toggleToolsList() {
-      if (toolsList.style.display === 'none' || toolsList.style.display === '') {
-        toolsList.style.display = 'block';
-      } else {
-        toolsList.style.display = 'none';
-      }
+
+    // تعامل مع نقر بطاقات الباقة (لمنع فتح غير مرغوب فيه عند الضغط على بطاقة)
+    function cardClick(event) {
+      event.stopPropagation();
     }
+
     // حساب وعرض أسعار التوصيل والمجموع
     function updatePrices() {
       const wilaya = wilayaSelect.value.trim();
@@ -549,11 +673,13 @@
       document.getElementById('delivery_price').value = delivery_price;
       document.getElementById('total').value = totalPrice;
     }
+
     // أحداث التغيير للحساب التلقائي
     wilayaSelect.addEventListener('change', updatePrices);
     deliverySelect.addEventListener('change', updatePrices);
     priceInput.addEventListener('change', updatePrices);
     priceInput.addEventListener('input', updatePrices);
+
     // إرسال النموذج
     orderForm.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -579,6 +705,11 @@
           priceBox.style.display = 'none';
           document.getElementById('delivery_price').value = '';
           document.getElementById('total').value = '';
+          cartSummary.style.display = 'none';
+          // إلغاء تحديد كل الباقات بعد الطلب
+          document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
+          packageInput.value = '';
+          priceInput.value = '';
           setTimeout(() => {
             formWrap.style.display = 'none';
             document.getElementById('successBox').style.display = 'none';
@@ -593,17 +724,15 @@
 
     // منع النقر بالزر الأيمن
     document.addEventListener('contextmenu', event => event.preventDefault());
+
     // تعطيل اختصارات لوحة المفاتيح
     document.addEventListener('keydown', function(event) {
-      // منع Ctrl+U
       if (event.ctrlKey && event.key === 'u') {
         event.preventDefault();
       }
-      // منع F12 (أدوات المطور)
       if (event.key === 'F12') {
         event.preventDefault();
       }
-      // منع Ctrl+Shift+I (أدوات المطور)
       if (event.ctrlKey && event.shiftKey && event.key === 'I') {
         event.preventDefault();
       }
