@@ -25,6 +25,7 @@
       color: var(--dark-color);
       min-height: 100vh;
       padding: 0 20px;
+      padding-bottom: 60px; /* حجز مساحة لسلة الطلب الثابتة */
     }
     .header-container {
       background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
@@ -270,36 +271,37 @@
       font-weight: bold;
       font-size: 1rem;
     }
-    /* سلة الطلب - تعديل لوضعها على اليمين وتخفيف التداخل */
+    /* تعديل سلة الطلب لتكون شريط ثابت أسفل الصفحة */
     #cartSummary {
       display: none;
       position: fixed;
-      bottom: 25px;
-      right: 20px;
+      bottom: 0;
+      left: 0;
+      right: 0;
       background: var(--primary-color);
       color: white;
-      padding: 10px 15px;
-      border-radius: 30px;
+      padding: 14px 20px;
       font-weight: bold;
-      font-size: 1rem;
-      box-shadow: 0 0 20px rgba(179, 0, 0, 0.8);
+      font-size: 1.2rem;
+      box-shadow: 0 -2px 10px rgba(179, 0, 0, 0.9);
       z-index: 1100;
       cursor: pointer;
       user-select: none;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      max-width: 320px;
+      gap: 12px;
+      max-width: 100%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    #cartSummary span {
+    #cartSummary .cart-icon {
+      font-size: 1.8rem;
       pointer-events: none;
     }
-    #cartSummary .cart-icon {
+    #cartSummary span {
       pointer-events: none;
-      font-size: 1.5rem;
     }
   </style>
 </head>
@@ -371,7 +373,10 @@
     </div>
     <!-- سلة الطلب -->
     <div id="cartSummary" tabindex="0" role="button" aria-label="فتح نموذج الطلب مع الباقات المختارة" onclick="openFormMultiple()">
-      <span class="cart-icon">🛒</span> <span id="cartItemsCount">0</span> باقات مختارة | الإجمالي: <span id="cartTotalPrice">0</span> دج | اضغط لطلب
+      <span class="cart-icon">🛒</span>
+      <span id="cartItemsCount">0</span> باقات مختارة |
+      الإجمالي: <span id="cartTotalPrice">0</span> دج |
+      اضغط لطلب
     </div>
     <div id="formWrap">
       <form id="orderForm">
@@ -576,11 +581,13 @@
     const cartSummary = document.getElementById('cartSummary');
     const cartItemsCount = document.getElementById('cartItemsCount');
     const cartTotalPrice = document.getElementById('cartTotalPrice');
+
     function hideToolsListOnHover() {
       if (toolsList.style.display !== 'none') {
         toggleToolsList(false);
       }
     }
+
     let lastScrollTop = 0;
     window.addEventListener('scroll', () => {
       let st = window.pageYOffset || document.documentElement.scrollTop;
@@ -589,6 +596,7 @@
       }
       lastScrollTop = st <= 0 ? 0 : st;
     });
+
     function updateCart() {
       const checkboxes = document.querySelectorAll('.select-checkbox');
       let selectedCount = 0;
@@ -613,6 +621,7 @@
       }
       return { selectedCount, totalPrice, selectedPackages };
     }
+
     function toggleToolsList(forceShow = null) {
       if (forceShow === true) {
         toolsList.style.display = 'block';
@@ -626,6 +635,7 @@
         }
       }
     }
+
     function openFormMultiple() {
       const cartData = updateCart();
       if (cartData.selectedCount === 0) {
@@ -637,9 +647,10 @@
       priceBox.style.display = 'none';
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
       packageInput.value = cartData.selectedPackages.join(' + ');
-      priceInput.value = cartData.totalPrice;
+      priceInput.value = Number(cartData.totalPrice) || 0; // تأكد من كون القيمة رقم
       updatePrices();
     }
+
     // دالة الطلب المباشر للباقة المفردة بدون اختيار checkbox
     function orderSinglePack(packName, price) {
       formWrap.style.display = 'block';
@@ -650,9 +661,11 @@
       priceInput.value = price;
       updatePrices();
     }
+
     function cardClick(event) {
       event.stopPropagation();
     }
+
     function updatePrices() {
       const wilaya = wilayaSelect.value.trim();
       const delivery = deliverySelect.value;
@@ -693,10 +706,12 @@
       document.getElementById('delivery_price').value = delivery_price;
       document.getElementById('total').value = totalPrice;
     }
+
     wilayaSelect.addEventListener('change', updatePrices);
     deliverySelect.addEventListener('change', updatePrices);
     priceInput.addEventListener('change', updatePrices);
     priceInput.addEventListener('input', updatePrices);
+
     orderForm.addEventListener('submit', function(e) {
       e.preventDefault();
       const formEl = e.target;
@@ -736,6 +751,7 @@
       })
       .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
     });
+
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.addEventListener('keydown', function(event) {
       if (event.ctrlKey && event.key === 'u') event.preventDefault();
@@ -745,4 +761,3 @@
   </script>
 </body>
 </html>
-
