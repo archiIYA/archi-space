@@ -25,7 +25,7 @@
       color: var(--dark-color);
       min-height: 100vh;
       padding: 0 20px;
-      padding-bottom: 70px; /* حجز مساحة كافية لسلة الطلب */
+      padding-bottom: 60px; /* حجز مساحة لسلة الطلب الثابتة */
     }
     .header-container {
       background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
@@ -271,58 +271,37 @@
       font-weight: bold;
       font-size: 1rem;
     }
-    /* تصميم سلة الطلب صغير ومنظم */
+    /* تعديل سلة الطلب لتكون شريط ثابت أسفل الصفحة */
     #cartSummary {
       display: none;
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 0;
+      left: 0;
+      right: 0;
       background: var(--primary-color);
-      color: #fff;
-      padding: 8px 16px;
-      font-weight: 700;
-      font-size: 1rem;
-      border-radius: 25px;
-      box-shadow: 0 4px 15px rgba(179, 0, 0, 0.5);
+      color: white;
+      padding: 14px 20px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      box-shadow: 0 -2px 10px rgba(179, 0, 0, 0.9);
       z-index: 1100;
       cursor: pointer;
       user-select: none;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
-      max-width: 280px;
+      gap: 12px;
+      max-width: 100%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      transition: background-color 0.3s ease;
-    }
-    #cartSummary:hover {
-      background-color: #8b0000;
     }
     #cartSummary .cart-icon {
-      font-size: 1.4rem;
+      font-size: 1.8rem;
       pointer-events: none;
     }
     #cartSummary span {
       pointer-events: none;
-    }
-    /* شاشة صغيرة (هاتف) */
-    @media (max-width: 767px) {
-      #cartSummary {
-        bottom: 0;
-        right: 0;
-        left: 0;
-        max-width: 100%;
-        border-radius: 0;
-        padding: 12px;
-        font-size: 1rem;
-        justify-content: center;
-        box-shadow: 0 -3px 10px rgba(179, 0, 0, 0.7);
-      }
-      #cartSummary .cart-icon {
-        font-size: 1.6rem;
-        margin-left: 8px;
-      }
     }
   </style>
 </head>
@@ -336,21 +315,63 @@
   </div>
   <div class="container">
     <div class="grid" aria-label="قائمة الباقات">
-      <!-- البطاقات مع checkbox -->
+      <!-- الكروت مع مربع اختيار -->
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
         <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20de%20base.png" alt="الباقة الأساسية" class="package-image" />
         <h3>1️⃣ الباقة الأساسية</h3>
-        <p>
-          <span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + رابط الكتروني + هدية 🎁
-        </p>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + رابط الكتروني + هدية 🎁</p>
         <div class="price" data-price="4100">4100 دج</div>
         <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('الباقة الأساسية', 4100)">اطلب الآن</button>
         <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
       </div>
-      <!-- باقي البطاقات مثل السابق... -->
-      <!-- ... -->
+      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
+        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20sous%20main.png" alt="باقة Sous main" class="package-image" />
+        <h3>2️⃣ باقة Sous main</h3>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
+        <div class="price" data-price="4950">4950 دج</div>
+        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة Sous main', 4950)">اطلب الآن</button>
+        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
+      </div>
+      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
+        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20sghira.png" alt="باقة البازوكا الصغيرة" class="package-image" />
+        <h3>3️⃣ باقة البازوكا الصغيرة</h3>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا صغيرة + رابط الكتروني + هدية 🎁</p>
+        <div class="price" data-price="5200">5200 دج</div>
+        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة البازوكا الصغيرة', 5200)">اطلب الآن</button>
+        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
+      </div>
+      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
+        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20kbira.png" alt="باقة البازوكا الكبيرة" class="package-image" />
+        <h3>4️⃣ باقة البازوكا الكبيرة</h3>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا كبيرة + رابط الكتروني + هدية 🎁</p>
+        <div class="price" data-price="5600">5600 دج</div>
+        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة البازوكا الكبيرة', 5600)">اطلب الآن</button>
+        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
+      </div>
+      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
+        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20sghira.png" alt="باقة VIP" class="package-image" />
+        <h3>5️⃣ باقة VIP</h3>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا صغيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
+        <div class="price" data-price="6500">6500 دج</div>
+        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة VIP', 6500)">اطلب الآن</button>
+        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
+      </div>
+      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
+        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20kbira.png" alt="باقة VIP2" class="package-image" />
+        <h3>5️⃣ باقة VIP2</h3>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا كبيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
+        <div class="price" data-price="6800">6800 دج</div>
+        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة VIP2', 6800)">اطلب الآن</button>
+        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
+      </div>
     </div>
+    <!-- سلة الطلب -->
     <div id="cartSummary" tabindex="0" role="button" aria-label="فتح نموذج الطلب مع الباقات المختارة" onclick="openFormMultiple()">
       <span class="cart-icon">🛒</span>
       <span id="cartItemsCount">0</span> باقات مختارة |
@@ -359,7 +380,6 @@
     </div>
     <div id="formWrap">
       <form id="orderForm">
-        <!-- نموذج الطلب كما في كودك السابق -->
         <h3>📋 اكمل بيانات الطلب</h3>
         <input type="hidden" name="package" id="package" />
         <input type="hidden" name="price" id="price" />
@@ -377,7 +397,64 @@
           <label for="wilaya">الولاية</label>
           <select id="wilaya" name="wilaya" required>
             <option value="">-- Choisissez votre wilaya --</option>
-            <!-- الخيارات... -->
+            <option>Adrar</option>
+            <option>Chlef</option>
+            <option>Laghouat</option>
+            <option>Oum El Bouaghi</option>
+            <option>Batna</option>
+            <option>Béjaïa</option>
+            <option>Biskra</option>
+            <option>Béchar</option>
+            <option>Blida</option>
+            <option>Bouira</option>
+            <option>Tamanrasset</option>
+            <option>Tébessa</option>
+            <option>Tlemcen</option>
+            <option>Tiaret</option>
+            <option>Tizi Ouzou</option>
+            <option>Alger</option>
+            <option>Djelfa</option>
+            <option>Jijel</option>
+            <option>Sétif</option>
+            <option>Saïda</option>
+            <option>Skikda</option>
+            <option>Sidi Bel Abbès</option>
+            <option>Annaba</option>
+            <option>Guelma</option>
+            <option>Constantine</option>
+            <option>Médéa</option>
+            <option>Mostaganem</option>
+            <option>M'Sila</option>
+            <option>Mascara</option>
+            <option>Ouargla</option>
+            <option>Oran</option>
+            <option>El Bayadh</option>
+            <option>Illizi</option>
+            <option>Bordj Bou Arreridj</option>
+            <option>Boumerdès</option>
+            <option>El Tarf</option>
+            <option>Tindouf</option>
+            <option>Tissemsilt</option>
+            <option>El Oued</option>
+            <option>Khenchela</option>
+            <option>Souk Ahras</option>
+            <option>Tipaza</option>
+            <option>Mila</option>
+            <option>Aïn Defla</option>
+            <option>Naâma</option>
+            <option>Aïn Témouchent</option>
+            <option>Ghardaïa</option>
+            <option>Relizane</option>
+            <option>Timimoun</option>
+            <option>Bordj Badji Mokhtar</option>
+            <option>Ouled Djellal</option>
+            <option>Béni Abbès</option>
+            <option>In Salah</option>
+            <option>In Guezzam</option>
+            <option>Touggourt</option>
+            <option>Djanet</option>
+            <option>El M'Ghair</option>
+            <option>El Meniaa</option>
           </select>
         </div>
         <div class="form-group">
@@ -404,9 +481,7 @@
         </div>
         <button type="submit" class="submit-btn">✅ تأكيد الطلب</button>
       </form>
-      <div id="successBox" class="success" role="alert">
-        ✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.
-      </div>
+      <div id="successBox" class="success" role="alert">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
     </div>
   </div>
   <!-- صندوق قائمة الأدوات -->
@@ -430,12 +505,68 @@
     • 🎁 Cadeau spécial HG<br>
     <button onclick="toggleToolsList()">إغلاق</button>
   </div>
-
   <script>
-    // نفس جافاسكريبتك السابق مع تحديثات بسيطة في اختيار السعر والكومبوننت
     const GAS_URL = "https://script.google.com/macros/s/AKfycbxhLToEKUlCfWh3tj5H6A25YykEh36Zf7ngAjEbkrBX0PgWWWgXNAbvM0pXnOGv-jQ/exec";
-    // تعريف deliveryPrices بنفس ما لديك...
-
+    const deliveryPrices = {
+      "Adrar": {"À domicile": 1400, "Bureau": 900},
+      "Chlef": {"À domicile": 850, "Bureau": 450},
+      "Laghouat": {"À domicile": 950, "Bureau": 550},
+      "Oum El Bouaghi": {"À domicile": 850, "Bureau": 450},
+      "Batna": {"À domicile": 900, "Bureau": 450},
+      "Béjaïa": {"À domicile": 800, "Bureau": 450},
+      "Biskra": {"À domicile": 950, "Bureau": 550},
+      "Béchar": {"À domicile": 1100, "Bureau": 650},
+      "Blida": {"À domicile": 600, "Bureau": 400},
+      "Bouira": {"À domicile": 700, "Bureau": 450},
+      "Tamanrasset": {"À domicile": 1600, "Bureau": 1050},
+      "Tébessa": {"À domicile": 900, "Bureau": 450},
+      "Tlemcen": {"À domicile": 900, "Bureau": 500},
+      "Tiaret": {"À domicile": 850, "Bureau": 450},
+      "Tizi Ouzou": {"À domicile": 750, "Bureau": 450},
+      "Alger": {"À domicile": 600, "Bureau": 400},
+      "Djelfa": {"À domicile": 900, "Bureau": 450},
+      "Jijel": {"À domicile": 800, "Bureau": 450},
+      "Sétif": {"À domicile": 850, "Bureau": 450},
+      "Saïda": {"À domicile": 900, "Bureau": 450},
+      "Skikda": {"À domicile": 900, "Bureau": 450},
+      "Sidi Bel Abbès": {"À domicile": 900, "Bureau": 500},
+      "Annaba": {"À domicile": 850, "Bureau": 450},
+      "Guelma": {"À domicile": 850, "Bureau": 450},
+      "Constantine": {"À domicile": 850, "Bureau": 450},
+      "Médéa": {"À domicile": 850, "Bureau": 450},
+      "Mostaganem": {"À domicile": 850, "Bureau": 450},
+      "M'Sila": {"À domicile": 850, "Bureau": 450},
+      "Mascara": {"À domicile": 900, "Bureau": 450},
+      "Ouargla": {"À domicile": 1100, "Bureau": 650},
+      "Oran": {"À domicile": 800, "Bureau": 450},
+      "El Bayadh": {"À domicile": 1100, "Bureau": 600},
+      "Illizi": {"À domicile": 1600, "Bureau": 1050},
+      "Bordj Bou Arreridj": {"À domicile": 850, "Bureau": 450},
+      "Boumerdès": {"À domicile": 700, "Bureau": 450},
+      "El Tarf": {"À domicile": 850, "Bureau": 450},
+      "Tindouf": {"À domicile": 1600, "Bureau": 1050},
+      "Tissemsilt": {"À domicile": 900, "Bureau": 450},
+      "El Oued": {"À domicile": 1000, "Bureau": 600},
+      "Khenchela": {"À domicile": 900, "Bureau": 450},
+      "Souk Ahras": {"À domicile": 900, "Bureau": 450},
+      "Tipaza": {"À domicile": 700, "Bureau": 450},
+      "Mila": {"À domicile": 850, "Bureau": 450},
+      "Aïn Defla": {"À domicile": 900, "Bureau": 450},
+      "Naâma": {"À domicile": 1100, "Bureau": 600},
+      "Aïn Témouchent": {"À domicile": 900, "Bureau": 450},
+      "Ghardaïa": {"À domicile": 950, "Bureau": 550},
+      "Relizane": {"À domicile": 900, "Bureau": 450},
+      "Timimoun": {"À domicile": 1400, "Bureau": 0},
+      "Bordj Badji Mokhtar": {"À domicile": 0, "Bureau": 0},
+      "Ouled Djellal": {"À domicile": 950, "Bureau": 550},
+      "Béni Abbès": {"À domicile": 1100, "Bureau": 0},
+      "In Salah": {"À domicile": 1600, "Bureau": 0},
+      "In Guezzam": {"À domicile": 1600, "Bureau": 0},
+      "Touggourt": {"À domicile": 950, "Bureau": 600},
+      "Djanet": {"À domicile": 0, "Bureau": 0},
+      "El M'Ghair": {"À domicile": 950, "Bureau": 0},
+      "El Meniaa": {"À domicile": 1000, "Bureau": 0}
+    };
     // عناصر الصفحة
     const formWrap = document.getElementById('formWrap');
     const orderForm = document.getElementById('orderForm');
@@ -516,10 +647,11 @@
       priceBox.style.display = 'none';
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
       packageInput.value = cartData.selectedPackages.join(' + ');
-      priceInput.value = Number(cartData.totalPrice) || 0;
+      priceInput.value = Number(cartData.totalPrice) || 0; // تأكد من كون القيمة رقم
       updatePrices();
     }
 
+    // دالة الطلب المباشر للباقة المفردة بدون اختيار checkbox
     function orderSinglePack(packName, price) {
       formWrap.style.display = 'block';
       document.getElementById('successBox').style.display = 'none';
@@ -629,3 +761,4 @@
   </script>
 </body>
 </html>
+
