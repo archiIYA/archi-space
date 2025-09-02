@@ -223,7 +223,7 @@
     #toolsList {
       display:none;
       position: fixed;
-      top: 10%; /* رفع القائمة 10% بدل 20% */
+      top: 10%;
       left: 50%;
       transform: translateX(-50%);
       background: #fff;
@@ -249,26 +249,29 @@
       font-weight: bold;
       font-size: 1rem;
     }
-    /* سلة الطلب */
+    /* سلة الطلب - تعديل لوضعها على اليمين وتخفيف التداخل */
     #cartSummary {
       display: none;
       position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 25px;
+      right: 20px;
       background: var(--primary-color);
       color: white;
-      padding: 15px 20px 15px 15px;
+      padding: 10px 15px;
       border-radius: 30px;
       font-weight: bold;
-      font-size: 1.1rem;
-      box-shadow: 0 0 15px rgba(179, 0, 0, 0.7);
+      font-size: 1rem;
+      box-shadow: 0 0 20px rgba(179, 0, 0, 0.8);
       z-index: 1100;
       cursor: pointer;
       user-select: none;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      max-width: 320px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     #cartSummary span {
       pointer-events: none;
@@ -292,7 +295,7 @@
       <!-- الكروت مع مربع اختيار -->
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
-       <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20de%20base.png" alt="الباقة الأساسية" class="package-image" />
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20de%20base.png" alt="الباقة الأساسية" class="package-image" />
         <h3>1️⃣ الباقة الأساسية</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + رابط الكتروني + هدية 🎁</p>
         <div class="price" data-price="4100">4100 دج</div>
@@ -300,7 +303,7 @@
       </div>
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
-       <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20sous%20main.png" alt="باقة Sous main" class="package-image" />
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20sous%20main.png" alt="باقة Sous main" class="package-image" />
         <h3>2️⃣ باقة Sous main</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
         <div class="price" data-price="4950">4950 دج</div>
@@ -323,16 +326,16 @@
         <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
-       <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
-       <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20sghira.png" alt="باقة VIP" class="package-image" />
+        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20sghira.png" alt="باقة VIP" class="package-image" />
         <h3>5️⃣ باقة VIP</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا صغيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
         <div class="price" data-price="6500">6500 دج</div>
         <button class="btn" type="button" onclick="event.stopPropagation(); openFormMultiple()">اطلب الآن</button>
       </div>
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
-       <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
-       <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20kbira.png" alt="باقة VIP2" class="package-image" />
+        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
+        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20kbira.png" alt="باقة VIP2" class="package-image" />
         <h3>5️⃣ باقة VIP2</h3>
         <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا كبيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
         <div class="price" data-price="6800">6800 دج</div>
@@ -631,7 +634,7 @@
     function cardClick(event) {
       event.stopPropagation();
     }
-    // حساب وعرض أسعار التوصيل والمجموع
+    // حساب وعرض أسعار التوصيل والمجموع مع رسالة عند عدم توفر التوصيل (سعر 0 غير Tifawt bureau في Alger)
     function updatePrices() {
       const wilaya = wilayaSelect.value.trim();
       const delivery = deliverySelect.value;
@@ -656,6 +659,14 @@
         delivery_price = 0;
       } else if (row && row[delivery]) {
         delivery_price = Number(row[delivery]) || 0;
+      }
+      if (delivery_price === 0 && !(delivery === 'Tifawt bureau' && wilaya === 'Alger')) {
+        alert('التوصيل غير متوفر لتلك المنطقة');
+        deliverySelect.value = '';
+        priceBox.style.display = 'none';
+        document.getElementById('delivery_price').value = '';
+        document.getElementById('total').value = '';
+        return;
       }
       const totalPrice = packagePrice + delivery_price;
       displayDelivery.textContent = delivery_price;
@@ -695,7 +706,6 @@
           document.getElementById('delivery_price').value = '';
           document.getElementById('total').value = '';
           cartSummary.style.display = 'none';
-          // إلغاء تحديد كل الباقات بعد الطلب
           document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
           packageInput.value = '';
           priceInput.value = '';
