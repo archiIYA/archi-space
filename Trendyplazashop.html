@@ -672,7 +672,7 @@
         delivery_price = Number(row[delivery]) || 0;
       }
       if (delivery_price === 0 && !(delivery === 'Tifawt bureau' && wilaya === 'Alger')) {
-        alert('التوصيل غير متوفر لتلك المنطقة');
+        alert('التوصيل غير متوفر لهذه الولاية');
         deliverySelect.value = '';
         priceBox.style.display = 'none';
         document.getElementById('delivery_price').value = '';
