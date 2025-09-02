@@ -75,6 +75,7 @@
       border: 2px solid var(--primary-color);
       border-radius: 15px;
       padding: 20px;
+      padding-bottom: 70px; /* مساحة أسفل لإظهار checkbox بشكل واضح */
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
       text-align: center;
       cursor: pointer;
@@ -136,14 +137,27 @@
       text-align: center;
       font-weight: 600;
     }
-    /* اضافة مربع اختيار داخل البطاقة */
+    /* تعديل مربع اختيار داخل البطاقة */
     .select-checkbox {
       position: absolute;
-      top: 15px;
+      bottom: 15px; /* نقل للمسافة أسفل البطاقة */
       left: 15px;
       transform: scale(1.3);
       cursor: pointer;
       z-index: 10;
+    }
+    /* تحسين مظهر بطاقة على الشاشات الصغيرة */
+    @media (max-width: 767px) {
+      .select-checkbox {
+        position: static;
+        transform: scale(1.5);
+        display: block;
+        margin-top: 15px;
+        margin-left: 0;
+      }
+      .card {
+        padding-bottom: 30px; /* تقليل padding للاجهزة الصغيرة */
+      }
     }
     #formWrap {
       display: none;
@@ -562,7 +576,6 @@
     const cartSummary = document.getElementById('cartSummary');
     const cartItemsCount = document.getElementById('cartItemsCount');
     const cartTotalPrice = document.getElementById('cartTotalPrice');
-
     function hideToolsListOnHover() {
       if (toolsList.style.display !== 'none') {
         toggleToolsList(false);
@@ -576,7 +589,6 @@
       }
       lastScrollTop = st <= 0 ? 0 : st;
     });
-
     function updateCart() {
       const checkboxes = document.querySelectorAll('.select-checkbox');
       let selectedCount = 0;
@@ -601,7 +613,6 @@
       }
       return { selectedCount, totalPrice, selectedPackages };
     }
-
     function toggleToolsList(forceShow = null) {
       if (forceShow === true) {
         toolsList.style.display = 'block';
@@ -615,7 +626,6 @@
         }
       }
     }
-
     function openFormMultiple() {
       const cartData = updateCart();
       if (cartData.selectedCount === 0) {
@@ -630,7 +640,6 @@
       priceInput.value = cartData.totalPrice;
       updatePrices();
     }
-
     // دالة الطلب المباشر للباقة المفردة بدون اختيار checkbox
     function orderSinglePack(packName, price) {
       formWrap.style.display = 'block';
@@ -641,11 +650,9 @@
       priceInput.value = price;
       updatePrices();
     }
-
     function cardClick(event) {
       event.stopPropagation();
     }
-
     function updatePrices() {
       const wilaya = wilayaSelect.value.trim();
       const delivery = deliverySelect.value;
@@ -686,12 +693,10 @@
       document.getElementById('delivery_price').value = delivery_price;
       document.getElementById('total').value = totalPrice;
     }
-
     wilayaSelect.addEventListener('change', updatePrices);
     deliverySelect.addEventListener('change', updatePrices);
     priceInput.addEventListener('change', updatePrices);
     priceInput.addEventListener('input', updatePrices);
-
     orderForm.addEventListener('submit', function(e) {
       e.preventDefault();
       const formEl = e.target;
@@ -731,7 +736,6 @@
       })
       .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
     });
-
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.addEventListener('keydown', function(event) {
       if (event.ctrlKey && event.key === 'u') event.preventDefault();
@@ -741,3 +745,4 @@
   </script>
 </body>
 </html>
+
