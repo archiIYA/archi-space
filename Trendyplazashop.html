@@ -202,6 +202,43 @@
       font-size: 1.2rem;
       box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     }
+    /* جديد: التنسيق للنص القابل للضغط على "جميع الأدوات" */
+    .tools-link {
+      color: var(--primary-color);
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    /* صندوق قائمة الأدوات */
+    #toolsList {
+      display:none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 2px solid var(--primary-color);
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 320px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      z-index: 1000;
+      direction: rtl;
+      text-align: right;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+    #toolsList button {
+      margin-top: 10px;
+      padding: 7px 14px;
+      border: none;
+      background-color: var(--primary-color);
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -217,44 +254,44 @@
       <div class="card" tabindex="0" onclick="openForm('الباقة الأساسية', 3950)">
        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20de%20base.png" alt="الباقة الأساسية" class="package-image" />
         <h3>1️⃣ الباقة الأساسية</h3>
-        <p>جميع الأدوات + رابط الكتروني + هدية 🎁</p>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + رابط الكتروني + هدية 🎁</p>
         <div class="price">3950 دج</div>
-        <button class="btn" type="button" onclick="openForm('الباقة الأساسية', 3950)">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('الباقة الأساسية', 3950)">اطلب الآن</button>
       </div>
       <div class="card" tabindex="0" onclick="openForm('باقة Sous main', 4850)">
        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20sous%20main.png" alt="باقة Sous main" class="package-image" />
         <h3>2️⃣ باقة Sous main</h3>
-        <p>جميع الأدوات + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
         <div class="price">4850 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة Sous main', 4850)">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('باقة Sous main', 4850)">اطلب الآن</button>
       </div>
       <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الصغيرة', 4950)">
         <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20sghira.png" alt="باقة البازوكا الصغيرة" class="package-image" />
         <h3>3️⃣ باقة البازوكا الصغيرة</h3>
-        <p>جميع الأدوات + بازوكا صغيرة + رابط الكتروني + هدية 🎁</p>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا صغيرة + رابط الكتروني + هدية 🎁</p>
         <div class="price">4950 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة البازوكا الصغيرة', 4950)">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('باقة البازوكا الصغيرة', 4950)">اطلب الآن</button>
       </div>
       <div class="card" tabindex="0" onclick="openForm('باقة البازوكا الكبيرة', 5200)">
         <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20kbira.png" alt="باقة البازوكا الكبيرة" class="package-image" />
         <h3>4️⃣ باقة البازوكا الكبيرة</h3>
-        <p>جميع الأدوات + بازوكا كبيرة + رابط الكتروني + هدية 🎁</p>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا كبيرة + رابط الكتروني + هدية 🎁</p>
         <div class="price">5200 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة البازوكا الكبيرة', 5200)">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('باقة البازوكا الكبيرة', 5200)">اطلب الآن</button>
       </div>
       <div class="card" tabindex="0" onclick="openForm('باقة VIP', 6200)">
        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20sghira.png" alt="باقة VIP" class="package-image" />
         <h3>5️⃣ باقة VIP</h3>
-        <p>جميع الأدوات + بازوكا صغيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا صغيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
         <div class="price">6200 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة VIP', 6200)">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('باقة VIP', 6200)">اطلب الآن</button>
       </div>
       <div class="card" tabindex="0" onclick="openForm('باقة VIP', 6200)">
        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20kbira.png" alt="باقة VIP" class="package-image" />
         <h3>5️⃣ باقة VIP2</h3>
-        <p>جميع الأدوات + بازوكا كبيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
+        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا كبيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
         <div class="price">6500 دج</div>
-        <button class="btn" type="button" onclick="openForm('باقة VIP', 6200)">اطلب الآن</button>
+        <button class="btn" type="button" onclick="event.stopPropagation(); openForm('باقة VIP', 6200)">اطلب الآن</button>
       </div>
     </div>
     <div id="formWrap">
@@ -353,7 +390,6 @@
   <label for="notes">ملاحظات إضافية (اختياري)</label>
   <textarea id="notes" name="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة"></textarea>
 </div>
-
         <div id="priceBox" class="price-summary" aria-live="polite" style="display:none; margin-top:18px; background:#f8f9fa; border:2px dashed var(--primary-color); padding:14px; border-radius:10px; text-align:right; font-weight:700;">
           Prix de Livraison: <span id="displayDelivery" class="value">0</span> دج<br>
           Prix TOTAL: <span id="displayTotal" class="value">0</span> دج
@@ -364,9 +400,31 @@
       <div id="successBox" class="success">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
     </div>
   </div>
+
+  <!-- صندوق قائمة الأدوات -->
+  <div id="toolsList" aria-label="قائمة الأدوات الأساسية">
+    📦 Contenu du pack (16 outils essentiels) :<br><br>
+    • 📐 Équerres 45 cm x2 (90/45° et 60/30°)<br>
+    • 📐 Équerres 25 cm x2 (90/45° et 60/30°)<br>
+    • ✏️ Boîte de compas professionnel avec rallonge<br>
+    • 📄 Pochette dessin blanc A4 – 160 g<br>
+    • 📄 Pochette dessin blanc A3 – 160 g<br>
+    • ✒️ Porte-mine 0,7 mm<br>
+    • ✏️ Mines 0,7 HB<br>
+    • ✏️ Crayon technique HB<br>
+    • ✏️ Crayon technique 2B<br>
+    • ✏️ Crayon technique 6H<br>
+    • 🔪 Cutter en métal<br>
+    • 🩶 Gomme<br>
+    • ✏️ Taille-crayon<br>
+    • 🏷️ Ruban adhésif papier<br>
+    • 📏 Règle métallique 60 cm<br>
+    • 🎁 Cadeau spécial HG<br>
+    <button onclick="toggleToolsList()">إغلاق</button>
+  </div>
+
   <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbxhLToEKUlCfWh3tj5H6A25YykEh36Zf7ngAjEbkrBX0PgWWWgXNAbvM0pXnOGv-jQ/exec";
-
     const deliveryPrices = {
       "Adrar": {"À domicile": 1400, "Bureau": 900},
       "Chlef": {"À domicile": 850, "Bureau": 450},
@@ -437,6 +495,9 @@
     const priceBox = document.getElementById('priceBox');
     const displayDelivery = document.getElementById('displayDelivery');
     const displayTotal = document.getElementById('displayTotal');
+    // صندوق قائمة الأدوات
+    const toolsList = document.getElementById('toolsList');
+
     // فتح نموذج الطلب
     function openForm(packName, price) {
       formWrap.style.display = 'block';
@@ -446,6 +507,14 @@
       priceBox.style.display = 'none';
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
       updatePrices();
+    }
+    // عرض وإخفاء قائمة الأدوات
+    function toggleToolsList() {
+      if (toolsList.style.display === 'none' || toolsList.style.display === '') {
+        toolsList.style.display = 'block';
+      } else {
+        toolsList.style.display = 'none';
+      }
     }
     // حساب وعرض أسعار التوصيل والمجموع
     function updatePrices() {
@@ -521,27 +590,24 @@
       })
       .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
     });
+
+    // منع النقر بالزر الأيمن
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    // تعطيل اختصارات لوحة المفاتيح
+    document.addEventListener('keydown', function(event) {
+      // منع Ctrl+U
+      if (event.ctrlKey && event.key === 'u') {
+        event.preventDefault();
+      }
+      // منع F12 (أدوات المطور)
+      if (event.key === 'F12') {
+        event.preventDefault();
+      }
+      // منع Ctrl+Shift+I (أدوات المطور)
+      if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+        event.preventDefault();
+      }
+    });
   </script>
-  <script>
-  // منع النقر بالزر الأيمن
-  document.addEventListener('contextmenu', event => event.preventDefault());
-
-  // تعطيل اختصارات لوحة المفاتيح
-  document.addEventListener('keydown', function(event) {
-    // منع Ctrl+U
-    if (event.ctrlKey && event.key === 'u') {
-      event.preventDefault();
-    }
-    // منع F12 (أدوات المطور)
-    if (event.key === 'F12') {
-      event.preventDefault();
-    }
-    // منع Ctrl+Shift+I (أدوات المطور)
-    if (event.ctrlKey && event.shiftKey && event.key === 'I') {
-      event.preventDefault();
-    }
-  });
-</script>
-
 </body>
 </html>
