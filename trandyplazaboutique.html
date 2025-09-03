@@ -83,7 +83,20 @@
     .card:hover { transform: translateY(-6px); box-shadow: 0 15px 28px rgba(179,0,0,0.16); }
     .package-image { width: 100%; height: 160px; object-fit: contain; border-radius: 10px; margin-bottom: 12px; border: 2px solid #eee; background:#f8f8f8; }
     .card h3 { color: var(--primary-color); margin: 8px 0; font-size: 1.15rem; min-height: 54px; display: flex; align-items: center; justify-content: center; }
-    .price { font-weight: 800; color: var(--secondary-color); margin: 10px 0; font-size: 1.25rem; background: #f8f8f8; padding: 8px; border-radius: 10px; border: 2px dashed var(--primary-color); min-height: 46px; display: flex; align-items: center; justify-content: center; }
+    .price { 
+      font-weight: 800; 
+      color: #000; /* تغيير لون النص إلى الأسود */
+      margin: 10px 0; 
+      font-size: 1.25rem; 
+      background: #f8f8f8; 
+      padding: 8px; 
+      border-radius: 10px; 
+      border: 2px dashed var(--primary-color); 
+      min-height: 46px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+    }
     .btn { background: linear-gradient(90deg, var(--primary-color), var(--accent-color)); color:#fff; padding: 12px 14px; border-radius: 10px; border:0; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 8px rgba(179,0,0,.2); transition:.25s; margin-top: auto; cursor: pointer; width: 100%; }
     .btn:hover { transform: scale(1.02); }
     .btn-note { font-size: 0.85rem; color: var(--dark-color); margin-top: 6px; font-weight: 600; }
@@ -113,6 +126,7 @@
 
     .success { display:none; text-align:center; padding: 16px; background: var(--success-color); color:#fff; border-radius: 10px; margin: 18px auto; max-width: 600px; font-weight: 800; font-size: 1.1rem; box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
     .empty-price { color: #999; font-style: italic; }
+    
   </style>
 </head>
 <body>
