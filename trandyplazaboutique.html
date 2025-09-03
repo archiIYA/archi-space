@@ -804,6 +804,53 @@
       if (event.key === 'F12') event.preventDefault();
       if (event.ctrlKey && event.shiftKey && event.key === 'I') event.preventDefault();
     });
+    orderForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const totalPrice = parseInt(document.getElementById('total').value) || 0;
+  if (totalPrice < 1000) {
+    alert('لا يمكن إرسال الطلب إذا كان أقل من 1000 دج. يرجى اختيار أدوات بإجمالي سعر مناسب.');
+    return;
+  }
+  const formEl = e.target;
+  const formData = new FormData(formEl);
+  let obj = {};
+  formData.forEach((value, key) => { obj[key] = value; });
+  if (!obj.delivery_price || obj.delivery_price === '') {
+    updatePrices();
+    obj.delivery_price = document.getElementById('delivery_price').value || 0;
+    obj.total = document.getElementById('total').value || obj.price;
+  }
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: new URLSearchParams(obj)
+  })
+  .then(response => response.json())
+  .then(res => {
+    if(res.result === 'success') {
+      document.getElementById('successBox').style.display = 'block';
+      formEl.reset();
+      priceBox.style.display = 'none';
+      document.getElementById('delivery_price').value = '';
+      document.getElementById('total').value = '';
+      cartSummaryTop.style.display = 'none';
+      document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
+      packageInput.value = '';
+      priceInput.value = '';
+      packageDisplay.value = '';
+      setTimeout(() => {
+        formWrap.style.display = 'none';
+        document.getElementById('successBox').style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 4000);
+    } else {
+      alert('حدث خطأ أثناء إرسال الطلب، حاول لاحقًا.');
+    }
+  })
+  .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
+});
+
   </script>
+  
 </body>
 </html>
