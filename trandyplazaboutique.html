@@ -142,6 +142,15 @@
       <span style="font-size:.95rem; font-weight:700;">اضغط للمتابعة</span>
     </div>
 
+    <div style="text-align:center; margin:20px 0;">
+  <input 
+    type="text" 
+    id="searchBox" 
+    placeholder="🔍 ابحث عن أداة..." 
+    style="width: 100%; max-width:500px; padding:12px; border:2px solid #b30000; border-radius:8px; font-size:1rem;"
+  />
+</div>
+
     <div class="grid" aria-label="قائمة الأدوات">
     
 
@@ -634,6 +643,24 @@
 
     // تهيئة أولية لعرض السلة بشكل صحيح
     updateCart();
+    // 🔎 محرك البحث
+const searchBox = document.getElementById('searchBox');
+if (searchBox) {
+  searchBox.addEventListener('input', function() {
+    const query = this.value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+      const name = card.querySelector('h3').textContent.toLowerCase();
+      if (name.includes(query)) {
+        card.style.display = 'flex'; // يظهر البطاقة
+      } else {
+        card.style.display = 'none'; // يخفي البطاقة
+      }
+    });
+  });
+}
+
   </script>
 </body>
 </html>
