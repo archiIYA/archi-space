@@ -126,6 +126,8 @@
       margin-top: auto;
       cursor: pointer;
       width: 100%;
+      display: inline-block;
+      text-decoration: none;
     }
     .btn:hover {
       background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
@@ -298,6 +300,19 @@
     #cartSummary span {
       pointer-events: none;
     }
+    /* تعديل ألوان زر .btn داخل القسم الداخلي */
+    .header-container .btn {
+      background: #b30000; /* استبدال اللون الأزرق */
+      color: #fff;
+      text-decoration: none;
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .header-container .btn:hover {
+      background: #800000; /* درجة أغمق من الأحمر */
+    }
   </style>
 </head>
 <body>
@@ -307,27 +322,8 @@
       <h1>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية</h1>
       <p id="multiPackNote" style="font-weight:600; font-size:0.95rem; margin-top:8px;">للطلب أكثر من باقة حدد الباقات المختارة ثم اضغط على اطلب الآن</p>
     </div>
-
     
     <a href="trandyplazaboutique.html" class="btn">اذهب إلى متجر  Trandy Plaza  للتسوق اكثر و لشراء ادوات اخرى</a>
-
-<style>
-  .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #0077cc;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: 0.3s;
-  }
-  .btn:hover {
-    background: #005fa3;
-  }
-</style>
-
-
-    
   </div>
   <div class="container">
     <div class="grid" aria-label="قائمة الباقات">
@@ -773,4 +769,3 @@
   </script>
 </body>
 </html>
-
