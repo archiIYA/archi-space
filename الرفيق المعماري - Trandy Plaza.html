@@ -583,30 +583,25 @@
     </div>
 
     <!-- نموذج الطلب -->
-    <div id="formWrap">
+       <div id="formWrap">
       <form id="orderForm">
-        <h3>📋 اكمل بيانات الطلب</h3>
-     <input type="hidden" name="package" id="package" />
+        <h3>📋 أكمل بيانات الطلب</h3>
+        <input type="hidden" name="package" id="package" />
         <input type="hidden" name="price" id="price" />
         <input type="hidden" name="delivery_price" id="delivery_price" />
         <input type="hidden" name="total" id="total" />
         <div class="form-group">
-        
-        <div class="form-group">
-          <label for="packageDisplay">المنتج والكمية</label>
+          <label for="packageDisplay">الأدوات المختارة</label>
           <textarea id="packageDisplay" name="packageDisplay" readonly rows="2" style="resize:none; background:#eee; padding:10px; border-radius:8px;"></textarea>
         </div>
-        
         <div class="form-group">
           <label for="name">الاسم الكامل</label>
           <input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل" />
         </div>
-        
         <div class="form-group">
           <label for="phone">رقم الهاتف</label>
           <input type="tel" id="phone" name="phone" required pattern="^(\+?213|0)(5|6|7)\d{8}$" placeholder="مثال: 0551234567" />
         </div>
-        
         <div class="form-group">
           <label for="wilaya">الولاية</label>
           <select id="wilaya" name="wilaya" required>
