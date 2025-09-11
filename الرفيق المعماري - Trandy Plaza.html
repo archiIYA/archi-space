@@ -665,41 +665,36 @@
             <option>El M'Ghair</option>
             <option>El Meniaa</option>
           </select>
-        </div>
-        
+                </div>
         <div class="form-group">
           <label for="commune">البلدية</label>
           <input type="text" id="commune" name="commune" required placeholder="أدخل اسم البلدية" />
         </div>
-        
         <div class="form-group">
           <label for="delivery">نوع التوصيل</label>
           <select id="delivery" name="delivery" required>
             <option value="">اختر نوع التوصيل</option>
-            <option value="À domicile">À domicile (التوصيل إلى المنزل)</option>
+            <option value="À domicile">À domicile (إلى المنزل)</option>
             <option value="Tifawt bureau">Tifawt bureau</option>
-            <option value="Bureau">Bureau (التوصيل إلى المكتب)</option>
+            <option value="Bureau">Bureau (إلى المكتب)</option>
           </select>
         </div>
-        
         <div class="form-group">
           <label for="notes">ملاحظات إضافية (اختياري)</label>
           <textarea id="notes" name="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة"></textarea>
         </div>
-        
-        <div id="priceBox" class="price-summary" aria-live="polite" style="display:none; margin-top:18px; background:#f8f9fa; border:2px dashed var(--primary-color); padding:14px; border-radius:10px; text-align:right; font-weight:700;">
+
+        <div id="priceBox" class="price-summary" aria-live="polite" style="display:none; margin-top:14px; background:#f8f9fa; border:2px dashed var(--primary-color); padding:12px; border-radius:10px; text-align:right; font-weight:800;">
+          مجموع الأدوات: <span id="displayItemsTotal" class="value">0</span> دج<br>
           سعر التوصيل: <span id="displayDelivery" class="value">0</span> دج<br>
           السعر الإجمالي: <span id="displayTotal" class="value">0</span> دج
-          <span class="muted">(يتم الحساب آليًا حسب الولاية ونوع التوصيل)</span>
+          <span class="muted" style="font-weight:600;">(يتم الحساب آليًا حسب الولاية ونوع التوصيل)</span>
         </div>
-        
         <button type="submit" class="submit-btn">✅ تأكيد الطلب</button>
       </form>
-      
       <div id="successBox" class="success" role="alert">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
     </div>
   </div>
-
   <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbxhLToEKUlCfWh3tj5H6A25YykEh36Zf7ngAjEbkrBX0PgWWWgXNAbvM0pXnOGv-jQ/exec";
     
