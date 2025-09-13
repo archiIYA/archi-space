@@ -184,17 +184,39 @@
         padding: 25px;
       }
     }
-    .product-image img {
-      width: 100%;
+    .product-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    @media (max-width: 600px) {
+      .product-gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+    .product-image {
+      position: relative;
+      overflow: hidden;
       border-radius: 15px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       background: linear-gradient(45deg, #f8f8f8, #eeeeee);
       border: 2px dashed var(--primary-color);
       transition: all 0.3s ease;
+      cursor: pointer;
     }
-    .product-image img:hover {
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .product-image:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(214, 34, 34, 0.2);
+    }
+    .product-image:hover img {
+      transform: scale(1.05);
     }
     .product-info {
       display: flex;
@@ -238,6 +260,11 @@
       grid-template-columns: 1fr 1fr;
       gap: 20px;
       margin: 25px 0;
+    }
+    @media (max-width: 600px) {
+      .pricing-options {
+        grid-template-columns: 1fr;
+      }
     }
     .price-card {
       background: #fff;
@@ -459,6 +486,116 @@
       color: var(--success-color);
       font-size: 2rem;
     }
+    .info-section {
+      background: var(--light-color);
+      padding: 30px;
+      border-radius: 15px;
+      margin: 30px 0;
+      border: 2px solid var(--primary-color);
+    }
+    .info-section h3 {
+      color: var(--secondary-color);
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .info-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-right: 4px solid var(--primary-color);
+    }
+    .info-card h4 {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      overflow: auto;
+    }
+    .modal-content {
+      position: relative;
+      margin: 5% auto;
+      width: 80%;
+      max-width: 800px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      color: #fff;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .modal-image {
+      width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+    .payment-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .payment-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f8f9fa;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #eee;
+    }
+    .tab-btn {
+      padding: 12px 25px;
+      background: #f8f9fa;
+      border: none;
+      border-radius: 5px 5px 0 0;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    .tab-btn.active {
+      background: var(--primary-color);
+      color: white;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -466,7 +603,7 @@
     <div class="logo"></div>
     <div class="header-text">
       <h1>📒 الرفيق المعماري - Trandy Plaza</h1>
-      <p>دفتر Croquis معماري  + دليل عملي شامل - منتجك الأول نحو التميز!</p>
+      <p>دفتر Croquis معماري - منتجك الأول نحو التميز!</p>
     </div>
     <a href="trandyplazaboutique.html" class="btn">العودة إلى المتجر الرئيسي</a>
   </div>
@@ -475,68 +612,126 @@
       <div class="badge">منتج حصري</div>
       <div class="product-header">
         <h2>الرفيق المعماري ✨</h2>
-        <p>📒 دفتر Croquis بجودة فائقة + دليل عملي شامل - رفيقك في رحلة الهندسة المعمارية</p>
+        <p>📒 دفتر Croquis بجودة فائقة - رفيقك في رحلة الهندسة المعمارية</p>
       </div>
+      
       <div class="product-content">
-        <div class="product-image">
-          <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC1.png" alt="Produit" />
-        </div>
-        <div class="product-image">
-          <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
-        </div>
-        <div class="product-image">
-          <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC3.png" alt="Produit" />
-        </div>
-        <div class="product-image">
-          <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
-        </div>
-      </div>
-      <div class="product-info">
         <div>
-          <h3>لماذا الرفيق المعماري؟</h3>
-          <ul class="features-list">
-            <li>📒 دفتر Croquis فاخر بجودة عالية - 160 جم</li>
-            <li>📘 دليل عملي يختصر أهم قواعد الهندسة المعمارية</li>
-            <li>🎯 مقاييس دقيقة، مقاطع، واجهات، مناظير وأشكال احترافية</li>
-            <li>✅ مخصص لطلاب الهندسة المعمارية بجميع السنوات</li>
-            <li>🛒 متوفر بالجملة والتجزئة بأسعار تنافسية</li>
-            <li>📦 التوصيل إلى 58 ولاية بخدمة سريعة وآمنة</li>
-            <li>💳 الدفع عند الاستلام مع ضمان الجودة</li>
-            <li>🎁 هدية خاصة مع كل طلب (أدوات رسم إضافية)</li>
-          </ul>
+          <div class="product-gallery">
+            <div class="product-image" onclick="openModal('https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC1.png')">
+              <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC1.png" alt="الرفيق المعماري - صورة 1" />
+            </div>
+            <div class="product-image" onclick="openModal('https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png')">
+              <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="الرفيق المعماري - صورة 2" />
+            </div>
+            <div class="product-image" onclick="openModal('https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC3.png')">
+              <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC3.png" alt="الرفيق المعماري - صورة 3" />
+            </div>
+            <div class="product-image" onclick="openModal('https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png')">
+              <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="الرفيق المعماري - صورة 4" />
+            </div>
+          </div>
+          
+          <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'description')">وصف المنتج</button>
+            <button class="tab-btn" onclick="openTab(event, 'specs')">المواصفات</button>
+            <button class="tab-btn" onclick="openTab(event, 'shipping')">الشحن والتوصيل</button>
+          </div>
+          
+          <div id="description" class="tab-content active">
+            <h3>لماذا الرفيق المعماري؟</h3>
+            <ul class="features-list">
+              <li>📒 دفتر Croquis فاخر بجودة عالية - 160 جم</li>
+              <li>🎯 مقاييس دقيقة، مقاطع، واجهات، مناظير وأشكال احترافية</li>
+              <li>✅ مخصص لطلاب الهندسة المعمارية بجميع السنوات</li>
+              <li>🛒 متوفر بالجملة والتجزئة بأسعار تنافسية</li>
+              <li>📦 التوصيل إلى 58 ولاية بخدمة سريعة وآمنة</li>
+              <li>💳 الدفع عند الاستلام مع ضمان الجودة</li>
+              <li>🎁 هدية خاصة مع كل طلب (أدوات رسم إضافية)</li>
+            </ul>
+          </div>
+          
+          <div id="specs" class="tab-content">
+            <div class="info-grid">
+              <div class="info-card">
+                <h4><i class="fas fa-book"></i> مواصفات الدفتر</h4>
+                <p>• نوع الورق: 160 جم عالي الجودة</p>
+                <p>• عدد الصفحات: 2 صفحة</p>
+                <p>• المقاس: A5 (14.8x21 سم)</p>
+                <p>• الغلاف: مقوى مع تلبيس لامع</p>
+              </div>
+            </div>
+          </div>
+          
+          <div id="shipping" class="tab-content">
+            <div class="info-grid">
+              <div class="info-card">
+                <h4><i class="fas fa-truck"></i> معلومات الشحن</h4>
+                <p>• مدة التوصيل: 2-5 أيام عمل</p>
+                <p>• خدمة التوصيل: ZR Express</p>
+                <p>• التوصيل لجميع ولايات الجزائر</p>
+              </div>
+              <div class="info-card">
+                <h4><i class="fas fa-undo"></i> سياسة الإرجاع</h4>
+                <p>• إمكانية الإرجاع خلال 7 أيام</p>
+                <p>• ضمان جودة المنتج</p>
+                <p>• استبدال المنتج في حال وجود عيوب</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="product-info">
           <div class="pricing-options">
             <div class="price-card">
               <h3>نسخة واحدة</h3>
               <div class="price-amount">350 دج</div>
-              <p class="note">(35 ألف سنتيم)</p>
+              <p class="note">سعر النسخة الواحدة</p>
             </div>
             <div class="price-card popular">
-              <h3>نسختان أو أكثر</h3>
-              <div class="price-amount">300 دج لكل نسخة</div>
-              <p class="note">(وفر عند الشراء بكميات)</p>
+              <h3>نسختان</h3>
+              <div class="price-amount">600 دج</div>
+              <p class="note">(300 دج للنسخة)</p>
+            </div>
+            <div class="price-card">
+              <h3>10 نسخ أو أكثر</h3>
+              <div class="price-amount">200 دج/للنسخة</div>
+              <p class="note">سعر جملة</p>
             </div>
           </div>
-        </div>
-        <div class="order-section">
-          <h3>اختر الكمية:</h3>
-          <div class="quantity-selector">
-            <div class="quantity-btn" onclick="changeQuantity(-1)">-</div>
-            <div class="quantity-value" id="quantity">1</div>
-            <div class="quantity-btn" onclick="changeQuantity(1)">+</div>
-          </div>
-          <div class="price-amount" id="totalPrice">350 دج</div>
-          <button class="btn" onclick="orderProduct()">اطلب الآن <i class="fas fa-arrow-left"></i></button>
-          <div class="guarantee">
-            <i class="fas fa-shield-alt"></i>
-            <span>ضمان الجودة </span>
+          
+          <div class="order-section">
+            <h3>اختر الكمية:</h3>
+            <div class="quantity-selector">
+              <div class="quantity-btn" onclick="changeQuantity(-1)">-</div>
+              <div class="quantity-value" id="quantity">1</div>
+              <div class="quantity-btn" onclick="changeQuantity(1)">+</div>
+            </div>
+            <div class="price-amount" id="totalPrice">350 دج</div>
+            
+            <div class="payment-options">
+              <div class="payment-option">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>الدفع عند الاستلام</span>
+              </div>
+            </div>
+            
+            <button class="btn" onclick="orderProduct()">اطلب الآن <i class="fas fa-arrow-left"></i></button>
+            
+            <div class="guarantee">
+              <i class="fas fa-shield-alt"></i>
+              <span>ضمان الجودة - إرجاع خلال 7 أيام</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    
     <div class="testimonial">
       <p>"الرفيق المعماري كان بمثابة المنقذ لي في السنة الأولى الدليل العملي اختصر علي ساعات من البحث والمقاييس الدقيقة ساعدتني في تقديم مشاريع متميزة. أنصح به كل طالب هندسة معمارية."</p>
-      <div class="author">-  طالب هندسة معمارية </div>
+      <div class="author">- طالب هندسة معمارية</div>
     </div>
+
     <div id="formWrap">
       <form id="orderForm">
         <h3>📋 أكمل بيانات الطلب</h3>
@@ -545,7 +740,7 @@
         <input type="hidden" name="delivery_price" id="delivery_price" />
         <input type="hidden" name="total" id="total" />
         <div class="form-group">
-          <label for="packageDisplay">الأدوات المختارة</label>
+          <label for="packageDisplay">المنتج المختار</label>
           <textarea id="packageDisplay" name="packageDisplay" readonly rows="2" style="resize:none; background:#eee; padding:10px; border-radius:8px;"></textarea>
         </div>
         <div class="form-group">
@@ -568,6 +763,10 @@
           <input type="text" id="commune" name="commune" required placeholder="أدخل اسم البلدية" />
         </div>
         <div class="form-group">
+          <label for="address">العنوان التفصيلي</label>
+          <textarea id="address" name="address" rows="2" required placeholder="أدخل عنوانك التفصيلي"></textarea>
+        </div>
+        <div class="form-group">
           <label for="delivery">نوع التوصيل</label>
           <select id="delivery" name="delivery" required>
             <option value="">اختر نوع التوصيل</option>
@@ -584,7 +783,7 @@
           <textarea id="notes" name="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة"></textarea>
         </div>
         <div id="priceBox" class="price-summary" aria-live="polite" style="display:none; margin-top:14px; background:#f8f9fa; border:2px dashed var(--primary-color); padding:12px; border-radius:10px; text-align:right; font-weight:800;">
-          مجموع الأدوات: <span id="displayItemsTotal" class="value">0</span> دج<br>
+          سعر المنتج: <span id="displayItemsTotal" class="value">0</span> دج<br>
           سعر التوصيل: <span id="displayDelivery" class="value">0</span> دج<br>
           السعر الإجمالي: <span id="displayTotal" class="value">0</span> دج
           <span class="muted" style="font-weight:600;">(يتم الحساب آليًا حسب الولاية ونوع التوصيل)</span>
@@ -594,6 +793,14 @@
       <div id="successBox" class="success" role="alert">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
     </div>
   </div>
+  
+  <div id="imageModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+      <img class="modal-image" id="modalImg" src="" alt="صورة مكبرة">
+    </div>
+  </div>
+
   <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbxhLToEKUlCfWh3tj5H6A25YykEh36Zf7ngAjEbkrBX0PgWWWgXNAbvM0pXnOGv-jQ/exec";
     
@@ -669,17 +876,50 @@
     const priceBox = document.getElementById('priceBox');
     const displayDelivery = document.getElementById('displayDelivery');
     const displayTotal = document.getElementById('displayTotal');
+    const modal = document.getElementById('imageModal');
     
     let quantity = 1;
+    
+    function openTab(evt, tabName) {
+      const tabcontent = document.getElementsByClassName("tab-content");
+      for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].classList.remove("active");
+      }
+      
+      const tablinks = document.getElementsByClassName("tab-btn");
+      for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+      }
+      
+      document.getElementById(tabName).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+    
+    function openModal(imgSrc) {
+      document.getElementById('modalImg').src = imgSrc;
+      modal.style.display = "block";
+    }
+    
+    function closeModal() {
+      modal.style.display = "none";
+    }
+    
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        closeModal();
+      }
+    }
     
     function updatePrice() {
       let total = 0;
       if (quantity === 1) {
         total = 350;
-      } else if (quantity >= 2 && quantity <= 10) {
-        total = 350 + (quantity - 1) * 300;
-      } else if (quantity > 10) {
-        total = 350 + 9 * 300 + (quantity - 10) * 200;
+      } else if (quantity === 2) {
+        total = 600;
+      } else if (quantity >= 3 && quantity <= 9) {
+        total = 600 + (quantity - 2) * 300;
+      } else if (quantity >= 10) {
+        total = 600 + 7 * 300 + (quantity - 9) * 200;
       }
       totalPriceEl.textContent = total + " دج";
       return total;
@@ -702,10 +942,12 @@
       let productText = "الرفيق المعماري";
       if (quantity === 1) {
         productText += " - نسخة واحدة (350 دج)";
-      } else if (quantity > 1 && quantity <= 10) {
-        productText += ` - ${quantity} نسخة (${totalPrice} دج)`;
+      } else if (quantity === 2) {
+        productText += " - نسختان (600 دج)";
+      } else if (quantity >= 3 && quantity <= 9) {
+        productText += ` - ${quantity} نسخ (${totalPrice} دج)`;
       } else {
-        productText += ` - ${quantity} نسخة (يشمل خصم الخاص للطلب أكثر من 10) (${totalPrice} دج)`;
+        productText += ` - ${quantity} نسخة (سعر جملة) (${totalPrice} دج)`;
       }
       
       packageDisplay.value = productText;
