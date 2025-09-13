@@ -14,7 +14,6 @@
       color: #111;
       display: flex;
     }
-
     aside {
       width: 240px;
       background-color: #f4f4f4;
@@ -29,11 +28,9 @@
       transition: transform 0.3s ease;
       z-index: 998;
     }
-
     aside.hidden {
       transform: translateX(-260px);
     }
-
     .back-button {
       margin-bottom: 20px;
       background-color: #ddd;
@@ -45,16 +42,13 @@
       font-weight: 600;
       transition: background-color 0.3s;
     }
-
     .back-button:hover {
       background-color: #ccc;
     }
-
     aside h2 {
       font-size: 18px;
       margin-bottom: 20px;
     }
-
     aside a {
       display: block;
       padding: 10px;
@@ -64,11 +58,9 @@
       border-radius: 6px;
       transition: background 0.3s;
     }
-
     aside a:hover {
       background-color: #ddd;
     }
-
     #toggleSidebar {
       position: fixed;
       top: 20px;
@@ -82,24 +74,20 @@
       border-radius: 6px;
       cursor: pointer;
     }
-
     main {
       flex-grow: 1;
       padding: 30px;
       margin-left: 240px;
       transition: margin-left 0.3s ease;
     }
-
     aside.hidden ~ main {
       margin-left: 0;
     }
-
     .section-title {
       font-size: 26px;
       margin-bottom: 20px;
       color: #000;
     }
-
     .lesson {
       margin-bottom: 30px;
       background: #fafafa;
@@ -107,17 +95,18 @@
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
-
     .lesson h3 {
       font-size: 20px;
       margin-bottom: 10px;
       color: #222;
     }
-
+    .lesson p {
+      margin: 0 0 10px 0;
+      color: #444;
+    }
     .buttons {
       margin-top: 10px;
     }
-
     .buttons button {
       background: none;
       border: none;
@@ -125,11 +114,9 @@
       font-size: 16px;
       cursor: pointer;
     }
-
     .buttons button:hover {
       opacity: 0.7;
     }
-
     footer {
       margin-top: 50px;
       font-size: 13px;
@@ -139,24 +126,20 @@
   </style>
 </head>
 <body>
-
 <button id="toggleSidebar">☰ Menu</button>
-
 <aside class="sidebar">
   <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
   <button class="back-button" onclick="history.back()">🔙 Retour</button>
-
   <div class="sidebar-header">
     <h2>📚 Année 1 - Semestre 2</h2>
   </div>
-
   <ul class="sidebar-menu">
     <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
     <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
     <li><a href="theorie2.html">📘 Théorie de projet 2</a></li>
     <li><a href="geometrie2.html">📏 Géométrie de l’espace 2</a></li>
     <li><a href="tmc2.html">🧱 TMC 2</a></li>
-    <li><a href="physique.html"><div class="subject">🔬 Physique du bâtiment</div></a>
+    <li><a href="physique.html"><div class="subject">🔬 Physique du bâtiment</div></a></li>
     <li><a href="expression2.html">🗣️ Expression écrite</a></li>
     <li><a href="stage2.html">🏞️ Stage découverte 2</a></li>
     <hr>
@@ -164,13 +147,12 @@
     <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
   </ul>
 </aside>
-
 <main>
   <h1 class="section-title">📏 Géométrie de l’espace 2</h1>
 
   <div class="lesson">
-    <h3>Introduction aux polyèdres</h3>
-    <p>Définition, classification, propriétés symétriques et topologiques des polyèdres réguliers.</p>
+    <h3>Sections planes</h3>
+  
     <div class="buttons">
       <button>📄 PDF</button>
       <button>🎥 Vidéo</button>
@@ -179,8 +161,8 @@
   </div>
 
   <div class="lesson">
-    <h3>Surfaces de révolution</h3>
-    <p>Étude des surfaces coniques, cylindriques et sphériques, leurs sections et développements, ombrages.</p>
+    <h3>Sections plans sur surfaces de révolution (cylindre)</h3>
+ 
     <div class="buttons">
       <button>📄 PDF</button>
       <button>🎥 Vidéo</button>
@@ -189,8 +171,8 @@
   </div>
 
   <div class="lesson">
-    <h3>Développement des surfaces</h3>
-    <p>Techniques pour déterminer les développements précis de surfaces complexes.</p>
+    <h3>Sections plans sur surfaces de révolution (cône)</h3>
+  
     <div class="buttons">
       <button>📄 PDF</button>
       <button>🎥 Vidéo</button>
@@ -199,8 +181,8 @@
   </div>
 
   <div class="lesson">
-    <h3>Intersection entre deux surfaces</h3>
-    <p>Identification des types d'intersections et construction des lignes d’intersection géométrique.</p>
+    <h3>Sections plans sur surfaces de révolution (sphère)</h3>
+
     <div class="buttons">
       <button>📄 PDF</button>
       <button>🎥 Vidéo</button>
@@ -209,8 +191,108 @@
   </div>
 
   <div class="lesson">
-    <h3>Notions de perspective</h3>
-    <p>Introduction à la représentation en perspective dans le contexte architectural.</p>
+    <h3>Intersection de solides géométriques (les polyèdres)</h3>
+  
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Les surfaces de révolution</h3>
+
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Intersections des solides géométriques (cylindre & cône)</h3>
+
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Intersections des solides géométriques (sphère & cylindre)</h3>
+
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>PCC (Projection Centrale Conique) (perspective)</h3>
+
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Applications de la perspective</h3>
+ 
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Perspective (formes géométriques à trois dimensions)</h3>
+
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Projections parallèles obliques (axonométrie)</h3>
+ 
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Le tracé des ombres</h3>
+
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Tracé des ombres (application sur les polyèdres)</h3>
+   
+    <div class="buttons">
+      <button>📄 PDF</button>
+      <button>🎥 Vidéo</button>
+      <button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Le tracé des ombres (applications sur la perspective)</h3>
+
     <div class="buttons">
       <button>📄 PDF</button>
       <button>🎥 Vidéo</button>
@@ -222,50 +304,12 @@
     © 2025 ArchiSpace – Tous droits réservés.
   </footer>
 </main>
-
 <script>
   const sidebar = document.querySelector('aside');
   const toggleBtn = document.getElementById('toggleSidebar');
-
   toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('hidden');
   });
 </script>
-...
-<script>
-  const sidebar = document.querySelector('aside');
-  const toggleBtn = document.getElementById('toggleSidebar');
-
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('hidden');
-  });
-</script>
-
-<!-- 🔐 كود الحماية هنا -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-    authDomain: "archi-space-72624.firebaseapp.com",
-    projectId: "archi-space-72624",
-    storageBucket: "archi-space-72624.appspot.com",
-    messagingSenderId: "407015246505",
-    appId: "1:407015246505:web:c914a78566b882b80df7b8",
-    measurementId: "G-RZV7LSDQBD"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      window.location.href = "index.html";
-    }
-  });
-</script>
-</body>
-
 </body>
 </html>
