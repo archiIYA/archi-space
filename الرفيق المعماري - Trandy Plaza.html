@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>الرفيق المعماري - Trandy Plaza</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     :root {
       --primary-color: #d62222;
@@ -34,27 +34,15 @@
     }
     .header-container {
       background: var(--gradient);
-      padding: 15px 0;
+      padding: 15px 20px;
       box-shadow: 0 4px 12px rgba(157, 11, 11, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 15px;
-      margin: 0 -20px;
-      padding: 15px 20px;
       flex-wrap: wrap;
       position: relative;
       overflow: hidden;
-    }
-    .header-container::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><text x="50%" y="50%" font-size="80" text-anchor="middle" dominant-baseline="middle" fill="white">✨</text></svg>');
-      opacity: 0.1;
     }
     .logo {
       width: 100px;
@@ -62,9 +50,9 @@
       background: #fff url('https://raw.githubusercontent.com/archiIYA/archi-space/main/IMG_2132.PNG') no-repeat center/contain;
       border-radius: 50%;
       box-shadow: 0 8px 15px rgba(0,0,0,0.5);
-      flex-shrink: 0;
-      z-index: 2;
       border: 3px solid var(--gold-color);
+      z-index: 2;
+      flex-shrink: 0;
     }
     .header-text {
       color: #fff;
@@ -76,7 +64,6 @@
     .header-text h1 {
       font-size: 2.2rem;
       margin-bottom: 5px;
-      color: #fff;
     }
     .header-text p {
       font-size: 1.2rem;
@@ -92,27 +79,24 @@
       font-weight: bold;
       font-size: 1.1rem;
       box-shadow: 0 4px 12px rgba(214, 34, 34, 0.3);
-      transition: all 0.3s ease;
-      margin-top: auto;
       cursor: pointer;
-      display: inline-block;
-      text-decoration: none;
-      text-align: center;
       position: relative;
       overflow: hidden;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+      transition: all 0.3s ease;
+      margin-top: auto;
       z-index: 1;
     }
     .btn::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0; width: 100%; height: 100%;
       background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
-      z-index: -1;
-      transition: opacity 0.3s;
       opacity: 0;
+      transition: opacity 0.3s;
+      z-index: -1;
     }
     .btn:hover {
       transform: translateY(-3px);
@@ -129,18 +113,16 @@
     .product-card {
       background: var(--card-color);
       border-radius: 20px;
-      overflow: hidden;
       box-shadow: var(--shadow);
       margin: 30px 0;
       border: 2px solid var(--primary-color);
       position: relative;
+      overflow: hidden;
     }
     .product-card::before {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 5px;
       background: var(--gradient);
     }
@@ -155,9 +137,7 @@
     .product-header::after {
       content: "";
       position: absolute;
-      bottom: -20px;
-      left: 0;
-      right: 0;
+      bottom: -20px; left: 0; right: 0;
       height: 40px;
       background: var(--card-color);
       border-radius: 50% 50% 0 0;
@@ -176,17 +156,16 @@
     }
     .badge {
       position: absolute;
-      top: 20px;
-      left: 20px;
+      top: 20px; left: 20px;
       background: var(--gold-color);
       color: var(--dark-color);
       padding: 8px 15px;
       border-radius: 30px;
       font-weight: bold;
       font-size: 1rem;
+      animation: pulse 2s infinite;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       z-index: 10;
-      animation: pulse 2s infinite;
     }
     @keyframes pulse {
       0% { transform: scale(1); }
@@ -205,27 +184,15 @@
         padding: 25px;
       }
     }
-    .product-images {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    .product-image {
+    .product-image img {
       width: 100%;
       border-radius: 15px;
-      overflow: hidden;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      aspect-ratio: 1/1;
       background: linear-gradient(45deg, #f8f8f8, #eeeeee);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #aaa;
-      font-weight: bold;
       border: 2px dashed var(--primary-color);
       transition: all 0.3s ease;
     }
-    .product-image:hover {
+    .product-image img:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(214, 34, 34, 0.2);
     }
@@ -316,11 +283,6 @@
       font-weight: bold;
       box-shadow: 0 3px 8px rgba(0,0,0,0.2);
     }
-    .note {
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 5px;
-    }
     .order-section {
       background: var(--light-color);
       padding: 30px;
@@ -349,9 +311,7 @@
     #formWrap::before {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 5px;
       background: var(--gradient);
     }
@@ -410,10 +370,7 @@
     button.submit-btn::after {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0; width: 100%; height: 100%;
       background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
       opacity: 0;
       transition: opacity 0.3s;
@@ -520,22 +477,20 @@
         <h2>الرفيق المعماري ✨</h2>
         <p>📒 دفتر Croquis بجودة فائقة + دليل عملي شامل - رفيقك في رحلة الهندسة المعمارية</p>
       </div>
-      
       <div class="product-content">
-          <div class="product-image">
-            <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC1.png" alt="Produit" />
-          </div>
-          <div class="product-image">
-            <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
-          </div>
-          <div class="product-image">
-            <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC3.png" alt="Produit" />
-          </div>
-          <div class="product-image">
-            <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
-          </div>
+        <div class="product-image">
+          <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC1.png" alt="Produit" />
+        </div>
+        <div class="product-image">
+          <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
+        </div>
+        <div class="product-image">
+          <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC3.png" alt="Produit" />
+        </div>
+        <div class="product-image">
+          <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
+        </div>
       </div>
-      
       <div class="product-info">
         <div>
           <h3>لماذا الرفيق المعماري؟</h3>
@@ -549,7 +504,6 @@
             <li>💳 الدفع عند الاستلام مع ضمان الجودة</li>
             <li>🎁 هدية خاصة مع كل طلب (أدوات رسم إضافية)</li>
           </ul>
-          
           <div class="pricing-options">
             <div class="price-card">
               <h3>نسخة واحدة</h3>
@@ -563,7 +517,6 @@
             </div>
           </div>
         </div>
-        
         <div class="order-section">
           <h3>اختر الكمية:</h3>
           <div class="quantity-selector">
@@ -573,7 +526,6 @@
           </div>
           <div class="price-amount" id="totalPrice">350 دج</div>
           <button class="btn" onclick="orderProduct()">اطلب الآن <i class="fas fa-arrow-left"></i></button>
-          
           <div class="guarantee">
             <i class="fas fa-shield-alt"></i>
             <span>ضمان الجودة </span>
@@ -608,64 +560,7 @@
           <label for="wilaya">الولاية</label>
           <select id="wilaya" name="wilaya" required>
             <option value="">-- اختر ولايتك --</option>
-            <option>Adrar</option>
-            <option>Chlef</option>
-            <option>Laghouat</option>
-            <option>Oum El Bouaghi</option>
-            <option>Batna</option>
-            <option>Béjaïa</option>
-            <option>Biskra</option>
-            <option>Béchar</option>
-            <option>Blida</option>
-            <option>Bouira</option>
-            <option>Tamanrasset</option>
-            <option>Tébessa</option>
-            <option>Tlemcen</option>
-            <option>Tiaret</option>
-            <option>Tizi Ouzou</option>
-            <option>Alger</option>
-            <option>Djelfa</option>
-            <option>Jijel</option>
-            <option>Sétif</option>
-            <option>Saïda</option>
-            <option>Skikda</option>
-            <option>Sidi Bel Abbès</option>
-            <option>Annaba</option>
-            <option>Guelma</option>
-            <option>Constantine</option>
-            <option>Médéa</option>
-            <option>Mostaganem</option>
-            <option>M'Sila</option>
-            <option>Mascara</option>
-            <option>Ouargla</option>
-            <option>Oran</option>
-            <option>El Bayadh</option>
-            <option>Illizi</option>
-            <option>Bordj Bou Arreridj</option>
-            <option>Boumerdès</option>
-            <option>El Tarf</option>
-            <option>Tindouf</option>
-            <option>Tissemsilt</option>
-            <option>El Oued</option>
-            <option>Khenchela</option>
-            <option>Souk Ahras</option>
-            <option>Tipaza</option>
-            <option>Mila</option>
-            <option>Aïn Defla</option>
-            <option>Naâma</option>
-            <option>Aïn Témouchent</option>
-            <option>Ghardaïa</option>
-            <option>Relizane</option>
-            <option>Timimoun</option>
-            <option>Bordj Badji Mokhtar</option>
-            <option>Ouled Djellal</option>
-            <option>Béni Abbès</option>
-            <option>In Salah</option>
-            <option>In Guezzam</option>
-            <option>Touggourt</option>
-            <option>Djanet</option>
-            <option>El M'Ghair</option>
-            <option>El Meniaa</option>
+            <option>Adrar</option><option>Chlef</option><option>Laghouat</option><option>Oum El Bouaghi</option><option>Batna</option><option>Béjaïa</option><option>Biskra</option><option>Béchar</option><option>Blida</option><option>Bouira</option><option>Tamanrasset</option><option>Tébessa</option><option>Tlemcen</option><option>Tiaret</option><option>Tizi Ouzou</option><option>Alger</option><option>Djelfa</option><option>Jijel</option><option>Sétif</option><option>Saïda</option><option>Skikda</option><option>Sidi Bel Abbès</option><option>Annaba</option><option>Guelma</option><option>Constantine</option><option>Médéa</option><option>Mostaganem</option><option>M'Sila</option><option>Mascara</option><option>Ouargla</option><option>Oran</option><option>El Bayadh</option><option>Illizi</option><option>Bordj Bou Arreridj</option><option>Boumerdès</option><option>El Tarf</option><option>Tindouf</option><option>Tissemsilt</option><option>El Oued</option><option>Khenchela</option><option>Souk Ahras</option><option>Tipaza</option><option>Mila</option><option>Aïn Defla</option><option>Naâma</option><option>Aïn Témouchent</option><option>Ghardaïa</option><option>Relizane</option><option>Timimoun</option><option>Bordj Badji Mokhtar</option><option>Ouled Djellal</option><option>Béni Abbès</option><option>In Salah</option><option>In Guezzam</option><option>Touggourt</option><option>Djanet</option><option>El M'Ghair</option><option>El Meniaa</option>
           </select>
         </div>
         <div class="form-group">
@@ -680,6 +575,9 @@
             <option value="Tifawt bureau">Tifawt bureau</option>
             <option value="Bureau">Bureau (إلى المكتب)</option>
           </select>
+          <p style="color: var(--secondary-color); font-weight: bold; margin-top: 10px; text-align: center;">
+            ملاحظة: التوصيل يتم مع شركة <strong>ZR express</strong> لضمان سرعة وأمان وصول الطلبات.
+          </p>
         </div>
         <div class="form-group">
           <label for="notes">ملاحظات إضافية (اختياري)</label>
@@ -774,7 +672,6 @@
     
     let quantity = 1;
     
-    // حساب السعر مع الخصم بعد 10 نسخ
     function updatePrice() {
       let total = 0;
       if (quantity === 1) {
@@ -912,4 +809,3 @@
   </script>
 </body>
 </html>
-
