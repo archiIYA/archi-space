@@ -513,7 +513,6 @@
     </div>
     <a href="trandyplazaboutique.html" class="btn">العودة إلى المتجر الرئيسي</a>
   </div>
-
   <div class="container">
     <div class="product-card">
       <div class="badge">منتج حصري</div>
@@ -529,15 +528,12 @@
 <div class="product-image">
   <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
 </div>
-
 <div class="product-image">
   <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC3.png" alt="Produit" />
 </div>
-
 <div class="product-image">
   <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
 </div>
-
         </div>
         
         <div class="product-info">
@@ -561,9 +557,9 @@
                 <p class="note">(35 ألف سنتيم)</p>
               </div>
               <div class="price-card popular">
-                <h3>نسختان</h3>
-                <div class="price-amount">600 دج</div>
-                <p class="note">(وفر 100 دج عند الشراء بكمية)</p>
+                <h3>نسختان أو أكثر</h3>
+                <div class="price-amount">300 دج لكل نسخة</div>
+                <p class="note">(وفر عند الشراء بكميات)</p>
               </div>
             </div>
           </div>
@@ -586,14 +582,12 @@
         </div>
       </div>
     </div>
-
     <div class="testimonial">
       <p>"الرفيق المعماري كان بمثابة المنقذ لي في السنة الأولى الدليل العملي اختصر علي ساعات من البحث والمقاييس الدقيقة ساعدتني في تقديم مشاريع متميزة. أنصح به كل طالب هندسة معمارية."</p>
       <div class="author">-  طالب هندسة معمارية </div>
     </div>
 
-    <!-- نموذج الطلب -->
-       <div id="formWrap">
+    <div id="formWrap">
       <form id="orderForm">
         <h3>📋 أكمل بيانات الطلب</h3>
         <input type="hidden" name="package" id="package" />
@@ -675,7 +669,7 @@
             <option>El M'Ghair</option>
             <option>El Meniaa</option>
           </select>
-                </div>
+        </div>
         <div class="form-group">
           <label for="commune">البلدية</label>
           <input type="text" id="commune" name="commune" required placeholder="أدخل اسم البلدية" />
@@ -693,7 +687,6 @@
           <label for="notes">ملاحظات إضافية (اختياري)</label>
           <textarea id="notes" name="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة"></textarea>
         </div>
-
         <div id="priceBox" class="price-summary" aria-live="polite" style="display:none; margin-top:14px; background:#f8f9fa; border:2px dashed var(--primary-color); padding:12px; border-radius:10px; text-align:right; font-weight:800;">
           مجموع الأدوات: <span id="displayItemsTotal" class="value">0</span> دج<br>
           سعر التوصيل: <span id="displayDelivery" class="value">0</span> دج<br>
@@ -769,13 +762,13 @@
       "El Meniaa": {"À domicile": 1000, "Bureau": 0}
     };
     
-    // عناصر الصفحة
+
     const formWrap = document.getElementById('formWrap');
     const orderForm = document.getElementById('orderForm');
     const packageDisplay = document.getElementById('packageDisplay');
     const quantityInput = document.getElementById('quantity');
     const formQuantity = document.getElementById('formQuantity');
-    const formPrice = document.getElementById('formPrice');
+    const formPrice = document.getElementById('price');
     const totalPriceEl = document.getElementById('totalPrice');
     const wilayaSelect = document.getElementById('wilaya');
     const deliverySelect = document.getElementById('delivery');
@@ -784,27 +777,30 @@
     const displayTotal = document.getElementById('displayTotal');
     
     let quantity = 1;
-    let unitPrice = 350;
     
-    // تحديث السعر بناء على الكمية
+ 
+    
     function updatePrice() {
-      let total = quantity * unitPrice;
-      if (quantity >= 2) {
-        total = Math.floor(quantity / 2) * 600 + (quantity % 2) * 350;
+      let total = 0;
+      if (quantity === 1) {
+        total = 350;
+      } else if (quantity > 1) {
+        total = quantity * 300; 
       }
       totalPriceEl.textContent = total + " دج";
       return total;
     }
     
-    // تغيير الكمية
+
+    
     function changeQuantity(change) {
       quantity += change;
       if (quantity < 1) quantity = 1;
       quantityInput.textContent = quantity;
       updatePrice();
     }
+
     
-    // فتح نموذج الطلب
     function orderProduct() {
       formWrap.style.display = 'block';
       document.getElementById('successBox').style.display = 'none';
@@ -824,8 +820,8 @@
       formPrice.value = totalPrice;
     }
     
-    // تحديث الأسعار بناء على الولاية ونوع التوصيل
-    function updatePrices() {
+
+        function updatePrices() {
       const wilaya = wilayaSelect.value.trim();
       const delivery = deliverySelect.value;
       const packagePrice = parseInt(formPrice.value) || 0;
@@ -872,11 +868,11 @@
       document.getElementById('total').value = totalPrice;
     }
     
-    // إضافة مستمعي الأحداث
+ 
     wilayaSelect.addEventListener('change', updatePrices);
     deliverySelect.addEventListener('change', updatePrices);
     
-    // معالجة إرسال النموذج
+
     orderForm.addEventListener('submit', function(e) {
       e.preventDefault();
       const formEl = e.target;
@@ -903,6 +899,9 @@
           priceBox.style.display = 'none';
           document.getElementById('delivery_price').value = '';
           document.getElementById('total').value = '';
+          quantity = 1;
+          quantityInput.textContent = quantity;
+          totalPriceEl.textContent = '350 دج';
           
           setTimeout(() => {
             formWrap.style.display = 'none';
