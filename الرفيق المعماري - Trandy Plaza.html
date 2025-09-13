@@ -523,61 +523,60 @@
       
       <div class="product-content">
           <div class="product-image">
-  <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC1.png" alt="Produit" />
-</div>
-<div class="product-image">
-  <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
-</div>
-<div class="product-image">
-  <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC3.png" alt="Produit" />
-</div>
-<div class="product-image">
-  <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
-</div>
-        </div>
-        
-        <div class="product-info">
-          <div>
-            <h3>لماذا الرفيق المعماري؟</h3>
-            <ul class="features-list">
-              <li>📒 دفتر Croquis فاخر بجودة عالية - 160 جم</li>
-              <li>📘 دليل عملي يختصر أهم قواعد الهندسة المعمارية</li>
-              <li>🎯 مقاييس دقيقة، مقاطع، واجهات، مناظير وأشكال احترافية</li>
-              <li>✅ مخصص لطلاب الهندسة المعمارية بجميع السنوات</li>
-              <li>🛒 متوفر بالجملة والتجزئة بأسعار تنافسية</li>
-              <li>📦 التوصيل إلى 58 ولاية بخدمة سريعة وآمنة</li>
-              <li>💳 الدفع عند الاستلام مع ضمان الجودة</li>
-              <li>🎁 هدية خاصة مع كل طلب (أدوات رسم إضافية)</li>
-            </ul>
-            
-            <div class="pricing-options">
-              <div class="price-card">
-                <h3>نسخة واحدة</h3>
-                <div class="price-amount">350 دج</div>
-                <p class="note">(35 ألف سنتيم)</p>
-              </div>
-              <div class="price-card popular">
-                <h3>نسختان أو أكثر</h3>
-                <div class="price-amount">300 دج لكل نسخة</div>
-                <p class="note">(وفر عند الشراء بكميات)</p>
-              </div>
+            <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC1.png" alt="Produit" />
+          </div>
+          <div class="product-image">
+            <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
+          </div>
+          <div class="product-image">
+            <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC3.png" alt="Produit" />
+          </div>
+          <div class="product-image">
+            <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/CCC2.png" alt="Produit" />
+          </div>
+      </div>
+      
+      <div class="product-info">
+        <div>
+          <h3>لماذا الرفيق المعماري؟</h3>
+          <ul class="features-list">
+            <li>📒 دفتر Croquis فاخر بجودة عالية - 160 جم</li>
+            <li>📘 دليل عملي يختصر أهم قواعد الهندسة المعمارية</li>
+            <li>🎯 مقاييس دقيقة، مقاطع، واجهات، مناظير وأشكال احترافية</li>
+            <li>✅ مخصص لطلاب الهندسة المعمارية بجميع السنوات</li>
+            <li>🛒 متوفر بالجملة والتجزئة بأسعار تنافسية</li>
+            <li>📦 التوصيل إلى 58 ولاية بخدمة سريعة وآمنة</li>
+            <li>💳 الدفع عند الاستلام مع ضمان الجودة</li>
+            <li>🎁 هدية خاصة مع كل طلب (أدوات رسم إضافية)</li>
+          </ul>
+          
+          <div class="pricing-options">
+            <div class="price-card">
+              <h3>نسخة واحدة</h3>
+              <div class="price-amount">350 دج</div>
+              <p class="note">(35 ألف سنتيم)</p>
+            </div>
+            <div class="price-card popular">
+              <h3>نسختان أو أكثر</h3>
+              <div class="price-amount">300 دج لكل نسخة</div>
+              <p class="note">(وفر عند الشراء بكميات)</p>
             </div>
           </div>
+        </div>
+        
+        <div class="order-section">
+          <h3>اختر الكمية:</h3>
+          <div class="quantity-selector">
+            <div class="quantity-btn" onclick="changeQuantity(-1)">-</div>
+            <div class="quantity-value" id="quantity">1</div>
+            <div class="quantity-btn" onclick="changeQuantity(1)">+</div>
+          </div>
+          <div class="price-amount" id="totalPrice">350 دج</div>
+          <button class="btn" onclick="orderProduct()">اطلب الآن <i class="fas fa-arrow-left"></i></button>
           
-          <div class="order-section">
-            <h3>اختر الكمية:</h3>
-            <div class="quantity-selector">
-              <div class="quantity-btn" onclick="changeQuantity(-1)">-</div>
-              <div class="quantity-value" id="quantity">1</div>
-              <div class="quantity-btn" onclick="changeQuantity(1)">+</div>
-            </div>
-            <div class="price-amount" id="totalPrice">350 دج</div>
-            <button class="btn" onclick="orderProduct()">اطلب الآن <i class="fas fa-arrow-left"></i></button>
-            
-            <div class="guarantee">
-              <i class="fas fa-shield-alt"></i>
-              <span>ضمان الجودة </span>
-            </div>
+          <div class="guarantee">
+            <i class="fas fa-shield-alt"></i>
+            <span>ضمان الجودة </span>
           </div>
         </div>
       </div>
@@ -586,7 +585,6 @@
       <p>"الرفيق المعماري كان بمثابة المنقذ لي في السنة الأولى الدليل العملي اختصر علي ساعات من البحث والمقاييس الدقيقة ساعدتني في تقديم مشاريع متميزة. أنصح به كل طالب هندسة معمارية."</p>
       <div class="author">-  طالب هندسة معمارية </div>
     </div>
-
     <div id="formWrap">
       <form id="orderForm">
         <h3>📋 أكمل بيانات الطلب</h3>
@@ -762,12 +760,10 @@
       "El Meniaa": {"À domicile": 1000, "Bureau": 0}
     };
     
-
     const formWrap = document.getElementById('formWrap');
     const orderForm = document.getElementById('orderForm');
     const packageDisplay = document.getElementById('packageDisplay');
     const quantityInput = document.getElementById('quantity');
-    const formQuantity = document.getElementById('formQuantity');
     const formPrice = document.getElementById('price');
     const totalPriceEl = document.getElementById('totalPrice');
     const wilayaSelect = document.getElementById('wilaya');
@@ -778,20 +774,19 @@
     
     let quantity = 1;
     
- 
-    
+    // حساب السعر مع الخصم بعد 10 نسخ
     function updatePrice() {
       let total = 0;
       if (quantity === 1) {
         total = 350;
-      } else if (quantity > 1) {
-        total = quantity * 300; 
+      } else if (quantity >= 2 && quantity <= 10) {
+        total = 350 + (quantity - 1) * 300;
+      } else if (quantity > 10) {
+        total = 350 + 9 * 300 + (quantity - 10) * 200;
       }
       totalPriceEl.textContent = total + " دج";
       return total;
     }
-    
-
     
     function changeQuantity(change) {
       quantity += change;
@@ -799,7 +794,6 @@
       quantityInput.textContent = quantity;
       updatePrice();
     }
-
     
     function orderProduct() {
       formWrap.style.display = 'block';
@@ -811,20 +805,21 @@
       let productText = "الرفيق المعماري";
       if (quantity === 1) {
         productText += " - نسخة واحدة (350 دج)";
-      } else {
+      } else if (quantity > 1 && quantity <= 10) {
         productText += ` - ${quantity} نسخة (${totalPrice} دج)`;
+      } else {
+        productText += ` - ${quantity} نسخة (يشمل خصم الخاص للطلب أكثر من 10) (${totalPrice} دج)`;
       }
       
       packageDisplay.value = productText;
-      formQuantity.value = quantity;
-      formPrice.value = totalPrice;
+      document.getElementById('package').value = productText;
+      document.getElementById('price').value = totalPrice;
     }
     
-
-        function updatePrices() {
+    function updatePrices() {
       const wilaya = wilayaSelect.value.trim();
       const delivery = deliverySelect.value;
-      const packagePrice = parseInt(formPrice.value) || 0;
+      const packagePrice = parseInt(document.getElementById('price').value) || 0;
       
       if (!wilaya || !delivery || !packagePrice) {
         priceBox.style.display = 'none';
@@ -868,11 +863,9 @@
       document.getElementById('total').value = totalPrice;
     }
     
- 
     wilayaSelect.addEventListener('change', updatePrices);
     deliverySelect.addEventListener('change', updatePrices);
     
-
     orderForm.addEventListener('submit', function(e) {
       e.preventDefault();
       const formEl = e.target;
@@ -902,6 +895,8 @@
           quantity = 1;
           quantityInput.textContent = quantity;
           totalPriceEl.textContent = '350 دج';
+          document.getElementById('package').value = '';
+          document.getElementById('price').value = '';
           
           setTimeout(() => {
             formWrap.style.display = 'none';
@@ -917,3 +912,4 @@
   </script>
 </body>
 </html>
+
