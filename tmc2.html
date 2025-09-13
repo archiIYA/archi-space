@@ -99,6 +99,10 @@
       margin-bottom: 10px;
       color: #222;
     }
+    .lesson p {
+      margin: 0 0 10px 0;
+      color: #444;
+    }
     .buttons {
       margin-top: 10px;
     }
@@ -121,24 +125,20 @@
   </style>
 </head>
 <body>
-
 <button id="toggleSidebar">☰ Menu</button>
-
 <aside class="sidebar">
   <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
   <button class="back-button" onclick="history.back()">🔙 Retour</button>
-
   <div class="sidebar-header">
     <h2>📚 Année 1 - Semestre 2</h2>
   </div>
-
   <ul class="sidebar-menu">
     <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
     <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
     <li><a href="theorie2.html">📘 Théorie de projet 2</a></li>
     <li><a href="geometrie2.html">📏 Géométrie descriptive 2</a></li>
     <li><a href="tmc2.html">🧱 TMC 2</a></li>
-    <li><a href="physique.html"><div class="subject">🔬 Physique du bâtiment</div></a>
+    <li><a href="physique.html"><div class="subject">🔬 Physique du bâtiment</div></a></li>
     <li><a href="expression2.html">🗣️ Expression écrite</a></li>
     <li><a href="stage2.html">🏞️ Stage découverte 2</a></li>
     <hr>
@@ -146,10 +146,8 @@
     <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
   </ul>
 </aside>
-
 <main>
   <h1 class="section-title">🧱 Technologie des Matériaux de Construction 2</h1>
-
   <div class="lesson">
     <h3>Bétons : Introduction et fabrication</h3>
     <p>Découverte du béton, ses composants, et les étapes de sa fabrication.</p>
@@ -157,7 +155,6 @@
       <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
-
   <div class="lesson">
     <h3>Béton armé et précontraint</h3>
     <p>Types de bétons techniques et leurs usages dans les structures modernes.</p>
@@ -165,7 +162,6 @@
       <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
-
   <div class="lesson">
     <h3>Pierres à bâtir</h3>
     <p>Utilisation des pierres naturelles, techniques de maçonnerie, et appareillage.</p>
@@ -173,7 +169,6 @@
       <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
-
   <div class="lesson">
     <h3>Bois : Propriétés et assemblages</h3>
     <p>Le bois en construction : types, caractéristiques et assemblages traditionnels.</p>
@@ -181,7 +176,6 @@
       <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
-
   <div class="lesson">
     <h3>Produits céramiques</h3>
     <p>Typologie des briques, tuiles, appareillages, et applications des céramiques.</p>
@@ -189,7 +183,6 @@
       <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
-
   <div class="lesson">
     <h3>Isolants : Thermiques et acoustiques</h3>
     <p>Les différents types d’isolants, leur structure, et leurs usages dans le bâtiment.</p>
@@ -197,7 +190,6 @@
       <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
-
   <div class="lesson">
     <h3>Verres : Propriétés et emploi</h3>
     <p>Historique du verre, ses caractéristiques, et son utilisation dans l’architecture.</p>
@@ -205,7 +197,6 @@
       <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
-
   <div class="lesson">
     <h3>Matériaux durables</h3>
     <p>Présentation des matériaux innovants et respectueux de l’environnement (biosourcés, polymères...).</p>
@@ -213,18 +204,19 @@
       <button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
-
   <footer>
     © 2025 ArchiSpace – Tous droits réservés.
   </footer>
 </main>
-
 <script>
   const sidebar = document.querySelector('aside');
   const toggleBtn = document.getElementById('toggleSidebar');
   toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('hidden');
   });
+
+
+  window.location.href = "login.html";
 </script>
 </body>
 </html>
