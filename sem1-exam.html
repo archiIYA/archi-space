@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Semestre 1 - 1ère Année - Examens</title>
+  <meta name="description" content="Modules du Semestre 1 pour la 1ère année en architecture - Examens et matières." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding-left: 240px;
+      color: #2c3e50;
+    }
+    header {
+      text-align: center;
+      padding: 30px 20px 10px;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #2980b9;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .sidebar {
+      width: 220px;
+      background: #ecf0f1;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: 20px 15px;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+      color: #2980b9;
+      font-weight: 600;
+      overflow-y: auto;
+    }
+    .sidebar a {
+      display: block;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      text-decoration: none;
+      color: #2980b9;
+      border-radius: 8px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .sidebar a:hover {
+      background: #3498db;
+      color: white;
+    }
+    main {
+      max-width: 900px;
+      margin: 40px auto 60px;
+      padding: 0 15px;
+    }
+    .subjects {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    .subject-card {
+      background: white;
+      border-radius: 14px;
+      padding: 25px 28px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .subject-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(41, 128, 185, 0.35);
+    }
+    .subject-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #2980b9;
+    }
+    .subject-card p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+    @media (max-width: 680px) {
+      body {
+        padding-left: 0;
+      }
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        box-shadow: none;
+        padding: 15px 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .sidebar a {
+        margin-bottom: 8px;
+        flex: 1 1 40%;
+        text-align: center;
+      }
+      main {
+        margin: 20px auto;
+        width: 90%;
+      }
+      .subject-card {
+        width: 100%;
+        max-width: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar" aria-label="Navigation Année et Matieres">
+    <a href="index.html" aria-label="Retour accueil">🏠 Accueil</a>
+    <a href="annee1.html" aria-label="Année 1">📘 Année 1</a>
+    <a href="annee2.html" aria-label="Année 2">📗 Année 2</a>
+    <a href="annee3.html" aria-label="Année 3">📙 Année 3</a>
+    <a href="annee4.html" aria-label="Année 4">📕 Année 4</a>
+    <a href="annee5.html" aria-label="Année 5">📒 Année 5</a>
+  </aside>
+
+  <main>
+    <header>📘 Semestre 1 - 1ère Année - Examens</header>
+    <section class="subjects" aria-label="Liste des matières">
+
+      <a href="atelier1.html" class="subject-card" aria-label="Aller à l'examen Atelier de projet 1">
+        <h3>Atelier de projet 1</h3>
+        <p>Examen pratique sur le projet architectural.</p>
+      </a>
+      <a href="dca1.html" class="subject-card" aria-label="Aller à l'examen DCA 1">
+        <h3>DCA 1</h3>
+        <p>Examen sur dessin de construction architecturale.</p>
+      </a>
+      <a href="dag1.html" class="subject-card" aria-label="Aller à l'examen DAG 1">
+        <h3>DAG 1</h3>
+        <p>Examen sur dessin assisté et géométrie.</p>
+      </a>
+      <a href="histoire1.html" class="subject-card" aria-label="Aller à l'examen Histoire de l’Architecture 1">
+        <h3>Histoire de l’Architecture 1</h3>
+        <p>Test d'histoire et théorie architecturale.</p>
+      </a>
+      <a href="math1.html" class="subject-card" aria-label="Aller à l'examen Mathématiques">
+        <h3>Mathématiques</h3>
+        <p>Examen sur calculs, trigonométrie et géométrie.</p>
+      </a>
+
+    </section>
+  </main>
+</body>
+</html>
