@@ -6,6 +6,7 @@
   <title>Physique du bâtiment</title>
   <meta name="description" content="Cours de physique du bâtiment : statique, thermique, acoustique, électricité et plus pour les étudiants en architecture." />
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
     body {
       margin: 0;
@@ -14,7 +15,6 @@
       color: #111;
       display: flex;
     }
-
     aside {
       width: 240px;
       background-color: #f4f4f4;
@@ -29,11 +29,9 @@
       transition: transform 0.3s ease;
       z-index: 998;
     }
-
     aside.hidden {
       transform: translateX(-260px);
     }
-
     .back-button {
       margin-bottom: 20px;
       background-color: #ddd;
@@ -44,17 +42,15 @@
       width: 100%;
       font-weight: 600;
       transition: background-color 0.3s;
+      text-align: center;
     }
-
     .back-button:hover {
       background-color: #ccc;
     }
-
     aside h2 {
       font-size: 18px;
       margin-bottom: 20px;
     }
-
     aside a {
       display: block;
       padding: 10px;
@@ -64,11 +60,9 @@
       border-radius: 6px;
       transition: background 0.3s;
     }
-
     aside a:hover {
       background-color: #ddd;
     }
-
     #toggleSidebar {
       position: fixed;
       top: 20px;
@@ -82,24 +76,20 @@
       border-radius: 6px;
       cursor: pointer;
     }
-
     main {
       flex-grow: 1;
       padding: 30px;
       margin-left: 240px;
       transition: margin-left 0.3s ease;
     }
-
     aside.hidden ~ main {
       margin-left: 0;
     }
-
     .section-title {
       font-size: 26px;
       margin-bottom: 20px;
       color: #000;
     }
-
     .lesson {
       margin-bottom: 30px;
       background: #fafafa;
@@ -107,29 +97,42 @@
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
-
     .lesson h3 {
       font-size: 20px;
       margin-bottom: 10px;
       color: #222;
     }
-
+    .lesson p {
+      margin: 0 0 10px 0;
+      color: #444;
+    }
     .buttons {
       margin-top: 10px;
     }
-
-    .buttons button {
-      background: none;
-      border: none;
-      margin-right: 10px;
+    .buttons a {
+      text-decoration: none;
+      color: #111;
       font-size: 16px;
+      margin-right: 15px;
       cursor: pointer;
+      border: 1px solid transparent;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s, border-color 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
     }
-
-    .buttons button:hover {
-      opacity: 0.7;
+    .buttons a.disabled {
+      cursor: default;
+      opacity: 0.4;
+      pointer-events: none;
     }
-
+    .buttons a:hover:not(.disabled) {
+      background-color: #eee;
+      border-color: #ccc;
+    }
     footer {
       margin-top: 50px;
       font-size: 13px;
@@ -139,17 +142,13 @@
   </style>
 </head>
 <body>
-
 <button id="toggleSidebar">☰ Menu</button>
-
 <aside class="sidebar">
   <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
   <button class="back-button" onclick="history.back()">🔙 Retour</button>
-
   <div class="sidebar-header">
     <h2>📚 Année 1 - Semestre 2</h2>
   </div>
-
   <ul class="sidebar-menu">
     <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
     <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
@@ -164,60 +163,116 @@
     <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
   </ul>
 </aside>
-
 <main>
   <h1 class="section-title">🔬 Physique du bâtiment</h1>
 
   <div class="lesson">
     <h3>I. Statique - Introduction</h3>
     <p>Mécanique, Principes de Newton, Statique.</p>
+    <div class="buttons">
+      <a href="Cour 4 Statique des solides.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-video-camera"></i> Vidéo</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-star"></i> Premium</a>
+    </div>
   </div>
 
   <div class="lesson">
     <h3>II. Conditions d'équilibre</h3>
     <p>Équilibre de translation, Équilibre de rotation.</p>
+    <div class="buttons">
+      <a href="Conditions d’équilibre.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-video-camera"></i> Vidéo</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-star"></i> Premium</a>
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h3>Nature des forces</h3>
+    <p>Définitions, Forces concourantes et non-concourantes, Moment d'une force, etc.</p>
+    <div class="buttons">
+      <a href="Natures des forces.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-video-camera"></i> Vidéo</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-star"></i> Premium</a>
+    </div>
   </div>
 
   <div class="lesson">
     <h3>III. Forces</h3>
-    <p>Définitions, Forces concourantes et non-concourantes, Moment d'une force, etc.</p>
+    <p>Forces concourantes et non-concourantes.</p>
+    <div class="buttons">
+      <a href="cour 2 Les forces.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF</a>
+      <a href="cour 3 Les forces analytiques.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF (analytique)</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-video-camera"></i> Vidéo</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-star"></i> Premium</a>
+    </div>
   </div>
 
   <div class="lesson">
     <h3>IV. Nature des forces</h3>
     <p>Gravitation, Poids, Centre d'inertie, Forces de contact ou réactions d'appuis.</p>
+    <div class="buttons">
+      <a href="Cour 5 Les moments.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-video-camera"></i> Vidéo</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-star"></i> Premium</a>
+    </div>
   </div>
 
   <div class="lesson">
     <h3>V. Thermique du bâtiment</h3>
     <p>Transferts de chaleur : conduction, convection, rayonnement, résistance thermique, déperdition thermique.</p>
+    <div class="buttons">
+      <a href="TRANSFERT DE CHALEUR.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF</a>
+      <a href="notion_eclairage.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF (Éclairage)</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-video-camera"></i> Vidéo</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-star"></i> Premium</a>
+    </div>
   </div>
 
   <div class="lesson">
     <h3>VI. Éclairage - géométrie solaire</h3>
     <p>Trajectoire du soleil, lumière, photométrie, interaction avec la matière.</p>
+    <div class="buttons">
+      <a href="GRANDEURS PHOTOMETRIQUE_Comprendre la lumière.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-video-camera"></i> Vidéo</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-star"></i> Premium</a>
+    </div>
   </div>
 
   <div class="lesson">
     <h3>VII. Acoustique</h3>
     <p>Aspects physiques et physiologiques, Réverbération, Isolement acoustique, Loi de masse.</p>
+    <div class="buttons">
+      <a href="L'acoustique 01.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-video-camera"></i> Vidéo</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-star"></i> Premium</a>
+    </div>
   </div>
 
   <div class="lesson">
     <h3>VIII. Les fluides</h3>
     <p>Hydrostatique, Archimède, Hydrodynamique, Écoulements.</p>
+    <div class="buttons">
+      <a href="Les fluids.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF</a>
+      <a href="MECANIQUE DES FLUIDES mrd.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o"></i> PDF (Mécanique)</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-video-camera"></i> Vidéo</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-star"></i> Premium</a>
+    </div>
   </div>
 
   <div class="lesson">
     <h3>IX. Électricité</h3>
     <p>Courant, loi d’Ohm, théorème de Kirchhoff, puissance électrique.</p>
+    <div class="buttons">
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-file-pdf-o"></i> PDF</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-video-camera"></i> Vidéo</a>
+      <a href="#" class="disabled" aria-disabled="true"><i class="fa fa-star"></i> Premium</a>
+    </div>
   </div>
 
   <footer>
     © 2025 ArchiSpace – Tous droits réservés.
   </footer>
 </main>
-
 <script>
   const sidebar = document.querySelector('aside');
   const toggleBtn = document.getElementById('toggleSidebar');
@@ -227,4 +282,3 @@
 </script>
 </body>
 </html>
-
