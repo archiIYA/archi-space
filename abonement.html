@@ -5,145 +5,225 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ARCHISpace 🚀</title>
     <link rel="icon" href="/logo-dba777a9.svg" />
-
     <!-- Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/index-2bc4f10a.css" />
-
     <style>
+      /* Reset some styles */
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         font-family: "Roboto", sans-serif;
         margin: 20px;
-        background: #f8f9fa;
+        background: #f0f2f5;
+        color: #222;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
       .container {
-        max-width: 900px;
+        max-width: 960px;
         margin: auto;
-        background: #fff;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #1e215d, #3b1fa0);
+        padding: 40px 30px 50px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(59, 31, 160, 0.4);
+        color: #fff;
       }
       h2 {
-        margin-bottom: 15px;
+        margin-bottom: 25px;
+        font-weight: 700;
+        font-size: 2rem;
+        text-align: center;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        text-shadow: 0 2px 6px rgba(0,0,0,0.3);
       }
       .activation-box {
         display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
+        gap: 15px;
+        margin-bottom: 30px;
+        justify-content: center;
+        flex-wrap: wrap;
       }
       .activation-box input {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
+        flex: 1 1 250px;
+        min-width: 220px;
+        padding: 14px 18px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        outline-offset: 3px;
+        outline-color: #9f7aea;
+        transition: outline-color 0.3s ease;
+      }
+      .activation-box input:focus {
+        outline-color: #ddbdfc;
       }
       .activation-box button {
-        background: green;
-        color: white;
+        background: #ff9900;
+        color: #222;
         border: none;
-        padding: 10px 20px;
-        border-radius: 6px;
-        cursor: pointer;
-      }
-      .activation-box button:hover {
-        background: darkgreen;
-      }
-      .packs {
-        margin-top: 30px;
-      }
-      .pack-card {
-        background: linear-gradient(135deg, #3b1fa0, #6a11cb);
-        color: white;
+        padding: 14px 28px;
         border-radius: 12px;
-        padding: 30px;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-      .pack-card h3 {
-        margin: 10px 0;
-      }
-      .btn-buy {
-        background: orange;
-        color: black;
         font-weight: bold;
-        border: none;
-        padding: 10px 20px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(255, 153, 0, 0.5);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        flex: 0 0 auto;
+      }
+      .activation-box button:hover,
+      .activation-box button:focus {
+        background: #cca300;
+        box-shadow: 0 6px 14px rgba(204, 163, 0, 0.7);
+      }
+
+      .packs {
+        margin-top: 40px;
+      }
+
+      /* Responsive grid layout for pack cards */
+      .packs {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+      }
+
+      .pack-card {
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
         border-radius: 20px;
+        padding: 30px 25px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(39, 33, 53, 0.6);
+        user-select: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         cursor: pointer;
       }
-      .btn-buy:hover {
-        background: darkorange;
+
+      .pack-card:hover,
+      .pack-card:focus-within {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(57, 45, 88, 0.8);
+      }
+
+      .pack-card p {
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #e0d0ff;
+        margin-bottom: 8px;
+      }
+
+      .pack-card h3 {
+        font-size: 1.75rem;
+        margin: 10px 0 15px;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .pack-card p:last-child {
+        font-weight: 400;
+        font-size: 1rem;
+        margin-bottom: 22px;
+        color: #cbbdff;
+      }
+
+      .btn-buy {
+        background: #ffbb33;
+        color: #222;
+        font-weight: 700;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        box-shadow: 0 6px 12px rgba(255, 187, 51, 0.6);
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+      }
+      .btn-buy:hover,
+      .btn-buy:focus {
+        background: #e2a300;
+        box-shadow: 0 8px 20px rgba(226, 163, 0, 0.8);
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 30px 20px 40px;
+        }
+        .activation-box {
+          flex-direction: column;
+        }
+        .activation-box button {
+          width: 100%;
+        }
+        .packs {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="container" role="main">
       <h2>🔑 Activer un abonnement avec un code</h2>
       <div class="activation-box">
         <input
           type="text"
           id="codeInput"
           placeholder="Saisissez votre code d'activation"
+          aria-label="Code d'activation"
         />
-        <button onclick="activateCode()">Valider</button>
+        <button onclick="activateCode()" aria-label="Valider le code d'activation">Valider</button>
       </div>
       <hr />
-      <div class="packs">
-        <h2>🎓 Acheter un abonnement</h2>
-
-        <!-- Exemple pour chaque année -->
-        <div class="pack-card" data-pack="1_annee">
+      <div class="packs" aria-label="Liste des packs d'abonnement">
+        <div class="pack-card" tabindex="0" data-pack="1_annee">
           <p>ARCHITECTURE</p>
           <h3>1ère année</h3>
           <p>Pack 1ère Année 2025</p>
-          <button class="btn-buy" onclick="buyPack('1_annee')">
+          <button class="btn-buy" onclick="buyPack('1_annee')" aria-label="Acheter pack 1ère année">
             Achat en ligne
           </button>
         </div>
-
-        <div class="pack-card" data-pack="2_annee">
+        <div class="pack-card" tabindex="0" data-pack="2_annee">
           <p>ARCHITECTURE</p>
           <h3>2ème année</h3>
           <p>Pack 2ème Année 2025</p>
-          <button class="btn-buy" onclick="buyPack('2_annee')">
+          <button class="btn-buy" onclick="buyPack('2_annee')" aria-label="Acheter pack 2ème année">
             Achat en ligne
           </button>
         </div>
-
-        <div class="pack-card" data-pack="3_annee">
+        <div class="pack-card" tabindex="0" data-pack="3_annee">
           <p>ARCHITECTURE</p>
           <h3>3ème année</h3>
           <p>Pack 3ème Année 2025</p>
-          <button class="btn-buy" onclick="buyPack('3_annee')">
+          <button class="btn-buy" onclick="buyPack('3_annee')" aria-label="Acheter pack 3ème année">
             Achat en ligne
           </button>
         </div>
-
-        <div class="pack-card" data-pack="4_annee">
+        <div class="pack-card" tabindex="0" data-pack="4_annee">
           <p>ARCHITECTURE</p>
           <h3>4ème année</h3>
           <p>Pack 4ème Année 2025</p>
-          <button class="btn-buy" onclick="buyPack('4_annee')">
+          <button class="btn-buy" onclick="buyPack('4_annee')" aria-label="Acheter pack 4ème année">
             Achat en ligne
           </button>
         </div>
-
-        <div class="pack-card" data-pack="5_annee">
+        <div class="pack-card" tabindex="0" data-pack="5_annee">
           <p>ARCHITECTURE</p>
           <h3>5ème année</h3>
           <p>Pack 5ème Année 2025</p>
-          <button class="btn-buy" onclick="buyPack('5_annee')">
+          <button class="btn-buy" onclick="buyPack('5_annee')" aria-label="Acheter pack 5ème année">
             Achat en ligne
           </button>
         </div>
       </div>
     </div>
-
-    <!-- Script d'activation -->
     <script>
       async function activateCode() {
         const code = document.getElementById("codeInput").value.trim();
@@ -151,20 +231,16 @@
           alert("Veuillez entrer un code !");
           return;
         }
-
-        // هنا تقدر تزيد اختيار الباك يدوياً أو تخليه افتراضي
+     
         const selectedPack = "5_annee"; 
-
         try {
           const response = await fetch("http://127.0.0.1:5000/api/verify", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ code: code, pack: selectedPack }),
           });
-
           const result = await response.json();
           alert(result.message);
-
           if (result.status === "success") {
             window.location.href = "dashboard.html";
           }
@@ -173,9 +249,7 @@
           alert("⚠️ Erreur de connexion au serveur.");
         }
       }
-
       function buyPack(pack) {
-        // ممكن هنا تبعث الباك للباك إند أو تفتح البوت مباشرة
         console.log("Pack choisi :", pack);
         window.open("https://t.me/Trendyplaza_bot", "_blank");
       }
