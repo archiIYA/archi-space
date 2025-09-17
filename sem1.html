@@ -31,16 +31,29 @@
     .subject {
       background-color: #e0f7f4;
       border: 1px solid #b2dfdb;
-      padding: 20px 30px;
+      padding: 15px;
       border-radius: 10px;
       text-align: center;
-      font-size: 1.1em;
+      font-size: 1em;
       cursor: pointer;
       transition: background 0.3s;
       min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     .subject:hover {
       background-color: #b2dfdb;
+    }
+    .subject img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 10px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      object-fit: contain;
     }
     a {
       text-decoration: none;
@@ -142,16 +155,16 @@
   </aside>
   <h1>📘 Semestre 1 - 1ère Année</h1>
   <div class="subjects">
-    <a href="atelier1.html"><div class="subject">🖊️ Atelier de projet 1</div></a>
-    <a href="dca1.html"><div class="subject">📐 DCA 1</div></a>
-    <a href="dag1.html"><div class="subject">📏 DAG 1</div></a>
-    <a href="histoire1.html"><div class="subject">🏛️ Histoire de l’Architecture 1</div></a>
-    <a href="theorie1.html"><div class="subject">📖 Théorie de projet 1</div></a>
-    <a href="geometrie.html"><div class="subject">📊 Géométrie de l’espace 1</div></a>
-    <a href="tmc1.html"><div class="subject">🔩 TMC 1</div></a>
-    <a href="math1.html"><div class="subject">➗ Mathématiques</div></a>
-    <a href="expression.html"><div class="subject">🗣️ Expression orale</div></a>
-    <a href="stage.html"><div class="subject">🏗️ Stage découverte 1</div></a>
+    <a href="atelier1.html"><div class="subject"><img src="Atelier.png" alt="Logo Atelier"><span>Atelier de projet 1</span></div></a>
+    <a href="dca1.html"><div class="subject"><img src="Dessin codifie d’architecture.png" alt="Logo DCA"><span>DCA 1</span></div></a>
+    <a href="dag1.html"><div class="subject"><img src="Dessin artistique et graphique.png" alt="Logo DAG"><span>DAG 1</span></div></a>
+    <a href="histoire1.html"><div class="subject"><img src="Histoire d’architecture.png" alt="Logo Histoire"><span>Histoire de l’Architecture 1</span></div></a>
+    <a href="theorie1.html"><div class="subject"><img src="Théorie de projet.png" alt="Logo Théorie"><span>Théorie de projet 1</span></div></a>
+    <a href="geometrie.html"><div class="subject"><img src="Gmetrie de l’espace.png" alt="Logo Géométrie"><span>Géométrie de l’espace 1</span></div></a>
+    <a href="tmc1.html"><div class="subject"><img src="Technologie de materiaux de construction.png" alt="Logo TMC"><span>TMC 1</span></div></a>
+    <a href="math1.html"><div class="subject"><img src="Math applique a l’architecture.png" alt="Logo Mathématiques"><span>Mathématiques</span></div></a>
+    <a href="expression.html"><div class="subject"><img src=" " alt="Logo Expression"><span>Expression orale</span></div></a>
+    <a href="stage.html"><div class="subject"><img src=" " alt="Logo Stage"><span>Stage découverte 1</span></div></a>
   </div>
   <script>
     function toggleSemesters(id) {
