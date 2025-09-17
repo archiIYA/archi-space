@@ -31,7 +31,6 @@
       margin: 0;
     }
 
-
     .subjects {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -56,9 +55,12 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
 
-      /* Animation عند الظهور */
+      /* Animation مبدئي */
       opacity: 0;
       transform: translateY(30px) scale(0.95);
+    }
+
+    .subject.show {
       animation: fadeInUp 0.6s ease forwards;
     }
 
@@ -137,9 +139,17 @@
     }
 
     .semesters a {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       padding: 5px 0;
       color: #333;
+    }
+
+    .semesters img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
     }
 
     .semesters a:hover {
@@ -164,7 +174,18 @@
       }
     }
 
-  
+    /* 🎯 Staggered Animation */
+    .subject:nth-child(1).show { animation-delay: 0.1s; }
+    .subject:nth-child(2).show { animation-delay: 0.2s; }
+    .subject:nth-child(3).show { animation-delay: 0.3s; }
+    .subject:nth-child(4).show { animation-delay: 0.4s; }
+    .subject:nth-child(5).show { animation-delay: 0.5s; }
+    .subject:nth-child(6).show { animation-delay: 0.6s; }
+    .subject:nth-child(7).show { animation-delay: 0.7s; }
+    .subject:nth-child(8).show { animation-delay: 0.8s; }
+    .subject:nth-child(9).show { animation-delay: 0.9s; }
+    .subject:nth-child(10).show { animation-delay: 1s; }
+
     @media (max-width: 768px) {
       .subjects {
         grid-template-columns: 1fr;
@@ -189,10 +210,11 @@
     <a href="lecteur.html">🔙 Retour à l'accueil</a>
     <hr>
     <div>
-      <div class="year" onclick="toggleSemesters('y1')">📘 Année 1</div>
+       <div class="year" onclick="toggleSemesters('y1')">
+      <img src="1st.png" alt="Année 1"> Année 1
       <div id="y1" class="semesters">
-        <a href="sem1.html">Semestre 1</a>
-        <a href="sem2.html">Semestre 2</a>
+        <a href="sem1.html"><img src="1 Semestre.png" alt="S1"> Semestre 1</a>
+        <a href="sem2.html"><img src="2 Semestre.png" alt="S2"> Semestre 2</a>
       </div>
       <div class="year" onclick="toggleSemesters('y2')">📗 Année 2</div>
       <div id="y2" class="semesters">
@@ -240,6 +262,20 @@
       const section = document.getElementById(id);
       section.style.display = section.style.display === "block" ? "none" : "block";
     }
+
+   
+    const subjects = document.querySelectorAll('.subject');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        } else {
+          entry.target.classList.remove('show'); 
+        }
+      });
+    }, { threshold: 0.2 });
+
+    subjects.forEach(subject => observer.observe(subject));
   </script>
 </body>
 </html>
