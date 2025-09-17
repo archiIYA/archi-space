@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>DCA 1</title>
   <script type="module">
-  // استيراد مكتبات Firebase
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  // إعدادات Firebase الخاصة بك
   const firebaseConfig = {
     apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
     authDomain: "archi-space-72624.firebaseapp.com",
@@ -20,15 +18,12 @@
     measurementId: "G-RZV7LSDQBD"
   };
 
-  // تهيئة Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // التحقق من حالة تسجيل الدخول
   onAuthStateChanged(auth, (user) => {
     if (!user) {
-      // إذا لم يكن المستخدم مسجلاً الدخول، إعادة توجيه إلى صفحة تسجيل الدخول
-      window.location.href = "index.html"; // غيّر الرابط حسب صفحة تسجيل الدخول الفعلية
+      window.location.href = "index.html"; 
     }
   });
 </script>
@@ -73,10 +68,7 @@
       font-weight: 600;
       transition: background-color 0.3s;
     }
-
-    .back-button:hover {
-      background-color: #ccc;
-    }
+    .back-button:hover { background-color: #ccc; }
 
     aside h2 {
       font-size: 18px;
@@ -92,10 +84,7 @@
       border-radius: 6px;
       transition: background 0.3s;
     }
-
-    aside a:hover {
-      background-color: #ddd;
-    }
+    aside a:hover { background-color: #ddd; }
 
     #toggleSidebar {
       position: fixed;
@@ -115,9 +104,9 @@
       flex-grow: 1;
       padding: 30px;
       margin-left: 240px;
+      padding-top: 80px; 
       transition: margin-left 0.3s ease;
     }
-
     aside.hidden ~ main {
       margin-left: 0;
     }
@@ -126,6 +115,13 @@
       font-size: 26px;
       margin-bottom: 20px;
       color: #000;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .section-title img {
+      width: 150px; /* لوغو كبير */
+      height: auto;
     }
 
     .lesson {
@@ -135,17 +131,13 @@
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
-
     .lesson h3 {
       font-size: 20px;
       margin-bottom: 10px;
       color: #222;
     }
 
-    .buttons {
-      margin-top: 10px;
-    }
-
+    .buttons { margin-top: 10px; }
     .buttons button {
       background: none;
       border: none;
@@ -153,10 +145,7 @@
       font-size: 16px;
       cursor: pointer;
     }
-
-    .buttons button:hover {
-      opacity: 0.7;
-    }
+    .buttons button:hover { opacity: 0.7; }
 
     footer {
       margin-top: 50px;
@@ -196,7 +185,10 @@
 </aside>
 
 <main>
-  <h1 class="section-title">📐 DCA 1</h1>
+  <h1 class="section-title">
+    <img src="Dessin codifie d’architectureض.svg" alt="DCA 1">
+    DCA 1
+  </h1>
 
   <div class="lesson">
     <h3>Introduction au dessin technique</h3>
@@ -209,7 +201,7 @@
     </div>
   </div>
 
- <div class="lesson">
+  <div class="lesson">
     <h3>La projection orthogonale</h3>
     <div class="buttons">
       <a href="course 2 DCA La_projection_orthogonale-2.pdf">
@@ -218,10 +210,10 @@
       <button>🎥 Vidéo</button>
       <button>⭐ Premium</button>
     </div>
-    </div>
+  </div>
 
   <div class="lesson">
-    <h3>coupes et sections</h3>
+    <h3>Coupes et sections</h3>
     <div class="buttons">
       <a href="course 3 DCA coupes et sections (1).pdf">
         <button>📄 PDF</button>
@@ -232,7 +224,7 @@
   </div>
   
   <div class="lesson">
-    <h3>menuiserie</h3>
+    <h3>Menuiserie</h3>
     <div class="buttons">
       <a href="course 4 DCA menuiserie (2).pdf">
         <button>📄 PDF</button>
@@ -250,7 +242,6 @@
 <script>
   const sidebar = document.querySelector('aside');
   const toggleBtn = document.getElementById('toggleSidebar');
-
   toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('hidden');
   });
