@@ -53,9 +53,7 @@
       z-index: 998;
     }
 
-    aside.hidden {
-      transform: translateX(-260px);
-    }
+    aside.hidden { transform: translateX(-260px); }
 
     .back-button {
       margin-bottom: 20px;
@@ -76,7 +74,9 @@
     }
 
     aside a {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       padding: 10px;
       margin-bottom: 10px;
       text-decoration: none;
@@ -84,6 +84,7 @@
       border-radius: 6px;
       transition: background 0.3s;
     }
+    aside a img { width: 22px; height: auto; }
     aside a:hover { background-color: #ddd; }
 
     #toggleSidebar {
@@ -107,20 +108,19 @@
       padding-top: 80px; 
       transition: margin-left 0.3s ease;
     }
-    aside.hidden ~ main {
-      margin-left: 0;
-    }
+    aside.hidden ~ main { margin-left: 0; }
 
     .section-title {
       font-size: 26px;
       margin-bottom: 20px;
       color: #000;
       display: flex;
-      align-items: center;
-      gap: 15px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
     }
     .section-title img {
-      width: 150px; /* لوغو كبير */
+      width: 150px;
       height: auto;
     }
 
@@ -168,19 +168,19 @@
   </div>
 
   <ul class="sidebar-menu">
-    <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
-    <li><a href="dca1.html">📐 DCA 1</a></li>
-    <li><a href="dag1.html">🎨 DAG 1</a></li>
-    <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
-    <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
-    <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
-    <li><a href="tmc1.html">🧱 TMC 1</a></li>
-    <li><a href="math1.html">🧮 Mathématiques</a></li>
-    <li><a href="expression1.html">🗣️ Expression orale</a></li>
-    <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
+    <li><a href="atelier1.html"><img src="Atelierض.svg"> Atelier de projet 1</a></li>
+    <li><a href="dca1.html"><img src="Dessin codifie d’architectureض.svg"> DCA 1</a></li>
+    <li><a href="dag1.html"><img src="Dessin artistique et graphiqueض.svg"> DAG 1</a></li>
+    <li><a href="histoire1.html"><img src="Histoire d’architectureض.svg"> Histoire de l’Architecture 1</a></li>
+    <li><a href="theorie1.html"><img src="Théorie de projet ض.svg"> Théorie de projet 1</a></li>
+    <li><a href="geometrie1.html"><img src="Geometrie de l’espace ض.svg"> Géométrie de l’espace 1</a></li>
+    <li><a href="tmc1.html"><img src="Technologie de materiaux de constructionض.svg"> TMC 1</a></li>
+    <li><a href="math1.html"><img src="Math applique a l’architectureض.svg"> Mathématiques</a></li>
+    <li><a href="expression1.html"><img src="Expression orale.svg"> Expression orale</a></li>
+    <li><a href="stage.html"><img src="stage.svg"> Stage découverte 1</a></li>
     <hr>
-    <li><a href="projets.html">💼 Projets</a></li>
-    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+    <li><a href="projets.html"><img src="12.svg"> Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com"><img src="1st.svg"> Contact</a></li>
   </ul>
 </aside>
 
@@ -248,3 +248,4 @@
 </script>
 </body>
 </html>
+
