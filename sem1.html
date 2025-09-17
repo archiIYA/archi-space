@@ -14,54 +14,80 @@
       padding-left: 240px;
       color: #333;
     }
-    h1 {
+
+    header {
       text-align: center;
-      margin-top: 30px;
-      margin-bottom: 30px;
+      margin: 20px 0;
+    }
+
+    header img {
+      width: 100px;
+      margin-bottom: 10px;
+    }
+
+    header h1 {
       font-size: 2em;
       color: #2a9d8f;
+      margin: 0;
     }
+
+
     .subjects {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      padding: 0 20px 30px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      padding: 0 20px 40px;
     }
+
     .subject {
       background-color: #e0f7f4;
       border: 1px solid #b2dfdb;
-      padding: 15px;
-      border-radius: 10px;
+      padding: 35px;
+      border-radius: 15px;
       text-align: center;
-      font-size: 1em;
+      font-size: 1.3em;
       cursor: pointer;
-      transition: background 0.3s;
-      min-width: 200px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+
+      /* ✨ تحسينات بصرية */
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+
+      /* Animation عند الظهور */
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      animation: fadeInUp 0.6s ease forwards;
     }
+
     .subject:hover {
       background-color: #b2dfdb;
+      transform: scale(1.07);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
+
     .subject img {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 10px;
+      width: 110px;
+      height: 110px;
+      margin-bottom: 15px;
       background: #fff;
-      border-radius: 8px;
+      border-radius: 12px;
       border: 1px solid #ccc;
       object-fit: contain;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
+
     a {
       text-decoration: none;
       color: #333;
     }
+
     a:hover {
       color: #000;
     }
+
     .menu-toggle {
       position: fixed;
       top: 10px;
@@ -72,6 +98,7 @@
       cursor: pointer;
       z-index: 1001;
     }
+
     aside {
       width: 220px;
       background-color: #f0f0f0;
@@ -85,37 +112,73 @@
       transition: transform 0.3s ease;
       z-index: 1000;
     }
+
     aside.hidden {
       transform: translateX(-100%);
     }
+
     aside h2 {
       font-size: 18px;
       margin-bottom: 15px;
       color: #2a9d8f;
     }
+
     .year {
       font-weight: bold;
       cursor: pointer;
       margin-top: 10px;
       color: #2a9d8f;
     }
+
     .semesters {
       display: none;
       margin-left: 10px;
       margin-bottom: 10px;
     }
+
     .semesters a {
       display: block;
       padding: 5px 0;
       color: #333;
     }
+
     .semesters a:hover {
       color: #000;
     }
+
     hr {
       border: none;
       border-top: 1px solid #ccc;
       margin: 10px 0;
+    }
+
+    /* ✨ Animation */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+  
+    @media (max-width: 768px) {
+      .subjects {
+        grid-template-columns: 1fr;
+      }
+
+      .subject {
+        padding: 40px;
+        font-size: 1.4em;
+      }
+
+      .subject img {
+        width: 120px;
+        height: 120px;
+      }
     }
   </style>
 </head>
@@ -153,10 +216,12 @@
       </div>
     </div>
   </aside>
-  <h1>📘/h1> <header>
+
+  <header>
     <img src="1st.png" alt="Logo Année 1">
-    <h1> Semestre 1 - 1ère Année</h1>
+    <h1>📘 Semestre 1 - 1ère Année</h1>
   </header>
+
   <div class="subjects">
     <a href="atelier1.html"><div class="subject"><img src="Atelierض.png" alt="Logo Atelier"><span>Atelier de projet 1</span></div></a>
     <a href="dca1.html"><div class="subject"><img src="Dessin codifie d’architectureض.png" alt="Logo DCA"><span>DCA 1</span></div></a>
@@ -168,8 +233,8 @@
     <a href="math1.html"><div class="subject"><img src="Math applique a l’architectureض.png" alt="Logo Mathématiques"><span>Mathématiques</span></div></a>
     <a href="expression.html"><div class="subject"><img src="Expression orale.png" alt="Logo Expression"><span>Expression orale</span></div></a>
     <a href="stage.html"><div class="subject"><img src="stage.png" alt="Logo Stage"><span>Stage découverte 1</span></div></a>
-   
   </div>
+
   <script>
     function toggleSemesters(id) {
       const section = document.getElementById(id);
@@ -178,4 +243,3 @@
   </script>
 </body>
 </html>
-
