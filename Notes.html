@@ -22,7 +22,7 @@
       --muted: 222 34% 17%;
       --card: 222 36% 12%;
     }
-    body{font-family:'Poppins',sans-serif;background-color:hsl(var(--bg));color:hsl(var(--fg));}
+    body{font-family:'Poppins',sans-serif;background-color:hsl(var(--bg));color:hsl(var(--fg));display:flex;}
     .user-fingerprint-bg{ 
       background-image: radial-gradient( 1200px 600px at 100% -20%, hsl(var(--accent)/0.15), transparent 60%),
                         radial-gradient( 900px 500px at -10% 120%, hsl(var(--accent-2)/0.12), transparent 50%),
@@ -31,12 +31,55 @@
     .glass{ backdrop-filter: blur(10px); background-color: hsl(var(--card)/0.65); }
     .note-card:hover{ transform: translateY(-3px); box-shadow: 0 10px 24px hsl(var(--accent)/0.18); }
     .chip{ border:1px solid hsl(var(--accent)/0.35); padding:.25rem .55rem; border-radius:999px; font-size:.8rem; }
+    #quickBody { display:none; }
+    #toast { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%); background:#10b981; color:white; padding:.75rem 1.25rem; border-radius:.75rem; font-weight:600; box-shadow:0 4px 12px rgba(0,0,0,.2); display:none; z-index:1000; opacity:0; transition:opacity .4s, transform .4s; }
+    #toast.show { display:block; opacity:1; transform:translateX(-50%) translateY(0); }
+    #toast.hide { opacity:0; }
+    aside {width: 240px; min-height: 100vh; padding: 1rem; background-color: hsl(var(--card)/0.8); transition: transform .3s ease;}
+    aside ul {list-style:none; padding:0; margin:0;}
+    aside li {padding:.5rem .75rem; border-radius:.5rem; margin-bottom:.25rem; cursor:pointer;}
+    aside li.active, aside li:hover {background-color:hsl(var(--accent)/0.15); font-weight:600;}
+    aside .contact {margin-top:2rem; font-size:.85rem;}
+    main {flex:1;}
+   
+    @media(max-width:768px){
+      aside{position:fixed; left:0; top:0; bottom:0; transform:translateX(-100%); z-index:50;}
+      aside.open{transform:translateX(0);}
+      #sidebarToggle{display:block;}
+    }
+    @media(min-width:769px){
+      #sidebarToggle{display:none;}
+    }
   </style>
 </head>
 <body class="user-fingerprint-bg min-h-screen">
-  <header class="sticky top-0 z-50">
+
+  <aside id="sidebar" class="glass">
+    <ul>
+      <li class="active">🏠 Accueil</li>
+      <li>📊 Statistiques</li>
+      <li><a href="courses.html">📚 Suivi Cours</a></li>
+      <li>❓ Sessions Questions</li>
+      <li><a href="exam.html">📝 Sessions Examens</a></li>
+      <li>🏷️ Labels</li>
+      <li><a href="Notes.html">🗒️ Notes</a></li>
+      <li>🚩 Signals</li>
+      <li>🔔 Notification</li>
+      <li><a href="abonement.html">💳 Abonnement</a></li>
+      <li>🛠️ Support</li>
+      <li><a href="profil.html">👤 Mon Profil</a></li>
+    </ul>
+    <div class="contact">
+      📬 Contact :<br />
+      <a href="mailto:contact@archi.space">contact@archi.space</a>
+    </div>
+  </aside>
+
+  <div class="flex-1 flex flex-col">
+  <header class="sticky top-0 z-40">
     <div class="glass mx-4 mt-4 rounded-2xl px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
+        <button id="sidebarToggle" class="px-2 py-1 rounded-md bg-gray-200 dark:bg-gray-700">☰</button>
         <div id="avatar" class="w-10 h-10 rounded-xl grid place-items-center font-extrabold text-white"
              style="background:linear-gradient(135deg,hsl(var(--accent)),hsl(var(--accent-2)));">U</div>
         <div>
@@ -52,7 +95,7 @@
   </header>
 
   <main class="p-4 space-y-4">
-    <div class="glass rounded-2xl p-4">
+    <div class="glass rounded-2xl p-4 space-y-3">
       <div class="flex flex-col md:flex-row gap-3">
         <input id="quickTitle" class="flex-1 rounded-xl px-3 py-2 bg-white/60 dark:bg-white/5" placeholder="Titre de la note"/>
         <input id="quickTags" class="md:w-64 rounded-xl px-3 py-2 bg-white/60 dark:bg-white/5" placeholder="Mots-clés séparés par virgule"/>
@@ -60,21 +103,26 @@
         <button id="quickAdd" class="px-4 py-2 rounded-xl text-white font-bold"
           style="background:linear-gradient(135deg,hsl(var(--accent)),hsl(var(--accent-2)))">➕ Ajouter</button>
       </div>
+      <textarea id="quickBody" class="w-full rounded-xl px-3 py-2 bg-white/60 dark:bg-white/5" rows="4" placeholder="Écrivez votre note ici..."></textarea>
     </div>
 
     <div id="notesGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
   </main>
+  </div>
 
-  <!-- Rappel/Notification -->
+
   <div id="reminderPopup" class="hidden fixed bottom-5 right-5 bg-white dark:bg-gray-800 shadow-xl p-4 rounded-xl">
     <p id="reminderText" class="font-bold"></p>
     <button onclick="this.parentElement.classList.add('hidden')" class="mt-2 px-3 py-1 bg-red-500 text-white rounded-lg">Fermer</button>
   </div>
 
+
+  <div id="toast">Note ajoutée avec succès ✔</div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs, serverTimestamp, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
@@ -96,43 +144,67 @@
     const quickTitle = document.getElementById('quickTitle');
     const quickTags = document.getElementById('quickTags');
     const quickReminder = document.getElementById('quickReminder');
+    const quickBody = document.getElementById('quickBody');
     const quickAdd = document.getElementById('quickAdd');
     const themeBtn = document.getElementById('themeBtn');
     const logoutBtn = document.getElementById('logoutBtn');
     const reminderPopup = document.getElementById('reminderPopup');
+    const toast = document.getElementById('toast');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
 
     let UID = null;
     let cache = [];
+
+    quickTitle.addEventListener('input', ()=>{
+      if(quickTitle.value.trim()){
+        quickBody.style.display = 'block';
+      } else {
+        quickBody.style.display = 'none';
+      }
+    });
 
     quickAdd.onclick = async ()=>{
       const title = quickTitle.value.trim();
       const tags = quickTags.value.split(',').map(s=>s.trim()).filter(Boolean);
       const reminderAt = quickReminder.value ? new Date(quickReminder.value) : null;
+      const body = quickBody.value.trim();
       if(!title) return;
       try{
         const ref = await addDoc(collection(db, `users/${UID}/notes`), { 
           title, 
+          body,
           tags, 
           reminderAt: reminderAt ? reminderAt : null,
           createdAt: serverTimestamp(), 
           updatedAt: serverTimestamp() 
         });
-        cache.unshift({ id: ref.id, title, tags, reminderAt, createdAt:new Date(), updatedAt:new Date() });
+        cache.unshift({ id: ref.id, title, body, tags, reminderAt, createdAt:new Date(), updatedAt:new Date() });
+        quickTitle.value='';
+        quickBody.value='';
+        quickBody.style.display='none';
+        quickTags.value='';
+        quickReminder.value='';
         render();
+        showToast(title);
       }catch(err){ console.error(err); }
     }
 
     function noteCard(n){
       let reminderInfo = n.reminderAt ? `<p class=\"text-xs text-blue-600 dark:text-blue-400\">Rappel prévu: ${new Date(n.reminderAt).toLocaleString()}</p>` : '';
-      return `<article class=\"note-card glass rounded-2xl p-4\" data-id=\"${n.id}\">
-                <h3 class=\"font-bold\">${n.title}</h3>
-                <p class=\"text-sm opacity-70\">Créée: ${n.createdAt.toLocaleString()}</p>
-                ${reminderInfo}
-              </article>`;
+      let bodyPreview = n.body ? `<p class=\"text-sm mt-1\">${n.body.substring(0,100)}...</p>` : '';
+      return `<article class=\"note-card glass rounded-2xl p-4\" data-id=\"${n.id}\">\n                <h3 class=\"font-bold\">${n.title}</h3>\n                <p class=\"text-sm opacity-70\">Créée: ${n.createdAt.toLocaleString()}</p>\n                ${reminderInfo}\n                ${bodyPreview}\n              </article>`;
     }
 
     function render(){
       notesGrid.innerHTML = cache.map(noteCard).join('');
+    }
+
+    function showToast(text){
+      toast.textContent = text ? `Note \"${text}\" ajoutée ✔` : 'Note ajoutée avec succès ✔';
+      toast.classList.add('show');
+      setTimeout(()=>{ toast.classList.add('hide'); }, 2000);
+      setTimeout(()=>{ toast.classList.remove('show','hide'); toast.style.display='none'; }, 2400);
     }
 
     function setTheme(mode){
@@ -170,6 +242,13 @@
           }
         }
       });
+    }
+
+
+    if(sidebarToggle){
+      sidebarToggle.onclick = ()=>{
+        sidebar.classList.toggle('open');
+      };
     }
   </script>
 </body>
