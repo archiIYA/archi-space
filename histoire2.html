@@ -3,275 +3,402 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Histoire de l’Architecture 2</title>
-  <meta name="description" content="Cours de l'Histoire de l’Architecture 2 pour les étudiants en architecture : Renaissance, Baroque, Modernité et plus." />
-  
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <title>Histoire de l’Architecture Islamique</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap" rel="stylesheet">
+
+
   <style>
-    body {
-      margin: 0;
-      font-family: 'Rubik', sans-serif;
-      background: #fff;
-      color: #111;
-      display: flex;
+    :root{
+      --bg:#ffffff;
+      --text:#111111;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --border:#e6e6e6;
+      --shadow:0 6px 18px rgba(8,24,40,.06);
+      --sidebar:#f4f4f4;
+      --accent:#0f172a;
+      --btn:#111;
+      --btnText:#fff;
+      --btnGhostBg:#fff;
+      --btnGhostBr:#e6e6e6;
+      --btnGhostHover:0 6px 16px rgba(8,24,40,.06);
     }
-    aside {
-      width: 240px;
-      background-color: #f4f4f4;
-      height: 100vh;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      overflow-y: auto;
-      position: fixed;
-      left: 0;
-      top: 0;
-      transform: translateX(0);
-      transition: transform 0.3s ease;
-      z-index: 998;
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Rubik',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      min-height:100vh;
     }
-    aside.hidden {
-      transform: translateX(-260px);
+
+
+    aside{
+      width:260px;
+      background:var(--sidebar);
+      height:100vh;
+      padding:20px;
+      box-shadow:2px 0 5px rgba(0,0,0,.06);
+      overflow-y:auto;
+      position:fixed;
+      left:0;top:0;
+      transform:translateX(0);
+      transition:transform .3s ease;
+      z-index:998;
     }
-    .back-button {
-      margin-bottom: 20px;
-      background-color: #ddd;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: 600;
-      transition: background-color 0.3s;
+    aside.hidden{transform:translateX(-280px)}
+    .sidebar-header h2{font-size:18px;margin:16px 0 10px}
+    .back-button{
+      width:100%;
+      display:block;
+      margin-bottom:12px;
+      background:#e5e7eb;
+      color:#111;
+      border:none;
+      padding:10px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      text-align:left;
+      transition:background .2s ease
     }
-    .back-button:hover {
-      background-color: #ccc;
+    .back-button:hover{background:#d1d5db}
+
+    .sidebar-menu{list-style:none;margin:10px 0 0;padding:0}
+    .sidebar-menu li{margin-bottom:8px}
+    .sidebar-menu a{
+      display:block;
+      padding:10px 12px;
+      text-decoration:none;
+      color:#333;
+      border-radius:8px;
+      transition:background .2s ease
     }
-    aside h2 {
-      font-size: 18px;
-      margin-bottom: 20px;
+    .sidebar-menu a:hover{background:#eaeaea}
+
+    
+    #toggleSidebar{
+      position:fixed;
+      top:16px;left:16px;
+      z-index:999;
+      background:#111;
+      color:#fff;
+      border:none;
+      padding:10px 14px;
+      font-size:16px;
+      border-radius:8px;
+      cursor:pointer;
+      box-shadow:0 4px 16px rgba(2,6,23,.25);
     }
-    aside a {
-      display: block;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-decoration: none;
-      color: #333;
-      border-radius: 6px;
-      transition: background 0.3s;
+
+
+    main{
+      flex-grow:1;
+      padding:30px 28px 40px;
+      margin-left:260px;
+      transition:margin-left .3s ease;
+      max-width:1200px;
+      width:100%;
     }
-    aside a:hover {
-      background-color: #ddd;
+    aside.hidden ~ main{margin-left:0}
+
+    .section-title{
+      font-size:26px;
+      margin:10px 0 22px;
+      color:#000;
     }
-    #toggleSidebar {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 999;
-      background-color: #111;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
+
+    .lesson{
+      margin-bottom:26px;
+      background:linear-gradient(180deg,#fbfbfb 0%, #ffffff 100%);
+      padding:20px;
+      border-radius:12px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(15,23,42,.04);
     }
-    main {
-      flex-grow: 1;
-      padding: 30px;
-      margin-left: 240px;
-      transition: margin-left 0.3s ease;
+    .lesson h3{
+      font-size:20px;margin:0 0 10px;color:#111;display:flex;justify-content:space-between;align-items:center
     }
-    aside.hidden ~ main {
-      margin-left: 0;
+    .lesson p{margin:6px 0 0;color:var(--muted);font-size:14px}
+
+    .buttons{
+      margin-top:12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
     }
-    .section-title {
-      font-size: 26px;
-      margin-bottom: 20px;
-      color: #000;
+    .btn{
+      border:none;
+      background:var(--btn);
+      color:var(--btnText);
+      padding:9px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      transition:transform .12s ease, box-shadow .12s ease, opacity .2s;
     }
-    .lesson {
-      margin-bottom: 30px;
-      background: #fafafa;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(8,24,40,.12)}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+
+    .btn-ghost{
+      background:var(--btnGhostBg);
+      color:#111;
+      border:1px solid var(--btnGhostBr);
     }
-    .lesson h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      color: #222;
+    .btn-ghost:hover{box-shadow:var(--btnGhostHover)}
+
+    .msg{
+      display:none;
+      margin-left:6px;
+      font-size:13px;
+      color:#d9534f;
     }
-    .buttons {
-      margin-top: 10px;
-    }
-    .buttons button {
-      background: none;
-      border: none;
-      margin-right: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .buttons button:hover {
-      opacity: 0.7;
-    }
-    footer {
-      margin-top: 50px;
-      font-size: 13px;
-      color: #888;
-      text-align: center;
+
+    footer{margin-top:36px;font-size:13px;color:#888;text-align:center}
+
+    @media (max-width: 900px){
+      #toggleSidebar{top:12px;left:12px}
+      main{padding-top:64px}
     }
   </style>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-      authDomain: "archi-space-72624.firebaseapp.com",
-      projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.appspot.com",
-      messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:c914a78566b882b80df7b8",
-      measurementId: "G-RZV7LSDQBD"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "index.html";
-      }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const premiumButton1 = document.getElementById('premiumButton1');
-      const loadingMessage1 = document.getElementById('loadingMessage1');
-
-      if (premiumButton1) {
-        premiumButton1.addEventListener('click', async (e) => {
-          e.preventDefault();
-          
-          loadingMessage1.textContent = 'يتم التحقق من حالة اشتراكك...';
-          loadingMessage1.style.display = 'block';
-          
-          const user = auth.currentUser;
-          if (!user) {
-            loadingMessage1.textContent = 'يجب عليك تسجيل الدخول أولاً.';
-            return;
-          }
-
-          try {
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            if (userDoc.exists() && userDoc.data().isPremium) {
-              loadingMessage1.textContent = 'يتم إنشاء رابط التحميل...';
-              const pdfRef = ref(storage, 'premium-files/histoire-2-lesson-1.pdf');
-              const downloadURL = await getDownloadURL(pdfRef);
-              loadingMessage1.textContent = 'تم العثور على الملف، يتم التحميل...';
-              window.open(downloadURL, '_blank');
-            } else {
-              loadingMessage1.textContent = 'هذا المحتوى خاص بالمشتركين فقط.';
-            }
-          } catch (error) {
-            console.error("حدث خطأ:", error);
-            loadingMessage1.textContent = 'حدث خطأ ما. يرجى المحاولة لاحقًا.';
-          }
-        });
-      }
-    });
-  </script>
 </head>
 <body>
 
+
 <button id="toggleSidebar">☰ Menu</button>
 
-<aside class="sidebar">
-  <a href="sem2.html" class="back-button">🔙 Retour à Semestre 2</a>
+
+<aside id="sidebar">
+  <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
   <button class="back-button" onclick="history.back()">🔙 Retour</button>
 
   <div class="sidebar-header">
-    <h2>📚 Année 1 - Semestre 2</h2>
+    <h2>📚 Année 1 - Semestre 1</h2>
   </div>
 
   <ul class="sidebar-menu">
-    <li><a href="atelier2.html">🏗️ Atelier de projet 2</a></li>
-    <li><a href="histoire2.html">🏛️ Histoire de l’Architecture 2</a></li>
-    <li><a href="theorie2.html">📘 Théorie de projet 2</a></li>
-    <li><a href="geometrie2.html">📏 Géométrie de l’espace 2</a></li>
-    <li><a href="tmc2.html">🧱 TMC 2</a></li>
-    <li><a href="physique.html">🔬 Physique du bâtiment</a></li>
-    <li><a href="expression2.html">🗣️ Expression écrite</a></li>
-    <li><a href="stage2.html">🏞️ Stage découverte 2</a></li>
+    <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
+    <li><a href="dca1.html">📐 DCA 1</a></li>
+    <li><a href="dag1.html">🎨 DAG 1</a></li>
+    <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
+    <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
+    <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
+    <li><a href="tmc1.html">🧱 TMC 1</a></li>
+    <li><a href="math1.html">🧮 Mathématiques</a></li>
+    <li><a href="expression1.html">🗣️ Expression orale</a></li>
+    <li><a href="stage.html">🏞️ Stage découverte 1</a></li>
     <hr>
     <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="abonement.html">💳 Abonnement</a></li>
+    <li><a href="profil.html">👤 Mon Profil</a></li>
     <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
   </ul>
 </aside>
 
+
 <main>
-  <h1 class="section-title">🏛️ Histoire de l’Architecture 2</h1>
+  <h1 class="section-title">🏛️ De la naissance de l’Islam à la chute de l’Empire ottoman</h1>
+
+ 
+  <div class="lesson">
+    <h3>Avènement de l’Islam et héritages</h3>
+    <div class="buttons">
+      <a class="btn btn-ghost" href="Héritages-part-1 (2).pdf" target="_blank">📄 Héritages 1</a>
+      <a class="btn btn-ghost" href="Héritages-part-2 (1).pdf" target="_blank">📄 Héritages 2</a>
+    </div>
+    <p>Contexte قبل 610م: الموروثات المشرقية والمتوسطية.</p>
+  </div>
+
+ 
+  <div class="lesson">
+    <h3>Première architecture musulmane (610–661)</h3>
+    <div class="buttons">
+      <a class="btn btn-ghost" href="ArchislamiqueChapitre2Partie1 (1).pdf" target="_blank">📄 PDF</a>
+      <button class="btn" data-premium-path="premium-files/histoire-lesson-1.pdf">⭐ Premium</button>
+      <span class="msg"></span>
+    </div>
+    <p>مرحلة النبي ﷺ والخلفاء الراشدين: البدايات، مسجد المدينة، البساطة المادية.</p>
+  </div>
+
+  
+  <div class="lesson">
+    <h3>Architecture Omeyyade (661–750)</h3>
+    <div class="buttons">
+      <a class="btn btn-ghost" href="OMEYYADES (1).pdf" target="_blank">📄 Omeyyades</a>
+      <a class="btn btn-ghost" href="ArchislamiqueChapitre2Partie2 (1).pdf" target="_blank">📄 Partie 2 (sections Omeyyades)</a>
+      <a class="btn btn-ghost" href="ESPAGNE-ANDALOUSIE (1).pdf" target="_blank">📄 Espagne-Andalousie</a>
+    </div>
+    <p>جامع دمشق، قصور الصحراء، الامتداد إلى الأندلس.</p>
+  </div>
+
 
   <div class="lesson">
-    <h3>Architecture de la Renaissance</h3>
+    <h3>Architecture Abbasside (750–1258)</h3>
     <div class="buttons">
-      <a href="link-to-your-pdf-file.pdf"><button>📄 PDF</button></a>
-      <button>🎥 Vidéo</button>
-      <button id="premiumButton1">⭐ Premium</button>
-      <p id="loadingMessage1" style="display:none; color:#d9534f; margin-top:10px;"></p>
+      <a class="btn btn-ghost" href="Abbassides-final (1).pdf" target="_blank">📄 Abbassides</a>
+      <a class="btn btn-ghost" href="ArchislamiqueChapitre2Partie2 (1).pdf" target="_blank">📄 Partie 2 (sections Abbassides)</a>
     </div>
+    <p>بغداد (المدينة الدائرية)، سامراء، تأثير التقاليد الفارسية والساسانية.</p>
   </div>
 
   <div class="lesson">
-    <h3>Architecture baroque et rococo</h3>
+    <h3>Dynasties unificatrices : Fatimides, Almohades, Almoravides</h3>
     <div class="buttons">
-      <a href="link-to-your-pdf-file.pdf"><button>📄 PDF</button></a>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+      <a class="btn btn-ghost" href="Fatimides-Almohades-Almoravides (1).pdf" target="_blank">📄 PDF</a>
     </div>
+    <p>الفاطميون (المهدية/القاهرة)، المرابطون/الموحدون بالمغرب والأندلس.</p>
+  </div>
+
+
+  <div class="lesson">
+    <h3>Dynasties locales d’Occident (Espagne, Idrissides)</h3>
+    <div class="buttons">
+      <a class="btn btn-ghost" href="ESPAGNE-ANDALOUSIE (1).pdf" target="_blank">📄 Espagne</a>
+      <a class="btn btn-ghost" href="IDRISSIDES (1).pdf" target="_blank">📄 Idrissides</a>
+    </div>
+    <p>قرطبة والأندلس، الدولة الإدريسية وفاس والقرويين.</p>
+  </div>
+
+
+  <div class="lesson">
+    <h3>Dynasties locales d’Occident (Aghlabides, Hafcides, Marinides, Ayyoubides, Mamlouks)</h3>
+    <div class="buttons">
+      <button class="btn btn-ghost" disabled>📄 PDF (à ajouter)</button>
+      <button class="btn" data-premium-path="premium-files/occident-locaux.pdf">⭐ Premium</button>
+      <span class="msg"></span>
+    </div>
+    <p>مكان لإضافة ملفات الأغالبة، الحفصيين، المرينيين… إلخ.</p>
   </div>
 
   <div class="lesson">
-    <h3>Architecture classique et néoclassique</h3>
+    <h3>Dynasties locales d’Orient (Safavides en Iran)</h3>
     <div class="buttons">
-      <a href="link-to-your-pdf-file.pdf"><button>📄 PDF</button></a>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+      <button class="btn btn-ghost" disabled>📄 PDF (à ajouter)</button>
+      <button class="btn" data-premium-path="premium-files/safavides.pdf">⭐ Premium</button>
+      <span class="msg"></span>
     </div>
+    <p>إضافة ملفات الصفويين لاحقًا.</p>
   </div>
 
   <div class="lesson">
-    <h3>Architecture moderne (XIXe - XXe siècle)</h3>
+    <h3>Dynasties locales d’Orient (Moghols en Inde)</h3>
     <div class="buttons">
-      <a href="link-to-your-pdf-file.pdf"><button>📄 PDF</button></a>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+      <button class="btn btn-ghost" disabled>📄 PDF (à ajouter)</button>
+      <button class="btn" data-premium-path="premium-files/moghols.pdf">⭐ Premium</button>
+      <span class="msg"></span>
     </div>
+    <p>تاج محل والمدرسة المغولية – أضف ملفاتك لاحقًا.</p>
   </div>
 
   <div class="lesson">
-    <h3>Mouvements contemporains</h3>
+    <h3>Dynasties locales d’Orient (Ottomans en Turquie)</h3>
     <div class="buttons">
-      <a href="link-to-your-pdf-file.pdf"><button>📄 PDF</button></a>
-      <button>🎥 Vidéo</button>
-      <button>⭐ Premium</button>
+      <button class="btn btn-ghost" disabled>📄 PDF (à ajouter)</button>
+      <button class="btn" data-premium-path="premium-files/ottomans.pdf">⭐ Premium</button>
+      <span class="msg"></span>
     </div>
+    <p>معمار سنان والمدارس العثمانية – أضف ملفاتك لاحقًا.</p>
   </div>
 
-  <footer>
-    © 2025 ArchiSpace – Tous droits réservés.
-  </footer>
+  <div class="lesson">
+    <h3>Dynasties musulmanes en Algérie (Rustumides, Zirides, Zianides, Ottomans)</h3>
+    <div class="buttons">
+      <button class="btn btn-ghost" disabled>📄 PDF (à ajouter)</button>
+      <button class="btn" data-premium-path="premium-files/algerie-dynasties.pdf">⭐ Premium</button>
+      <span class="msg"></span>
+    </div>
+    <p>تيهرت (رستميون) – تلمسان (زيانيون) – القصبة والعمارة العثمانية بالجزائر.</p>
+  </div>
+
+
+  <footer>© 2025 ArchiSpace – Tous droits réservés.</footer>
 </main>
 
-<script>
-  const sidebar = document.querySelector('aside');
+
+<script type="module">
+  // Firebase SDKs
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.appspot.com",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+    measurementId: "G-RZV7LSDQBD"
+  };
+
+ 
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.href = "index.html";
+    }
+  });
+
+
+  const sidebar = document.getElementById('sidebar');
   const toggleBtn = document.getElementById('toggleSidebar');
   toggleBtn.addEventListener('click', () => {
     sidebar.classList.toggle('hidden');
   });
+
+
+  function attachPremiumHandlers(){
+    const premiumButtons = document.querySelectorAll('.btn[data-premium-path]');
+    premiumButtons.forEach(btn=>{
+      const row = btn.closest('.buttons');
+      const msg = row ? row.querySelector('.msg') : null;
+
+      btn.addEventListener('click', async (e)=>{
+        e.preventDefault();
+        if (msg){ msg.style.display='inline'; msg.textContent='يتم التحقق من اشتراكك...'; }
+
+        const user = auth.currentUser;
+        if(!user){
+          if (msg){ msg.textContent='يجب عليك تسجيل الدخول أولاً.'; }
+          return;
+        }
+
+        try{
+          const snap = await getDoc(doc(db,'users',user.uid));
+          const isPremium = snap.exists() && !!snap.data().isPremium;
+          if(!isPremium){
+            if (msg){ msg.textContent='هذا المحتوى خاص بالمشتركين فقط.'; }
+            return;
+          }
+
+          if (msg){ msg.textContent='يتم إنشاء رابط التحميل...'; }
+          const storagePath = btn.getAttribute('data-premium-path');
+          const fileRef = ref(storage, storagePath);
+          const url = await getDownloadURL(fileRef);
+          if (msg){ msg.textContent='تم العثور على الملف، يتم الفتح...'; }
+          window.open(url,'_blank');
+          setTimeout(()=>{ if (msg) msg.style.display='none'; }, 2500);
+        }catch(err){
+          console.error(err);
+          if (msg){ msg.textContent='حدث خطأ، حاول لاحقًا.'; }
+        }
+      });
+    });
+  }
+  attachPremiumHandlers();
 </script>
+
 </body>
 </html>
