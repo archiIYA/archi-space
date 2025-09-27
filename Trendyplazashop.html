@@ -300,9 +300,9 @@
     #cartSummary span {
       pointer-events: none;
     }
-    /* تعديل ألوان زر .btn داخل القسم الداخلي */
+ 
     .header-container .btn {
-      background: #b30000; /* استبدال اللون الأزرق */
+      background: #b30000; 
       color: #fff;
       text-decoration: none;
       display: inline-block;
@@ -311,7 +311,7 @@
       transition: 0.3s;
     }
     .header-container .btn:hover {
-      background: #800000; /* درجة أغمق من الأحمر */
+      background: #800000; 
     }
   </style>
 </head>
@@ -327,7 +327,7 @@
   </div>
   <div class="container">
     <div class="grid" aria-label="قائمة الباقات">
-      <!-- الكروت مع مربع اختيار -->
+
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
         <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20de%20base.png" alt="الباقة الأساسية" class="package-image" />
@@ -383,7 +383,7 @@
         <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
       </div>
     </div>
-    <!-- سلة الطلب -->
+    
     <div id="cartSummary" tabindex="0" role="button" aria-label="فتح نموذج الطلب مع الباقات المختارة" onclick="openFormMultiple()">
       <span class="cart-icon">🛒</span>
       <span id="cartItemsCount">0</span> باقات مختارة |
@@ -521,7 +521,7 @@
     <button onclick="toggleToolsList()">إغلاق</button>
   </div>
   <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbxhLToEKUlCfWh3tj5H6A25YykEh36Zf7ngAjEbkrBX0PgWWWgXNAbvM0pXnOGv-jQ/exec";
+   const GAS_URL = "https://script.google.com/macros/s/AKfycby0veAN9qP1sztp5jKixvt4D20rMog0a4hMC9D3Qo58GAm8QmHc0KP7m8Cnv_aqIp8Z/exec";
     const deliveryPrices = {
       "Adrar": {"À domicile": 1400, "Bureau": 900},
       "Chlef": {"À domicile": 850, "Bureau": 450},
@@ -659,10 +659,10 @@
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
       packageInput.value = cartData.selectedPackages.join(' + ');
       packageDisplay.value = packageInput.value;
-      priceInput.value = Number(cartData.totalPrice) || 0; // تأكد من كون القيمة رقم
+      priceInput.value = Number(cartData.totalPrice) || 0; 
       updatePrices();
     }
-    // دالة الطلب المباشر للباقة المفردة بدون اختيار checkbox
+
     function orderSinglePack(packName, price) {
       formWrap.style.display = 'block';
       document.getElementById('successBox').style.display = 'none';
