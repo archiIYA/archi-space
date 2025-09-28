@@ -576,53 +576,36 @@ document.addEventListener('DOMContentLoaded', () => {
             formDataEncoded.append(key, obj[key]);
         }
 
-        fetch(GAS_URL, { 
-            method: 'POST',
-            mode: 'no-cors',
-            body: formDataEncoded
-        })
-        .then(() => {
-            // مع no-cors لا يمكننا قراءة الرد، لذا نفترض النجاح
-            document.getElementById('successBox').style.display = 'block';
-            orderForm.reset();
-            cartSummary.style.display = 'none';
-            document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
-            setTimeout(() => {
-                formWrap.style.display = 'none';
-                document.getElementById('successBox').style.display = 'none';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 4000);
-        })
-        .catch(err => {
-            console.error('Error:', err);
-            // حفظ محلي كبديل
-            const orders = JSON.parse(localStorage.getItem('pendingOrders') || '[]');
-            orders.push({
-                ...obj,
-                id: Date.now(),
-                date: new Date().toLocaleString('ar-EG')
-            });
-            localStorage.setItem('pendingOrders', JSON.stringify(orders));
-            
-            // عرض رسالة نجاح مع معلومات الاتصال
-            document.getElementById('successBox').innerHTML = `
-                <h3>✅ تم حفظ الطلب بنجاح!</h3>
-                <p>تم حفظ طلبك محلياً بسبب مشكلة تقنية مؤقتة.</p>
-                <p style="margin: 15px 0; background: rgba(255,255,255,0.2); padding: 10px; border-radius: 5px;">
-                    <strong>رقم الطلب:</strong> #${Date.now()}<br>
-                    <strong>سيتم التواصل معك خلال 24 ساعة</strong>
-                
-            `;
-            document.getElementById('successBox').style.display = 'block';
-            
-            orderForm.reset();
-            cartSummary.style.display = 'none';
-            document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
-        })
-        .finally(() => {
-            btn.disabled = false;
-            btn.textContent = '✅ تأكيد الطلب';
-        });
+       fetch(GAS_URL, { 
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(obj)
+})
+.then(res => res.json())
+.then(res => {
+    if (res.result === 'success') {
+        document.getElementById('successBox').style.display = 'block';
+        orderForm.reset();
+        cartSummary.style.display = 'none';
+        document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
+        setTimeout(() => {
+            formWrap.style.display = 'none';
+            document.getElementById('successBox').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 4000);
+    } else {
+        alert('خطأ في الخادم: ' + res.message);
+    }
+})
+.catch(err => {
+    console.error('Error:', err);
+    alert('تعذر إرسال الطلب. حاول لاحقاً.');
+})
+.finally(() => {
+    btn.disabled = false;
+    btn.textContent = '✅ تأكيد الطلب';
+});
+
     });
 });
 </script>
