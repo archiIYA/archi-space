@@ -567,31 +567,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(orderForm);
         const obj = Object.fromEntries(formData.entries());
 
-        fetch(GAS_URL, { method: 'POST', body: new URLSearchParams(obj) })
-            .then(res => res.json())
-            .then(res => {
-                if (res.result === 'success') {
-                    document.getElementById('successBox').style.display = 'block';
-                    orderForm.reset();
-                    cartSummary.style.display = 'none';
-                    document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
-                    setTimeout(() => {
-                        formWrap.style.display = 'none';
-                        document.getElementById('successBox').style.display = 'none';
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }, 4000);
-                } else {
-                    alert('حدث خطأ أثناء إرسال الطلب، حاول لاحقًا.');
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.');
-            })
-            .finally(() => {
-                btn.disabled = false;
-                btn.textContent = '✅ تأكيد الطلب';
-            });
+        fetch(GAS_URL, { 
+  method: 'POST',
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(obj)   // 👈 نبعث JSON
+})
+.then(res => res.json())
+.then(res => {
+    if (res.result === 'success') {
+        document.getElementById('successBox').style.display = 'block';
+        orderForm.reset();
+        cartSummary.style.display = 'none';
+        document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
+        setTimeout(() => {
+            formWrap.style.display = 'none';
+            document.getElementById('successBox').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 4000);
+    } else {
+        alert('حدث خطأ أثناء إرسال الطلب: ' + res.message);
+    }
+})
+.catch(err => {
+    console.error(err);
+    alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.');
+})
+.finally(() => {
+    btn.disabled = false;
+    btn.textContent = '✅ تأكيد الطلب';
+});
+
     });
 });
 </script>
