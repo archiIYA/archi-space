@@ -559,51 +559,51 @@ document.addEventListener('DOMContentLoaded', () => {
     toolsList.querySelector('button').addEventListener('click', () => toolsList.style.display = 'none');
 
     orderForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const btn = e.target.querySelector('.submit-btn');
-        btn.disabled = true;
-        btn.textContent = '...جاري الإرسال';
+    e.preventDefault();
+    const btn = e.target.querySelector('.submit-btn');
+    btn.disabled = true;
+    btn.textContent = '...جاري الإرسال';
 
-        const formData = new FormData(orderForm);
-        const obj = Object.fromEntries(formData.entries());
-        
-        // إضافة timestamp
-        obj.timestamp = new Date().toISOString();
+    const formData = new FormData(orderForm);
+    const obj = Object.fromEntries(formData.entries());
+    
+    // إضافة timestamp (تم إزالتها في التعديلات السابقة لتجنب تعقيد e.parameter)
+    // لا نحتاج لها هنا لأننا سنستخدم new Date() في GAS
 
-        // استخدام no-cors مع FormData
-        const formDataEncoded = new URLSearchParams();
-        for (const key in obj) {
+    // 1. تجهيز البيانات كـ Form Encoded
+    const formDataEncoded = new URLSearchParams();
+    for (const key in obj) {
+        // نستثني حقل العرض packageDisplay لأنه حقل نصي للعرض فقط
+        if (key !== 'packageDisplay') {
             formDataEncoded.append(key, obj[key]);
         }
-
-       fetch(GAS_URL, { 
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(obj)
-})
-.then(res => res.json())
-.then(res => {
-    if (res.result === 'success') {
-        document.getElementById('successBox').style.display = 'block';
-        orderForm.reset();
-        cartSummary.style.display = 'none';
-        document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
-        setTimeout(() => {
-            formWrap.style.display = 'none';
-            document.getElementById('successBox').style.display = 'none';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 4000);
-    } else {
-        alert('خطأ في الخادم: ' + res.message);
     }
-})
-.catch(err => {
-    console.error('Error:', err);
-    alert('تعذر إرسال الطلب. حاول لاحقاً.');
-})
-.finally(() => {
-    btn.disabled = false;
-    btn.textContent = '✅ تأكيد الطلب';
+
+    // 2. إرسال الطلب بالتنسيق الصحيح
+    fetch(GAS_URL, { 
+        method: 'POST',
+        // 🚨 التغيير الحاسم: استخدام العنوان الصحيح لـ Form Encoded
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, 
+        // 🚨 التغيير الحاسم: إرسال البيانات كـ String مشفر
+        body: formDataEncoded.toString() 
+    })
+    .then(res => res.json())
+    .then(res => {
+        // ... (باقي كود النجاح والفشل كما هو)
+        if (res.result === 'success') {
+            // ...
+        } else {
+            alert('خطأ في الخادم: ' + res.message);
+        }
+    })
+    .catch(err => {
+        console.error('Error:', err);
+        alert('تعذر إرسال الطلب. تحقق من اتصالك بالإنترنت.');
+    })
+    .finally(() => {
+        btn.disabled = false;
+        btn.textContent = '✅ تأكيد الطلب';
+    });
 });
 
     });
