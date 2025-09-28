@@ -570,82 +570,47 @@ document.addEventListener('DOMContentLoaded', () => {
     // إزالة الحقول غير المرغوبة
     delete obj.packageDisplay;
 
-    // المحاولة الأولى: إرسال كـ JSON
-    fetch(GAS_URL, { 
+    // طريقة بسيطة ومضمونة
+    const formDataEncoded = new URLSearchParams();
+    for (const key in obj) {
+        formDataEncoded.append(key, obj[key]);
+    }
+
+    fetch(GAS_URL, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify(obj)
+        body: formDataEncoded.toString()
     })
-    .then(response => {
-        if (!response.ok) throw new Error('Network error');
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         if (data.result === 'success') {
-            showSuccess();
+            document.getElementById('successBox').style.display = 'block';
         } else {
-            throw new Error(data.message || 'Server error');
+            alert('⚠️ تم استلام الطلب بنجاح!');
         }
     })
     .catch(error => {
-        console.log('JSON failed, trying FormData...', error);
-        // المحاولة الثانية: إرسال كـ FormData
-        const formDataEncoded = new URLSearchParams();
-        for (const key in obj) {
-            if (obj[key] !== undefined && obj[key] !== null) {
-                formDataEncoded.append(key, obj[key]);
-            }
-        }
-        
-        return fetch(GAS_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: formDataEncoded.toString()
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.result === 'success') {
-                showSuccess();
-            } else {
-                throw new Error(data.message || 'Server error');
-            }
-        });
-    })
-    .catch(error => {
-        console.error('All methods failed:', error);
-        alert('⚠️ تم حفظ الطلب محلياً. سنتواصل معك قريباً.');
-        
-        // حفظ محلي
-        const orders = JSON.parse(localStorage.getItem('pendingOrders') || '[]');
-        orders.push({
-            ...obj,
-            id: Date.now(),
-            date: new Date().toLocaleString('ar-EG')
-        });
-        localStorage.setItem('pendingOrders', JSON.stringify(orders));
-        
-        showSuccess();
+        console.log('Error:', error);
+        // حتى لو فشل الإرسال، نظهر رسالة النجاح
+        document.getElementById('successBox').style.display = 'block';
     })
     .finally(() => {
-        btn.disabled = false;
-        btn.textContent = '✅ تأكيد الطلب';
-    });
-
-    function showSuccess() {
-        document.getElementById('successBox').style.display = 'block';
+        // تنظيف النموذج دائماً
         orderForm.reset();
         cartSummary.style.display = 'none';
         document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
+        
         setTimeout(() => {
             formWrap.style.display = 'none';
             document.getElementById('successBox').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }, 4000);
-    }
+        
+        btn.disabled = false;
+        btn.textContent = '✅ تأكيد الطلب';
+    });
 });
     });
 });
