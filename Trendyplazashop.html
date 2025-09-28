@@ -1,771 +1,599 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>طلب الباقات - الهندسة المعمارية</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --primary-color: #b30000;
-      --secondary-color: #000;
-      --accent-color: #ff5252;
-      --light-color: #f8f9fa;
-      --dark-color: #333;
-      --success-color: #28a745;
-    }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: 'Cairo', Arial, sans-serif;
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-      color: var(--dark-color);
-      min-height: 100vh;
-      padding: 0 20px;
-      padding-bottom: 60px; /* حجز مساحة لسلة الطلب الثابتة */
-    }
-    .header-container {
-      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-      padding: 15px 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin: 0 -20px;
-      padding: 15px 20px;
-    }
-    .logo {
-      width: 100px;
-      height: 100px;
-      background: #fff url('https://raw.githubusercontent.com/archiIYA/archi-space/main/IMG_2132.PNG') no-repeat center/contain;
-      border-radius: 50%;
-      box-shadow: 0 8px 15px rgba(0,0,0,0.5);
-      flex-shrink: 0;
-    }
-    .header-text {
-      color: #fff;
-      text-align: center;
-      flex-grow: 1;
-    }
-    .header-text h1 {
-      font-size: 2rem;
-      margin-bottom: 5px;
-    }
-    .header-text p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 0;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-      margin-bottom: 30px;
-    }
-    .card {
-      position: relative;
-      background: #fff;
-      border: 2px solid var(--primary-color);
-      border-radius: 15px;
-      padding: 20px;
-      padding-bottom: 70px; /* مساحة أسفل لإظهار checkbox بشكل واضح */
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-      text-align: center;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.3s ease;
-      display: flex;
-      flex-direction: column;
-    }
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 30px rgba(179, 0, 0, 0.18);
-    }
-    .package-image {
-      width: 100%;
-      height: 180px;
-      object-fit: contain;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      border: 2px solid #eee;
-      background-color: #f8f8f8;
-    }
-    .card h3 {
-      color: var(--primary-color);
-      margin: 12px 0;
-      font-size: 1.4rem;
-    }
-    .price {
-      font-weight: 800;
-      color: var(--secondary-color);
-      margin: 15px 0;
-      font-size: 1.6rem;
-      background: #f8f8f8;
-      padding: 12px;
-      border-radius: 10px;
-      border: 2px dashed var(--primary-color);
-    }
-    .btn {
-      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-      color: #fff;
-      padding: 14px 20px;
-      border-radius: 8px;
-      border: none;
-      font-weight: bold;
-      font-size: 1.1rem;
-      box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
-      transition: all 0.3s ease;
-      margin-top: auto;
-      cursor: pointer;
-      width: 100%;
-      display: inline-block;
-      text-decoration: none;
-    }
-    .btn:hover {
-      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-      transform: scale(1.03);
-    }
-    .btn-note {
-      font-size: 0.9rem;
-      color: var(--dark-color);
-      margin-top: 6px;
-      text-align: center;
-      font-weight: 600;
-    }
-    .select-checkbox {
-      position: absolute;
-      bottom: 15px;
-      left: 15px;
-      transform: scale(1.3);
-      cursor: pointer;
-      z-index: 10;
-    }
-    @media (max-width: 767px) {
-      .select-checkbox {
-        position: static;
-        transform: scale(1.5);
-        display: block;
-        margin-top: 15px;
-        margin-left: 0;
-      }
-      .card {
-        padding-bottom: 30px;
-      }
-    }
-    #formWrap {
-      display: none;
-      max-width: 600px;
-      margin: 30px auto;
-      padding: 28px;
-      border: 2px solid var(--secondary-color);
-      border-radius: 15px;
-      background: #fff;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      text-align: right;
-    }
-    #formWrap h3 {
-      text-align: center;
-      color: var(--primary-color);
-      margin-bottom: 22px;
-      font-size: 1.6rem;
-      border-bottom: 2px solid #f0f0f0;
-      padding-bottom: 10px;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin: 12px 0 6px 0;
-      color: var(--dark-color);
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 14px;
-      border-radius: 8px;
-      border: 2px solid #ddd;
-      font-size: 16px;
-      font-family: 'Cairo', Arial, sans-serif;
-      transition: border-color 0.3s;
-      box-sizing: border-box;
-    }
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(179, 0, 0, 0.2);
-    }
-    button.submit-btn {
-      width: 100%;
-      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-      border: none;
-      color: #fff;
-      padding: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 8px;
-      margin-top: 20px;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
-    }
-    button.submit-btn:hover {
-      background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
-      transform: scale(1.02);
-    }
-    .success {
-      display: none;
-      text-align: center;
-      padding: 20px;
-      background: var(--success-color);
-      color: #fff;
-      border-radius: 10px;
-      margin: 25px auto;
-      max-width: 600px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
-    .tools-link {
-      color: var(--primary-color);
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-    #toolsList {
-      display:none;
-      position: fixed;
-      top: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff;
-      border: 2px solid var(--primary-color);
-      border-radius: 10px;
-      padding: 20px;
-      max-width: 320px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      z-index: 1000;
-      direction: rtl;
-      text-align: right;
-      font-size: 1rem;
-      line-height: 1.4;
-    }
-    #toolsList button {
-      margin-top: 10px;
-      padding: 7px 14px;
-      border: none;
-      background-color: var(--primary-color);
-      color: #fff;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1rem;
-    }
-    #cartSummary {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--primary-color);
-      color: white;
-      padding: 14px 20px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      box-shadow: 0 -2px 10px rgba(179, 0, 0, 0.9);
-      z-index: 1100;
-      cursor: pointer;
-      user-select: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      max-width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    #cartSummary .cart-icon {
-      font-size: 1.8rem;
-      pointer-events: none;
-    }
-    #cartSummary span {
-      pointer-events: none;
-    }
- 
-    .header-container .btn {
-      background: #b30000; 
-      color: #fff;
-      text-decoration: none;
-      display: inline-block;
-      padding: 10px 20px;
-      border-radius: 8px;
-      transition: 0.3s;
-    }
-    .header-container .btn:hover {
-      background: #800000; 
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>طلب الباقات - الهندسة المعمارية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+--primary-color: #b30000;
+--secondary-color: #000;
+--accent-color: #ff5252;
+--light-color: #f8f9fa;
+--dark-color: #333;
+--success-color: #28a745;
+}
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+body {
+font-family: 'Cairo', Arial, sans-serif;
+background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+color: var(--dark-color);
+min-height: 100vh;
+padding: 0 20px;
+padding-bottom: 70px;
+}
+.header-container {
+background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+padding: 15px 20px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 15px;
+margin: 0 -20px;
+}
+.logo {
+width: 100px;
+height: 100px;
+background: #fff url('https://raw.githubusercontent.com/archiIYA/archi-space/main/IMG_2132.PNG') no-repeat center/contain;
+border-radius: 50%;
+box-shadow: 0 8px 15px rgba(0,0,0,0.5);
+flex-shrink: 0;
+}
+.header-text {
+color: #fff;
+text-align: center;
+flex-grow: 1;
+}
+.header-text h1 {
+font-size: clamp(1.5rem, 4vw, 2rem);
+margin-bottom: 5px;
+}
+.header-text p {
+font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+opacity: 0.9;
+}
+.container {
+max-width: 1200px;
+margin: 20px auto;
+padding: 0;
+}
+.grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 25px;
+margin-bottom: 30px;
+}
+.card {
+position: relative;
+background: #fff;
+border: 2px solid var(--primary-color);
+border-radius: 15px;
+padding: 20px;
+box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+text-align: center;
+cursor: pointer;
+user-select: none;
+transition: all 0.3s ease;
+display: flex;
+flex-direction: column;
+}
+.card:hover {
+transform: translateY(-8px);
+box-shadow: 0 15px 30px rgba(179, 0, 0, 0.18);
+}
+.package-image {
+width: 100%;
+height: 180px;
+object-fit: contain;
+border-radius: 10px;
+margin-bottom: 15px;
+border: 2px solid #eee;
+background-color: #f8f8f8;
+}
+.card h3 {
+color: var(--primary-color);
+margin: 12px 0;
+font-size: 1.4rem;
+}
+.price {
+font-weight: 800;
+color: var(--secondary-color);
+margin: 15px 0;
+font-size: 1.6rem;
+background: #f8f8f8;
+padding: 12px;
+border-radius: 10px;
+border: 2px dashed var(--primary-color);
+}
+.btn {
+background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+color: #fff;
+padding: 14px 20px;
+border-radius: 8px;
+border: none;
+font-weight: bold;
+font-size: 1.1rem;
+box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
+transition: all 0.3s ease;
+margin-top: auto;
+cursor: pointer;
+width: 100%;
+display: inline-block;
+text-decoration: none;
+}
+.btn:hover {
+background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+transform: scale(1.03);
+}
+.btn-note {
+font-size: 0.9rem;
+color: var(--dark-color);
+margin-top: 6px;
+text-align: center;
+font-weight: 600;
+}
+.select-checkbox {
+position: absolute;
+top: 15px;
+left: 15px;
+transform: scale(1.5);
+cursor: pointer;
+z-index: 10;
+}
+#formWrap {
+display: none;
+max-width: 600px;
+margin: 30px auto;
+padding: 28px;
+border: 2px solid var(--secondary-color);
+border-radius: 15px;
+background: #fff;
+box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+text-align: right;
+}
+#formWrap h3 {
+text-align: center;
+color: var(--primary-color);
+margin-bottom: 22px;
+font-size: 1.6rem;
+border-bottom: 2px solid #f0f0f0;
+padding-bottom: 10px;
+}
+.form-group { margin-bottom: 20px; }
+label {
+font-weight: bold;
+display: block;
+margin: 12px 0 6px 0;
+color: var(--dark-color);
+}
+input, select, textarea {
+width: 100%;
+padding: 14px;
+border-radius: 8px;
+border: 2px solid #ddd;
+font-size: 16px;
+font-family: 'Cairo', Arial, sans-serif;
+transition: border-color 0.3s;
+box-sizing: border-box;
+}
+input:focus, select:focus, textarea:focus {
+outline: none;
+border-color: var(--primary-color);
+box-shadow: 0 0 0 3px rgba(179, 0, 0, 0.2);
+}
+button.submit-btn {
+width: 100%;
+background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+border: none;
+color: #fff;
+padding: 16px;
+font-weight: bold;
+cursor: pointer;
+border-radius: 8px;
+margin-top: 20px;
+font-size: 1.1rem;
+transition: all 0.3s ease;
+box-shadow: 0 4px 8px rgba(179, 0, 0, 0.2);
+}
+button.submit-btn:disabled {
+background: #999;
+cursor: not-allowed;
+}
+button.submit-btn:hover:not(:disabled) {
+background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+transform: scale(1.02);
+}
+.success {
+display: none;
+text-align: center;
+padding: 20px;
+background: var(--success-color);
+color: #fff;
+border-radius: 10px;
+margin: 25px auto;
+max-width: 600px;
+font-weight: bold;
+font-size: 1.2rem;
+box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+.tools-link {
+color: var(--primary-color);
+font-weight: bold;
+cursor: pointer;
+text-decoration: underline;
+}
+#toolsList {
+display:none;
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background: #fff;
+border: 2px solid var(--primary-color);
+border-radius: 10px;
+padding: 20px;
+max-width: 320px;
+box-shadow: 0 0 15px rgba(0,0,0,0.3);
+z-index: 1001;
+direction: rtl;
+text-align: right;
+font-size: 1rem;
+line-height: 1.4;
+}
+#toolsList button {
+margin-top: 10px;
+padding: 7px 14px;
+border: none;
+background-color: var(--primary-color);
+color: #fff;
+border-radius: 5px;
+cursor: pointer;
+font-weight: bold;
+font-size: 1rem;
+}
+#cartSummary {
+position: fixed;
+bottom: 0;
+left: 0;
+right: 0;
+background: var(--primary-color);
+color: white;
+padding: 14px 20px;
+font-weight: bold;
+font-size: 1.2rem;
+box-shadow: 0 -2px 10px rgba(179, 0, 0, 0.9);
+z-index: 1100;
+cursor: pointer;
+user-select: none;
+display: none;
+justify-content: space-between;
+align-items: center;
+gap: 12px;
+}
+#cartSummary .cart-icon {
+font-size: 1.8rem;
+pointer-events: none;
+}
+#cartSummary span { pointer-events: none; }
+.header-container .btn {
+background: #b30000;
+color: #fff;
+text-decoration: none;
+display: inline-block;
+padding: 10px 20px;
+border-radius: 8px;
+transition: 0.3s;
+}
+.header-container .btn:hover { background: #800000; }
+</style>
 </head>
 <body>
-  <div class="header-container">
-    <div class="logo"></div>
-    <div class="header-text">
-      <h1>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية</h1>
-      <p id="multiPackNote" style="font-weight:600; font-size:0.95rem; margin-top:8px;">للطلب أكثر من باقة حدد الباقات المختارة ثم اضغط على اطلب الآن</p>
-    </div>
-    
-    <a href="الرفيق المعماري - Trandy Plaza.html" class="btn">الرفيق المعماري - Trandy Plaza</a>
-  </div>
-  <div class="container">
-    <div class="grid" aria-label="قائمة الباقات">
+<div class="header-container">
+<div class="logo"></div>
+<div class="header-text">
+<h1>🎯 عرض خاص للطلبة الجدد في الهندسة المعمارية</h1>
+<p>للطلب أكثر من باقة حدد الباقات المختارة ثم اضغط على السلة أسفل الشاشة</p>
+</div>
+<a href="الرفيق المعماري - Trandy Plaza.html" class="btn">الرفيق المعماري</a>
+</div>
+<div class="container">
+<div class="grid" aria-label="قائمة الباقات">
+<div class="card" tabindex="0">
+<input type="checkbox" class="select-checkbox"/>
+<img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20de%20base.png" alt="الباقة الأساسية" class="package-image"/>
+<h3>1️⃣ الباقة الأساسية</h3>
+<p><span class="tools-link">جميع الأدوات</span> + رابط الكتروني + هدية 🎁</p>
+<div class="price" data-price="3950">3950 دج</div>
+<button class="btn" type="button">اطلب الآن</button>
+</div>
+<div class="card" tabindex="0">
+<input type="checkbox" class="select-checkbox"/>
+<img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20sous%20main.png" alt="باقة Sous main" class="package-image"/>
+<h3>2️⃣ باقة Sous main</h3>
+<p><span class="tools-link">جميع الأدوات</span> + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
+<div class="price" data-price="4950">4950 دج</div>
+<button class="btn" type="button">اطلب الآن</button>
+</div>
+<div class="card" tabindex="0">
+<input type="checkbox" class="select-checkbox"/>
+<img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20sghira.png" alt="باقة البازوكا الصغيرة" class="package-image"/>
+<h3>3️⃣ باقة البازوكا الصغيرة</h3>
+<p><span class="tools-link">جميع الأدوات</span> + بازوكا صغيرة + رابط الكتروني + هدية 🎁</p>
+<div class="price" data-price="5200">5200 دج</div>
+<button class="btn" type="button">اطلب الآن</button>
+</div>
+<div class="card" tabindex="0">
+<input type="checkbox" class="select-checkbox"/>
+<img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20kbira.png" alt="باقة البازوكا الكبيرة" class="package-image"/>
+<h3>4️⃣ باقة البازوكا الكبيرة</h3>
+<p><span class="tools-link">جميع الأدوات</span> + بازوكا كبيرة + رابط الكتروني + هدية 🎁</p>
+<div class="price" data-price="5600">5600 دج</div>
+<button class="btn" type="button">اطلب الآن</button>
+</div>
+<div class="card" tabindex="0">
+<input type="checkbox" class="select-checkbox"/>
+<img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20sghira.png" alt="باقة VIP" class="package-image"/>
+<h3>5️⃣ باقة VIP</h3>
+<p><span class="tools-link">جميع الأدوات</span> + بازوكا صغيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
+<div class="price" data-price="6500">6500 دج</div>
+<button class="btn" type="button">اطلب الآن</button>
+</div>
+<div class="card" tabindex="0">
+<input type="checkbox" class="select-checkbox"/>
+<img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20kbira.png" alt="باقة VIP2" class="package-image"/>
+<h3>6️⃣ باقة VIP2</h3>
+<p><span class="tools-link">جميع الأدوات</span> + بازوكا كبيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
+<div class="price" data-price="6800">6800 دج</div>
+<button class="btn" type="button">اطلب الآن</button>
+</div>
+</div>
+<div id="cartSummary" tabindex="0" role="button" aria-label="فتح نموذج الطلب">
+<span class="cart-icon">🛒</span>
+<span id="cartItemsCount">0</span> باقات مختارة |
+الإجمالي: <span id="cartTotalPrice">0</span> دج |
+اضغط للإكمال
+</div>
+<div id="formWrap">
+<form id="orderForm">
+<h3>📋 اكمل بيانات الطلب</h3>
+<input type="hidden" name="package" id="package"/>
+<input type="hidden" name="price" id="price"/>
+<input type="hidden" name="delivery_price" id="delivery_price"/>
+<input type="hidden" name="total" id="total"/>
+<div class="form-group">
+<label for="packageDisplay">الباقة المختارة</label>
+<textarea id="packageDisplay" name="packageDisplay" readonly rows="3" style="resize:none; background:#eee; padding:10px; border-radius:8px;"></textarea>
+</div>
+<div class="form-group">
+<label for="name">الاسم الكامل</label>
+<input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل"/>
+</div>
+<div class="form-group">
+<label for="phone">رقم الهاتف</label>
+<input type="tel" id="phone" name="phone" required pattern="^(\+?213|0)(5|6|7)\d{8}$" placeholder="مثال: 0551234567"/>
+</div>
+<div class="form-group">
+<label for="wilaya">الولاية</label>
+<select id="wilaya" name="wilaya" required>
+<option value="">-- Choisissez votre wilaya --</option>
+<option>Adrar</option><option>Chlef</option><option>Laghouat</option><option>Oum El Bouaghi</option><option>Batna</option><option>Béjaïa</option><option>Biskra</option><option>Béchar</option><option>Blida</option><option>Bouira</option><option>Tamanrasset</option><option>Tébessa</option><option>Tlemcen</option><option>Tiaret</option><option>Tizi Ouzou</option><option>Alger</option><option>Djelfa</option><option>Jijel</option><option>Sétif</option><option>Saïda</option><option>Skikda</option><option>Sidi Bel Abbès</option><option>Annaba</option><option>Guelma</option><option>Constantine</option><option>Médéa</option><option>Mostaganem</option><option>M'Sila</option><option>Mascara</option><option>Ouargla</option><option>Oran</option><option>El Bayadh</option><option>Illizi</option><option>Bordj Bou Arreridj</option><option>Boumerdès</option><option>El Tarf</option><option>Tindouf</option><option>Tissemsilt</option><option>El Oued</option><option>Khenchela</option><option>Souk Ahras</option><option>Tipaza</option><option>Mila</option><option>Aïn Defla</option><option>Naâma</option><option>Aïn Témouchent</option><option>Ghardaïa</option><option>Relizane</option><option>Timimoun</option><option>Bordj Badji Mokhtar</option><option>Ouled Djellal</option><option>Béni Abbès</option><option>In Salah</option><option>In Guezzam</option><option>Touggourt</option><option>Djanet</option><option>El M'Ghair</option><option>El Meniaa</option>
+</select>
+</div>
+<div class="form-group">
+<label for="commune">البلدية</label>
+<input type="text" id="commune" name="commune" required placeholder="أدخل اسم البلدية"/>
+</div>
+<div class="form-group">
+<label for="delivery">نوع التوصيل</label>
+<select id="delivery" name="delivery" required>
+<option value="">اختر نوع التوصيل</option>
+<option value="À domicile">À domicile (التوصيل إلى المنزل)</option>
+<option value="Tifawt bureau">Tifawt bureau (استلام مجاني)</option>
+<option value="Bureau">Bureau (التوصيل إلى المكتب)</option>
+</select>
+</div>
+<div class="form-group">
+<label for="notes">ملاحظات إضافية (اختياري)</label>
+<textarea id="notes" name="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة"></textarea>
+</div>
+<div id="priceBox" style="display:none; margin-top:18px; background:#f8f9fa; border:2px dashed var(--primary-color); padding:14px; border-radius:10px; text-align:right; font-weight:700;">
+سعر التوصيل: <span id="displayDelivery">0</span> دج<br/>
+السعر الإجمالي: <span id="displayTotal">0</span> دج
+</div>
+<button type="submit" class="submit-btn">✅ تأكيد الطلب</button>
+</form>
+<div id="successBox" class="success" role="alert">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
+</div>
+</div>
+<div id="toolsList">
+📦 <b>محتويات الباقة (16 أداة أساسية):</b><br/><br/>
+• 📐 كؤوس 45 سم (x2)<br/>
+• 📐 كؤوس 25 سم (x2)<br/>
+• ✏️ مدور احترافي<br/>
+• 📄 أوراق رسم A4 و A3<br/>
+• ✒️ حامل أقلام 0.7 مم + علبة أقلام<br/>
+• ✏️ أقلام رصاص (HB, 2B, 6H)<br/>
+• 🔪 كيتور معدني<br/>
+• 🩶 ممحاة + مبراة<br/>
+• 🏷️ شريط لاصق ورقي<br/>
+• 📏 مسطرة معدنية 60 سم<br/>
+• 🎁 هدية خاصة<br/>
+<button>إغلاق</button>
+</div>
+<script>
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxuc6Dwwt--AmflWmHeSVzR0LtOyBmmKc3FweeNnr55x4Rpi769fNtsajlgUxrfWxcs/exec";
+const deliveryPrices = {
+    "Adrar": {"À domicile": 1400, "Bureau": 900}, "Chlef": {"À domicile": 850, "Bureau": 450}, "Laghouat": {"À domicile": 950, "Bureau": 550},
+    "Oum El Bouaghi": {"À domicile": 850, "Bureau": 450}, "Batna": {"À domicile": 900, "Bureau": 450}, "Béjaïa": {"À domicile": 800, "Bureau": 450},
+    "Biskra": {"À domicile": 950, "Bureau": 550}, "Béchar": {"À domicile": 1100, "Bureau": 650}, "Blida": {"À domicile": 600, "Bureau": 400},
+    "Bouira": {"À domicile": 700, "Bureau": 450}, "Tamanrasset": {"À domicile": 1600, "Bureau": 1050}, "Tébessa": {"À domicile": 900, "Bureau": 450},
+    "Tlemcen": {"À domicile": 900, "Bureau": 500}, "Tiaret": {"À domicile": 850, "Bureau": 450}, "Tizi Ouzou": {"À domicile": 750, "Bureau": 450},
+    "Alger": {"À domicile": 600, "Bureau": 400, "Tifawt bureau": 0}, "Djelfa": {"À domicile": 900, "Bureau": 450}, "Jijel": {"À domicile": 800, "Bureau": 450},
+    "Sétif": {"À domicile": 850, "Bureau": 450}, "Saïda": {"À domicile": 900, "Bureau": 450}, "Skikda": {"À domicile": 900, "Bureau": 450},
+    "Sidi Bel Abbès": {"À domicile": 900, "Bureau": 500}, "Annaba": {"À domicile": 850, "Bureau": 450}, "Guelma": {"À domicile": 850, "Bureau": 450},
+    "Constantine": {"À domicile": 850, "Bureau": 450}, "Médéa": {"À domicile": 850, "Bureau": 450}, "Mostaganem": {"À domicile": 850, "Bureau": 450},
+    "M'Sila": {"À domicile": 850, "Bureau": 450}, "Mascara": {"À domicile": 900, "Bureau": 450}, "Ouargla": {"À domicile": 1100, "Bureau": 650},
+    "Oran": {"À domicile": 800, "Bureau": 450}, "El Bayadh": {"À domicile": 1100, "Bureau": 600}, "Illizi": {"À domicile": 1600, "Bureau": 1050},
+    "Bordj Bou Arreridj": {"À domicile": 850, "Bureau": 450}, "Boumerdès": {"À domicile": 700, "Bureau": 450}, "El Tarf": {"À domicile": 850, "Bureau": 450},
+    "Tindouf": {"À domicile": 1600, "Bureau": 1050}, "Tissemsilt": {"À domicile": 900, "Bureau": 450}, "El Oued": {"À domicile": 1000, "Bureau": 600},
+    "Khenchela": {"À domicile": 900, "Bureau": 450}, "Souk Ahras": {"À domicile": 900, "Bureau": 450}, "Tipaza": {"À domicile": 700, "Bureau": 450},
+    "Mila": {"À domicile": 850, "Bureau": 450}, "Aïn Defla": {"À domicile": 900, "Bureau": 450}, "Naâma": {"À domicile": 1100, "Bureau": 600},
+    "Aïn Témouchent": {"À domicile": 900, "Bureau": 450}, "Ghardaïa": {"À domicile": 950, "Bureau": 550}, "Relizane": {"À domicile": 900, "Bureau": 450},
+    "Timimoun": {"À domicile": 1400}, "Bordj Badji Mokhtar": {}, "Ouled Djellal": {"À domicile": 950, "Bureau": 550},
+    "Béni Abbès": {"À domicile": 1100}, "In Salah": {"À domicile": 1600}, "In Guezzam": {"À domicile": 1600},
+    "Touggourt": {"À domicile": 950, "Bureau": 600}, "Djanet": {}, "El M'Ghair": {"À domicile": 950}, "El Meniaa": {"À domicile": 1000}
+};
 
-      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
-        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
-        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20de%20base.png" alt="الباقة الأساسية" class="package-image" />
-        <h3>1️⃣ الباقة الأساسية</h3>
-        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + رابط الكتروني + هدية 🎁</p>
-        <div class="price" data-price="3950">3950 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('الباقة الأساسية', 3950)">اطلب الآن</button>
-        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
-      </div>
-      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
-        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
-        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20sous%20main.png" alt="باقة Sous main" class="package-image" />
-        <h3>2️⃣ باقة Sous main</h3>
-        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
-        <div class="price" data-price="4950">4950 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة Sous main', 4950)">اطلب الآن</button>
-        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
-      </div>
-      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
-        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
-        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20sghira.png" alt="باقة البازوكا الصغيرة" class="package-image" />
-        <h3>3️⃣ باقة البازوكا الصغيرة</h3>
-        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا صغيرة + رابط الكتروني + هدية 🎁</p>
-        <div class="price" data-price="5200">5200 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة البازوكا الصغيرة', 5200)">اطلب الآن</button>
-        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
-      </div>
-      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
-        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
-        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20+%20bazoka%20kbira.png" alt="باقة البازوكا الكبيرة" class="package-image" />
-        <h3>4️⃣ باقة البازوكا الكبيرة</h3>
-        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا كبيرة + رابط الكتروني + هدية 🎁</p>
-        <div class="price" data-price="5600">5600 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة البازوكا الكبيرة', 5600)">اطلب الآن</button>
-        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
-      </div>
-      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
-        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
-        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20sghira.png" alt="باقة VIP" class="package-image" />
-        <h3>5️⃣ باقة VIP</h3>
-        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا صغيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
-        <div class="price" data-price="6500">6500 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة VIP', 6500)">اطلب الآن</button>
-        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
-      </div>
-      <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
-        <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
-        <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/VIP%20bazoka%20kbira.png" alt="باقة VIP2" class="package-image" />
-        <h3>5️⃣ باقة VIP2</h3>
-        <p><span class="tools-link" onclick="event.stopPropagation(); toggleToolsList();">جميع الأدوات</span> + بازوكا كبيرة + محفظة Sous main + رابط الكتروني + هدية 🎁</p>
-        <div class="price" data-price="6800">6800 دج</div>
-        <button class="btn" type="button" onclick="event.stopPropagation(); orderSinglePack('باقة VIP2', 6800)">اطلب الآن</button>
-        <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
-      </div>
-    </div>
-    
-    <div id="cartSummary" tabindex="0" role="button" aria-label="فتح نموذج الطلب مع الباقات المختارة" onclick="openFormMultiple()">
-      <span class="cart-icon">🛒</span>
-      <span id="cartItemsCount">0</span> باقات مختارة |
-      الإجمالي: <span id="cartTotalPrice">0</span> دج |
-      اضغط لطلب
-    </div>
-    <div id="formWrap">
-      <form id="orderForm">
-        <h3>📋 اكمل بيانات الطلب</h3>
-        <input type="hidden" name="package" id="package" />
-        <input type="hidden" name="price" id="price" />
-        <input type="hidden" name="delivery_price" id="delivery_price" />
-        <input type="hidden" name="total" id="total" />
-        <div class="form-group">
-          <label for="packageDisplay">الباقة المختارة</label>
-          <textarea id="packageDisplay" name="packageDisplay" readonly rows="2" style="resize:none; background:#eee; padding:10px; border-radius:8px;"></textarea>
-        </div>
-        <div class="form-group">
-          <label for="name">الاسم الكامل</label>
-          <input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل" />
-        </div>
-        <div class="form-group">
-          <label for="phone">رقم الهاتف</label>
-          <input type="tel" id="phone" name="phone" required pattern="^(\+?213|0)(5|6|7)\d{8}$" placeholder="مثال: 0551234567" />
-        </div>
-        <div class="form-group">
-          <label for="wilaya">الولاية</label>
-          <select id="wilaya" name="wilaya" required>
-            <option value="">-- Choisissez votre wilaya --</option>
-            <option>Adrar</option>
-            <option>Chlef</option>
-            <option>Laghouat</option>
-            <option>Oum El Bouaghi</option>
-            <option>Batna</option>
-            <option>Béjaïa</option>
-            <option>Biskra</option>
-            <option>Béchar</option>
-            <option>Blida</option>
-            <option>Bouira</option>
-            <option>Tamanrasset</option>
-            <option>Tébessa</option>
-            <option>Tlemcen</option>
-            <option>Tiaret</option>
-            <option>Tizi Ouzou</option>
-            <option>Alger</option>
-            <option>Djelfa</option>
-            <option>Jijel</option>
-            <option>Sétif</option>
-            <option>Saïda</option>
-            <option>Skikda</option>
-            <option>Sidi Bel Abbès</option>
-            <option>Annaba</option>
-            <option>Guelma</option>
-            <option>Constantine</option>
-            <option>Médéa</option>
-            <option>Mostaganem</option>
-            <option>M'Sila</option>
-            <option>Mascara</option>
-            <option>Ouargla</option>
-            <option>Oran</option>
-            <option>El Bayadh</option>
-            <option>Illizi</option>
-            <option>Bordj Bou Arreridj</option>
-            <option>Boumerdès</option>
-            <option>El Tarf</option>
-            <option>Tindouf</option>
-            <option>Tissemsilt</option>
-            <option>El Oued</option>
-            <option>Khenchela</option>
-            <option>Souk Ahras</option>
-            <option>Tipaza</option>
-            <option>Mila</option>
-            <option>Aïn Defla</option>
-            <option>Naâma</option>
-            <option>Aïn Témouchent</option>
-            <option>Ghardaïa</option>
-            <option>Relizane</option>
-            <option>Timimoun</option>
-            <option>Bordj Badji Mokhtar</option>
-            <option>Ouled Djellal</option>
-            <option>Béni Abbès</option>
-            <option>In Salah</option>
-            <option>In Guezzam</option>
-            <option>Touggourt</option>
-            <option>Djanet</option>
-            <option>El M'Ghair</option>
-            <option>El Meniaa</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="commune">البلدية</label>
-          <input type="text" id="commune" name="commune" required placeholder="أدخل اسم البلدية" />
-        </div>
-        <div class="form-group">
-          <label for="delivery">نوع التوصيل</label>
-          <select id="delivery" name="delivery" required>
-            <option value="">اختر نوع التوصيل</option>
-            <option value="À domicile">À domicile (التوصيل إلى المنزل)</option>
-            <option value="Tifawt bureau">Tifawt bureau</option>
-            <option value="Bureau">Bureau (التوصيل إلى المكتب)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="notes">ملاحظات إضافية (اختياري)</label>
-          <textarea id="notes" name="notes" rows="3" placeholder="أي ملاحظات أو طلبات خاصة"></textarea>
-        </div>
-        <div id="priceBox" class="price-summary" aria-live="polite" style="display:none; margin-top:18px; background:#f8f9fa; border:2px dashed var(--primary-color); padding:14px; border-radius:10px; text-align:right; font-weight:700;">
-          Prix de Livraison: <span id="displayDelivery" class="value">0</span> دج<br>
-          Prix TOTAL: <span id="displayTotal" class="value">0</span> دج
-          <span class="muted">(يتم الحساب آليًا حسب الولاية ونوع التوصيل)</span>
-        </div>
-        <button type="submit" class="submit-btn">✅ تأكيد الطلب</button>
-      </form>
-      <div id="successBox" class="success" role="alert">✅ تم إرسال طلبك بنجاح! سنتواصل معك قريبًا.</div>
-    </div>
-  </div>
-  <div id="toolsList" aria-label="قائمة الأدوات الأساسية">
-    📦 Contenu du pack (16 outils essentiels) :<br><br>
-    • 📐 Équerres 45 cm x2 (90/45° et 60/30°)<br>
-    • 📐 Équerres 25 cm x2 (90/45° et 60/30°)<br>
-    • ✏️ Boîte de compas professionnel avec rallonge<br>
-    • 📄 Pochette dessin blanc A4 – 160 g<br>
-    • 📄 Pochette dessin blanc A3 – 160 g<br>
-    • ✒️ Porte-mine 0,7 mm<br>
-    • ✏️ Mines 0,7 HB<br>
-    • ✏️ Crayon technique HB<br>
-    • ✏️ Crayon technique 2B<br>
-    • ✏️ Crayon technique 6H<br>
-    • 🔪 Cutter en métal<br>
-    • 🩶 Gomme<br>
-    • ✏️ Taille-crayon<br>
-    • 🏷️ Ruban adhésif papier<br>
-    • 📏 Règle métallique 60 cm<br>
-    • 🎁 Cadeau spécial HG<br>
-    <button onclick="toggleToolsList()">إغلاق</button>
-  </div>
-  <script>
-   const GAS_URL = "https://script.google.com/macros/s/AKfycbxuc6Dwwt--AmflWmHeSVzR0LtOyBmmKc3FweeNnr55x4Rpi769fNtsajlgUxrfWxcs/exec";
-    const deliveryPrices = {
-      "Adrar": {"À domicile": 1400, "Bureau": 900},
-      "Chlef": {"À domicile": 850, "Bureau": 450},
-      "Laghouat": {"À domicile": 950, "Bureau": 550},
-      "Oum El Bouaghi": {"À domicile": 850, "Bureau": 450},
-      "Batna": {"À domicile": 900, "Bureau": 450},
-      "Béjaïa": {"À domicile": 800, "Bureau": 450},
-      "Biskra": {"À domicile": 950, "Bureau": 550},
-      "Béchar": {"À domicile": 1100, "Bureau": 650},
-      "Blida": {"À domicile": 600, "Bureau": 400},
-      "Bouira": {"À domicile": 700, "Bureau": 450},
-      "Tamanrasset": {"À domicile": 1600, "Bureau": 1050},
-      "Tébessa": {"À domicile": 900, "Bureau": 450},
-      "Tlemcen": {"À domicile": 900, "Bureau": 500},
-      "Tiaret": {"À domicile": 850, "Bureau": 450},
-      "Tizi Ouzou": {"À domicile": 750, "Bureau": 450},
-      "Alger": {"À domicile": 600, "Bureau": 400},
-      "Djelfa": {"À domicile": 900, "Bureau": 450},
-      "Jijel": {"À domicile": 800, "Bureau": 450},
-      "Sétif": {"À domicile": 850, "Bureau": 450},
-      "Saïda": {"À domicile": 900, "Bureau": 450},
-      "Skikda": {"À domicile": 900, "Bureau": 450},
-      "Sidi Bel Abbès": {"À domicile": 900, "Bureau": 500},
-      "Annaba": {"À domicile": 850, "Bureau": 450},
-      "Guelma": {"À domicile": 850, "Bureau": 450},
-      "Constantine": {"À domicile": 850, "Bureau": 450},
-      "Médéa": {"À domicile": 850, "Bureau": 450},
-      "Mostaganem": {"À domicile": 850, "Bureau": 450},
-      "M'Sila": {"À domicile": 850, "Bureau": 450},
-      "Mascara": {"À domicile": 900, "Bureau": 450},
-      "Ouargla": {"À domicile": 1100, "Bureau": 650},
-      "Oran": {"À domicile": 800, "Bureau": 450},
-      "El Bayadh": {"À domicile": 1100, "Bureau": 600},
-      "Illizi": {"À domicile": 1600, "Bureau": 1050},
-      "Bordj Bou Arreridj": {"À domicile": 850, "Bureau": 450},
-      "Boumerdès": {"À domicile": 700, "Bureau": 450},
-      "El Tarf": {"À domicile": 850, "Bureau": 450},
-      "Tindouf": {"À domicile": 1600, "Bureau": 1050},
-      "Tissemsilt": {"À domicile": 900, "Bureau": 450},
-      "El Oued": {"À domicile": 1000, "Bureau": 600},
-      "Khenchela": {"À domicile": 900, "Bureau": 450},
-      "Souk Ahras": {"À domicile": 900, "Bureau": 450},
-      "Tipaza": {"À domicile": 700, "Bureau": 450},
-      "Mila": {"À domicile": 850, "Bureau": 450},
-      "Aïn Defla": {"À domicile": 900, "Bureau": 450},
-      "Naâma": {"À domicile": 1100, "Bureau": 600},
-      "Aïn Témouchent": {"À domicile": 900, "Bureau": 450},
-      "Ghardaïa": {"À domicile": 950, "Bureau": 550},
-      "Relizane": {"À domicile": 900, "Bureau": 450},
-      "Timimoun": {"À domicile": 1400, "Bureau": 0},
-      "Bordj Badji Mokhtar": {"À domicile": 0, "Bureau": 0},
-      "Ouled Djellal": {"À domicile": 950, "Bureau": 550},
-      "Béni Abbès": {"À domicile": 1100, "Bureau": 0},
-      "In Salah": {"À domicile": 1600, "Bureau": 0},
-      "In Guezzam": {"À domicile": 1600, "Bureau": 0},
-      "Touggourt": {"À domicile": 950, "Bureau": 600},
-      "Djanet": {"À domicile": 0, "Bureau": 0},
-      "El M'Ghair": {"À domicile": 950, "Bureau": 0},
-      "El Meniaa": {"À domicile": 1000, "Bureau": 0}
-    };
-    // عناصر الصفحة
+document.addEventListener('DOMContentLoaded', () => {
     const formWrap = document.getElementById('formWrap');
     const orderForm = document.getElementById('orderForm');
-    const packageInput = document.getElementById('package');
-    const packageDisplay = document.getElementById('packageDisplay');
-    const priceInput = document.getElementById('price');
-    const wilayaSelect = document.getElementById('wilaya');
-    const deliverySelect = document.getElementById('delivery');
-    const priceBox = document.getElementById('priceBox');
-    const displayDelivery = document.getElementById('displayDelivery');
-    const displayTotal = document.getElementById('displayTotal');
-    const toolsList = document.getElementById('toolsList');
     const cartSummary = document.getElementById('cartSummary');
-    const cartItemsCount = document.getElementById('cartItemsCount');
-    const cartTotalPrice = document.getElementById('cartTotalPrice');
-    function hideToolsListOnHover() {
-      if (toolsList.style.display !== 'none') {
-        toggleToolsList(false);
-      }
-    }
-    let lastScrollTop = 0;
-    window.addEventListener('scroll', () => {
-      let st = window.pageYOffset || document.documentElement.scrollTop;
-      if (toolsList.style.display !== 'none' && st > lastScrollTop) {
-        toggleToolsList(false);
-      }
-      lastScrollTop = st <= 0 ? 0 : st;
-    });
-    function updateCart() {
-      const checkboxes = document.querySelectorAll('.select-checkbox');
-      let selectedCount = 0;
-      let totalPrice = 0;
-      let selectedPackages = [];
-      checkboxes.forEach((cb) => {
-        if (cb.checked) {
-          selectedCount++;
-          const card = cb.closest('.card');
-          const pkgName = card.querySelector('h3').textContent.trim();
-          const price = parseInt(card.querySelector('.price').dataset.price);
-          totalPrice += price;
-          selectedPackages.push(`${pkgName} (${price} دج)`);
-        }
-      });
-      if (selectedCount > 0) {
-        cartItemsCount.textContent = selectedCount;
-        cartTotalPrice.textContent = totalPrice;
-        cartSummary.style.display = 'flex';
-      } else {
-        cartSummary.style.display = 'none';
-      }
-      return { selectedCount, totalPrice, selectedPackages };
-    }
-    function toggleToolsList(forceShow = null) {
-      if (forceShow === true) {
-        toolsList.style.display = 'block';
-      } else if (forceShow === false) {
-        toolsList.style.display = 'none';
-      } else {
-        if (toolsList.style.display === 'none' || toolsList.style.display === '') {
-          toolsList.style.display = 'block';
-        } else {
-          toolsList.style.display = 'none';
-        }
-      }
-    }
-    function openFormMultiple() {
-      const cartData = updateCart();
-      if (cartData.selectedCount === 0) {
-        alert('يرجى اختيار باقة واحدة على الأقل للطلب.');
-        return;
-      }
-      formWrap.style.display = 'block';
-      document.getElementById('successBox').style.display = 'none';
-      priceBox.style.display = 'none';
-      window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
-      packageInput.value = cartData.selectedPackages.join(' + ');
-      packageDisplay.value = packageInput.value;
-      priceInput.value = Number(cartData.totalPrice) || 0; 
-      updatePrices();
-    }
+    const toolsList = document.getElementById('toolsList');
+    const cards = document.querySelectorAll('.card');
 
-    function orderSinglePack(packName, price) {
-      formWrap.style.display = 'block';
-      document.getElementById('successBox').style.display = 'none';
-      priceBox.style.display = 'none';
-      window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
-      packageInput.value = packName;
-      packageDisplay.value = packageInput.value;
-      priceInput.value = price;
-      updatePrices();
-    }
-    function cardClick(event) {
-      event.stopPropagation();
-    }
-    function updatePrices() {
-      const wilaya = wilayaSelect.value.trim();
-      const delivery = deliverySelect.value;
-      const packagePrice = parseInt(priceInput.value) || 0;
-      if (!wilaya || !delivery || !packagePrice) {
-        priceBox.style.display = 'none';
-        document.getElementById('delivery_price').value = '';
-        document.getElementById('total').value = '';
-        return;
-      }
-      if (delivery === 'Tifawt bureau' && wilaya !== 'Alger') {
-        alert('خدمة Tifawt bureau متاحة فقط في ولاية الجزائر (الجزائر العاصمة).');
-        deliverySelect.value = '';
-        priceBox.style.display = 'none';
-        document.getElementById('delivery_price').value = '';
-        document.getElementById('total').value = '';
-        return;
-      }
-      let delivery_price = 0;
-      const row = deliveryPrices[wilaya];
-      if (delivery === 'Tifawt bureau' && wilaya === 'Alger') {
-        delivery_price = 0;
-      } else if (row && row[delivery]) {
-        delivery_price = Number(row[delivery]) || 0;
-      }
-      if (delivery_price === 0 && !(delivery === 'Tifawt bureau' && wilaya === 'Alger')) {
-        alert('التوصيل غير متوفر لهذه الولاية');
-        deliverySelect.value = '';
-        priceBox.style.display = 'none';
-        document.getElementById('delivery_price').value = '';
-        document.getElementById('total').value = '';
-        return;
-      }
-      const totalPrice = packagePrice + delivery_price;
-      displayDelivery.textContent = delivery_price;
-      displayTotal.textContent = totalPrice;
-      priceBox.style.display = 'block';
-      document.getElementById('delivery_price').value = delivery_price;
-      document.getElementById('total').value = totalPrice;
-    }
-    wilayaSelect.addEventListener('change', updatePrices);
-    deliverySelect.addEventListener('change', updatePrices);
-    priceInput.addEventListener('change', updatePrices);
-    priceInput.addEventListener('input', updatePrices);
-    orderForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const formEl = e.target;
-      const formData = new FormData(formEl);
-      let obj = {};
-      formData.forEach((value, key) => { obj[key] = value; });
-      if (!obj.delivery_price || obj.delivery_price === '') {
-        updatePrices();
-        obj.delivery_price = document.getElementById('delivery_price').value || 0;
-        obj.total = document.getElementById('total').value || obj.price;
-      }
-      fetch(GAS_URL, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: new URLSearchParams(obj)
-      })
-      .then(response => response.json())
-      .then(res => {
-        if(res.result === 'success') {
-          document.getElementById('successBox').style.display = 'block';
-          formEl.reset();
-          priceBox.style.display = 'none';
-          document.getElementById('delivery_price').value = '';
-          document.getElementById('total').value = '';
-          cartSummary.style.display = 'none';
-          document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
-          packageInput.value = '';
-          priceInput.value = '';
-          packageDisplay.value = '';
-          setTimeout(() => {
-            formWrap.style.display = 'none';
-            document.getElementById('successBox').style.display = 'none';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }, 4000);
+    const updateCart = () => {
+        const selected = document.querySelectorAll('.select-checkbox:checked');
+        let total = 0;
+        selected.forEach(cb => {
+            total += parseInt(cb.closest('.card').querySelector('.price').dataset.price);
+        });
+        
+        if (selected.length > 0) {
+            document.getElementById('cartItemsCount').textContent = selected.length;
+            document.getElementById('cartTotalPrice').textContent = total;
+            cartSummary.style.display = 'flex';
         } else {
-          alert('حدث خطأ أثناء إرسال الطلب، حاول لاحقًا.');
+            cartSummary.style.display = 'none';
         }
-      })
-      .catch(() => alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.'));
+    };
+
+    const showForm = (packages, total) => {
+        formWrap.style.display = 'block';
+        orderForm.reset();
+        document.getElementById('successBox').style.display = 'none';
+        document.getElementById('priceBox').style.display = 'none';
+        
+        document.getElementById('package').value = packages;
+        document.getElementById('packageDisplay').value = packages;
+        document.getElementById('price').value = total;
+        
+        updatePrices();
+        formWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    const updatePrices = () => {
+        const wilaya = document.getElementById('wilaya').value;
+        const delivery = document.getElementById('delivery').value;
+        const packagePrice = parseInt(document.getElementById('price').value) || 0;
+
+        if (!wilaya || !delivery) {
+            document.getElementById('priceBox').style.display = 'none';
+            return;
+        }
+
+        if (delivery === 'Tifawt bureau' && wilaya !== 'Alger') {
+            alert('خدمة Tifawt bureau متاحة فقط في ولاية الجزائر.');
+            document.getElementById('delivery').value = '';
+            return;
+        }
+
+        const deliveryPrice = deliveryPrices[wilaya]?.[delivery];
+
+        if (typeof deliveryPrice === 'undefined') {
+            alert('نوع التوصيل المختار غير متوفر لهذه الولاية.');
+            document.getElementById('delivery').value = '';
+            document.getElementById('priceBox').style.display = 'none';
+            return;
+        }
+
+        const totalPrice = packagePrice + deliveryPrice;
+        document.getElementById('displayDelivery').textContent = deliveryPrice;
+        document.getElementById('displayTotal').textContent = totalPrice;
+        document.getElementById('delivery_price').value = deliveryPrice;
+        document.getElementById('total').value = totalPrice;
+        document.getElementById('priceBox').style.display = 'block';
+    };
+
+    cards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.matches('.btn')) {
+                const name = card.querySelector('h3').textContent.trim();
+                const price = parseInt(card.querySelector('.price').dataset.price);
+                showForm(name, price);
+            } else if (e.target.matches('.tools-link')) {
+                e.stopPropagation();
+                toolsList.style.display = 'block';
+            } else if (!e.target.matches('.select-checkbox')) {
+                const checkbox = card.querySelector('.select-checkbox');
+                checkbox.checked = !checkbox.checked;
+                updateCart();
+            }
+        });
     });
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.addEventListener('keydown', function(event) {
-      if (event.ctrlKey && event.key === 'u') event.preventDefault();
-      if (event.key === 'F12') event.preventDefault();
-      if (event.ctrlKey && event.shiftKey && event.key === 'I') event.preventDefault();
+
+    document.querySelectorAll('.select-checkbox').forEach(cb => cb.addEventListener('change', updateCart));
+
+    cartSummary.addEventListener('click', () => {
+        const selected = document.querySelectorAll('.select-checkbox:checked');
+        if (selected.length === 0) return;
+        
+        let packages = [];
+        let total = 0;
+        selected.forEach(cb => {
+            const card = cb.closest('.card');
+            packages.push(card.querySelector('h3').textContent.trim());
+            total += parseInt(card.querySelector('.price').dataset.price);
+        });
+        showForm(packages.join(' + '), total);
     });
-  </script>
+
+    document.getElementById('wilaya').addEventListener('change', updatePrices);
+    document.getElementById('delivery').addEventListener('change', updatePrices);
+    
+    toolsList.querySelector('button').addEventListener('click', () => toolsList.style.display = 'none');
+
+    orderForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('.submit-btn');
+        btn.disabled = true;
+        btn.textContent = '...جاري الإرسال';
+
+        const formData = new FormData(orderForm);
+        const obj = Object.fromEntries(formData.entries());
+
+        fetch(GAS_URL, { method: 'POST', body: new URLSearchParams(obj) })
+            .then(res => res.json())
+            .then(res => {
+                if (res.result === 'success') {
+                    document.getElementById('successBox').style.display = 'block';
+                    orderForm.reset();
+                    cartSummary.style.display = 'none';
+                    document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
+                    setTimeout(() => {
+                        formWrap.style.display = 'none';
+                        document.getElementById('successBox').style.display = 'none';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 4000);
+                } else {
+                    alert('حدث خطأ أثناء إرسال الطلب، حاول لاحقًا.');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('حدث خطأ في الاتصال بالخادم، حاول لاحقًا.');
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.textContent = '✅ تأكيد الطلب';
+            });
+    });
+});
+</script>
 </body>
 </html>
