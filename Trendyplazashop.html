@@ -427,7 +427,7 @@ transition: 0.3s;
 <button>إغلاق</button>
 </div>
 <script>
-const GAS_URL = "https://script.google.com/macros/s/AKfycbzwT8EVB-Vdrx_WOj-wDk3DzK6wxPvNtKiE5IK4DS5GLF0cBmSbflIvvhirDsY4O2-5/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwMw6WX7HuFQ18WCpkcXDlN0OsRgptRlENs-AlE9xU/dev";
 const deliveryPrices = {
     "Adrar": {"À domicile": 1400, "Bureau": 900}, "Chlef": {"À domicile": 850, "Bureau": 450}, "Laghouat": {"À domicile": 950, "Bureau": 550},
     "Oum El Bouaghi": {"À domicile": 850, "Bureau": 450}, "Batna": {"À domicile": 900, "Bureau": 450}, "Béjaïa": {"À domicile": 800, "Bureau": 450},
@@ -559,53 +559,57 @@ document.addEventListener('DOMContentLoaded', () => {
     toolsList.querySelector('button').addEventListener('click', () => toolsList.style.display = 'none');
 
     orderForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const btn = e.target.querySelector('.submit-btn');
-    btn.disabled = true;
-    btn.textContent = '...جاري الإرسال';
+        e.preventDefault();
+        const btn = e.target.querySelector('.submit-btn');
+        btn.disabled = true;
+        btn.textContent = '...جاري الإرسال';
 
-    const formData = new FormData(orderForm);
-    const obj = Object.fromEntries(formData.entries());
-    
-    // إضافة timestamp (تم إزالتها في التعديلات السابقة لتجنب تعقيد e.parameter)
-    // لا نحتاج لها هنا لأننا سنستخدم new Date() في GAS
+        const formData = new FormData(orderForm);
+        const obj = Object.fromEntries(formData.entries());
+        
+        // إزالة الحقول غير المرغوبة
+        delete obj.packageDisplay;
 
-    // 1. تجهيز البيانات كـ Form Encoded
-    const formDataEncoded = new URLSearchParams();
-    for (const key in obj) {
-        // نستثني حقل العرض packageDisplay لأنه حقل نصي للعرض فقط
-        if (key !== 'packageDisplay') {
-            formDataEncoded.append(key, obj[key]);
+        // تحويل البيانات إلى FormData (x-www-form-urlencoded)
+        const formDataEncoded = new URLSearchParams();
+        for (const key in obj) {
+            if (obj[key] !== undefined && obj[key] !== null) {
+                formDataEncoded.append(key, obj[key]);
+            }
         }
-    }
 
-    // 2. إرسال الطلب بالتنسيق الصحيح
-    fetch(GAS_URL, { 
-        method: 'POST',
-        // 🚨 التغيير الحاسم: استخدام العنوان الصحيح لـ Form Encoded
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, 
-        // 🚨 التغيير الحاسم: إرسال البيانات كـ String مشفر
-        body: formDataEncoded.toString() 
-    })
-    .then(res => res.json())
-    .then(res => {
-        // ... (باقي كود النجاح والفشل كما هو)
-        if (res.result === 'success') {
-            // ...
-        } else {
-            alert('خطأ في الخادم: ' + res.message);
-        }
-    })
-    .catch(err => {
-        console.error('Error:', err);
-        alert('تعذر إرسال الطلب. تحقق من اتصالك بالإنترنت.');
-    })
-    .finally(() => {
-        btn.disabled = false;
-        btn.textContent = '✅ تأكيد الطلب';
-    });
-});
-
+        // إرسال البيانات بالتنسيق الصحيح
+        fetch(GAS_URL, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formDataEncoded.toString()
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.result === 'success') {
+                document.getElementById('successBox').style.display = 'block';
+                orderForm.reset();
+                cartSummary.style.display = 'none';
+                document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
+                setTimeout(() => {
+                    formWrap.style.display = 'none';
+                    document.getElementById('successBox').style.display = 'none';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }, 4000);
+            } else {
+                alert('خطأ في الخادم: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('⚠️ حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى.');
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.textContent = '✅ تأكيد الطلب';
+        });
     });
 });
 </script>
