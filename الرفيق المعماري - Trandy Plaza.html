@@ -1018,10 +1018,10 @@
       }
       
       fetch(GAS_URL, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: new URLSearchParams(obj)
-      })
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify(obj)
+})
       .then(response => response.json())
       .then(res => {
         if(res.result === 'success') {
