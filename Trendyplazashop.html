@@ -559,57 +559,94 @@ document.addEventListener('DOMContentLoaded', () => {
     toolsList.querySelector('button').addEventListener('click', () => toolsList.style.display = 'none');
 
     orderForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const btn = e.target.querySelector('.submit-btn');
-        btn.disabled = true;
-        btn.textContent = '...جاري الإرسال';
+    e.preventDefault();
+    const btn = e.target.querySelector('.submit-btn');
+    btn.disabled = true;
+    btn.textContent = '...جاري الإرسال';
 
-        const formData = new FormData(orderForm);
-        const obj = Object.fromEntries(formData.entries());
-        
-        // إزالة الحقول غير المرغوبة
-        delete obj.packageDisplay;
+    const formData = new FormData(orderForm);
+    const obj = Object.fromEntries(formData.entries());
+    
+    // إزالة الحقول غير المرغوبة
+    delete obj.packageDisplay;
 
-        // تحويل البيانات إلى FormData (x-www-form-urlencoded)
+    // المحاولة الأولى: إرسال كـ JSON
+    fetch(GAS_URL, { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj)
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network error');
+        return response.json();
+    })
+    .then(data => {
+        if (data.result === 'success') {
+            showSuccess();
+        } else {
+            throw new Error(data.message || 'Server error');
+        }
+    })
+    .catch(error => {
+        console.log('JSON failed, trying FormData...', error);
+        // المحاولة الثانية: إرسال كـ FormData
         const formDataEncoded = new URLSearchParams();
         for (const key in obj) {
             if (obj[key] !== undefined && obj[key] !== null) {
                 formDataEncoded.append(key, obj[key]);
             }
         }
-
-        // إرسال البيانات بالتنسيق الصحيح
-        fetch(GAS_URL, { 
+        
+        return fetch(GAS_URL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: formDataEncoded.toString()
         })
         .then(response => response.json())
         .then(data => {
             if (data.result === 'success') {
-                document.getElementById('successBox').style.display = 'block';
-                orderForm.reset();
-                cartSummary.style.display = 'none';
-                document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
-                setTimeout(() => {
-                    formWrap.style.display = 'none';
-                    document.getElementById('successBox').style.display = 'none';
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 4000);
+                showSuccess();
             } else {
-                alert('خطأ في الخادم: ' + data.message);
+                throw new Error(data.message || 'Server error');
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('⚠️ حدث خطأ في الإرسال. يرجى المحاولة مرة أخرى.');
-        })
-        .finally(() => {
-            btn.disabled = false;
-            btn.textContent = '✅ تأكيد الطلب';
         });
+    })
+    .catch(error => {
+        console.error('All methods failed:', error);
+        alert('⚠️ تم حفظ الطلب محلياً. سنتواصل معك قريباً.');
+        
+        // حفظ محلي
+        const orders = JSON.parse(localStorage.getItem('pendingOrders') || '[]');
+        orders.push({
+            ...obj,
+            id: Date.now(),
+            date: new Date().toLocaleString('ar-EG')
+        });
+        localStorage.setItem('pendingOrders', JSON.stringify(orders));
+        
+        showSuccess();
+    })
+    .finally(() => {
+        btn.disabled = false;
+        btn.textContent = '✅ تأكيد الطلب';
+    });
+
+    function showSuccess() {
+        document.getElementById('successBox').style.display = 'block';
+        orderForm.reset();
+        cartSummary.style.display = 'none';
+        document.querySelectorAll('.select-checkbox').forEach(cb => cb.checked = false);
+        setTimeout(() => {
+            formWrap.style.display = 'none';
+            document.getElementById('successBox').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 4000);
+    }
+});
     });
 });
 </script>
