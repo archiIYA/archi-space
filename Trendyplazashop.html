@@ -427,7 +427,7 @@ transition: 0.3s;
 <button>إغلاق</button>
 </div>
 <script>
-const GAS_URL = "https://script.google.com/macros/s/AKfycbxuc6Dwwt--AmflWmHeSVzR0LtOyBmmKc3FweeNnr55x4Rpi769fNtsajlgUxrfWxcs/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbwu1OBCDsKEGSC2v938KHX8JoKLQajQ1tpflrSKfQjEUXHWrPDIEhLjgSP4f-wsMdPW/exec";
 const deliveryPrices = {
     "Adrar": {"À domicile": 1400, "Bureau": 900}, "Chlef": {"À domicile": 850, "Bureau": 450}, "Laghouat": {"À domicile": 950, "Bureau": 550},
     "Oum El Bouaghi": {"À domicile": 850, "Bureau": 450}, "Batna": {"À domicile": 900, "Bureau": 450}, "Béjaïa": {"À domicile": 800, "Bureau": 450},
@@ -570,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(GAS_URL, { 
   method: 'POST',
   headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(obj)   // 👈 نبعث JSON
+  body: JSON.stringify(obj)   
 })
 .then(res => res.json())
 .then(res => {
