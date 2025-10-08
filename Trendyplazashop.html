@@ -25,7 +25,7 @@
       color: var(--dark-color);
       min-height: 100vh;
       padding: 0 20px;
-      padding-bottom: 60px; /* حجز مساحة لسلة الطلب الثابتة */
+      padding-bottom: 60px; 
     }
     .header-container {
       background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
@@ -76,7 +76,7 @@
       border: 2px solid var(--primary-color);
       border-radius: 15px;
       padding: 20px;
-      padding-bottom: 70px; /* مساحة أسفل لإظهار checkbox بشكل واضح */
+      padding-bottom: 70px; 
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
       text-align: center;
       cursor: pointer;
@@ -300,9 +300,9 @@
     #cartSummary span {
       pointer-events: none;
     }
-    /* تعديل ألوان زر .btn داخل القسم الداخلي */
+    
     .header-container .btn {
-      background: #b30000; /* استبدال اللون الأزرق */
+      background: #b30000; 
       color: #fff;
       text-decoration: none;
       display: inline-block;
@@ -311,7 +311,7 @@
       transition: 0.3s;
     }
     .header-container .btn:hover {
-      background: #800000; /* درجة أغمق من الأحمر */
+      background: #800000; 
     }
   </style>
 </head>
@@ -324,10 +324,11 @@
     </div>
     
     <a href="الرفيق%20المعماري%20-%20Trandy%20Plaza.html" class="btn">اذهب إلى متجر  Trandy Plaza  للتسوق اكثر و لشراء ادوات اخرى</a>
+    <a href="Trendyplazamarkers.html" class="btn">اذهب إلى متجر  Trandy Plazaللتسوق اكثر و لشراء markers اخرى</a>
   </div>
   <div class="container">
     <div class="grid" aria-label="قائمة الباقات">
-      <!-- الكروت مع مربع اختيار -->
+      
       <div class="card" tabindex="0" onmouseenter="hideToolsListOnHover()" onclick="cardClick(event)">
         <input type="checkbox" class="select-checkbox" onchange="updateCart()" />
         <img src="https://raw.githubusercontent.com/archiIYA/archi-space/main/pack%20de%20base.png" alt="الباقة الأساسية" class="package-image" />
@@ -383,7 +384,6 @@
         <div class="btn-note">اطلب الآن و احصل على أفضل الباقات بأفضل الأسعار</div>
       </div>
     </div>
-    <!-- سلة الطلب -->
     <div id="cartSummary" tabindex="0" role="button" aria-label="فتح نموذج الطلب مع الباقات المختارة" onclick="openFormMultiple()">
       <span class="cart-icon">🛒</span>
       <span id="cartItemsCount">0</span> باقات مختارة |
@@ -664,10 +664,10 @@
       window.scrollTo({ top: formWrap.offsetTop - 20, behavior: 'smooth' });
       packageInput.value = cartData.selectedPackages.join(' + ');
       packageDisplay.value = packageInput.value;
-      priceInput.value = Number(cartData.totalPrice) || 0; // تأكد من كون القيمة رقم
+      priceInput.value = Number(cartData.totalPrice) || 0;
       updatePrices();
     }
-    // دالة الطلب المباشر للباقة المفردة بدون اختيار checkbox
+   
     function orderSinglePack(packName, price) {
       formWrap.style.display = 'block';
       document.getElementById('successBox').style.display = 'none';
