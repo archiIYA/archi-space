@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>📚 Bibliothèque — Archi.Space</title>
+  <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self'">
+  <style>
+    :root{
+      --bg:#0f172a; --card:#111827; --muted:#94a3b8; --text:#e5e7eb;
+      --accent:#22d3ee; --accent-2:#38bdf8; --ring:#22d3ee55;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:linear-gradient(135deg,#0b1226,#0f172a 40%,#111827);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;background:#0b1226a6;border:1px solid #1f2937;border-radius:16px;backdrop-filter: blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px #000}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.3px}
+    .brand .logo{width:36px;height:36px;border-radius:10px;background:
+      radial-gradient(120% 120% at 0% 0%, var(--accent) 0%, transparent 60%),
+      radial-gradient(120% 120% at 100% 100%, var(--accent-2) 0%, transparent 60%), #0ea5e9;
+      box-shadow:0 0 0 2px #0ea5e955,0 10px 20px #0ea5e944}
+    .guard{display:none}
+    .guard.show{display:block;margin:18px 0;padding:14px 16px;border-radius:12px;background:#0b1226;border:1px solid #1f2937;color:#fca5a5}
+    .search{position:relative;flex:1;max-width:520px}
+    .search input{width:100%;padding:14px 44px;border-radius:12px;background:#0b1226;border:1px solid #1f2937;color:var(--text);outline:none;font-size:15px;box-shadow:inset 0 0 0 1px #000}
+    .search input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--ring)}
+    .search .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.7;pointer-events:none;font-size:16px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:22px}
+    .card{background:linear-gradient(180deg,#0b1226,#0f172a);border:1px solid #1f2937;border-radius:16px;padding:16px;box-shadow:0 12px 30px rgba(0,0,0,.35), inset 0 0 0 1px #000;display:flex;flex-direction:column;gap:12px;min-height:160px}
+    .title{font-weight:600;line-height:1.3;word-break:break-word}
+    .meta{color:var(--muted);font-size:13px}
+    .actions{margin-top:auto;display:flex;gap:10px}
+    .btn{appearance:none;border:none;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:600;transition:.2s transform ease,.2s opacity ease,.2s background ease;display:inline-flex;gap:8px;align-items:center}
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#001018}
+    .btn-ghost{background:#0b1226;color:var(--text);border:1px solid #1f2937}
+    .footer{opacity:.7;font-size:12px;margin-top:18px;text-align:center}
+    .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(2,6,23,.75);z-index:50;padding:18px}
+    .modal.show{display:grid}
+    .dialog{width:min(1200px,100%);height:min(86vh,860px);background:#0b1226;border:1px solid #1f2937;border-radius:16px;box-shadow:0 25px 80px rgba(0,0,0,.6), inset 0 0 0 1px #000;display:flex;flex-direction:column;overflow:hidden}
+    .dialog-header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;gap:10px;background:#0f172a;border-bottom:1px solid #1f2937}
+    .dialog-title{font-weight:700;font-size:14px}
+    .dialog-actions{display:flex;gap:8px}
+    .close{background:#111827;border:1px solid #1f2937;color:var(--text);border-radius:10px;padding:8px 10px;cursor:pointer}
+    .pdf-wrap{position:relative;flex:1;background:#0b1226}
+    .pdf-frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#0b1226}
+    .shield{position:absolute;top:0;right:0;width:180px;height:52px;z-index:2}
+    .empty{grid-column:1 / -1;text-align:center;padding:36px;color:var(--muted);border:1px dashed #1f2937;border-radius:16px;background:#0b12263d}
+    body, img, .pdf-wrap, .pdf-frame { -webkit-user-select:none; user-select:none }
+
+    .app{display:none}
+    .app.ready{display:block}
+  </style>
+</head>
+<body>
+
+  <div class="container app" id="app">
+    <div class="nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>Bibliothèque</div>
+      </div>
+      <div class="search">
+        <span class="icon">🔎</span>
+        <input id="search" type="text" placeholder="Rechercher un livre… (nom du fichier)" autocomplete="off" />
+      </div>
+    </div>
+
+    <div id="guard" class="guard"></div>
+    <div id="grid" class="grid" aria-live="polite"></div>
+
+    <div class="footer">Lecture فقط داخل المتصفح • محاولات منع التنزيل والنسخ/الطباعة هي حماية بسيطة وليست DRM.</div>
+  </div>
+
+  
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+    <div class="dialog">
+      <div class="dialog-header">
+        <div id="dlgTitle" class="dialog-title">Lecture du PDF</div>
+        <div class="dialog-actions">
+          <button class="close" id="closeBtn">Fermer ✕</button>
+        </div>
+      </div>
+      <div class="pdf-wrap" oncontextmenu="return false;">
+        <div class="shield"></div>
+        <iframe id="pdfFrame" class="pdf-frame"
+          sandbox="allow-scripts allow-same-origin"
+          referrerpolicy="no-referrer"
+          allow="clipboard-read; clipboard-write">
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+
+  <script type="module">
+ 
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.firebasestorage.app",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const appRoot = document.getElementById("app");
+    const guard = document.getElementById("guard");
+
+  
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        const redirect = encodeURIComponent("bibliotheque.html");
+        window.location.href = `login.html?redirect=${redirect}`;
+        return;
+      }
+     
+      appRoot.classList.add("ready");
+      initLibrary(); 
+    });
+
+   
+    function initLibrary(){
+      const books = [
+        {
+          name: "Amenager_-terrain_pente_.pdf",
+          url: "https://github.com/archiIYA/archi-space/blob/main/Amenager_-terrain_pente_.pdf"
+        },
+        {
+          name: "Livre_4_Amenagement_et_projet_urbain (1).pdf",
+          url: "https://github.com/archiIYA/archi-space/blob/main/Livre_4_Amenagement_et_projet_urbain%20(1).pdf"
+        }
+      ];
+
+     
+      const toRawUrl = (blobUrl) => {
+        try {
+          const u = new URL(blobUrl);
+          if (u.hostname === "github.com" && u.pathname.includes("/blob/")) {
+            return blobUrl
+              .replace("https://github.com/", "https://raw.githubusercontent.com/")
+              .replace("/blob/", "/");
+          }
+          return blobUrl; 
+        } catch { return blobUrl; }
+      };
+
+    
+      const grid = document.getElementById("grid");
+      const searchInput = document.getElementById("search");
+      const modal = document.getElementById("modal");
+      const pdfFrame = document.getElementById("pdfFrame");
+      const dlgTitle = document.getElementById("dlgTitle");
+      const closeBtn = document.getElementById("closeBtn");
+
+      const escapeHtml = (str) => str.replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+
+      function createCard(book){
+        const el = document.createElement("article");
+        el.className = "card";
+        el.dataset.name = book.name.toLowerCase();
+        el.innerHTML = `
+          <div class="title">${escapeHtml(book.name)}</div>
+          <div class="meta">Format: PDF</div>
+          <div class="actions">
+            <button class="btn btn-primary" data-read>📖 Lire</button>
+          </div>
+        `;
+        el.querySelector("[data-read]").addEventListener("click", () => openPdf(book));
+        return el;
+      }
+
+      function render(list){
+        grid.innerHTML = "";
+        if(!list.length){
+          const empty = document.createElement("div");
+          empty.className = "empty";
+          empty.textContent = "لا توجد نتائج مطابقة لبحثك.";
+          grid.appendChild(empty);
+          return;
+        }
+        list.forEach(b => grid.appendChild(createCard(b)));
+      }
+
+      render(books);
+
+   
+      searchInput.addEventListener("input", () => {
+        const q = searchInput.value.trim().toLowerCase();
+        if(!q){ render(books); return; }
+        render(books.filter(b => b.name.toLowerCase().includes(q)));
+      });
+
+   
+      function openPdf(book){
+ 
+        if(!auth.currentUser){
+          const redirect = encodeURIComponent("bibliotheque.html");
+          window.location.href = `login.html?redirect=${redirect}`;
+          return;
+        }
+        dlgTitle.textContent = book.name;
+        const raw = toRawUrl(book.url);
+
+        pdfFrame.src = encodeURI(raw) + "#toolbar=0&navpanes=0&scrollbar=0";
+        modal.classList.add("show");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal(){
+        modal.classList.remove("show");
+        pdfFrame.src = "about:blank";
+        document.body.style.overflow = "";
+      }
+
+      closeBtn.addEventListener("click", closeModal);
+      modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
+
+
+      document.addEventListener("contextmenu", e => e.preventDefault());
+      document.addEventListener("dragstart", e => e.preventDefault());
+      document.addEventListener("keydown", (e) => {
+        const key = e.key.toLowerCase();
+        const ctrl = e.ctrlKey || e.metaKey;
+        const shift = e.shiftKey;
+        if (
+          (ctrl && (key === 's' || key === 'p' || key === 'u')) ||
+          (ctrl && shift && (key === 'i' || key === 'c' || key === 'j')) ||
+          key === 'printscreen'
+        ){
+          e.preventDefault();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
