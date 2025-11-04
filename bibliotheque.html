@@ -126,8 +126,6 @@
     </div>
 
     <div id="grid" class="grid" aria-live="polite"></div>
-
-
   </div>
 
 
@@ -143,14 +141,13 @@
         <div class="shield"></div>
         <div id="loader" class="loader" hidden>جارٍ التحميل…</div>
         <iframe id="pdfFrame" class="pdf-frame"
-          sandbox="allow-scripts allow-same-origin"
+          sandbox="allow-scripts allow-same-origin allow-forms"
           referrerpolicy="no-referrer"
           allow="clipboard-read; clipboard-write">
         </iframe>
       </div>
     </div>
   </div>
-
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
@@ -170,213 +167,9 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-
     const root = document.documentElement;
     const THEME_KEY = "archispace-theme";
     const setTheme = (mode) => {
       if (mode === "light") root.classList.add("light");
       else root.classList.remove("light");
-      localStorage.setItem(THEME_KEY, mode);
-    };
-    setTheme(localStorage.getItem(THEME_KEY) || "dark");
-    document.getElementById("themeToggle").addEventListener("click", () => {
-      setTheme(root.classList.contains("light") ? "dark" : "light");
-    });
-
-   
-    document.getElementById("backBtn").addEventListener("click", () => {
-      if (history.length > 1) history.back();
-      else window.location.href = "lecteur.html";
-    });
-    document.getElementById("homeBtn").addEventListener("click", () => {
-
-      fetch("lecteur.html", {method:"HEAD"}).then(
-        r => window.location.href = "lecteur.html",
-        _ => window.location.href = "index.html"
-      );
-    });
-
- 
-    const appRoot = document.getElementById("app");
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        const redirect = encodeURIComponent("bibliotheque.html");
-        window.location.href = `login.html?redirect=${redirect}`;
-        return;
-      }
-      appRoot.classList.add("ready");
-      initLibrary(); 
-    });
-
-
-    function initLibrary(){
-      const books = [
-        {
-          name: "Amenager_-terrain_pente_.pdf",
-          url: "https://github.com/archiIYA/archi-space/blob/main/Amenager_-terrain_pente_.pdf"
-        },
-        {
-          name: "Livre_4_Amenagement_et_projet_urbain (1).pdf",
-          url: "https://github.com/archiIYA/archi-space/blob/main/Livre_4_Amenagement_et_projet_urbain%20(1).pdf"
-        }
-      ];
-
-      const grid = document.getElementById("grid");
-      const searchInput = document.getElementById("search");
-      const modal = document.getElementById("modal");
-      const pdfFrame = document.getElementById("pdfFrame");
-      const dlgTitle = document.getElementById("dlgTitle");
-      const closeBtn = document.getElementById("closeBtn");
-      const loader = document.getElementById("loader");
-      let currentBlobUrl = null;
-
-      const escapeHtml = (s)=>s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-      function createCard(book){
-        const el = document.createElement("article");
-        el.className = "card";
-        el.dataset.name = book.name.toLowerCase();
-        el.dataset.url = book.url;
-        el.innerHTML = `
-          <div class="title">📄 ${escapeHtml(book.name)}</div>
-          <div class="meta">Format: PDF</div>
-          <div class="actions">
-            <button class="btn btn-primary" data-read>📗 Lire</button>
-          </div>
-        `;
-        return el;
-      }
-
-      function render(list){
-        grid.innerHTML = "";
-        if(!list.length){
-          const empty = document.createElement("div");
-          empty.className = "empty";
-          empty.textContent = "لا توجد نتائج مطابقة لبحثك.";
-          grid.appendChild(empty);
-          return;
-        }
-        list.forEach(b => grid.appendChild(createCard(b)));
-      }
-      render(books);
-
-  
-      searchInput.addEventListener("input", () => {
-        const q = searchInput.value.trim().toLowerCase();
-        if(!q){ render(books); return; }
-        render(books.filter(b => b.name.toLowerCase().includes(q)));
-      });
-
-   
-      grid.addEventListener("click", (e) => {
-        const btn = e.target.closest("[data-read]");
-        if (!btn) return;
-        const card = btn.closest(".card");
-        if (!card) return;
-        openPdf({ name: card.querySelector(".title").textContent.replace(/^📄\s*/, "").replace(/^📗\s*/, ""), url: card.dataset.url });
-      });
-
-
-      const toRawUrl = (blobUrl) => {
-        try{
-          const u = new URL(blobUrl);
-          if (u.hostname === "github.com" && u.pathname.includes("/blob/")) {
-            return blobUrl.replace("https://github.com/", "https://raw.githubusercontent.com/").replace("/blob/", "/");
-          }
-          return blobUrl;
-        }catch{ return blobUrl; }
-      };
-
-
-      async function loadPdfAsBlobAllTries(rawUrl){
-        const tryOnce = async (url) => {
-          const res = await fetch(url, {
-            mode: "cors",
-            credentials: "omit",
-            referrerPolicy: "no-referrer",
-            headers: { "Accept": "application/pdf" }
-          });
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          const blob = await res.blob();
-          return URL.createObjectURL(blob);
-        };
-        try { return await tryOnce(rawUrl); } catch(e1) {}
-        try {
-          const withRawParam = rawUrl.includes("?") ? rawUrl + "&raw=1" : rawUrl + "?raw=1";
-          return await tryOnce(withRawParam);
-        } catch(e2) {}
-        return null;
-      }
-
-      function toast(msg, ms=1400){
-        const d = document.createElement("div");
-        d.className = "toast"; d.textContent = msg; document.body.appendChild(d);
-        setTimeout(()=> d.remove(), ms);
-      }
-
-      async function openPdf(book){
-        if(!auth.currentUser){
-          const redirect = encodeURIComponent("bibliotheque.html");
-          window.location.href = `login.html?redirect=${redirect}`;
-          return;
-        }
-        dlgTitle.textContent = book.name;
-        const raw = toRawUrl(book.url);
-
-
-        if (currentBlobUrl){ URL.revokeObjectURL(currentBlobUrl); currentBlobUrl = null; }
-        pdfFrame.src = "about:blank";
-        loader.hidden = false;
-
-        modal.classList.add("show");
-        document.body.style.overflow = "hidden";
-
-        try{
-          const blobUrl = await loadPdfAsBlobAllTries(raw);
-          if (blobUrl){
-            currentBlobUrl = blobUrl;
-            pdfFrame.src = blobUrl + "#toolbar=0&navpanes=0&scrollbar=0";
-            loader.hidden = true;
-            return;
-          }
-        }catch(_){}
-
-    
-        loader.hidden = true;
-        toast("فتح الكتاب في تبويب جديد…");
-        window.open(raw, "_blank", "noopener,noreferrer");
-   
-        modal.classList.remove("show");
-        document.body.style.overflow = "";
-      }
-
-      function closeModal(){
-        modal.classList.remove("show");
-        pdfFrame.src = "about:blank";
-        if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
-        currentBlobUrl = null;
-        document.body.style.overflow = "";
-      }
-
-      closeBtn.addEventListener("click", closeModal);
-      modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
-
-     
-      document.addEventListener("contextmenu", e => e.preventDefault());
-      document.addEventListener("dragstart", e => e.preventDefault());
-      document.addEventListener("keydown", (e) => {
-        const key = e.key.toLowerCase();
-        const ctrl = e.ctrlKey || e.metaKey;
-        const shift = e.shiftKey;
-        if (
-          (ctrl && (key === 's' || key === 'p' || key === 'u')) ||
-          (ctrl && shift && (key === 'i' || key === 'c' || key === 'j')) ||
-          key === 'printscreen'
-        ){
-          e.preventDefault();
-        }
-      });
-    }
-  </script>
-</body>
-</html>
+      localStorage.setIt
