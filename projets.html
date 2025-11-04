@@ -6,7 +6,14 @@
   <title>💼 Projets — Archi.Space (Premium)</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet"/>
   <style>
-    :root{ --bg:#0f172a; --card:#0b1220; --muted:#94a3b8; --text:#e5e7eb; --accent:#22d3ee; --accent-2:#38bdf8; --ring:#22d3ee55; --border:#1f2937; --premium:#fbbf24; }
+    :root{
+      --bg:#0f172a; --card:#0b1220; --muted:#94a3b8; --text:#e5e7eb;
+      --accent:#22d3ee; --accent-2:#38bdf8; --ring:#22d3ee55; --border:#1f2937; --premium:#fbbf24;
+    }
+    :root.light{
+      --bg:#f8fafc; --card:#ffffff; --muted:#64748b; --text:#0f172a;
+      --accent:#0891b2; --accent-2:#0ea5e9; --ring:#0ea5e955; --border:#e2e8f0;
+    }
     *{box-sizing:border-box} html,body{height:100%}
     body{
       margin:0;
@@ -34,7 +41,7 @@
       border:1px solid var(--border); color:var(--text); outline:none; font-size:15px;
     }
     .search .icon{position:absolute; left:12px; top:50%; transform:translateY(-50%); opacity:.7; pointer-events:none}
-    .controls{display:flex; gap:8px}
+    .controls{display:flex; gap:8px; align-items:center}
     .btn{
       appearance:none; border:1px solid var(--border); background:var(--card); color:var(--text);
       border-radius:12px; padding:10px 12px; cursor:pointer; font-weight:600; display:inline-flex; align-items:center; gap:8px;
@@ -107,6 +114,8 @@
       </div>
       <div class="controls">
         <span class="badge-premium">⭐ Premium</span>
+        <button id="themeToggle" class="btn" title="Basculer thème">🌗 Mode</button>
+        <button id="adminBtn" class="btn" style="display:none">🛠️ Admin</button>
         <button id="myCodeBtn" class="btn">🔐 Mon code</button>
         <button id="logoutBtn" class="btn">🚪 Se déconnecter</button>
       </div>
@@ -152,6 +161,7 @@
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
+    // ————— Firebase —————
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -161,11 +171,24 @@
       appId: "1:407015246505:web:c914a78566b882b80df7b8",
       measurementId: "G-RZV7LSDQBD"
     };
-
     const appFB = initializeApp(firebaseConfig);
     const auth = getAuth(appFB);
     const db = getFirestore(appFB);
 
+    // ————— Theme toggle —————
+    const root = document.documentElement;
+    const THEME_KEY = "archispace-theme";
+    const setTheme = (mode) => {
+      if (mode === "light") root.classList.add("light");
+      else root.classList.remove("light");
+      localStorage.setItem(THEME_KEY, mode);
+    };
+    setTheme(localStorage.getItem(THEME_KEY) || "dark");
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      setTheme(root.classList.contains("light") ? "dark" : "light");
+    });
+
+    // ————— Elements —————
     const appRoot = document.getElementById("app");
     const grid = document.getElementById("grid");
     const searchInput = document.getElementById("search");
@@ -177,6 +200,7 @@
     const myCodeBtn = document.getElementById("myCodeBtn");
     const logoutBtn = document.getElementById("logoutBtn");
     const wm = document.getElementById("wm");
+    const adminBtn = document.getElementById("adminBtn");
 
     const toast = (msg, ms=1600)=>{
       const d = document.createElement("div");
@@ -184,24 +208,16 @@
       setTimeout(()=> d.remove(), ms);
     };
 
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        const redirect = encodeURIComponent("projets.html");
-        
-        window.location.href = `login.html?redirect=${redirect}`;
-        return;
-      }
-      appRoot.classList.add("ready");
-      wm.textContent = (user.email || "ARCHI.SPACE").toUpperCase();
-      initProjects(user);
-    });
+    // ————— Admin allowlist —————
+    const adminAllowedEmails = [
+      "toumiiyadetude@gmail.com" // أضف/عدّل لاحقًا
+    ];
 
-    logoutBtn.addEventListener("click", async ()=>{ await signOut(auth); });
-
-
+    // ————— Projects data —————
     const projects = [
       {
         id: "rehab-piscine-setif-8mai1945",
+        page: "rehab-piscine-setif-8mai1945.html", // صفحة الوجهة عند صحة الكود
         icon: "🏊‍♂️",
         title: "RÉHABILITATION DE LA PISCINE OLYMPIQUE DU 8 MAI 1945 À SÉTIF — Vers un équipement sportif intelligent et durable",
         type: "pdf",
@@ -218,8 +234,8 @@
       }
     ];
 
+    // ————— Helpers —————
     const escapeHtml = (s)=>s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
     function ficheTech(t){
       return `
         <div class="tech">
@@ -231,7 +247,6 @@
         </div>
       `;
     }
-
     function card(p){
       const el = document.createElement("article");
       el.className = "card";
@@ -251,7 +266,6 @@
       `;
       return el;
     }
-
     function renderProjects(list){
       grid.innerHTML = "";
       if(!list.length){
@@ -264,69 +278,16 @@
       list.forEach(p => grid.appendChild(card(p)));
     }
 
-    function initProjects(user){
-      renderProjects(projects);
-
-      searchInput.addEventListener("input", ()=>{
-        const q = (searchInput.value||"").toLowerCase().trim();
-        const filtered = projects.filter(p => p.title.toLowerCase().includes(q) || (p.tech?.auteur||"").toLowerCase().includes(q));
-        renderProjects(filtered);
-      });
-
-      grid.addEventListener("click", async (e)=>{
-        const card = e.target.closest(".card");
-        if(!card) return;
-        const p = projects.find(x=>x.id===card.dataset.id);
-        if (!p) return;
-
-      
-        if (e.target.closest("[data-code]")){
-          if(!user.email){ toast("⚠️ سجّل الدخول بحساب بريد."); return; }
-          const { code, expiresAt, reused } = await getOrCreateCodeByEmail(user.email, p.id);
-          try { await navigator.clipboard.writeText(code); } catch(_){}
-          toast(reused ? "🔐 كودك مازال صالحًا — نُسخ للحافظة."
-                       : "🔐 تم إنشاء كود جديد — نُسخ للحافظة.");
-          return;
-        }
-
-      
-        if (e.target.closest("[data-open]")){
-          if(!user.email){ toast("⚠️ سجّل الدخول بحساب بريد."); return; }
-          const input = prompt(`أدخل كود الدخول لهذا المشروع:\n${p.title}`);
-          if(!input) return;
-          const check = await verifyCodeByEmail(user.email, p.id, input);
-          if(!check.ok){
-            alert(check.reason==="expired" ? "⏰ الكود منتهي." : "❌ كود غير صحيح.");
-            return;
-          }
-          openViewer(p, user);
-          return;
-        }
-      });
-
-     
-      myCodeBtn.addEventListener("click", async ()=>{
-        if(!user.email){ toast("⚠️ سجّل الدخول بحساب بريد."); return; }
-        const p = projects[0];
-        const { code, expiresAt, reused } = await getOrCreateCodeByEmail(user.email, p.id);
-        try { await navigator.clipboard.writeText(code); } catch(_){}
-        toast(reused ? "🔐 كودك مازال صالحًا — نُسخ للحافظة."
-                     : "🔐 تم إنشاء كود جديد — نُسخ للحافظة.");
-      });
-    }
-
+    // ————— Codes (email-based) —————
     const validityHours = 72;
     const generateCode = ()=> String(Math.floor(100000 + Math.random()*900000));
-
     function codeRefByEmail(email, projectId){
       return doc(db, "projectAccessByEmail", email, "codes", projectId);
     }
-
     async function getOrCreateCodeByEmail(email, projectId){
       const ref = codeRefByEmail(email, projectId);
       const snap = await getDoc(ref);
       const now = new Date();
-
       if (snap.exists()){
         const data = snap.data();
         const exp = data.expiresAt?.toDate?.() || new Date(0);
@@ -353,7 +314,6 @@
         return { code, expiresAt: exp, reused: false };
       }
     }
-
     async function verifyCodeByEmail(email, projectId, inputCode){
       const ref = codeRefByEmail(email, projectId);
       const snap = await getDoc(ref);
@@ -365,7 +325,87 @@
       return { ok, reason: ok ? "checked" : "mismatch" };
     }
 
+    // ————— Auth gate —————
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        const redirect = encodeURIComponent("projets.html");
+        window.location.href = `login.html?redirect=${redirect}`;
+        return;
+      }
+      appRoot.classList.add("ready");
+      wm.textContent = (user.email || "ARCHI.SPACE").toUpperCase();
 
+      // إظهار زر Admin فقط للحسابات المسموح بها
+      if (user.email && adminAllowedEmails.includes(user.email.toLowerCase())){
+        adminBtn.style.display = "inline-flex";
+      } else {
+        adminBtn.style.display = "none";
+      }
+
+      initProjects(user);
+    });
+
+    // ————— Init —————
+    function initProjects(user){
+      renderProjects(projects);
+
+      // بحث
+      searchInput.addEventListener("input", ()=>{
+        const q = (searchInput.value||"").toLowerCase().trim();
+        const filtered = projects.filter(p => p.title.toLowerCase().includes(q) || (p.tech?.auteur||"").toLowerCase().includes(q));
+        renderProjects(filtered);
+      });
+
+      // أزرار داخل البطاقات
+      grid.addEventListener("click", async (e)=>{
+        const card = e.target.closest(".card");
+        if(!card) return;
+        const p = projects.find(x=>x.id===card.dataset.id);
+        if (!p) return;
+
+        // زر Code — توليد/تجديد الكود بالخلفية فقط + رسالة دفع
+        if (e.target.closest("[data-code]")){
+          if(!user.email){ toast("⚠️ سجّل الدخول بحساب بريد."); return; }
+          await getOrCreateCodeByEmail(user.email, p.id);
+          alert("🔐 تم تجهيز كود الوصول لهذا المشروع.\n\n📩 الرجاء التواصل مع مطوّر Trendy لاستلام الكود بعد الدفع.");
+          return;
+        }
+
+        // زر Ouvrir — تحقق من الكود ثم تحويل لصفحة المشروع
+        if (e.target.closest("[data-open]")){
+          if(!user.email){ toast("⚠️ سجّل الدخول بحساب بريد."); return; }
+          const input = prompt(`أدخل كود الدخول لهذا المشروع:\n${p.title}`);
+          if(!input) return;
+          const check = await verifyCodeByEmail(user.email, p.id, input);
+          if(!check.ok){
+            alert(check.reason==="expired" ? "⏰ الكود منتهي." : "❌ كود غير صحيح.");
+            return;
+          }
+          // تحويل لصفحة المشروع (اسم الملف محدد في خاصية page)
+          const target = p.page || (`${p.id}.html`);
+          window.location.href = target;
+          return;
+        }
+      });
+
+      // زر "Mon code" أعلى الصفحة — نفس سلوك التوليد الصامت + رسالة
+      myCodeBtn.addEventListener("click", async ()=>{
+        if(!user.email){ toast("⚠️ سجّل الدخول بحساب بريد."); return; }
+        const p = projects[0];
+        await getOrCreateCodeByEmail(user.email, p.id);
+        alert("🔐 تم تجهيز كود الوصول لهذا المشروع.\n\n📩 الرجاء التواصل مع مطوّر Trendy لاستلام الكود بعد الدفع.");
+      });
+
+      // زر Admin — افتح صفحة إدارة (أنشئ لاحقًا admin.html)
+      adminBtn.addEventListener("click", ()=>{
+        window.location.href = "admin.html";
+      });
+
+      // خروج
+      logoutBtn.addEventListener("click", async ()=>{ await signOut(auth); });
+    }
+
+    // ————— CDN helper (للعارض الداخلي إن احتجته مستقبلًا) —————
     function toCdn(u){
       try{
         const url = new URL(u);
@@ -379,10 +419,10 @@
       return u;
     }
 
+    // ————— Modal viewer (موجود لو احتجته لاحقًا) —————
     function openViewer(p, user){
       const raw = toCdn(p.url);
       let src = "about:blank";
-
       if (p.type === "pdf"){
         src = raw + "#toolbar=0&navpanes=0&scrollbar=0&view=FitH";
       }else if (p.type === "image"){
@@ -394,7 +434,6 @@
       }else{
         window.open(raw, "_blank", "noopener,noreferrer"); return;
       }
-
       dlgTitle.textContent = p.title;
       modal.classList.add("show");
       document.body.style.overflow = "hidden";
@@ -408,16 +447,15 @@
       };
       viewerFrame.src = src;
     }
-
     function closeModal(){
       modal.classList.remove("show");
       viewerFrame.src = "about:blank";
       document.body.style.overflow = "";
     }
-    closeBtn.addEventListener("click", closeModal);
+    document.getElementById("closeBtn").addEventListener("click", closeModal);
     modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
 
-  
+    // ————— منع الاختصارات والنسخ —————
     document.addEventListener("contextmenu", e => e.preventDefault());
     document.addEventListener("dragstart", e => e.preventDefault());
     document.addEventListener("keydown", (e) => {
@@ -433,7 +471,6 @@
         toast("🚫 تم تعطيل الاختصار.");
       }
     });
-
     document.addEventListener("visibilitychange", ()=>{
       if (modal.classList.contains("show")){
         if (document.hidden) viewer.classList.add("blurred");
@@ -442,7 +479,6 @@
     });
     window.addEventListener("blur", ()=>{ if (modal.classList.contains("show")) viewer.classList.add("blurred"); });
     window.addEventListener("focus", ()=>{ viewer.classList.remove("blurred"); });
-
     window.addEventListener("keyup", async (e)=>{
       if(e.key === "PrintScreen"){
         try{ await navigator.clipboard.writeText("Screenshot disabled."); }catch(_){}
