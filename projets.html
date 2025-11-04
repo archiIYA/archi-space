@@ -8,28 +8,89 @@
   <style>
     :root{ --bg:#0f172a; --card:#0b1220; --muted:#94a3b8; --text:#e5e7eb; --accent:#22d3ee; --accent-2:#38bdf8; --ring:#22d3ee55; --border:#1f2937; --premium:#fbbf24; }
     *{box-sizing:border-box} html,body{height:100%}
-    body{ margin:0; background:radial-gradient(1000px 600px at 10% -10%, rgba(34,211,238,.08), transparent 50%), linear-gradient(135deg, var(--bg), var(--card) 60%); color:var(--text); font-family:'Rubik', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    body{
+      margin:0;
+      background:radial-gradient(1000px 600px at 10% -10%, rgba(34,211,238,.08), transparent 50%),
+                 linear-gradient(135deg, var(--bg), var(--card) 60%);
+      color:var(--text); font-family:'Rubik', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
     .container{max-width:1200px; margin:0 auto; padding:20px}
-    .topbar{ display:flex; align-items:center; gap:12px; justify-content:space-between; margin-bottom:18px; background:color-mix(in srgb, var(--card) 92%, transparent); border:1px solid var(--border); border-radius:16px; padding:10px 14px; backdrop-filter: blur(8px); }
+    .topbar{
+      display:flex; align-items:center; gap:12px; justify-content:space-between; margin-bottom:18px;
+      background:color-mix(in srgb, var(--card) 92%, transparent); border:1px solid var(--border); border-radius:16px; padding:10px 14px; backdrop-filter: blur(8px);
+    }
     .brand{display:flex; align-items:center; gap:10px; font-weight:800}
-    .logo{ width:40px; height:40px; border-radius:12px; display:grid; place-items:center; font-size:20px; background: radial-gradient(120% 120% at 0% 0%, var(--accent) 0%, transparent 60%), radial-gradient(120% 120% at 100% 100%, var(--accent-2) 0%, transparent 60%); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-2) 35%, transparent), 0 10px 20px color-mix(in srgb, var(--accent) 30%, transparent); }
+    .logo{
+      width:40px; height:40px; border-radius:12px; display:grid; place-items:center; font-size:20px;
+      background: radial-gradient(120% 120% at 0% 0%, var(--accent) 0%, transparent 60%),
+                  radial-gradient(120% 120% at 100% 100%, var(--accent-2) 0%, transparent 60%);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-2) 35%, transparent),
+                  0 10px 20px color-mix(in srgb, var(--accent) 30%, transparent);
+    }
     .search{position:relative; flex:1; max-width:520px}
-    .search input{ width:100%; padding:12px 44px; border-radius:12px; background:var(--card); border:1px solid var(--border); color:var(--text); outline:none; font-size:15px; }
+    .search input{
+      width:100%; padding:12px 44px; border-radius:12px; background:var(--card);
+      border:1px solid var(--border); color:var(--text); outline:none; font-size:15px;
+    }
     .search .icon{position:absolute; left:12px; top:50%; transform:translateY(-50%); opacity:.7; pointer-events:none}
     .controls{display:flex; gap:8px}
-    .btn{ appearance:none; border:1px solid var(--border); background:var(--card); color:var(--text); border-radius:12px; padding:10px 12px; cursor:pointer; font-weight:600; display:inline-flex; align-items:center; gap:8px; }
-    .badge-premium{ display:inline-flex; align-items:center; gap:6px; font-weight:700; color:#0d0d0d; background:linear-gradient(90deg, #fde68a, #fbbf24); padding:6px 10px; border-radius:999px; text-shadow:0 1px 0 rgba(255,255,255,.4); }
-    .hero{ margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; background:linear-gradient(180deg, color-mix(in srgb, var(--card) 96%, transparent), transparent); border:1px solid var(--border); border-radius:16px; padding:14px; }
-    .hero .title{font-size:20px; font-weight:800} .hero .desc{color:var(--muted); font-size:14px} .hero .actions{display:flex; gap:8px; flex-wrap:wrap}
+    .btn{
+      appearance:none; border:1px solid var(--border); background:var(--card); color:var(--text);
+      border-radius:12px; padding:10px 12px; cursor:pointer; font-weight:600; display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn-primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#001018; border:none}
+    .badge-premium{
+      display:inline-flex; align-items:center; gap:6px; font-weight:700; color:#0d0d0d;
+      background:linear-gradient(90deg, #fde68a, #fbbf24); padding:6px 10px; border-radius:999px;
+      text-shadow:0 1px 0 rgba(255,255,255,.4);
+    }
+
+    .hero{
+      margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+      background:linear-gradient(180deg, color-mix(in srgb, var(--card) 96%, transparent), transparent);
+      border:1px solid var(--border); border-radius:16px; padding:14px;
+    }
+    .hero .title{font-size:20px; font-weight:800}
+    .hero .desc{color:var(--muted); font-size:14px}
+    .hero .actions{display:flex; gap:8px; flex-wrap:wrap}
+
     .grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:18px; }
-    .card{ position:relative; background:linear-gradient(180deg, var(--card), color-mix(in srgb, var(--card) 92%, transparent)); border:1px solid var(--border); border-radius:16px; padding:16px; min-height:220px; box-shadow:0 10px 24px rgba(0,0,0,.12); display:flex; flex-direction:column; gap:10px; }
+    .card{
+      position:relative;
+      background:linear-gradient(180deg, var(--card), color-mix(in srgb, var(--card) 92%, transparent));
+      border:1px solid var(--border); border-radius:16px; padding:16px; min-height:220px;
+      box-shadow:0 10px 24px rgba(0,0,0,.12); display:flex; flex-direction:column; gap:10px;
+    }
     .card .icon{position:absolute; top:12px; right:12px; font-size:24px; opacity:.9; filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));}
     .card .title{font-weight:800; line-height:1.3}
     .meta{color:var(--muted); font-size:13px}
     .tech{display:grid; grid-template-columns:1fr; gap:6px; font-size:13px; background:rgba(255,255,255,.02); border:1px dashed var(--border); padding:10px; border-radius:12px}
     .actions{margin-top:auto; display:flex; gap:8px; flex-wrap:wrap}
-    .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:rgba(15,23,42,.95); color:white; padding:10px 14px; border-radius:12px; border:1px solid var(--border); z-index:80; font-size:14px }
-    .app{display:none} .app.ready{display:block}
+
+    .modal{ position:fixed; inset:0; display:none; place-items:center; background:rgba(2,6,23,.78); z-index:60; padding:18px;}
+    .modal.show{display:grid}
+    .dialog{
+      width:min(1200px, 100%); height:min(86vh, 860px); background:var(--card); border:1px solid var(--border); border-radius:16px;
+      box-shadow: 0 25px 80px rgba(0,0,0,.25); display:flex; flex-direction:column; overflow:hidden; position:relative;
+    }
+    .dialog-header{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; border-bottom:1px solid var(--border)}
+    .dialog-title{font-weight:800; font-size:14px}
+    .viewer{position:relative; flex:1; background:var(--bg)}
+    .frame{position:absolute; inset:0; width:100%; height:100%; border:0; background:var(--bg)}
+
+    .shield{position:absolute; inset:0; pointer-events:none; background-image:repeating-linear-gradient(45deg, rgba(255,255,255,.02) 0 10px, rgba(0,0,0,.02) 10px 20px)}
+    .watermark{ position:absolute; inset:0; pointer-events:none; display:grid; place-items:center; opacity:.06; font-weight:800; font-size:60px; user-select:none; }
+    .blur-guard{position:absolute; inset:0; background:rgba(0,0,0,.6); color:#fff; display:none; align-items:center; justify-content:center; z-index:2; text-align:center; padding:20px}
+    .viewer.blurred .blur-guard{display:flex}
+
+    .toast{
+      position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
+      background:rgba(15,23,42,.95); color:white; padding:10px 14px; border-radius:12px; border:1px solid var(--border); z-index:80; font-size:14px
+    }
+
+    .app{display:none}
+    .app.ready{display:block}
   </style>
 </head>
 <body>
@@ -46,8 +107,7 @@
       </div>
       <div class="controls">
         <span class="badge-premium">⭐ Premium</span>
-        <a class="btn" href="lecteur.html">🏠 Accueil</a>
-        <a class="btn" href="bibliotheque.html">📖 Bibliothèque</a>
+        <button id="myCodeBtn" class="btn">🔐 Mon code</button>
         <button id="logoutBtn" class="btn">🚪 Se déconnecter</button>
       </div>
     </div>
@@ -55,17 +115,42 @@
     <div class="hero">
       <div>
         <div class="title">Accès réservé — Contenu protégé</div>
-        <div class="desc">Accès par <b>code d’achat</b>. Entrez الكود الذي تستلمه بعد الدفع لفتح المشروع.</div>
+        <div class="desc">Chaque projet est associé à un <b>code d’accès individuel</b> valable pour un temps limité. Merci de ne pas partager vos codes.</div>
+      </div>
+      <div class="actions">
+        <a class="btn" href="lecteur.html">🏠 Accueil</a>
+        <a class="btn" href="bibliotheque.html">📖 Bibliothèque</a>
       </div>
     </div>
 
     <div id="grid" class="grid" aria-live="polite"></div>
   </div>
 
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+    <div class="dialog">
+      <div class="dialog-header">
+        <div id="dlgTitle" class="dialog-title">Aperçu</div>
+        <div class="dialog-actions">
+          <button class="btn" id="closeBtn">✕ Fermer</button>
+        </div>
+      </div>
+      <div class="viewer" id="viewer" oncontextmenu="return false;">
+        <div class="shield"></div>
+        <div class="watermark" id="wm">ARCHI.SPACE</div>
+        <div class="blur-guard"><div>🛡️ La capture d’écran est désactivée ici.<br/>Revenez à l’onglet pour continuer la lecture.</div></div>
+        <iframe id="viewerFrame" class="frame"
+                sandbox="allow-scripts allow-same-origin"
+                referrerpolicy="no-referrer"
+                allow="clipboard-read; clipboard-write">
+        </iframe>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
@@ -76,6 +161,7 @@
       appId: "1:407015246505:web:c914a78566b882b80df7b8",
       measurementId: "G-RZV7LSDQBD"
     };
+
     const appFB = initializeApp(firebaseConfig);
     const auth = getAuth(appFB);
     const db = getFirestore(appFB);
@@ -83,7 +169,14 @@
     const appRoot = document.getElementById("app");
     const grid = document.getElementById("grid");
     const searchInput = document.getElementById("search");
+    const modal = document.getElementById("modal");
+    const viewer = document.getElementById("viewer");
+    const viewerFrame = document.getElementById("viewerFrame");
+    const dlgTitle = document.getElementById("dlgTitle");
+    const closeBtn = document.getElementById("closeBtn");
+    const myCodeBtn = document.getElementById("myCodeBtn");
     const logoutBtn = document.getElementById("logoutBtn");
+    const wm = document.getElementById("wm");
 
     const toast = (msg, ms=1600)=>{
       const d = document.createElement("div");
@@ -94,40 +187,57 @@
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         const redirect = encodeURIComponent("projets.html");
+        
         window.location.href = `login.html?redirect=${redirect}`;
         return;
       }
       appRoot.classList.add("ready");
-      initProjects();
+      wm.textContent = (user.email || "ARCHI.SPACE").toUpperCase();
+      initProjects(user);
     });
 
     logoutBtn.addEventListener("click", async ()=>{ await signOut(auth); });
+
 
     const projects = [
       {
         id: "rehab-piscine-setif-8mai1945",
         icon: "🏊‍♂️",
         title: "RÉHABILITATION DE LA PISCINE OLYMPIQUE DU 8 MAI 1945 À SÉTIF — Vers un équipement sportif intelligent et durable",
+        type: "pdf",
+        url: "https://cdn.jsdelivr.net/gh/archiIYA/archi-space/Projet_Piscine_Olympique_Setif.pdf",
         meta: "PDF — dossier technique",
-        tech: { auteur:"wail", niveau:"5ᵉ année — EPAU", encadrement:"—", annee:"2024", motsCles:"réhabilitation, durabilité, smart building" },
-        resume: "Transformation d’une piscine olympique historique en équipement durable et intelligent."
+        tech: {
+          auteur: "wail",
+          niveau: "5ᵉ année — EPAU",
+          encadrement: "—",
+          annee: "2024",
+          motsCles: "réhabilitation, durabilité, smart building"
+        },
+        resume: "Transformation d’une piscine olympique historique en équipement durable et intelligent, intégrant des solutions de contrôle environnemental et d’efficacité énergétique."
       }
     ];
 
     const escapeHtml = (s)=>s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
     function ficheTech(t){
-      return `<div class="tech">
-        <div>👤 Auteur : <b>${escapeHtml(t.auteur||"-")}</b></div>
-        <div>🎓 Niveau : <b>${escapeHtml(t.niveau||"-")}</b></div>
-        <div>🧑‍🏫 Encadrement : <b>${escapeHtml(t.encadrement||"-")}</b></div>
-        <div>📅 Année : <b>${escapeHtml(t.annee||"-")}</b></div>
-        <div>🏷️ Mots-clés : <b>${escapeHtml(t.motsCles||"-")}</b></div>
-      </div>`;
+      return `
+        <div class="tech">
+          <div>👤 Auteur : <b>${escapeHtml(t.auteur||"-")}</b></div>
+          <div>🎓 Niveau : <b>${escapeHtml(t.niveau||"-")}</b></div>
+          <div>🧑‍🏫 Encadrement : <b>${escapeHtml(t.encadrement||"-")}</b></div>
+          <div>📅 Année : <b>${escapeHtml(t.annee||"-")}</b></div>
+          <div>🏷️ Mots-clés : <b>${escapeHtml(t.motsCles||"-")}</b></div>
+        </div>
+      `;
     }
+
     function card(p){
       const el = document.createElement("article");
       el.className = "card";
       el.dataset.id = p.id;
+      el.dataset.type = p.type;
+      el.dataset.url  = p.url;
       el.innerHTML = `
         <div class="icon">${p.icon || "📁"}</div>
         <div class="title">${escapeHtml(p.title)}</div>
@@ -136,9 +246,12 @@
         ${p.tech ? ficheTech(p.tech) : ""}
         <div class="actions">
           <button class="btn btn-primary" data-open>🔓 Ouvrir</button>
-        </div>`;
+          <button class="btn" data-code>🔐 Code</button>
+        </div>
+      `;
       return el;
     }
+
     function renderProjects(list){
       grid.innerHTML = "";
       if(!list.length){
@@ -151,48 +264,188 @@
       list.forEach(p => grid.appendChild(card(p)));
     }
 
-    function initProjects(){
+    function initProjects(user){
       renderProjects(projects);
+
       searchInput.addEventListener("input", ()=>{
         const q = (searchInput.value||"").toLowerCase().trim();
-        renderProjects(projects.filter(p => p.title.toLowerCase().includes(q) || (p.tech?.auteur||"").toLowerCase().includes(q)));
+        const filtered = projects.filter(p => p.title.toLowerCase().includes(q) || (p.tech?.auteur||"").toLowerCase().includes(q));
+        renderProjects(filtered);
       });
 
       grid.addEventListener("click", async (e)=>{
-        const btn = e.target.closest("[data-open]");
-        if(!btn) return;
-        const card = btn.closest(".card");
-        const pId = card.dataset.id;
+        const card = e.target.closest(".card");
+        if(!card) return;
+        const p = projects.find(x=>x.id===card.dataset.id);
+        if (!p) return;
 
-        const code = prompt("🔒 أدخل كود الولوج (تستلمه بعد الدفع):");
-        if(!code) return;
-
-        try{
-          const ref = doc(db, "projects", pId, "codes", code.trim());
-          const snap = await getDoc(ref);
-          if(!snap.exists()){ alert("❌ كود غير صحيح."); return; }
-          const data = snap.data();
-          const now = Date.now();
-          if (data.active === false){ alert("⛔ الكود غير مفعّل."); return; }
-          if (data.expiresAt && data.expiresAt.toMillis && now > data.expiresAt.toMillis()){
-            alert("⏰ الكود منتهي الصلاحية."); return;
-          }
       
-          window.location.href = `projet_view.html?pid=${encodeURIComponent(pId)}&code=${encodeURIComponent(code.trim())}`;
-        }catch(err){
-          console.error(err);
-          alert("⚠️ تعذّر التحقق من الكود.");
+        if (e.target.closest("[data-code]")){
+          if(!user.email){ toast("⚠️ سجّل الدخول بحساب بريد."); return; }
+          const { code, expiresAt, reused } = await getOrCreateCodeByEmail(user.email, p.id);
+          try { await navigator.clipboard.writeText(code); } catch(_){}
+          toast(reused ? "🔐 كودك مازال صالحًا — نُسخ للحافظة."
+                       : "🔐 تم إنشاء كود جديد — نُسخ للحافظة.");
+          return;
+        }
+
+      
+        if (e.target.closest("[data-open]")){
+          if(!user.email){ toast("⚠️ سجّل الدخول بحساب بريد."); return; }
+          const input = prompt(`أدخل كود الدخول لهذا المشروع:\n${p.title}`);
+          if(!input) return;
+          const check = await verifyCodeByEmail(user.email, p.id, input);
+          if(!check.ok){
+            alert(check.reason==="expired" ? "⏰ الكود منتهي." : "❌ كود غير صحيح.");
+            return;
+          }
+          openViewer(p, user);
+          return;
         }
       });
+
+     
+      myCodeBtn.addEventListener("click", async ()=>{
+        if(!user.email){ toast("⚠️ سجّل الدخول بحساب بريد."); return; }
+        const p = projects[0];
+        const { code, expiresAt, reused } = await getOrCreateCodeByEmail(user.email, p.id);
+        try { await navigator.clipboard.writeText(code); } catch(_){}
+        toast(reused ? "🔐 كودك مازال صالحًا — نُسخ للحافظة."
+                     : "🔐 تم إنشاء كود جديد — نُسخ للحافظة.");
+      });
     }
+
+    const validityHours = 72;
+    const generateCode = ()=> String(Math.floor(100000 + Math.random()*900000));
+
+    function codeRefByEmail(email, projectId){
+      return doc(db, "projectAccessByEmail", email, "codes", projectId);
+    }
+
+    async function getOrCreateCodeByEmail(email, projectId){
+      const ref = codeRefByEmail(email, projectId);
+      const snap = await getDoc(ref);
+      const now = new Date();
+
+      if (snap.exists()){
+        const data = snap.data();
+        const exp = data.expiresAt?.toDate?.() || new Date(0);
+        if (now <= exp){
+          return { code: data.code, expiresAt: exp, reused: true };
+        }
+        const code = generateCode();
+        const newExp = new Date(now.getTime() + validityHours*60*60*1000);
+        await setDoc(ref, {
+          code,
+          updatedAt: serverTimestamp(),
+          expiresAt: Timestamp.fromDate(newExp)
+        }, { merge: true });
+        return { code, expiresAt: newExp, reused: false };
+      }else{
+        const code = generateCode();
+        const exp  = new Date(now.getTime() + validityHours*60*60*1000);
+        await setDoc(ref, {
+          code,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+          expiresAt: Timestamp.fromDate(exp)
+        });
+        return { code, expiresAt: exp, reused: false };
+      }
+    }
+
+    async function verifyCodeByEmail(email, projectId, inputCode){
+      const ref = codeRefByEmail(email, projectId);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) return { ok:false, reason:"notfound" };
+      const data = snap.data();
+      const exp = data.expiresAt?.toDate?.() || new Date(0);
+      if (new Date() > exp) return { ok:false, reason:"expired" };
+      const ok = String(inputCode).trim() === String(data.code).trim();
+      return { ok, reason: ok ? "checked" : "mismatch" };
+    }
+
+
+    function toCdn(u){
+      try{
+        const url = new URL(u);
+        if (url.hostname === "github.com" && url.pathname.includes("/blob/")){
+          const parts = url.pathname.split("/").filter(Boolean);
+          const user = parts[0], repo = parts[1], branch = parts[3];
+          const tail = parts.slice(4).join("/");
+          return `https://cdn.jsdelivr.net/gh/${user}/${repo}/${tail}`;
+        }
+      }catch(_){}
+      return u;
+    }
+
+    function openViewer(p, user){
+      const raw = toCdn(p.url);
+      let src = "about:blank";
+
+      if (p.type === "pdf"){
+        src = raw + "#toolbar=0&navpanes=0&scrollbar=0&view=FitH";
+      }else if (p.type === "image"){
+        const html = encodeURIComponent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;height:100%;background:#0f172a}img{display:block;max-width:100%;max-height:100%;margin:auto}</style><img src="${raw}" alt="image" draggable="false">`);
+        src = "data:text/html;charset=utf-8," + html;
+      }else if (p.type === "video"){
+        const html = encodeURIComponent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;height:100%;background:#0f172a;display:grid;place-items:center}</style><video src="${raw}" controls controlslist="nodownload noplaybackrate" disablepictureinpicture style="width:min(100%,1200px);height:auto"></video>`);
+        src = "data:text/html;charset=utf-8," + html;
+      }else{
+        window.open(raw, "_blank", "noopener,noreferrer"); return;
+      }
+
+      dlgTitle.textContent = p.title;
+      modal.classList.add("show");
+      document.body.style.overflow = "hidden";
+      viewer.classList.remove("blurred");
+      viewerFrame.onload = ()=>{};
+      viewerFrame.onerror = ()=>{
+        modal.classList.remove("show");
+        document.body.style.overflow = "";
+        toast("تعذّر العرض داخل الصفحة — سيتم فتحه في تبويب جديد…");
+        window.open(raw, "_blank", "noopener,noreferrer");
+      };
+      viewerFrame.src = src;
+    }
+
+    function closeModal(){
+      modal.classList.remove("show");
+      viewerFrame.src = "about:blank";
+      document.body.style.overflow = "";
+    }
+    closeBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
 
   
     document.addEventListener("contextmenu", e => e.preventDefault());
     document.addEventListener("dragstart", e => e.preventDefault());
     document.addEventListener("keydown", (e) => {
-      const k = e.key.toLowerCase(); const ctrl = e.ctrlKey || e.metaKey; const shift = e.shiftKey;
-      if ((ctrl && (k==='s'||k==='p'||k==='u'||k==='a'||k==='c'||k==='x'||k==='v'||k==='o')) || (ctrl && shift && (k==='i'||k==='c'||k==='j')) || k==='printscreen'){
-        e.preventDefault(); toast("🚫 تم تعطيل الاختصار.");
+      const key = e.key.toLowerCase();
+      const ctrl = e.ctrlKey || e.metaKey;
+      const shift = e.shiftKey;
+      if (
+        (ctrl && (key === 's' || key === 'p' || key === 'u' || key === 'a' || key === 'c' || key === 'x' || key === 'v' || key === 'o')) ||
+        (ctrl && shift && (key === 'i' || key === 'c' || key === 'j')) ||
+        (key === 'printscreen')
+      ){
+        e.preventDefault();
+        toast("🚫 تم تعطيل الاختصار.");
+      }
+    });
+
+    document.addEventListener("visibilitychange", ()=>{
+      if (modal.classList.contains("show")){
+        if (document.hidden) viewer.classList.add("blurred");
+        else viewer.classList.remove("blurred");
+      }
+    });
+    window.addEventListener("blur", ()=>{ if (modal.classList.contains("show")) viewer.classList.add("blurred"); });
+    window.addEventListener("focus", ()=>{ viewer.classList.remove("blurred"); });
+
+    window.addEventListener("keyup", async (e)=>{
+      if(e.key === "PrintScreen"){
+        try{ await navigator.clipboard.writeText("Screenshot disabled."); }catch(_){}
       }
     });
   </script>
