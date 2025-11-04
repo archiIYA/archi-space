@@ -67,7 +67,7 @@
     .meta{color:var(--muted); font-size:13px}
     .actions{margin-top:auto; display:flex; gap:10px}
     .footer{opacity:.7; font-size:12px; margin-top:18px; text-align:center}
-    /* Modal */
+ 
     .modal{
       position:fixed; inset:0; display:none; place-items:center; background:rgba(2,6,23,.75);
       z-index:50; padding:18px;
@@ -167,9 +167,190 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+
     const root = document.documentElement;
     const THEME_KEY = "archispace-theme";
     const setTheme = (mode) => {
       if (mode === "light") root.classList.add("light");
       else root.classList.remove("light");
-      localStorage.setIt
+      localStorage.setItem(THEME_KEY, mode);
+    };
+    setTheme(localStorage.getItem(THEME_KEY) || "dark");
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      setTheme(root.classList.contains("light") ? "dark" : "light");
+    });
+
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      if (history.length > 1) history.back();
+      else window.location.href = "lecteur.html";
+    });
+    document.getElementById("homeBtn").addEventListener("click", () => {
+      fetch("lecteur.html", {method:"HEAD"}).then(
+        () => window.location.href = "lecteur.html",
+        () => window.location.href = "index.html"
+      );
+    });
+
+
+    const appRoot = document.getElementById("app");
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        const redirect = encodeURIComponent("bibliotheque.html");
+        window.location.href = `login.html?redirect=${redirect}`;
+        return;
+      }
+      appRoot.classList.add("ready");
+      initLibrary();
+    });
+
+    function initLibrary(){
+      
+      const books = [
+        {
+          name: "Amenager_-terrain_pente_.pdf",
+        
+          url: "https://cdn.jsdelivr.net/gh/archiIYA/archi-space/Amenager_-terrain_pente_.pdf"
+        },
+        {
+          name: "Livre_4_Amenagement_et_projet_urbain (1).pdf",
+          url: "https://cdn.jsdelivr.net/gh/archiIYA/archi-space/Livre_4_Amenagement_et_projet_urbain%20(1).pdf"
+        }
+      ];
+
+      const grid = document.getElementById("grid");
+      const searchInput = document.getElementById("search");
+      const modal = document.getElementById("modal");
+      const pdfFrame = document.getElementById("pdfFrame");
+      const dlgTitle = document.getElementById("dlgTitle");
+      const closeBtn = document.getElementById("closeBtn");
+      const loader = document.getElementById("loader");
+
+      const escapeHtml = (s)=>s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+      function createCard(book){
+        const el = document.createElement("article");
+        el.className = "card";
+        el.dataset.name = book.name.toLowerCase();
+        el.dataset.url  = book.url;
+        el.innerHTML = `
+          <div class="title">📄 ${escapeHtml(book.name)}</div>
+          <div class="meta">Format: PDF</div>
+          <div class="actions">
+            <button class="btn btn-primary" data-read>📗 Lire</button>
+          </div>
+        `;
+        return el;
+      }
+
+      function render(list){
+        grid.innerHTML = "";
+        if(!list.length){
+          const empty = document.createElement("div");
+          empty.className = "empty";
+          empty.textContent = "لا توجد نتائج مطابقة لبحثك.";
+          grid.appendChild(empty);
+          return;
+        }
+        list.forEach(b => grid.appendChild(createCard(b)));
+      }
+      render(books);
+
+    
+      searchInput.addEventListener("input", () => {
+        const q = searchInput.value.trim().toLowerCase();
+        if(!q){ render(books); return; }
+        render(books.filter(b => b.name.toLowerCase().includes(q)));
+      });
+
+      
+      grid.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-read]");
+        if (!btn) return;
+        const card = btn.closest(".card");
+        if (!card) return;
+        openPdf({
+          name: card.querySelector(".title").textContent.replace(/^📄\s*/, ""),
+          url: card.dataset.url
+        });
+      });
+
+      function toast(msg, ms=1400){
+        const d = document.createElement("div");
+        d.className = "toast"; d.textContent = msg; document.body.appendChild(d);
+        setTimeout(()=> d.remove(), ms);
+      }
+
+
+      const PDFJS_VIEWER = "https://mozilla.github.io/pdf.js/web/viewer.html?file=";
+
+      function openPdf(book){
+        if(!auth.currentUser){
+          const redirect = encodeURIComponent("bibliotheque.html");
+          window.location.href = `login.html?redirect=${redirect}`;
+          return;
+        }
+        dlgTitle.textContent = book.name;
+
+      
+        const toCdn = (u) => {
+          try{
+            const url = new URL(u);
+            if (url.hostname === "github.com" && url.pathname.includes("/blob/")){
+            
+              const parts = url.pathname.split("/").filter(Boolean); 
+              const user = parts[0], repo = parts[1], branch = parts[3];
+              const tail = parts.slice(4).join("/");
+              return `https://cdn.jsdelivr.net/gh/${user}/${repo}/${tail}`;
+            }
+          }catch(_){}
+          return u;
+        };
+
+        const fileUrl = toCdn(book.url);
+        const viewerUrl = PDFJS_VIEWER + encodeURIComponent(fileUrl) + "#pagemode=none&toolbar=1";
+
+        loader.hidden = false;
+        modal.classList.add("show");
+        document.body.style.overflow = "hidden";
+
+     
+        pdfFrame.onload = () => { loader.hidden = true; };
+        pdfFrame.onerror = () => {
+          loader.hidden = true;
+          modal.classList.remove("show");
+          document.body.style.overflow = "";
+          toast("فتح الكتاب في تبويب جديد…");
+          window.open(fileUrl, "_blank", "noopener,noreferrer");
+        };
+        pdfFrame.src = viewerUrl;
+      }
+
+      function closeModal(){
+        modal.classList.remove("show");
+        pdfFrame.src = "about:blank";
+        document.body.style.overflow = "";
+      }
+
+      closeBtn.addEventListener("click", closeModal);
+      modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
+
+
+      document.addEventListener("contextmenu", e => e.preventDefault());
+      document.addEventListener("dragstart", e => e.preventDefault());
+      document.addEventListener("keydown", (e) => {
+        const key = e.key.toLowerCase();
+        const ctrl = e.ctrlKey || e.metaKey;
+        const shift = e.shiftKey;
+        if (
+          (ctrl && (key === 's' || key === 'p' || key === 'u')) ||
+          (ctrl && shift && (key === 'i' || key === 'c' || key === 'j')) ||
+          key === 'printscreen'
+        ){
+          e.preventDefault();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
