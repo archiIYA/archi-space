@@ -92,7 +92,7 @@
     .actions{display:flex; gap:10px; flex-wrap:wrap}
     .card .cta{ margin-left:auto; }
 
-    /* Responsive columns */
+
     @media (min-width:600px){ .card{grid-column: span 6;} }
     @media (min-width:980px){ .card{grid-column: span 4;} }
   </style>
@@ -105,7 +105,7 @@
         <div>Formations</div>
       </div>
       <div class="controls">
-        <a class="btn" href="trendyservice.html">🪅 Trendy Service</a>
+        <a class="btn" href="trendyservice.html"> Trendy Service</a>
         <a class="btn" href="lecteur.html">🏠 Accueil</a>
         <button id="themeToggle" class="btn" title="Basculer thème">🌗 Mode</button>
         <button id="logoutBtn" class="btn">🚪 Se déconnecter</button>
@@ -119,12 +119,12 @@
     </section>
 
     <section id="grid" class="grid" aria-live="polite">
-      <!-- Les cartes sont injectées par JS pour faciliter la mise à jour des prix -->
+ 
     </section>
   </div>
 
   <script type="module">
-    /* Firebase Auth Gate (redirection si non connecté) */
+    
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
@@ -154,7 +154,6 @@
       initGrid();
     });
 
- 
     const root = document.documentElement;
     const THEME_KEY = "archispace-theme";
     const setTheme = (mode) => {
