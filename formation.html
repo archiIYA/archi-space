@@ -88,10 +88,9 @@
     .body{flex:1; min-width:0}
     .title{font-weight:800; font-size:18px; margin-bottom:4px}
     .desc{color:var(--muted); font-size:14px}
+    .price{margin-top:6px; font-weight:800; font-size:15px}
     .actions{display:flex; gap:10px; flex-wrap:wrap}
-    .card .cta{
-      margin-left:auto; /* يدفع الزر لليمين */
-    }
+    .card .cta{ margin-left:auto; }
 
     /* Responsive columns */
     @media (min-width:600px){ .card{grid-column: span 6;} }
@@ -109,120 +108,53 @@
         <a class="btn" href="trendyservice.html">🪅 Trendy Service</a>
         <a class="btn" href="lecteur.html">🏠 Accueil</a>
         <button id="themeToggle" class="btn" title="Basculer thème">🌗 Mode</button>
+        <button id="logoutBtn" class="btn">🚪 Se déconnecter</button>
       </div>
     </nav>
 
     <section class="hero">
-      <h1>برامج تكوينية احترافية</h1>
-      <p>اختر الدورة وابدأ التعلم بخطى ثابتة. كل بطاقة فيها مساحة لرفع لوغو الدورة لاحقًا.</p>
+      <h1>Catalogue des formations</h1>
+      <p>Accédez à des parcours structurés et pratiques. Chaque carte contient un espace logo et un emplacement de prix à définir.</p>
       <div class="blob" aria-hidden="true"></div>
     </section>
 
-    <section class="grid" aria-live="polite">
-      <!-- AutoCAD -->
-      <a class="card" href="autocad.html">
-        <div class="logo-slot">LOGO</div>
-        <div class="body">
-          <div class="title">AutoCAD</div>
-          <div class="desc">أساسيات الرسم ثنائي/ثلاثي الأبعاد + ورشة مشاريع.</div>
-        </div>
-        <span class="btn btn-primary cta">Accéder</span>
-      </a>
-
-      <!-- Photoshop -->
-      <a class="card" href="photoshop.html">
-        <div class="logo-slot">LOGO</div>
-        <div class="body">
-          <div class="title">Photoshop</div>
-          <div class="desc">تحرير الصور، دمج، ريتاتش، وإخراج معماري جذاب.</div>
-        </div>
-        <span class="btn btn-primary cta">Accéder</span>
-      </a>
-
-      <!-- ArchiCAD -->
-      <a class="card" href="archicad.html">
-        <div class="logo-slot">LOGO</div>
-        <div class="body">
-          <div class="title">ArchiCAD</div>
-          <div class="desc">BIM عملي لإنشاء نماذج معمارية متكاملة.</div>
-        </div>
-        <span class="btn btn-primary cta">Accéder</span>
-      </a>
-
-      <!-- Revit -->
-      <a class="card" href="revit.html">
-        <div class="logo-slot">LOGO</div>
-        <div class="body">
-          <div class="title">Revit</div>
-          <div class="desc">قنوات عمل BIM، Families، وجداول كميات.</div>
-        </div>
-        <span class="btn btn-primary cta">Accéder</span>
-      </a>
-
-      <!-- SketchUp -->
-      <a class="card" href="sketchup.html">
-        <div class="logo-slot">LOGO</div>
-        <div class="body">
-          <div class="title">SketchUp</div>
-          <div class="desc">نمذجة سريعة + تنظيم Layers + تصدير.</div>
-        </div>
-        <span class="btn btn-primary cta">Accéder</span>
-      </a>
-
-      <!-- 3ds Max -->
-      <a class="card" href="3dsmax.html">
-        <div class="logo-slot">LOGO</div>
-        <div class="body">
-          <div class="title">3ds Max</div>
-          <div class="desc">نمذجة متقدمة + إعداد مشاهد واقعية.</div>
-        </div>
-        <span class="btn btn-primary cta">Accéder</span>
-      </a>
-
-      <!-- Rhino 3D -->
-      <a class="card" href="rhino3d.html">
-        <div class="logo-slot">LOGO</div>
-        <div class="body">
-          <div class="title">Rhino 3D</div>
-          <div class="desc">أشكال معقّدة، NURBS، وParametric Design.</div>
-        </div>
-        <span class="btn btn-primary cta">Accéder</span>
-      </a>
-
-      <!-- V-Ray -->
-      <a class="card" href="vray.html">
-        <div class="logo-slot">LOGO</div>
-        <div class="body">
-          <div class="title">V-Ray</div>
-          <div class="desc">إعداد خامات، إضاءة، وكاميرات لإخراج واقعي.</div>
-        </div>
-        <span class="btn btn-primary cta">Accéder</span>
-      </a>
-
-      <!-- Lumion -->
-      <a class="card" href="lumion.html">
-        <div class="logo-slot">LOGO</div>
-        <div class="body">
-          <div class="title">Lumion</div>
-          <div class="desc">ريندر سريع للمشاهد الخارجية والداخلية.</div>
-        </div>
-        <span class="btn btn-primary cta">Accéder</span>
-      </a>
-
-      <!-- Enscape -->
-      <a class="card" href="enscape.html">
-        <div class="logo-slot">LOGO</div>
-        <div class="body">
-          <div class="title">Enscape</div>
-          <div class="desc">ريندر لحظي + جولات واقع افتراضي.</div>
-        </div>
-        <span class="btn btn-primary cta">Accéder</span>
-      </a>
+    <section id="grid" class="grid" aria-live="polite">
+      <!-- Les cartes sont injectées par JS pour faciliter la mise à jour des prix -->
     </section>
   </div>
 
-  <script>
-    // Theme toggle (dark/light)
+  <script type="module">
+    /* Firebase Auth Gate (redirection si non connecté) */
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.firebasestorage.app",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    const appFB = initializeApp(firebaseConfig);
+    const auth = getAuth(appFB);
+
+    const logoutBtn = document.getElementById("logoutBtn");
+    logoutBtn.addEventListener("click", async ()=>{ await signOut(auth); });
+
+    onAuthStateChanged(auth, (user)=>{
+      if (!user){
+        const redirect = encodeURIComponent("formation.html");
+        window.location.href = `login.html?redirect=${redirect}`;
+        return;
+      }
+     
+      initGrid();
+    });
+
+ 
     const root = document.documentElement;
     const THEME_KEY = "archispace-theme";
     const setTheme = (mode) => {
@@ -234,6 +166,47 @@
     document.getElementById("themeToggle").addEventListener("click", () => {
       setTheme(root.classList.contains("light") ? "dark" : "light");
     });
+
+ 
+    const courses = [
+      { slug:"autocad",    title:"AutoCAD",    desc:"2D/3D, calques, blocs dynamiques, workflow pro.",           price:"3000DA", link:"autocad.html" },
+      { slug:"photoshop",  title:"Photoshop",  desc:"Retouche, compositing, post-prod architecturale.",         price:"3000DA", link:"photoshop.html" },
+      { slug:"archicad",   title:"ArchiCAD",   desc:"BIM, maquettes, feuilles de plans et nomenclatures.",      price:"5000DA", link:"archicad.html" },
+      { slug:"revit",      title:"Revit",      desc:"BIM, familles, phasage, quantitatifs et collaboration.",   price:"5000DA", link:"revit.html" },
+      { slug:"sketchup",   title:"SketchUp",   desc:"Modélisation rapide, organisation, exports.",              price:"3000DA", link:"sketchup.html" },
+      { slug:"3dsmax",     title:"3ds Max",    desc:"Modélisation avancée, scènes réalistes, pipeline rendu.",  price:"5000DA", link:"3dsmax.html" },
+      { slug:"rhino 3d",    title:"Rhino 3D",   desc:"NURBS, formes complexes, paramétrique de base.",          price:"5000DA", link:"rhino3d.html" },
+      { slug:"vray",       title:"V-Ray",      desc:"Matériaux, lumières, caméras, rendu photoréaliste.",       price:"500DA", link:"vray.html" },
+      { slug:"lumion",     title:"Lumion",     desc:"Rendu temps réel et storytelling extérieur/intérieur.",    price:"5000DA", link:"lumion.html" },
+      { slug:"enscape",    title:"Enscape",    desc:"Rendu instantané, VR et visites immersives.",              price:"5000DA", link:"enscape.html" },
+      { slug:"MAPINFO",    title:"MAPINFO",    desc:"Rendu instantané, VR et visites immersives.",              price:"5000DA", link:"enscape.html" },
+    ];
+
+    function card(course){
+      const a = document.createElement("a");
+      a.className = "card";
+      a.href = course.link;
+      a.setAttribute("data-price", course.price);
+
+      a.innerHTML = `
+        <div class="logo-slot">LOGO</div>
+        <div class="body">
+          <div class="title">${course.title}</div>
+          <div class="desc">${course.desc}</div>
+          <div class="price">Prix : <span class="priceValue">${course.price}</span></div>
+        </div>
+        <span class="btn btn-primary cta">Accéder</span>
+      `;
+      return a;
+    }
+
+    function initGrid(){
+      const grid = document.getElementById("grid");
+      grid.innerHTML = "";
+      courses.forEach(c => grid.appendChild(card(c)));
+    }
+
+
   </script>
 </body>
 </html>
