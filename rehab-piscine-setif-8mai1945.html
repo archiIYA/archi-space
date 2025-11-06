@@ -1,263 +1,113 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rehab Piscine Sétif — 8 Mai 1945</title>
-
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>🏊 Projet — Piscine 8 Mai 1945 (Premium)</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet"/>
-
   <style>
-    :root {
-      --bg: #0b0f14;
-      --card: #121923;
-      --text: #e9eef5;
-      --muted: #9fb0c3;
-      --accent: #4fc3f7;
-      --danger: #ff6b6b;
-      --ok: #4caf50;
-      --border: #223041;
+    :root{
+      --bg:#0f172a; --card:#0b1220; --muted:#94a3b8; --text:#e5e7eb;
+      --accent:#22d3ee; --accent-2:#38bdf8; --ring:#22d3ee55; --border:#1f2937; --premium:#fbbf24;
     }
-    :root.light {
-      --bg: #f5f7fb;
-      --card: #ffffff;
-      --text: #0c1420;
-      --muted: #4a5a6a;
-      --accent: #007acc;
-      --danger: #d32f2f;
-      --ok: #2e7d32;
-      --border: #e2e8f0;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:linear-gradient(135deg, var(--bg), var(--card) 60%);
+      color:var(--text); font-family:'Rubik', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      user-select:none; -webkit-user-select:none;
     }
-
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0; padding: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: "Rubik", system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Kufi Arabic", sans-serif;
-      -webkit-user-select: none; -ms-user-select: none; user-select: none;
+    .container{max-width:1180px; margin:0 auto; padding:18px}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      background:color-mix(in srgb, var(--card) 92%, transparent);
+      border:1px solid var(--border); border-radius:16px; padding:10px 14px;
+      backdrop-filter: blur(8px);
     }
-
-    a { color: var(--accent); text-decoration: none; }
-
-    .container {
-      max-width: 1100px;
-      margin: 24px auto;
-      padding: 0 16px;
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800}
+    .logo{
+      width:40px; height:40px; border-radius:12px; display:grid; place-items:center; font-size:20px;
+      background: radial-gradient(120% 120% at 0% 0%, var(--accent) 0%, transparent 60%),
+                  radial-gradient(120% 120% at 100% 100%, var(--accent-2) 0%, transparent 60%);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-2) 35%, transparent),
+                  0 10px 20px color-mix(in srgb, var(--accent) 30%, transparent);
     }
-
-    header {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 12px; margin-bottom: 16px;
+    .controls{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+    .btn{
+      appearance:none; border:1px solid var(--border); background:var(--card); color:var(--text);
+      border-radius:12px; padding:8px 12px; cursor:pointer; font-weight:600; display:inline-flex; align-items:center; gap:8px;
     }
-    .title {
-      display: flex; align-items: center; gap: 12px;
+    .btn-primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#001018; border:none}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px; border:1px dashed var(--border);
+      padding:8px 10px; border-radius:12px; font-size:14px; background:rgba(255,255,255,.02)
     }
-    .badge {
-      background: linear-gradient(135deg, var(--accent), #8be9fd);
-      color: #001018; font-weight: 800; padding: 6px 10px; border-radius: 999px; font-size: 12px;
+    .badge .masked{letter-spacing:2px}
+    .grid{display:grid; gap:14px; margin-top:16px}
+    .card{
+      background:linear-gradient(180deg, var(--card), color-mix(in srgb, var(--card) 92%, transparent));
+      border:1px solid var(--border); border-radius:16px; padding:14px;
     }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    .title{font-weight:800; font-size:20px; margin-bottom:6px}
+    .meta{color:var(--muted); font-size:13px}
+    .viewer-wrap{position:relative; height:min(86vh, 880px); border-radius:14px; overflow:hidden; margin-top:10px; background:var(--bg)}
+    iframe.viewer{position:absolute; inset:0; width:100%; height:100%; border:0; background:var(--bg)}
+    .wm{
+      position:absolute; inset:0; display:grid; place-items:center; pointer-events:none;
+      opacity:.06; font-weight:800; font-size:56px; user-select:none;
     }
-
-    .controls { display: flex; gap: 8px; align-items: center; }
-    .btn {
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text);
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform .05s ease, background .2s ease;
+    .shield{position:absolute; inset:0; pointer-events:none;
+      background-image:repeating-linear-gradient(45deg, rgba(255,255,255,.02) 0 10px, rgba(0,0,0,.02) 10px 20px)}
+    .blur-guard{position:absolute; inset:0; background:rgba(0,0,0,.6); color:#fff; display:none; align-items:center; justify-content:center; z-index:2; text-align:center; padding:20px}
+    .viewer-wrap.blurred .blur-guard{display:flex}
+    .toast{
+      position:fixed; left:50%; bottom:22px; transform:translateX(-50%);
+      background:rgba(15,23,42,.95); color:white; padding:10px 14px; border-radius:12px; border:1px solid var(--border); z-index:80; font-size:14px
     }
-    .btn:hover { background: rgba(255,255,255,0.06); }
-    .btn:active { transform: scale(0.98); }
-    .btn-accent { background: var(--accent); color: #001018; border-color: transparent; }
-    .btn-danger { background: var(--danger); color: #fff; border-color: transparent; }
-    .btn-ok { background: var(--ok); color: #fff; border-color: transparent; }
-    .btn-ghost { background: transparent; }
-
-    .notice {
-      padding: 12px 14px; border-radius: 12px; border: 1px dashed var(--border);
-      color: var(--muted); font-size: 14px;
-    }
-
-    .video-wrap {
-      position: relative;
-      border-radius: 16px; overflow: hidden;
-      border: 1px solid var(--border);
-      background: #000;
-    }
-    video {
-      width: 100%; height: auto; display: block;
-      pointer-events: auto;
-    }
-    .shield {
-      position: absolute; inset: 0; z-index: 5;
-      background: transparent;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-    @media (min-width: 900px) {
-      .gallery { grid-template-columns: repeat(3, 1fr); }
-    }
-    .img-card {
-      position: relative; overflow: hidden; border-radius: 14px; border: 1px solid var(--border);
-      background: #0a0a0a;
-    }
-    .img-card img {
-      width: 100%; height: 260px; object-fit: cover; display: block;
-      -webkit-user-drag: none; user-drag: none; pointer-events: none;
-    }
-    .img-card::after {
-      content: "© Archi.Space — Preview Only";
-      position: absolute; left: 8px; bottom: 8px;
-      font-size: 12px; color: rgba(255,255,255,0.7);
-      background: rgba(0,0,0,0.35); padding: 4px 8px; border-radius: 8px;
-    }
-
-    @media print {
-      body { display: none !important; }
-    }
-
-    .lock {
-      display: grid; gap: 12px;
-    }
-    .field {
-      display: grid; gap: 6px;
-    }
-    input[type="text"] {
-      background: transparent; border: 1px solid var(--border); color: var(--text);
-      padding: 10px 12px; border-radius: 10px; outline: none;
-    }
-    .error { color: var(--danger); font-weight: 600; }
-    .success { color: var(--ok); font-weight: 700; }
-
-    #protected, #adminBar { display: none; }
   </style>
-
-  <script>
-    document.addEventListener('keydown', function (e) {
-      const key = e.key?.toLowerCase();
-      const ctrl = e.ctrlKey || e.metaKey;
-      const shift = e.shiftKey;
-
-      if (
-        (ctrl && ['s','p','u','c','x','a'].includes(key)) ||
-        (ctrl && shift && ['i','c','j'].includes(key)) ||
-        key === 'f12'
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-      }
-    }, true);
-
-    document.addEventListener('contextmenu', evt => evt.preventDefault(), true);
-
-    document.addEventListener('copy', e => e.preventDefault());
-    document.addEventListener('cut', e => e.preventDefault());
-    document.addEventListener('dragstart', e => e.preventDefault());
-    document.addEventListener('selectstart', e => e.preventDefault());
-  </script>
 </head>
 <body>
+
   <div class="container">
-    <header>
-      <div class="title">
-        <span class="badge">مشروع</span>
-        <h1 style="margin:0;">Rehab Piscine Sétif — 8 Mai 1945</h1>
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">🏊</div>
+        <div>Piscine 8 Mai 1945 — Premium</div>
       </div>
       <div class="controls">
-        <button id="themeBtn" class="btn btn-ghost" title="تبديل الوضع">🌓 تبديل الوضع</button>
-        <a href="index.html" class="btn">↩ العودة للقائمة</a>
-        <button id="adminBtn" class="btn btn-accent" style="display:none;">لوحة الإدارة</button>
-        <button id="logoutBtn" class="btn btn-danger">تسجيل الخروج</button>
+        <span id="codeBadge" class="badge">🔑 Code: <b class="masked" id="maskedCode">••••••</b> <span id="expTxt" class="meta"></span></span>
+        <button id="revealBtn" class="btn" style="display:none">👁️ كشف الكود</button>
+        <button id="impBtn" class="btn">🖨️ ImpEc</button>
+        <a class="btn" href="projets.html">↩️ Retour</a>
+        <button id="logoutBtn" class="btn">🚪 Déconnexion</button>
       </div>
-    </header>
+    </div>
 
-    <section id="lock" class="card lock">
-      <div class="notice">
-        هذه الصفحة محمية. يجب أن تكون مسجّل الدخول وتملك <b>كود دخول</b> مرتبط ببريدك الإلكتروني.  
-        في حال عدم امتلاكك كودًا: تواصل مع مطوّر <b>Trendy</b> لاستلام الكود بعد الدفع.
-      </div>
+    <div class="grid">
+      <div class="card">
+        <div class="title">RÉHABILITATION DE LA PISCINE OLYMPIQUE DU 8 MAI 1945 À SÉTIF</div>
+        <div class="meta">Vers un équipement sportif intelligent et durable — PDF protégé</div>
 
-      <div id="userInfo" class="notice">الحالة: جارٍ التحقق من الجلسة…</div>
-
-      <div class="field">
-        <label for="accessCode">أدخل كود الدخول الخاص بهذا المشروع:</label>
-        <input id="accessCode" type="text" placeholder="مثال: CODE123" autocomplete="off" />
+        <div id="viewerWrap" class="viewer-wrap" oncontextmenu="return false;">
+          <div class="shield"></div>
+          <div id="wm" class="wm">ARCHI.SPACE</div>
+          <div class="blur-guard"><div>🛡️ تم تعطيل لقطة/تسجيل الشاشة هنا. عد إلى التبويب للمتابعة.</div></div>
+          <iframe id="viewer" class="viewer"
+                  sandbox="allow-scripts allow-same-origin"
+                  referrerpolicy="no-referrer"
+                  allow="clipboard-read; clipboard-write"></iframe>
+        </div>
       </div>
-      <div class="controls">
-        <button id="checkBtn" class="btn btn-ok">تحقق</button>
-        <button id="contactBtn" class="btn">💬 تواصل مع مطوّر Trendy</button>
-      </div>
-      <div id="lockMsg"></div>
-    </section>
-
-    <section id="protected" class="card" aria-hidden="true">
-      <h2 style="margin-top:0;">🎞️ Annimation soutenance-1</h2>
-      <div class="video-wrap" oncontextmenu="return false;">
-        <div class="shield" oncontextmenu="return false"></div>
-        <video
-          id="projectVideo"
-          playsinline
-          controls
-          controlsList="nodownload noplaybackrate noremoteplayback"
-          disablePictureInPicture
-          oncontextmenu="return false"
-          preload="metadata"
-        >
-          <source src="/media/Annimation_soutenance_1.mp4" type="video/mp4">
-          متصفحك لا يدعم تشغيل الفيديو.
-        </video>
-      </div>
-
-      <h3>📷 صور المشروع</h3>
-      <div class="gallery" oncontextmenu="return false">
-        <figure class="img-card"><img src="/media/piscine-01.jpg" alt="Vue 01" draggable="false"></figure>
-        <figure class="img-card"><img src="/media/piscine-02.jpg" alt="Vue 02" draggable="false"></figure>
-        <figure class="img-card"><img src="/media/piscine-03.jpg" alt="Vue 03" draggable="false"></figure>
-        <figure class="img-card"><img src="/media/piscine-04.jpg" alt="Vue 04" draggable="false"></figure>
-        <figure class="img-card"><img src="/media/piscine-05.jpg" alt="Vue 05" draggable="false"></figure>
-        <figure class="img-card"><img src="/media/piscine-06.jpg" alt="Vue 06" draggable="false"></figure>
-      </div>
-
-      <div class="notice" style="margin-top:14px;">
-        المعاينة فقط — التنزيل والطباعة والتصدير معطّلة على مستوى الواجهة. أي استخدام خارج هذه الصفحة محظور.
-      </div>
-    </section>
-
-    <section id="adminBar" class="card" style="margin-top:16px;">
-      <h3 style="margin-top:0;">الإدارة (Admin)</h3>
-      <div class="notice">
-        يظهر هذا الشريط فقط للحسابات المخوّلة. يمكنك التحقق يدويًا من أكواد المستخدمين وتحديثها من Firestore:
-        Collection: <code>access</code>, Doc: <code>user@email</code>, Field map: <code>codes.rehab-piscine-setif-8mai1945</code>.
-      </div>
-      <div class="controls">
-        <button class="btn" id="copyPathBtn">نسخ مسار الحقل</button>
-      </div>
-      <div id="adminMsg"></div>
-    </section>
-
+    </div>
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
+  
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -267,126 +117,135 @@
       appId: "1:407015246505:web:c914a78566b882b80df7b8",
       measurementId: "G-RZV7LSDQBD"
     };
+    const appFB = initializeApp(firebaseConfig);
+    const auth = getAuth(appFB);
+    const db = getFirestore(appFB);
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  
+    const viewer = document.getElementById("viewer");
+    const viewerWrap = document.getElementById("viewerWrap");
+    const wm = document.getElementById("wm");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const impBtn = document.getElementById("impBtn");
+    const codeBadge = document.getElementById("codeBadge");
+    const maskedCodeEl = document.getElementById("maskedCode");
+    const expTxt = document.getElementById("expTxt");
+    const revealBtn = document.getElementById("revealBtn");
 
-    const lock = document.getElementById('lock');
-    const protectedSection = document.getElementById('protected');
-    const adminBar = document.getElementById('adminBar');
-    const adminBtn = document.getElementById('adminBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const themeBtn = document.getElementById('themeBtn');
-    const checkBtn = document.getElementById('checkBtn');
-    const contactBtn = document.getElementById('contactBtn');
-    const userInfo = document.getElementById('userInfo');
-    const lockMsg = document.getElementById('lockMsg');
-    const accessInput = document.getElementById('accessCode');
-    const copyPathBtn = document.getElementById('copyPathBtn');
-    const adminMsg = document.getElementById('adminMsg');
-
-    const PROJECT_KEY = 'rehab-piscine-setif-8mai1945';
-
-    const ADMIN_EMAILS = ['toumiiyadetude@gmail.com'];
-
-    const applyTheme = (t) => {
-      if (t === 'light') document.documentElement.classList.add('light');
-      else document.documentElement.classList.remove('light');
+    const toast = (msg, ms=1600)=>{
+      const d = document.createElement("div");
+      d.className = "toast"; d.textContent = msg; document.body.appendChild(d);
+      setTimeout(()=> d.remove(), ms);
     };
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    applyTheme(savedTheme);
-    themeBtn.addEventListener('click', () => {
-      const now = document.documentElement.classList.contains('light') ? 'dark' : 'light';
-      localStorage.setItem('theme', now);
-      applyTheme(now);
-    });
 
-    contactBtn.addEventListener('click', () => {
-      alert('تواصل مع مطوّر Trendy لاستلام كودك بعد الدفع.\nEmail: archispaceiya@gmail.com');
-    });
+    const PROJECT_ID = "rehab-piscine-setif-8mai1945";
+    const PROJECT_URL = "https://cdn.jsdelivr.net/gh/archiIYA/archi-space/Projet_Piscine_Olympique_Setif.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH";
+    const ADMIN_ALLOW = ["toumiiyadetude@gmail.com"]; // يمكنك تعديل القائمة لاحقا
 
-    logoutBtn.addEventListener('click', async () => {
-      await signOut(auth);
-      location.href = 'login.html';
-    });
 
-    copyPathBtn?.addEventListener('click', async () => {
-      const path = `access/<user-email-lowercase>/codes.${PROJECT_KEY}`;
-      await navigator.clipboard.writeText(path);
-      adminMsg.textContent = 'تم نسخ المسار: ' + path;
-      setTimeout(() => adminMsg.textContent = '', 3000);
-    });
+    function maskCode(code){ if(!code) return "••••••"; return code.replace(/.(?=.{2}$)/g, "•"); }
+    function codeRefByEmail(email, projectId){ return doc(db, "projectAccessByEmail", email, "codes", projectId); }
 
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        location.href = 'login.html';
-        return;
-      }
-      const email = (user.email || '').toLowerCase();
-      userInfo.innerHTML = `مسجّل كـ <b>${email}</b> — أدخل كودك للتحقق.`;
-
-      if (ADMIN_EMAILS.includes(email)) {
-        adminBtn.style.display = 'inline-block';
-        adminBar.style.display = 'block';
-        adminBtn.addEventListener('click', () => {
-          adminBar.scrollIntoView({ behavior: 'smooth' });
-        });
-      }
-
-      checkBtn.addEventListener('click', async () => {
-        lockMsg.textContent = '';
-        const code = (accessInput.value || '').trim();
-
-        if (!code) {
-          lockMsg.innerHTML = '<span class="error">الرجاء إدخال كود صالح.</span>';
-          return;
+    async function loadMyCode(email){
+      try{
+        const snap = await getDoc(codeRefByEmail(email, PROJECT_ID));
+        if(!snap.exists()){
+          maskedCodeEl.textContent = "—";
+          expTxt.textContent = " (لا يوجد كود: تواصل مع Trendy)";
+          return { code:null, expiresAt:null };
         }
+        const data = snap.data();
+        const exp = data.expiresAt?.toDate?.() || null;
+        maskedCodeEl.textContent = maskCode(String(data.code||""));
+        expTxt.textContent = exp ? ` (ينتهي: ${exp.toLocaleString()})` : "";
+        return { code:String(data.code||""), expiresAt:exp };
+      }catch(e){
+        maskedCodeEl.textContent = "—";
+        expTxt.textContent = " (تعذر التحميل)";
+        return { code:null, expiresAt:null };
+      }
+    }
 
-        try {
-          const ref = doc(db, 'access', email);
-          const snap = await getDoc(ref);
-
-          if (!snap.exists()) {
-            lockMsg.innerHTML = '<span class="error">لا يوجد كود مرتبط بهذا البريد. تواصل مع مطوّر Trendy لاستلام كودك بعد الدفع.</span>';
-            return;
-          }
-
-          const data = snap.data() || {};
-          const codesMap = data.codes || {};
-          const expected = codesMap[PROJECT_KEY];
-
-          if (!expected) {
-            lockMsg.innerHTML = '<span class="error">لم يتم تفعيل هذا المشروع لحسابك بعد. تواصل مع مطوّر Trendy.</span>';
-            return;
-          }
-
-          if (code === expected) {
-
-            lockMsg.innerHTML = '<span class="success">تم التحقق بنجاح — جارٍ فتح المحتوى…</span>';
-
-            lock.style.display = 'none';
-            protectedSection.style.display = 'block';
-            protectedSection.setAttribute('aria-hidden', 'false');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          } else {
-            lockMsg.innerHTML = '<span class="error">كود غير صحيح. تأكد من كتابته بشكل صحيح.</span>';
-          }
-        } catch (err) {
-          console.error(err);
-          lockMsg.innerHTML = '<span class="error">حدث خطأ غير متوقّع أثناء التحقق. حاول لاحقًا.</span>';
+    function guardShortcuts(){
+      document.addEventListener("contextmenu", e => e.preventDefault());
+      document.addEventListener("dragstart", e => e.preventDefault());
+      document.addEventListener("copy", e => e.preventDefault());
+      document.addEventListener("cut", e => e.preventDefault());
+      document.addEventListener("paste", e => e.preventDefault());
+      document.addEventListener("keydown", (e) => {
+        const key = e.key.toLowerCase();
+        const ctrl = e.ctrlKey || e.metaKey;
+        const shift = e.shiftKey;
+        if (
+          (ctrl && (key === 's' || key === 'p' || key === 'u' || key === 'a' || key === 'c' || key === 'x' || key === 'v' || key === 'o')) ||
+          (ctrl && shift && (key === 'i' || key === 'c' || key === 'j')) ||
+          (key === 'printscreen')
+        ){
+          e.preventDefault();
+          toast("🚫 تم تعطيل الاختصار.");
         }
       });
-    });
 
-    const v = document.getElementById('projectVideo');
-    v?.addEventListener('enterpictureinpicture', e => { e.preventDefault(); v?.pause(); });
+      document.addEventListener("visibilitychange", ()=>{
+        if (document.hidden) viewerWrap.classList.add("blurred");
+        else viewerWrap.classList.remove("blurred");
+      });
+      window.addEventListener("blur", ()=> viewerWrap.classList.add("blurred"));
+      window.addEventListener("focus", ()=> viewerWrap.classList.remove("blurred"));
+
+      window.addEventListener("keyup", async (e)=>{
+        if(e.key === "PrintScreen"){
+          try{ await navigator.clipboard.writeText("Screenshot disabled."); }catch(_){}
+        }
+      });
+    }
+
+    function openPdf(src){
+      viewer.src = src;
+      viewer.onload = ()=>{};
+      viewer.onerror = ()=>{
+        toast("تعذّر العرض داخل الصفحة — سيتم فتحه في تبويب جديد…");
+        window.open(src, "_blank", "noopener,noreferrer");
+      };
+    }
 
    
-    window.addEventListener('beforeprint', (e) => {
-      alert('الطباعة غير مسموح بها لهذه الصفحة.');
-      e.preventDefault();
+    function enableAdminReveal(fullCode){
+      revealBtn.style.display = "inline-flex";
+      revealBtn.onclick = async ()=>{
+        if(!fullCode){ toast("لا يوجد كود."); return; }
+        alert("🔐 Code complet: " + fullCode);
+      };
+    }
+
+   
+    impBtn.addEventListener("click", ()=>{
+      toast("🖨️ الطباعة/التصدير معطّلة لهذا المحتوى.");
     });
+
+    logoutBtn.addEventListener("click", async ()=>{ await signOut(auth); });
+
+   
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        const redirect = encodeURIComponent("rehab-piscine-setif-8mai1945.html");
+        window.location.href = `login.html?redirect=${redirect}`;
+        return;
+      }
+      wm.textContent = (user.email || "ARCHI.SPACE").toUpperCase();
+
+      
+      const { code, expiresAt } = await loadMyCode(user.email);
+      if (user.email && ADMIN_ALLOW.includes(user.email.toLowerCase())){
+        enableAdminReveal(code || "");
+      }
+
+  
+      openPdf(PROJECT_URL);
+    });
+
+   
+    guardShortcuts();
   </script>
 </body>
 </html>
