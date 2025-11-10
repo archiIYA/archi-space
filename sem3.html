@@ -1,188 +1,169 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <title>Semestre 3 - 2ème Année</title>
-  <meta name="description" content="Modules du Semestre 3 pour la 2ème année en architecture : Atelier, Histoire, Théorie, Construction, RDM, DAO, Analyse spatiale, Sociologie et Stage.">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Semestre 3 — EPAU / UNIVERSITÉ</title>
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
+
+
+  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+
   <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #121a26;
+      --text: #f0f4f8;
+      --muted: #9fb0c3;
+      --accent: #4fc3f7;
+      --border: #1d2736;
+    }
+    :root.light {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #111;
+      --muted: #555;
+      --accent: #0078ff;
+      --border: #ddd;
+    }
+
+    * { box-sizing: border-box; }
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #fdfdfd;
-      margin: 0;
-      padding-left: 240px;
-      color: #333;
+      margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text);
+      display: flex; flex-direction: column; min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
     }
 
-    h1 {
-      text-align: center;
-      margin-top: 30px;
-      margin-bottom: 30px;
-      font-size: 2em;
-      color: #2a9d8f;
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 20px; background: var(--card); border-bottom: 1px solid var(--border);
+    }
+    header h1 { font-size: 1.2rem; }
+    .toggle-btn, .menu-toggle {
+      background: var(--accent); border: none; color: white; border-radius: 8px;
+      padding: 8px 12px; cursor: pointer; font-weight: 600;
     }
 
-    .subjects {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      padding: 0 20px 30px;
-    }
-
-    .subject {
-      background-color: #e0f7f4;
-      border: 1px solid #b2dfdb;
-      padding: 20px 30px;
-      border-radius: 10px;
-      text-align: center;
-      font-size: 1.1em;
-      cursor: pointer;
-      transition: background 0.3s;
-      min-width: 200px;
-    }
-
-    .subject:hover {
-      background-color: #b2dfdb;
-    }
-
-    a {
-      text-decoration: none;
-      color: #333;
-    }
-
-    a:hover {
-      color: #000;
-    }
-
-    .menu-toggle {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      font-size: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
+    .container { flex: 1; display: flex; gap: 20px; padding: 20px; }
     aside {
-      width: 220px;
-      background-color: #f0f0f0;
-      height: 100vh;
-      position: fixed;
-      left: 0;
-      top: 0;
-      padding: 20px;
-      overflow-y: auto;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-      z-index: 1000;
+      width: 250px; background: var(--card); border-radius: 12px; padding: 16px; border: 1px solid var(--border);
+    }
+    aside a, aside .year {
+      display: block; padding: 8px 10px; border-radius: 8px; color: var(--text); text-decoration: none;
+      margin: 4px 0; transition: background 0.2s;
+    }
+    aside a:hover, aside .year:hover { background: var(--accent); color: white; }
+    .semesters { margin-left: 10px; display: none; }
+
+    .main {
+      flex: 1; display: grid; gap: 20px; place-items: center; align-content: start;
     }
 
-    aside.hidden {
-      transform: translateX(-100%);
+    .cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
+      width: 100%; max-width: 800px;
     }
 
-    aside h2 {
-      font-size: 18px;
-      margin-bottom: 15px;
-      color: #2a9d8f;
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 40px 20px;
+      text-align: center; transition: transform 0.3s, box-shadow 0.3s;
     }
-
-    .year {
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-      color: #2a9d8f;
+    .card:hover {
+      transform: translateY(-6px); box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
-
-    .semesters {
-      display: none;
-      margin-left: 10px;
-      margin-bottom: 10px;
+    .card h2 { margin-bottom: 10px; }
+    .card p { color: var(--muted); margin-bottom: 20px; }
+    .card a {
+      display: inline-block; background: var(--accent); color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none;
+      transition: 0.2s;
     }
+    .card a:hover { opacity: 0.8; }
 
-    .semesters a {
-      display: block;
-      padding: 5px 0;
-      color: #333;
-    }
-
-    .semesters a:hover {
-      color: #000;
-    }
-
-    hr {
-      border: none;
-      border-top: 1px solid #ccc;
-      margin: 10px 0;
+    .hidden { display: none; }
+    @media(max-width:900px){ aside { display: none; position: absolute; z-index: 20; top: 60px; left: 0; }
+      aside.show { display: block; background: var(--card); }
     }
   </style>
 </head>
 <body>
-
-  <button class="menu-toggle" onclick="document.querySelector('aside').classList.toggle('hidden')">☰ Menu</button>
-
-  <aside class="sidebar hidden">
-    <h2>🎓 Années d'étude</h2>
-    <a href="lecteur.html">🔙 Retour à l'accueil</a>
-    <hr>
-
+  <header>
+    <h1>Semestre 3</h1>
     <div>
+      <button class="toggle-btn" onclick="toggleTheme()">🌓</button>
+      <button class="menu-toggle" onclick="document.querySelector('aside').classList.toggle('show')">☰ Menu</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside>
+      <h2>🎓 Années d'étude</h2>
+      <a href="lecteur.html">🔙 Retour à l'accueil</a>
+      <hr>
       <div class="year" onclick="toggleSemesters('y1')">📘 Année 1</div>
       <div id="y1" class="semesters">
         <a href="sem1.html">Semestre 1</a>
         <a href="sem2.html">Semestre 2</a>
       </div>
-
       <div class="year" onclick="toggleSemesters('y2')">📗 Année 2</div>
       <div id="y2" class="semesters">
         <a href="sem3.html">Semestre 3</a>
         <a href="sem4.html">Semestre 4</a>
       </div>
-
       <div class="year" onclick="toggleSemesters('y3')">📙 Année 3</div>
       <div id="y3" class="semesters">
         <a href="sem5.html">Semestre 5</a>
         <a href="sem6.html">Semestre 6</a>
       </div>
+    </aside>
 
-      <div class="year" onclick="toggleSemesters('y4')">📕 Année 4</div>
-      <div id="y4" class="semesters">
-        <a href="sem7.html">Semestre 7</a>
-        <a href="sem8.html">Semestre 8</a>
+    <main class="main">
+      <div class="cards">
+        <div class="card">
+          <h2>EPAU</h2>
+          <p>Modules, TD/TP et supports pédagogiques.</p>
+          <a href="epau-sem3.html">Accéder</a>
+        </div>
+        <div class="card">
+          <h2>UNIVERSITÉ</h2>
+          <p>Équivalences, ressources et tutoriels.</p>
+          <a href="universite-sem3.html">Accéder</a>
+        </div>
       </div>
-
-      <div class="year" onclick="toggleSemesters('y5')">📒 Année 5</div>
-      <div id="y5" class="semesters">
-        <a href="sem9.html">Semestre 9</a>
-        <a href="sem10.html">Semestre 10</a>
-      </div>
-    </div>
-  </aside>
-
-  <h1>📗 Semestre 3 - 2ème Année</h1>
-
-  <div class="subjects">
-    <a href="atelier3.html"><div class="subject">🖊️ Atelier de projet 3</div></a>
-    <a href="histoire3.html"><div class="subject">🏛️ Histoire de l’Architecture 3</div></a>
-    <a href="theorie3.html"><div class="subject">📖 Théorie de projet 3</div></a>
-    <a href="construction1.html"><div class="subject">🏗️ Construction 1</div></a>
-    <a href="rdm1.html"><div class="subject">⚙️ RDM 1</div></a>
-    <a href="dao.html"><div class="subject">💻 DAO</div></a>
-    <a href="analyse.html"><div class="subject">🗺️ Analyse spatiale et cartographie</div></a>
-    <a href="sociologie.html"><div class="subject">👥 Sociologie et anthropologie de l’espace</div></a>
-    <a href="stage3.html"><div class="subject">🏗️ Stage découverte 3</div></a>
+    </main>
   </div>
 
   <script>
-    function toggleSemesters(id) {
-      const section = document.getElementById(id);
-      section.style.display = section.style.display === "block" ? "none" : "block";
-    }
-  </script>
 
+    function toggleTheme(){
+      document.documentElement.classList.toggle('light');
+      localStorage.setItem('theme', document.documentElement.classList.contains('light') ? 'light' : 'dark');
+    }
+
+
+    if(localStorage.getItem('theme')==='light') document.documentElement.classList.add('light');
+
+
+    function toggleSemesters(id){
+      const el=document.getElementById(id);
+      if(el.style.display==='block'){el.style.display='none';}else{el.style.display='block';}
+    }
+
+
+    const firebaseConfig={
+      apiKey:"AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain:"archi-space-72624.firebaseapp.com",
+      projectId:"archi-space-72624",
+      storageBucket:"archi-space-72624.firebasestorage.app",
+      messagingSenderId:"407015246505",
+      appId:"1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId:"G-RZV7LSDQBD"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth=firebase.auth();
+    auth.onAuthStateChanged(user=>{if(!user){window.location.href='login.html';}});
+  </script>
 </body>
 </html>
