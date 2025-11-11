@@ -7,146 +7,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      margin: 0;
-      font-family: 'Rubik', sans-serif;
-      background: #fff;
-      color: #111;
-      display: flex;
+    :root{
+      --bg:#fff; --text:#111; --muted:#666; --card:#fafafa; --side:#f4f4f4; --btn:#111; --btnText:#fff; --shadow:0 2px 6px rgba(0,0,0,.05);
     }
-
-    aside {
-      width: 240px;
-      background-color: #f4f4f4;
-      height: 100vh;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      overflow-y: auto;
-      position: fixed;
-      left: 0;
-      top: 0;
-      transform: translateX(0);
-      transition: transform 0.3s ease;
-      z-index: 998;
-    }
-
-    aside.hidden {
-      transform: translateX(-260px);
-    }
-
-    .back-button {
-      margin-bottom: 20px;
-      background-color: #ddd;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: 600;
-      transition: background-color 0.3s;
-    }
-
-    .back-button:hover {
-      background-color: #ccc;
-    }
-
-    aside h2 {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-
-    aside a {
-      display: block;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-decoration: none;
-      color: #333;
-      border-radius: 6px;
-      transition: background 0.3s;
-    }
-
-    aside a:hover {
-      background-color: #ddd;
-    }
-
-    #toggleSidebar {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 999;
-      background-color: #111;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      font-size: 18px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    main {
-      flex-grow: 1;
-      padding: 30px;
-      margin-left: 240px;
-      transition: margin-left 0.3s ease;
-    }
-
-    aside.hidden ~ main {
-      margin-left: 0;
-    }
-
-    .section-title {
-      font-size: 26px;
-      margin-bottom: 20px;
-      color: #000;
-    }
-
-    .lesson {
-      margin-bottom: 30px;
-      background: #fafafa;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-
-    .lesson h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      color: #222;
-    }
-
-    .buttons {
-      margin-top: 10px;
-    }
-
-    .buttons button {
-      background: none;
-      border: none;
-      margin-right: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .buttons button:hover {
-      opacity: 0.7;
-    }
-
-    footer {
-      margin-top: 50px;
-      font-size: 13px;
-      color: #888;
-      text-align: center;
-    }
-
-    .module-title {
-      font-size: 22px;
-      margin: 30px 0 15px;
-      color: #000;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 5px;
-    }
+    body{ margin:0; font-family:'Rubik',sans-serif; background:var(--bg); color:var(--text); display:flex; }
+    aside{ width:240px; background:var(--side); height:100vh; padding:20px; box-shadow:2px 0 5px rgba(0,0,0,.1); overflow-y:auto; position:fixed; left:0; top:0; transform:translateX(0); transition:transform .3s ease; z-index:998;}
+    aside.hidden{ transform:translateX(-260px);}
+    .back-button{ margin-bottom:12px; background-color:#ddd; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; width:100%; font-weight:600; transition:background-color .3s;}
+    .back-button:hover{ background-color:#ccc;}
+    aside h2{ font-size:18px; margin:12px 0 16px;}
+    aside a{ display:block; padding:10px; margin-bottom:8px; text-decoration:none; color:#333; border-radius:6px; transition:background .3s;}
+    aside a:hover{ background-color:#ddd;}
+    #toggleSidebar{ position:fixed; top:20px; left:20px; z-index:999; background:var(--btn); color:var(--btnText); border:none; padding:10px 15px; font-size:18px; border-radius:6px; cursor:pointer; }
+    main{ flex-grow:1; padding:30px; margin-left:240px; transition:margin-left .3s ease; }
+    aside.hidden ~ main{ margin-left:0;}
+    .section-title{ font-size:26px; margin-bottom:12px; color:#000;}
+    .search-wrap{ margin:10px 0 22px; display:flex; gap:10px; align-items:center; }
+    .search-wrap input{ flex:1; padding:12px 14px; border:1px solid #e1e1e1; border-radius:10px; font-size:15px; }
+    .module-title{ font-size:22px; margin:28px 0 12px; color:#000; border-bottom:2px solid #eee; padding-bottom:6px; }
+    .lesson{ margin-bottom:14px; background:var(--card); padding:16px; border-radius:10px; box-shadow:var(--shadow); }
+    .lesson h3{ font-size:18px; margin:0 0 8px; color:#222; }
+    .meta{ font-size:13px; color:var(--muted); margin-bottom:6px;}
+    .buttons{ display:flex; flex-wrap:wrap; gap:8px; }
+    .buttons a, .buttons button{ display:inline-flex; align-items:center; gap:8px; background:none; border:1px solid #e6e6e6; padding:8px 12px; border-radius:8px; font-size:14px; cursor:pointer; text-decoration:none; color:#111; }
+    .buttons a.pdf{ border-color:#d0d0d0; }
+    .buttons a:hover, .buttons button:hover{ opacity:.8; }
+    footer{ margin-top:50px; font-size:13px; color:#888; text-align:center; }
+    .empty{ display:none; padding:10px; color:#999; }
+    .hidden-soft{ display:none !important; }
   </style>
 
-  <!-- Firebase SDKs -->
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -163,12 +54,8 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-
-    // Protection login
     onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "login.html"; 
-      }
+      if (!user) window.location.href = "login.html";
     });
   </script>
 </head>
@@ -187,7 +74,7 @@
   <ul class="sidebar-menu">
     <li><a href="atelier3.html">🏗️ Atelier de projet 3</a></li>
     <li><a href="theorie3.html">📘 Théorie de projet 3</a></li>
-    <li><a href="histoire3.html">🏛️ Histoire de l’Architecture 3</a></li>
+    <li><a href="histoire3.html" style="font-weight:600">🏛️ Histoire de l’Architecture 3</a></li>
     <li><a href="construction1.html">🧱 Construction 1</a></li>
     <li><a href="dao.html">💻 DAO</a></li>
     <li><a href="analyse_spatiale.html">🗺️ Analyse spatiale</a></li>
@@ -202,26 +89,101 @@
 <main>
   <h1 class="section-title">🏛️ Histoire de l’Architecture 3</h1>
 
-  <h2 class="module-title">Architecture de la Renaissance et Baroque</h2>
-  <div class="lesson"><h3>Architecture de la Renaissance</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Architecture baroque</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
 
-  <h2 class="module-title">Le rationalisme et les utopistes du 17ème siècle</h2>
-  <div class="lesson"><h3>L‟apport de la philosophie</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>L‟enseignement de Blondel</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Les visions de Boulée et Ledoux</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
+  <div class="search-wrap">
+    <input id="searchInput" type="search" placeholder="🔎 Rechercher un cours… (ex: Omeyyades, Andalousie, Ayyoubides)">
+  </div>
 
-  <h2 class="module-title">Révolution industrielle et courants classiques</h2>
-  <div class="lesson"><h3>La révolution industrielle</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Le néoclassicisme</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>L’historicisme et l’éclectisme</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
 
-  <h2 class="module-title">Architecture avant-gardiste et matériaux</h2>
-  <div class="lesson"><h3>L’art nouveau</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>L’école de Chicago</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Le béton armé et son apport en architecture</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>L’œuvre de Pier Luigi Nervi</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Sensibilisation aux bétons modernes</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
+  <h2 class="module-title">I. Avant l’Islam</h2>
+  <div class="lesson" data-title="Arabie avant l'Islam" data-period="avant">
+    <h3>Arabie avant l’Islam</h3>
+    <div class="meta">Repères historiques et contexte préislamique</div>
+    <div class="buttons">
+      <a class="pdf" href="L'arabie avant l'Islam .pdf" target="_blank" download>📄 PDF</a>
+      <button title="Bientôt">🎥 Vidéo</button>
+      <button title="Premium">⭐ Premium</button>
+    </div>
+  </div>
+
+  <h2 class="module-title">II. Omeyyades & Al-Andalus</h2>
+  <div class="lesson" data-title="Les Omeyyades (Cours 1)" data-period="omeyyades">
+    <h3>Les Omeyyades — Cours 1</h3>
+    <div class="meta">Expansion et premières expressions architecturales</div>
+    <div class="buttons">
+      <a class="pdf" href="les ommayades .pdf" target="_blank" download>📄 PDF</a>
+      <button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="Les Omeyyades (Cours 2)" data-period="omeyyades">
+    <h3>Les Omeyyades — Cours 2</h3>
+    <div class="meta">Dynastie omeyyade — Compléments</div>
+    <div class="buttons">
+      <a class="pdf" href="Dynastie Ommayades cour 2 (1).pdf" target="_blank" download>📄 PDF</a>
+      <button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+    <div class="lesson" data-title="Les Omeyyades (Cours 2)" data-period="omeyyades">
+    <h3>L’architecture Indo-iranienne Sous les Seldjoukides Les Séfévides Les Mogholes</h3>
+    <div class="meta">L’architecture Indo-iranienne Sous les Seldjoukides Les Séfévides Les Mogholes</div>
+    <div class="buttons">
+      <a class="pdf" href="L’architecture Indo-iranienne Sous.pdf" target="_blank" download>📄 PDF</a>
+      <button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="Architecture islamique en Andalousie (Partie 1)" data-period="andalousie">
+    <h3>L’architecture islamique en Andalousie — Partie 1</h3>
+    <div class="meta">Des Omeyyades de Cordoue aux Taïfas</div>
+    <div class="buttons">
+      <a class="pdf" href="L’architecture islamique en Andalousie.pdf" target="_blank" download>📄 PDF</a>
+      <button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="Architecture islamique en Andalousie (Partie 2)" data-period="andalousie">
+    <h3>L’architecture islamique en Andalousie — Partie 2</h3>
+    <div class="meta">Nasrides, Alhambra et systèmes décoratifs</div>
+    <div class="buttons">
+      <a class="pdf" href="L’architecture islamique en Andalousie 2.pdf" target="_blank" download>📄 PDF</a>
+      <button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+
+  <h2 class="module-title">III. Dynasties et pouvoirs (IXe–XVIe)</h2>
+  <div class="lesson" data-title="Les Toulonides Fatimides Mamelouks" data-period="dynasties">
+    <h3>Les Toulonides, Fatimides et Mamelouks</h3>
+    <div class="meta">Polarités politiques et expressions monumentales</div>
+    <div class="buttons">
+      <a class="pdf" href="Les toulonides , fatimide , mameloke.pdf" target="_blank" download>📄 PDF</a>
+      <button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <h2 class="module-title">IV. Ayyoubides et période des croisades (XIe–XIIIe)</h2>
+  <div class="lesson" data-title="Forteresses Ayyoubides Croisades" data-period="ayyoubides">
+    <h3>Forteresses ayyoubides à l’époque des croisades</h3>
+    <div class="meta">Système défensif, citadelles et dispositifs militaires</div>
+    <div class="buttons">
+      <a class="pdf" href="L’architecture des forteresses militaires ayyoubide à l’époque des croisades.pdf" target="_blank" download>📄 PDF</a>
+      <button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+
+  <h2 class="module-title">V. Traditions régionales et transferts</h2>
+  <div class="lesson" data-title="Architecture Indo-Iranienne" data-period="indo-iranien">
+    <h3>Architecture indo-iranienne</h3>
+    <div class="meta">Interactions, voûtes nervurées et syncrétismes</div>
+    <div class="buttons">
+      <a class="pdf" href="l'architecture indo-iranienne .pdf" target="_blank" download>📄 PDF</a>
+      <button>🎥 Vidéo</button><button>⭐ Premium</button>
+    </div>
+  </div>
+
+  <p id="emptyState" class="empty">لا توجد نتائج مطابقة للبحث.</p>
 
   <footer>© 2025 ArchiSpace – Tous droits réservés.</footer>
 </main>
@@ -229,8 +191,27 @@
 <script>
   const sidebar = document.querySelector('aside');
   const toggleBtn = document.getElementById('toggleSidebar');
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('hidden');
+  toggleBtn.addEventListener('click', () => sidebar.classList.toggle('hidden'));
+
+
+  const input = document.getElementById('searchInput');
+  const lessons = Array.from(document.querySelectorAll('.lesson'));
+  const empty = document.getElementById('emptyState');
+
+  function normalize(str){ return (str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+
+  input.addEventListener('input', () => {
+    const q = normalize(input.value.trim());
+    let visibleCount = 0;
+    lessons.forEach(card => {
+      const hay = normalize(card.dataset.title);
+      if(!q || hay.includes(q)){
+        card.classList.remove('hidden-soft'); visibleCount++;
+      } else {
+        card.classList.add('hidden-soft');
+      }
+    });
+    empty.style.display = visibleCount ? 'none' : 'block';
   });
 </script>
 
