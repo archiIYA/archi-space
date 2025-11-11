@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Théorie de projet 3</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
-
   <style>
     :root{
       --bg:#fff; --text:#111; --muted:#666; --card:#fafafa; --side:#f4f4f4; --btn:#111; --btnText:#fff; --shadow:0 2px 6px rgba(0,0,0,.05);
@@ -14,58 +13,44 @@
     *{box-sizing:border-box}
     html,body{height:100%;}
     body{ margin:0; font-family:'Rubik',sans-serif; background:var(--bg); color:var(--text); display:flex; }
-
     aside{
       width:240px; background:var(--side); height:100vh; padding:20px;
       box-shadow:2px 0 5px rgba(0,0,0,.1); overflow-y:auto; position:fixed; left:0; top:0;
       transform:translateX(0); transition:transform .3s ease; z-index:998;
     }
     aside.hidden{ transform:translateX(-260px); }
-
     .back-button{ margin-bottom:12px; background:#ddd; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; width:100%; font-weight:600; transition:background .3s;}
     .back-button:hover{ background:#ccc;}
     aside h2{ font-size:18px; margin:12px 0 16px;}
     aside a{ display:block; padding:10px; margin-bottom:8px; text-decoration:none; color:#333; border-radius:6px; transition:background .3s;}
     aside a:hover{ background:#ddd;}
-
-
     #toggleSidebar{
       position:fixed; inset:12px auto auto 12px; z-index:9999;
       background:var(--btn); color:var(--btnText); border:none; padding:10px 15px; font-size:18px; border-radius:8px;
       cursor:pointer; box-shadow:var(--shadow); transform:none !important; pointer-events:auto;
     }
-
     main{ flex-grow:1; padding:30px; margin-left:240px; transition:margin-left .3s ease; }
     aside.hidden ~ main{ margin-left:0; }
-
     .section-title{ font-size:26px; margin:18px 0 12px; color:#000;}
-
-
     .search-wrap{ position:sticky; top:0; background:var(--bg); padding:6px 0 16px; z-index:100; }
     .search-row{ display:flex; gap:10px; align-items:center; }
     .search-wrap input{ flex:1; padding:12px 14px; border:1px solid #e1e1e1; border-radius:10px; font-size:15px; }
-
     .module-title{ font-size:22px; margin:28px 0 12px; color:#000; border-bottom:2px solid #eee; padding-bottom:6px; }
-
     .lesson{ margin-bottom:14px; background:var(--card); padding:16px; border-radius:10px; box-shadow:var(--shadow); }
-    .lesson h3{ font-size:16px; margin:0 0 8px; color:#222; word-break:break-word; }
+    .lesson h3{ font-size:16px; margin:0 0 8px; color:#000; word-break:break-word; }
     .lesson mark{ background:var(--hl); padding:0 2px; border-radius:3px; }
     .meta{ font-size:13px; color:var(--muted); margin-bottom:6px;}
     .buttons{ display:flex; flex-wrap:wrap; gap:8px; }
     .buttons a, .buttons button{ display:inline-flex; align-items:center; gap:8px; background:none; border:1px solid #e6e6e6; padding:8px 12px; border-radius:8px; font-size:14px; cursor:pointer; text-decoration:none; color:#111; }
     .buttons a.pdf{ border-color:#d0d0d0; }
     .buttons a:hover, .buttons button:hover{ opacity:.85; }
-
     footer{ margin-top:50px; font-size:13px; color:#888; text-align:center; }
     .empty{ display:none; padding:10px; color:#999; }
     .hidden-soft{ display:none !important; }
   </style>
-
-
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -75,60 +60,50 @@
       appId: "1:407015246505:web:c914a78566b882b80df7b8",
       measurementId: "G-RZV7LSDQBD"
     };
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-
     onAuthStateChanged(auth, (user) => {
       if (!user) window.location.href = "login.html";
     });
   </script>
 </head>
 <body>
-
 <button id="toggleSidebar">☰ Menu</button>
-
 <aside class="sidebar">
   <a href="sem3.html" class="back-button">🔙 Retour à Semestre 3</a>
   <button class="back-button" onclick="history.back()">🔙 Retour</button>
-
   <div class="sidebar-header">
     <h2>📚 Année 2 - Semestre 3</h2>
   </div>
-
   <ul class="sidebar-menu">
     <li><a href="atelier3.html">🏗️ Atelier de projet 3</a></li>
-    <li><a href="#">📐 DCA 3</a></li>
-    <li><a href="#">🎨 DAG 3</a></li>
-    <li><a href="histoire3.html">🏛️ Histoire de l’Architecture 3</a></li>
-    <li><a href="theorie3.html" style="font-weight:600">📘 Théorie de projet 3</a></li>
-    <li><a href="#">📏 Géométrie de l’espace 3</a></li>
-    <li><a href="#">🧱 TMC 3</a></li>
-    <li><a href="#">🧮 Mathématiques 3</a></li>
-    <li><a href="#">🗣️ Expression orale 3</a></li>
-    <li><a href="#">🏞️ Stage découverte 3</a></li>
+    <li><a href="theorie3.html">📘 Théorie de projet 3</a></li>
+    <li><a href="histoire3.html" style="font-weight:600">🏛️ Histoire de l’Architecture 3</a></li>
+    <li><a href="construction1.html">🧱 Construction 1</a></li>
+    <li><a href="dao.html">💻 DAO</a></li>
+    <li><a href="analyse_spatiale.html">🗺️ Analyse spatiale</a></li>
+    <li><a href="sociologie_anthropologie.html">👥 Sociologie</a></li>
+    <li><a href="resistance1.html">⚙️ Résistance des matériaux 1</a></li>
     <hr>
     <li><a href="projets.html">💼 Projets</a></li>
     <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
   </ul>
 </aside>
-
 <main>
   <h1 class="section-title">📘 Théorie de projet 3</h1>
-
-
   <div class="search-wrap">
     <div class="search-row">
       <input id="searchInput" type="search" placeholder="🔎 Rechercher par titre, description ou nom de PDF (ex: CLIMAT, HABITAT, CONFORT)">
     </div>
   </div>
-
   <h2 class="module-title">Cours TCA — 2024/2025 (TAMANI)</h2>
 
   <div class="lesson" data-title="COURS 1 TCA (habiter, habitat) 2024-2025 TAMANI.pdf" data-keywords="habiter habitat tca introduction bases notions">
     <div class="meta">Notions d’«habiter» et d’«habitat», bases de TCA</div>
     <div class="buttons">
       <a class="pdf" href="COURS 1 TCA (habiter, habitat) 2024-2025 TAMANI.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 فيديو</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ بريميوم</button>
     </div>
   </div>
 
@@ -136,6 +111,8 @@
     <div class="meta">Évolution historique de l’habitat</div>
     <div class="buttons">
       <a class="pdf" href="2_COURS_2_TCA_EVOLUTION_HISTORIQUE_DE_L'HABITAT_2024_2025_TAMANI.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 فيديو</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ بريميوم</button>
     </div>
   </div>
 
@@ -143,6 +120,8 @@
     <div class="meta">L’habitat dans le site : contexte & implantation</div>
     <div class="buttons">
       <a class="pdf" href="3_COURS_3_TCA_L'HABITAT_DANS_LE_SITE_2024_2025_TAMANI.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 فيديو</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ بريميوم</button>
     </div>
   </div>
 
@@ -150,6 +129,8 @@
     <div class="meta">Intégration au paysage</div>
     <div class="buttons">
       <a class="pdf" href="4_COURS_4_TCA_INTEGRATION_AU_PAYSAGE_2024_2025_TAMANI_.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 فيديو</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ بريميوم</button>
     </div>
   </div>
 
@@ -157,6 +138,8 @@
     <div class="meta">Intégration au climat — Soleil</div>
     <div class="buttons">
       <a class="pdf" href="5_COURS_5_TCA_INTEGRATION_AU_CLIMAT_SOLEIL_2024_2025_TAMANI_.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 فيديو</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ بريميوم</button>
     </div>
   </div>
 
@@ -164,6 +147,8 @@
     <div class="meta">Intégration au climat — Vent</div>
     <div class="buttons">
       <a class="pdf" href="6_COURS_6_TCA_INTEGRATION_AU_CLIMAT_VENT_2024_2025_TAMANI_.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 فيديو</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ بريميوم</button>
     </div>
   </div>
 
@@ -171,6 +156,8 @@
     <div class="meta">Intégration au climat — Pluie / Humidité / Neige</div>
     <div class="buttons">
       <a class="pdf" href="7_COURS_7_TCA_INTEGRATION_AU_CLIMAT_PLUIE_HUMIDITE_NEIGE_2024_2025.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 فيديو</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ بريميوم</button>
     </div>
   </div>
 
@@ -178,6 +165,8 @@
     <div class="meta">Données urbaines et architecturales</div>
     <div class="buttons">
       <a class="pdf" href="8_COURS_8_TCA_DONNEES_URBAINES_ET_ARCHITECTURALES_2024_2025_TAMANI.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 فيديو</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ بريميوم</button>
     </div>
   </div>
 
@@ -185,6 +174,8 @@
     <div class="meta">Le confort (thermique, lumineux, acoustique…)</div>
     <div class="buttons">
       <a class="pdf" href="9_COURS_9_TCA_LE_CONFORT_2024_2025_TAMANI_.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 فيديو</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ بريميوم</button>
     </div>
   </div>
 
@@ -192,24 +183,21 @@
     <div class="meta">Habitat traditionnel dans le monde et en Algérie</div>
     <div class="buttons">
       <a class="pdf" href="10_COURS_10_TCA_HABITAT_TRADITIONNEL_DANS_LE_MONDE_et_EN_ALGERIE.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 فيديو</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ بريميوم</button>
     </div>
   </div>
 
   <p id="emptyState" class="empty">لا توجد نتائج مطابقة للبحث.</p>
-
   <footer>© 2025 ArchiSpace – Tous droits réservés.</footer>
 </main>
-
 <script>
   const sidebar = document.querySelector('aside');
   const toggleBtn = document.getElementById('toggleSidebar');
   toggleBtn.addEventListener('click', () => sidebar.classList.toggle('hidden'));
-
   const input  = document.getElementById('searchInput');
   const lessons = Array.from(document.querySelectorAll('.lesson'));
   const empty  = document.getElementById('emptyState');
-
-
   const pdfIndex = new Map();
   lessons.forEach(card=>{
     const pdfLinks = Array.from(card.querySelectorAll('a.pdf'));
@@ -225,10 +213,8 @@
     }).join(' ');
     pdfIndex.set(card, names);
   });
-
   function normalize(str){ return (str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/’|‘|`/g,"'"); }
   function tokenize(q){ return normalize(q).split(/[^\p{L}\p{N}']+/u).filter(Boolean); }
-
   function clearHighlights(el){
     el.querySelectorAll('mark').forEach(m=>{
       const parent = m.parentNode; parent.replaceChild(document.createTextNode(m.textContent), m); parent.normalize();
@@ -251,14 +237,12 @@
       node.parentNode.replaceChild(frag, node);
     });
   }
-
   function scoreFor(lesson, tokens, phrase){
     const hayTitle = normalize(lesson.dataset.title);
     const hayMeta  = normalize(lesson.querySelector('.meta')?.textContent || '');
     const hayKeys  = normalize(lesson.dataset.keywords || '');
     const hayPdf   = normalize(pdfIndex.get(lesson) || '');
     const hayAll   = hayTitle + ' ' + hayMeta + ' ' + hayKeys + ' ' + hayPdf;
-
     let score = 0;
     if(phrase && hayAll.includes(phrase)) score += 8;  
     tokens.forEach(t=>{
@@ -270,18 +254,14 @@
     });
     return score;
   }
-
   function runSearch(){
     const q = input.value.trim();
     const phrase = normalize(q);
     const tokens = tokenize(q);
-
     let visibleCount = 0;
     lessons.forEach(card=> clearHighlights(card));
-
     const scored = lessons.map(card=>({ card, s: scoreFor(card, tokens, phrase) }))
                           .sort((a,b)=> b.s - a.s);
-
     scored.forEach(({card, s})=>{
       if(!q || s > 0){
         card.classList.remove('hidden-soft');
@@ -291,10 +271,8 @@
         card.classList.add('hidden-soft');
       }
     });
-
     empty.style.display = visibleCount ? 'none' : 'block';
   }
-
   input.addEventListener('input', runSearch);
   input.addEventListener('keydown', (e)=>{
     if(e.key==='Enter'){
@@ -302,10 +280,7 @@
       if(first){ const open = first.querySelector('a.pdf'); if(open) open.click(); }
     }
   });
-
-
   runSearch();
 </script>
-
 </body>
 </html>
