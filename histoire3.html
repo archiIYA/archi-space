@@ -12,6 +12,7 @@
       --hl: #ffe58f;
     }
     *{box-sizing:border-box}
+    html,body{height:100%;}
     body{ margin:0; font-family:'Rubik',sans-serif; background:var(--bg); color:var(--text); display:flex; }
     aside{ width:240px; background:var(--side); height:100vh; padding:20px; box-shadow:2px 0 5px rgba(0,0,0,.1); overflow-y:auto; position:fixed; left:0; top:0; transform:translateX(0); transition:transform .3s ease; z-index:998;}
     aside.hidden{ transform:translateX(-260px);}    
@@ -21,7 +22,12 @@
     aside a{ display:block; padding:10px; margin-bottom:8px; text-decoration:none; color:#333; border-radius:6px; transition:background .3s;}
     aside a:hover{ background-color:#ddd;}
 
-    #toggleSidebar{ position:fixed; top:8px; left:8px; right:auto; bottom:auto; z-index:2000; background:var(--btn); color:var(--btnText); border:none; padding:10px 14px; font-size:18px; border-radius:10px; cursor:pointer; box-shadow:var(--shadow); transform:none !important; }
+
+    #toggleSidebar{
+      position:fixed; inset:12px auto auto 12px; z-index:9999;
+      background:var(--btn); color:var(--btnText); border:none; padding:10px 15px; font-size:18px; border-radius:8px;
+      cursor:pointer; box-shadow:var(--shadow); transform:none !important; pointer-events:auto;
+    }
 
     main{ flex-grow:1; padding:30px; margin-left:240px; transition:margin-left .3s ease; }
     aside.hidden ~ main{ margin-left:0;}
@@ -48,7 +54,6 @@
     .empty{ display:none; padding:10px; color:#999; }
     .hidden-soft{ display:none !important; }
   </style>
-
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -103,15 +108,15 @@
 
   <div class="search-wrap">
     <div class="search-row">
-      <input id="searchInput" type="search" placeholder="🔎 Rechercher par titre, description ou nom de PDF (ex: Andalousie, Forteresses, Ommayades.pdf)">
+      <input id="searchInput" type="search" placeholder="🔎 Rechercher par titre, description ou nom de PDF …">
     </div>
     <div id="chipbar" class="chipbar">
       <span class="chip" data-period="avant">Avant l’Islam</span>
       <span class="chip" data-period="omeyyades">Omeyyades</span>
-      <span class="chip" data-period="andalousie">Al‑Andalus</span>
+      <span class="chip" data-period="andalousie">Al-Andalus</span>
       <span class="chip" data-period="dynasties">Dynasties</span>
       <span class="chip" data-period="ayyoubides">Ayyoubides</span>
-      <span class="chip" data-period="indo-iranien">Indo‑iranien</span>
+      <span class="chip" data-period="indo-iranien">Indo-iranien</span>
     </div>
   </div>
 
@@ -120,7 +125,7 @@
     <h3>Arabie avant l’Islam</h3>
     <div class="meta">Repères historiques et contexte préislamique</div>
     <div class="buttons">
-      <a class="pdf" href="L'arabie avant l'Islam .pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <a class="pdf" href="L'arabie avant l'Islam .pdf" target="_blank">📄PDF</a>
       <button title="Bientôt">🎥 Vidéo</button>
       <button title="Premium">⭐ Premium</button>
     </div>
@@ -131,7 +136,7 @@
     <h3>Les Omeyyades — Cours 1</h3>
     <div class="meta">Expansion et premières expressions architecturales</div>
     <div class="buttons">
-      <a class="pdf" href="les ommayades .pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <a class="pdf" href="les ommayades .pdf" target="_blank">📄PDF</a>
       <button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
@@ -140,16 +145,16 @@
     <h3>Les Omeyyades — Cours 2</h3>
     <div class="meta">Dynastie omeyyade — Compléments</div>
     <div class="buttons">
-      <a class="pdf" href="Dynastie Ommayades cour 2 (1).pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <a class="pdf" href="Dynastie Ommayades cour 2 (1).pdf" target="_blank">📄PDF</a>
       <button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
 
-  <div class="lesson" data-title="Architecture Indo‑iranienne (Seldjoukides, Séfévides, Moghols)" data-period="indo-iranien" data-keywords="indo iran seljoukides séfévides safavides moghols mogols perse inde">
-    <h3>L’architecture Indo‑iranienne Sous les Seldjoukides • Les Séfévides • Les Moghols</h3>
-    <div class="meta">L’architecture Indo‑iranienne Sous les Seldjoukides Les Séfévides Les Mogholes</div>
+  <div class="lesson" data-title="Architecture Indo-iranienne (Seldjoukides, Séfévides, Moghols)" data-period="indo-iranien" data-keywords="indo iran seljoukides séfévides safavides moghols mogols perse inde">
+    <h3>L’architecture Indo-iranienne Sous les Seldjoukides • Les Séfévides • Les Moghols</h3>
+    <div class="meta">L’architecture Indo-iranienne Sous les Seldjoukides Les Séfévides Les Mogholes</div>
     <div class="buttons">
-      <a class="pdf" href="L’architecture Indo-iranienne Sous.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <a class="pdf" href="L’architecture Indo-iranienne Sous.pdf" target="_blank">📄PDF</a>
       <button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
@@ -158,7 +163,7 @@
     <h3>L’architecture islamique en Andalousie — Partie 1</h3>
     <div class="meta">Des Omeyyades de Cordoue aux Taïfas</div>
     <div class="buttons">
-      <a class="pdf" href="L’architecture islamique en Andalousie.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <a class="pdf" href="L’architecture islamique en Andalousie.pdf" target="_blank">📄PDF</a>
       <button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
@@ -167,18 +172,17 @@
     <h3>L’architecture islamique en Andalousie — Partie 2</h3>
     <div class="meta">Nasrides, Alhambra et systèmes décoratifs</div>
     <div class="buttons">
-      <a class="pdf" href="L’architecture islamique en Andalousie 2.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <a class="pdf" href="L’architecture islamique en Andalousie 2.pdf" target="_blank">📄PDF</a>
       <button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
-
 
   <h2 class="module-title">III. Dynasties et pouvoirs (IXe–XVIe)</h2>
   <div class="lesson" data-title="Les Toulonides Fatimides Mamelouks" data-period="dynasties" data-keywords="toulonides tulunides fatimides mamelouks mameloukes egypte cairo">
     <h3>Les Toulonides, Fatimides et Mamelouks</h3>
     <div class="meta">Polarités politiques et expressions monumentales</div>
     <div class="buttons">
-      <a class="pdf" href="Les toulonides , fatimide , mameloke.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <a class="pdf" href="Les toulonides , fatimide , mameloke.pdf" target="_blank">📄PDF</a>
       <button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
@@ -188,18 +192,17 @@
     <h3>Forteresses ayyoubides à l’époque des croisades</h3>
     <div class="meta">Système défensif, citadelles et dispositifs militaires</div>
     <div class="buttons">
-      <a class="pdf" href="L’architecture des forteresses militaires ayyoubide à l’époque des croisades.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <a class="pdf" href="L’architecture des forteresses militaires ayyoubide à l’époque des croisades.pdf" target="_blank">📄PDF</a>
       <button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
-
 
   <h2 class="module-title">V. Traditions régionales et transferts</h2>
   <div class="lesson" data-title="Architecture Indo-Iranienne" data-period="indo-iranien" data-keywords="indo iran perse inde voûtes iwan muqarnas">
     <h3>Architecture indo-iranienne</h3>
     <div class="meta">Interactions, voûtes nervurées et syncrétismes</div>
     <div class="buttons">
-      <a class="pdf" href="l'architecture indo-iranienne .pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <a class="pdf" href="l'architecture indo-iranienne .pdf" target="_blank">📄PDF</a>
       <button>🎥 Vidéo</button><button>⭐ Premium</button>
     </div>
   </div>
@@ -218,13 +221,22 @@
   const lessons = Array.from(document.querySelectorAll('.lesson'));
   const empty = document.getElementById('emptyState');
   const chips = Array.from(document.querySelectorAll('.chip'));
-  
+
+
   const pdfIndex = new Map();
   lessons.forEach(card=>{
-    const hrefs = Array.from(card.querySelectorAll('a'))
-      .map(a=> (a.getAttribute('href')||''))
-      .filter(h=>/\.pdf(\?|$)/i.test(h));
-    pdfIndex.set(card, hrefs);
+    const pdfLinks = Array.from(card.querySelectorAll('a.pdf'));
+    const names = pdfLinks.map(a=>{
+      const raw = a.getAttribute('href') || '';
+      try{
+        const url = new URL(raw, location.href);
+        const base = url.pathname.split('/').pop() || raw;
+        return decodeURIComponent(base);
+      }catch(e){
+        return raw;
+      }
+    }).join(' ');
+    pdfIndex.set(card, names);
   });
 
   function normalize(str){ return (str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/’|‘|`/g,"'"); }
@@ -268,7 +280,6 @@
   input.addEventListener('input', runSearch);
   input.addEventListener('keydown', (e)=>{
     if(e.key==='Enter'){
-
       const first = lessons.find(x=>!x.classList.contains('hidden-soft'));
       if(first){ const open = first.querySelector('a.pdf'); if(open) open.click(); }
     }
@@ -278,17 +289,17 @@
     const hayTitle = normalize(lesson.dataset.title);
     const hayMeta = normalize(lesson.querySelector('.meta')?.textContent || '');
     const hayKeys = normalize(lesson.dataset.keywords || '');
-    const hrefs = (pdfIndex.get(lesson) || []).map(normalize).join(' ');
-    const hayAll = hayTitle + ' ' + hayMeta + ' ' + hayKeys + ' ' + hrefs;
+    const hayPdf  = normalize(pdfIndex.get(lesson) || '');
+    const hayAll = hayTitle + ' ' + hayMeta + ' ' + hayKeys + ' ' + hayPdf;
 
     let score = 0;
     if(phrase && hayAll.includes(phrase)) score += 8; 
     tokens.forEach(t=>{
       if(!t) return;
-      if(hayTitle.includes(t)) score += 3; 
-      if(hayMeta.includes(t)) score += 2;
-      if(hayKeys.includes(t)) score += 1.5;
-      if(hrefs.includes(t)) score += 4; 
+      if(hayTitle.includes(t)) score += 3;
+      if(hayMeta.includes(t))  score += 2;
+      if(hayKeys.includes(t))  score += 1.5;
+      if(hayPdf.includes(t))   score += 4.5; 
     });
     if(activePeriod && lesson.dataset.period === activePeriod) score += 2;
     return score;
@@ -301,15 +312,9 @@
 
     let visibleCount = 0;
 
-
     lessons.forEach(card=>{ clearHighlights(card); });
 
-
-    const scored = lessons.map(card=>({
-      card,
-      s: scoreFor(card, tokens, phrase)
-    }));
-
+    const scored = lessons.map(card=>({ card, s: scoreFor(card, tokens, phrase) }));
     scored.sort((a,b)=> b.s - a.s);
 
     scored.forEach(({card, s})=>{
@@ -331,9 +336,7 @@
 
 
   document.querySelectorAll('a.pdf').forEach(a=>{
-    a.addEventListener('click', (e)=>{
-
-    });
+    a.addEventListener('click', ()=>{  });
   });
 </script>
 
