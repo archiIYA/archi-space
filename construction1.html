@@ -5,8 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Construction 1</title>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
-
   <style>
+    :root{
+      --bg:#fff; --text:#111; --muted:#666; --card:#fafafa; --side:#f4f4f4; --btn:#111; --btnText:#fff; --shadow:0 2px 6px rgba(0,0,0,.05);
+      --hl:#ffe58f;
+    }
+    html,body{height:100%;}
     body {
       margin: 0;
       font-family: 'Rubik', sans-serif;
@@ -14,7 +18,6 @@
       color: #111;
       display: flex;
     }
-
     aside {
       width: 240px;
       background-color: #f4f4f4;
@@ -29,11 +32,9 @@
       transition: transform 0.3s ease;
       z-index: 998;
     }
-
     aside.hidden {
       transform: translateX(-260px);
     }
-
     .back-button {
       margin-bottom: 20px;
       background-color: #ddd;
@@ -45,16 +46,13 @@
       font-weight: 600;
       transition: background-color 0.3s;
     }
-
     .back-button:hover {
       background-color: #ccc;
     }
-
     aside h2 {
       font-size: 18px;
       margin-bottom: 20px;
     }
-
     aside a {
       display: block;
       padding: 10px;
@@ -64,11 +62,9 @@
       border-radius: 6px;
       transition: background 0.3s;
     }
-
     aside a:hover {
       background-color: #ddd;
     }
-
     #toggleSidebar {
       position: fixed;
       top: 20px;
@@ -82,75 +78,74 @@
       border-radius: 6px;
       cursor: pointer;
     }
-
     main {
       flex-grow: 1;
       padding: 30px;
       margin-left: 240px;
       transition: margin-left 0.3s ease;
     }
-
     aside.hidden ~ main {
       margin-left: 0;
     }
-
     .section-title {
       font-size: 26px;
       margin-bottom: 20px;
       color: #000;
     }
-
-    .lesson {
-      margin-bottom: 30px;
-      background: #fafafa;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    .search-wrap{ margin-bottom:24px; }
+    .search-row{ display:flex; gap:10px; align-items:center; }
+    .search-wrap input{ flex:1; padding:12px 14px; border:1px solid #e1e1e1; border-radius:10px; font-size:15px; }
+    .lesson{
+      margin-bottom:24px;
+      background:var(--card);
+      padding:18px;
+      border-radius:10px;
+      box-shadow:var(--shadow);
+      transition:.2s;
+      display:block;
     }
-
-    .lesson h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      color: #222;
+    .lesson.hidden-soft { display:none !important; }
+    .lesson h3{
+      font-size:18px;
+      margin:0 0 10px;
+      color:#000;
+      word-break:break-word;
     }
-
-    .buttons {
-      margin-top: 10px;
+    .buttons{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+      flex-wrap:wrap;
     }
-
-    .buttons button {
-      background: none;
-      border: none;
-      margin-right: 10px;
-      font-size: 16px;
+    .buttons a, .buttons button {
+      background:none;
+      border: 1px solid #e6e6e6;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 15px;
       cursor: pointer;
+      color: #111;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      text-decoration: none;
     }
-
-    .buttons button:hover {
-      opacity: 0.7;
-    }
-
+    .buttons a.pdf    { border-color: #d0d0d0;}
+    .buttons button.video { background: #222; color:#fff; border:none;}
+    .buttons button.premium { background: gold; color: #161616; border:none;}
+    .buttons a:hover, .buttons button:hover { opacity: 0.85;}
+    .empty{display:none;padding:10px;color:#999;}
     footer {
       margin-top: 50px;
       font-size: 13px;
       color: #888;
       text-align: center;
     }
-
-    .module-title {
-      font-size: 22px;
-      margin: 30px 0 15px;
-      color: #000;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 5px;
-    }
   </style>
-
-  <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -160,83 +155,158 @@
       appId: "1:407015246505:web:c914a78566b882b80df7b8",
       measurementId: "G-RZV7LSDQBD"
     };
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-
-    // حماية تسجيل الدخول
     onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "login.html"; 
-      }
+      if (!user) window.location.href = "login.html";
     });
   </script>
 </head>
 <body>
-
 <button id="toggleSidebar">☰ Menu</button>
-
 <aside class="sidebar">
   <a href="sem1.html" class="back-button">🔙 Retour à Semestre 1</a>
   <button class="back-button" onclick="history.back()">🔙 Retour</button>
-
   <div class="sidebar-header">
     <h2>📚 Année 1 - Semestre 1</h2>
   </div>
-
   <ul class="sidebar-menu">
-    <li><a href="atelier1.html">🏗️ Atelier de projet 1</a></li>
-    <li><a href="dca1.html">📐 DCA 1</a></li>
-    <li><a href="dag1.html">🎨 DAG 1</a></li>
-    <li><a href="histoire1.html">🏛️ Histoire de l’Architecture 1</a></li>
-    <li><a href="theorie1.html">📘 Théorie de projet 1</a></li>
-    <li><a href="geometrie1.html">📏 Géométrie de l’espace 1</a></li>
+    <li><a href="atelier3.html">🏗️ Atelier de projet 3</a></li>
+    <li><a href="theorie3.html">📘 Théorie de projet 3</a></li>
+    <li><a href="histoire3.html" style="font-weight:600">🏛️ Histoire de l’Architecture 3</a></li>
     <li><a href="construction1.html">🧱 Construction 1</a></li>
-    <li><a href="math1.html">🧮 Mathématiques</a></li>
-    <li><a href="expression1.html">🗣️ Expression orale</a></li>
-    <li><a href="stage1.html">🏞️ Stage découverte 1</a></li>
+    <li><a href="dao.html">💻 DAO</a></li>
+    <li><a href="analyse_spatiale.html">🗺️ Analyse spatiale</a></li>
+    <li><a href="sociologie_anthropologie.html">👥 Sociologie</a></li>
+    <li><a href="resistance1.html">⚙️ Résistance des matériaux 1</a></li>
     <hr>
     <li><a href="projets.html">💼 Projets</a></li>
     <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
   </ul>
 </aside>
-
 <main>
   <h1 class="section-title">🧱 Construction 1</h1>
-
-  <!-- Unité 1: Les fondations -->
-  <h2 class="module-title">Unité 1 : Les fondations</h2>
-  <div class="lesson"><h3>Définition des fondations, et leurs types</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Fondations superficielles : Semelles filantes</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Fondations superficielles : Semelles isolées</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Fondations superficielles : Radier général</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Fondations profondes : Pieux</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-
-  <!-- Unité 2: Les murs -->
-  <h2 class="module-title">Unité 2 : Les murs</h2>
-  <div class="lesson"><h3>Définition des murs, leur fonction, et leurs types</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Types de murs selon les matériaux : pierres, briques, béton...</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Détails des murs : joints de murs</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Détails des murs : ouvertures</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-
-  <!-- Unité 3: Les planchers -->
-  <h2 class="module-title">Unité 3 : Les planchers</h2>
-  <div class="lesson"><h3>Définition des planchers, fonction et types</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Planchers en béton armé : Dalles pleines</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-  <div class="lesson"><h3>Planchers en béton armé : Planchers nervurés</h3><div class="buttons"><button>📄 PDF</button><button>🎥 Vidéo</button><button>⭐ Premium</button></div></div>
-
-  <footer>
-    © 2025 ArchiSpace – Tous droits réservés.
-  </footer>
+  <div class="search-wrap">
+    <div class="search-row">
+      <input id="searchInput" type="search" placeholder="🔎 Rechercher : nom du PDF...">
+    </div>
+  </div>
+  <div class="lesson" data-title="1 Implantation.pdf">
+    <h3>1 Implantation.pdf</h3>
+    <div class="buttons">
+      <a class="pdf" href="1%20Implantation.pdf" target="_blank">📄 PDF</a>
+      <button class="video" onclick="alert('ميزة الفيديو: متوفرة قريبًا')">🎥 Vidéo</button>
+      <button class="premium" onclick="alert('ميزة البريميوم: متوفرة قريبًا')">⭐ Premium</button>
+    </div>
+  </div>
+  <div class="lesson" data-title="2 Terassement.pdf">
+    <h3>2 Terassement.pdf</h3>
+    <div class="buttons">
+      <a class="pdf" href="2%20Terassement.pdf" target="_blank">📄 PDF</a>
+      <button class="video" onclick="alert('ميزة الفيديو: متوفرة قريبًا')">🎥 Vidéo</button>
+      <button class="premium" onclick="alert('ميزة البريميوم: متوفرة قريبًا')">⭐ Premium</button>
+    </div>
+  </div>
+  <div class="lesson" data-title="3 Fondations parie 1.pdf">
+    <h3>3 Fondations parie 1.pdf</h3>
+    <div class="buttons">
+      <a class="pdf" href="3%20Fondations%20parie%201.pdf" target="_blank">📄 PDF</a>
+      <button class="video" onclick="alert('ميزة الفيديو: متوفرة قريبًا')">🎥 Vidéo</button>
+      <button class="premium" onclick="alert('ميزة البريميوم: متوفرة قريبًا')">⭐ Premium</button>
+    </div>
+  </div>
+  <div class="lesson" data-title="3 les radiers.pdf">
+    <h3>3 les radiers.pdf</h3>
+    <div class="buttons">
+      <a class="pdf" href="3%20les%20radiers.pdf" target="_blank">📄 PDF</a>
+      <button class="video" onclick="alert('ميزة الفيديو: متوفرة قريبًا')">🎥 Vidéo</button>
+      <button class="premium" onclick="alert('ميزة البريميوم: متوفرة قريبًا')">⭐ Premium</button>
+    </div>
+  </div>
+  <div class="lesson" data-title="Semelles fillantes.pdf">
+    <h3>Semelles fillantes.pdf</h3>
+    <div class="buttons">
+      <a class="pdf" href="Semelles%20fillantes.pdf" target="_blank">📄 PDF</a>
+      <button class="video" onclick="alert('ميزة الفيديو: متوفرة قريبًا')">🎥 Vidéo</button>
+      <button class="premium" onclick="alert('ميزة البريميوم: متوفرة قريبًا')">⭐ Premium</button>
+    </div>
+  </div>
+  <p id="emptyState" class="empty">لا توجد نتائج مطابقة للبحث.</p>
+  <footer>© 2025 ArchiSpace – Tous droits réservés.</footer>
 </main>
-
 <script>
   const sidebar = document.querySelector('aside');
   const toggleBtn = document.getElementById('toggleSidebar');
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('hidden');
+  toggleBtn.addEventListener('click', () => sidebar.classList.toggle('hidden'));
+  const input  = document.getElementById('searchInput');
+  const lessons = Array.from(document.querySelectorAll('.lesson'));
+  const empty  = document.getElementById('emptyState');
+  function normalize(str){ return (str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/’|‘|`/g,"'"); }
+  function tokenize(q){ return normalize(q).split(/[^\p{L}\p{N}']+/u).filter(Boolean); }
+  function clearHighlights(el){
+    el.querySelectorAll('mark').forEach(m=>{
+      const parent = m.parentNode; parent.replaceChild(document.createTextNode(m.textContent), m); parent.normalize();
+    });
+  }
+  function highlight(el, terms){
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    const parts = []; while(walker.nextNode()) parts.push(walker.currentNode);
+    const patterns = terms.map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+    if(!patterns.length) return;
+    const re = new RegExp('('+patterns.join('|')+')','gi');
+    parts.forEach(node=>{
+      const text = node.nodeValue; if(!text || !re.test(text)) return; re.lastIndex=0;
+      const frag = document.createDocumentFragment(); let last = 0; let m;
+      while((m = re.exec(text))){
+        frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        const mark = document.createElement('mark'); mark.textContent = m[0]; frag.appendChild(mark); last = m.index + m[0].length;
+      }
+      frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+  function scoreFor(lesson, tokens, phrase){
+    const hayTitle = normalize(lesson.dataset.title);
+    const hayMeta  = '';
+    const hayAll   = hayTitle + ' ' + hayMeta;
+    let score = 0;
+    if(phrase && hayAll.includes(phrase)) score += 8;
+    tokens.forEach(t=>{
+      if(!t) return;
+      if(hayTitle.includes(t)) score += 3;
+    });
+    return score;
+  }
+  function runSearch(){
+    const q = input.value.trim();
+    const phrase = normalize(q);
+    const tokens = tokenize(q);
+    let visibleCount = 0;
+    lessons.forEach(card=> clearHighlights(card));
+    const scored = lessons.map(card=>({ card, s: scoreFor(card, tokens, phrase) }))
+                          .sort((a,b)=> b.s - a.s);
+    scored.forEach(({card, s})=>{
+      if(!q || s > 0){
+        card.classList.remove('hidden-soft');
+        visibleCount++;
+        if(q) highlight(card, tokens.filter(t=>t.length>2));
+      } else {
+        card.classList.add('hidden-soft');
+      }
+    });
+    empty.style.display = visibleCount ? 'none' : 'block';
+  }
+  input.addEventListener('input', runSearch);
+  input.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter'){
+      const first = lessons.find(x=>!x.classList.contains('hidden-soft'));
+      if(first){
+        const pdfBtn = first.querySelector('a.pdf');
+        if(pdfBtn) pdfBtn.click();
+      }
+    }
   });
+  runSearch();
 </script>
-
 </body>
 </html>
