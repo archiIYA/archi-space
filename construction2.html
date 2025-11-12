@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Construction 2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fff; --text:#111; --muted:#666; --card:#fafafa; --side:#f4f4f4; --btn:#111; --btnText:#fff; --shadow:0 2px 6px rgba(0,0,0,.05);
+      --hl:#ffe58f;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{ margin:0; font-family:'Rubik',sans-serif; background:var(--bg); color:var(--text); display:flex; }
+    aside{
+      width:240px; background:var(--side); height:100vh; padding:20px;
+      box-shadow:2px 0 5px rgba(0,0,0,.1); overflow-y:auto; position:fixed; left:0; top:0;
+      transform:translateX(0); transition:transform .3s ease; z-index:998;
+    }
+    aside.hidden{ transform:translateX(-260px); }
+    .back-button{ margin-bottom:12px; background:#ddd; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; width:100%; font-weight:600; transition:background .3s;}
+    .back-button:hover{ background:#ccc;}
+    aside h2{ font-size:18px; margin:12px 0 16px;}
+    aside a{ display:block; padding:10px; margin-bottom:8px; text-decoration:none; color:#333; border-radius:6px; transition:background .3s;}
+    aside a:hover{ background:#ddd;}
+    #toggleSidebar{
+      position:fixed; inset:12px auto auto 12px; z-index:9999;
+      background:var(--btn); color:var(--btnText); border:none; padding:10px 15px; font-size:18px; border-radius:8px;
+      cursor:pointer; box-shadow:var(--shadow); transform:none !important; pointer-events:auto;
+    }
+    main{ flex-grow:1; padding:30px; margin-left:240px; transition:margin-left .3s ease; }
+    aside.hidden ~ main{ margin-left:0; }
+    .section-title{ font-size:26px; margin:18px 0 12px; color:#000;}
+    .search-wrap{ position:sticky; top:0; background:var(--bg); padding:6px 0 16px; z-index:100; }
+    .search-row{ display:flex; gap:10px; align-items:center; }
+    .search-wrap input{ flex:1; padding:12px 14px; border:1px solid #e1e1e1; border-radius:10px; font-size:15px; }
+    .module-title{ font-size:22px; margin:28px 0 12px; color:#000; border-bottom:2px solid #eee; padding-bottom:6px; }
+    .lesson{ margin-bottom:14px; background:var(--card); padding:16px; border-radius:10px; box-shadow:var(--shadow); }
+    .lesson h3{ font-size:16px; margin:0 0 8px; color:#000; word-break:break-word; }
+    .lesson mark{ background:var(--hl); padding:0 2px; border-radius:3px; }
+    .meta{ font-size:13px; color:var(--muted); margin-bottom:6px;}
+    .buttons{ display:flex; flex-wrap:wrap; gap:8px; }
+    .buttons a, .buttons button{ display:inline-flex; align-items:center; gap:8px; background:none; border:1px solid #e6e6e6; padding:8px 12px; border-radius:8px; font-size:14px; cursor:pointer; text-decoration:none; color:#111; }
+    .buttons a.pdf{ border-color:#d0d0d0; }
+    .buttons a:hover, .buttons button:hover{ opacity:.85; }
+    footer{ margin-top:50px; font-size:13px; color:#888; text-align:center; }
+    .empty{ display:none; padding:10px; color:#999; }
+    .hidden-soft{ display:none !important; }
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.appspot.com",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, (user) => {
+      if (!user) window.location.href = "login.html";
+    });
+  </script>
+</head>
+<body>
+<button id="toggleSidebar">☰ Menu</button>
+<aside class="sidebar">
+  <a href="sem4.html" class="back-button">🔙 Retour à Semestre 4</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+  <div class="sidebar-header">
+    <h2>📚 Année 2 - Semestre 4</h2>
+  </div>
+  <ul class="sidebar-menu">
+    <li><a href="atelier4.html">🏗️ Atelier de projet 4</a></li>
+    <li><a href="theorie4.html">📘 Théorie de projet 4</a></li>
+    <li><a href="histoire4.html">🏛️ Histoire de l’Architecture 4</a></li>
+    <li><a href="construction2.html" style="font-weight:600">🧱 Construction 2</a></li>
+    <li><a href="anthropologie.html">👥 Anthropologie de l’habitat</a></li>
+    <li><a href="resistance2.html">⚙️ Résistance des matériaux 2</a></li>
+    <li><a href="photographie.html">📸 PHOTOGRAPHIE</a></li>   
+    <hr>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
+</aside>
+<main>
+  <h1 class="section-title">🧱 Construction 2</h1>
+  <div class="search-wrap">
+    <div class="search-row">
+      <input id="searchInput" type="search" placeholder="🔎 Rechercher par titre, description ou nom de PDF (ex: CIRCULATION, ISOLATION, FACADES)">
+    </div>
+  </div>
+  <h2 class="module-title">Cours Construction S2</h2>
+
+  <div class="lesson" data-title="cours 1 S2 la circulation verticale.pdf" data-keywords="circulation verticale escalier ascenseur construction s2">
+    <h3>La circulation verticale</h3>
+    <div class="meta">La circulation verticale</div>
+    <div class="buttons">
+      <a class="pdf" href="cours 1 S2 la circulation verticale.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="Cours 2 descente des charges et pré dimensionnement.pdf" data-keywords="descente des charges pré-dimensionnement structure construction s2">
+    <h3>Descente des charges et pré-dimensionnement</h3>
+    <div class="meta">Descente des charges et pré-dimensionnement</div>
+    <div class="buttons">
+      <a class="pdf" href="Cours 2 descente des charges et pré dimensionnement.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="cours 3 S2 Isolation thermique des constructions..pdf" data-keywords="isolation thermique construction s2">
+    <h3>Isolation thermique des constructions</h3>
+    <div class="meta">Isolation thermique des constructions</div>
+    <div class="buttons">
+      <a class="pdf" href="cours 3 S2 Isolation thermique des constructions..pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="cours 4 S2 revetements et habillage des façades.pdf" data-keywords="revêtements habillage façades construction s2">
+    <h3>Revêtements et habillage des façades</h3>
+    <div class="meta">Revêtements et habillage des façades</div>
+    <div class="buttons">
+      <a class="pdf" href="cours 4 S2 revetements et habillage des façades.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="cours 5 S2 les façades légères.pdf" data-keywords="façades légères construction s2">
+    <h3>Les façades légères</h3>
+    <div class="meta">Les façades légères</div>
+    <div class="buttons">
+      <a class="pdf" href="cours 5 S2 les façades légères.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="cours 6 étanchéité des constructions et.pdf" data-keywords="étanchéité constructions s2">
+    <h3>Étanchéité des constructions</h3>
+    <div class="meta">Étanchéité des constructions</div>
+    <div class="buttons">
+      <a class="pdf" href="cours 6 étanchéité des constructions et.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="cours 7 S2 réseaux divers assainissement 1.pdf" data-keywords="réseaux assainissement construction s2">
+    <h3>Réseaux divers et assainissement 1</h3>
+    <div class="meta">Réseaux divers et assainissement 1</div>
+    <div class="buttons">
+      <a class="pdf" href="cours 7 S2 réseaux divers assainissement 1.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="cours 8 s2 Branchements et Installations interieures.pdf" data-keywords="branchements installations intérieures construction s2">
+    <h3>Branchements et installations intérieures</h3>
+    <div class="meta">Branchements et installations intérieures</div>
+    <div class="buttons">
+      <a class="pdf" href="cours 8 s2 Branchements et Installations interieures.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="Cours 9 Les principaux joints en construction. (1).pdf" data-keywords="joints construction s2">
+    <h3>Les principaux joints en construction</h3>
+    <div class="meta">Les principaux joints en construction</div>
+    <div class="buttons">
+      <a class="pdf" href="Cours 9 Les principaux joints en construction. (1).pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="Cours 10 les travaux de finition CES.pdf" data-keywords="travaux finition CES construction s2">
+    <h3>Les travaux de finition CES</h3>
+    <div class="meta">Les travaux de finition CES</div>
+    <div class="buttons">
+      <a class="pdf" href="Cours 10 les travaux de finition CES.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="cours 11 S2 Principales malfaçons de la construction..pdf" data-keywords="malfaçons construction s2">
+    <h3>Principales malfaçons de la construction</h3>
+    <div class="meta">Principales malfaçons de la construction</div>
+    <div class="buttons">
+      <a class="pdf" href="cours 11 S2 Principales malfaçons de la construction..pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+  <p id="emptyState" class="empty">لا توجد نتائج مطابقة للبحث.</p>
+  <footer>© 2025 ArchiSpace – Tous droits réservés.</footer>
+</main>
+<script>
+  const sidebar = document.querySelector('aside');
+  const toggleBtn = document.getElementById('toggleSidebar');
+  toggleBtn.addEventListener('click', () => sidebar.classList.toggle('hidden'));
+  const input  = document.getElementById('searchInput');
+  const lessons = Array.from(document.querySelectorAll('.lesson'));
+  const empty  = document.getElementById('emptyState');
+  const pdfIndex = new Map();
+  lessons.forEach(card=>{
+    const pdfLinks = Array.from(card.querySelectorAll('a.pdf'));
+    const names = pdfLinks.map(a=>{
+      const raw = a.getAttribute('href') || '';
+      try{
+        const url = new URL(raw, location.href);
+        const base = url.pathname.split('/').pop() || raw;
+        return decodeURIComponent(base);
+      }catch(e){
+        return raw;
+      }
+    }).join(' ');
+    pdfIndex.set(card, names);
+  });
+  function normalize(str){ return (str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/’|‘|`/g,"'"); }
+  function tokenize(q){ return normalize(q).split(/[^\p{L}\p{N}']+/u).filter(Boolean); }
+  function clearHighlights(el){
+    el.querySelectorAll('mark').forEach(m=>{
+      const parent = m.parentNode; parent.replaceChild(document.createTextNode(m.textContent), m); parent.normalize();
+    });
+  }
+  function highlight(el, terms){
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    const parts = []; while(walker.nextNode()) parts.push(walker.currentNode);
+    const patterns = terms.map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+    if(!patterns.length) return;
+    const re = new RegExp('('+patterns.join('|')+')','gi');
+    parts.forEach(node=>{
+      const text = node.nodeValue; if(!text || !re.test(text)) return; re.lastIndex=0;
+      const frag = document.createDocumentFragment(); let last = 0; let m;
+      while((m = re.exec(text))){
+        frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        const mark = document.createElement('mark'); mark.textContent = m[0]; frag.appendChild(mark); last = m.index + m[0].length;
+      }
+      frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+  function scoreFor(lesson, tokens, phrase){
+    const hayTitle = normalize(lesson.dataset.title);
+    const hayMeta  = normalize(lesson.querySelector('.meta')?.textContent || '');
+    const hayKeys  = normalize(lesson.dataset.keywords || '');
+    const hayPdf   = normalize(pdfIndex.get(lesson) || '');
+    const hayAll   = hayTitle + ' ' + hayMeta + ' ' + hayKeys + ' ' + hayPdf;
+    let score = 0;
+    if(phrase && hayAll.includes(phrase)) score += 8;  
+    tokens.forEach(t=>{
+      if(!t) return;
+      if(hayTitle.includes(t)) score += 3;
+      if(hayMeta.includes(t))  score += 2;
+      if(hayKeys.includes(t))  score += 1.5;
+      if(hayPdf.includes(t))   score += 4.5;         
+    });
+    return score;
+  }
+  function runSearch(){
+    const q = input.value.trim();
+    const phrase = normalize(q);
+    const tokens = tokenize(q);
+    let visibleCount = 0;
+    lessons.forEach(card=> clearHighlights(card));
+    const scored = lessons.map(card=>({ card, s: scoreFor(card, tokens, phrase) }))
+                          .sort((a,b)=> b.s - a.s);
+    scored.forEach(({card, s})=>{
+      if(!q || s > 0){
+        card.classList.remove('hidden-soft');
+        visibleCount++;
+        if(q) highlight(card, tokens.filter(t=>t.length>2));
+      } else {
+        card.classList.add('hidden-soft');
+      }
+    });
+    empty.style.display = visibleCount ? 'none' : 'block';
+  }
+  input.addEventListener('input', runSearch);
+  input.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter'){
+      const first = lessons.find(x=>!x.classList.contains('hidden-soft'));
+      if(first){ const open = first.querySelector('a.pdf'); if(open) open.click(); }
+    }
+  });
+  runSearch();
+</script>
+</body>
+</html>
