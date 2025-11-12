@@ -52,5 +52,83 @@
     const quizItems = Array.from(document.querySelectorAll('.quiz-item'));
     const empty = document.getElementById('emptyState');
     function normalize(str){ return (str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/’|‘|`/g,"'"); }
-    function tokenize(q){
+    function tokenize(q){ return normalize(q).split(/[^\p{L}\p{N}']+/u).filter(Boolean); }
+    function runSearch(){
+      const q = input.value.trim();
+      const tokens = tokenize(q);
+      let visibleCount = 0;
+      quizItems.forEach(item=>{
+        const data = (item.dataset.title||'') + " " + (item.dataset.keywords||'');
+        const matches = tokens.every(t=>data.includes(t));
+        if(!q || matches){
+          item.style.display = '';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      if(empty) empty.style.display = visibleCount ? 'none' : 'block';
+    }
+    if(input){
+      input.addEventListener('input', runSearch);
+      input.addEventListener('keydown', (e)=>{
+        if(e.key==='Enter'){
+          const first = quizItems.find(x=>x.style.display!=='none');
+          if(first){ const open = first.querySelector('.quiz-item-link'); if(open) open.click(); }
+        }
+      });
+      runSearch();
+    }
+  </script>
+</head>
+<body>
+<button id="toggleSidebar">☰ Menu</button>
+<aside class="sidebar">
+  <a href="sem4.html" class="back-button">🔙 Retour à Semestre 4</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+  <div class="sidebar-header">
+    <h2>📚 Année 2 - Semestre 4</h2>
+  </div>
+  <ul class="sidebar-menu">
+    <li><a href="atelier4.html">🏗️ Atelier de projet 4</a></li>
+    <li><a href="theorie4.html">📘 Théorie de projet 4</a></li>
+    <li><a href="histoire4.html">🏛️ Histoire de l’Architecture 4</a></li>
+    <li><a href="construction2.html">🧱 Construction 2</a></li>
+    <li><a href="anthropologie.html">👥 Anthropologie de l’habitat</a></li>
+    <li><a href="resistance2.html">⚙️ Résistance des matériaux 2</a></li>
+    <li><a href="photographie.html">📸 PHOTOGRAPHIE</a></li>
+    <li><a href="quiz.html" style="font-weight:600">📝 Quiz</a></li>
+    <hr>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
+</aside>
+<main>
+  <h1 class="section-title">📝 Quiz Histoire de l’Architecture</h1>
+  <div class="search-wrap">
+    <div class="search-row">
+      <input id="searchInput" type="search" placeholder="🔎 Rechercher un quiz (ex: mésopotamienne, égyptienne)">
+    </div>
+  </div>
+  <h2 class="module-title">Quizzes disponibles</h2>
+  <div class="quiz-list">
+
+    <div class="quiz-item" data-title="Quiz Architectures Mésopotamienne" data-keywords="mésopotamienne histoire architecture quiz">
+      <div class="quiz-item-title">Quiz : Architecture Mésopotamienne</div>
+      <a class="quiz-item-link" href="quiz_mesopotamienne.html" target="_blank">Commencer le quiz</a>
+    </div>
+
+    <div class="quiz-item" data-title="Quiz Architectures Égyptienne" data-keywords="egyptienne histoire architecture quiz">
+      <div class="quiz-item-title">Quiz : Architecture Égyptienne</div>
+      <a class="quiz-item-link" href="quiz-egyptienne.html" target="_blank">Commencer le quiz</a>
+    </div>
+    
+
+    
+  </div>
+  <p id="emptyState" class="empty">لا توجد نتائج مطابقة للبحث.</p>
+  <footer>© 2025 ArchiSpace – Tous droits réservés.</footer>
+</main>
+</body>
+</html>
 
