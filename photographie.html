@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Photographie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fff; --text:#111; --muted:#666; --card:#fafafa; --side:#f4f4f4; --btn:#111; --btnText:#fff; --shadow:0 2px 6px rgba(0,0,0,.05);
+      --hl:#ffe58f;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{ margin:0; font-family:'Rubik',sans-serif; background:var(--bg); color:var(--text); display:flex; }
+    aside{
+      width:240px; background:var(--side); height:100vh; padding:20px;
+      box-shadow:2px 0 5px rgba(0,0,0,.1); overflow-y:auto; position:fixed; left:0; top:0;
+      transform:translateX(0); transition:transform .3s ease; z-index:998;
+    }
+    aside.hidden{ transform:translateX(-260px); }
+    .back-button{ margin-bottom:12px; background:#ddd; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; width:100%; font-weight:600; transition:background .3s;}
+    .back-button:hover{ background:#ccc;}
+    aside h2{ font-size:18px; margin:12px 0 16px;}
+    aside a{ display:block; padding:10px; margin-bottom:8px; text-decoration:none; color:#333; border-radius:6px; transition:background .3s;}
+    aside a:hover{ background:#ddd;}
+    #toggleSidebar{
+      position:fixed; inset:12px auto auto 12px; z-index:9999;
+      background:var(--btn); color:var(--btnText); border:none; padding:10px 15px; font-size:18px; border-radius:8px;
+      cursor:pointer; box-shadow:var(--shadow); transform:none !important; pointer-events:auto;
+    }
+    main{ flex-grow:1; padding:30px; margin-left:240px; transition:margin-left .3s ease; }
+    aside.hidden ~ main{ margin-left:0; }
+    .section-title{ font-size:26px; margin:18px 0 12px; color:#000;}
+    .search-wrap{ position:sticky; top:0; background:var(--bg); padding:6px 0 16px; z-index:100; }
+    .search-row{ display:flex; gap:10px; align-items:center; }
+    .search-wrap input{ flex:1; padding:12px 14px; border:1px solid #e1e1e1; border-radius:10px; font-size:15px; }
+    .module-title{ font-size:22px; margin:28px 0 12px; color:#000; border-bottom:2px solid #eee; padding-bottom:6px; }
+    .lesson{ margin-bottom:14px; background:var(--card); padding:16px; border-radius:10px; box-shadow:var(--shadow); }
+    .lesson h3{ font-size:16px; margin:0 0 8px; color:#000; word-break:break-word; }
+    .lesson mark{ background:var(--hl); padding:0 2px; border-radius:3px; }
+    .meta{ font-size:13px; color:var(--muted); margin-bottom:6px;}
+    .buttons{ display:flex; flex-wrap:wrap; gap:8px; }
+    .buttons a, .buttons button{ display:inline-flex; align-items:center; gap:8px; background:none; border:1px solid #e6e6e6; padding:8px 12px; border-radius:8px; font-size:14px; cursor:pointer; text-decoration:none; color:#111; }
+    .buttons a.pdf{ border-color:#d0d0d0; }
+    .buttons a:hover, .buttons button:hover{ opacity:.85; }
+    footer{ margin-top:50px; font-size:13px; color:#888; text-align:center; }
+    .empty{ display:none; padding:10px; color:#999; }
+    .hidden-soft{ display:none !important; }
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.appspot.com",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, (user) => {
+      if (!user) window.location.href = "login.html";
+    });
+  </script>
+</head>
+<body>
+<button id="toggleSidebar">☰ Menu</button>
+<aside class="sidebar">
+  <a href="sem4.html" class="back-button">🔙 Retour à Semestre 4</a>
+  <button class="back-button" onclick="history.back()">🔙 Retour</button>
+  <div class="sidebar-header">
+    <h2>📚 Année 2 - Semestre 4</h2>
+  </div>
+  <ul class="sidebar-menu">
+    <li><a href="atelier4.html">🏗️ Atelier de projet 4</a></li>
+    <li><a href="theorie4.html">📘 Théorie de projet 4</a></li>
+    <li><a href="histoire4.html">🏛️ Histoire de l’Architecture 4</a></li>
+    <li><a href="construction2.html">🧱 Construction 2</a></li>
+    <li><a href="anthropologie.html">👥 Anthropologie de l’habitat</a></li>
+    <li><a href="resistance2.html">⚙️ Résistance des matériaux 2</a></li>
+    <li><a href="photographie.html" style="font-weight:600">📸 PHOTOGRAPHIE</a></li>
+    <hr>
+    <li><a href="projets.html">💼 Projets</a></li>
+    <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
+  </ul>
+</aside>
+<main>
+  <h1 class="section-title">📸 PHOTOGRAPHIE</h1>
+  <div class="search-wrap">
+    <div class="search-row">
+      <input id="searchInput" type="search" placeholder="🔎 Rechercher par titre, description ou nom de PDF (ex: photo, montage, camus)">
+    </div>
+  </div>
+  <h2 class="module-title">Cours Photographie S4</h2>
+
+  <div class="lesson" data-title="1-MATERIEL-PHOTO.pdf" data-keywords="matériel photographie s4">
+    <h3>Matériel (Photo)</h3>
+    <div class="meta">Matériel (Photo)</div>
+    <div class="buttons">
+      <a class="pdf" href="1-MATERIEL-PHOTO.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="1-Prise de vue_Cadrage_compressed.pdf" data-keywords="prise de vue cadrage photographie s4">
+    <h3>Prise de vue & Cadrage</h3>
+    <div class="meta">Prise de vue & Cadrage</div>
+    <div class="buttons">
+      <a class="pdf" href="1-Prise de vue_Cadrage_compressed.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+  
+  <div class="lesson" data-title="2-Prise de vue_Techniques et Réglages.pdf" data-keywords="prise de vue techniques réglages photographie s4">
+    <h3>Prise de vue : Techniques et Réglages</h3>
+    <div class="meta">Techniques et réglages de la prise de vue</div>
+    <div class="buttons">
+      <a class="pdf" href="2-Prise de vue_Techniques et Réglages.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+
+  <div class="lesson" data-title="2-REGLAGE-PHOTO.pdf" data-keywords="réglage photographie s4">
+    <h3>Réglages photo</h3>
+    <div class="meta">Réglages photo</div>
+    <div class="buttons">
+      <a class="pdf" href="2-REGLAGE-PHOTO.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+  
+  <div class="lesson" data-title="3-Prise de vue_Unité de l'oeuvre.pdf" data-keywords="prise de vue unité de l'oeuvre photographie s4">
+    <h3>Prise de vue : Unité de l’œuvre</h3>
+    <div class="meta">Unité de l’œuvre en photographie</div>
+    <div class="buttons">
+      <a class="pdf" href="3-Prise de vue_Unité de l'oeuvre.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+  
+  <div class="lesson" data-title="2-Retouche-Développement Num_Logiciels.pdf" data-keywords="retouche développement numérique photographie logiciels s4">
+    <h3>Retouche & Développement numérique (Logiciels)</h3>
+    <div class="meta">Retouche & Développement numérique (Logiciels)</div>
+    <div class="buttons">
+      <a class="pdf" href="2-Retouche-Développement Num_Logiciels.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+  
+  <div class="lesson" data-title="2- Du Plan au Montage-Logiciels.pdf" data-keywords="plan montage logiciels photographie s4">
+    <h3>Du plan au montage : Logiciels</h3>
+    <div class="meta">Du plan au montage : Logiciels</div>
+    <div class="buttons">
+      <a class="pdf" href="2- Du Plan au Montage-Logiciels.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+  
+  <div class="lesson" data-title="TUTORIEL-Montage-Video-Avec-Windows-Movie-Maker.pdf" data-keywords="tutoriel montage vidéo windows movie maker s4">
+    <h3>Tutoriel : Montage vidéo avec Windows Movie Maker</h3>
+    <div class="meta">Tutoriel : Montage vidéo avec Windows Movie Maker</div>
+    <div class="buttons">
+      <a class="pdf" href="TUTORIEL-Montage-Video-Avec-Windows-Movie-Maker.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+  
+  <div class="lesson" data-title="Histoire de la Photo_Chambre noire-Capteur_compressed.pdf" data-keywords="histoire photographie chambre noire capteur s4">
+    <h3>Histoire de la photo : Chambre noire et capteur</h3>
+    <div class="meta">Histoire de la photo : Chambre noire et capteur</div>
+    <div class="buttons">
+      <a class="pdf" href="Histoire de la Photo_Chambre noire-Capteur_compressed.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+  
+  <div class="lesson" data-title="Camus_Alger_Casbah.pdf" data-keywords="camus alger casbah photographie s4">
+    <h3>Camus : Alger & Casbah</h3>
+    <div class="meta">Camus : Alger & Casbah</div>
+    <div class="buttons">
+      <a class="pdf" href="Camus_Alger_Casbah.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+  
+  <div class="lesson" data-title="Photo d'A_Exercie-Illustrer-Alger_de_Camus_Casbah.pdf" data-keywords="photo exercice illustrer alger camus casbah s4">
+    <h3>Photo d’A : Exercice - Illustrer Alger de Camus Casbah</h3>
+    <div class="meta">Photo d’A : Exercice - Illustrer Alger de Camus Casbah</div>
+    <div class="buttons">
+      <a class="pdf" href="Photo d'A_Exercie-Illustrer-Alger_de_Camus_Casbah.pdf" target="_blank">📄 Ouvrir le PDF</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+  
+  <div class="lesson" data-title="NOM-P_Photo_Illustrer-pas_Camus_Casbah.pptx" data-keywords="nom photo illustrer camus casbah pptx s4">
+    <h3>Photo, Illustrer par Camus Casbah (PPTX)</h3>
+    <div class="meta">Photo, Illustrer par Camus Casbah (PPTX)</div>
+    <div class="buttons">
+      <a class="pdf" href="NOM-P_Photo_Illustrer-pas_Camus_Casbah.pptx" target="_blank">📄 Ouvrir le PPTX</a>
+      <button onclick="alert('ميزة الفيديو: متوفرة قريباً')" style="background:#161616; color:#fff;">🎬 Vidéo</button>
+      <button onclick="alert('ميزة البريميوم: متوفرة قريباً')" style="background:gold; color:#161616;">⭐ Premium</button>
+    </div>
+  </div>
+  <p id="emptyState" class="empty">لا توجد نتائج مطابقة للبحث.</p>
+  <footer>© 2025 ArchiSpace – Tous droits réservés.</footer>
+</main>
+<script>
+  const sidebar = document.querySelector('aside');
+  const toggleBtn = document.getElementById('toggleSidebar');
+  toggleBtn.addEventListener('click', () => sidebar.classList.toggle('hidden'));
+  const input  = document.getElementById('searchInput');
+  const lessons = Array.from(document.querySelectorAll('.lesson'));
+  const empty  = document.getElementById('emptyState');
+  const pdfIndex = new Map();
+  lessons.forEach(card=>{
+    const pdfLinks = Array.from(card.querySelectorAll('a.pdf'));
+    const names = pdfLinks.map(a=>{
+      const raw = a.getAttribute('href') || '';
+      try{
+        const url = new URL(raw, location.href);
+        const base = url.pathname.split('/').pop() || raw;
+        return decodeURIComponent(base);
+      }catch(e){
+        return raw;
+      }
+    }).join(' ');
+    pdfIndex.set(card, names);
+  });
+  function normalize(str){ return (str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/’|‘|`/g,"'"); }
+  function tokenize(q){ return normalize(q).split(/[^\p{L}\p{N}']+/u).filter(Boolean); }
+  function clearHighlights(el){
+    el.querySelectorAll('mark').forEach(m=>{
+      const parent = m.parentNode; parent.replaceChild(document.createTextNode(m.textContent), m); parent.normalize();
+    });
+  }
+  function highlight(el, terms){
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    const parts = []; while(walker.nextNode()) parts.push(walker.currentNode);
+    const patterns = terms.map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+    if(!patterns.length) return;
+    const re = new RegExp('('+patterns.join('|')+')','gi');
+    parts.forEach(node=>{
+      const text = node.nodeValue; if(!text || !re.test(text)) return; re.lastIndex=0;
+      const frag = document.createDocumentFragment(); let last = 0; let m;
+      while((m = re.exec(text))){
+        frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        const mark = document.createElement('mark'); mark.textContent = m[0]; frag.appendChild(mark); last = m.index + m[0].length;
+      }
+      frag.appendChild(document.createTextNode(text.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+  function scoreFor(lesson, tokens, phrase){
+    const hayTitle = normalize(lesson.dataset.title);
+    const hayMeta  = normalize(lesson.querySelector('.meta')?.textContent || '');
+    const hayKeys  = normalize(lesson.dataset.keywords || '');
+    const hayPdf   = normalize(pdfIndex.get(lesson) || '');
+    const hayAll   = hayTitle + ' ' + hayMeta + ' ' + hayKeys + ' ' + hayPdf;
+    let score = 0;
+    if(phrase && hayAll.includes(phrase)) score += 8;  
+    tokens.forEach(t=>{
+      if(!t) return;
+      if(hayTitle.includes(t)) score += 3;
+      if(hayMeta.includes(t))  score += 2;
+      if(hayKeys.includes(t))  score += 1.5;
+      if(hayPdf.includes(t))   score += 4.5;         
+    });
+    return score;
+  }
+  function runSearch(){
+    const q = input.value.trim();
+    const phrase = normalize(q);
+    const tokens = tokenize(q);
+    let visibleCount = 0;
+    lessons.forEach(card=> clearHighlights(card));
+    const scored = lessons.map(card=>({ card, s: scoreFor(card, tokens, phrase) }))
+                          .sort((a,b)=> b.s - a.s);
+    scored.forEach(({card, s})=>{
+      if(!q || s > 0){
+        card.classList.remove('hidden-soft');
+        visibleCount++;
+        if(q) highlight(card, tokens.filter(t=>t.length>2));
+      } else {
+        card.classList.add('hidden-soft');
+      }
+    });
+    empty.style.display = visibleCount ? 'none' : 'block';
+  }
+  input.addEventListener('input', runSearch);
+  input.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter'){
+      const first = lessons.find(x=>!x.classList.contains('hidden-soft'));
+      if(first){ const open = first.querySelector('a.pdf'); if(open) open.click(); }
+    }
+  });
+  runSearch();
+</script>
+</body>
+</html>
