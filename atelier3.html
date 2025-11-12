@@ -146,7 +146,7 @@
     }
   </style>
 
-  <!-- Firebase SDKs -->
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -164,7 +164,7 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // التحقق من حالة تسجيل الدخول
+
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         window.location.href = "login.html";
@@ -175,26 +175,19 @@
 <body>
 
 <button id="toggleSidebar">☰ Menu</button>
-
 <aside class="sidebar">
   <a href="sem3.html" class="back-button">🔙 Retour à Semestre 3</a>
   <button class="back-button" onclick="history.back()">🔙 Retour</button>
-
   <div class="sidebar-header">
     <h2>📚 Année 2 - Semestre 3</h2>
   </div>
-
   <ul class="sidebar-menu">
     <li><a href="atelier3.html">🏗️ Atelier de projet 3</a></li>
-    <li><a href="#">📐 DCA 3</a></li>
-    <li><a href="#">🎨 DAG 3</a></li>
-    <li><a href="#">🏛️ Histoire de l’Architecture 3</a></li>
-    <li><a href="#">📘 Théorie de projet 3</a></li>
-    <li><a href="#">📏 Géométrie de l’espace 3</a></li>
-    <li><a href="#">🧱 TMC 3</a></li>
-    <li><a href="#">🧮 Mathématiques 3</a></li>
-    <li><a href="#">🗣️ Expression orale 3</a></li>
-    <li><a href="#">🏞️ Stage découverte 3</a></li>
+    <li><a href="theorie3.html">📘 Théorie de projet 3</a></li>
+    <li><a href="histoire3.html" style="font-weight:600">🏛️ Histoire de l’Architecture 3</a></li>
+    <li><a href="construction1.html">🧱 Construction 1</a></li>
+    <li><a href="psychologie.html">🧠 Psychologie</a></li>
+    <li><a href="resistance1.html">⚙️ Résistance des matériaux 1</a></li>
     <hr>
     <li><a href="projets.html">💼 Projets</a></li>
     <li><a href="mailto:archispaceiya@gmail.com">📩 Contact</a></li>
