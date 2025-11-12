@@ -7,7 +7,7 @@
   <meta name="description" content="Quiz pour Histoire de l'Architecture — Architecture égyptienne. 100 questions FR/EN, responsive." />
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    /* --- Design principal (conserve ton style) --- */
+
     :root{
       --accent:#06b6d4;
       --accent-2:#0ea5a4;
@@ -52,7 +52,7 @@
     .buttons button, .buttons a button{background:#fff;border:1px solid #e6e6e6;padding:8px 12px;border-radius:8px;cursor:pointer}
     footer{margin-top:40px;text-align:center;color:#888;font-size:13px}
 
-    /* --- Modal quiz --- */
+
     .quiz-modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:1200; background:rgba(2,6,23,0.55); padding:20px}
     .quiz-card{width:100%; max-width:980px; background:var(--panel-bg); border-radius:12px; overflow:hidden; box-shadow:0 24px 60px rgba(2,6,23,0.4); display:flex; flex-direction:column; animation:pop .14s ease}
     @keyframes pop{from{transform:translateY(8px) scale(.98);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
@@ -62,7 +62,7 @@
     .quiz-controls select, .quiz-controls input[type="checkbox"]{padding:8px;border-radius:8px;border:0;font-weight:600}
     .close-quiz{background:transparent;border:0;color:white;font-size:20px;cursor:pointer}
 
-    /* fixed timer row below header but inside modal so always visible and not overlapping content */
+
     .quiz-timer{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:#f8fafc;border-bottom:1px solid #eef2f7}
     .timer-box{display:flex;gap:10px;align-items:center}
     .timer{font-weight:800;font-size:18px;color:#0f172a;background:#e6f6f7;padding:6px 10px;border-radius:8px}
@@ -87,7 +87,7 @@
     .answers-list{display:flex;flex-direction:column;gap:10px;max-height:320px;overflow:auto;margin-top:12px}
     .answer-item{background:#fcfcff;border:1px solid #eef2ff;padding:12px;border-radius:8px}
     .muted{color:var(--muted)}
-    /* responsive */
+
     @media (max-width:880px){
       aside{width:220px}
       main{margin-left:0;padding:16px}
@@ -155,7 +155,7 @@
     <footer>© 2025 ArchiSpace – Tous droits réservés.</footer>
   </main>
 
-  <!-- Quiz Modal (single modal used for Egyptian quiz) -->
+
   <div id="quizModal" class="quiz-modal" aria-hidden="true" role="dialog" aria-labelledby="quizTitle">
     <div class="quiz-card" role="document">
       <div class="quiz-header">
@@ -250,11 +250,11 @@
   </div>
 
   <script>
-    /* Sidebar toggle */
+
     const sidebar = document.getElementById('sidebar');
     document.getElementById('toggleSidebar').addEventListener('click', () => sidebar.classList.toggle('hidden'));
 
-    /* Modal open/close toggle (same button toggles) */
+
     const openEgyptQuizBtn = document.getElementById('openEgyptQuiz');
     const quizModal = document.getElementById('quizModal');
     const closeQuizBtn = document.getElementById('closeQuizBtn');
@@ -285,15 +285,15 @@
     const resetBtn = document.getElementById('resetBtn');
     const closeResultBtn = document.getElementById('closeResultBtn');
 
-    // Toggle modal open/close using the Egypt quiz button
+
     document.getElementById('openEgyptQuiz').addEventListener('click', () => {
       if (quizModal.style.display === 'flex') closeQuiz();
       else openQuiz();
     });
-    // Also allow the prehistoire quiz button to toggle same modal for demo (not loaded)
+   
     document.querySelectorAll('.quiz-open-btn').forEach(b=>b.addEventListener('click', openQuiz));
 
-    // click outside to close
+  
     quizModal.addEventListener('click', (e) => {
       if (e.target === quizModal) closeQuiz();
     });
@@ -303,7 +303,7 @@
     function openQuiz(){
       quizModal.style.display = 'flex';
       quizModal.setAttribute('aria-hidden','false');
-      // default UI state
+
       langSelect.value = 'fr';
       typeSelect.value = 'ALL';
       selectedLangSpan.textContent = langSelect.value.toUpperCase();
@@ -318,20 +318,9 @@
       resultArea.style.display = 'none';
     }
 
-    /* ---------------- Questions data (100 unique questions) ----------------
-       Each question object structure:
-       {
-         id: 'q1',
-         type: 'QCM'|'QCS'|'VF',
-         fr: 'question text in French',
-         en: 'question text in English',
-         options: [{fr:'...', en:'...'}, ...], // For VF use options ["Vrai","Faux"] / ["True","False"]
-         answer: [indices] // array of correct indices (single for QCS/VF)
-       }
-       NOTE: no duplicates, unique ids q1..q100
-    */
+
     const allQuestions = [
-      /* ---------- QCM 1..45 (45 items) - multiple correct ---------- */
+
       { id:'q1', type:'QCM',
         fr:'Quels matériaux étaient couramment employés pour la construction des murs dans l’Égypte ancienne ?',
         en:'Which materials were commonly used for wall construction in ancient Egypt?',
@@ -783,7 +772,7 @@
         ], answer:[0,1,3]
       },
 
-      /* ---------- QCS 46..80 (35 items) single choice ---------- */
+
       { id:'q46', type:'QCS',
         fr:'Quel matériau compose principalement la Grande Pyramide de Gizeh (Khéops) ?',
         en:'What material mainly composes the Great Pyramid of Khufu (Cheops)?',
@@ -1035,7 +1024,7 @@
         ], answer:[0]
       },
 
-      /* continuing QCS to reach 80 (we have 46..70 => 25 items; need 35 total QCS -> items 46..80) */
+
       { id:'q71', type:'QCS',
         fr:'Quelle forme de cour était courante devant le pylône ?',
         en:'Which courtyard form was common before the pylon?',
@@ -1238,15 +1227,15 @@
         en:'Bas-reliefs often depict scenes of daily or ritual life.',
         options:[ {fr:'Vrai', en:'True'}, {fr:'Faux', en:'False'} ], answer:[0]
       }
-    ]; // end allQuestions
+    ]; 
 
-    /* -------------- Quiz runtime logic -------------- */
+
     let currentSet = [];
     let currentIndex = 0;
-    let answers = []; // each entry: array of chosen indices or null
+    let answers = []; 
     let score = 0;
     let timer = null;
-    let timeLeft = 20 * 60; // default total seconds for full set (20 min)
+    let timeLeft = 20 * 60; 
     let wrongIds = [];
     let retryMode = false;
 
@@ -1256,7 +1245,7 @@
       selectedTypeBadge.textContent = (typeSelect.value==='ALL')? 'Tous' : typeSelect.value;
     }
 
-    // Helper: shuffle array in-place
+
     function shuffle(array){
       for(let i=array.length-1;i>0;i--){
         const j=Math.floor(Math.random()*(i+1));
@@ -1265,7 +1254,7 @@
       return array;
     }
 
-    // Filter questions by selected type
+
     function buildSet(){
       const t = typeSelect.value;
       let set = (t==='ALL')? allQuestions.slice() : allQuestions.filter(q=>q.type===t);
@@ -1302,12 +1291,12 @@
       return `${m}:${s}`;
     }
 
-    // Start quiz with chosen language & type
+
     startBtn.addEventListener('click', () => {
-      // build set
+
       currentSet = buildSet();
       if (currentSet.length===0){ alert('Aucune question disponible pour ce type.'); return; }
-      // initialize
+
       answers = Array(currentSet.length).fill(null);
       currentIndex = 0;
       score = 0;
@@ -1319,7 +1308,7 @@
       submitBtn.style.display = 'inline-block';
       prevBtn.disabled = true;
       nextBtn.disabled = (currentSet.length===1);
-      // timer default proportionally: set 12 seconds per question as baseline if many questions — keep 20min cap
+
       const baseline = Math.min(20*60, Math.max(5*60, Math.floor(currentSet.length * 12)));
       timeLeft = baseline;
       timerDisplay.textContent = formatTime(timeLeft);
@@ -1328,7 +1317,7 @@
       renderQuestion();
     });
 
-    // Render current question
+
     function renderQuestion(){
       const q = currentSet[currentIndex];
       const lang = langSelect.value;
@@ -1348,7 +1337,7 @@
           input.name='opt';
           input.value=i;
           input.id=`opt-${q.id}-${i}`;
-          // restore
+
           if (Array.isArray(answers[currentIndex]) && answers[currentIndex].includes(i)) input.checked=true;
           const span = document.createElement('span');
           span.textContent = (lang==='fr')? opt.fr : opt.en;
@@ -1356,7 +1345,7 @@
           optionsContainer.appendChild(label);
         });
       } else if (q.type==='QCS' || q.type==='VF'){
-        // radio options
+
         q.options.forEach((opt,i)=>{
           const label=document.createElement('label');
           label.className='option';
@@ -1373,12 +1362,12 @@
         });
       }
 
-      // update navigation
+
       prevBtn.disabled = (currentIndex===0);
       nextBtn.disabled = (currentIndex===currentSet.length-1);
     }
 
-    // Save current answer
+
     function saveCurrentAnswer(){
       const q = currentSet[currentIndex];
       const inputs = Array.from(optionsContainer.querySelectorAll('input[name="opt"]'));
@@ -1391,7 +1380,7 @@
       }
     }
 
-    // Navigation buttons
+
     prevBtn.addEventListener('click', ()=>{
       saveCurrentAnswer();
       if (currentIndex>0){ currentIndex--; renderQuestion(); }
@@ -1401,25 +1390,25 @@
       if (currentIndex<currentSet.length-1){ currentIndex++; renderQuestion(); }
     });
 
-    // Submit / Finish quiz
+
     submitBtn.addEventListener('click', finishQuiz);
     endEarlyBtn.addEventListener('click', finishQuiz);
 
     function finishQuiz(){
       stopTimer();
       saveCurrentAnswer();
-      // scoring
+
       score = 0;
       wrongIds = [];
       currentSet.forEach((q, idx)=>{
         const user = answers[idx];
         const corr = q.answer.slice().sort((a,b)=>a-b);
         if (!user || user.length===0){
-          // no answer => 0 points
+
           return;
         }
         const u = user.slice().sort((a,b)=>a-b);
-        // compare arrays
+
         let equal = (u.length===corr.length && u.every((v,i)=>v===corr[i]));
         if (equal) score += 1;
         else {
@@ -1432,13 +1421,13 @@
       showResults();
     }
 
-    // show results details
+
     function showResults(){
       resultArea.style.display = 'block';
-      // summary
+
       resultSummary.innerHTML = `<p>Score final: <strong>${score}</strong> (barème: +1 / −1 / 0 pour non répondu)</p>
         <p>Questions totales: <strong>${currentSet.length}</strong>. Incorrectes: <strong>${wrongIds.length}</strong>.</p>`;
-      // list each question with user answer and correct answer (language)
+
       answersList.innerHTML = '';
       const lang = langSelect.value;
       currentSet.forEach((q, idx)=>{
@@ -1461,16 +1450,16 @@
         item.appendChild(mark);
         answersList.appendChild(item);
       });
-      // set retry button state
+
       if (wrongIds.length===0 || !retryWrongInput.checked) retryBtn.disabled = true;
       else retryBtn.disabled = false;
     }
 
-    // Retry wrong questions only
+
     retryBtn.addEventListener('click', ()=>{
       if (wrongIds.length===0) return;
       retryMode = true;
-      // build new currentSet from ids order preserved
+
       currentSet = wrongIds.map(id => allQuestions.find(q => q.id===id));
       answers = Array(currentSet.length).fill(null);
       currentIndex = 0;
@@ -1479,7 +1468,7 @@
       totalQuestionsLabel.textContent = currentSet.length;
       currentNumberLabel.textContent = '1';
       resultArea.style.display = 'none';
-      // restart timer short
+
       timeLeft = Math.max(3*60, Math.floor(currentSet.length*12));
       timerDisplay.textContent = formatTime(timeLeft);
       miniTimer.textContent = formatTime(timeLeft);
@@ -1489,10 +1478,10 @@
       startBtn.disabled = true;
     });
 
-    // Reset quiz (clear state)
+
     resetBtn.addEventListener('click', resetQuizState);
 
-    // Timer functions
+
     function startTimer(){
       stopTimer();
       updateTimerDisplay();
@@ -1508,8 +1497,7 @@
       miniTimer.textContent = formatTime(timeLeft);
     }
 
-    // Utility: save answer on navigation or periodic
-    // Also support keyboard arrows
+
     document.addEventListener('keydown', (e)=>{
       if (quizModal.style.display !== 'flex') return;
       if (e.key === 'ArrowRight') nextBtn.click();
@@ -1517,19 +1505,19 @@
       if (e.key === 'Escape') closeQuiz();
     });
 
-    // Make clicking option toggle appropriate input (label wrapper already)
+
     optionsContainer.addEventListener('change', (e)=>{
-      // no immediate auto-next; user can navigate
+
     });
 
-    // close result or modal
+
     document.getElementById('closeResultBtn').addEventListener('click', closeQuiz);
 
-    // on language or type change update labels
+
     langSelect.addEventListener('change', ()=>{ selectedLangSpan.textContent = langSelect.value.toUpperCase(); renderQuestion(); });
     typeSelect.addEventListener('change', ()=>{ selectedTypeSpan.textContent = (typeSelect.value==='ALL')? 'Tous' : typeSelect.value; selectedTypeBadge.textContent = (typeSelect.value==='ALL')? 'Tous' : typeSelect.value; });
 
-    // initialize UI
+
     resetQuizState();
   </script>
 </body>
