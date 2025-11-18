@@ -91,7 +91,6 @@
     .actions{display:flex; gap:10px; flex-wrap:wrap}
     .card .cta{ margin-left:auto; }
 
-
     @media (min-width:600px){ .card{grid-column: span 6;} }
     @media (min-width:980px){ .card{grid-column: span 4;} }
   </style>
@@ -118,12 +117,10 @@
     </section>
 
     <section id="grid" class="grid" aria-live="polite">
- 
     </section>
   </div>
 
   <script type="module">
-    
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
@@ -141,15 +138,18 @@
     const auth = getAuth(appFB);
 
     const logoutBtn = document.getElementById("logoutBtn");
-    logoutBtn.addEventListener("click", async ()=>{ await signOut(auth); });
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "login.html";
+    });
 
-    onAuthStateChanged(auth, (user)=>{
+    onAuthStateChanged(auth, (user) => {
       if (!user){
         const redirect = encodeURIComponent("formation.html");
-        window.location.href = login.html?redirect=${redirect};
+        // ✅ هنا كان الخطأ
+        window.location.href = `login.html?redirect=${redirect}`;
         return;
       }
-     
       initGrid();
     });
 
@@ -165,18 +165,18 @@
       setTheme(root.classList.contains("light") ? "dark" : "light");
     });
 
-const courses = [
-      { slug:"autocad",    title:"AutoCAD",   logo:"autocad.svg",    desc:"2D/3D, calques, blocs dynamiques, workflow pro.",           price:"3000DA", link:"autocad.html" },
-      { slug:"photoshop",  title:"Photoshop", logo:"photoshop.svg",  desc:"Retouche, compositing, post-prod architecturale.",         price:"3000DA", link:"photoshop.html" },
-      { slug:"archicad",   title:"ArchiCAD",  logo:"archicad.svg",   desc:"BIM, maquettes, feuilles de plans et nomenclatures.",      price:"5000DA", link:"archicad.html" },
-      { slug:"revit",      title:"Revit",     logo:"revit.svg",      desc:"BIM, familles, phasage, quantitatifs et collaboration.",   price:"5000DA", link:"revit.html" },
-      { slug:"sketchup",   title:"SketchUp",  logo:"sketchup.svg",   desc:"Modélisation rapide, organisation, exports.",              price:"3000DA", link:"sketchup.html" },
-      { slug:"3dsmax",     title:"3ds Max",   logo:"3ds max.svg",    desc:"Modélisation avancée, scènes réalistes, pipeline rendu.",  price:"5000DA", link:"3dsmax.html" },
-      { slug:"rhino 3d",    title:"Rhino 3D", logo:"rhion 3d.svg",   desc:"NURBS, formes complexes, paramétrique de base.",          price:"5000DA", link:"rhino3d.html" },
-      { slug:"vray",       title:"V-Ray",     logo:"v ray.svg",      desc:"Matériaux, lumières, caméras, rendu photoréaliste.",       price:"500DA", link:"vray.html" },
-      { slug:"lumion",     title:"Lumion",    logo:"lumion.svg",     desc:"Rendu temps réel et storytelling extérieur/intérieur.",    price:"5000DA", link:"lumion.html" },
-      { slug:"enscape",    title:"Enscape",   logo:"Enscape.svg",    desc:"Rendu instantané, VR et visites immersives.",              price:"5000DA", link:"enscape.html" },
-      { slug:"MAPINFO",    title:"MAPINFO",   logo:"mapinfo.svg",    desc:"Rendu instantané, VR et visites immersives.",              price:"5000DA", link:"enscape.html" },
+    const courses = [
+      { slug:"autocad",   title:"AutoCAD",   logo:"autocad.svg",   desc:"2D/3D, calques, blocs dynamiques, workflow pro.",           price:"3000DA", link:"autocad.html" },
+      { slug:"photoshop", title:"Photoshop", logo:"photoshop.svg", desc:"Retouche, compositing, post-prod architecturale.",         price:"3000DA", link:"photoshop.html" },
+      { slug:"archicad",  title:"ArchiCAD",  logo:"archicad.svg",  desc:"BIM, maquettes, feuilles de plans et nomenclatures.",      price:"5000DA", link:"archicad.html" },
+      { slug:"revit",     title:"Revit",     logo:"revit.svg",     desc:"BIM, familles, phasage, quantitatifs et collaboration.",   price:"5000DA", link:"revit.html" },
+      { slug:"sketchup",  title:"SketchUp",  logo:"sketchup.svg",  desc:"Modélisation rapide, organisation, exports.",              price:"3000DA", link:"sketchup.html" },
+      { slug:"3dsmax",    title:"3ds Max",   logo:"3ds max.svg",   desc:"Modélisation avancée, scènes réalistes, pipeline rendu.",  price:"5000DA", link:"3dsmax.html" },
+      { slug:"rhino 3d",  title:"Rhino 3D",  logo:"rhion 3d.svg",  desc:"NURBS, formes complexes, paramétrique de base.",          price:"5000DA", link:"rhino3d.html" },
+      { slug:"vray",      title:"V-Ray",     logo:"v ray.svg",     desc:"Matériaux, lumières, caméras, rendu photoréaliste.",       price:"500DA",  link:"vray.html" },
+      { slug:"lumion",    title:"Lumion",    logo:"lumion.svg",    desc:"Rendu temps réel et storytelling extérieur/intérieur.",    price:"5000DA", link:"lumion.html" },
+      { slug:"enscape",   title:"Enscape",   logo:"Enscape.svg",   desc:"Rendu instantané, VR et visites immersives.",              price:"5000DA", link:"enscape.html" },
+      { slug:"MAPINFO",   title:"MAPINFO",   logo:"mapinfo.svg",   desc:"Rendu instantané, VR et visites immersives.",              price:"5000DA", link:"enscape.html" }
     ];
 
     function card(course){
@@ -202,8 +202,6 @@ const courses = [
       grid.innerHTML = "";
       courses.forEach(c => grid.appendChild(card(c)));
     }
-
-
   </script>
 </body>
 </html>
