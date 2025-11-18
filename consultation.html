@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>📞 Consultation – Trendy Plaza</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --bg:#050816;
+      --bg2:#0b1020;
+      --card:#0f172a;
+      --card-soft:#111827;
+      --text:#e5f0ff;
+      --muted:#9ca3af;
+      --accent:#22d3ee;
+      --accent-soft:#22d3ee33;
+      --danger:#f97373;
+      --border:#1f2937;
+      --shadow:0 18px 45px rgba(0,0,0,0.55);
+      --input-bg:#020617;
+    }
+    :root[data-theme="light"]{
+      --bg:#f3f6ff;
+      --bg2:#e5edff;
+      --card:#ffffff;
+      --card-soft:#eef2ff;
+      --text:#020617;
+      --muted:#4b5563;
+      --accent:#2563eb;
+      --accent-soft:#2563eb22;
+      --danger:#dc2626;
+      --border:#d1d5db;
+      --shadow:0 16px 40px rgba(15,23,42,0.15);
+      --input-bg:#f9fafb;
+    }
+
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:'Rubik',system-ui,-apple-system,BlinkMacSystemFont;
+      background:radial-gradient(circle at top,var(--bg2),var(--bg));
+      color:var(--text);
+      min-height:100vh;
+      padding:18px;
+    }
+
+    .app-shell{
+      max-width:1180px;
+      margin:0 auto;
+    }
+
+    .top-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+      gap:10px;
+    }
+    .top-left{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .logo{
+      font-weight:800;
+      font-size:20px;
+      letter-spacing:0.05em;
+    }
+    .logo span{
+      color:var(--accent);
+    }
+    .tagline{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .top-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:linear-gradient(135deg,var(--card-soft),var(--card));
+      color:var(--text);
+      padding:8px 14px;
+      font-size:13px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      outline:none;
+      transition:0.15s ease;
+      box-shadow:0 0 0 0 transparent;
+    }
+    .btn svg{
+      width:14px;
+      height:14px;
+    }
+    .btn:hover{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px var(--accent-soft);
+      transform:translateY(-1px);
+    }
+    .btn-ghost{
+      background:transparent;
+      border-style:dashed;
+    }
+    .btn-accent{
+      background:linear-gradient(135deg,var(--accent),#38bdf8);
+      color:#0f172a;
+      border:none;
+      box-shadow:0 10px 30px var(--accent-soft);
+    }
+    .btn-accent:hover{
+      box-shadow:0 14px 40px var(--accent-soft);
+      transform:translateY(-1px);
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:1.1fr 1.1fr;
+      gap:18px;
+    }
+    @media(max-width:900px){
+      .layout{grid-template-columns:1fr;}
+    }
+
+    .card{
+      background:radial-gradient(circle at top,var(--card-soft),var(--card));
+      border-radius:20px;
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      padding:18px 18px 16px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card-header{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:12px;
+    }
+    .card-title{
+      font-size:18px;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .chip{
+      font-size:11px;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid var(--accent-soft);
+      color:var(--accent);
+      background:rgba(15,23,42,0.6);
+    }
+    .card-subtitle{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      margin-top:10px;
+      margin-bottom:3px;
+      color:var(--muted);
+    }
+    .required::after{
+      content:"*";
+      color:var(--danger);
+      margin-left:3px;
+    }
+    input,select,textarea{
+      width:100%;
+      border-radius:12px;
+      border:1px solid var(--border);
+      padding:9px 11px;
+      font-size:14px;
+      background:var(--input-bg);
+      color:var(--text);
+      outline:none;
+      transition:0.15s ease;
+    }
+    input:focus,select:focus,textarea:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px var(--accent-soft);
+    }
+    textarea{
+      min-height:120px;
+      resize:vertical;
+    }
+    .hint{
+      font-size:11px;
+      color:var(--muted);
+      margin-top:3px;
+    }
+
+    .pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:4px;
+    }
+    .pill{
+      font-size:11px;
+      padding:4px 9px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color:var(--muted);
+    }
+
+    .divider{
+      height:1px;
+      border-radius:999px;
+      background:linear-gradient(90deg,transparent,var(--border),transparent);
+      margin:12px 0 10px;
+    }
+
+    .status-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#22c55e;
+      box-shadow:0 0 0 4px rgba(34,197,94,0.18);
+      margin-right:6px;
+    }
+    .status-label{
+      font-size:11px;
+      color:var(--muted);
+      display:flex;
+      align-items:center;
+    }
+
+    .consult-list{
+      max-height:230px;
+      overflow:auto;
+      padding-right:4px;
+      margin-top:6px;
+    }
+    .consult-item{
+      border-radius:14px;
+      border:1px solid var(--border);
+      padding:9px 10px;
+      margin-bottom:7px;
+      background:linear-gradient(135deg,rgba(15,23,42,0.4),rgba(15,23,42,0.9));
+      cursor:pointer;
+      transition:0.12s ease;
+    }
+    :root[data-theme="light"] .consult-item{
+      background:linear-gradient(135deg,#f9fafb,#eef2ff);
+    }
+    .consult-item:hover{
+      border-color:var(--accent);
+      transform:translateY(-1px);
+    }
+    .consult-top{
+      display:flex;
+      justify-content:space-between;
+      gap:6px;
+      font-size:13px;
+      font-weight:500;
+    }
+    .consult-code{
+      font-size:11px;
+      color:var(--muted);
+      margin-top:2px;
+    }
+    .badge{
+      font-size:10px;
+      padding:2px 7px;
+      border-radius:999px;
+      border:1px solid var(--border);
+    }
+    .badge-pending{color:#facc15;border-color:#facc15;}
+    .badge-accepted{color:#4ade80;border-color:#4ade80;}
+    .badge-closed{color:#9ca3af;border-color:#9ca3af;}
+
+    .consult-meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:4px;
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .chat-shell{
+      margin-top:8px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:rgba(15,23,42,0.7);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      height:260px;
+    }
+    :root[data-theme="light"] .chat-shell{
+      background:#f9fafb;
+    }
+    .chat-header{
+      padding:8px 10px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:12px;
+    }
+    .chat-header span strong{
+      color:var(--accent);
+    }
+    .chat-body{
+      flex:1;
+      overflow:auto;
+      padding:8px 10px 6px;
+      font-size:13px;
+    }
+    .msg{
+      max-width:78%;
+      padding:7px 10px;
+      margin-bottom:6px;
+      border-radius:13px;
+      line-height:1.35;
+      word-wrap:break-word;
+    }
+    .msg.me{
+      margin-left:auto;
+      border-bottom-right-radius:4px;
+      background:linear-gradient(135deg,var(--accent),#38bdf8);
+      color:#0f172a;
+    }
+    .msg.other{
+      margin-right:auto;
+      border-bottom-left-radius:4px;
+      background:rgba(15,23,42,0.9);
+      border:1px solid var(--border);
+    }
+    :root[data-theme="light"] .msg.other{
+      background:#ffffff;
+    }
+    .msg-meta{
+      font-size:10px;
+      opacity:0.7;
+      margin-top:2px;
+    }
+
+    .chat-input{
+      border-top:1px solid var(--border);
+      padding:6px 8px;
+      display:flex;
+      gap:6px;
+      align-items:center;
+      background:rgba(15,23,42,0.9);
+    }
+    :root[data-theme="light"] .chat-input{
+      background:#eef2ff;
+    }
+    .chat-input input{
+      flex:1;
+      border-radius:999px;
+      padding:8px 11px;
+      font-size:13px;
+    }
+    .empty-chat{
+      font-size:11px;
+      color:var(--muted);
+      text-align:center;
+      margin-top:35px;
+    }
+
+    .alert{
+      font-size:11px;
+      margin-top:8px;
+      padding:7px 9px;
+      border-radius:11px;
+      border:1px solid var(--accent-soft);
+      background:rgba(15,23,42,0.65);
+    }
+    :root[data-theme="light"] .alert{
+      background:#eef2ff;
+    }
+    .alert strong{color:var(--accent);}
+
+    .small{
+      font-size:11px;
+    }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+
+  <div class="top-bar">
+    <div class="top-left">
+      <div>
+        <div class="logo">Trendy<span>Plaza</span> · Consult</div>
+        <div class="tagline">Plateforme de mise en relation étudiants – enseignants & experts.</div>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button class="btn btn-ghost" id="btn-back">
+        ⬅ Retour
+      </button>
+      <button class="btn btn-ghost" id="btn-home">
+        🏠 Accueil
+      </button>
+      <button class="btn" id="theme-toggle">
+        🌓 Mode sombre
+      </button>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Nouvelle demande de consultation
+            <span class="chip">Étudiant</span>
+          </div>
+          <div class="card-subtitle">
+            Décrivez votre projet pour qu’un enseignant ou un ingénieur puisse vous accompagner.
+          </div>
+        </div>
+        <div class="status-label">
+          <span class="status-dot"></span>
+          Connecté : <span id="user-email" style="margin-left:4px;">–</span>
+        </div>
+      </div>
+
+      <label class="required">Nom du projet</label>
+      <input id="projet" type="text" placeholder="Ex : Centre culturel, Résidence étudiante…">
+
+      <label class="required">Spécialité recherchée</label>
+      <select id="specialite">
+        <option value="Architecture">Architecture – هندسة معمارية</option>
+        <option value="Urbanisme">Urbanisme – عمران</option>
+        <option value="Génie civil">Génie civil – هندسة مدنية</option>
+      </select>
+      <div class="hint">Le système notifiera les enseignants disponibles dans cette spécialité.</div>
+
+      <label>Préférence (enseignant ou architecte spécifique)</label>
+      <input id="pref" type="text" placeholder="Nom de l’enseignant (optionnel)">
+
+      <label class="required">Description du besoin</label>
+      <textarea id="desc" placeholder="Expliquez votre problématique, le niveau d’avancement, les points à discuter…"></textarea>
+
+      <label>Pièces jointes (schémas, PDF, images)</label>
+      <input id="files" type="file" multiple>
+      <div class="hint">Optionnel – les fichiers seront liés à votre code de consultation.</div>
+
+      <div class="divider"></div>
+
+      <button class="btn btn-accent" id="btn-send">
+        📨 Envoyer la demande & générer un code
+      </button>
+
+      <div class="hint small" id="last-code" style="margin-top:6px;"></div>
+
+      <div class="alert small">
+        <strong>Note :</strong> une fois qu’un enseignant accepte votre demande, un salon de chat direct sera activé dans l’onglet « Mes consultations ».
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Mes consultations
+            <span class="chip">Chat en direct</span>
+          </div>
+          <div class="card-subtitle">
+            Suivi de vos demandes, codes de consultation et conversations avec les enseignants.
+          </div>
+        </div>
+      </div>
+
+      <div class="status-label" style="margin-bottom:4px;">
+        Historique lié à votre compte · trié par date de création.
+      </div>
+
+      <div class="consult-list" id="consult-list">
+
+      </div>
+
+      <div class="chat-shell" id="chat-shell">
+        <div class="chat-header">
+          <span>Salon : <strong id="chat-code">–</strong></span>
+          <span id="chat-status" class="small">Sélectionnez une consultation acceptée.</span>
+        </div>
+        <div class="chat-body" id="chat-body">
+          <div class="empty-chat">
+            Aucun salon actif.<br>
+            Choisissez une consultation <strong>acceptée</strong> dans la liste pour commencer le chat.
+          </div>
+        </div>
+        <div class="chat-input">
+          <input id="chat-input" type="text" placeholder="Écrire un message…" disabled>
+          <button class="btn btn-accent" id="chat-send" style="padding:7px 11px;font-size:12px;">
+            ➤
+          </button>
+        </div>
+      </div>
+
+      <div class="hint small" style="margin-top:6px;">
+        Les messages sont enregistrés en temps réel dans Firestore (sous-collection <code>messages</code> de chaque consultation).
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { 
+    getAuth, onAuthStateChanged 
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { 
+    getFirestore, collection, addDoc, query, where, orderBy, onSnapshot,
+    serverTimestamp, doc
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.firebasestorage.app",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+    measurementId: "G-RZV7LSDQBD"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  let currentUser = null;
+  let currentConsultationId = null;
+  let currentConsultationCode = null;
+  let chatUnsub = null; 
+
+
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+
+  function applyTheme(theme){
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('tp_theme', theme);
+    themeToggle.textContent = theme === 'dark' ? '🌓 Mode clair' : '🌑 Mode sombre';
+  }
+  const savedTheme = localStorage.getItem('tp_theme') || 'dark';
+  applyTheme(savedTheme);
+
+  themeToggle.addEventListener('click', ()=>{
+    const next = (root.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
+    applyTheme(next);
+  });
+
+
+  document.getElementById('btn-back').addEventListener('click', ()=>window.history.back());
+  document.getElementById('btn-home').addEventListener('click', ()=>window.location.href = "index.html");
+
+
+  const userEmailSpan = document.getElementById('user-email');
+
+  onAuthStateChanged(auth, (user)=>{
+    if(!user){
+
+      window.location.href = "login.html";
+      return;
+    }
+    currentUser = user;
+    userEmailSpan.textContent = user.email || "Compte sans email";
+
+
+    listenToMyConsultations();
+  });
+
+
+  function generateConsultCode(){
+    const ts = Date.now().toString(36).toUpperCase();
+    const rnd = Math.random().toString(36).substring(2,6).toUpperCase();
+    return `CONS-${ts}-${rnd}`;
+  }
+
+  const btnSend = document.getElementById('btn-send');
+  const lastCodeLabel = document.getElementById('last-code');
+
+  btnSend.addEventListener('click', async ()=>{
+    if(!currentUser){
+      alert("Veuillez vous connecter pour envoyer une demande.");
+      return;
+    }
+
+    const projet      = document.getElementById('projet').value.trim();
+    const specialite  = document.getElementById('specialite').value;
+    const pref        = document.getElementById('pref').value.trim();
+    const desc        = document.getElementById('desc').value.trim();
+    const filesInput  = document.getElementById('files');
+
+    if(!projet || !desc){
+      alert("Merci de remplir au minimum le nom du projet et la description.");
+      return;
+    }
+
+    btnSend.disabled = true;
+    btnSend.textContent = "Envoi en cours…";
+
+    try{
+      const consultCode = generateConsultCode();
+
+
+      const docRef = await addDoc(collection(db, "consultations"), {
+        code        : consultCode,
+        projet      : projet,
+        specialite  : specialite,
+        preference  : pref || null,
+        description : desc,
+        status      : "pending",         
+        createdAt   : serverTimestamp(),
+        studentUid  : currentUser.uid,
+        studentEmail: currentUser.email || null,
+        acceptedBy  : null
+      });
+
+      lastCodeLabel.textContent = "✅ Code de consultation généré : " + consultCode;
+      lastCodeLabel.style.color = "var(--accent)";
+
+  
+      document.getElementById('projet').value = "";
+      document.getElementById('specialite').selectedIndex = 0;
+      document.getElementById('pref').value = "";
+      document.getElementById('desc').value = "";
+      filesInput.value = "";
+
+      alert("Demande envoyée avec succès ! Votre code : " + consultCode);
+
+    }catch(err){
+      console.error(err);
+      alert("Erreur lors de l’enregistrement de la demande.");
+    }finally{
+      btnSend.disabled = false;
+      btnSend.textContent = "📨 Envoyer la demande & générer un code";
+    }
+  });
+
+
+  const consultList = document.getElementById('consult-list');
+
+  function listenToMyConsultations(){
+    if(!currentUser) return;
+
+    const qConsult = query(
+      collection(db, "consultations"),
+      where("studentUid","==",currentUser.uid),
+      orderBy("createdAt","desc")
+    );
+
+    onSnapshot(qConsult, (snapshot)=>{
+      consultList.innerHTML = "";
+      if(snapshot.empty){
+        consultList.innerHTML = '<div class="small" style="color:var(--muted);margin-top:4px;">Aucune demande pour le moment.</div>';
+        return;
+      }
+
+      snapshot.forEach(docSnap=>{
+        const data = docSnap.data();
+        const id = docSnap.id;
+
+        const item = document.createElement('div');
+        item.className = "consult-item";
+        item.dataset.id = id;
+        item.dataset.code = data.code || "";
+        item.dataset.status = data.status || "pending";
+
+
+        let statusLabel = "En attente";
+        let badgeClass  = "badge-pending";
+        if(data.status === "accepted"){ statusLabel = "Acceptée"; badgeClass = "badge-accepted"; }
+        else if(data.status === "closed"){ statusLabel = "Clôturée"; badgeClass = "badge-closed"; }
+
+        item.innerHTML = `
+          <div class="consult-top">
+            <span>${data.projet || "Projet sans titre"}</span>
+            <span class="badge ${badgeClass}">${statusLabel}</span>
+          </div>
+          <div class="consult-code">Code : <strong>${data.code || "-"}</strong></div>
+          <div class="consult-meta">
+            <span>${data.specialite || "-"}</span>
+            <span>${data.acceptedBy ? "👨‍🏫 Lié à un enseignant" : "En attente d’un enseignant"}</span>
+          </div>
+        `;
+
+        item.addEventListener('click', ()=>openChatForConsultation(id, data.code || "-", data.status || "pending"));
+
+        consultList.appendChild(item);
+      });
+    });
+  }
+
+  const chatShell  = document.getElementById('chat-shell');
+  const chatBody   = document.getElementById('chat-body');
+  const chatCodeEl = document.getElementById('chat-code');
+  const chatStatus = document.getElementById('chat-status');
+  const chatInput  = document.getElementById('chat-input');
+  const chatSend   = document.getElementById('chat-send');
+
+  function clearChatUI(message = "Sélectionnez une consultation acceptée pour démarrer le chat."){
+    chatBody.innerHTML = `<div class="empty-chat">${message}</div>`;
+    chatInput.value = "";
+  }
+
+  async function openChatForConsultation(consultId, code, status){
+    currentConsultationId = consultId;
+    currentConsultationCode = code;
+
+    chatCodeEl.textContent = code;
+    if(status !== "accepted"){
+      chatStatus.textContent = "Cette consultation n’est pas encore acceptée. Le chat sera activé après validation par un enseignant.";
+      chatInput.disabled = true;
+      clearChatUI("En attente d’acceptation de la part d’un enseignant…");
+      if(chatUnsub) chatUnsub();
+      return;
+    }
+
+    chatStatus.textContent = "Chat actif avec l’enseignant. Restez courtois et précis dans vos messages.";
+    chatInput.disabled = false;
+
+
+    if(chatUnsub) chatUnsub();
+
+
+    const messagesRef = collection(db, "consultations", consultId, "messages");
+    const qMsg = query(messagesRef, orderBy("createdAt","asc"));
+
+    chatUnsub = onSnapshot(qMsg, (snapshot)=>{
+      chatBody.innerHTML = "";
+      if(snapshot.empty){
+        chatBody.innerHTML = `<div class="empty-chat">Aucun message pour le moment. Soyez le premier à écrire.</div>`;
+        return;
+      }
+      snapshot.forEach(docSnap=>{
+        const msg = docSnap.data();
+        const isMe = msg.senderUid === (currentUser && currentUser.uid);
+
+        const msgDiv = document.createElement('div');
+        msgDiv.className = "msg " + (isMe ? "me" : "other");
+        const date = msg.createdAt && msg.createdAt.toDate ? msg.createdAt.toDate() : null;
+        const timeStr = date ? date.toLocaleTimeString('fr-FR',{hour:"2-digit",minute:"2-digit"}) : "";
+
+        msgDiv.innerHTML = `
+          <div>${msg.text || ""}</div>
+          <div class="msg-meta">${isMe ? "Moi" : (msg.senderRole || "Enseignant")} · ${timeStr}</div>
+        `;
+        chatBody.appendChild(msgDiv);
+      });
+
+
+      chatBody.scrollTop = chatBody.scrollHeight;
+    });
+  }
+
+
+  chatSend.addEventListener('click', sendChatMessage);
+  chatInput.addEventListener('keydown', (e)=>{
+    if(e.key === "Enter") sendChatMessage();
+  });
+
+  async function sendChatMessage(){
+    if(!currentUser || !currentConsultationId) return;
+    if(chatInput.disabled) return;
+
+    const text = chatInput.value.trim();
+    if(!text) return;
+
+    const messagesRef = collection(db, "consultations", currentConsultationId, "messages");
+    chatInput.value = "";
+
+    try{
+      await addDoc(messagesRef, {
+        text      : text,
+        senderUid : currentUser.uid,
+        senderRole: "Étudiant",
+        createdAt : serverTimestamp()
+      });
+    }catch(err){
+      console.error(err);
+      alert("Erreur lors de l’envoi du message.");
+    }
+  }
+
+</script>
+</body>
+</html>
