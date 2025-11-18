@@ -83,7 +83,16 @@
       background: color-mix(in srgb, var(--card) 70%, transparent);
       border:2px dashed color-mix(in srgb, var(--border) 90%, transparent);
       font-size:12px; color:var(--muted); letter-spacing:.2px; text-align:center; padding:6px;
+      overflow:hidden;
     }
+    /* ✅ الصورة داخل اللوغو */
+    .logo-slot img{
+      max-width:85%;
+      max-height:85%;
+      object-fit:contain;
+      display:block;
+    }
+
     .body{flex:1; min-width:0}
     .title{font-weight:800; font-size:18px; margin-bottom:4px}
     .desc{color:var(--muted); font-size:14px}
@@ -146,7 +155,6 @@
     onAuthStateChanged(auth, (user) => {
       if (!user){
         const redirect = encodeURIComponent("formation.html");
-        // ✅ هنا كان الخطأ
         window.location.href = `login.html?redirect=${redirect}`;
         return;
       }
@@ -172,7 +180,7 @@
       { slug:"revit",     title:"Revit",     logo:"revit.svg",     desc:"BIM, familles, phasage, quantitatifs et collaboration.",   price:"5000DA", link:"revit.html" },
       { slug:"sketchup",  title:"SketchUp",  logo:"sketchup.svg",  desc:"Modélisation rapide, organisation, exports.",              price:"3000DA", link:"sketchup.html" },
       { slug:"3dsmax",    title:"3ds Max",   logo:"3ds max.svg",   desc:"Modélisation avancée, scènes réalistes, pipeline rendu.",  price:"5000DA", link:"3dsmax.html" },
-      { slug:"rhino 3d",  title:"Rhino 3D",  logo:"rhion 3d.svg",  desc:"NURBS, formes complexes, paramétrique de base.",          price:"5000DA", link:"rhino3d.html" },
+      { slug:"rhino3d",   title:"Rhino 3D",  logo:"rhion 3d.svg",  desc:"NURBS, formes complexes, paramétrique de base.",          price:"5000DA", link:"rhino3d.html" },
       { slug:"vray",      title:"V-Ray",     logo:"v ray.svg",     desc:"Matériaux, lumières, caméras, rendu photoréaliste.",       price:"500DA",  link:"vray.html" },
       { slug:"lumion",    title:"Lumion",    logo:"lumion.svg",    desc:"Rendu temps réel et storytelling extérieur/intérieur.",    price:"5000DA", link:"lumion.html" },
       { slug:"enscape",   title:"Enscape",   logo:"Enscape.svg",   desc:"Rendu instantané, VR et visites immersives.",              price:"5000DA", link:"enscape.html" },
@@ -186,7 +194,9 @@
       a.setAttribute("data-price", course.price);
 
       a.innerHTML = `
-        <div class="logo-slot">LOGO</div>
+        <div class="logo-slot">
+          ${course.logo ? `<img src="${course.logo}" alt="${course.title} logo">` : "LOGO"}
+        </div>
         <div class="body">
           <div class="title">${course.title}</div>
           <div class="desc">${course.desc}</div>
