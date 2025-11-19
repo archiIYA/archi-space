@@ -473,7 +473,6 @@
       </div>
     </div>
 
-
     <div class="card">
       <div class="card-header">
         <div>
@@ -490,9 +489,7 @@
         Historique lié à votre compte · trié par date de création.
       </div>
 
-      <div class="consult-list" id="consult-list">
-
-      </div>
+      <div class="consult-list" id="consult-list"></div>
 
       <div class="chat-shell" id="chat-shell">
         <div class="chat-header">
@@ -522,16 +519,14 @@
 
 
 <script type="module">
-
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { 
     getAuth, onAuthStateChanged 
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import { 
-    getFirestore, collection, addDoc, query, where, orderBy, onSnapshot,
-    serverTimestamp, doc
+    getFirestore, collection, addDoc, query, where, onSnapshot,
+    serverTimestamp, doc, orderBy
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
 
   const firebaseConfig = {
     apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
@@ -552,7 +547,6 @@
   let currentConsultationCode = null;
   let chatUnsub = null; 
 
-
   const root = document.documentElement;
   const themeToggle = document.getElementById('theme-toggle');
 
@@ -569,26 +563,21 @@
     applyTheme(next);
   });
 
-
   document.getElementById('btn-back').addEventListener('click', ()=>window.history.back());
   document.getElementById('btn-home').addEventListener('click', ()=>window.location.href = "lecteur.html");
-
 
   const userEmailSpan = document.getElementById('user-email');
 
   onAuthStateChanged(auth, (user)=>{
     if(!user){
-
       window.location.href = "login.html";
       return;
     }
     currentUser = user;
     userEmailSpan.textContent = user.email || "Compte sans email";
 
-
     listenToMyConsultations();
   });
-
 
   function generateConsultCode(){
     const ts = Date.now().toString(36).toUpperCase();
@@ -622,8 +611,7 @@
     try{
       const consultCode = generateConsultCode();
 
-
-      const docRef = await addDoc(collection(db, "consultations"), {
+      await addDoc(collection(db, "consultations"), {
         code        : consultCode,
         projet      : projet,
         specialite  : specialite,
@@ -639,7 +627,6 @@
       lastCodeLabel.textContent = "✅ Code de consultation généré : " + consultCode;
       lastCodeLabel.style.color = "var(--accent)";
 
-  
       document.getElementById('projet').value = "";
       document.getElementById('specialite').selectedIndex = 0;
       document.getElementById('pref').value = "";
@@ -657,61 +644,79 @@
     }
   });
 
-
   const consultList = document.getElementById('consult-list');
+
 
   function listenToMyConsultations(){
     if(!currentUser) return;
 
     const qConsult = query(
       collection(db, "consultations"),
-      where("studentUid","==",currentUser.uid),
-      orderBy("createdAt","desc")
+      where("studentUid","==",currentUser.uid)
     );
 
-    onSnapshot(qConsult, (snapshot)=>{
-      consultList.innerHTML = "";
-      if(snapshot.empty){
-        consultList.innerHTML = '<div class="small" style="color:var(--muted);margin-top:4px;">Aucune demande pour le moment.</div>';
-        return;
+    onSnapshot(
+      qConsult,
+      (snapshot)=>{
+        consultList.innerHTML = "";
+
+        if(snapshot.empty){
+          consultList.innerHTML =
+            '<div class="small" style="color:var(--muted);margin-top:4px;">Aucune demande pour le moment.</div>';
+          return;
+        }
+
+        const items = [];
+        snapshot.forEach(docSnap=>{
+          items.push({ id: docSnap.id, data: docSnap.data() });
+        });
+
+        items.sort((a,b)=>{
+          const da = a.data.createdAt && a.data.createdAt.toMillis ? a.data.createdAt.toMillis() : 0;
+          const dbv = b.data.createdAt && b.data.createdAt.toMillis ? b.data.createdAt.toMillis() : 0;
+          return dbv - da; 
+        });
+
+        items.forEach(({id, data})=>{
+          const item = document.createElement('div');
+          item.className = "consult-item";
+          item.dataset.id = id;
+          item.dataset.code = data.code || "";
+          item.dataset.status = data.status || "pending";
+
+          let statusLabel = "En attente";
+          let badgeClass  = "badge-pending";
+          if(data.status === "accepted"){ statusLabel = "Acceptée"; badgeClass = "badge-accepted"; }
+          else if(data.status === "closed"){ statusLabel = "Clôturée"; badgeClass = "badge-closed"; }
+
+          item.innerHTML = `
+            <div class="consult-top">
+              <span>${data.projet || "Projet sans titre"}</span>
+              <span class="badge ${badgeClass}">${statusLabel}</span>
+            </div>
+            <div class="consult-code">Code : <strong>${data.code || "-"}</strong></div>
+            <div class="consult-meta">
+              <span>${data.specialite || "-"}</span>
+              <span>${data.acceptedBy ? "👨‍🏫 Lié à un enseignant" : "En attente d’un enseignant"}</span>
+            </div>
+          `;
+
+          item.addEventListener('click', ()=>openChatForConsultation(
+            id,
+            data.code || "-",
+            data.status || "pending"
+          ));
+
+          consultList.appendChild(item);
+        });
+      },
+      (error)=>{
+        console.error("❌ Erreur chargement consultations étudiant :", error);
+        alert("Erreur lors du chargement de vos demandes (voir console).");
       }
-
-      snapshot.forEach(docSnap=>{
-        const data = docSnap.data();
-        const id = docSnap.id;
-
-        const item = document.createElement('div');
-        item.className = "consult-item";
-        item.dataset.id = id;
-        item.dataset.code = data.code || "";
-        item.dataset.status = data.status || "pending";
-
-
-        let statusLabel = "En attente";
-        let badgeClass  = "badge-pending";
-        if(data.status === "accepted"){ statusLabel = "Acceptée"; badgeClass = "badge-accepted"; }
-        else if(data.status === "closed"){ statusLabel = "Clôturée"; badgeClass = "badge-closed"; }
-
-        item.innerHTML = `
-          <div class="consult-top">
-            <span>${data.projet || "Projet sans titre"}</span>
-            <span class="badge ${badgeClass}">${statusLabel}</span>
-          </div>
-          <div class="consult-code">Code : <strong>${data.code || "-"}</strong></div>
-          <div class="consult-meta">
-            <span>${data.specialite || "-"}</span>
-            <span>${data.acceptedBy ? "👨‍🏫 Lié à un enseignant" : "En attente d’un enseignant"}</span>
-          </div>
-        `;
-
-        item.addEventListener('click', ()=>openChatForConsultation(id, data.code || "-", data.status || "pending"));
-
-        consultList.appendChild(item);
-      });
-    });
+    );
   }
 
-  const chatShell  = document.getElementById('chat-shell');
   const chatBody   = document.getElementById('chat-body');
   const chatCodeEl = document.getElementById('chat-code');
   const chatStatus = document.getElementById('chat-status');
@@ -729,7 +734,7 @@
 
     chatCodeEl.textContent = code;
     if(status !== "accepted"){
-      chatStatus.textContent = "Cette consultation n’est pas encore acceptée. Le chat sera activé بعد validation par un enseignant.";
+      chatStatus.textContent = "Cette consultation n’est pas encore acceptée. Le chat sera activé après validation par un enseignant.";
       chatInput.disabled = true;
       clearChatUI("En attente d’acceptation de la part d’un enseignant…");
       if(chatUnsub) chatUnsub();
@@ -739,9 +744,7 @@
     chatStatus.textContent = "Chat actif avec l’enseignant. Restez courtois et précis dans vos messages.";
     chatInput.disabled = false;
 
-
     if(chatUnsub) chatUnsub();
-
 
     const messagesRef = collection(db, "consultations", consultId, "messages");
     const qMsg = query(messagesRef, orderBy("createdAt","asc"));
@@ -768,11 +771,9 @@
         chatBody.appendChild(msgDiv);
       });
 
-
       chatBody.scrollTop = chatBody.scrollHeight;
     });
   }
-
 
   chatSend.addEventListener('click', sendChatMessage);
   chatInput.addEventListener('keydown', (e)=>{
