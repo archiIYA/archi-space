@@ -32,7 +32,7 @@
       --accent-soft:#2563eb22;
       --danger:#dc2626;
       --border:#d1d5db;
-      --shadow:0 16px 40px rgba(15,23,42,0.15);
+      --shadow:0 16px 40px rgba(0,0,0,0.15);
       --input-bg:#f9fafb;
     }
 
@@ -95,6 +95,7 @@
       outline:none;
       transition:0.15s ease;
       box-shadow:0 0 0 0 transparent;
+      text-decoration:none;
     }
     .btn svg{
       width:14px;
@@ -411,6 +412,9 @@
       <button class="btn btn-ghost" id="btn-home">
         🏠 Accueil
       </button>
+      <a class="btn btn-ghost" href="consult-prof.html">
+        👨‍🏫 Espace enseignant ou architecte
+      </a>
       <button class="btn" id="theme-toggle">
         🌓 Mode sombre
       </button>
@@ -567,7 +571,7 @@
 
 
   document.getElementById('btn-back').addEventListener('click', ()=>window.history.back());
-  document.getElementById('btn-home').addEventListener('click', ()=>window.location.href = "index.html");
+  document.getElementById('btn-home').addEventListener('click', ()=>window.location.href = "lecteur.html");
 
 
   const userEmailSpan = document.getElementById('user-email');
@@ -725,7 +729,7 @@
 
     chatCodeEl.textContent = code;
     if(status !== "accepted"){
-      chatStatus.textContent = "Cette consultation n’est pas encore acceptée. Le chat sera activé après validation par un enseignant.";
+      chatStatus.textContent = "Cette consultation n’est pas encore acceptée. Le chat sera activé بعد validation par un enseignant.";
       chatInput.disabled = true;
       clearChatUI("En attente d’acceptation de la part d’un enseignant…");
       if(chatUnsub) chatUnsub();
