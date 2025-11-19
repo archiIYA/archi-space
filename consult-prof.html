@@ -56,26 +56,32 @@
       justify-content:space-between;
       margin-bottom:18px;
       gap:10px;
+      flex-wrap:wrap;
     }
     .top-left{
       display:flex;
       flex-direction:column;
       gap:4px;
+      min-width:0;
     }
     .logo{
       font-weight:800;
       font-size:20px;
       letter-spacing:0.05em;
+      white-space:nowrap;
     }
     .logo span{color:var(--accent);}
     .tagline{
       font-size:11px;
       color:var(--muted);
     }
+    .small{font-size:11px;}
+
     .top-actions{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
+      justify-content:flex-end;
     }
     .btn{
       border-radius:999px;
@@ -92,6 +98,7 @@
       transition:0.15s ease;
       box-shadow:0 0 0 0 transparent;
       text-decoration:none;
+      white-space:nowrap;
     }
     .btn:hover{
       border-color:var(--accent);
@@ -117,6 +124,7 @@
       display:grid;
       grid-template-columns:1.1fr 1.1fr;
       gap:18px;
+      align-items:flex-start;
     }
     @media(max-width:900px){
       .layout{grid-template-columns:1fr;}
@@ -128,14 +136,16 @@
       border:1px solid var(--border);
       box-shadow:var(--shadow);
       padding:18px 18px 16px;
+      min-width:0;
     }
 
     .card-header{
       display:flex;
       justify-content:space-between;
-      align-items:baseline;
+      align-items:flex-start;
       gap:8px;
       margin-bottom:10px;
+      flex-wrap:wrap;
     }
     .card-title{
       font-size:18px;
@@ -143,6 +153,7 @@
       display:flex;
       align-items:center;
       gap:8px;
+      flex-wrap:wrap;
     }
     .chip{
       font-size:11px;
@@ -150,12 +161,12 @@
       border-radius:999px;
       border:1px solid var(--accent-soft);
       color:var(--accent);
+      white-space:nowrap;
     }
     .card-subtitle{
       font-size:12px;
       color:var(--muted);
     }
-    .small{font-size:11px;}
 
     .stats-row{
       display:flex;
@@ -163,6 +174,7 @@
       margin-top:8px;
       font-size:11px;
       color:var(--muted);
+      flex-wrap:wrap;
     }
 
     .list{
@@ -201,12 +213,15 @@
       margin-top:4px;
       font-size:11px;
       color:var(--muted);
+      gap:6px;
+      flex-wrap:wrap;
     }
     .badge{
       font-size:10px;
       padding:2px 7px;
       border-radius:999px;
       border:1px solid var(--border);
+      white-space:nowrap;
     }
     .badge-pending{color:#facc15;border-color:#facc15;}
     .badge-accepted{color:#4ade80;border-color:#4ade80;}
@@ -245,6 +260,7 @@
       display:flex;
       flex-direction:column;
       height:260px;
+      max-height:70vh;
     }
     :root[data-theme="light"] .chat-shell{
       background:#f9fafb;
@@ -256,7 +272,20 @@
       justify-content:space-between;
       align-items:center;
       font-size:12px;
+      gap:6px;
     }
+    .chat-header-left{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+    .chat-header-left span{
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
     .chat-body{
       flex:1;
       overflow:auto;
@@ -270,6 +299,7 @@
       border-radius:13px;
       line-height:1.35;
       word-wrap:break-word;
+      overflow-wrap:anywhere; /* حتى لا تتجاوز الرسالة حدود الشاشة */
     }
     .msg.me{
       margin-left:auto;
@@ -310,12 +340,37 @@
       border:1px solid var(--border);
       background:var(--input-bg);
       color:var(--text);
+      min-width:0;
     }
     .empty-chat{
       font-size:11px;
       color:var(--muted);
       text-align:center;
       margin-top:35px;
+    }
+
+    /* تحسينات خاصة بالموبايل */
+    @media (max-width:600px){
+      body{
+        padding:10px;
+      }
+      .card{
+        padding:14px 12px;
+      }
+      .chat-shell{
+        height:60vh;
+      }
+      .msg{
+        max-width:88%;
+        font-size:12px;
+      }
+      .btn{
+        font-size:12px;
+        padding:7px 11px;
+      }
+      .logo{
+        font-size:18px;
+      }
     }
   </style>
 </head>
@@ -329,6 +384,7 @@
         Gestion des demandes de consultation selon vos spécialités.
       </div>
       <div class="small" id="prof-info"></div>
+      <div class="small" id="stats-global"></div>
     </div>
     <div class="top-actions">
       <button class="btn btn-ghost" id="btn-back">⬅ Retour</button>
@@ -380,8 +436,11 @@
 
       <div class="chat-shell" id="chat-shell">
         <div class="chat-header">
-          <span>Salon : <strong id="chat-code">–</strong></span>
-          <span class="small" id="chat-status">Sélectionnez une consultation acceptée.</span>
+          <div class="chat-header-left">
+            <span>Salon : <strong id="chat-code">–</strong></span>
+            <span class="small" id="chat-status">Sélectionnez une consultation acceptée.</span>
+          </div>
+          <button class="btn btn-ghost" id="chat-close" style="padding:4px 9px;font-size:11px;">✖ Fermer</button>
         </div>
         <div class="chat-body" id="chat-body">
           <div class="empty-chat">
@@ -405,7 +464,7 @@
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import {
     getFirestore, collection, doc, getDoc, updateDoc, onSnapshot,
-    query, orderBy, addDoc, serverTimestamp
+    query, orderBy, addDoc, serverTimestamp, where
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -427,6 +486,7 @@
   const btnBack     = document.getElementById("btn-back");
   const btnHome     = document.getElementById("btn-home");
   const profInfoEl  = document.getElementById("prof-info");
+  const statGlobal  = document.getElementById("stats-global");
 
   const pendingList   = document.getElementById("pending-list");
   const acceptedList  = document.getElementById("accepted-list");
@@ -439,11 +499,12 @@
   const chatBody   = document.getElementById("chat-body");
   const chatInput  = document.getElementById("chat-input");
   const chatSend   = document.getElementById("chat-send");
+  const chatClose  = document.getElementById("chat-close");
 
-  let currentUser   = null;
-  let teacherProfile = null;
+  let currentUser     = null;
+  let teacherProfile  = null;
   let currentConsultId = null;
-  let chatUnsub = null;
+  let chatUnsub       = null;
 
   function applyTheme(theme){
     root.setAttribute("data-theme", theme);
@@ -464,6 +525,19 @@
     chatInput.value = "";
   }
 
+  function closeChat(){
+    if (chatUnsub){
+      chatUnsub();
+      chatUnsub = null;
+    }
+    currentConsultId = null;
+    chatInput.disabled = true;
+    chatCodeEl.textContent = "–";
+    chatStatus.textContent = "Sélectionnez une consultation acceptée.";
+    clearChatUI("Aucun salon actif. Choisissez une consultation acceptée.");
+  }
+  chatClose.addEventListener("click", closeChat);
+
   onAuthStateChanged(auth, async (user)=>{
     if (!user){
       window.location.href = "login.html";
@@ -471,7 +545,6 @@
     }
     currentUser = user;
 
-    // جلب وثيقة الأستاذ
     const tRef  = doc(db, "teachers", user.uid);
     const tSnap = await getDoc(tRef);
 
@@ -485,7 +558,7 @@
     const specs = teacherProfile.specialites || [];
     profInfoEl.textContent =
       (teacherProfile.name || user.email) +
-      " · Spécialités : " + specs.join(", ");
+      " · Spécialités : " + (specs.length ? specs.join(", ") : "—");
 
     listenToConsultations();
   });
@@ -496,8 +569,13 @@
     const specs = teacherProfile.specialites || [];
     console.log("Spécialités enseignant :", specs);
 
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
     const qAll = query(
       collection(db, "consultations"),
+      where("createdAt", ">=", today),
       orderBy("createdAt", "desc")
     );
 
@@ -554,14 +632,21 @@
 
         statLeft.textContent  = "En attente : " + pendingCount;
         statRight.textContent = "Acceptées : " + acceptedCount;
+        const total = pendingCount + acceptedCount;
+        statGlobal.textContent = "Total des consultations du jour : " + total;
 
         if (!pendingCount){
           pendingList.innerHTML =
-            '<div class="small" style="color:var(--muted);">Aucune demande en attente pour vos spécialités.</div>';
+            '<div class="small" style="color:var(--muted);">Aucune demande en attente pour vos spécialités aujourd’hui.</div>';
         }
         if (!acceptedCount){
           acceptedList.innerHTML =
-            '<div class="small" style="color:var(--muted);">Aucune consultation acceptée pour le moment.</div>';
+            '<div class="small" style="color:var(--muted);">Aucune consultation acceptée pour le moment aujourd’hui.</div>';
+        }
+
+
+        if (currentConsultId && acceptedCount === 0){
+          closeChat();
         }
       },
       (err)=>{
@@ -593,12 +678,11 @@
     try{
       const ref = doc(db, "consultations", id);
       await updateDoc(ref, {
-        status       : "accepted",
-        acceptedByUid: currentUser.uid,
+        status         : "accepted",
+        acceptedByUid  : currentUser.uid,
         acceptedByEmail: currentUser.email || null
       });
       alert("Consultation acceptée. Le chat est maintenant disponible.");
-      // نفتح مباشرة الشات
       openChat(id, data.code || "-", {...data, status:"accepted"});
     }catch(err){
       console.error(err);
