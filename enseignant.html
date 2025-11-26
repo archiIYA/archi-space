@@ -11,22 +11,24 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
   <style>
     :root{
       --bg:#050816;
       --bg2:#020617;
-      --card:#020617;
-      --card-soft:#0b1120;
+      --card:#05091a;
+      --card-soft:#0b1020;
       --text:#e5f0ff;
       --muted:#9ca3af;
       --accent:#22d3ee;
-      --accent2:#38bdf8;
+      --accent2:#a855f7;
+      --accent3:#f97316;
       --accent-soft:#22d3ee33;
       --danger:#f97373;
       --success:#22c55e;
       --border:#1f2937;
-      --shadow:0 24px 60px rgba(0,0,0,0.65);
+      --shadow:0 26px 70px rgba(0,0,0,0.7);
       --input-bg:#020617;
     }
     :root[data-theme="light"]{
@@ -37,12 +39,13 @@
       --text:#020617;
       --muted:#6b7280;
       --accent:#0ea5e9;
-      --accent2:#38bdf8;
+      --accent2:#8b5cf6;
+      --accent3:#f97316;
       --accent-soft:#0ea5e933;
       --danger:#ef4444;
       --success:#16a34a;
       --border:#d1d5db;
-      --shadow:0 20px 50px rgba(15,23,42,0.12);
+      --shadow:0 22px 60px rgba(15,23,42,0.12);
       --input-bg:#eef2ff;
     }
 
@@ -55,19 +58,20 @@
       align-items:stretch;
       padding:18px;
       background:
-        radial-gradient(circle at top left, #22d3ee33 0, transparent 55%),
-        radial-gradient(circle at bottom right, #4ade8033 0, transparent 55%),
-        radial-gradient(circle at top, #1f2937 0, var(--bg) 45%, #000 100%);
+        radial-gradient(circle at top left,#22d3ee33 0,transparent 55%),
+        radial-gradient(circle at top right,#a855f733 0,transparent 55%),
+        radial-gradient(circle at bottom,#f9731633 0,transparent 60%),
+        radial-gradient(circle at top,#1f2937 0,var(--bg) 45%,#000 100%);
       color:var(--text);
       transition:background 0.4s ease,color 0.4s ease;
     }
 
     .app-shell{
-      max-width:1220px;
+      max-width:1240px;
       width:100%;
       background:linear-gradient(135deg,
-        color-mix(in srgb, var(--bg2) 80%, transparent),
-        color-mix(in srgb, #020617 50%, #0b1120 50%));
+        color-mix(in srgb,var(--bg2) 80%,transparent),
+        color-mix(in srgb,#020617 60%,#0b1120 40%));
       border-radius:26px;
       padding:18px 18px 18px;
       border:1px solid color-mix(in srgb,var(--border) 70%,transparent);
@@ -79,9 +83,10 @@
       content:"";
       position:absolute;
       inset:-40%;
-      background:radial-gradient(circle at 0 0, #22d3ee11 0, transparent 70%),
-                 radial-gradient(circle at 100% 100%, #22c55e11 0, transparent 70%);
-      opacity:0.8;
+      background:
+        radial-gradient(circle at 0 0,#22d3ee11 0,transparent 65%),
+        radial-gradient(circle at 100% 100%,#a855f711 0,transparent 65%);
+      opacity:0.9;
       pointer-events:none;
     }
 
@@ -91,19 +96,41 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      margin-bottom:14px;
+      margin-bottom:12px;
       position:relative;
       z-index:2;
     }
     .top-left{
       display:flex;
       align-items:center;
-      gap:8px;
+      gap:10px;
     }
+    .logo-box{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 9px;
+      border-radius:999px;
+      background:color-mix(in srgb,var(--card-soft) 88%,transparent);
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      backdrop-filter:blur(12px);
+    }
+    .logo-box img{
+      height:20px;
+      width:auto;
+      display:block;
+    }
+    .logo-box span{
+      font-size:0.78rem;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
     .back-btn{
       border-radius:999px;
       border:1px solid var(--border);
-      background:color-mix(in srgb,var(--card) 80%, transparent);
+      background:color-mix(in srgb,var(--card) 80%,transparent);
       color:var(--muted);
       font-size:0.8rem;
       padding:5px 10px;
@@ -135,7 +162,7 @@
       width:40px;
       height:20px;
       border-radius:999px;
-      background:color-mix(in srgb, var(--card-soft) 70%, var(--accent-soft) 30%);
+      background:color-mix(in srgb,var(--card-soft) 70%,var(--accent-soft) 30%);
       border:1px solid var(--border);
       display:flex;
       align-items:center;
@@ -164,92 +191,117 @@
 
 
     .header{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:14px;
       margin-bottom:14px;
       position:relative;
       z-index:2;
-    }
-    .header-left{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .hero-icon{
-      width:52px;
-      height:52px;
       border-radius:20px;
-      background:
-        conic-gradient(from 230deg,#22d3ee,#38bdf8,#22c55e,#22d3ee),
-        radial-gradient(circle at 30% 0, #22d3ee, transparent 60%);
-      padding:2px;
-      box-shadow:0 16px 40px rgba(15,23,42,0.85);
+      overflow:hidden;
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      background:color-mix(in srgb,var(--card-soft) 88%,transparent);
+      box-shadow:0 20px 45px rgba(0,0,0,0.6);
     }
-    .hero-inner{
+    .cover{
+      position:relative;
+      height:150px;
+      background:
+        linear-gradient(135deg,#22d3ee,#a855f7,#f97316);
+      overflow:hidden;
+    }
+    .cover-img{
       width:100%;
       height:100%;
-      border-radius:18px;
-      background:radial-gradient(circle at 20% 0,#020617,#020617 45%,#0b1120 100%);
+      object-fit:cover;
+      display:block;
+      opacity:0.9;
+      mix-blend-mode:screen;
+    }
+    .cover-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to bottom,rgba(0,0,0,0.25),rgba(0,0,0,0.75));
+    }
+    .cover-actions{
+      position:absolute;
+      right:12px;
+      bottom:10px;
+      display:flex;
+      gap:6px;
+      align-items:center;
+      font-size:0.72rem;
+    }
+    .cover-actions label{
+      border-radius:999px;
+      border:1px solid rgba(248,250,252,0.7);
+      color:#f9fafb;
+      padding:3px 8px;
+      cursor:pointer;
+      background:rgba(15,23,42,0.35);
+      backdrop-filter:blur(12px);
+    }
+    .cover-actions input{
+      display:none;
+    }
+
+    .profile-row{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 14px 12px;
+    }
+    .profile-left{
+      display:flex;
+      align-items:flex-end;
+      gap:10px;
+    }
+    .avatar{
+      width:70px;
+      height:70px;
+      border-radius:24px;
+      background:
+        radial-gradient(circle at 0 0,#22c55e,transparent 55%),
+        radial-gradient(circle at 100% 100%,#38bdf8,transparent 55%),
+        var(--card);
+      border:2px solid color-mix(in srgb,var(--card-soft) 85%,transparent);
       display:flex;
       align-items:center;
       justify-content:center;
-      color:#e5f0ff;
-      font-weight:800;
-      font-size:1.25rem;
-      position:relative;
-      overflow:hidden;
-    }
-    .hero-inner span.sub{
-      position:absolute;
-      bottom:4px;
-      right:7px;
-      font-size:0.58rem;
-      color:var(--muted);
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-    }
-
-    .header-text h1{
+      font-weight:700;
       font-size:1.4rem;
+      color:var(--text);
+      margin-top:-32px;
+      box-shadow:0 18px 40px rgba(0,0,0,0.7);
+    }
+    .profile-info h1{
+      font-size:1.15rem;
       font-weight:800;
-      letter-spacing:0.03em;
       display:flex;
       align-items:center;
-      gap:8px;
-    }
-    .header-text h1 .tag{
-      font-size:0.72rem;
-      padding:2px 8px;
-      border-radius:999px;
-      background:color-mix(in srgb,#22d3ee22 70%,transparent);
-      color:var(--accent2);
-      border:1px solid var(--accent-soft);
-    }
-    .header-text p{
-      margin-top:4px;
-      font-size:0.82rem;
-      color:var(--muted);
-    }
-    .header-badges{
-      display:flex;
-      flex-wrap:wrap;
       gap:6px;
-      margin-top:6px;
-      font-size:0.7rem;
     }
-    .header-badges span{
-      padding:2px 8px;
+    .profile-info h1 span.level-tag{
+      font-size:0.7rem;
+      padding:2px 7px;
       border-radius:999px;
-      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
-      background:color-mix(in srgb,var(--card-soft) 80%,transparent);
+      background:rgba(34,211,238,0.16);
+      border:1px solid var(--accent-soft);
+      color:var(--accent);
+    }
+    .profile-info p.title{
+      margin-top:2px;
+      font-size:0.8rem;
       color:var(--muted);
+    }
+    .profile-info p.bio{
+      margin-top:3px;
+      font-size:0.78rem;
+      color:var(--muted);
+      max-width:480px;
     }
 
-    .header-right{
+    .profile-right{
       text-align:right;
-      font-size:0.76rem;
+      font-size:0.75rem;
       color:var(--muted);
     }
     .role-pill{
@@ -258,10 +310,9 @@
       gap:6px;
       padding:3px 10px;
       border-radius:999px;
-      background:color-mix(in srgb,var(--card) 75%,transparent);
-      border:1px solid var(--border);
-      font-size:0.72rem;
-      margin-bottom:6px;
+      background:color-mix(in srgb,var(--card) 80%,transparent);
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      margin-bottom:5px;
     }
     .role-dot{
       width:8px;
@@ -270,28 +321,32 @@
       background:var(--success);
       box-shadow:0 0 0 6px rgba(34,197,94,0.22);
     }
+    .header-status{
+      font-size:0.72rem;
+      color:var(--muted);
+    }
 
 
     .layout{
       display:grid;
-      grid-template-columns:1.2fr 1.1fr;
+      grid-template-columns:1.15fr 1fr;
       gap:14px;
       position:relative;
       z-index:2;
     }
 
     .card{
-      background:color-mix(in srgb,var(--card) 88%,transparent);
+      background:color-mix(in srgb,var(--card) 90%,transparent);
       border-radius:18px;
       padding:12px 12px 14px;
-      border:1px solid color-mix(in srgb,var(--border) 85%,transparent);
-      box-shadow:0 14px 40px rgba(0,0,0,0.5);
+      border:1px solid color-mix(in srgb,var(--border) 82%,transparent);
+      box-shadow:0 16px 40px rgba(0,0,0,0.55);
       position:relative;
       overflow:hidden;
     }
     .card.soft{
       background:linear-gradient(145deg,
-        color-mix(in srgb,var(--card-soft) 90%,transparent),
+        color-mix(in srgb,var(--card-soft) 92%,transparent),
         color-mix(in srgb,var(--bg) 75%,transparent));
     }
     .card-header{
@@ -320,143 +375,153 @@
     }
 
 
-    .trainer-main{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      margin-bottom:10px;
-    }
-    .trainer-avatar{
-      width:52px;
-      height:52px;
-      border-radius:18px;
-      background:
-        radial-gradient(circle at 0 0,#22c55e,transparent 55%),
-        radial-gradient(circle at 100% 100%,#38bdf8,transparent 55%),
-        var(--card);
-      border:1px solid var(--border);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      font-size:1.05rem;
-    }
-    .trainer-info h3{
-      font-size:0.98rem;
-      font-weight:700;
-    }
-    .trainer-info small{
-      font-size:0.73rem;
-      color:var(--muted);
-    }
-    .trainer-tags{
-      margin-top:5px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:5px;
-      font-size:0.7rem;
-    }
-    .trainer-tags span{
-      padding:2px 7px;
-      border-radius:999px;
-      background:color-mix(in srgb,var(--card-soft) 85%,transparent);
-      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
-      color:var(--muted);
-    }
-
-    .stats-grid{
+    .profile-form{
       display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:8px;
-      margin-top:8px;
+      grid-template-columns:1fr;
+      gap:6px;
+      margin-bottom:8px;
+      font-size:0.78rem;
     }
-    .stat-card{
-      border-radius:14px;
-      padding:7px 8px;
-      background:linear-gradient(135deg,
-        color-mix(in srgb,#0b1120 85%,transparent),
-        color-mix(in srgb,#020617 80%,transparent));
-      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
-      font-size:0.75rem;
-      position:relative;
-      overflow:hidden;
-    }
-    .stat-label{
+    .field-label{
+      font-size:0.72rem;
       color:var(--muted);
-      font-size:0.7rem;
+      margin-bottom:2px;
     }
-    .stat-value{
-      font-size:0.98rem;
-      font-weight:700;
-      margin-top:2px;
+    .profile-form input,
+    .profile-form textarea{
+      width:100%;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:var(--input-bg);
+      color:var(--text);
+      padding:6px 9px;
+      font-size:0.78rem;
+      outline:none;
+      resize:vertical;
+      min-height:30px;
+      max-height:120px;
+      transition:border-color 0.18s ease, box-shadow 0.18s ease;
     }
-    .stat-pill{
-      margin-top:3px;
-      font-size:0.7rem;
-      padding:2px 6px;
+    .profile-form input:focus,
+    .profile-form textarea:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px var(--accent-soft);
+    }
+    .profile-actions{
+      margin-top:4px;
+      display:flex;
+      justify-content:flex-end;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .btn{
       border-radius:999px;
-      background:color-mix(in srgb,var(--accent-soft) 30%,transparent);
-      color:var(--accent2);
       border:1px solid var(--accent-soft);
+      background:var(--accent);
+      color:#020617;
+      font-size:0.78rem;
+      padding:5px 12px;
+      cursor:pointer;
       display:inline-flex;
       align-items:center;
-      gap:4px;
+      gap:6px;
+      box-shadow:0 10px 20px rgba(34,211,238,0.45);
+    }
+    .btn.secondary{
+      background:transparent;
+      color:var(--accent);
+      box-shadow:none;
     }
 
 
-    .progress-list{
+    .announcements-list{
       margin-top:6px;
       border-radius:12px;
       border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
-      background:color-mix(in srgb,var(--card-soft) 85%,transparent);
-      max-height:260px;
+      background:color-mix(in srgb,var(--card-soft) 88%,transparent);
+      max-height:220px;
       overflow:auto;
-      font-size:0.75rem;
+      font-size:0.76rem;
     }
-    .progress-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:6px 8px;
-      border-bottom:1px solid color-mix(in srgb,var(--border) 65%,transparent);
+    .announcement{
+      padding:7px 8px;
+      border-bottom:1px solid color-mix(in srgb,var(--border) 70%,transparent);
+      position:relative;
     }
-    .progress-row:last-child{
+    .announcement:last-child{
       border-bottom:none;
     }
-    .progress-left{
+    .announcement-title{
+      font-weight:600;
+      font-size:0.8rem;
       display:flex;
-      flex-direction:column;
-      gap:2px;
+      align-items:center;
+      gap:6px;
     }
-    .progress-id{
-      font-family:monospace;
-      font-size:0.74rem;
+    .announcement-pill{
+      font-size:0.64rem;
+      padding:1px 6px;
+      border-radius:999px;
+      background:rgba(248,250,252,0.06);
+      border:1px solid color-mix(in srgb,var(--border) 75%,transparent);
       color:var(--muted);
     }
-    .progress-email{
-      font-size:0.75rem;
+    .announcement-body{
+      margin-top:3px;
+      font-size:0.76rem;
+      color:var(--text);
     }
-    .progress-right{
-      text-align:right;
+    .announcement-meta{
+      margin-top:3px;
+      font-size:0.65rem;
+      color:var(--muted);
       display:flex;
-      flex-direction:column;
-      gap:2px;
-      align-items:flex-end;
+      justify-content:space-between;
     }
-    .progress-bar-wrap{
-      width:110px;
-      height:6px;
-      border-radius:999px;
-      background:color-mix(in srgb,var(--card) 80%,transparent);
-      overflow:hidden;
-      border:1px solid color-mix(in srgb,var(--border) 75%,transparent);
+
+    .announcement-form{
+      margin-top:8px;
+      padding-top:6px;
+      border-top:1px dashed color-mix(in srgb,var(--border) 70%,transparent);
+      font-size:0.76rem;
     }
-    .progress-bar{
-      height:100%;
-      width:0%;
+    .announcement-form input,
+    .announcement-form textarea{
+      width:100%;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:var(--input-bg);
+      color:var(--text);
+      padding:6px 9px;
+      font-size:0.76rem;
+      outline:none;
+      resize:vertical;
+      min-height:30px;
+      max-height:100px;
+    }
+    .announcement-form input:focus,
+    .announcement-form textarea:focus{
+      border-color:var(--accent2);
+      box-shadow:0 0 0 1px color-mix(in srgb,var(--accent2) 40%,transparent);
+    }
+    .announcement-actions{
+      margin-top:5px;
+      display:flex;
+      justify-content:flex-end;
+      gap:6px;
+    }
+    .btn-purple{
       border-radius:999px;
-      background:linear-gradient(90deg,#22d3ee,#38bdf8,#22c55e);
-      transition:width 0.25s ease;
+      border:1px solid color-mix(in srgb,var(--accent2) 45%,transparent);
+      background:var(--accent2);
+      color:#f9fafb;
+      font-size:0.78rem;
+      padding:5px 11px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:0 10px 22px rgba(168,85,247,0.5);
     }
 
 
@@ -494,6 +559,7 @@
       border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
       background:transparent;
       cursor:pointer;
+      font-size:0.7rem;
     }
     .filter-chip.active{
       border-color:var(--accent-soft);
@@ -559,23 +625,24 @@
       transition:border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
     }
     .messages-input input:focus{
-      border-color:var(--accent);
-      box-shadow:0 0 0 1px var(--accent-soft);
+      border-color:var(--accent3);
+      box-shadow:0 0 0 1px color-mix(in srgb,var(--accent3) 45%,transparent);
     }
     .messages-input button{
       border-radius:999px;
       border:none;
       padding:7px 11px;
       font-size:0.8rem;
-      background:var(--accent);
+      background:var(--accent3);
       color:#020617;
       font-weight:600;
       cursor:pointer;
       display:flex;
       align-items:center;
       gap:5px;
-      box-shadow:0 8px 18px rgba(34,211,238,0.45);
+      box-shadow:0 8px 18px rgba(249,115,22,0.45);
     }
+
 
     .footer-line{
       margin-top:10px;
@@ -588,7 +655,6 @@
       position:relative;
       z-index:2;
     }
-
 
     .blocked{
       text-align:center;
@@ -609,7 +675,7 @@
       font-size:1.6rem;
     }
 
-    @media (max-width:950px){
+    @media (max-width:980px){
       .layout{
         grid-template-columns:1fr;
       }
@@ -619,23 +685,22 @@
         padding:14px 12px;
         border-radius:20px;
       }
-      .header{
+      .profile-row{
         flex-direction:column;
         align-items:flex-start;
-      }
-      .header-right{
-        align-self:stretch;
-      }
-      .stats-grid{
-        grid-template-columns:repeat(2,minmax(0,1fr));
       }
     }
   </style>
 </head>
 <body>
   <div class="app-shell">
+
     <div class="top-bar">
       <div class="top-left">
+        <div class="logo-box">
+          <img src="logotrendy.svg" alt="Trendy Plaza">
+          <span>TRENDY PLAZA</span>
+        </div>
         <button class="back-btn" id="backBtn">
           <span class="icon">⬅</span>
           <span>Retour au lecteur</span>
@@ -649,92 +714,97 @@
       </div>
     </div>
 
-    <header class="header" id="headerBlock" style="opacity:0.35;filter:blur(1px);pointer-events:none;">
-      <div class="header-left">
-        <div class="hero-icon">
-          <div class="hero-inner">
-            <span>R</span>
-            <span class="sub">Formateur</span>
-          </div>
-        </div>
-        <div class="header-text">
-          <h1>
-            Espace formateur – Revit Niveau 1
-            <span class="tag">Trendy Plaza</span>
-          </h1>
-          <p>Suivez vos inscrits, leurs progrès, et leurs messages depuis un seul espace clair et moderne.</p>
-          <div class="header-badges">
-            <span id="teacherEmailBadge">Compte: —</span>
-            <span id="teacherNameBadge">Formateur: —</span>
-          </div>
-        </div>
-      </div>
-      <div class="header-right">
-        <div class="role-pill" id="rolePill">
-          <span class="role-dot"></span>
-          <span id="roleLabel">Vérification du rôle…</span>
-        </div>
-        <div>
-          <div id="statusText">Connexion en cours…</div>
-        </div>
-      </div>
-    </header>
 
+    <section class="header" id="headerBlock" style="opacity:0.3;filter:blur(1px);pointer-events:none;">
+      <div class="cover">
+        <img id="coverImg" class="cover-img" src="" alt="Couverture formateur" style="display:none;">
+        <div class="cover-overlay"></div>
+        <div class="cover-actions">
+          <label for="coverInput">📷 Changer la couverture</label>
+          <input type="file" id="coverInput" accept="image/*">
+        </div>
+      </div>
+      <div class="profile-row">
+        <div class="profile-left">
+          <div class="avatar" id="avatarInitials">TR</div>
+          <div class="profile-info">
+            <h1>
+              <span id="displayName">Formateur Revit</span>
+              <span class="level-tag">Revit – Niveau 1</span>
+            </h1>
+            <p class="title" id="displayTitle">Architecture & BIM</p>
+            <p class="bio" id="displayBio">
+              Personnalisez votre profil, gérez vos annonces et répondez aux messages des inscrits depuis un seul espace.
+            </p>
+          </div>
+        </div>
+        <div class="profile-right">
+          <div class="role-pill">
+            <span class="role-dot"></span>
+            <span id="roleLabel">Vérification du rôle…</span>
+          </div>
+          <div class="header-status" id="statusText">Connexion en cours…</div>
+        </div>
+      </div>
+    </section>
+
+  
     <main class="layout" id="mainLayout" style="opacity:0.2;filter:blur(2px);pointer-events:none;">
 
       <section class="card soft">
         <div class="card-header">
           <div class="card-title">
-            <span class="icon">👨‍🏫</span>
-            <span>Formateur & progression générale</span>
+            <span class="icon">👤</span>
+            <span>Profil du formateur</span>
           </div>
-          <span class="badge" id="studentsCountBadge">0 inscrit</span>
+          <span class="badge" id="teacherEmailBadge">Compte: —</span>
         </div>
 
-        <div class="trainer-main">
-          <div class="trainer-avatar" id="trainerInitials">TR</div>
-          <div class="trainer-info">
-            <h3 id="trainerName">Nom du formateur</h3>
-            <small id="trainerSubtitle">Revit · BIM · Architecture</small>
-            <div class="trainer-tags">
-              <span>Revit – Niveau 1</span>
-              <span>Suivi des séances</span>
-              <span>Communication privée</span>
-            </div>
+        <form class="profile-form" id="profileForm">
+          <div>
+            <div class="field-label">Nom complet</div>
+            <input type="text" id="inputName" placeholder="Votre nom complet">
           </div>
+          <div>
+            <div class="field-label">Titre / rôle</div>
+            <input type="text" id="inputTitle" placeholder="Ex: Architecte & Formateur Revit">
+          </div>
+          <div>
+            <div class="field-label">Courte biographie</div>
+            <textarea id="inputBio" placeholder="Présentez-vous en quelques lignes pour vos étudiants…"></textarea>
+          </div>
+        </form>
+
+        <div class="profile-actions">
+          <button type="button" class="btn secondary" id="resetProfileBtn">Réinitialiser</button>
+          <button type="button" class="btn" id="saveProfileBtn">
+            💾 Enregistrer le profil
+          </button>
         </div>
 
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label">Taux moyen d’avancement</div>
-            <div class="stat-value" id="avgProgressValue">0%</div>
-            <div class="stat-pill">
-              📈 <span id="avgProgressLabel">En démarrage</span>
-            </div>
+        <div class="card-header" style="margin-top:12px;">
+          <div class="card-title">
+            <span class="icon">📢</span>
+            <span>Annonces de la formation</span>
           </div>
-          <div class="stat-card">
-            <div class="stat-label">Messages reçus</div>
-            <div class="stat-value" id="messagesCountValue">0</div>
-            <div class="stat-pill">
-              💬 <span id="messagesCountLabel">Flux calme</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Séances complétées (total)</div>
-            <div class="stat-value" id="totalSessionsDoneValue">0</div>
-            <div class="stat-pill">
-              ✅ <span>Niveau 1 · 5 séances</span>
-            </div>
-          </div>
+          <span class="badge" id="announcementsBadge">0 annonce</span>
         </div>
 
-        <div style="margin-top:10px;font-size:0.78rem;color:var(--muted);">
-          Liste des inscrits et leur avancement dans les 5 séances du niveau 1.
-        </div>
-
-        <div class="progress-list" id="progressList">
+        <div class="announcements-list" id="announcementsList">
           <div style="padding:8px 9px;font-size:0.75rem;color:var(--muted);">
-            Aucun inscrit détecté pour le moment…
+            Aucune annonce pour le moment…
+          </div>
+        </div>
+
+        <div class="announcement-form" id="announcementFormBlock">
+          <div class="field-label">Nouvelle annonce (titre)</div>
+          <input type="text" id="announcementTitle" placeholder="Ex: Mise à jour du planning de la séance 3">
+          <div class="field-label" style="margin-top:4px;">Contenu de l’annonce</div>
+          <textarea id="announcementBody" placeholder="Détaillez ici l’information importante pour vos étudiants…"></textarea>
+          <div class="announcement-actions">
+            <button type="button" class="btn-purple" id="addAnnouncementBtn">
+              ➕ Publier l’annonce
+            </button>
           </div>
         </div>
       </section>
@@ -773,7 +843,7 @@
       </section>
     </main>
 
-
+    
     <section class="card soft" id="blockedCard" style="margin-top:10px;display:none;">
       <div class="blocked">
         <div class="blocked-icon">⛔</div>
@@ -791,7 +861,7 @@
 
     <div class="footer-line">
       <span>Trendy Plaza · Dashboard formateur Revit</span>
-      <span id="footerInfo">Sécurisé avec Firebase · Lecture en temps réel</span>
+      <span id="footerInfo">Sécurisé avec Firebase · Profil + annonces + messages</span>
     </div>
   </div>
 
@@ -812,7 +882,7 @@
       applyTheme(current === "dark" ? "light" : "dark");
     });
 
-    // Back buttons
+
     const backBtn = document.getElementById("backBtn");
     const blockedBackBtn = document.getElementById("blockedBackBtn");
     if(backBtn){
@@ -833,56 +903,69 @@
       measurementId: "G-RZV7LSDQBD"
     };
 
-    let app, auth, db;
+    let app, auth, db, storage;
     try{
       app = firebase.initializeApp(firebaseConfig);
       auth = firebase.auth();
       db = firebase.firestore();
+      storage = firebase.storage();
     }catch(e){
       console.warn("Firebase non initialisé:", e);
     }
 
+
     const headerBlock = document.getElementById("headerBlock");
     const mainLayout = document.getElementById("mainLayout");
     const blockedCard = document.getElementById("blockedCard");
-    const rolePill = document.getElementById("rolePill");
     const roleLabel = document.getElementById("roleLabel");
     const statusText = document.getElementById("statusText");
+    const footerInfo = document.getElementById("footerInfo");
 
-    const teacherNameEl = document.getElementById("trainerName");
-    const teacherSubtitleEl = document.getElementById("trainerSubtitle");
-    const teacherInitialsEl = document.getElementById("trainerInitials");
+    const coverImg = document.getElementById("coverImg");
+    const coverInput = document.getElementById("coverInput");
+
+    const avatarInitials = document.getElementById("avatarInitials");
+    const displayName = document.getElementById("displayName");
+    const displayTitle = document.getElementById("displayTitle");
+    const displayBio = document.getElementById("displayBio");
     const teacherEmailBadge = document.getElementById("teacherEmailBadge");
-    const teacherNameBadge = document.getElementById("teacherNameBadge");
-    const studentsCountBadge = document.getElementById("studentsCountBadge");
 
-    const avgProgressValue = document.getElementById("avgProgressValue");
-    const avgProgressLabel = document.getElementById("avgProgressLabel");
-    const messagesCountValue = document.getElementById("messagesCountValue");
-    const messagesCountLabel = document.getElementById("messagesCountLabel");
-    const totalSessionsDoneValue = document.getElementById("totalSessionsDoneValue");
-    const progressList = document.getElementById("progressList");
+    const inputName = document.getElementById("inputName");
+    const inputTitle = document.getElementById("inputTitle");
+    const inputBio = document.getElementById("inputBio");
+    const saveProfileBtn = document.getElementById("saveProfileBtn");
+    const resetProfileBtn = document.getElementById("resetProfileBtn");
+
+    const announcementsList = document.getElementById("announcementsList");
+    const announcementsBadge = document.getElementById("announcementsBadge");
+    const announcementTitle = document.getElementById("announcementTitle");
+    const announcementBody = document.getElementById("announcementBody");
+    const addAnnouncementBtn = document.getElementById("addAnnouncementBtn");
 
     const messagesBadge = document.getElementById("messagesBadge");
     const messagesList = document.getElementById("messagesList");
     const messageForm = document.getElementById("messageForm");
     const messageInput = document.getElementById("messageInput");
-
     const filterChips = document.querySelectorAll(".filter-chip");
-    const footerInfo = document.getElementById("footerInfo");
 
     function _d(b){ return atob(b); }
-    const ADMIN_EMAIL = _d("dG91bWlpeWFkZXR1ZGVAZ21haWwuY29t");
-
-    const TOTAL_SESSIONS = 5;
+    const ADMIN_EMAIL = _d("dG91bWlpeWFkZXR1ZGVAZ21haWwuY29t"); 
 
     let currentUser = null;
     let isTrainer = false;
     let isAdmin = false;
+    let formationDocRef = null;
+    let unsubscribeAnnouncements = null;
     let unsubscribeMessages = null;
-    let unsubscribeProgress = null;
     let allMessages = [];
-    let progressDocs = [];
+    let currentFilter = "all";
+    let currentProfile = {
+      trainerName: "Formateur Revit",
+      trainerTitle: "Architecture & BIM",
+      trainerBio: "Personnalisez votre profil, gérez vos annonces et répondez aux messages des inscrits depuis un seul espace.",
+      trainerCoverUrl: null
+    };
+
 
     if(auth && db){
       auth.onAuthStateChanged(async (user)=>{
@@ -896,7 +979,8 @@
         isAdmin = !!(user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
 
         try{
-          const formationSnap = await db.collection("formations").doc("revit-niveau1").get();
+          formationDocRef = db.collection("formations").doc("revit-niveau1");
+          const formationSnap = await formationDocRef.get();
           if(!formationSnap.exists){
             statusText.textContent = "Configuration Revit introuvable.";
             denyAccess();
@@ -906,10 +990,10 @@
           const trainerEmail = (fData.trainerEmail || "").toLowerCase().trim();
           const trainerName = fData.trainerName || "Formateur Revit";
 
-          teacherNameEl.textContent = trainerName;
-          teacherNameBadge.textContent = "Formateur: " + trainerName;
-          teacherSubtitleEl.textContent = "Formation Revit – Niveau 1";
-          teacherInitialsEl.textContent = trainerName.split(" ").map(p=>p[0]).join("").substring(0,2).toUpperCase();
+          currentProfile.trainerName = trainerName;
+          if(fData.trainerTitle) currentProfile.trainerTitle = fData.trainerTitle;
+          if(fData.trainerBio) currentProfile.trainerBio = fData.trainerBio;
+          if(fData.trainerCoverUrl) currentProfile.trainerCoverUrl = fData.trainerCoverUrl;
 
           const userEmailLower = (user.email || "").toLowerCase().trim();
           isTrainer = !!trainerEmail && userEmailLower === trainerEmail;
@@ -920,20 +1004,15 @@
             return;
           }
 
-
+          // Access granted
           roleLabel.textContent = isTrainer ? "Formateur Revit" : "Admin – accès complet";
           statusText.textContent = "Accès confirmé à l’espace formateur.";
-          headerBlock.style.opacity = "1";
-          headerBlock.style.filter = "none";
-          headerBlock.style.pointerEvents = "auto";
-          mainLayout.style.opacity = "1";
-          mainLayout.style.filter = "none";
-          mainLayout.style.pointerEvents = "auto";
-          blockedCard.style.display = "none";
           footerInfo.textContent = isTrainer ? "Connecté en tant que formateur Revit." : "Connecté en tant qu’admin.";
+          unlockUI();
+          applyProfileToUI();
+          subscribeAnnouncements();
+          subscribeMessages();
 
-          loadProgress();
-          subscribeToMessages();
         }catch(err){
           console.error(err);
           statusText.textContent = "Erreur lors de la vérification de l’accès.";
@@ -943,6 +1022,16 @@
     }else{
       statusText.textContent = "Erreur configuration Firebase.";
       denyAccess();
+    }
+
+    function unlockUI(){
+      headerBlock.style.opacity = "1";
+      headerBlock.style.filter = "none";
+      headerBlock.style.pointerEvents = "auto";
+      mainLayout.style.opacity = "1";
+      mainLayout.style.filter = "none";
+      mainLayout.style.pointerEvents = "auto";
+      blockedCard.style.display = "none";
     }
 
     function denyAccess(){
@@ -955,106 +1044,189 @@
       blockedCard.style.display = "block";
     }
 
-    // Progress
-    async function loadProgress(){
-      if(!db || !currentUser) return;
-      try{
-        const snap = await db.collection("revit_progress").get();
-        progressDocs = [];
-        snap.forEach(doc=>{
-          const data = doc.data() || {};
-          const completed = Array.isArray(data.completedSessions) ? data.completedSessions : [];
-          const email = typeof data.email === "string" ? data.email : null;
-          progressDocs.push({
-            uid: doc.id,
-            email,
-            completed
-          });
-        });
+    function applyProfileToUI(){
+      const name = currentProfile.trainerName || "Formateur Revit";
+      const title = currentProfile.trainerTitle || "Architecture & BIM";
+      const bio = currentProfile.trainerBio || "Personnalisez votre profil, gérez vos annonces et répondez aux messages des inscrits depuis un seul espace.";
 
-        updateProgressUI();
-      }catch(err){
-        console.error("Erreur chargement progrès:", err);
+      displayName.textContent = name;
+      displayTitle.textContent = title;
+      displayBio.textContent = bio;
+
+      inputName.value = name;
+      inputTitle.value = title;
+      inputBio.value = bio;
+
+      avatarInitials.textContent = name.split(" ").map(p=>p[0]).join("").substring(0,2).toUpperCase();
+
+      if(currentProfile.trainerCoverUrl){
+        coverImg.src = currentProfile.trainerCoverUrl;
+        coverImg.style.display = "block";
+      }else{
+        coverImg.style.display = "none";
       }
     }
 
-    function updateProgressUI(){
-      const count = progressDocs.length;
-      studentsCountBadge.textContent = count + (count <= 1 ? " inscrit" : " inscrits");
 
+    if(saveProfileBtn){
+      saveProfileBtn.addEventListener("click", async ()=>{
+        if(!formationDocRef || !currentUser) return;
+        const newName = (inputName.value || "").trim() || currentProfile.trainerName;
+        const newTitle = (inputTitle.value || "").trim() || currentProfile.trainerTitle;
+        const newBio = (inputBio.value || "").trim() || currentProfile.trainerBio;
+
+        const updateData = {
+          trainerName: newName,
+          trainerTitle: newTitle,
+          trainerBio: newBio
+        };
+
+        try{
+          await formationDocRef.update(updateData);
+          currentProfile.trainerName = newName;
+          currentProfile.trainerTitle = newTitle;
+          currentProfile.trainerBio = newBio;
+          applyProfileToUI();
+          alert("Profil mis à jour avec succès.");
+        }catch(err){
+          console.error("Erreur maj profil:", err);
+          alert("Erreur lors de l’enregistrement du profil. Vérifiez vos règles Firestore.");
+        }
+      });
+    }
+
+    if(resetProfileBtn){
+      resetProfileBtn.addEventListener("click", ()=>{
+        applyProfileToUI();
+      });
+    }
+
+
+    if(coverInput){
+      coverInput.addEventListener("change", async (e)=>{
+        if(!storage || !formationDocRef || !currentUser) return;
+        const file = e.target.files && e.target.files[0];
+        if(!file) return;
+
+        try{
+          const path = "revit_covers/revit-niveau1_" + currentUser.uid + "_" + Date.now();
+          const ref = storage.ref().child(path);
+          await ref.put(file);
+          const url = await ref.getDownloadURL();
+
+          await formationDocRef.update({ trainerCoverUrl: url });
+          currentProfile.trainerCoverUrl = url;
+          applyProfileToUI();
+          alert("Image de couverture mise à jour.");
+        }catch(err){
+          console.error("Erreur upload couverture:", err);
+          alert("Erreur lors du téléchargement de la couverture.");
+        }
+      });
+    }
+
+
+    function subscribeAnnouncements(){
+      if(!formationDocRef) return;
+      if(unsubscribeAnnouncements) unsubscribeAnnouncements();
+
+      const colRef = formationDocRef.collection("announcements");
+      unsubscribeAnnouncements = colRef
+        .orderBy("createdAt","desc")
+        .limit(50)
+        .onSnapshot((snap)=>{
+          const anns = [];
+          snap.forEach(doc=>{
+            anns.push({ id: doc.id, ...(doc.data() || {}) });
+          });
+          renderAnnouncements(anns);
+        }, (err)=>{
+          console.error("Erreur flux annonces:", err);
+        });
+    }
+
+    function formatDate(ts){
+      if(!ts || !ts.toDate) return "";
+      const d = ts.toDate();
+      return d.toLocaleString("fr-FR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+    }
+
+    function renderAnnouncements(anns){
+      const count = anns.length;
+      announcementsBadge.textContent = count + (count <= 1 ? " annonce" : " annonces");
+
+      announcementsList.innerHTML = "";
       if(count === 0){
-        progressList.innerHTML = '<div style="padding:8px 9px;font-size:0.75rem;color:var(--muted);">Aucun inscrit détecté pour le moment…</div>';
-        avgProgressValue.textContent = "0%";
-        avgProgressLabel.textContent = "En démarrage";
-        totalSessionsDoneValue.textContent = "0";
+        announcementsList.innerHTML = '<div style="padding:8px 9px;font-size:0.75rem;color:var(--muted);">Aucune annonce pour le moment…</div>';
         return;
       }
 
-      let totalPercent = 0;
-      let totalSessionsDone = 0;
+      anns.forEach((a, index)=>{
+        const div = document.createElement("div");
+        div.className = "announcement";
 
-      progressList.innerHTML = "";
-      progressDocs.forEach((p)=>{
-        const completedCount = p.completed.length;
-        const percent = Math.min(100, Math.round((completedCount / TOTAL_SESSIONS) * 100));
-        totalPercent += percent;
-        totalSessionsDone += completedCount;
+        const titleRow = document.createElement("div");
+        titleRow.className = "announcement-title";
+        const titleSpan = document.createElement("span");
+        titleSpan.textContent = a.title || "Annonce sans titre";
+        const pill = document.createElement("span");
+        pill.className = "announcement-pill";
+        pill.textContent = index === 0 ? "Nouvelle" : "Info";
+        titleRow.appendChild(titleSpan);
+        titleRow.appendChild(pill);
 
-        const row = document.createElement("div");
-        row.className = "progress-row";
+        const body = document.createElement("div");
+        body.className = "announcement-body";
+        body.textContent = a.body || "";
 
-        const left = document.createElement("div");
-        left.className = "progress-left";
+        const meta = document.createElement("div");
+        meta.className = "announcement-meta";
+        const left = document.createElement("span");
+        left.textContent = a.createdByName || a.createdByEmail || "Formateur";
+        const right = document.createElement("span");
+        right.textContent = formatDate(a.createdAt);
+        meta.appendChild(left);
+        meta.appendChild(right);
 
-        const emailText = p.email || "(email non enregistré)";
-        const emailDiv = document.createElement("div");
-        emailDiv.className = "progress-email";
-        emailDiv.textContent = emailText;
+        div.appendChild(titleRow);
+        div.appendChild(body);
+        div.appendChild(meta);
 
-        const idDiv = document.createElement("div");
-        idDiv.className = "progress-id";
-        idDiv.textContent = p.uid.substring(0,10) + (p.uid.length > 10 ? "…" : "");
-
-        left.appendChild(emailDiv);
-        left.appendChild(idDiv);
-
-        const right = document.createElement("div");
-        right.className = "progress-right";
-        const percentSpan = document.createElement("span");
-        percentSpan.textContent = percent + "% (" + completedCount + "/" + TOTAL_SESSIONS + ")";
-        const barWrap = document.createElement("div");
-        barWrap.className = "progress-bar-wrap";
-        const bar = document.createElement("div");
-        bar.className = "progress-bar";
-        bar.style.width = percent + "%";
-        barWrap.appendChild(bar);
-
-        right.appendChild(percentSpan);
-        right.appendChild(barWrap);
-
-        row.appendChild(left);
-        row.appendChild(right);
-
-        progressList.appendChild(row);
+        announcementsList.appendChild(div);
       });
+    }
 
-      const avg = Math.round(totalPercent / count);
-      avgProgressValue.textContent = avg + "%";
-      if(avg === 0){
-        avgProgressLabel.textContent = "En démarrage";
-      }else if(avg < 40){
-        avgProgressLabel.textContent = "Progression timide";
-      }else if(avg < 80){
-        avgProgressLabel.textContent = "Progression solide";
-      }else{
-        avgProgressLabel.textContent = "Presque complété 🎉";
-      }
+    if(addAnnouncementBtn){
+      addAnnouncementBtn.addEventListener("click", async ()=>{
+        if(!formationDocRef || !currentUser) return;
+        const title = (announcementTitle.value || "").trim();
+        const body = (announcementBody.value || "").trim();
 
-      totalSessionsDoneValue.textContent = totalSessionsDone.toString();
+        if(!title || !body){
+          alert("Veuillez remplir le titre et le contenu de l’annonce.");
+          return;
+        }
+
+        try{
+          await formationDocRef.collection("announcements").add({
+            title,
+            body,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            createdByUid: currentUser.uid,
+            createdByEmail: currentUser.email || null,
+            createdByName: currentProfile.trainerName || currentUser.email || "Formateur"
+          });
+          announcementTitle.value = "";
+          announcementBody.value = "";
+        }catch(err){
+          console.error("Erreur ajout annonce:", err);
+          alert("Erreur lors de la publication de l’annonce. Vérifiez vos règles Firestore.");
+        }
+      });
     }
 
 
-    function subscribeToMessages(){
+    function subscribeMessages(){
       if(!db || !currentUser) return;
       if(unsubscribeMessages) unsubscribeMessages();
 
@@ -1065,10 +1237,7 @@
           allMessages = [];
           snap.forEach(doc=>{
             const m = doc.data() || {};
-            allMessages.push({
-              id: doc.id,
-              ...m
-            });
+            allMessages.push({ id: doc.id, ...m });
           });
           updateMessagesUI();
         },(err)=>{
@@ -1076,13 +1245,6 @@
         });
     }
 
-    function formatMsgDate(ts){
-      if(!ts || !ts.toDate) return "";
-      const d = ts.toDate();
-      return d.toLocaleString("fr-FR",{hour:"2-digit",minute:"2-digit",day:"2-digit",month:"2-digit"});
-    }
-
-    let currentFilter = "all";
     filterChips.forEach(chip=>{
       chip.addEventListener("click",()=>{
         filterChips.forEach(c=>c.classList.remove("active"));
@@ -1095,8 +1257,6 @@
     function updateMessagesUI(){
       const count = allMessages.length;
       messagesBadge.textContent = count + (count <= 1 ? " message" : " messages");
-      messagesCountValue.textContent = count.toString();
-      messagesCountLabel.textContent = count === 0 ? "Flux calme" : (count < 20 ? "Activité modérée" : "Flux actif");
 
       messagesList.innerHTML = "";
       if(count === 0){
@@ -1122,28 +1282,26 @@
         const header = document.createElement("div");
         header.className = "msg-header";
         const left = document.createElement("div");
-        left.textContent = (m.senderName || m.senderEmail || "Utilisateur");
-
+        left.textContent = m.senderName || m.senderEmail || "Utilisateur";
         const right = document.createElement("div");
         const roleSpan = document.createElement("span");
         roleSpan.className = "role";
         roleSpan.textContent = m.senderRole === "trainer" ? "Formateur" : "Étudiant";
         right.appendChild(roleSpan);
-
         header.appendChild(left);
         header.appendChild(right);
 
         const body = document.createElement("div");
         body.className = "msg-body";
-        const text = document.createElement("div");
-        text.textContent = m.text || "";
-        const dateSpan = document.createElement("div");
-        dateSpan.style.fontSize = "0.68rem";
-        dateSpan.style.color = "var(--muted)";
-        dateSpan.textContent = formatMsgDate(m.createdAt);
+        const textDiv = document.createElement("div");
+        textDiv.textContent = m.text || "";
+        const dateDiv = document.createElement("div");
+        dateDiv.style.fontSize = "0.68rem";
+        dateDiv.style.color = "var(--muted)";
+        dateDiv.textContent = formatDate(m.createdAt);
 
-        body.appendChild(text);
-        body.appendChild(dateSpan);
+        body.appendChild(textDiv);
+        body.appendChild(dateDiv);
 
         div.appendChild(header);
         div.appendChild(body);
@@ -1152,28 +1310,31 @@
       });
     }
 
-    messageForm.addEventListener("submit", async (e)=>{
-      e.preventDefault();
-      if(!db || !currentUser) return;
-      const text = (messageInput.value || "").trim();
-      if(!text) return;
-      messageInput.value = "";
-      messageInput.focus();
+    if(messageForm){
+      messageForm.addEventListener("submit", async (e)=>{
+        e.preventDefault();
+        if(!db || !currentUser) return;
+        const text = (messageInput.value || "").trim();
+        if(!text) return;
+        messageInput.value = "";
+        messageInput.focus();
 
-      try{
-        await db.collection("revit_messages").add({
-          text,
-          senderId: currentUser.uid,
-          senderEmail: currentUser.email || null,
-          senderName: currentUser.displayName || currentUser.email || "Formateur",
-          senderRole: (isTrainer || isAdmin) ? "trainer" : "student",
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-      }catch(err){
-        console.error("Erreur envoi message formateur:", err);
-        alert("Erreur lors de l’envoi du message.");
-      }
-    });
+        try{
+          await db.collection("revit_messages").add({
+            text,
+            senderId: currentUser.uid,
+            senderEmail: currentUser.email || null,
+            senderName: currentProfile.trainerName || currentUser.displayName || currentUser.email || "Formateur",
+            senderRole: (isTrainer || isAdmin) ? "trainer" : "student",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }catch(err){
+          console.error("Erreur envoi message formateur:", err);
+          alert("Erreur lors de l’envoi du message.");
+        }
+      });
+    }
+
 
     document.addEventListener("contextmenu", function(e){
       e.preventDefault();
