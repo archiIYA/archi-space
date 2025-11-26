@@ -8,7 +8,7 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;800&display=swap" rel="stylesheet"/>
 
-  <!-- Firebase (Compat) -->
+
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -486,7 +486,7 @@
       box-shadow:0 3px 10px rgba(34,211,238,0.5);
     }
 
-
+    
     .locked{
       text-align:center;
       padding:24px 14px;
@@ -529,6 +529,45 @@
       gap:8px;
       flex-wrap:wrap;
     }
+    .footer-actions{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .footer-btn{
+      border-radius:999px;
+      border:1px solid var(--accent-soft);
+      background:transparent;
+      color:var(--accent);
+      font-size:0.72rem;
+      padding:4px 10px;
+      cursor:pointer;
+    }
+    .footer-btn.admin-btn{
+      border-color:var(--danger);
+      color:var(--danger);
+    }
+    .footer-btn:hover{
+      background:var(--accent-soft);
+    }
+    .footer-btn.admin-btn:hover{
+      background:rgba(239,68,68,0.15);
+    }
+
+
+    #adminPanel input[type="email"]{
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:var(--input-bg);
+      color:var(--text);
+      outline:none;
+      transition:border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    #adminPanel input[type="email"]:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px var(--accent-soft);
+    }
 
 
     @media (max-width:900px){
@@ -563,6 +602,7 @@
 </head>
 <body>
   <div class="app-shell">
+
     <div class="theme-toggle" id="themeToggle">
       <span id="themeLabel">Mode sombre</span>
       <div class="toggle-track">
@@ -585,6 +625,7 @@
     </header>
 
     <main class="grid" id="mainGrid" style="opacity:0.1; filter:blur(2px); pointer-events:none;">
+
 
       <section class="card" id="contentCard">
         <div class="card-header">
@@ -611,12 +652,11 @@
         </div>
 
         <div class="sessions">
-        
           <div class="session-item" data-session-id="1">
             <div class="session-left">
               <div class="session-title">Séance 1 – Introduction au BIM & interface Revit</div>
               <div class="session-meta">
-                <span class="chip">🎥 2 h </span>
+                <span class="chip">🎥 2 h</span>
                 <span class="chip">Présentation + démo</span>
               </div>
             </div>
@@ -630,7 +670,7 @@
             <div class="session-left">
               <div class="session-title">Séance 2 – Modélisation d’un volume simple</div>
               <div class="session-meta">
-                <span class="chip">🎥 2 h </span>
+                <span class="chip">🎥 2 h</span>
                 <span class="chip">Exercice guidé</span>
               </div>
             </div>
@@ -710,9 +750,7 @@
         </p>
 
         <div class="messages-wrapper" id="messagesWrapper">
-          <div class="messages-list" id="messagesList">
-
-          </div>
+          <div class="messages-list" id="messagesList"></div>
           <form class="messages-input" id="messageForm">
             <input type="text" id="messageInput" placeholder="Écrire un message au formateur..." autocomplete="off"/>
             <button type="submit">
@@ -722,6 +760,27 @@
         </div>
       </section>
     </main>
+
+
+    <section class="card soft" id="adminPanel" style="margin-top:8px; display:none;">
+      <div class="card-header">
+        <div class="card-title">
+          <span class="icon">🛠️</span>
+          <span>Admin – Gestion des e-mails</span>
+        </div>
+        <span class="badge">Compte admin</span>
+      </div>
+      <p style="font-size:0.78rem;color:var(--muted);margin-bottom:8px;">
+        Ajouter des adresses e-mail autorisées à la formation Revit sans passer par la console Firebase.
+      </p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+        <input type="email" id="adminEmailInput" placeholder="email.etudiant@example.com" style="flex:1;min-width:200px;border-radius:999px;border:1px solid var(--border);padding:6px 10px;font-size:0.8rem;background:var(--input-bg);color:var(--text);outline:none;">
+        <button type="button" id="adminAddEmailBtn" class="footer-btn">Ajouter</button>
+      </div>
+      <div style="max-height:140px;overflow:auto;border-radius:10px;border:1px solid var(--border);padding:6px 8px;font-size:0.76rem;background:color-mix(in srgb,var(--card-soft) 85%,transparent);" id="adminEmailList">
+        <em style="color:var(--muted);">Aucune adresse pour le moment…</em>
+      </div>
+    </section>
 
 
     <div id="lockedOverlay" class="card soft" style="margin-top:8px; display:none;">
@@ -734,18 +793,21 @@
           Cette page est réservée aux comptes ajoutés manuellement à la formation par le formateur.
           Assurez-vous d’être connecté avec l’adresse e-mail utilisée lors de l’inscription.
         </p>
-        <button id="goToDashboardBtn">⬅ Retour au tableau de bord</button>
+        <button id="goToDashboardBtn">⬅ Retour au lecteur</button>
       </div>
     </div>
 
     <div class="footer-line">
       <span id="statusText">Vérification de votre session…</span>
-      <span>Trendy Plaza · Formation Revit</span>
+      <div class="footer-actions">
+        <button id="teacherSpaceBtn" class="footer-btn" style="display:none;">Espace formateur</button>
+        <button id="adminBtn" class="footer-btn admin-btn" style="display:none;">ADMIN</button>
+        <span>Trendy Plaza · Formation Revit</span>
+      </div>
     </div>
   </div>
 
   <script>
-
     const TOTAL_SESSIONS = 5;
 
 
@@ -758,10 +820,8 @@
       themeLabel.textContent = theme === "light" ? "Mode clair" : "Mode sombre";
       localStorage.setItem("tp-theme", theme);
     }
-
     const savedTheme = localStorage.getItem("tp-theme") || "dark";
     applyTheme(savedTheme);
-
     themeToggle.addEventListener("click", ()=>{
       const current = root.getAttribute("data-theme") || "dark";
       applyTheme(current === "dark" ? "light" : "dark");
@@ -779,7 +839,6 @@
     };
 
     let app, auth, db;
-
     try{
       app = firebase.initializeApp(firebaseConfig);
       auth = firebase.auth();
@@ -806,16 +865,26 @@
     const sessionItems = document.querySelectorAll(".session-item");
     const markButtons = document.querySelectorAll(".mark-done-btn");
 
+    const teacherSpaceBtn = document.getElementById("teacherSpaceBtn");
+    const adminBtn = document.getElementById("adminBtn");
+    const adminPanel = document.getElementById("adminPanel");
+    const adminEmailInput = document.getElementById("adminEmailInput");
+    const adminAddEmailBtn = document.getElementById("adminAddEmailBtn");
+    const adminEmailList = document.getElementById("adminEmailList");
+
+    function _d(b){return atob(b);}
+    const ADMIN_EMAIL = _d("dG91bWlpeWFkZXR1ZGVAZ21haWwuY29t"); 
+
     let currentUser = null;
     let isTrainer = false;
     let unsubscribeMessages = null;
     let unsubscribeProgress = null;
     let userProgress = { completedSessions: [] };
+    let revitConfig = { allowedEmails: [], trainerEmail: null, trainerName: null };
 
 
     goToDashboardBtn.addEventListener("click", ()=>{
-
-      window.location.href = "dashboard.html";
+      window.location.href = "lecteur.html";
     });
 
 
@@ -841,9 +910,14 @@
           }
 
           const data = docSnap.data() || {};
-          const allowedEmails = data.allowedEmails || [];
-          const trainerEmail = data.trainerEmail || null;
-          const trainerName = data.trainerName || "Formateur Revit";
+          revitConfig = {
+            allowedEmails: Array.isArray(data.allowedEmails) ? data.allowedEmails : [],
+            trainerEmail: data.trainerEmail || null,
+            trainerName: data.trainerName || "Formateur Revit"
+          };
+          const allowedEmails = revitConfig.allowedEmails;
+          const trainerEmail = revitConfig.trainerEmail;
+          const trainerName = revitConfig.trainerName;
 
           trainerNameEl.textContent = trainerName;
           trainerInitialsEl.textContent = (trainerName || "TR")
@@ -874,6 +948,30 @@
           statusText.textContent = isTrainer
             ? "Connecté en tant que formateur Revit."
             : "Accès confirmé à la formation Revit.";
+
+
+          if(isTrainer && teacherSpaceBtn){
+            teacherSpaceBtn.style.display = "inline-flex";
+            teacherSpaceBtn.onclick = function(){
+
+              window.location.href = "enseignant.html";
+            };
+          }
+
+
+          if(currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()){
+            if(adminBtn){
+              adminBtn.style.display = "inline-flex";
+              adminBtn.onclick = function(){
+                if(adminPanel.style.display === "none" || adminPanel.style.display === ""){
+                  adminPanel.style.display = "block";
+                  renderAdminEmailList();
+                }else{
+                  adminPanel.style.display = "none";
+                }
+              };
+            }
+          }
 
           unlockMainUI();
           subscribeToMessages();
@@ -911,7 +1009,7 @@
       markButtons.forEach(btn => btn.disabled = false);
     }
 
-
+    
     function subscribeToMessages(){
       if(!db || !currentUser) return;
       if(unsubscribeMessages) unsubscribeMessages();
@@ -1068,20 +1166,58 @@
     });
 
 
+    function renderAdminEmailList(){
+      if(!adminEmailList) return;
+      const list = revitConfig.allowedEmails || [];
+      if(list.length === 0){
+        adminEmailList.innerHTML = '<em style="color:var(--muted);">Aucune adresse pour le moment…</em>';
+        return;
+      }
+      adminEmailList.innerHTML = "";
+      list.forEach(function(mail){
+        const div = document.createElement("div");
+        div.textContent = mail;
+        adminEmailList.appendChild(div);
+      });
+    }
+
+    if(adminAddEmailBtn){
+      adminAddEmailBtn.addEventListener("click", async function(){
+        if(!db || !currentUser) return;
+        const email = (adminEmailInput.value || "").trim().toLowerCase();
+        if(!email){
+          alert("Veuillez saisir une adresse e-mail.");
+          return;
+        }
+        try{
+          await db.collection("formations").doc("revit-niveau1").update({
+            allowedEmails: firebase.firestore.FieldValue.arrayUnion(email)
+          });
+          if(!revitConfig.allowedEmails.includes(email)){
+            revitConfig.allowedEmails.push(email);
+          }
+          adminEmailInput.value = "";
+          renderAdminEmailList();
+          alert("Adresse ajoutée avec succès.");
+        }catch(err){
+          console.error("Erreur ajout e-mail:", err);
+          alert("Erreur lors de l’ajout de l’e-mail. Vérifiez les règles de sécurité Firestore.");
+        }
+      });
+    }
+
+
     document.addEventListener("contextmenu", function(e){
       e.preventDefault();
     });
 
     document.addEventListener("keydown", function(e){
-
       if(e.key === "F12"){
         e.preventDefault();
       }
-
       if(e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S")){
         e.preventDefault();
       }
-
       if(e.ctrlKey && e.shiftKey && ["I","i","J","j","C","c"].includes(e.key)){
         e.preventDefault();
       }
