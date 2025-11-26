@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>👨‍🏫 Espace formateur Revit – Trendy Plaza</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;800&display=swap" rel="stylesheet"/>
+
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root{
+      --bg:#050816;
+      --bg2:#020617;
+      --card:#020617;
+      --card-soft:#0b1120;
+      --text:#e5f0ff;
+      --muted:#9ca3af;
+      --accent:#22d3ee;
+      --accent2:#38bdf8;
+      --accent-soft:#22d3ee33;
+      --danger:#f97373;
+      --success:#22c55e;
+      --border:#1f2937;
+      --shadow:0 24px 60px rgba(0,0,0,0.65);
+      --input-bg:#020617;
+    }
+    :root[data-theme="light"]{
+      --bg:#f3f6ff;
+      --bg2:#e5edff;
+      --card:#ffffff;
+      --card-soft:#eef2ff;
+      --text:#020617;
+      --muted:#6b7280;
+      --accent:#0ea5e9;
+      --accent2:#38bdf8;
+      --accent-soft:#0ea5e933;
+      --danger:#ef4444;
+      --success:#16a34a;
+      --border:#d1d5db;
+      --shadow:0 20px 50px rgba(15,23,42,0.12);
+      --input-bg:#eef2ff;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:"Rubik",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:stretch;
+      padding:18px;
+      background:
+        radial-gradient(circle at top left, #22d3ee33 0, transparent 55%),
+        radial-gradient(circle at bottom right, #4ade8033 0, transparent 55%),
+        radial-gradient(circle at top, #1f2937 0, var(--bg) 45%, #000 100%);
+      color:var(--text);
+      transition:background 0.4s ease,color 0.4s ease;
+    }
+
+    .app-shell{
+      max-width:1220px;
+      width:100%;
+      background:linear-gradient(135deg,
+        color-mix(in srgb, var(--bg2) 80%, transparent),
+        color-mix(in srgb, #020617 50%, #0b1120 50%));
+      border-radius:26px;
+      padding:18px 18px 18px;
+      border:1px solid color-mix(in srgb,var(--border) 70%,transparent);
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .app-shell::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:radial-gradient(circle at 0 0, #22d3ee11 0, transparent 70%),
+                 radial-gradient(circle at 100% 100%, #22c55e11 0, transparent 70%);
+      opacity:0.8;
+      pointer-events:none;
+    }
+
+
+    .top-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:14px;
+      position:relative;
+      z-index:2;
+    }
+    .top-left{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .back-btn{
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:color-mix(in srgb,var(--card) 80%, transparent);
+      color:var(--muted);
+      font-size:0.8rem;
+      padding:5px 10px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      backdrop-filter:blur(12px);
+    }
+    .back-btn span.icon{
+      font-size:1rem;
+    }
+
+    .theme-toggle{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+      user-select:none;
+      font-size:13px;
+      color:var(--muted);
+      padding:4px 8px;
+      border-radius:999px;
+      background:color-mix(in srgb,var(--card) 80%, transparent);
+      border:1px solid var(--border);
+      backdrop-filter:blur(12px);
+    }
+    .toggle-track{
+      width:40px;
+      height:20px;
+      border-radius:999px;
+      background:color-mix(in srgb, var(--card-soft) 70%, var(--accent-soft) 30%);
+      border:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      padding:2px;
+      position:relative;
+      overflow:hidden;
+    }
+    .toggle-thumb{
+      width:16px;
+      height:16px;
+      border-radius:999px;
+      background:var(--accent);
+      transform:translateX(0);
+      transition:transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow:0 0 0 0 rgba(34,211,238,0.45);
+      animation:pulse 2.2s infinite;
+    }
+    :root[data-theme="light"] .toggle-thumb{
+      transform:translateX(18px);
+    }
+    @keyframes pulse{
+      0%{box-shadow:0 0 0 0 rgba(34,211,238,0.4);}
+      70%{box-shadow:0 0 0 14px rgba(34,211,238,0);}
+      100%{box-shadow:0 0 0 0 rgba(34,211,238,0);}
+    }
+
+
+    .header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:14px;
+      position:relative;
+      z-index:2;
+    }
+    .header-left{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .hero-icon{
+      width:52px;
+      height:52px;
+      border-radius:20px;
+      background:
+        conic-gradient(from 230deg,#22d3ee,#38bdf8,#22c55e,#22d3ee),
+        radial-gradient(circle at 30% 0, #22d3ee, transparent 60%);
+      padding:2px;
+      box-shadow:0 16px 40px rgba(15,23,42,0.85);
+    }
+    .hero-inner{
+      width:100%;
+      height:100%;
+      border-radius:18px;
+      background:radial-gradient(circle at 20% 0,#020617,#020617 45%,#0b1120 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#e5f0ff;
+      font-weight:800;
+      font-size:1.25rem;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-inner span.sub{
+      position:absolute;
+      bottom:4px;
+      right:7px;
+      font-size:0.58rem;
+      color:var(--muted);
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+    }
+
+    .header-text h1{
+      font-size:1.4rem;
+      font-weight:800;
+      letter-spacing:0.03em;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .header-text h1 .tag{
+      font-size:0.72rem;
+      padding:2px 8px;
+      border-radius:999px;
+      background:color-mix(in srgb,#22d3ee22 70%,transparent);
+      color:var(--accent2);
+      border:1px solid var(--accent-soft);
+    }
+    .header-text p{
+      margin-top:4px;
+      font-size:0.82rem;
+      color:var(--muted);
+    }
+    .header-badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:6px;
+      font-size:0.7rem;
+    }
+    .header-badges span{
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      background:color-mix(in srgb,var(--card-soft) 80%,transparent);
+      color:var(--muted);
+    }
+
+    .header-right{
+      text-align:right;
+      font-size:0.76rem;
+      color:var(--muted);
+    }
+    .role-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:3px 10px;
+      border-radius:999px;
+      background:color-mix(in srgb,var(--card) 75%,transparent);
+      border:1px solid var(--border);
+      font-size:0.72rem;
+      margin-bottom:6px;
+    }
+    .role-dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:var(--success);
+      box-shadow:0 0 0 6px rgba(34,197,94,0.22);
+    }
+
+
+    .layout{
+      display:grid;
+      grid-template-columns:1.2fr 1.1fr;
+      gap:14px;
+      position:relative;
+      z-index:2;
+    }
+
+    .card{
+      background:color-mix(in srgb,var(--card) 88%,transparent);
+      border-radius:18px;
+      padding:12px 12px 14px;
+      border:1px solid color-mix(in srgb,var(--border) 85%,transparent);
+      box-shadow:0 14px 40px rgba(0,0,0,0.5);
+      position:relative;
+      overflow:hidden;
+    }
+    .card.soft{
+      background:linear-gradient(145deg,
+        color-mix(in srgb,var(--card-soft) 90%,transparent),
+        color-mix(in srgb,var(--bg) 75%,transparent));
+    }
+    .card-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:8px;
+    }
+    .card-title{
+      font-size:0.88rem;
+      font-weight:600;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .card-title span.icon{
+      font-size:1.1rem;
+    }
+    .badge{
+      font-size:0.7rem;
+      padding:2px 8px;
+      border-radius:999px;
+      background:color-mix(in srgb,var(--card-soft) 90%,transparent);
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      color:var(--muted);
+    }
+
+
+    .trainer-main{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:10px;
+    }
+    .trainer-avatar{
+      width:52px;
+      height:52px;
+      border-radius:18px;
+      background:
+        radial-gradient(circle at 0 0,#22c55e,transparent 55%),
+        radial-gradient(circle at 100% 100%,#38bdf8,transparent 55%),
+        var(--card);
+      border:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      font-size:1.05rem;
+    }
+    .trainer-info h3{
+      font-size:0.98rem;
+      font-weight:700;
+    }
+    .trainer-info small{
+      font-size:0.73rem;
+      color:var(--muted);
+    }
+    .trainer-tags{
+      margin-top:5px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:5px;
+      font-size:0.7rem;
+    }
+    .trainer-tags span{
+      padding:2px 7px;
+      border-radius:999px;
+      background:color-mix(in srgb,var(--card-soft) 85%,transparent);
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      color:var(--muted);
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:8px;
+      margin-top:8px;
+    }
+    .stat-card{
+      border-radius:14px;
+      padding:7px 8px;
+      background:linear-gradient(135deg,
+        color-mix(in srgb,#0b1120 85%,transparent),
+        color-mix(in srgb,#020617 80%,transparent));
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      font-size:0.75rem;
+      position:relative;
+      overflow:hidden;
+    }
+    .stat-label{
+      color:var(--muted);
+      font-size:0.7rem;
+    }
+    .stat-value{
+      font-size:0.98rem;
+      font-weight:700;
+      margin-top:2px;
+    }
+    .stat-pill{
+      margin-top:3px;
+      font-size:0.7rem;
+      padding:2px 6px;
+      border-radius:999px;
+      background:color-mix(in srgb,var(--accent-soft) 30%,transparent);
+      color:var(--accent2);
+      border:1px solid var(--accent-soft);
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+    }
+
+
+    .progress-list{
+      margin-top:6px;
+      border-radius:12px;
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      background:color-mix(in srgb,var(--card-soft) 85%,transparent);
+      max-height:260px;
+      overflow:auto;
+      font-size:0.75rem;
+    }
+    .progress-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:6px 8px;
+      border-bottom:1px solid color-mix(in srgb,var(--border) 65%,transparent);
+    }
+    .progress-row:last-child{
+      border-bottom:none;
+    }
+    .progress-left{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .progress-id{
+      font-family:monospace;
+      font-size:0.74rem;
+      color:var(--muted);
+    }
+    .progress-email{
+      font-size:0.75rem;
+    }
+    .progress-right{
+      text-align:right;
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      align-items:flex-end;
+    }
+    .progress-bar-wrap{
+      width:110px;
+      height:6px;
+      border-radius:999px;
+      background:color-mix(in srgb,var(--card) 80%,transparent);
+      overflow:hidden;
+      border:1px solid color-mix(in srgb,var(--border) 75%,transparent);
+    }
+    .progress-bar{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#22d3ee,#38bdf8,#22c55e);
+      transition:width 0.25s ease;
+    }
+
+
+    .messages-wrapper{
+      margin-top:4px;
+      display:flex;
+      flex-direction:column;
+      height:290px;
+      border-radius:14px;
+      border:1px solid color-mix(in srgb,var(--border) 85%,transparent);
+      background:linear-gradient(145deg,
+        color-mix(in srgb,var(--card-soft) 90%,transparent),
+        color-mix(in srgb,#020617 70%,transparent));
+      overflow:hidden;
+    }
+    .messages-header-line{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:6px 9px;
+      font-size:0.72rem;
+      color:var(--muted);
+      border-bottom:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      background:color-mix(in srgb,var(--card) 85%,transparent);
+    }
+    .filter-chips{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      flex-wrap:wrap;
+    }
+    .filter-chip{
+      padding:2px 6px;
+      border-radius:999px;
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      background:transparent;
+      cursor:pointer;
+    }
+    .filter-chip.active{
+      border-color:var(--accent-soft);
+      background:var(--accent-soft);
+      color:#020617;
+    }
+
+    .messages-list{
+      flex:1;
+      padding:8px 9px 6px;
+      overflow-y:auto;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      scroll-behavior:smooth;
+      font-size:0.76rem;
+    }
+    .msg{
+      padding:6px 7px;
+      border-radius:9px;
+      background:color-mix(in srgb,var(--card) 85%,transparent);
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+    }
+    .msg-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:2px;
+      font-size:0.7rem;
+      color:var(--muted);
+    }
+    .msg-header span.role{
+      padding:1px 5px;
+      border-radius:999px;
+      border:1px solid color-mix(in srgb,var(--border) 75%,transparent);
+      background:color-mix(in srgb,var(--card-soft) 80%,transparent);
+      font-size:0.68rem;
+    }
+    .msg-body{
+      font-size:0.78rem;
+      line-height:1.25rem;
+    }
+
+    .messages-input{
+      border-top:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      padding:7px 8px;
+      display:flex;
+      gap:6px;
+      align-items:center;
+      background:linear-gradient(to right,
+        color-mix(in srgb,var(--card-soft) 90%,transparent),
+        color-mix(in srgb,var(--card) 85%,transparent));
+    }
+    .messages-input input{
+      flex:1;
+      border-radius:999px;
+      border:1px solid var(--border);
+      padding:7px 10px;
+      font-size:0.8rem;
+      background:var(--input-bg);
+      color:var(--text);
+      outline:none;
+      transition:border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+    .messages-input input:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px var(--accent-soft);
+    }
+    .messages-input button{
+      border-radius:999px;
+      border:none;
+      padding:7px 11px;
+      font-size:0.8rem;
+      background:var(--accent);
+      color:#020617;
+      font-weight:600;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:5px;
+      box-shadow:0 8px 18px rgba(34,211,238,0.45);
+    }
+
+    .footer-line{
+      margin-top:10px;
+      font-size:0.7rem;
+      color:var(--muted);
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      flex-wrap:wrap;
+      position:relative;
+      z-index:2;
+    }
+
+
+    .blocked{
+      text-align:center;
+      padding:26px 12px;
+      font-size:0.86rem;
+      color:var(--muted);
+    }
+    .blocked-icon{
+      width:60px;
+      height:60px;
+      border-radius:22px;
+      border:1px solid var(--danger);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:0 auto 8px;
+      background:radial-gradient(circle at 20% 0,#f97373,transparent 55%),var(--card);
+      font-size:1.6rem;
+    }
+
+    @media (max-width:950px){
+      .layout{
+        grid-template-columns:1fr;
+      }
+    }
+    @media (max-width:600px){
+      .app-shell{
+        padding:14px 12px;
+        border-radius:20px;
+      }
+      .header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .header-right{
+        align-self:stretch;
+      }
+      .stats-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div class="top-bar">
+      <div class="top-left">
+        <button class="back-btn" id="backBtn">
+          <span class="icon">⬅</span>
+          <span>Retour au lecteur</span>
+        </button>
+      </div>
+      <div class="theme-toggle" id="themeToggle">
+        <span id="themeLabel">Mode sombre</span>
+        <div class="toggle-track">
+          <div class="toggle-thumb"></div>
+        </div>
+      </div>
+    </div>
+
+    <header class="header" id="headerBlock" style="opacity:0.35;filter:blur(1px);pointer-events:none;">
+      <div class="header-left">
+        <div class="hero-icon">
+          <div class="hero-inner">
+            <span>R</span>
+            <span class="sub">Formateur</span>
+          </div>
+        </div>
+        <div class="header-text">
+          <h1>
+            Espace formateur – Revit Niveau 1
+            <span class="tag">Trendy Plaza</span>
+          </h1>
+          <p>Suivez vos inscrits, leurs progrès, et leurs messages depuis un seul espace clair et moderne.</p>
+          <div class="header-badges">
+            <span id="teacherEmailBadge">Compte: —</span>
+            <span id="teacherNameBadge">Formateur: —</span>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="role-pill" id="rolePill">
+          <span class="role-dot"></span>
+          <span id="roleLabel">Vérification du rôle…</span>
+        </div>
+        <div>
+          <div id="statusText">Connexion en cours…</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout" id="mainLayout" style="opacity:0.2;filter:blur(2px);pointer-events:none;">
+
+      <section class="card soft">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">👨‍🏫</span>
+            <span>Formateur & progression générale</span>
+          </div>
+          <span class="badge" id="studentsCountBadge">0 inscrit</span>
+        </div>
+
+        <div class="trainer-main">
+          <div class="trainer-avatar" id="trainerInitials">TR</div>
+          <div class="trainer-info">
+            <h3 id="trainerName">Nom du formateur</h3>
+            <small id="trainerSubtitle">Revit · BIM · Architecture</small>
+            <div class="trainer-tags">
+              <span>Revit – Niveau 1</span>
+              <span>Suivi des séances</span>
+              <span>Communication privée</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Taux moyen d’avancement</div>
+            <div class="stat-value" id="avgProgressValue">0%</div>
+            <div class="stat-pill">
+              📈 <span id="avgProgressLabel">En démarrage</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Messages reçus</div>
+            <div class="stat-value" id="messagesCountValue">0</div>
+            <div class="stat-pill">
+              💬 <span id="messagesCountLabel">Flux calme</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Séances complétées (total)</div>
+            <div class="stat-value" id="totalSessionsDoneValue">0</div>
+            <div class="stat-pill">
+              ✅ <span>Niveau 1 · 5 séances</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:10px;font-size:0.78rem;color:var(--muted);">
+          Liste des inscrits et leur avancement dans les 5 séances du niveau 1.
+        </div>
+
+        <div class="progress-list" id="progressList">
+          <div style="padding:8px 9px;font-size:0.75rem;color:var(--muted);">
+            Aucun inscrit détecté pour le moment…
+          </div>
+        </div>
+      </section>
+
+
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">💬</span>
+            <span>Messages des inscrits</span>
+          </div>
+          <span class="badge" id="messagesBadge">0 message</span>
+        </div>
+
+        <div class="messages-wrapper" id="messagesWrapper">
+          <div class="messages-header-line">
+            <span>Flux en temps réel · Formation Revit</span>
+            <div class="filter-chips">
+              <button type="button" class="filter-chip active" data-filter="all">Tous</button>
+              <button type="button" class="filter-chip" data-filter="student">Étudiants</button>
+              <button type="button" class="filter-chip" data-filter="trainer">Formateur</button>
+            </div>
+          </div>
+          <div class="messages-list" id="messagesList">
+            <div style="font-size:0.75rem;color:var(--muted);">
+              Aucun message pour l’instant… Dès qu’un étudiant vous écrit, il apparaîtra ici.
+            </div>
+          </div>
+          <form class="messages-input" id="messageForm">
+            <input type="text" id="messageInput" placeholder="Répondre aux étudiants…" autocomplete="off"/>
+            <button type="submit">
+              <span>Envoyer</span> <span>📨</span>
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+
+    <section class="card soft" id="blockedCard" style="margin-top:10px;display:none;">
+      <div class="blocked">
+        <div class="blocked-icon">⛔</div>
+        <strong>Accès réservé au formateur Revit.</strong>
+        <p style="margin-top:6px;">
+          Cet espace est réservé au formateur désigné dans la formation Revit (ou au compte admin).
+          Si vous êtes étudiant, utilisez simplement la page lecteur et la formation dédiée.
+        </p>
+        <button class="back-btn" id="blockedBackBtn" style="margin-top:10px;">
+          <span class="icon">⬅</span>
+          <span>Retour au lecteur</span>
+        </button>
+      </div>
+    </section>
+
+    <div class="footer-line">
+      <span>Trendy Plaza · Dashboard formateur Revit</span>
+      <span id="footerInfo">Sécurisé avec Firebase · Lecture en temps réel</span>
+    </div>
+  </div>
+
+  <script>
+
+    const root = document.documentElement;
+    const themeToggle = document.getElementById("themeToggle");
+    const themeLabel = document.getElementById("themeLabel");
+    function applyTheme(theme){
+      root.setAttribute("data-theme", theme);
+      themeLabel.textContent = theme === "light" ? "Mode clair" : "Mode sombre";
+      localStorage.setItem("tp-theme", theme);
+    }
+    const savedTheme = localStorage.getItem("tp-theme") || "dark";
+    applyTheme(savedTheme);
+    themeToggle.addEventListener("click", ()=>{
+      const current = root.getAttribute("data-theme") || "dark";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+
+    // Back buttons
+    const backBtn = document.getElementById("backBtn");
+    const blockedBackBtn = document.getElementById("blockedBackBtn");
+    if(backBtn){
+      backBtn.addEventListener("click", ()=>{ window.location.href = "lecteur.html"; });
+    }
+    if(blockedBackBtn){
+      blockedBackBtn.addEventListener("click", ()=>{ window.location.href = "lecteur.html"; });
+    }
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.firebasestorage.app",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    let app, auth, db;
+    try{
+      app = firebase.initializeApp(firebaseConfig);
+      auth = firebase.auth();
+      db = firebase.firestore();
+    }catch(e){
+      console.warn("Firebase non initialisé:", e);
+    }
+
+    const headerBlock = document.getElementById("headerBlock");
+    const mainLayout = document.getElementById("mainLayout");
+    const blockedCard = document.getElementById("blockedCard");
+    const rolePill = document.getElementById("rolePill");
+    const roleLabel = document.getElementById("roleLabel");
+    const statusText = document.getElementById("statusText");
+
+    const teacherNameEl = document.getElementById("trainerName");
+    const teacherSubtitleEl = document.getElementById("trainerSubtitle");
+    const teacherInitialsEl = document.getElementById("trainerInitials");
+    const teacherEmailBadge = document.getElementById("teacherEmailBadge");
+    const teacherNameBadge = document.getElementById("teacherNameBadge");
+    const studentsCountBadge = document.getElementById("studentsCountBadge");
+
+    const avgProgressValue = document.getElementById("avgProgressValue");
+    const avgProgressLabel = document.getElementById("avgProgressLabel");
+    const messagesCountValue = document.getElementById("messagesCountValue");
+    const messagesCountLabel = document.getElementById("messagesCountLabel");
+    const totalSessionsDoneValue = document.getElementById("totalSessionsDoneValue");
+    const progressList = document.getElementById("progressList");
+
+    const messagesBadge = document.getElementById("messagesBadge");
+    const messagesList = document.getElementById("messagesList");
+    const messageForm = document.getElementById("messageForm");
+    const messageInput = document.getElementById("messageInput");
+
+    const filterChips = document.querySelectorAll(".filter-chip");
+    const footerInfo = document.getElementById("footerInfo");
+
+    function _d(b){ return atob(b); }
+    const ADMIN_EMAIL = _d("dG91bWlpeWFkZXR1ZGVAZ21haWwuY29t");
+
+    const TOTAL_SESSIONS = 5;
+
+    let currentUser = null;
+    let isTrainer = false;
+    let isAdmin = false;
+    let unsubscribeMessages = null;
+    let unsubscribeProgress = null;
+    let allMessages = [];
+    let progressDocs = [];
+
+    if(auth && db){
+      auth.onAuthStateChanged(async (user)=>{
+        if(!user){
+          statusText.textContent = "Non connecté. Redirection…";
+          setTimeout(()=>{ window.location.href = "login.html"; }, 1200);
+          return;
+        }
+        currentUser = user;
+        teacherEmailBadge.textContent = "Compte: " + (user.email || "—");
+        isAdmin = !!(user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+
+        try{
+          const formationSnap = await db.collection("formations").doc("revit-niveau1").get();
+          if(!formationSnap.exists){
+            statusText.textContent = "Configuration Revit introuvable.";
+            denyAccess();
+            return;
+          }
+          const fData = formationSnap.data() || {};
+          const trainerEmail = (fData.trainerEmail || "").toLowerCase().trim();
+          const trainerName = fData.trainerName || "Formateur Revit";
+
+          teacherNameEl.textContent = trainerName;
+          teacherNameBadge.textContent = "Formateur: " + trainerName;
+          teacherSubtitleEl.textContent = "Formation Revit – Niveau 1";
+          teacherInitialsEl.textContent = trainerName.split(" ").map(p=>p[0]).join("").substring(0,2).toUpperCase();
+
+          const userEmailLower = (user.email || "").toLowerCase().trim();
+          isTrainer = !!trainerEmail && userEmailLower === trainerEmail;
+
+          if(!isTrainer && !isAdmin){
+            statusText.textContent = "Accès refusé à l’espace formateur.";
+            denyAccess();
+            return;
+          }
+
+
+          roleLabel.textContent = isTrainer ? "Formateur Revit" : "Admin – accès complet";
+          statusText.textContent = "Accès confirmé à l’espace formateur.";
+          headerBlock.style.opacity = "1";
+          headerBlock.style.filter = "none";
+          headerBlock.style.pointerEvents = "auto";
+          mainLayout.style.opacity = "1";
+          mainLayout.style.filter = "none";
+          mainLayout.style.pointerEvents = "auto";
+          blockedCard.style.display = "none";
+          footerInfo.textContent = isTrainer ? "Connecté en tant que formateur Revit." : "Connecté en tant qu’admin.";
+
+          loadProgress();
+          subscribeToMessages();
+        }catch(err){
+          console.error(err);
+          statusText.textContent = "Erreur lors de la vérification de l’accès.";
+          denyAccess();
+        }
+      });
+    }else{
+      statusText.textContent = "Erreur configuration Firebase.";
+      denyAccess();
+    }
+
+    function denyAccess(){
+      headerBlock.style.opacity = "0.25";
+      headerBlock.style.filter = "blur(1px)";
+      headerBlock.style.pointerEvents = "none";
+      mainLayout.style.opacity = "0.15";
+      mainLayout.style.filter = "blur(2px)";
+      mainLayout.style.pointerEvents = "none";
+      blockedCard.style.display = "block";
+    }
+
+    // Progress
+    async function loadProgress(){
+      if(!db || !currentUser) return;
+      try{
+        const snap = await db.collection("revit_progress").get();
+        progressDocs = [];
+        snap.forEach(doc=>{
+          const data = doc.data() || {};
+          const completed = Array.isArray(data.completedSessions) ? data.completedSessions : [];
+          const email = typeof data.email === "string" ? data.email : null;
+          progressDocs.push({
+            uid: doc.id,
+            email,
+            completed
+          });
+        });
+
+        updateProgressUI();
+      }catch(err){
+        console.error("Erreur chargement progrès:", err);
+      }
+    }
+
+    function updateProgressUI(){
+      const count = progressDocs.length;
+      studentsCountBadge.textContent = count + (count <= 1 ? " inscrit" : " inscrits");
+
+      if(count === 0){
+        progressList.innerHTML = '<div style="padding:8px 9px;font-size:0.75rem;color:var(--muted);">Aucun inscrit détecté pour le moment…</div>';
+        avgProgressValue.textContent = "0%";
+        avgProgressLabel.textContent = "En démarrage";
+        totalSessionsDoneValue.textContent = "0";
+        return;
+      }
+
+      let totalPercent = 0;
+      let totalSessionsDone = 0;
+
+      progressList.innerHTML = "";
+      progressDocs.forEach((p)=>{
+        const completedCount = p.completed.length;
+        const percent = Math.min(100, Math.round((completedCount / TOTAL_SESSIONS) * 100));
+        totalPercent += percent;
+        totalSessionsDone += completedCount;
+
+        const row = document.createElement("div");
+        row.className = "progress-row";
+
+        const left = document.createElement("div");
+        left.className = "progress-left";
+
+        const emailText = p.email || "(email non enregistré)";
+        const emailDiv = document.createElement("div");
+        emailDiv.className = "progress-email";
+        emailDiv.textContent = emailText;
+
+        const idDiv = document.createElement("div");
+        idDiv.className = "progress-id";
+        idDiv.textContent = p.uid.substring(0,10) + (p.uid.length > 10 ? "…" : "");
+
+        left.appendChild(emailDiv);
+        left.appendChild(idDiv);
+
+        const right = document.createElement("div");
+        right.className = "progress-right";
+        const percentSpan = document.createElement("span");
+        percentSpan.textContent = percent + "% (" + completedCount + "/" + TOTAL_SESSIONS + ")";
+        const barWrap = document.createElement("div");
+        barWrap.className = "progress-bar-wrap";
+        const bar = document.createElement("div");
+        bar.className = "progress-bar";
+        bar.style.width = percent + "%";
+        barWrap.appendChild(bar);
+
+        right.appendChild(percentSpan);
+        right.appendChild(barWrap);
+
+        row.appendChild(left);
+        row.appendChild(right);
+
+        progressList.appendChild(row);
+      });
+
+      const avg = Math.round(totalPercent / count);
+      avgProgressValue.textContent = avg + "%";
+      if(avg === 0){
+        avgProgressLabel.textContent = "En démarrage";
+      }else if(avg < 40){
+        avgProgressLabel.textContent = "Progression timide";
+      }else if(avg < 80){
+        avgProgressLabel.textContent = "Progression solide";
+      }else{
+        avgProgressLabel.textContent = "Presque complété 🎉";
+      }
+
+      totalSessionsDoneValue.textContent = totalSessionsDone.toString();
+    }
+
+
+    function subscribeToMessages(){
+      if(!db || !currentUser) return;
+      if(unsubscribeMessages) unsubscribeMessages();
+
+      unsubscribeMessages = db.collection("revit_messages")
+        .orderBy("createdAt","desc")
+        .limit(150)
+        .onSnapshot((snap)=>{
+          allMessages = [];
+          snap.forEach(doc=>{
+            const m = doc.data() || {};
+            allMessages.push({
+              id: doc.id,
+              ...m
+            });
+          });
+          updateMessagesUI();
+        },(err)=>{
+          console.error("Erreur flux messages:", err);
+        });
+    }
+
+    function formatMsgDate(ts){
+      if(!ts || !ts.toDate) return "";
+      const d = ts.toDate();
+      return d.toLocaleString("fr-FR",{hour:"2-digit",minute:"2-digit",day:"2-digit",month:"2-digit"});
+    }
+
+    let currentFilter = "all";
+    filterChips.forEach(chip=>{
+      chip.addEventListener("click",()=>{
+        filterChips.forEach(c=>c.classList.remove("active"));
+        chip.classList.add("active");
+        currentFilter = chip.dataset.filter || "all";
+        updateMessagesUI();
+      });
+    });
+
+    function updateMessagesUI(){
+      const count = allMessages.length;
+      messagesBadge.textContent = count + (count <= 1 ? " message" : " messages");
+      messagesCountValue.textContent = count.toString();
+      messagesCountLabel.textContent = count === 0 ? "Flux calme" : (count < 20 ? "Activité modérée" : "Flux actif");
+
+      messagesList.innerHTML = "";
+      if(count === 0){
+        messagesList.innerHTML = '<div style="font-size:0.75rem;color:var(--muted);">Aucun message pour l’instant…</div>';
+        return;
+      }
+
+      const filtered = allMessages.filter(m=>{
+        if(currentFilter === "student") return m.senderRole === "student";
+        if(currentFilter === "trainer") return m.senderRole === "trainer";
+        return true;
+      });
+
+      if(filtered.length === 0){
+        messagesList.innerHTML = '<div style="font-size:0.75rem;color:var(--muted);">Aucun message pour ce filtre…</div>';
+        return;
+      }
+
+      filtered.forEach((m)=>{
+        const div = document.createElement("div");
+        div.className = "msg";
+
+        const header = document.createElement("div");
+        header.className = "msg-header";
+        const left = document.createElement("div");
+        left.textContent = (m.senderName || m.senderEmail || "Utilisateur");
+
+        const right = document.createElement("div");
+        const roleSpan = document.createElement("span");
+        roleSpan.className = "role";
+        roleSpan.textContent = m.senderRole === "trainer" ? "Formateur" : "Étudiant";
+        right.appendChild(roleSpan);
+
+        header.appendChild(left);
+        header.appendChild(right);
+
+        const body = document.createElement("div");
+        body.className = "msg-body";
+        const text = document.createElement("div");
+        text.textContent = m.text || "";
+        const dateSpan = document.createElement("div");
+        dateSpan.style.fontSize = "0.68rem";
+        dateSpan.style.color = "var(--muted)";
+        dateSpan.textContent = formatMsgDate(m.createdAt);
+
+        body.appendChild(text);
+        body.appendChild(dateSpan);
+
+        div.appendChild(header);
+        div.appendChild(body);
+
+        messagesList.appendChild(div);
+      });
+    }
+
+    messageForm.addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      if(!db || !currentUser) return;
+      const text = (messageInput.value || "").trim();
+      if(!text) return;
+      messageInput.value = "";
+      messageInput.focus();
+
+      try{
+        await db.collection("revit_messages").add({
+          text,
+          senderId: currentUser.uid,
+          senderEmail: currentUser.email || null,
+          senderName: currentUser.displayName || currentUser.email || "Formateur",
+          senderRole: (isTrainer || isAdmin) ? "trainer" : "student",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }catch(err){
+        console.error("Erreur envoi message formateur:", err);
+        alert("Erreur lors de l’envoi du message.");
+      }
+    });
+
+    document.addEventListener("contextmenu", function(e){
+      e.preventDefault();
+    });
+    document.addEventListener("keydown", function(e){
+      if(e.key === "F12"){
+        e.preventDefault();
+      }
+      if(e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S")){
+        e.preventDefault();
+      }
+      if(e.ctrlKey && e.shiftKey && ["I","i","J","j","C","c"].includes(e.key)){
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
