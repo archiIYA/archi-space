@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>📐 Formation Revit – Trendy Plaza</title>
 
-
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;800&display=swap" rel="stylesheet"/>
-
 
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -68,7 +66,6 @@
       overflow:hidden;
     }
 
-
     .theme-toggle{
       position:absolute;
       top:14px;
@@ -111,7 +108,6 @@
       70%{box-shadow:0 0 0 14px rgba(34,211,238,0);}
       100%{box-shadow:0 0 0 0 rgba(34,211,238,0);}
     }
-
 
     .header{
       display:flex;
@@ -170,7 +166,6 @@
       color:var(--muted);
     }
 
-
     .grid{
       display:grid;
       grid-template-columns:2fr 1.4fr;
@@ -215,6 +210,77 @@
       border:1px solid var(--border);
     }
 
+    /* --- Annonces de la formation --- */
+    .announcements-block{
+      margin-bottom:10px;
+      border-radius:14px;
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+      background:linear-gradient(135deg,
+        color-mix(in srgb,var(--card-soft) 90%,transparent),
+        color-mix(in srgb,#020617 70%,transparent));
+      padding:8px 9px;
+      font-size:0.78rem;
+      display:none; /* تظهر فقط إذا وجدنا إعلانات */
+    }
+    .ann-header{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      margin-bottom:6px;
+    }
+    .ann-icon{
+      width:26px;
+      height:26px;
+      border-radius:10px;
+      background:radial-gradient(circle at 0 0,#f97316,transparent 55%),var(--card);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.1rem;
+    }
+    .ann-title{
+      font-weight:600;
+      font-size:0.82rem;
+    }
+    .ann-sub{
+      font-size:0.72rem;
+      color:var(--muted);
+    }
+    .ann-list{
+      margin-top:4px;
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+      max-height:120px;
+      overflow-y:auto;
+    }
+    .ann-item{
+      padding:5px 7px;
+      border-radius:10px;
+      background:color-mix(in srgb,var(--card) 85%,transparent);
+      border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
+    }
+    .ann-item-title{
+      font-size:0.8rem;
+      font-weight:500;
+      margin-bottom:2px;
+    }
+    .ann-item-body{
+      font-size:0.75rem;
+    }
+    .ann-item-meta{
+      margin-top:2px;
+      font-size:0.67rem;
+      color:var(--muted);
+      display:flex;
+      justify-content:space-between;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+    .ann-empty{
+      font-size:0.74rem;
+      color:var(--muted);
+    }
 
     .progress-wrapper{
       display:flex;
@@ -266,7 +332,6 @@
     .level-pill span.state{
       font-size:0.78rem;
     }
-
 
     .sessions{
       margin-top:10px;
@@ -337,8 +402,8 @@
       background:rgba(15,23,42,0.7);
       font-size:0.72rem;
     }
-    .status.open{ color:#4ade80; border-color:rgba(74,222,128,0.32);}
-    .status.locked{ color:#facc15; border-color:rgba(250,204,21,0.32);}
+    .status.open{ color:#4ade80; border-color:rgba(74,222,128,0.32); }
+    .status.locked{ color:#facc15; border-color:rgba(250,204,21,0.32); }
     .status.done{ color:#22c55e; border-color:rgba(34,197,94,0.5); }
 
     .mark-done-btn{
@@ -351,7 +416,6 @@
       color:var(--accent);
       cursor:pointer;
     }
-
 
     .trainer-header{
       display:flex;
@@ -486,7 +550,6 @@
       box-shadow:0 3px 10px rgba(34,211,238,0.5);
     }
 
-    
     .locked{
       text-align:center;
       padding:24px 14px;
@@ -518,7 +581,6 @@
       color:var(--accent);
       cursor:pointer;
     }
-
 
     .footer-line{
       margin-top:10px;
@@ -555,7 +617,6 @@
       background:rgba(239,68,68,0.15);
     }
 
-
     #adminPanel input[type="email"]{
       border-radius:999px;
       border:1px solid var(--border);
@@ -563,12 +624,13 @@
       color:var(--text);
       outline:none;
       transition:border-color 0.18s ease, box-shadow 0.18s ease;
+      padding:6px 10px;
+      font-size:0.8rem;
     }
     #adminPanel input[type="email"]:focus{
       border-color:var(--accent);
       box-shadow:0 0 0 1px var(--accent-soft);
     }
-
 
     @media (max-width:900px){
       .grid{
@@ -610,7 +672,6 @@
       </div>
     </div>
 
-
     <header class="header">
       <div class="hero-icon">
         <span>R</span>
@@ -626,7 +687,6 @@
 
     <main class="grid" id="mainGrid" style="opacity:0.1; filter:blur(2px); pointer-events:none;">
 
-
       <section class="card" id="contentCard">
         <div class="card-header">
           <div class="card-title">
@@ -634,6 +694,20 @@
             <span>Parcours de la formation</span>
           </div>
           <span class="badge" id="userEmailBadge">Compte: —</span>
+        </div>
+
+        <!-- Annonces -->
+        <div class="announcements-block" id="announcementsBlock">
+          <div class="ann-header">
+            <div class="ann-icon">📢</div>
+            <div>
+              <div class="ann-title">Annonces importantes</div>
+              <div class="ann-sub">Les dernières mises à jour de votre formateur.</div>
+            </div>
+          </div>
+          <div class="ann-list" id="announcementsList">
+            <div class="ann-empty">Aucune annonce pour le moment…</div>
+          </div>
         </div>
 
         <div class="progress-wrapper">
@@ -723,7 +797,6 @@
         </div>
       </section>
 
-
       <section class="card soft" id="trainerCard">
         <div class="card-header">
           <div class="card-title">
@@ -761,7 +834,6 @@
       </section>
     </main>
 
-
     <section class="card soft" id="adminPanel" style="margin-top:8px; display:none;">
       <div class="card-header">
         <div class="card-title">
@@ -774,14 +846,13 @@
         Ajouter des adresses e-mail autorisées à la formation Revit sans passer par la console Firebase.
       </p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
-        <input type="email" id="adminEmailInput" placeholder="email.etudiant@example.com" style="flex:1;min-width:200px;border-radius:999px;border:1px solid var(--border);padding:6px 10px;font-size:0.8rem;background:var(--input-bg);color:var(--text);outline:none;">
+        <input type="email" id="adminEmailInput" placeholder="email.etudiant@example.com" style="flex:1;min-width:200px;">
         <button type="button" id="adminAddEmailBtn" class="footer-btn">Ajouter</button>
       </div>
       <div style="max-height:140px;overflow:auto;border-radius:10px;border:1px solid var(--border);padding:6px 8px;font-size:0.76rem;background:color-mix(in srgb,var(--card-soft) 85%,transparent);" id="adminEmailList">
         <em style="color:var(--muted);">Aucune adresse pour le moment…</em>
       </div>
     </section>
-
 
     <div id="lockedOverlay" class="card soft" style="margin-top:8px; display:none;">
       <div class="locked">
@@ -810,7 +881,6 @@
   <script>
     const TOTAL_SESSIONS = 5;
 
-
     const root = document.documentElement;
     const themeToggle = document.getElementById("themeToggle");
     const themeLabel = document.getElementById("themeLabel");
@@ -826,7 +896,6 @@
       const current = root.getAttribute("data-theme") || "dark";
       applyTheme(current === "dark" ? "light" : "dark");
     });
-
 
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
@@ -855,6 +924,9 @@
     const trainerNameEl = document.getElementById("trainerName");
     const trainerInitialsEl = document.getElementById("trainerInitials");
 
+    const announcementsBlock = document.getElementById("announcementsBlock");
+    const announcementsList = document.getElementById("announcementsList");
+
     const messagesList = document.getElementById("messagesList");
     const messageForm = document.getElementById("messageForm");
     const messageInput = document.getElementById("messageInput");
@@ -879,14 +951,13 @@
     let isTrainer = false;
     let unsubscribeMessages = null;
     let unsubscribeProgress = null;
+    let unsubscribeAnnouncements = null;
     let userProgress = { completedSessions: [] };
     let revitConfig = { allowedEmails: [], trainerEmail: null, trainerName: null };
-
 
     goToDashboardBtn.addEventListener("click", ()=>{
       window.location.href = "lecteur.html";
     });
-
 
     if(auth && db){
       auth.onAuthStateChanged(async (user)=>{
@@ -949,15 +1020,12 @@
             ? "Connecté en tant que formateur Revit."
             : "Accès confirmé à la formation Revit.";
 
-
           if(isTrainer && teacherSpaceBtn){
             teacherSpaceBtn.style.display = "inline-flex";
             teacherSpaceBtn.onclick = function(){
-
               window.location.href = "enseignant.html";
             };
           }
-
 
           if(currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()){
             if(adminBtn){
@@ -976,6 +1044,7 @@
           unlockMainUI();
           subscribeToMessages();
           subscribeToProgress();
+          subscribeToAnnouncements();
         }catch(err){
           console.error(err);
           statusText.textContent = "Erreur lors de la vérification de l’accès.";
@@ -1009,7 +1078,6 @@
       markButtons.forEach(btn => btn.disabled = false);
     }
 
-    
     function subscribeToMessages(){
       if(!db || !currentUser) return;
       if(unsubscribeMessages) unsubscribeMessages();
@@ -1076,7 +1144,6 @@
         alert("Erreur lors de l’envoi du message.");
       }
     });
-
 
     function subscribeToProgress(){
       if(!db || !currentUser) return;
@@ -1165,6 +1232,78 @@
       });
     });
 
+    function formatAnnDate(ts){
+      if(!ts || !ts.toDate) return "";
+      const d = ts.toDate();
+      return d.toLocaleString("fr-FR", {
+        day:"2-digit",
+        month:"2-digit",
+        hour:"2-digit",
+        minute:"2-digit"
+      });
+    }
+
+    function subscribeToAnnouncements(){
+      if(!db || !currentUser) return;
+      if(unsubscribeAnnouncements) unsubscribeAnnouncements();
+
+      const docRef = db.collection("formations").doc("revit-niveau1");
+      unsubscribeAnnouncements = docRef
+        .collection("announcements")
+        .orderBy("createdAt","desc")
+        .limit(5)
+        .onSnapshot((snap)=>{
+          const anns = [];
+          snap.forEach(doc=>{
+            anns.push(doc.data() || {});
+          });
+          renderAnnouncements(anns);
+        }, (err)=>{
+          console.error("Erreur flux annonces:", err);
+        });
+    }
+
+    function renderAnnouncements(anns){
+      if(!announcementsBlock || !announcementsList) return;
+
+      announcementsList.innerHTML = "";
+
+      if(!anns.length){
+        announcementsBlock.style.display = "none";
+        announcementsList.innerHTML = '<div class="ann-empty">Aucune annonce pour le moment…</div>';
+        return;
+      }
+
+      announcementsBlock.style.display = "block";
+
+      anns.forEach((a)=>{
+        const item = document.createElement("div");
+        item.className = "ann-item";
+
+        const title = document.createElement("div");
+        title.className = "ann-item-title";
+        title.textContent = a.title || "Annonce";
+
+        const body = document.createElement("div");
+        body.className = "ann-item-body";
+        body.textContent = a.body || "";
+
+        const meta = document.createElement("div");
+        meta.className = "ann-item-meta";
+        const left = document.createElement("span");
+        left.textContent = a.createdByName || a.createdByEmail || "Formateur";
+        const right = document.createElement("span");
+        right.textContent = formatAnnDate(a.createdAt);
+        meta.appendChild(left);
+        meta.appendChild(right);
+
+        item.appendChild(title);
+        item.appendChild(body);
+        item.appendChild(meta);
+
+        announcementsList.appendChild(item);
+      });
+    }
 
     function renderAdminEmailList(){
       if(!adminEmailList) return;
@@ -1205,7 +1344,6 @@
         }
       });
     }
-
 
     document.addEventListener("contextmenu", function(e){
       e.preventDefault();
