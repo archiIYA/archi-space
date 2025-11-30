@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>📂 Bibliothèque 3D – Éléments architecturaux historiques</title>
 
-
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 
   <style>
@@ -193,7 +192,7 @@
     .hero-pill{
       position:absolute;
       inset:15% 8% auto auto;
-      width:46%;
+      width:52%;
       background:#111827;
       color:#f9fafb;
       border-radius:999px;
@@ -400,118 +399,125 @@
     }
 
 
-    .locked-screen{
+    .btn-disabled{
+      opacity:0.45;
+      cursor:not-allowed;
+      pointer-events:auto; 
+    }
+
+
+    .preview-overlay{
       position:fixed;
       inset:0;
-      background:rgba(15,23,42,0.68);
-      display:flex;
+      background:rgba(15,23,42,0.65);
+      display:none;
       align-items:center;
       justify-content:center;
       padding:1rem;
-      backdrop-filter:blur(14px);
-      opacity:1;
-      pointer-events:auto;
-      z-index:40;
-      transition:.25s ease;
+      z-index:50;
+      backdrop-filter:blur(10px);
     }
-    .locked-card{
-      max-width:420px;
-      width:100%;
-      background:radial-gradient(circle at top,#111827,#020617);
-      border-radius:var(--radius-xl);
-      padding:1.35rem 1.1rem 1.1rem;
-      color:#e5e7eb;
-      box-shadow:0 25px 60px rgba(0,0,0,0.75);
-      border:1px solid rgba(148,163,184,0.5);
-    }
-    .locked-header{
+    .preview-overlay.open{
       display:flex;
-      align-items:center;
-      gap:.7rem;
-      margin-bottom:.4rem;
     }
-    .locked-icon{
-      width:36px;
-      height:36px;
-      border-radius:15px;
-      background:rgba(249,250,251,0.08);
+    .preview-dialog{
+      max-width:820px;
+      width:100%;
+      background:#f9fafb;
+      border-radius:20px;
+      box-shadow:0 25px 60px rgba(15,23,42,0.7);
+      overflow:hidden;
+      border:1px solid var(--border);
+      position:relative;
+    }
+    .preview-close{
+      position:absolute;
+      top:.4rem;
+      right:.45rem;
+      border:none;
+      background:transparent;
+      cursor:pointer;
+      font-size:1.1rem;
+      padding:.3rem;
+      color:#4b5563;
+    }
+    .preview-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.3fr) minmax(0,1.7fr);
+      gap:0;
+    }
+    .preview-thumb{
+      background:radial-gradient(circle at top,#e0f2fe,#c4b5fd,#f97316);
+      min-height:210px;
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:1.1rem;
+      position:relative;
+      overflow:hidden;
     }
-    .locked-title{
+    .preview-thumb::before{
+      content:"";
+      position:absolute;
+      inset:18% 15% 14%;
+      border-radius:22px;
+      border:1px solid rgba(248,250,252,0.65);
+      transform:skewY(-8deg);
+      box-shadow:0 20px 50px rgba(15,23,42,0.7);
+    }
+    .preview-thumb span{
+      position:relative;
+      z-index:1;
+      font-size:3rem;
+      color:#f9fafb;
+      text-shadow:0 10px 30px rgba(15,23,42,0.9);
+    }
+    .preview-info{
+      padding:1rem 1rem 1.1rem;
+      background:#f9fafb;
+      display:flex;
+      flex-direction:column;
+      gap:.4rem;
+    }
+    .preview-title{
       font-size:1rem;
       font-weight:600;
     }
-    .locked-sub{
-      font-size:.78rem;
-      color:#9ca3af;
-      margin-top:.15rem;
+    .preview-style{
+      font-size:.75rem;
+      color:var(--muted);
     }
-    .locked-perks{
-      margin:.65rem 0;
-      display:flex;
-      flex-direction:column;
-      gap:.3rem;
-      font-size:.74rem;
-    }
-    .locked-perks li{
-      list-style:none;
-      display:flex;
-      align-items:flex-start;
-      gap:.35rem;
-    }
-    .locked-perks span.bullet{
-      margin-top:.1rem;
-      font-size:.85rem;
-    }
-    .locked-actions{
-      display:flex;
-      flex-direction:column;
-      gap:.45rem;
-      margin-top:.4rem;
-    }
-    .locked-actions-row{
-      display:flex;
-      gap:.4rem;
-      flex-wrap:wrap;
-    }
-    .btn-ghost-light,
-    .btn-solid-light{
-      flex:1;
-      min-width:0;
-      border-radius:999px;
-      border:1px solid transparent;
+    .preview-desc{
       font-size:.8rem;
-      padding:.4rem .7rem;
-      cursor:pointer;
-      display:inline-flex;
+      color:#374151;
+      margin-top:.2rem;
+    }
+    .preview-meta{
+      margin-top:.4rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:.35rem;
+      font-size:.72rem;
+    }
+    .preview-pill{
+      padding:.2rem .55rem;
+      border-radius:999px;
+      background:var(--accent-soft);
+      color:#4c1d95;
+    }
+    .preview-footer{
+      margin-top:.45rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:.4rem;
       align-items:center;
-      justify-content:center;
-      gap:.3rem;
-      transition:.16s ease;
+      justify-content:space-between;
+      font-size:.72rem;
     }
-    .btn-solid-light{
-      background:#f9fafb;
-      color:#111827;
+    .preview-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.25rem;
     }
-    .btn-ghost-light{
-      background:transparent;
-      border-color:rgba(156,163,175,0.7);
-      color:#e5e7eb;
-    }
-    .btn-solid-light:hover,
-    .btn-ghost-light:hover{
-      transform:translateY(-1px);
-      box-shadow:0 10px 28px rgba(15,23,42,0.7);
-    }
-    .locked-note{
-      font-size:.7rem;
-      color:#9ca3af;
-      text-align:center;
-    }
-
 
     @media (max-width:768px){
       .hero{
@@ -528,6 +534,9 @@
       .user-actions{
         width:100%;
         justify-content:flex-start;
+      }
+      .preview-layout{
+        grid-template-columns:minmax(0,1fr);
       }
     }
     @media (max-width:480px){
@@ -555,11 +564,12 @@
         </div>
       </div>
       <div class="user-actions">
+
         <button class="btn btn-outline" type="button">
-          <span>Déjà inscrit ?</span>
+          <span>Espace membre</span>
         </button>
         <button class="btn btn-primary" type="button">
-          <span>Créer un compte</span>
+          <span>Découvrir Archi.Space</span>
         </button>
       </div>
     </header>
@@ -592,26 +602,26 @@
 
       <div class="hero-visual">
         <div class="hero-pill">
-          <span class="icon">🔒</span>
-          <span>Accès réservé aux membres Archi.Space</span>
+          <span class="icon">ℹ️</span>
+          <span>Version démo – téléchargement désactivé pour le moment</span>
         </div>
         <div class="hero-cubes">
           <div class="cube-card">
             <div class="cube-title">Colonnes antiques</div>
             <div class="cube-meta">Doric · Ionique · Corinthien</div>
-            <div class="cube-badge">Formats FBX / OBJ / SKP</div>
+            <div class="cube-badge">Formats 3D optimisés</div>
           </div>
           <div class="cube-card">
             <div class="cube-title">Arcs & Portes</div>
             <div class="cube-meta">Gothique · Roman · Andalou</div>
-            <div class="cube-badge">Optimisé pour le rendu</div>
+            <div class="cube-badge">Idéal pour ateliers</div>
           </div>
         </div>
       </div>
     </section>
 
 
-   <section class="content-section" aria-hidden="true">
+    <section class="content-section">
       <div class="filters">
         <div class="filters-left">
           <span class="filter-label">Filtrer par style :</span>
@@ -621,7 +631,7 @@
           <button class="chip" type="button">Gothique</button>
           <button class="chip" type="button">Andalou</button>
         </div>
-        <span class="filter-label">+50 éléments 3D disponibles</span>
+        <span class="filter-label">Version démo · téléchargements bientôt disponibles</span>
       </div>
 
       <div class="grid">
@@ -639,8 +649,21 @@
           </div>
           <div class="model-footer">
             <div class="model-actions">
-              <button class="btn-sm primary" type="button">▶ Aperçu 3D</button>
-              <button class="btn-sm" type="button">⬇ Télécharger</button>
+              <button
+                class="btn-sm primary btn-preview"
+                type="button"
+                data-icon="🧱"
+                data-title="Colonne corinthienne R+0"
+                data-style="Style: Antique romain – ordre corinthien"
+                data-desc="Colonne corinthienne adaptée aux portiques, galeries et entrées monumentales. Le chapiteau met en valeur les feuilles d’acanthe typiques, idéale pour les exercices de composition classique et les études de proportions."
+                data-size="1,8 Mo · FBX"
+                data-usage="Conseil: à utiliser comme élément central dans les façades ou les galeries couvertes."
+              >
+                ▶ Aperçu 3D
+              </button>
+              <button class="btn-sm btn-disabled btn-download" type="button">
+                ⬇ Télécharger (bientôt)
+              </button>
             </div>
             <span class="model-size">1,8 Mo · FBX</span>
           </div>
@@ -660,8 +683,21 @@
           </div>
           <div class="model-footer">
             <div class="model-actions">
-              <button class="btn-sm primary" type="button">▶ Aperçu 3D</button>
-              <button class="btn-sm" type="button">⬇ Télécharger</button>
+              <button
+                class="btn-sm primary btn-preview"
+                type="button"
+                data-icon="🏛️"
+                data-title="Arc andalou double"
+                data-style="Style: Architecture andalouse – arc outrepassé"
+                data-desc="Arc andalou composé de deux travées, inspiré des galeries de l’Alhambra. Idéal pour les projets de patios, de riads ou de cours intérieures jouant sur la lumière, l’ombre et la séquence des espaces."
+                data-size="2,4 Mo · OBJ"
+                data-usage="Conseil: positionne-le comme transition entre espace public et espace semi-privé."
+              >
+                ▶ Aperçu 3D
+              </button>
+              <button class="btn-sm btn-disabled btn-download" type="button">
+                ⬇ Télécharger (bientôt)
+              </button>
             </div>
             <span class="model-size">2,4 Mo · OBJ</span>
           </div>
@@ -681,8 +717,21 @@
           </div>
           <div class="model-footer">
             <div class="model-actions">
-              <button class="btn-sm primary" type="button">▶ Aperçu 3D</button>
-              <button class="btn-sm" type="button">⬇ Télécharger</button>
+              <button
+                class="btn-sm primary btn-preview"
+                type="button"
+                data-icon="🕌"
+                data-title="Panneau moucharabieh 1×2 m"
+                data-style="Style: Architecture islamique – écran de façade"
+                data-desc="Panneau moucharabieh pensé pour filtrer la lumière et préserver l’intimité. Utile pour étudier la ventilation naturelle, les filtres visuels et la relation intérieur/extérieur dans les projets d’architecture islamique."
+                data-size="950 Ko · SKP"
+                data-usage="Conseil: teste différentes orientations pour observer l’impact sur les ombres."
+              >
+                ▶ Aperçu 3D
+              </button>
+              <button class="btn-sm btn-disabled btn-download" type="button">
+                ⬇ Télécharger (bientôt)
+              </button>
             </div>
             <span class="model-size">950 Ko · SKP</span>
           </div>
@@ -702,8 +751,21 @@
           </div>
           <div class="model-footer">
             <div class="model-actions">
-              <button class="btn-sm primary" type="button">▶ Aperçu 3D</button>
-              <button class="btn-sm" type="button">⬇ Télécharger</button>
+              <button
+                class="btn-sm primary btn-preview"
+                type="button"
+                data-icon="⛪"
+                data-title="Fenêtre gothique avec arc brisé"
+                data-style="Style: Gothique – arc brisé & remplage"
+                data-desc="Fenêtre gothique à arc brisé et remplage fin. Très utile pour comprendre la verticalité, la quête de lumière et la composition des façades de cathédrale dans les projets d’histoire de l’architecture."
+                data-size="1,2 Mo · FBX"
+                data-usage="Conseil: intègre-la dans des façades expérimentales mêlant ancien et contemporain."
+              >
+                ▶ Aperçu 3D
+              </button>
+              <button class="btn-sm btn-disabled btn-download" type="button">
+                ⬇ Télécharger (bientôt)
+              </button>
             </div>
             <span class="model-size">1,2 Mo · FBX</span>
           </div>
@@ -713,64 +775,112 @@
   </div>
 
 
-  <div class="locked-screen" id="locked-screen">
-    <div class="locked-card">
-      <div class="locked-header">
-        <div class="locked-icon">🔒</div>
-        <div>
-          <div class="locked-title">مكتبة 3D مخصّصة للأعضاء فقط</div>
-          <div class="locked-sub">
-            لإنشاء حساب أو تسجيل الدخول قبل الوصول إلى مكتبة العناصر المعمارية التاريخية
-            ثلاثية الأبعاد الخاصة بـ <strong>Archi.Space</strong>.
+  <div class="preview-overlay" id="preview-overlay">
+    <div class="preview-dialog">
+      <button class="preview-close" id="preview-close" type="button">✕</button>
+      <div class="preview-layout">
+        <div class="preview-thumb">
+          <span id="preview-icon">🧱</span>
+        </div>
+        <div class="preview-info">
+          <h3 class="preview-title" id="preview-title">Titre élément 3D</h3>
+          <p class="preview-style" id="preview-style">Style: …</p>
+          <p class="preview-desc" id="preview-desc">
+            Ici apparaît une explication simple de l’élément 3D, son contexte historique, et comment l’utiliser dans un projet d’architecture.
+          </p>
+
+          <div class="preview-meta">
+            <span class="preview-pill" id="preview-size">1,8 Mo · FBX</span>
+            <span class="preview-pill" id="preview-usage">Conseil d’utilisation…</span>
+          </div>
+
+          <div class="preview-footer">
+            <div class="preview-actions">
+              <button class="btn-sm btn-disabled" type="button">
+                ⬇ Télécharger (bientôt)
+              </button>
+              <button class="btn-sm" type="button">
+                👀 Utilisation pédagogique
+              </button>
+            </div>
+            <span>ملاحظة: حالياً يمكن استعمال المكتبة كمرجع بصري وتاريخي فقط.</span>
           </div>
         </div>
-      </div>
-
-      <ul class="locked-perks">
-        <li>
-          <span class="bullet">✅</span>
-          <span>تحميل عناصر 3D جاهزة (colonnes, arcs, fenêtres, moucharabieh…)</span>
-        </li>
-        <li>
-          <span class="bullet">✅</span>
-          <span>نماذج منظّمة حسب الطراز: Roman, Islamique, Gothique, Andalou</span>
-        </li>
-        <li>
-          <span class="bullet">✅</span>
-          <span>ملفات متوافقة مع AutoCAD, Revit, SketchUp و logiciels de rendu</span>
-        </li>
-      </ul>
-
-      <div class="locked-actions">
-        <div class="locked-actions-row">
-          <button class="btn-solid-light" type="button">
-            ✨ إنشاء حساب جديد
-          </button>
-          <button class="btn-ghost-light" type="button">
-            🔑 تسجيل الدخول
-          </button>
-        </div>
-        <p class="locked-note">
-          بعد تسجيل الدخول، سيتم فتح المكتبة تلقائياً من نفس الصفحة.
-        </p>
       </div>
     </div>
   </div>
 
->
+
   <script>
-    // هنا تربط مستقبلاً مع حالة المستخدم الحقيقية (Firebase Auth مثلاً)
-    // مثال: إذا كان المستخدم مسجل الدخول => إخفاء شاشة القفل
-    // const isLoggedIn = !!currentUserFromFirebase;
-
-    const isLoggedInDemo = false; 
-
     document.addEventListener("DOMContentLoaded", () => {
-      const lock = document.getElementById("locked-screen");
-      if (isLoggedInDemo && lock) {
-        lock.style.opacity = "0";
-        lock.style.pointerEvents = "none";
+
+      const previewOverlay = document.getElementById("preview-overlay");
+      const previewClose = document.getElementById("preview-close");
+      const iconEl   = document.getElementById("preview-icon");
+      const titleEl  = document.getElementById("preview-title");
+      const styleEl  = document.getElementById("preview-style");
+      const descEl   = document.getElementById("preview-desc");
+      const sizeEl   = document.getElementById("preview-size");
+      const usageEl  = document.getElementById("preview-usage");
+
+      document.querySelectorAll(".btn-preview").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const icon  = btn.getAttribute("data-icon")  || "🧱";
+          const title = btn.getAttribute("data-title") || "";
+          const style = btn.getAttribute("data-style") || "";
+          const desc  = btn.getAttribute("data-desc")  || "";
+          const size  = btn.getAttribute("data-size")  || "";
+          const usage = btn.getAttribute("data-usage") || "";
+
+          iconEl.textContent  = icon;
+          titleEl.textContent = title;
+          styleEl.textContent = style;
+          descEl.textContent  = desc;
+          sizeEl.textContent  = size;
+          usageEl.textContent = usage;
+
+          previewOverlay.classList.add("open");
+        });
+      });
+
+      function closePreview(){
+        previewOverlay.classList.remove("open");
       }
+
+      previewClose.addEventListener("click", closePreview);
+      previewOverlay.addEventListener("click", (e) => {
+        if(e.target === previewOverlay){
+          closePreview();
+        }
+      });
+
+
+      document.querySelectorAll(".btn-download").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          alert("ميزة التحميل غير مفعّلة حالياً في النسخة التجريبية.");
+        });
+      });
+
+ 
+      document.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+      });
+
+
+      document.addEventListener("keydown", (e) => {
+        if (
+          (e.ctrlKey && ["s","S","p","P","u","U"].includes(e.key)) ||
+          e.key === "F12"
+        ){
+          e.preventDefault();
+        }
+      });
+
+
+      document.addEventListener("dragstart", (e) => {
+        e.preventDefault();
+      });
     });
   </script>
 </body>
