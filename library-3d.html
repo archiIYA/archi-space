@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>📂 Bibliothèque 3D – Éléments architecturaux historiques</title>
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --bg:#f5f3ff;
+      --bg-soft:#f9f7ff;
+      --card:#ffffff;
+      --card-soft:#f0ecff;
+      --text:#111827;
+      --muted:#6b7280;
+      --accent:#7c3aed;
+      --accent-soft:#ede9fe;
+      --border:#e5e7eb;
+      --danger:#ef4444;
+      --shadow:0 18px 45px rgba(15,23,42,0.12);
+      --radius-xl:22px;
+      --radius-lg:18px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+    body{
+      min-height:100vh;
+      font-family:"Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:radial-gradient(circle at top left, #e0e7ff 0, #f9fafb 40%, #f3e8ff 100%);
+      color:var(--text);
+    }
+    .page{
+      min-height:100vh;
+      max-width:1200px;
+      margin:0 auto;
+      padding:1.25rem 1.25rem 2.5rem;
+      display:flex;
+      flex-direction:column;
+      gap:1.25rem;
+    }
+
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:.75rem;
+    }
+    .brand-logo{
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      background:conic-gradient(from 140deg,#7c3aed,#22c55e,#0ea5e9,#7c3aed);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 10px 30px rgba(124,58,237,0.45);
+      color:#f9fafb;
+      font-weight:700;
+      font-size:.95rem;
+    }
+    .brand-text-title{
+      font-size:1.05rem;
+      font-weight:600;
+    }
+    .brand-text-sub{
+      font-size:.75rem;
+      color:var(--muted);
+    }
+
+    .user-actions{
+      display:flex;
+      align-items:center;
+      gap:.5rem;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .btn{
+      border:none;
+      cursor:pointer;
+      font:inherit;
+      border-radius:999px;
+      padding:.45rem .9rem;
+      display:inline-flex;
+      align-items:center;
+      gap:.35rem;
+      transition:.18s ease;
+      white-space:nowrap;
+    }
+    .btn-outline{
+      background:transparent;
+      border:1px solid var(--border);
+      color:var(--text);
+    }
+    .btn-outline:hover{
+      border-color:var(--accent);
+      color:var(--accent);
+      transform:translateY(-1px);
+    }
+    .btn-primary{
+      background:var(--accent);
+      color:#f9fafb;
+      box-shadow:0 10px 25px rgba(124,58,237,0.35);
+    }
+    .btn-primary:hover{
+      filter:brightness(1.05);
+      transform:translateY(-1px);
+    }
+
+
+    .hero{
+      background:linear-gradient(135deg,#f9f5ff,#eef2ff);
+      border-radius:var(--radius-xl);
+      padding:1.25rem 1.1rem;
+      box-shadow:var(--shadow);
+      display:grid;
+      grid-template-columns:minmax(0,3fr) minmax(0,2.4fr);
+      gap:1.2rem;
+      align-items:center;
+    }
+    .hero-main-title{
+      font-size:1.35rem;
+      font-weight:600;
+      letter-spacing:.01em;
+      margin-bottom:.4rem;
+    }
+    .hero-main-sub{
+      font-size:.86rem;
+      color:var(--muted);
+      max-width:30rem;
+    }
+    .hero-tags{
+      margin-top:.7rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:.35rem;
+    }
+    .hero-tag{
+      font-size:.7rem;
+      padding:.2rem .55rem;
+      border-radius:999px;
+      background:var(--accent-soft);
+      color:#4c1d95;
+    }
+
+    .hero-search-block{
+      margin-top:1rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:.55rem;
+      align-items:center;
+    }
+    .input{
+      border-radius:999px;
+      border:1px solid var(--border);
+      padding:.45rem .85rem;
+      font-size:.8rem;
+      flex:1;
+      min-width:0;
+      outline:none;
+      background:#fff;
+    }
+    .input:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(124,58,237,0.18);
+    }
+
+    .hero-visual{
+      position:relative;
+      width:100%;
+      min-height:150px;
+      border-radius:var(--radius-lg);
+      background:radial-gradient(circle at top,#e0f2fe 0,#ede9fe 40%,#f5f3ff 100%);
+      overflow:hidden;
+      padding:.9rem;
+      display:flex;
+      align-items:flex-end;
+      justify-content:flex-end;
+      isolation:isolate;
+    }
+    .hero-pill{
+      position:absolute;
+      inset:15% 8% auto auto;
+      width:46%;
+      background:#111827;
+      color:#f9fafb;
+      border-radius:999px;
+      font-size:.7rem;
+      padding:.35rem .7rem;
+      display:flex;
+      align-items:center;
+      gap:.35rem;
+      box-shadow:0 14px 35px rgba(15,23,42,0.5);
+    }
+    .hero-pill span.icon{
+      width:18px;
+      height:18px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      background:rgba(248,250,252,0.1);
+      font-size:.9rem;
+    }
+    .hero-cubes{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:.4rem;
+      width:70%;
+      margin-left:auto;
+    }
+    .cube-card{
+      border-radius:16px;
+      background:rgba(15,23,42,0.9);
+      color:#e5e7eb;
+      padding:.6rem;
+      font-size:.7rem;
+      display:flex;
+      flex-direction:column;
+      gap:.25rem;
+      box-shadow:0 10px 25px rgba(15,23,42,0.75);
+    }
+    .cube-title{
+      font-size:.75rem;
+      font-weight:500;
+    }
+    .cube-meta{
+      font-size:.65rem;
+      color:#9ca3af;
+    }
+    .cube-badge{
+      align-self:flex-start;
+      margin-top:.1rem;
+      border-radius:999px;
+      padding:.12rem .45rem;
+      font-size:.6rem;
+      background:rgba(250,250,250,0.08);
+    }
+
+
+    .content-section{
+      margin-top:.3rem;
+      display:flex;
+      flex-direction:column;
+      gap:.75rem;
+    }
+    .filters{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.5rem;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .filters-left{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.4rem;
+      align-items:center;
+    }
+    .filter-label{
+      font-size:.8rem;
+      color:var(--muted);
+    }
+    .chip{
+      font-size:.75rem;
+      padding:.22rem .65rem;
+      border-radius:999px;
+      border:1px solid transparent;
+      background:var(--card-soft);
+      color:#4b5563;
+      cursor:pointer;
+      transition:.16s ease;
+    }
+    .chip:hover{
+      border-color:var(--accent);
+      color:var(--accent);
+    }
+    .chip.active{
+      background:var(--accent);
+      color:#f9fafb;
+      border-color:var(--accent);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:.9rem;
+    }
+    .model-card{
+      background:var(--card);
+      border-radius:var(--radius-lg);
+      padding:.65rem .7rem .7rem;
+      border:1px solid rgba(148,163,184,0.18);
+      box-shadow:0 10px 30px rgba(148,163,184,0.18);
+      display:flex;
+      flex-direction:column;
+      gap:.45rem;
+    }
+    .model-thumb{
+      position:relative;
+      border-radius:14px;
+      background:radial-gradient(circle at top,#e0f2fe,#c4b5fd,#f97316);
+      height:135px;
+      overflow:hidden;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+    }
+    .model-thumb::before{
+      content:"";
+      position:absolute;
+      inset:25% 20% 10%;
+      border-radius:18px;
+      border:1px solid rgba(248,250,252,0.45);
+      transform:skewY(-8deg);
+      box-shadow:0 18px 45px rgba(15,23,42,0.45);
+    }
+    .model-thumb span{
+      position:relative;
+      z-index:1;
+      font-size:2.3rem;
+      color:#f9fafb;
+      text-shadow:0 8px 25px rgba(15,23,42,0.7);
+    }
+
+    .model-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:.5rem;
+      margin-top:.25rem;
+    }
+    .model-title{
+      font-size:.9rem;
+      font-weight:500;
+    }
+    .model-meta{
+      font-size:.7rem;
+      color:var(--muted);
+      margin-top:.1rem;
+    }
+    .model-tag{
+      padding:.18rem .55rem;
+      border-radius:999px;
+      background:var(--accent-soft);
+      font-size:.65rem;
+      color:#4c1d95;
+      white-space:nowrap;
+    }
+
+    .model-footer{
+      margin-top:.3rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:.4rem;
+      flex-wrap:wrap;
+    }
+    .model-actions{
+      display:flex;
+      gap:.25rem;
+      flex-wrap:wrap;
+    }
+    .btn-sm{
+      padding:.25rem .55rem;
+      font-size:.7rem;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#f9fafb;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:.25rem;
+      transition:.16s ease;
+    }
+    .btn-sm.primary{
+      border-color:var(--accent);
+      background:var(--accent);
+      color:#f9fafb;
+    }
+    .btn-sm:hover{
+      transform:translateY(-1px);
+      box-shadow:0 8px 20px rgba(15,23,42,0.18);
+    }
+    .model-size{
+      font-size:.65rem;
+      color:var(--muted);
+    }
+
+
+    .locked-screen{
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,0.68);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:1rem;
+      backdrop-filter:blur(14px);
+      opacity:1;
+      pointer-events:auto;
+      z-index:40;
+      transition:.25s ease;
+    }
+    .locked-card{
+      max-width:420px;
+      width:100%;
+      background:radial-gradient(circle at top,#111827,#020617);
+      border-radius:var(--radius-xl);
+      padding:1.35rem 1.1rem 1.1rem;
+      color:#e5e7eb;
+      box-shadow:0 25px 60px rgba(0,0,0,0.75);
+      border:1px solid rgba(148,163,184,0.5);
+    }
+    .locked-header{
+      display:flex;
+      align-items:center;
+      gap:.7rem;
+      margin-bottom:.4rem;
+    }
+    .locked-icon{
+      width:36px;
+      height:36px;
+      border-radius:15px;
+      background:rgba(249,250,251,0.08);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.1rem;
+    }
+    .locked-title{
+      font-size:1rem;
+      font-weight:600;
+    }
+    .locked-sub{
+      font-size:.78rem;
+      color:#9ca3af;
+      margin-top:.15rem;
+    }
+    .locked-perks{
+      margin:.65rem 0;
+      display:flex;
+      flex-direction:column;
+      gap:.3rem;
+      font-size:.74rem;
+    }
+    .locked-perks li{
+      list-style:none;
+      display:flex;
+      align-items:flex-start;
+      gap:.35rem;
+    }
+    .locked-perks span.bullet{
+      margin-top:.1rem;
+      font-size:.85rem;
+    }
+    .locked-actions{
+      display:flex;
+      flex-direction:column;
+      gap:.45rem;
+      margin-top:.4rem;
+    }
+    .locked-actions-row{
+      display:flex;
+      gap:.4rem;
+      flex-wrap:wrap;
+    }
+    .btn-ghost-light,
+    .btn-solid-light{
+      flex:1;
+      min-width:0;
+      border-radius:999px;
+      border:1px solid transparent;
+      font-size:.8rem;
+      padding:.4rem .7rem;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.3rem;
+      transition:.16s ease;
+    }
+    .btn-solid-light{
+      background:#f9fafb;
+      color:#111827;
+    }
+    .btn-ghost-light{
+      background:transparent;
+      border-color:rgba(156,163,175,0.7);
+      color:#e5e7eb;
+    }
+    .btn-solid-light:hover,
+    .btn-ghost-light:hover{
+      transform:translateY(-1px);
+      box-shadow:0 10px 28px rgba(15,23,42,0.7);
+    }
+    .locked-note{
+      font-size:.7rem;
+      color:#9ca3af;
+      text-align:center;
+    }
+
+
+    @media (max-width:768px){
+      .hero{
+        grid-template-columns:minmax(0,1fr);
+        padding:1.05rem .9rem 1.2rem;
+      }
+      .hero-visual{
+        order:-1;
+      }
+      .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .user-actions{
+        width:100%;
+        justify-content:flex-start;
+      }
+    }
+    @media (max-width:480px){
+      .page{
+        padding:.95rem .85rem 1.6rem;
+      }
+      .hero-main-title{
+        font-size:1.15rem;
+      }
+      .model-thumb{
+        height:120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-logo">A3D</div>
+        <div>
+          <div class="brand-text-title">Archi.Space – 3D Library</div>
+          <div class="brand-text-sub">Éléments architecturaux historiques prêts à l’emploi</div>
+        </div>
+      </div>
+      <div class="user-actions">
+        <button class="btn btn-outline" type="button">
+          <span>Déjà inscrit ?</span>
+        </button>
+        <button class="btn btn-primary" type="button">
+          <span>Créer un compte</span>
+        </button>
+      </div>
+    </header>
+
+
+    <section class="hero">
+      <div class="hero-main">
+        <h1 class="hero-main-title">
+          Bibliothèque 3D des éléments architecturaux historiques
+        </h1>
+        <p class="hero-main-sub">
+          Colonnes, arcs, chapiteaux, fenêtres gothiques, arcs andalous, moucharabiehs et plus encore.
+          Tout est prêt à être intégré dans tes projets AutoCAD, Revit ou SketchUp.
+        </p>
+
+        <div class="hero-tags">
+          <span class="hero-tag">Roman · Corinthien</span>
+          <span class="hero-tag">Islamique · Moucharabieh</span>
+          <span class="hero-tag">Gothique · Arc brisé</span>
+          <span class="hero-tag">Andalou · Patio</span>
+        </div>
+
+        <div class="hero-search-block">
+          <input class="input" type="search" placeholder="Rechercher un élément (ex: arc andalou, colonne corinthienne…)" />
+          <button class="btn btn-primary" type="button">
+            🔍 Rechercher
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-pill">
+          <span class="icon">🔒</span>
+          <span>Accès réservé aux membres Archi.Space</span>
+        </div>
+        <div class="hero-cubes">
+          <div class="cube-card">
+            <div class="cube-title">Colonnes antiques</div>
+            <div class="cube-meta">Doric · Ionique · Corinthien</div>
+            <div class="cube-badge">Formats FBX / OBJ / SKP</div>
+          </div>
+          <div class="cube-card">
+            <div class="cube-title">Arcs & Portes</div>
+            <div class="cube-meta">Gothique · Roman · Andalou</div>
+            <div class="cube-badge">Optimisé pour le rendu</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+   <section class="content-section" aria-hidden="true">
+      <div class="filters">
+        <div class="filters-left">
+          <span class="filter-label">Filtrer par style :</span>
+          <button class="chip active" type="button">Tous</button>
+          <button class="chip" type="button">Roman</button>
+          <button class="chip" type="button">Islamique</button>
+          <button class="chip" type="button">Gothique</button>
+          <button class="chip" type="button">Andalou</button>
+        </div>
+        <span class="filter-label">+50 éléments 3D disponibles</span>
+      </div>
+
+      <div class="grid">
+
+        <article class="model-card">
+          <div class="model-thumb">
+            <span>🧱</span>
+          </div>
+          <div class="model-header">
+            <div>
+              <h3 class="model-title">Colonne corinthienne R+0</h3>
+              <p class="model-meta">Style: Antique romain · Détail du chapiteau inclus</p>
+            </div>
+            <span class="model-tag">Roman</span>
+          </div>
+          <div class="model-footer">
+            <div class="model-actions">
+              <button class="btn-sm primary" type="button">▶ Aperçu 3D</button>
+              <button class="btn-sm" type="button">⬇ Télécharger</button>
+            </div>
+            <span class="model-size">1,8 Mo · FBX</span>
+          </div>
+        </article>
+
+
+        <article class="model-card">
+          <div class="model-thumb">
+            <span>🏛️</span>
+          </div>
+          <div class="model-header">
+            <div>
+              <h3 class="model-title">Arc andalou double</h3>
+              <p class="model-meta">Inspiré de l’Alhambra · idéal pour patios & galeries</p>
+            </div>
+            <span class="model-tag">Andalou</span>
+          </div>
+          <div class="model-footer">
+            <div class="model-actions">
+              <button class="btn-sm primary" type="button">▶ Aperçu 3D</button>
+              <button class="btn-sm" type="button">⬇ Télécharger</button>
+            </div>
+            <span class="model-size">2,4 Mo · OBJ</span>
+          </div>
+        </article>
+
+
+        <article class="model-card">
+          <div class="model-thumb">
+            <span>🕌</span>
+          </div>
+          <div class="model-header">
+            <div>
+              <h3 class="model-title">Panneau moucharabieh 1×2 m</h3>
+              <p class="model-meta">Motif islamique détaillé · prêt pour rendu lumière</p>
+            </div>
+            <span class="model-tag">Islamique</span>
+          </div>
+          <div class="model-footer">
+            <div class="model-actions">
+              <button class="btn-sm primary" type="button">▶ Aperçu 3D</button>
+              <button class="btn-sm" type="button">⬇ Télécharger</button>
+            </div>
+            <span class="model-size">950 Ko · SKP</span>
+          </div>
+        </article>
+
+
+        <article class="model-card">
+          <div class="model-thumb">
+            <span>⛪</span>
+          </div>
+          <div class="model-header">
+            <div>
+              <h3 class="model-title">Fenêtre gothique avec arc brisé</h3>
+              <p class="model-meta">Tracés fins · parfait pour façades de cathédrale</p>
+            </div>
+            <span class="model-tag">Gothique</span>
+          </div>
+          <div class="model-footer">
+            <div class="model-actions">
+              <button class="btn-sm primary" type="button">▶ Aperçu 3D</button>
+              <button class="btn-sm" type="button">⬇ Télécharger</button>
+            </div>
+            <span class="model-size">1,2 Mo · FBX</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+
+  <div class="locked-screen" id="locked-screen">
+    <div class="locked-card">
+      <div class="locked-header">
+        <div class="locked-icon">🔒</div>
+        <div>
+          <div class="locked-title">مكتبة 3D مخصّصة للأعضاء فقط</div>
+          <div class="locked-sub">
+            لإنشاء حساب أو تسجيل الدخول قبل الوصول إلى مكتبة العناصر المعمارية التاريخية
+            ثلاثية الأبعاد الخاصة بـ <strong>Archi.Space</strong>.
+          </div>
+        </div>
+      </div>
+
+      <ul class="locked-perks">
+        <li>
+          <span class="bullet">✅</span>
+          <span>تحميل عناصر 3D جاهزة (colonnes, arcs, fenêtres, moucharabieh…)</span>
+        </li>
+        <li>
+          <span class="bullet">✅</span>
+          <span>نماذج منظّمة حسب الطراز: Roman, Islamique, Gothique, Andalou</span>
+        </li>
+        <li>
+          <span class="bullet">✅</span>
+          <span>ملفات متوافقة مع AutoCAD, Revit, SketchUp و logiciels de rendu</span>
+        </li>
+      </ul>
+
+      <div class="locked-actions">
+        <div class="locked-actions-row">
+          <button class="btn-solid-light" type="button">
+            ✨ إنشاء حساب جديد
+          </button>
+          <button class="btn-ghost-light" type="button">
+            🔑 تسجيل الدخول
+          </button>
+        </div>
+        <p class="locked-note">
+          بعد تسجيل الدخول، سيتم فتح المكتبة تلقائياً من نفس الصفحة.
+        </p>
+      </div>
+    </div>
+  </div>
+
+>
+  <script>
+    // هنا تربط مستقبلاً مع حالة المستخدم الحقيقية (Firebase Auth مثلاً)
+    // مثال: إذا كان المستخدم مسجل الدخول => إخفاء شاشة القفل
+    // const isLoggedIn = !!currentUserFromFirebase;
+
+    const isLoggedInDemo = false; 
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const lock = document.getElementById("locked-screen");
+      if (isLoggedInDemo && lock) {
+        lock.style.opacity = "0";
+        lock.style.pointerEvents = "none";
+      }
+    });
+  </script>
+</body>
+</html>
