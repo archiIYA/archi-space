@@ -709,16 +709,18 @@
         <div>
           <div class="carnet-visual">
             <div class="carnet-visual-inner">
+              <!-- الغلاف -->
               <div class="carnet-cover">
-                <img src="CHA1 - 2 (1).svg" alt="غلاف Mon Carnet HA 1">
+                <img src="CHA1 - 1.svg" alt="غلاف Mon Carnet HA 1">
               </div>
+              <!-- الفهرس -->
               <div class="carnet-toc">
                 <img src="CHA1 - 2.svg" alt="فهرس Mon Carnet HA 1">
               </div>
             </div>
           </div>
           <div class="price-main">600 دج</div>
-          <div class="price-note"> نسخة رقمية خاصة، مخصصة للاستعمال من طرف طالب واحد الدخول لها بكود صالح على حساب واحد مدة 7 اشهر.</div>
+          <div class="price-note"> نسخة رقمية خاصة، مخصصة للاستعمال من طرف طالب واحد، الدخول لها بكود صالح على حساب واحد مدة 7 أشهر.</div>
         </div>
       </div>
 
@@ -740,13 +742,13 @@
     </div>
   </main>
 
-  <!-- معاينة سريعة بالفيديو -->
+
   <div id="previewModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('previewModal')">&times;</button>
       <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">Aperçu de Mon Carnet HA 1</h2>
       <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">
-        Vidéo de présentation rapide pour voir le style général du carnet.
+        Aperçu de quelques pages internes pour voir le style, l’organisation et le vocabulaire utilisé.
       </p>
 
       <div class="preview-layout">
@@ -758,7 +760,6 @@
                  loop
                  style="width:100%;display:block;max-height:380px;object-fit:cover;">
             <source src="Screen Recording 2025-12-05 174724.mp4" type="video/mp4">
-            متصفحك لا يدعم تشغيل الفيديو.
           </video>
         </div>
         <div class="preview-info">
@@ -791,7 +792,7 @@
     </div>
   </div>
 
-  <!-- دخول بالكود -->
+
   <div id="codeModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('codeModal')">&times;</button>
@@ -815,7 +816,7 @@
     </div>
   </div>
 
-  <!-- خيارات الدفع (تبقى للباريدي موب فقط) -->
+
   <div id="paymentChoiceModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('paymentChoiceModal')">&times;</button>
@@ -831,7 +832,7 @@
             مخصص لطلبة <b>EPAU</b>. يتم الاتفاق على مكان و وقت الدفع عبر تلغرام، ثم تستلم كودك الخاص.
           </p>
           <button class="btn btn-primary" style="margin-top:4px;"
-                  onclick="closeModal('paymentChoiceModal');requestCode('cash_epau');">
+                  onclick="closeModal('paymentChoiceModal');requestCodeOld('cash_epau');">
             طلب كود نقداً (EPAU)
           </button>
         </div>
@@ -850,7 +851,7 @@
     </div>
   </div>
 
-  <!-- نافذة الباريدي موب -->
+
   <div id="baridiModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('baridiModal')">&times;</button>
@@ -874,23 +875,17 @@
 
         <a id="telegramLink" href="#" class="telegram-link" target="_blank" rel="noopener">
           <i class="fab fa-telegram"></i>
-          @trendyplaza10 – إرسال وصل الدفع واسمك الكامل و بريدك الالكتروني اضغط على طلب كود قبل الإرسال
+          @trendyplaza10 – إرسال وصل الدفع واسمك الكامل و بريدك الالكتروني
         </a>
 
         <p id="requestStatus" style="margin-top:8px;font-size:0.8rem;color:#16a34a;display:none;">
           تم تسجيل طلب الكود، يرجى إرسال وصل الدفع عبر تلغرام لتفعيل الكود الخاص بك.
         </p>
-
-        <div style="margin-top:10px;">
-          <button class="btn btn-ghost" onclick="requestCode('baridimob')">
-            تسجيل طلب كود Baridi Mob
-          </button>
-        </div>
       </div>
     </div>
   </div>
 
-  <!-- نافذة الأدمن -->
+
   <div id="adminModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('adminModal')">&times;</button>
@@ -926,13 +921,13 @@
     </div>
   </div>
 
-  <!-- نموذج طلب الكود يرسل للشيت -->
+
   <div id="orderModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('orderModal')">&times;</button>
       <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">طلب كود Mon Carnet HA 1</h2>
       <p style="font-size:0.85rem;color:#6b7280;margin-bottom:8px;">
-        املأ البيانات التالية، وسيتم تسجيل طلبك في جدول المُلّا مباشرة.
+        املأ المعلومات بدقة ثم اختر طريقة الدفع المناسبة.
       </p>
 
       <form id="orderForm">
@@ -1058,7 +1053,7 @@
     const RIB_VALUE = "00799999004014138305";
     const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
 
-    // رابط Web App الخاص بـ Google Apps Script
+
     const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxlxPXctvwnhroIGsWHO2d_ZWsxdRmAudnn-DrLf51TY0TXnRDnh4ZRFW5xSHieImBN/exec";
 
     const firebaseConfig = {
@@ -1079,6 +1074,10 @@
 
     document.getElementById("telegramLink").href = TELEGRAM_URL;
     document.getElementById("ribText").textContent = RIB_VALUE;
+
+
+    let lastOrderData = null;
+    let baridiOrderSent = false;
 
     function openPreviewModal(){
       const modal = document.getElementById("previewModal");
@@ -1108,6 +1107,7 @@
       if(rs) rs.style.display = "none";
       document.getElementById("baridiModal").style.display = "flex";
     }
+
     function closeModal(id){
       const el = document.getElementById(id);
       el.style.display = "none";
@@ -1118,14 +1118,97 @@
       }
     }
 
-    function copyRIB(){
-      navigator.clipboard.writeText(RIB_VALUE).then(()=>{
-        alert("تم نسخ RIB بنجاح ✅");
-        window.open(TELEGRAM_URL, "_blank");
-      }).catch(()=>{
-        alert("تعذر نسخ RIB، انسخه يدوياً.");
-        window.open(TELEGRAM_URL, "_blank");
+
+    function generateRandomCode(){
+      const raw = Math.random().toString(36).substring(2,8).toUpperCase();
+      return "HA-" + raw;
+    }
+
+
+    async function registerOrderInSheetAndFirebase(order){
+      if (!SHEET_WEBAPP_URL || SHEET_WEBAPP_URL.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
+        alert("رجاءً حدّث SHEET_WEBAPP_URL برابط Web App الخاص بـ Google Sheet.");
+        throw new Error("NO_WEBAPP_URL");
+      }
+
+      const fd = new FormData();
+      fd.append("fullName", order.fullName || "");
+      fd.append("wilaya", order.wilaya || "");
+      fd.append("university", order.university || "");
+      fd.append("phone", order.phone || "");
+      fd.append("email", order.email || "");
+      fd.append("paymentType", order.paymentType || "");
+      fd.append("cashLocation", order.cashLocation || "");
+      fd.append("totalPrice", order.totalPrice || "");
+      fd.append("etat", order.etat || "Applied");
+
+      await fetch(SHEET_WEBAPP_URL, {
+        method: "POST",
+        body: fd
       });
+
+      const reqData = {
+        productId: "mon_carnet_ha1",
+        fullName: order.fullName || "",
+        wilaya: order.wilaya || "",
+        university: order.university || "",
+        phone: order.phone || "",
+        requesterEmail: order.email || "",
+        paymentMethod: order.paymentType || "",
+        cashLocation: order.cashLocation || "",
+        totalPrice: order.totalPrice || "",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        status: "pending"
+      };
+
+      await db.collection("monCarnetCodeRequests").add(reqData);
+
+      let createdCode = null;
+      if (order.paymentType === "BaridiMob" || order.paymentType === "CASH") {
+        const code = generateRandomCode();
+        const expiresAt = new Date();
+        expiresAt.setMonth(expiresAt.getMonth() + 7);
+
+        await db.collection("monCarnetCodes").add({
+          code,
+          productId:"mon_carnet_ha1",
+          ownerEmail:order.email,
+          createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+          paymentMethod:order.paymentType,
+          expiresAt:expiresAt,
+          status:"pending_payment"
+        });
+        createdCode = code;
+      }
+
+      return createdCode;
+    }
+
+    async function copyRIB(){
+
+      if (!lastOrderData || lastOrderData.paymentType !== "BaridiMob") {
+        alert("رجاءً املأ نموذج الطلب واختر الدفع Baridi Mob / البطاقة الذهبية أولاً.");
+        return;
+      }
+
+      if (!baridiOrderSent){
+        try{
+          await registerOrderInSheetAndFirebase(lastOrderData);
+          baridiOrderSent = true;
+        }catch(err){
+          console.error(err);
+          alert("وقع خطأ أثناء تسجيل الطلب، حاول مرة أخرى.");
+          return;
+        }
+      }
+
+      try{
+        await navigator.clipboard.writeText(RIB_VALUE);
+        alert("تم تسجيل طلبك ونسخ RIB بنجاح ✅\nسيتم إرسال الكود بعد تأكيد الدفع على تلغرام.");
+      }catch{
+        alert("تم تسجيل طلبك، لكن تعذر نسخ RIB تلقائياً.\nانسخه يدوياً من النافذة.");
+      }
+      window.open(TELEGRAM_URL, "_blank");
     }
 
     async function useAccessCode(){
@@ -1155,8 +1238,7 @@
           return;
         }
 
-        const docRef = snap.docs[0];
-        const data = docRef.data();
+        const data = snap.docs[0].data();
         const now = new Date();
 
         if(data.expiresAt && data.expiresAt.toDate && data.expiresAt.toDate() < now){
@@ -1181,57 +1263,9 @@
       }
     }
 
-    function generateRandomCode(){
-      const raw = Math.random().toString(36).substring(2,8).toUpperCase();
-      return "HA-" + raw;
-    }
-
-    async function requestCode(method){
-      const requestStatus = document.getElementById("requestStatus");
-      let email = prompt("أدخل بريدك الإلكتروني لاستلام الكود:","");
-      if(email === null) return;
-      email = email.trim();
-      if(!email){
-        alert("البريد الإلكتروني إجباري لطلب الكود.");
-        return;
-      }
-
-      try{
-        const baseData = {
-          productId:"mon_carnet_ha1",
-          requesterEmail: email,
-          createdAt:firebase.firestore.FieldValue.serverTimestamp(),
-          paymentMethod:method,
-          status:"pending"
-        };
-        await db.collection("monCarnetCodeRequests").add(baseData);
-
-        if(method === "cash_epau"){
-          const code = generateRandomCode();
-          const expiresAt = new Date();
-          expiresAt.setMonth(expiresAt.getMonth() + 7);
-
-          await db.collection("monCarnetCodes").add({
-            code,
-            productId:"mon_carnet_ha1",
-            ownerEmail:email,
-            createdAt:firebase.firestore.FieldValue.serverTimestamp(),
-            paymentMethod:"cash_epau",
-            expiresAt:expiresAt,
-            status:"pending_payment"
-          });
-
-          alert("تم تسجيل طلب الكود لطلبة EPAU. تواصل عبر تلغرام لإتمام التفاصيل.");
-          window.open(TELEGRAM_URL, "_blank");
-        }else if(method === "baridimob"){
-          if(requestStatus){
-            requestStatus.style.display = "block";
-          }
-        }
-      }catch(err){
-        console.error(err);
-        alert("تعذر تسجيل الطلب، حاول لاحقاً.");
-      }
+  
+    async function requestCodeOld(method){
+      alert("هذه الطريقة قديمة، استعمل نموذج الطلب الجديد من زر طلب الكود.");
     }
 
     async function loadRatings(){
@@ -1396,6 +1430,8 @@
       if (cashWrapper) cashWrapper.style.display = "none";
       const msg = document.getElementById("orderMsg");
       if (msg) msg.style.display = "none";
+      lastOrderData = null;
+      baridiOrderSent = false;
       document.getElementById("orderModal").style.display = "flex";
     }
 
@@ -1404,17 +1440,14 @@
       const previewVideo = document.getElementById("previewVideo");
       if (previewVideo) {
         let lastTime = 0;
-
         previewVideo.addEventListener("timeupdate", () => {
           if (!previewVideo.seeking) {
             lastTime = previewVideo.currentTime;
           }
         });
-
         previewVideo.addEventListener("seeking", () => {
           previewVideo.currentTime = lastTime;
         });
-
         previewVideo.addEventListener("pause", () => {
           previewVideo.play();
         });
@@ -1434,34 +1467,34 @@
         orderForm.addEventListener("submit", async (e) => {
           e.preventDefault();
 
-          if (!SHEET_WEBAPP_URL || SHEET_WEBAPP_URL.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
-            alert("رجاءً حدّث SHEET_WEBAPP_URL برابط Web App الخاص بـ Google Sheet.");
-            return;
-          }
-
           const formData = new FormData(orderForm);
           const payType = formData.get("paymentType");
 
-          // نضيف حالة ETAT = Applied من جهة السكربت
-          formData.append("etat", "Applied");
+          const obj = Object.fromEntries(formData.entries());
+          obj.paymentType = payType;
+          obj.totalPrice = "600DA";
+          obj.etat = "Applied";
 
-          try {
-            await fetch(SHEET_WEBAPP_URL, {
-              method: "POST",
-              body: formData
-            });
+          lastOrderData = obj;
 
-            const msg = document.getElementById("orderMsg");
-            if (msg) msg.style.display = "inline";
-
-            if (payType === "BaridiMob") {
-              openBaridiModal();
-            } else if (payType === "CASH") {
-              alert("تم تسجيل طلب الدفع نقداً. تواصل مع المُلا لتأكيد الموعد.");
+          if (payType === "BaridiMob") {
+            baridiOrderSent = false;
+            closeModal("orderModal");
+            openBaridiModal();
+          } else if (payType === "CASH") {
+            try{
+              await registerOrderInSheetAndFirebase(obj);
+              const msg = document.getElementById("orderMsg");
+              if (msg) msg.style.display = "inline";
+              closeModal("orderModal");
+              alert("تم تسجيل طلب الدفع نقداً، تواصل مع المُلا عبر تلغرام لتأكيد الموعد.");
+              window.open(TELEGRAM_URL, "_blank");
+            }catch(err){
+              console.error(err);
+              alert("وقع خطأ أثناء إرسال الطلب إلى الشيت، حاول مرة أخرى.");
             }
-          } catch (err) {
-            console.error(err);
-            alert("وقع خطأ أثناء إرسال الطلب إلى الشيت، حاول مرة أخرى.");
+          } else {
+            alert("الرجاء اختيار نوع الدفع.");
           }
         });
       }
