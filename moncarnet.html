@@ -603,7 +603,7 @@
 
     @media(max-width:720px){
       .header{flex-direction:column;align-items:flex-start;}
-      .header-actions{margin-inline-start:0;justify-content:flex-start;}
+      .header-actions{margin-inline_start:0;justify-content:flex-start;}
     }
 
     body.protected{
@@ -713,7 +713,7 @@
     </div>
   </main>
 
-
+  <!-- Preview Modal -->
   <div id="previewModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('previewModal')">&times;</button>
@@ -763,7 +763,7 @@
     </div>
   </div>
 
-
+  <!-- Code Modal -->
   <div id="codeModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('codeModal')">&times;</button>
@@ -787,6 +787,7 @@
     </div>
   </div>
 
+  <!-- Admin Modal -->
   <div id="adminModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('adminModal')">&times;</button>
@@ -822,7 +823,7 @@
     </div>
   </div>
 
-
+  <!-- Order Modal -->
   <div id="orderModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('orderModal')">&times;</button>
@@ -840,6 +841,7 @@
             <div class="code-label" style="margin-top:8px;">الولاية</div>
             <select name="wilaya" class="code-input" required>
               <option value="">اختر الولاية</option>
+              <!-- Liste des wilayas -->
               <option value="Adrar">Adrar</option>
               <option value="Chlef">Chlef</option>
               <option value="Laghouat">Laghouat</option>
@@ -984,7 +986,6 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-
     document.addEventListener("DOMContentLoaded", () => {
       const tgl = document.getElementById("telegramLink");
       if (tgl) tgl.href = TELEGRAM_URL;
@@ -1033,13 +1034,12 @@
       return "HA-" + raw;
     }
 
-
+    // إرسال الطلب إلى الشيت فقط
     async function registerOrderInSheetAndFirebase(order){
       if (!SHEET_WEBAPP_URL || SHEET_WEBAPP_URL.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
         alert("رجاءً حدّث SHEET_WEBAPP_URL برابط Web App الخاص بـ Google Sheet.");
         throw new Error("NO_WEBAPP_URL");
       }
-
 
       const fd = new FormData();
       fd.append("fullName", order.fullName || "");
@@ -1052,47 +1052,21 @@
       fd.append("totalPrice", order.totalPrice || "");
       fd.append("etat", order.etat || "Applied");
 
-      await fetch(SHEET_WEBAPP_URL, {
+      const res = await fetch(SHEET_WEBAPP_URL, {
         method: "POST",
         body: fd
       });
 
+      if (!res.ok) {
+        console.error("Sheet error, status:", res.status);
+        throw new Error("SHEET_ERROR");
+      }
 
-      const reqData = {
-        productId: "mon_carnet_ha1",
-        fullName: order.fullName || "",
-        wilaya: order.wilaya || "",
-        university: order.university || "",
-        phone: order.phone || "",
-        email: order.email || "",
-        paymentMethod: order.paymentType || "",
-        cashLocation: order.cashLocation || "",
-        totalPrice: order.totalPrice || "",
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        status: "pending"
-      };
-
-      await db.collection("monCarnetCodeRequests").add(reqData);
-
-
-      const code = generateRandomCode();
-      const expiresAt = new Date();
-      expiresAt.setMonth(expiresAt.getMonth() + 7);
-
-      await db.collection("monCarnetCodes").add({
-        code,
-        productId:"mon_carnet_ha1",
-        ownerEmail: order.email || null,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        paymentMethod: order.paymentType || "",
-        expiresAt: expiresAt,
-        status:"pending_payment"
-      });
-
-      return code;
+      // ماكاش كتابة في Firestore حالياً هنا
+      return true;
     }
 
-
+    // نسخ RIB + تسجيل الطلب BaridiMob
     async function copyRIB(){
       const form = document.getElementById("orderForm");
       if (!form) {
@@ -1132,7 +1106,6 @@
       try{
         await registerOrderInSheetAndFirebase(order);
 
-
         try{
           await navigator.clipboard.writeText(RIB_VALUE);
         }catch(e){
@@ -1140,8 +1113,6 @@
         }
 
         closeModal("orderModal");
-
-
         window.location.href = TELEGRAM_URL;
 
       }catch(err){
@@ -1194,7 +1165,6 @@
       }
     }
 
-    // تحميل التقييمات (إن وجدت)
     async function loadRatings(){
       try{
         const snap = await db.collection("monCarnetRatings")
@@ -1364,7 +1334,6 @@
 
     document.addEventListener("DOMContentLoaded", () => {
 
-
       const previewVideo = document.getElementById("previewVideo");
       if (previewVideo) {
         let lastTime = 0;
@@ -1417,7 +1386,6 @@
           };
 
           if (payType === "BaridiMob") {
-            // المستخدم لازم يستعمل زر "نسخ RIB و تأكيد الطلب"
             alert("للدفع عبر Baridi Mob اضغط على زر نسخ RIB و تأكيد الطلب.");
             return;
           }
@@ -1426,7 +1394,6 @@
             try{
               await registerOrderInSheetAndFirebase(order);
               closeModal("orderModal");
-              // تحويل مباشر إلى تيليغرام للتنسيق على الدفع
               window.location.href = TELEGRAM_URL;
             }catch(err){
               console.error(err);
@@ -1436,7 +1403,6 @@
         });
       }
     });
-
 
     document.addEventListener("contextmenu",e=>{e.preventDefault();});
     document.addEventListener("keydown",e=>{
