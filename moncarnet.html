@@ -603,7 +603,7 @@
 
     @media(max-width:720px){
       .header{flex-direction:column;align-items:flex-start;}
-      .header-actions{margin-inline_start:0;justify-content:flex-start;}
+      .header-actions{margin-inline-start:0;justify-content:flex-start;}
     }
 
     body.protected{
@@ -657,7 +657,7 @@
         <div class="carnet-info">
           <h1 class="carnet-title">Mon Carnet HA 1</h1>
           <p class="carnet-sub">
-            Résumé complet en français pour l’histoire de l’architecture – niveau 1ère année, avec schémas، tableaux et vocabulaire architectural ciblé.
+            Résumé complet en français pour l’histoire de l’architecture – niveau 1ère année, avec schémas, tableaux et vocabulaire architectural ciblé.
           </p>
           <span class="pill-fr">
             <i class="fas fa-language"></i> Contenu 100% en français
@@ -739,7 +739,7 @@
             • Ligne du temps des grandes périodes : préhistoire, Mésopotamie, Égypte, monde grec, empire romain, monde paléochrétien, civilisation byzantine.
           </p>
           <p>
-            • Pour chaque civilisation : matériaux de construction, systèmes porteurs, voûtes, arcs, organisation urbaine, exemples d’édifices (temples, basiliques, forums…).
+            • Pour chaque civilisation : matériaux de construction, systèmes porteurs, voûtes, arcs، organisation urbaine, exemples d’édifices (temples, basiliques, forums…).
           </p>
           <p>
             • Schémas simples, coupes, élévations et plans commentés pour fixer les idées – adaptés au niveau 1ère année.
@@ -986,6 +986,7 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // إعداد RIB ورابط التلغرام بعد تحميل الصفحة
     document.addEventListener("DOMContentLoaded", () => {
       const tgl = document.getElementById("telegramLink");
       if (tgl) tgl.href = TELEGRAM_URL;
@@ -1034,6 +1035,7 @@
       return "HA-" + raw;
     }
 
+    // تسجيل الطلب في Google Sheet + فايرباس ثم إنشاء كود
     async function registerOrderInSheetAndFirebase(order){
       if (!SHEET_WEBAPP_URL || SHEET_WEBAPP_URL.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
         alert("رجاءً حدّث SHEET_WEBAPP_URL برابط Web App الخاص بـ Google Sheet.");
@@ -1089,7 +1091,7 @@
       return code;
     }
 
-    
+    // BaridiMob: نسخ RIB + تسجيل الطلب ثم تحويل مباشرة لتيليغرام
     async function copyRIB(){
       const form = document.getElementById("orderForm");
       if (!form) {
@@ -1114,21 +1116,20 @@
         }
       }
 
- const order = {
-  fullName: fd.get("fullName"),
-  wilaya: fd.get("wilaya"),
-  university: fd.get("university"),
-  phone: fd.get("phone"),
-  email: fd.get("email"),
-  paymentType: fd.get("paymentType"),   
-  cashLocation: fd.get("cashLocation"), 
-  totalPrice: "600DA",
-  etat: "Applied"
-};
+      const order = {
+        fullName: fd.get("fullName"),
+        wilaya: fd.get("wilaya"),
+        university: fd.get("university"),
+        phone: fd.get("phone"),
+        email: fd.get("email"),
+        paymentType: fd.get("paymentType"),
+        cashLocation: fd.get("cashLocation") || "",
+        totalPrice: "600DA",
+        etat: "Applied"
+      };
 
       try{
         await registerOrderInSheetAndFirebase(order);
-
 
         try{
           await navigator.clipboard.writeText(RIB_VALUE);
@@ -1137,7 +1138,6 @@
         }
 
         closeModal("orderModal");
-
         window.location.href = TELEGRAM_URL;
 
       }catch(err){
@@ -1404,7 +1404,7 @@
             university: formData.get("university"),
             phone: formData.get("phone"),
             email: formData.get("email"),
-            paymentType: formData.get("payType"),
+            paymentType: payType,             
             cashLocation: formData.get("cashLocation") || "",
             totalPrice: "600DA",
             etat: "Applied"
@@ -1419,7 +1419,6 @@
             try{
               await registerOrderInSheetAndFirebase(order);
               closeModal("orderModal");
-
               window.location.href = TELEGRAM_URL;
             }catch(err){
               console.error(err);
@@ -1439,4 +1438,3 @@
   </script>
 </body>
 </html>
-
