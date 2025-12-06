@@ -531,33 +531,6 @@
       text-decoration:none;
     }
 
-    .payment-options-grid{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-    }
-    @media(max-width:680px){
-      .payment-options-grid{grid-template-columns:1fr;}
-    }
-    .pay-option-card{
-      border-radius:14px;
-      border:1px solid #e5e7eb;
-      background:#f9fafb;
-      padding:14px 16px;
-      font-size:0.85rem;
-      color:#374151;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-    .pay-option-card strong{
-      display:block;
-      margin-bottom:2px;
-      color:var(--secondary);
-      font-size:0.95rem;
-    }
-
     .admin-layout{
       margin-top:8px;
       display:flex;
@@ -711,11 +684,11 @@
             <div class="carnet-visual-inner">
               <!-- الغلاف -->
               <div class="carnet-cover">
-                <img src="CHA1 - 1.svg" alt="غلاف Mon Carnet HA 1">
+                <img src="CHA1 - 2.svg" alt="غلاف Mon Carnet HA 1">
               </div>
               <!-- الفهرس -->
               <div class="carnet-toc">
-                <img src="CHA1 - 2.svg" alt="فهرس Mon Carnet HA 1">
+                <img src="CHA1 - 2 (1).svg" alt="فهرس Mon Carnet HA 1">
               </div>
             </div>
           </div>
@@ -760,6 +733,7 @@
                  loop
                  style="width:100%;display:block;max-height:380px;object-fit:cover;">
             <source src="Screen Recording 2025-12-05 174724.mp4" type="video/mp4">
+     
           </video>
         </div>
         <div class="preview-info">
@@ -774,7 +748,7 @@
             • Schémas simples, coupes, élévations et plans commentés pour fixer les idées – adaptés au niveau 1ère année.
           </p>
           <ul class="preview-list">
-            <li>Tableaux comparatifs entre civilisations.</li>
+            <li>Tableaux comparatifs بين civilisations.</li>
             <li>Définitions courtes des notions clés (axe, travée, module, trame…).</li>
             <li>Vocabulaire architectural français ciblé pour les examens.</li>
           </ul>
@@ -812,75 +786,6 @@
             <button class="btn btn-primary" onclick="useAccessCode()">دخول إلى الملخص</button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div id="paymentChoiceModal" class="modal">
-    <div class="modal-inner">
-      <button class="modal-close" onclick="closeModal('paymentChoiceModal')">&times;</button>
-      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">اختيار طريقة طلب الكود</h2>
-      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">
-        اختر الطريقة المناسبة لك لطلب كود Mon Carnet HA 1.
-      </p>
-
-      <div class="payment-options-grid">
-        <div class="pay-option-card">
-          <strong>💵 طلبة EPAU – الدفع نقداً</strong>
-          <p>
-            مخصص لطلبة <b>EPAU</b>. يتم الاتفاق على مكان و وقت الدفع عبر تلغرام، ثم تستلم كودك الخاص.
-          </p>
-          <button class="btn btn-primary" style="margin-top:4px;"
-                  onclick="closeModal('paymentChoiceModal');requestCodeOld('cash_epau');">
-            طلب كود نقداً (EPAU)
-          </button>
-        </div>
-
-        <div class="pay-option-card">
-          <strong>💳 الدفع عبر Baridi Mob / البطاقة الذهبية</strong>
-          <p>
-            مخصص لجميع الطلبة من مختلف الكليات. تقوم بالتحويل عبر Baridi Mob أو البطاقة الذهبية، ثم ترسل وصل الدفع و بريدك الإلكتروني على تلغرام.
-          </p>
-          <button class="btn btn-ghost" style="margin-top:4px;"
-                  onclick="closeModal('paymentChoiceModal');openBaridiModal();">
-            متابعة الدفع بالبطاقة الذهبية
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div id="baridiModal" class="modal">
-    <div class="modal-inner">
-      <button class="modal-close" onclick="closeModal('baridiModal')">&times;</button>
-      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">الدفع عبر Baridi Mob / البطاقة الذهبية</h2>
-      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">
-        1) ادفع مبلغ <strong>600 دج</strong> إلى RIB الموضح أدناه.<br>
-        2) انسخ RIB وأتمم التحويل عبر Baridi Mob / البطاقة الذهبية.<br>
-        3) أرسل وصل الدفع مع البريد الإلكتروني إلى حساب تلغرام، وسيتم إنشاء كود خاص بك وإرساله لك.
-      </p>
-
-      <div class="payment-box">
-        <div class="pay-row">
-          <span>بيانات الدفع</span>
-          <span style="font-size:1.6rem;">💳</span>
-        </div>
-
-        <div class="rib-box">
-          <span id="ribText">00799999004014138305</span>
-          <button class="copy-btn" onclick="copyRIB()">نسخ RIB</button>
-        </div>
-
-        <a id="telegramLink" href="#" class="telegram-link" target="_blank" rel="noopener">
-          <i class="fab fa-telegram"></i>
-          @trendyplaza10 – إرسال وصل الدفع واسمك الكامل و بريدك الالكتروني
-        </a>
-
-        <p id="requestStatus" style="margin-top:8px;font-size:0.8rem;color:#16a34a;display:none;">
-          تم تسجيل طلب الكود، يرجى إرسال وصل الدفع عبر تلغرام لتفعيل الكود الخاص بك.
-        </p>
       </div>
     </div>
   </div>
@@ -1019,6 +924,7 @@
               <option value="BaridiMob">Baridi Mob / البطاقة الذهبية</option>
             </select>
 
+
             <div id="cashLocationWrapper" style="margin-top:8px;display:none;">
               <div class="code-label">مكان الدفع نقداً</div>
               <select name="cashLocation" class="code-input">
@@ -1026,6 +932,19 @@
                 <option value="DAA">DAA</option>
                 <option value="EPAU">EPAU</option>
               </select>
+            </div>
+
+  
+            <div id="baridiInfo" style="margin-top:8px;display:none;">
+              <div class="code-label">بيانات الدفع Baridi Mob / البطاقة الذهبية</div>
+              <div class="rib-box">
+                <span id="ribText">00799999004014138305</span>
+                <button type="button" class="copy-btn" onclick="copyRIB()">نسخ RIB و تأكيد الطلب</button>
+              </div>
+              <a id="telegramLink" href="#" class="telegram-link" target="_blank" rel="noopener">
+                <i class="fab fa-telegram"></i>
+                @trendyplaza10 – أرسل وصل الدفع واسمك الكامل وبريدك الإلكتروني
+              </a>
             </div>
 
             <div class="pay-row" style="margin-top:12px;">
@@ -1053,8 +972,8 @@
     const RIB_VALUE = "00799999004014138305";
     const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
 
-
-    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxlxPXctvwnhroIGsWHO2d_ZWsxdRmAudnn-DrLf51TY0TXnRDnh4ZRFW5xSHieImBN/exec";
+  
+    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzQU7AC-wFmSIh48piFhuOidYEvLH5npfDAHHo25bJqv_K7uiBI2B79U5cWYi7_Ob8h/exec";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
@@ -1072,12 +991,13 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    document.getElementById("telegramLink").href = TELEGRAM_URL;
-    document.getElementById("ribText").textContent = RIB_VALUE;
-
-
-    let lastOrderData = null;
-    let baridiOrderSent = false;
+    // إعداد روابط RIB و تلغرام
+    document.addEventListener("DOMContentLoaded", () => {
+      const tgl = document.getElementById("telegramLink");
+      if (tgl) tgl.href = TELEGRAM_URL;
+      const ribSpan = document.getElementById("ribText");
+      if (ribSpan) ribSpan.textContent = RIB_VALUE;
+    });
 
     function openPreviewModal(){
       const modal = document.getElementById("previewModal");
@@ -1097,17 +1017,6 @@
       document.getElementById("codeModal").style.display = "flex";
     }
 
-    function openPaymentChoiceModal(){
-      const rs = document.getElementById("requestStatus");
-      if(rs) rs.style.display = "none";
-      document.getElementById("paymentChoiceModal").style.display = "flex";
-    }
-    function openBaridiModal(){
-      const rs = document.getElementById("requestStatus");
-      if(rs) rs.style.display = "none";
-      document.getElementById("baridiModal").style.display = "flex";
-    }
-
     function closeModal(id){
       const el = document.getElementById(id);
       el.style.display = "none";
@@ -1118,12 +1027,18 @@
       }
     }
 
+    function goBack(){
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = "Trendyplazashop.html";
+      }
+    }
 
     function generateRandomCode(){
       const raw = Math.random().toString(36).substring(2,8).toUpperCase();
       return "HA-" + raw;
     }
-
 
     async function registerOrderInSheetAndFirebase(order){
       if (!SHEET_WEBAPP_URL || SHEET_WEBAPP_URL.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
@@ -1163,52 +1078,70 @@
 
       await db.collection("monCarnetCodeRequests").add(reqData);
 
-      let createdCode = null;
-      if (order.paymentType === "BaridiMob" || order.paymentType === "CASH") {
-        const code = generateRandomCode();
-        const expiresAt = new Date();
-        expiresAt.setMonth(expiresAt.getMonth() + 7);
+      const code = generateRandomCode();
+      const expiresAt = new Date();
+      expiresAt.setMonth(expiresAt.getMonth() + 7);
 
-        await db.collection("monCarnetCodes").add({
-          code,
-          productId:"mon_carnet_ha1",
-          ownerEmail:order.email,
-          createdAt:firebase.firestore.FieldValue.serverTimestamp(),
-          paymentMethod:order.paymentType,
-          expiresAt:expiresAt,
-          status:"pending_payment"
-        });
-        createdCode = code;
-      }
+      await db.collection("monCarnetCodes").add({
+        code,
+        productId:"mon_carnet_ha1",
+        ownerEmail:order.email,
+        createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+        paymentMethod:order.paymentType,
+        expiresAt:expiresAt,
+        status:"pending_payment"
+      });
 
-      return createdCode;
+      return code;
     }
 
+    // نسخ RIB + تسجيل الطلب BaridiMob
     async function copyRIB(){
-
-      if (!lastOrderData || lastOrderData.paymentType !== "BaridiMob") {
-        alert("رجاءً املأ نموذج الطلب واختر الدفع Baridi Mob / البطاقة الذهبية أولاً.");
+      const form = document.getElementById("orderForm");
+      if (!form) {
+        alert("افتح نموذج الطلب أولاً.");
         return;
       }
 
-      if (!baridiOrderSent){
-        try{
-          await registerOrderInSheetAndFirebase(lastOrderData);
-          baridiOrderSent = true;
-        }catch(err){
-          console.error(err);
-          alert("وقع خطأ أثناء تسجيل الطلب، حاول مرة أخرى.");
+      const fd = new FormData(form);
+      const paymentType = fd.get("paymentType");
+
+      if (paymentType !== "BaridiMob") {
+        alert("اختر Baridi Mob / البطاقة الذهبية كطريقة الدفع أولاً.");
+        return;
+      }
+
+      const requiredFields = ["fullName","wilaya","university","phone","email"];
+      for (const name of requiredFields){
+        const v = (fd.get(name) || "").toString().trim();
+        if (!v){
+          alert("الرجاء ملء جميع الحقول قبل نسخ RIB.");
           return;
         }
       }
 
+      const order = {
+        fullName: fd.get("fullName"),
+        wilaya: fd.get("wilaya"),
+        university: fd.get("university"),
+        phone: fd.get("phone"),
+        email: fd.get("email"),
+        paymentType: paymentType,
+        cashLocation: "",
+        totalPrice: "600DA",
+        etat: "Applied"
+      };
+
       try{
+        await registerOrderInSheetAndFirebase(order);
         await navigator.clipboard.writeText(RIB_VALUE);
-        alert("تم تسجيل طلبك ونسخ RIB بنجاح ✅\nسيتم إرسال الكود بعد تأكيد الدفع على تلغرام.");
-      }catch{
-        alert("تم تسجيل طلبك، لكن تعذر نسخ RIB تلقائياً.\nانسخه يدوياً من النافذة.");
+        alert("تم تسجيل طلبك ونسخ RIB بنجاح ✅\nأرسل الآن وصل الدفع على تلغرام.");
+        closeModal("orderModal");
+        window.open(TELEGRAM_URL,"_blank");
+      }catch(err){
+        console.error(err);
+        alert("وقع خطأ أثناء تسجيل الطلب، حاول مرة أخرى.");
       }
-      window.open(TELEGRAM_URL, "_blank");
     }
 
     async function useAccessCode(){
@@ -1253,19 +1186,6 @@
         codeError.textContent = "حدث خطأ غير متوقع، حاول مرة أخرى.";
         codeError.style.display = "block";
       }
-    }
-
-    function goBack(){
-      if (window.history.length > 1) {
-        window.history.back();
-      } else {
-        window.location.href = "Trendyplazashop.html";
-      }
-    }
-
-  
-    async function requestCodeOld(method){
-      alert("هذه الطريقة قديمة، استعمل نموذج الطلب الجديد من زر طلب الكود.");
     }
 
     async function loadRatings(){
@@ -1428,10 +1348,10 @@
       if (form) form.reset();
       const cashWrapper = document.getElementById("cashLocationWrapper");
       if (cashWrapper) cashWrapper.style.display = "none";
+      const baridiInfo = document.getElementById("baridiInfo");
+      if (baridiInfo) baridiInfo.style.display = "none";
       const msg = document.getElementById("orderMsg");
       if (msg) msg.style.display = "none";
-      lastOrderData = null;
-      baridiOrderSent = false;
       document.getElementById("orderModal").style.display = "flex";
     }
 
@@ -1456,9 +1376,10 @@
       const paySelect = document.getElementById("paymentTypeSelect");
       if (paySelect) {
         paySelect.addEventListener("change", () => {
-          const wrapper = document.getElementById("cashLocationWrapper");
-          if (!wrapper) return;
-          wrapper.style.display = (paySelect.value === "CASH") ? "block" : "none";
+          const cashWrapper = document.getElementById("cashLocationWrapper");
+          const baridiInfo = document.getElementById("baridiInfo");
+          if (cashWrapper) cashWrapper.style.display = (paySelect.value === "CASH") ? "block" : "none";
+          if (baridiInfo) baridiInfo.style.display = (paySelect.value === "BaridiMob") ? "block" : "none";
         });
       }
 
@@ -1470,20 +1391,31 @@
           const formData = new FormData(orderForm);
           const payType = formData.get("paymentType");
 
-          const obj = Object.fromEntries(formData.entries());
-          obj.paymentType = payType;
-          obj.totalPrice = "600DA";
-          obj.etat = "Applied";
+          if (!payType){
+            alert("الرجاء اختيار نوع الدفع.");
+            return;
+          }
 
-          lastOrderData = obj;
+          const order = {
+            fullName: formData.get("fullName"),
+            wilaya: formData.get("wilaya"),
+            university: formData.get("university"),
+            phone: formData.get("phone"),
+            email: formData.get("email"),
+            paymentType: payType,
+            cashLocation: formData.get("cashLocation") || "",
+            totalPrice: "600DA",
+            etat: "Applied"
+          };
 
           if (payType === "BaridiMob") {
-            baridiOrderSent = false;
-            closeModal("orderModal");
-            openBaridiModal();
-          } else if (payType === "CASH") {
+            alert("للدفع عبر Baridi Mob اضغط على زر نسخ RIB و تأكيد الطلب.");
+            return;
+          }
+
+          if (payType === "CASH") {
             try{
-              await registerOrderInSheetAndFirebase(obj);
+              await registerOrderInSheetAndFirebase(order);
               const msg = document.getElementById("orderMsg");
               if (msg) msg.style.display = "inline";
               closeModal("orderModal");
@@ -1493,8 +1425,6 @@
               console.error(err);
               alert("وقع خطأ أثناء إرسال الطلب إلى الشيت، حاول مرة أخرى.");
             }
-          } else {
-            alert("الرجاء اختيار نوع الدفع.");
           }
         });
       }
