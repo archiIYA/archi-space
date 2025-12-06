@@ -370,7 +370,7 @@
       overflow-y:auto;
       display:flex;
       flex-direction:column;
-      animation:modalIn 0.35s ease-out;
+      animation:modalIn 0.35s.ease-out;
     }
     @keyframes modalIn{
       from{opacity:0;transform:translateY(30px) scale(0.96);}
@@ -603,7 +603,7 @@
 
     @media(max-width:720px){
       .header{flex-direction:column;align-items:flex-start;}
-      .header-actions{margin-inline_start:0;justify-content:flex-start;}
+      .header-actions{margin-inline-start:0;justify-content:flex-start;}
     }
 
     body.protected{
@@ -691,7 +691,9 @@
             </div>
           </div>
           <div class="price-main">600 دج</div>
-          <div class="price-note"> نسخة رقمية خاصة، مخصصة للاستعمال من طرف طالب واحد، الدخول لها بكود صالح على حساب واحد مدة 7 أشهر.</div>
+          <div class="price-note">
+            نسخة رقمية خاصة، مخصصة للاستعمال من طرف طالب واحد، الدخول لها بكود صالح على حساب واحد مدة 7 أشهر.
+          </div>
         </div>
       </div>
 
@@ -713,13 +715,13 @@
     </div>
   </main>
 
-  <!-- Preview Modal -->
+
   <div id="previewModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('previewModal')">&times;</button>
       <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">Aperçu de Mon Carnet HA 1</h2>
       <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">
-        Aperçu de quelques pages internes pour voir le style، l’organisation et le vocabulaire utilisé.
+        Aperçu de quelques pages internes pour voir le style, l’organisation et le vocabulaire utilisé.
       </p>
 
       <div class="preview-layout">
@@ -736,17 +738,17 @@
         <div class="preview-info">
           <h2>Contenu du carnet</h2>
           <p>
-            • Ligne du temps des grandes périodes : préhistoire، Mésopotamie، Égypte، monde grec، empire romain، monde paléochrétien، civilisation byzantine.
+            • Ligne du temps des grandes périodes : préhistoire, Mésopotamie, Égypte, monde grec, empire romain, monde paléochrétien, civilisation byzantine.
           </p>
           <p>
-            • Pour chaque civilisation : matériaux de construction، systèmes porteurs، voûtes، arcs، organisation urbaine، exemples d’édifices (temples، basiliques، forums…).
+            • Pour chaque civilisation : matériaux de construction, systèmes porteurs, voûtes, arcs, organisation urbaine، exemples d’édifices (temples, basiliques, forums…).
           </p>
           <p>
             • Schémas simples، coupes، élévations et plans commentés pour fixer les idées – adaptés au niveau 1ère année.
           </p>
           <ul class="preview-list">
             <li>Tableaux comparatifs بين civilisations.</li>
-            <li>Définitions courtes des notions clés (axe، travée، module، trame…).</li>
+            <li>Définitions courtes des notions clés (axe, travée, module, trame…).</li>
             <li>Vocabulaire architectural français ciblé pour les examens.</li>
           </ul>
 
@@ -763,7 +765,7 @@
     </div>
   </div>
 
-  <!-- Code Modal -->
+
   <div id="codeModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('codeModal')">&times;</button>
@@ -787,7 +789,7 @@
     </div>
   </div>
 
-  <!-- Admin Modal -->
+
   <div id="adminModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('adminModal')">&times;</button>
@@ -823,7 +825,7 @@
     </div>
   </div>
 
-  <!-- Order Modal -->
+
   <div id="orderModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('orderModal')">&times;</button>
@@ -841,7 +843,6 @@
             <div class="code-label" style="margin-top:8px;">الولاية</div>
             <select name="wilaya" class="code-input" required>
               <option value="">اختر الولاية</option>
-              <!-- Liste des wilayas -->
               <option value="Adrar">Adrar</option>
               <option value="Chlef">Chlef</option>
               <option value="Laghouat">Laghouat</option>
@@ -968,7 +969,8 @@
     const RIB_VALUE = "00799999004014138305";
     const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
 
-    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxw2WdgdOOQiWtTVvmV9Gahor_wIMnqPeUX1rhFXF1kfrjc00bY4CXMwaOKhweSIrPC/exec";
+
+    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxIfoYanxrSvv9gV4Bm7ulJvToz7eWdGR3hpuCo6np-P4TBVqoa9S_qJskNkv2K_QQh/exec";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
@@ -1034,39 +1036,43 @@
       return "HA-" + raw;
     }
 
-    // إرسال الطلب إلى الشيت فقط
-    async function registerOrderInSheetAndFirebase(order){
+
+    async function registerOrderInSheet(order){
       if (!SHEET_WEBAPP_URL || SHEET_WEBAPP_URL.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
-        alert("رجاءً حدّث SHEET_WEBAPP_URL برابط Web App الخاص بـ Google Sheet.");
-        throw new Error("NO_WEBAPP_URL");
+        console.error("SHEET_WEBAPP_URL غير مضبوط.");
+        return;
       }
 
-      const fd = new FormData();
-      fd.append("fullName", order.fullName || "");
-      fd.append("wilaya", order.wilaya || "");
-      fd.append("university", order.university || "");
-      fd.append("phone", order.phone || "");
-      fd.append("email", order.email || "");
-      fd.append("paymentType", order.paymentType || "");
-      fd.append("cashLocation", order.cashLocation || "");
-      fd.append("totalPrice", order.totalPrice || "");
-      fd.append("etat", order.etat || "Applied");
+      try {
+        const fd = new FormData();
+        fd.append("fullName", order.fullName || "");
+        fd.append("wilaya", order.wilaya || "");
+        fd.append("university", order.university || "");
+        fd.append("phone", order.phone || "");
+        fd.append("email", order.email || "");
+        fd.append("paymentType", order.paymentType || "");
+        fd.append("cashLocation", order.cashLocation || "");
+        fd.append("totalPrice", order.totalPrice || "");
+        fd.append("etat", order.etat || "Applied");
 
-      const res = await fetch(SHEET_WEBAPP_URL, {
-        method: "POST",
-        body: fd
-      });
+        const res = await fetch(SHEET_WEBAPP_URL, {
+          method: "POST",
+          body: fd
+        });
 
-      if (!res.ok) {
-        console.error("Sheet error, status:", res.status);
-        throw new Error("SHEET_ERROR");
+        try {
+          const txt = await res.text();
+          console.log("Sheet response:", res.status, txt);
+        } catch(e){
+          console.log("Sheet response (no text)", res.status);
+        }
+
+      } catch (err) {
+        console.error("Sheet fetch error:", err);
       }
-
-      // ماكاش كتابة في Firestore حالياً هنا
-      return true;
     }
 
-    // نسخ RIB + تسجيل الطلب BaridiMob
+
     async function copyRIB(){
       const form = document.getElementById("orderForm");
       if (!form) {
@@ -1103,22 +1109,17 @@
         etat: "Applied"
       };
 
+
+      await registerOrderInSheet(order);
+
       try{
-        await registerOrderInSheetAndFirebase(order);
-
-        try{
-          await navigator.clipboard.writeText(RIB_VALUE);
-        }catch(e){
-          console.warn("Clipboard error:", e);
-        }
-
-        closeModal("orderModal");
-        window.location.href = TELEGRAM_URL;
-
-      }catch(err){
-        console.error(err);
-        alert("وقع خطأ أثناء تسجيل الطلب، حاول مرة أخرى.");
+        await navigator.clipboard.writeText(RIB_VALUE);
+      }catch(e){
+        console.warn("Clipboard error:", e);
       }
+
+      closeModal("orderModal");
+      window.location.href = TELEGRAM_URL;
     }
 
     async function useAccessCode(){
@@ -1391,14 +1392,9 @@
           }
 
           if (payType === "CASH") {
-            try{
-              await registerOrderInSheetAndFirebase(order);
-              closeModal("orderModal");
-              window.location.href = TELEGRAM_URL;
-            }catch(err){
-              console.error(err);
-              alert("وقع خطأ أثناء إرسال الطلب إلى الشيت، حاول مرة أخرى.");
-            }
+            await registerOrderInSheet(order);
+            closeModal("orderModal");
+            window.location.href = TELEGRAM_URL;
           }
         });
       }
