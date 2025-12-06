@@ -657,7 +657,7 @@
         <div class="carnet-info">
           <h1 class="carnet-title">Mon Carnet HA 1</h1>
           <p class="carnet-sub">
-            Résumé complet en français pour l’histoire de l’architecture – niveau 1ère année, avec schémas, tableaux et vocabulaire architectural ciblé.
+            Résumé complet en français pour l’histoire de l’architecture – niveau 1ère année, avec schémas، tableaux et vocabulaire architectural ciblé.
           </p>
           <span class="pill-fr">
             <i class="fas fa-language"></i> Contenu 100% en français
@@ -713,13 +713,13 @@
     </div>
   </main>
 
-  <!-- Preview Modal -->
+
   <div id="previewModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('previewModal')">&times;</button>
       <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">Aperçu de Mon Carnet HA 1</h2>
       <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">
-        Aperçu de quelques pages internes pour voir le style, l’organisation et le vocabulaire utilisé.
+        Aperçu de quelques pages internes pour voir le style، l’organisation et le vocabulaire utilisé.
       </p>
 
       <div class="preview-layout">
@@ -736,17 +736,17 @@
         <div class="preview-info">
           <h2>Contenu du carnet</h2>
           <p>
-            • Ligne du temps des grandes périodes : préhistoire, Mésopotamie, Égypte, monde grec, empire romain, monde paléochrétien, civilisation byzantine.
+            • Ligne du temps des grandes périodes : préhistoire، Mésopotamie، Égypte، monde grec، empire romain، monde paléochrétien، civilisation byzantine.
           </p>
           <p>
-            • Pour chaque civilisation : matériaux de construction, systèmes porteurs, voûtes, arcs، organisation urbaine, exemples d’édifices (temples, basiliques, forums…).
+            • Pour chaque civilisation : matériaux de construction، systèmes porteurs، voûtes، arcs، organisation urbaine، exemples d’édifices (temples، basiliques، forums…).
           </p>
           <p>
-            • Schémas simples, coupes, élévations et plans commentés pour fixer les idées – adaptés au niveau 1ère année.
+            • Schémas simples، coupes، élévations et plans commentés pour fixer les idées – adaptés au niveau 1ère année.
           </p>
           <ul class="preview-list">
             <li>Tableaux comparatifs بين civilisations.</li>
-            <li>Définitions courtes des notions clés (axe, travée, module, trame…).</li>
+            <li>Définitions courtes des notions clés (axe، travée، module، trame…).</li>
             <li>Vocabulaire architectural français ciblé pour les examens.</li>
           </ul>
 
@@ -763,7 +763,7 @@
     </div>
   </div>
 
-  <!-- Code Modal -->
+
   <div id="codeModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('codeModal')">&times;</button>
@@ -787,7 +787,6 @@
     </div>
   </div>
 
-  <!-- Admin Modal -->
   <div id="adminModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('adminModal')">&times;</button>
@@ -823,7 +822,7 @@
     </div>
   </div>
 
-  <!-- Order Modal -->
+
   <div id="orderModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('orderModal')">&times;</button>
@@ -841,7 +840,6 @@
             <div class="code-label" style="margin-top:8px;">الولاية</div>
             <select name="wilaya" class="code-input" required>
               <option value="">اختر الولاية</option>
-              <!-- نفس قائمة الولايات -->
               <option value="Adrar">Adrar</option>
               <option value="Chlef">Chlef</option>
               <option value="Laghouat">Laghouat</option>
@@ -986,7 +984,7 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // إعداد RIB ورابط التلغرام بعد تحميل الصفحة
+
     document.addEventListener("DOMContentLoaded", () => {
       const tgl = document.getElementById("telegramLink");
       if (tgl) tgl.href = TELEGRAM_URL;
@@ -1035,12 +1033,13 @@
       return "HA-" + raw;
     }
 
-    // تسجيل الطلب في Google Sheet + فايرباس ثم إنشاء كود
+
     async function registerOrderInSheetAndFirebase(order){
       if (!SHEET_WEBAPP_URL || SHEET_WEBAPP_URL.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
         alert("رجاءً حدّث SHEET_WEBAPP_URL برابط Web App الخاص بـ Google Sheet.");
         throw new Error("NO_WEBAPP_URL");
       }
+
 
       const fd = new FormData();
       fd.append("fullName", order.fullName || "");
@@ -1058,13 +1057,14 @@
         body: fd
       });
 
+
       const reqData = {
         productId: "mon_carnet_ha1",
         fullName: order.fullName || "",
         wilaya: order.wilaya || "",
         university: order.university || "",
         phone: order.phone || "",
-        requesterEmail: order.email || "",
+        email: order.email || "",
         paymentMethod: order.paymentType || "",
         cashLocation: order.cashLocation || "",
         totalPrice: order.totalPrice || "",
@@ -1074,6 +1074,7 @@
 
       await db.collection("monCarnetCodeRequests").add(reqData);
 
+
       const code = generateRandomCode();
       const expiresAt = new Date();
       expiresAt.setMonth(expiresAt.getMonth() + 7);
@@ -1081,17 +1082,17 @@
       await db.collection("monCarnetCodes").add({
         code,
         productId:"mon_carnet_ha1",
-        ownerEmail:order.email,
-        createdAt:firebase.firestore.FieldValue.serverTimestamp(),
-        paymentMethod:order.paymentType,
-        expiresAt:expiresAt,
+        ownerEmail: order.email || null,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        paymentMethod: order.paymentType || "",
+        expiresAt: expiresAt,
         status:"pending_payment"
       });
 
       return code;
     }
 
-    // BaridiMob: نسخ RIB + تسجيل الطلب ثم تحويل مباشرة لتيليغرام
+
     async function copyRIB(){
       const form = document.getElementById("orderForm");
       if (!form) {
@@ -1122,7 +1123,7 @@
         university: fd.get("university"),
         phone: fd.get("phone"),
         email: fd.get("email"),
-        paymentType: fd.get("paymentType"),
+        paymentType: paymentType,
         cashLocation: fd.get("cashLocation") || "",
         totalPrice: "600DA",
         etat: "Applied"
@@ -1131,6 +1132,7 @@
       try{
         await registerOrderInSheetAndFirebase(order);
 
+
         try{
           await navigator.clipboard.writeText(RIB_VALUE);
         }catch(e){
@@ -1138,6 +1140,8 @@
         }
 
         closeModal("orderModal");
+
+
         window.location.href = TELEGRAM_URL;
 
       }catch(err){
@@ -1190,6 +1194,7 @@
       }
     }
 
+    // تحميل التقييمات (إن وجدت)
     async function loadRatings(){
       try{
         const snap = await db.collection("monCarnetRatings")
@@ -1359,6 +1364,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
 
+
       const previewVideo = document.getElementById("previewVideo");
       if (previewVideo) {
         let lastTime = 0;
@@ -1404,13 +1410,14 @@
             university: formData.get("university"),
             phone: formData.get("phone"),
             email: formData.get("email"),
-            paymentType: payType,             
+            paymentType: payType,
             cashLocation: formData.get("cashLocation") || "",
             totalPrice: "600DA",
             etat: "Applied"
           };
 
           if (payType === "BaridiMob") {
+            // المستخدم لازم يستعمل زر "نسخ RIB و تأكيد الطلب"
             alert("للدفع عبر Baridi Mob اضغط على زر نسخ RIB و تأكيد الطلب.");
             return;
           }
@@ -1419,6 +1426,7 @@
             try{
               await registerOrderInSheetAndFirebase(order);
               closeModal("orderModal");
+              // تحويل مباشر إلى تيليغرام للتنسيق على الدفع
               window.location.href = TELEGRAM_URL;
             }catch(err){
               console.error(err);
@@ -1428,6 +1436,7 @@
         });
       }
     });
+
 
     document.addEventListener("contextmenu",e=>{e.preventDefault();});
     document.addEventListener("keydown",e=>{
