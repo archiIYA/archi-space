@@ -1,937 +1,938 @@
-<!DOCTYPE html>  
-<html lang="fr" dir="rtl">  
-<head>  
-  <meta charset="utf-8" />  
-  <meta name="viewport" content="width=device-width,initial-scale=1" />  
-  <title>Mon Carnet</title>  
-  
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>  
-  
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>  
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>  
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>  
-  
-  <style>  
-    :root{  
-      --primary:#d62222;  
-      --secondary:#9d0b0b;  
-      --accent:#ff7b54;  
-      --bg:#fff5f5;  
-      --card:#ffffff;  
-      --dark:#330000;  
-      --muted:#6b7280;  
-      --gold:#ffd700;  
-      --shadow:0 18px 40px rgba(214,34,34,0.18);  
-      --radius:20px;  
-    }  
-  
-    *{box-sizing:border-box;margin:0;padding:0;}  
-  
-    body{  
-      font-family:'Cairo',system-ui,Arial,sans-serif;  
-      min-height:100vh;  
-      background:radial-gradient(circle at top,#ffe0e0 0%,#fff5f5 40%,#ffecec 100%);  
-      color:var(--dark);  
-      padding:0 16px 40px;  
-      overflow-x:hidden;  
-    }  
-  
-    .bg-orbs{  
-      position:fixed;  
-      inset:0;  
-      overflow:hidden;  
-      z-index:-1;  
-      pointer-events:none;  
-    }  
-    .orb{  
-      position:absolute;  
-      border-radius:999px;  
-      filter:blur(60px);  
-      opacity:0.32;  
-      animation:float 14s infinite alternate ease-in-out;  
-    }  
-    .orb.red{  
-      width:380px;height:380px;  
-      background:radial-gradient(circle,#f97373,#7f1d1d);  
-      top:-120px;right:-120px;  
-    }  
-    .orb.gold{  
-      width:300px;height:300px;  
-      background:radial-gradient(circle,#facc15,#f97316);  
-      bottom:-100px;left:-80px;  
-      animation-delay:2s;  
-    }  
-    @keyframes float{  
-      0%{transform:translate3d(0,0,0) scale(1);}  
-      100%{transform:translate3d(-35px,30px,0) scale(1.05);}  
-    }  
-  
-    .header{  
-      margin-top:18px;  
-      background:linear-gradient(135deg,var(--primary),var(--secondary));  
-      border-radius:24px;  
-      padding:14px 20px 18px;  
-      box-shadow:0 14px 32px rgba(157,11,11,0.35);  
-      display:flex;  
-      align-items:center;  
-      gap:14px;  
-      color:#fff;  
-      position:relative;  
-      overflow:hidden;  
-      flex-wrap:wrap;  
-    }  
-    .header::after{  
-      content:'';  
-      position:absolute;  
-      inset:0;  
-      background:radial-gradient(circle at top left,rgba(255,255,255,0.18),transparent 60%);  
-      mix-blend-mode:screen;  
-    }  
-    .header-logo{  
-      flex-shrink:0;  
-      width:70px;height:70px;  
-      border-radius:50%;  
-      background:#fff url('https://raw.githubusercontent.com/archiIYA/archi-space/main/IMG_2132.PNG') center/contain no-repeat;  
-      box-shadow:0 10px 20px rgba(0,0,0,0.4);  
-      border:3px solid var(--gold);  
-      position:relative;  
-      z-index:1;  
-    }  
-    .header-text{  
-      z-index:1;  
-      min-width:200px;  
-      flex:1;  
-    }  
-    .header-title{  
-      font-size:1.4rem;  
-      font-weight:700;  
-      margin-bottom:2px;  
-    }  
-    .header-sub{  
-      font-size:0.9rem;  
-      opacity:0.9;  
-    }  
-    .header-note{  
-      font-size:0.75rem;  
-      opacity:0.9;  
-      margin-top:4px;  
-    }  
-    .header-actions{  
-      margin-inline-start:auto;  
-      display:flex;  
-      flex-wrap:wrap;  
-      gap:8px;  
-      z-index:1;  
-      justify-content:flex-end;  
-    }  
-    .btn{  
-      border:none;  
-      border-radius:999px;  
-      padding:8px 16px;  
-      font-size:0.9rem;  
-      font-weight:600;  
-      cursor:pointer;  
-      background:#fff;  
-      color:var(--primary);  
-      display:inline-flex;  
-      align-items:center;  
-      gap:6px;  
-      box-shadow:0 6px 16px rgba(0,0,0,0.18);  
-      transition:transform 0.2s,box-shadow 0.2s,background 0.2s,color 0.2s;  
-      text-decoration:none;  
-      white-space:nowrap;  
-    }  
-    .btn:hover{  
-      transform:translateY(-2px);  
-      box-shadow:0 10px 24px rgba(0,0,0,0.22);  
-      background:var(--gold);  
-      color:var(--dark);  
-    }  
-    .btn-admin{  
-      display:none;  
-      background:rgba(255,255,255,0.12);  
-      color:#fff;  
-      border:1px solid rgba(255,255,255,0.5);  
-      box-shadow:none;  
-    }  
-    .btn-admin:hover{  
-      background:#fff;  
-      color:var(--primary);  
-      box-shadow:0 8px 20px rgba(0,0,0,0.25);  
-    }  
-  
-    .page{  
-      max-width:1000px;  
-      margin:26px auto 0;  
-    }  
-  
-    .carnet-card{  
-      background:var(--card);  
-      border-radius:var(--radius);  
-      box-shadow:var(--shadow);  
-      padding:22px 22px 20px;  
-      border:1px solid rgba(214,34,34,0.25);  
-      position:relative;  
-      overflow:hidden;  
-      animation:cardIn 0.7s ease-out;  
-    }  
-    @keyframes cardIn{  
-      from{opacity:0;transform:translateY(20px) scale(0.98);}  
-      to{opacity:1;transform:translateY(0) scale(1);}  
-    }  
-    .carnet-card::before{  
-      content:'';  
-      position:absolute;  
-      top:0;left:0;right:0;  
-      height:4px;  
-      background:linear-gradient(90deg,var(--primary),var(--accent),var(--gold));  
-    }  
-  
-    .carnet-top{  
-      display:grid;  
-      grid-template-columns:minmax(0,1.4fr) minmax(0,1.1fr);  
-      gap:18px;  
-      margin-bottom:14px;  
-      position:relative;  
-    }  
-    @media(max-width:820px){  
-      .carnet-top{  
-        grid-template-columns:1fr;  
-      }  
-    }  
-    .badge-new{  
-      position:absolute;  
-      top:-8px;left:0;  
-      background:var(--gold);  
-      color:var(--dark);  
-      padding:4px 10px;  
-      border-radius:999px;  
-      font-size:0.75rem;  
-      font-weight:700;  
-      box-shadow:0 6px 16px rgba(0,0,0,0.2);  
-      animation:pulse 1.8s infinite;  
-    }  
-    @keyframes pulse{  
-      0%{transform:scale(1);}  
-      50%{transform:scale(1.06);}  
-      100%{transform:scale(1);}  
-    }  
-  
-    .carnet-info{flex:1;}  
-    .carnet-title{  
-      font-size:1.3rem;  
-      font-weight:700;  
-      margin-bottom:4px;  
-    }  
-    .carnet-sub{  
-      font-size:0.9rem;  
-      color:var(--muted);  
-      margin-bottom:6px;  
-    }  
-    .pill-fr{  
-      display:inline-flex;  
-      align-items:center;  
-      gap:6px;  
-      padding:3px 10px;  
-      border-radius:999px;  
-      font-size:0.8rem;  
-      background:#fff5f5;  
-      border:1px solid rgba(214,34,34,0.35);  
-      color:var(--primary);  
-      margin-bottom:6px;  
-    }  
-  
-    .carnet-meta{  
-      display:flex;  
-      flex-wrap:wrap;  
-      gap:8px;  
-      font-size:0.8rem;  
-      margin-top:6px;  
-    }  
-    .meta-chip{  
-      padding:6px 10px;  
-      border-radius:999px;  
-      background:#fff5f5;  
-      border:1px dashed rgba(214,34,34,0.4);  
-    }  
-  
-    .rating-row{  
-      margin-top:10px;  
-      display:flex;  
-      align-items:center;  
-      gap:6px;  
-      flex-wrap:wrap;  
-      font-size:0.85rem;  
-    }  
-    .rating-stars{  
-      color:#f59e0b;  
-      font-size:1rem;  
-    }  
-    .rating-text{  
-      color:#6b7280;  
-    }  
-  
-    .carnet-visual{  
-      position:relative;  
-      border-radius:16px;  
-      overflow:hidden;  
-      background:#f9fafb;  
-      border:1px dashed rgba(214,34,34,0.35);  
-      min-height:140px;  
-      display:flex;  
-      align-items:center;  
-      justify-content:center;  
-      padding:8px;  
-    }  
-    .carnet-visual-inner{  
-      width:100%;  
-      height:100%;  
-      display:flex;  
-      gap:8px;  
-      align-items:center;  
-      justify-content:center;  
-    }  
-    .carnet-cover,  
-    .carnet-toc{  
-      flex:1;  
-      min-height:120px;  
-      border-radius:12px;  
-      background:#e5e7eb;  
-      display:flex;  
-      align-items:center;  
-      justify-content:center;  
-      font-size:0.85rem;  
-      color:#6b7280;  
-    }  
-    .carnet-cover img,  
-    .carnet-toc img{  
-      width:100%;  
-      height:100%;  
-      object-fit:cover;  
-      border-radius:12px;  
-      display:block;  
-    }  
-  
-    .price-main{  
-      font-size:1.4rem;  
-      font-weight:800;  
-      color:var(--secondary);  
-      margin-top:10px;  
-      text-align:left;  
-    }  
-    .price-note{  
-      font-size:0.8rem;  
-      color:var(--muted);  
-      text-align:left;  
-    }  
-  
-    .carnet-actions{  
-      margin-top:16px;  
-      display:flex;  
-      flex-wrap:wrap;  
-      gap:10px;  
-    }  
-    .btn-primary{  
-      background:linear-gradient(135deg,var(--primary),var(--secondary));  
-      color:#fff;  
-      box-shadow:0 10px 26px rgba(214,34,34,0.5);  
-    }  
-    .btn-primary:hover{  
-      background:linear-gradient(135deg,var(--secondary),var(--primary));  
-      color:#fff;  
-    }  
-    .btn-ghost{  
-      background:#fff;  
-      color:var(--primary);  
-      border:1px solid rgba(214,34,34,0.5);  
-      box-shadow:0 4px 14px rgba(214,34,34,0.15);  
-    }  
-  
-    .modal{  
-      position:fixed;  
-      inset:0;  
-      background:rgba(0,0,0,0.75);  
-      display:none;  
-      justify-content:center;  
-      align-items:center;  
-      z-index:9999;  
-      padding:10px;  
-    }  
-    .modal-inner{  
-      width:100%;  
-      max-width:860px;  
-      max-height:90vh;  
-      background:#ffffff;  
-      border-radius:22px;  
-      box-shadow:0 20px 50px rgba(0,0,0,0.5);  
-      padding:20px 20px 18px;  
-      position:relative;  
-      overflow-y:auto;  
-      display:flex;  
-      flex-direction:column;  
-      animation:modalIn 0.35s ease-out;  
-    }  
-    @keyframes modalIn{  
-      from{opacity:0;transform:translateY(30px) scale(0.96);}  
-      to{opacity:1;transform:translateY(0) scale(1);}  
-    }  
-    .modal-close{  
-      position:absolute;  
-      top:10px;  
-      left:14px;  
-      width:32px;height:32px;  
-      border-radius:50%;  
-      border:none;  
-      background:#fee2e2;  
-      color:var(--primary);  
-      font-size:1.1rem;  
-      cursor:pointer;  
-      display:flex;  
-      align-items:center;  
-      justify-content:center;  
-      z-index:10;  
-    }  
-  
-    .preview-layout{  
-      display:grid;  
-      grid-template-columns:1.1fr 0.9fr;  
-      gap:18px;  
-      margin-top:10px;  
-    }  
-    @media(max-width:860px){  
-      .preview-layout{grid-template-columns:1fr;}  
-    }  
-    .preview-media{  
-      position:relative;  
-      border-radius:18px;  
-      overflow:hidden;  
-      box-shadow:0 10px 26px rgba(0,0,0,0.25);  
-      background:#000;  
-    }  
-  
-    .preview-info h2{  
-      font-size:1.2rem;  
-      margin-bottom:6px;  
-      color:var(--secondary);  
-    }  
-    .preview-info p{  
-      font-size:0.9rem;  
-      color:#4b5563;  
-      margin-bottom:8px;  
-      line-height:1.5;  
-    }  
-    .preview-list{  
-      margin-top:8px;  
-      padding-left:1.2rem;  
-      font-size:0.9rem;  
-      color:#374151;  
-    }  
-    .preview-actions{  
-      margin-top:12px;  
-      display:flex;  
-      flex-wrap:wrap;  
-      gap:10px;  
-    }  
-  
-    .code-layout{  
-      margin-top:8px;  
-      display:grid;  
-      grid-template-columns:1fr;  
-      gap:18px;  
-    }  
-  
-    .code-box{  
-      border-radius:16px;  
-      border:1px solid rgba(214,34,34,0.35);  
-      background:#fff5f5;  
-      padding:14px 16px;  
-    }  
-    .code-box h3{  
-      font-size:1rem;  
-      margin-bottom:6px;  
-      color:var(--secondary);  
-    }  
-    .code-label{  
-      font-size:0.85rem;  
-      margin-bottom:4px;  
-      color:#4b5563;  
-    }  
-    .code-input{  
-      width:100%;  
-      padding:10px 12px;  
-      border-radius:10px;  
-      border:1px solid #e5e7eb;  
-      font-family:inherit;  
-      font-size:0.95rem;  
-      direction:ltr;  
-    }  
-    .code-help{  
-      margin-top:6px;  
-      font-size:0.8rem;  
-      color:#6b7280;  
-    }  
-    .code-error{  
-      margin-top:6px;  
-      font-size:0.8rem;  
-      color:#b91c1c;  
-      display:none;  
-    }  
-  
-    .payment-box{  
-      border-radius:16px;  
-      border:1px solid rgba(214,34,34,0.35);  
-      background:#ffffff;  
-      padding:14px 16px;  
-    }  
-    .payment-box h3{  
-      font-size:1rem;  
-      margin-bottom:8px;  
-      color:var(--secondary);  
-    }  
-    .pay-row{  
-      display:flex;  
-      align-items:center;  
-      justify-content:space-between;  
-      gap:8px;  
-      margin-top:8px;  
-      font-size:0.9rem;  
-    }  
-    .rib-box{  
-      margin-top:6px;  
-      padding:8px 10px;  
-      border-radius:10px;  
-      background:#f9fafb;  
-      border:1px dashed rgba(148,163,184,0.7);  
-      font-size:0.85rem;  
-      display:flex;  
-      justify-content:space-between;  
-      align-items:center;  
-      direction:ltr;  
-      gap:8px;  
-      flex-wrap:wrap;  
-    }  
-    .copy-btn{  
-      border:none;  
-      border-radius:999px;  
-      padding:6px 10px;  
-      font-size:0.8rem;  
-      cursor:pointer;  
-      background:var(--primary);  
-      color:#fff;  
-      white-space:nowrap;  
-    }  
-    .telegram-link{  
-      margin-top:10px;  
-      display:inline-flex;  
-      align-items:center;  
-      gap:6px;  
-      font-size:0.9rem;  
-      color:#0f766e;  
-      text-decoration:none;  
-    }  
-  
-    .payment-options-grid{  
-      margin-top:14px;  
-      display:grid;  
-      grid-template-columns:1fr 1fr;  
-      gap:14px;  
-    }  
-    @media(max-width:680px){  
-      .payment-options-grid{grid-template-columns:1fr;}  
-    }  
-    .pay-option-card{  
-      border-radius:14px;  
-      border:1px solid #e5e7eb;  
-      background:#f9fafb;  
-      padding:14px 16px;  
-      font-size:0.85rem;  
-      color:#374151;  
-      display:flex;  
-      flex-direction:column;  
-      gap:8px;  
-    }  
-    .pay-option-card strong{  
-      display:block;  
-      margin-bottom:2px;  
-      color:var(--secondary);  
-      font-size:0.95rem;  
-    }  
-  
-    .admin-layout{  
-      margin-top:8px;  
-      display:flex;  
-      flex-direction:column;  
-      gap:10px;  
-    }  
-    .admin-search{  
-      display:flex;  
-      gap:8px;  
-      align-items:center;  
-      flex-wrap:wrap;  
-    }  
-    .admin-search input{  
-      flex:1;  
-      min-width:180px;  
-      padding:8px 10px;  
-      border-radius:999px;  
-      border:1px solid #e5e7eb;  
-      font-size:0.9rem;  
-      direction:ltr;  
-    }  
-    .admin-list{  
-      margin-top:6px;  
-      max-height:340px;  
-      overflow:auto;  
-      border-radius:14px;  
-      border:1px solid #e5e7eb;  
-    }  
-    .admin-table{  
-      width:100%;  
-      border-collapse:collapse;  
-      font-size:0.8rem;  
-    }  
-    .admin-table thead{  
-      background:#f9fafb;  
-      position:sticky;  
-      top:0;  
-      z-index:1;  
-    }  
-    .admin-table th,  
-    .admin-table td{  
-      padding:6px 8px;  
-      border-bottom:1px solid #f1f5f9;  
-      text-align:left;  
-      direction:ltr;  
-    }  
-    .token-badge{  
-      font-family:monospace;  
-      background:#fee2e2;  
-      padding:2px 6px;  
-      border-radius:6px;  
-    }  
-    .btn-mini{  
-      border:none;  
-      border-radius:999px;  
-      padding:4px 8px;  
-      font-size:0.75rem;  
-      cursor:pointer;  
-      background:#f97316;  
-      color:#fff;  
-    }  
-  
-    .footer-note{  
-      margin-top:18px;  
-      font-size:0.8rem;  
-      color:#6b7280;  
-      text-align:center;  
-      line-height:1.5;  
-    }  
-  
-    @media(max-width:720px){  
-      .header{flex-direction:column;align-items:flex-start;}  
-      .header-actions{margin-inline-start:0;justify-content:flex-start;}  
-    }  
-  
-    body.protected{  
-      -webkit-user-select:none;  
-      -moz-user-select:none;  
-      -ms-user-select:none;  
-      user-select:none;  
-    }  
-  </style>  
-</head>  
-<body class="protected">  
-  <div class="bg-orbs">  
-    <div class="orb red"></div>  
-    <div class="orb gold"></div>  
-  </div>  
-  
-  <header class="header">  
-    <div class="header-logo"></div>  
-    <div class="header-text">  
-      <div class="header-title">Mon Carnet</div>  
-      <div class="header-sub">  
-        Résumés architecturaux organisés pour les étudiants d’architecture.  
-      </div>  
-      <div class="header-note">  
-        التسجيل في المنصة يمنحكم امتيازات إضافية ومحتوى معماري خاص بطلاب الهندسة المعمارية.  
-      </div>  
-    </div>  
-    <div class="header-actions">  
-      <button class="btn" onclick="goBack()">  
-        <i class="fas fa-arrow-right"></i> رجوع  
-      </button>  
-      <a href="login.html" class="btn">  
-        <i class="fas fa-user-plus"></i> تسجيل في المنصة  
-      </a>  
-      <a href="Trendyplazashop.html" class="btn">  
-        <i class="fas fa-store"></i>  
-        المتجر  
-      </a>  
-      <button id="adminBtn" class="btn btn-admin">  
-        <i class="fas fa-user-shield"></i>  
-        Admin  
-      </button>  
-    </div>  
-  </header>  
-  
-  <main class="page">  
-    <section class="carnet-card">  
-      <div class="badge-new">Nouveau 2025</div>  
-  
-      <div class="carnet-top">  
-        <div class="carnet-info">  
-          <h1 class="carnet-title">Mon Carnet HA 1</h1>  
-          <p class="carnet-sub">  
-            Résumé complet en français pour l’histoire de l’architecture – niveau 1ère année, avec schémas, tableaux et vocabulaire architectural ciblé.  
-          </p>  
-          <span class="pill-fr">  
-            <i class="fas fa-language"></i> Contenu 100% en français  
-          </span>  
-  
-          <div class="carnet-meta">  
-            <div class="meta-chip">📚 De la préhistoire à la civilisation byzantine</div>  
-            <div class="meta-chip">🏛 Matériaux, systèmes porteurs, urbanisme, monuments clés</div>  
-            <div class="meta-chip">📘 Glossaire architectural des principaux termes</div>  
-          </div>  
-  
-          <div class="rating-row">  
-            <div class="rating-stars">★ ★ ★ ★ ★</div>  
-            <div class="rating-text">  
-              التقييم:  
-              <span id="ratingAverage">5.0</span>/5  
-              (<span id="ratingCount">0</span> تقييم)  
-            </div>  
-          </div>  
-        </div>  
-  
-        <div>  
-          <div class="carnet-visual">  
-            <div class="carnet-visual-inner">  
-              <div class="carnet-cover">  
-                <img src="CHA1 - 2 (1).svg" alt="غلاف Mon Carnet HA 1">  
-              </div>  
-              <div class="carnet-toc">  
-                <img src="CHA1 - 2.svg" alt="فهرس Mon Carnet HA 1">  
-              </div>  
-            </div>  
-          </div>  
-          <div class="price-main">600 دج</div>  
-          <div class="price-note"> نسخة رقمية خاصة، مخصصة للاستعمال من طرف طالب واحد الدخول لها بكود صالح على حساب واحد مدة 7 اشهر.</div>  
-        </div>  
-      </div>  
-  
-      <div class="carnet-actions">  
-        <button class="btn btn-primary" onclick="openCodeModal()">  
-          🔑 دخول بالكود  
-        </button>  
-        <button class="btn btn-ghost" onclick="openPreviewModal()">  
-          👀 معاينة سريعة  
-        </button>  
-        <button class="btn btn-ghost" onclick="openOrderModal()">  
-          🛒 طلب الكود / شراء  
-        </button>  
-      </div>  
-    </section>  
-  
-    <div class="footer-note">  
-      هذا العمل اجتهاد شخصي، فإن أصبت فمن الله، وإن أخطأت فمن نفسي. لا تنسونا من صالح الدعاء.  
-    </div>  
-  </main>  
-  
-  
-  <div id="previewModal" class="modal">  
-    <div class="modal-inner">  
-      <button class="modal-close" onclick="closeModal('previewModal')">&times;</button>  
-      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">Aperçu de Mon Carnet HA 1</h2>  
-      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">  
-        Aperçu de quelques pages internes pour voir le style, l’organisation et le vocabulaire utilisé.  
-      </p>  
-  
-      <div class="preview-layout">  
-        <div class="preview-media">  
-          <video id="previewVideo"  
-                 autoplay  
-                 muted  
-                 playsinline  
-                 loop  
-                 style="width:100%;display:block;max-height:380px;object-fit:cover;">  
-            <source src="Screen Recording 2025-12-05 174724.mp4" type="video/mp4">  
-            متصفحك لا يدعم تشغيل الفيديو.  
-          </video>  
-        </div>  
-        <div class="preview-info">  
-          <h2>Contenu du carnet</h2>  
-          <p>  
-            • Ligne du temps des grandes périodes : préhistoire, Mésopotamie, Égypte, monde grec, empire romain, monde paléochrétien, civilisation byzantine.  
-          </p>  
-          <p>  
-            • Pour chaque civilisation : matériaux de construction, systèmes porteurs, voûtes, arcs, organisation urbaine, exemples d’édifices (temples, basiliques, forums…).  
-          </p>  
-          <p>  
-            • Schémas simples, coupes, élévations et plans commentés pour fixer les idées – adaptés au niveau 1ère année.  
-          </p>  
-          <ul class="preview-list">  
-            <li>Tableaux comparatifs entre civilisations.</li>  
-            <li>Définitions courtes des notions clés (axe, travée, module, trame…).</li>  
-            <li>Vocabulaire architectural français ciblé pour les examens.</li>  
-          </ul>  
-  
-          <div class="preview-actions">  
-            <button class="btn btn-primary" onclick="openCodeModal();closeModal('previewModal')">  
-              🔑 الدخول عبر كود  
-            </button>  
-            <button class="btn btn-ghost" onclick="closeModal('previewModal')">  
-              إغلاق  
-            </button>  
-          </div>  
-        </div>  
-      </div>  
-    </div>  
-  </div>  
-  
+<!DOCTYPE html>
+<html lang="fr" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mon Carnet</title>
 
-  <div id="codeModal" class="modal">  
-    <div class="modal-inner">  
-      <button class="modal-close" onclick="closeModal('codeModal')">&times;</button>  
-      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">دخول إلى Mon Carnet HA 1</h2>  
-      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">  
-        أدخل الكود الخاص بك للوصول إلى رابط Mon Carnet HA.  
-      </p>  
-  
-      <div class="code-layout">  
-        <div class="code-box">  
-          <h3>🔑 أدخل الكود الخاص بحسابك</h3>  
-          <div class="code-label">Code d’accès :</div>  
-          <input id="accessCodeInput" class="code-input" type="text" placeholder="ex : HA-4F7K9Q" />  
-          <div class="code-help">بعد الدفع، يصلك هذا الكود من إدارة Trendy Plaza.</div>  
-          <div id="codeError" class="code-error"></div>  
-          <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">  
-            <button class="btn btn-primary" onclick="useAccessCode()">دخول إلى الملخص</button>  
-          </div>  
-        </div>  
-      </div>  
-    </div>  
-  </div>  
-  
-  
-  <div id="paymentChoiceModal" class="modal">  
-    <div class="modal-inner">  
-      <button class="modal-close" onclick="closeModal('paymentChoiceModal')">&times;</button>  
-      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">اختيار طريقة طلب الكود</h2>  
-      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">  
-        اختر الطريقة المناسبة لك لطلب كود Mon Carnet HA 1.  
-      </p>  
-  
-      <div class="payment-options-grid">  
-        <div class="pay-option-card">  
-          <strong>💵 طلبة EPAU – الدفع نقداً</strong>  
-          <p>  
-            مخصص لطلبة <b>EPAU</b>. يتم الاتفاق على مكان و وقت الدفع عبر تلغرام، ثم تستلم كودك الخاص.  
-          </p>  
-          <button class="btn btn-primary" style="margin-top:4px;"  
-                  onclick="closeModal('paymentChoiceModal');requestCode('cash_epau');">  
-            طلب كود نقداً (EPAU)  
-          </button>  
-        </div>  
-  
-        <div class="pay-option-card">  
-          <strong>💳 الدفع عبر Baridi Mob / البطاقة الذهبية</strong>  
-          <p>  
-            مخصص لجميع الطلبة من مختلف الكليات. تقوم بالتحويل عبر Baridi Mob أو البطاقة الذهبية، ثم ترسل وصل الدفع و بريدك الإلكتروني على تلغرام.  
-          </p>  
-          <button class="btn btn-ghost" style="margin-top:4px;"  
-                  onclick="closeModal('paymentChoiceModal');openBaridiModal();">  
-            متابعة الدفع بالبطاقة الذهبية  
-          </button>  
-        </div>  
-      </div>  
-    </div>  
-  </div>  
-  
-   
-  <div id="baridiModal" class="modal">  
-    <div class="modal-inner">  
-      <button class="modal-close" onclick="closeModal('baridiModal')">&times;</button>  
-      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">الدفع عبر Baridi Mob / البطاقة الذهبية</h2>  
-      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">  
-        1) ادفع مبلغ <strong>600 دج</strong> إلى RIB الموضح أدناه.<br>  
-        2) انسخ RIB وأتمم التحويل عبر Baridi Mob / البطاقة الذهبية.<br>  
-        3) أرسل وصل الدفع مع البريد الإلكتروني إلى حساب تلغرام، وسيتم إنشاء كود خاص بك وإرساله لك.  
-      </p>  
-  
-      <div class="payment-box">  
-        <div class="pay-row">  
-          <span>بيانات الدفع</span>  
-          <span style="font-size:1.6rem;">💳</span>  
-        </div>  
-  
-        <div class="rib-box">  
-          <span id="ribText">00799999004014138305</span>  
-          <button class="copy-btn" onclick="copyRIB()">نسخ RIB</button>  
-        </div>  
-  
-        <a id="telegramLink" href="#" class="telegram-link" target="_blank" rel="noopener">  
-          <i class="fab fa-telegram"></i>  
-          @trendyplaza10 – إرسال وصل الدفع واسمك الكامل و بريدك الالكتروني اضغط على طلب كود قبل الإرسال   
-        </a>  
-  
-        <p id="requestStatus" style="margin-top:8px;font-size:0.8rem;color:#16a34a;display:none;">  
-          تم تسجيل طلب الكود، يرجى إرسال وصل الدفع عبر تلغرام لتفعيل الكود الخاص بك.  
-        </p>  
-  
-        <div style="margin-top:10px;">  
-          <button class="btn btn-ghost" onclick="requestCode('baridimob')">  
-            تسجيل طلب كود Baridi Mob  
-          </button>  
-        </div>  
-      </div>  
-    </div>  
-  </div>  
-  
-  
-  <div id="adminModal" class="modal">  
-    <div class="modal-inner">  
-      <button class="modal-close" onclick="closeModal('adminModal')">&times;</button>  
-      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:6px;">Admin – Mon Carnet Codes</h2>  
-      <p style="font-size:0.8rem;color:#6b7280;margin-bottom:4px;">  
-        إدارة الأكواد الخاصة بـ Mon Carnet HA 1.  
-      </p>  
-      <div id="adminStats" style="font-size:0.8rem;color:#4b5563;margin-bottom:8px;"></div>  
-  
-      <div class="admin-layout">  
-        <div class="admin-search">  
-          <input id="adminSearchEmail" type="email" placeholder="بحث حسب email (اختياري)" />  
-          <button class="btn-mini" onclick="loadCodes()">تحديث القائمة</button>  
-          <button class="btn-mini" onclick="openCreateCodePrompt()">+ إنشاء كود جديد</button>  
-        </div>  
-  
-        <div class="admin-list">  
-          <table class="admin-table">  
-            <thead>  
-              <tr>  
-                <th>Code</th>  
-                <th>Produit</th>  
-                <th>Email lié</th>  
-                <th>Expire le</th>  
-                <th></th>  
-              </tr>  
-            </thead>  
-            <tbody id="codesTableBody">  
-            </tbody>  
-          </table>  
-        </div>  
-      </div>  
-    </div>  
-  </div>  
-  
-  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root{
+      --primary:#d62222;
+      --secondary:#9d0b0b;
+      --accent:#ff7b54;
+      --bg:#fff5f5;
+      --card:#ffffff;
+      --dark:#330000;
+      --muted:#6b7280;
+      --gold:#ffd700;
+      --shadow:0 18px 40px rgba(214,34,34,0.18);
+      --radius:20px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;}
+
+    body{
+      font-family:'Cairo',system-ui,Arial,sans-serif;
+      min-height:100vh;
+      background:radial-gradient(circle at top,#ffe0e0 0%,#fff5f5 40%,#ffecec 100%);
+      color:var(--dark);
+      padding:0 16px 40px;
+      overflow-x:hidden;
+    }
+
+    .bg-orbs{
+      position:fixed;
+      inset:0;
+      overflow:hidden;
+      z-index:-1;
+      pointer-events:none;
+    }
+    .orb{
+      position:absolute;
+      border-radius:999px;
+      filter:blur(60px);
+      opacity:0.32;
+      animation:float 14s infinite alternate ease-in-out;
+    }
+    .orb.red{
+      width:380px;height:380px;
+      background:radial-gradient(circle,#f97373,#7f1d1d);
+      top:-120px;right:-120px;
+    }
+    .orb.gold{
+      width:300px;height:300px;
+      background:radial-gradient(circle,#facc15,#f97316);
+      bottom:-100px;left:-80px;
+      animation-delay:2s;
+    }
+    @keyframes float{
+      0%{transform:translate3d(0,0,0) scale(1);}
+      100%{transform:translate3d(-35px,30px,0) scale(1.05);}
+    }
+
+    .header{
+      margin-top:18px;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      border-radius:24px;
+      padding:14px 20px 18px;
+      box-shadow:0 14px 32px rgba(157,11,11,0.35);
+      display:flex;
+      align-items:center;
+      gap:14px;
+      color:#fff;
+      position:relative;
+      overflow:hidden;
+      flex-wrap:wrap;
+    }
+    .header::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at top left,rgba(255,255,255,0.18),transparent 60%);
+      mix-blend-mode:screen;
+    }
+    .header-logo{
+      flex-shrink:0;
+      width:70px;height:70px;
+      border-radius:50%;
+      background:#fff url('https://raw.githubusercontent.com/archiIYA/archi-space/main/IMG_2132.PNG') center/contain no-repeat;
+      box-shadow:0 10px 20px rgba(0,0,0,0.4);
+      border:3px solid var(--gold);
+      position:relative;
+      z-index:1;
+    }
+    .header-text{
+      z-index:1;
+      min-width:200px;
+      flex:1;
+    }
+    .header-title{
+      font-size:1.4rem;
+      font-weight:700;
+      margin-bottom:2px;
+    }
+    .header-sub{
+      font-size:0.9rem;
+      opacity:0.9;
+    }
+    .header-note{
+      font-size:0.75rem;
+      opacity:0.9;
+      margin-top:4px;
+    }
+    .header-actions{
+      margin-inline-start:auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      z-index:1;
+      justify-content:flex-end;
+    }
+    .btn{
+      border:none;
+      border-radius:999px;
+      padding:8px 16px;
+      font-size:0.9rem;
+      font-weight:600;
+      cursor:pointer;
+      background:#fff;
+      color:var(--primary);
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:0 6px 16px rgba(0,0,0,0.18);
+      transition:transform 0.2s,box-shadow 0.2s,background 0.2s,color 0.2s;
+      text-decoration:none;
+      white-space:nowrap;
+    }
+    .btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 24px rgba(0,0,0,0.22);
+      background:var(--gold);
+      color:var(--dark);
+    }
+    .btn-admin{
+      display:none;
+      background:rgba(255,255,255,0.12);
+      color:#fff;
+      border:1px solid rgba(255,255,255,0.5);
+      box-shadow:none;
+    }
+    .btn-admin:hover{
+      background:#fff;
+      color:var(--primary);
+      box-shadow:0 8px 20px rgba(0,0,0,0.25);
+    }
+
+    .page{
+      max-width:1000px;
+      margin:26px auto 0;
+    }
+
+    .carnet-card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px 22px 20px;
+      border:1px solid rgba(214,34,34,0.25);
+      position:relative;
+      overflow:hidden;
+      animation:cardIn 0.7s ease-out;
+    }
+    @keyframes cardIn{
+      from{opacity:0;transform:translateY(20px) scale(0.98);}
+      to{opacity:1;transform:translateY(0) scale(1);}
+    }
+    .carnet-card::before{
+      content:'';
+      position:absolute;
+      top:0;left:0;right:0;
+      height:4px;
+      background:linear-gradient(90deg,var(--primary),var(--accent),var(--gold));
+    }
+
+    .carnet-top{
+      display:grid;
+      grid-template-columns:minmax(0,1.4fr) minmax(0,1.1fr);
+      gap:18px;
+      margin-bottom:14px;
+      position:relative;
+    }
+    @media(max-width:820px){
+      .carnet-top{
+        grid-template-columns:1fr;
+      }
+    }
+    .badge-new{
+      position:absolute;
+      top:-8px;left:0;
+      background:var(--gold);
+      color:var(--dark);
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:0.75rem;
+      font-weight:700;
+      box-shadow:0 6px 16px rgba(0,0,0,0.2);
+      animation:pulse 1.8s infinite;
+    }
+    @keyframes pulse{
+      0%{transform:scale(1);}
+      50%{transform:scale(1.06);}
+      100%{transform:scale(1);}
+    }
+
+    .carnet-info{flex:1;}
+    .carnet-title{
+      font-size:1.3rem;
+      font-weight:700;
+      margin-bottom:4px;
+    }
+    .carnet-sub{
+      font-size:0.9rem;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .pill-fr{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:3px 10px;
+      border-radius:999px;
+      font-size:0.8rem;
+      background:#fff5f5;
+      border:1px solid rgba(214,34,34,0.35);
+      color:var(--primary);
+      margin-bottom:6px;
+    }
+
+    .carnet-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      font-size:0.8rem;
+      margin-top:6px;
+    }
+    .meta-chip{
+      padding:6px 10px;
+      border-radius:999px;
+      background:#fff5f5;
+      border:1px dashed rgba(214,34,34,0.4);
+    }
+
+    .rating-row{
+      margin-top:10px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      flex-wrap:wrap;
+      font-size:0.85rem;
+    }
+    .rating-stars{
+      color:#f59e0b;
+      font-size:1rem;
+    }
+    .rating-text{
+      color:#6b7280;
+    }
+
+    .carnet-visual{
+      position:relative;
+      border-radius:16px;
+      overflow:hidden;
+      background:#f9fafb;
+      border:1px dashed rgba(214,34,34,0.35);
+      min-height:140px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:8px;
+    }
+    .carnet-visual-inner{
+      width:100%;
+      height:100%;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:center;
+    }
+    .carnet-cover,
+    .carnet-toc{
+      flex:1;
+      min-height:120px;
+      border-radius:12px;
+      background:#e5e7eb;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:0.85rem;
+      color:#6b7280;
+    }
+    .carnet-cover img,
+    .carnet-toc img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border-radius:12px;
+      display:block;
+    }
+
+    .price-main{
+      font-size:1.4rem;
+      font-weight:800;
+      color:var(--secondary);
+      margin-top:10px;
+      text-align:left;
+    }
+    .price-note{
+      font-size:0.8rem;
+      color:var(--muted);
+      text-align:left;
+    }
+
+    .carnet-actions{
+      margin-top:16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:#fff;
+      box-shadow:0 10px 26px rgba(214,34,34,0.5);
+    }
+    .btn-primary:hover{
+      background:linear-gradient(135deg,var(--secondary),var(--primary));
+      color:#fff;
+    }
+    .btn-ghost{
+      background:#fff;
+      color:var(--primary);
+      border:1px solid rgba(214,34,34,0.5);
+      box-shadow:0 4px 14px rgba(214,34,34,0.15);
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.75);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      z-index:9999;
+      padding:10px;
+    }
+    .modal-inner{
+      width:100%;
+      max-width:860px;
+      max-height:90vh;
+      background:#ffffff;
+      border-radius:22px;
+      box-shadow:0 20px 50px rgba(0,0,0,0.5);
+      padding:20px 20px 18px;
+      position:relative;
+      overflow-y:auto;
+      display:flex;
+      flex-direction:column;
+      animation:modalIn 0.35s ease-out;
+    }
+    @keyframes modalIn{
+      from{opacity:0;transform:translateY(30px) scale(0.96);}
+      to{opacity:1;transform:translateY(0) scale(1);}
+    }
+    .modal-close{
+      position:absolute;
+      top:10px;
+      left:14px;
+      width:32px;height:32px;
+      border-radius:50%;
+      border:none;
+      background:#fee2e2;
+      color:var(--primary);
+      font-size:1.1rem;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:10;
+    }
+
+    .preview-layout{
+      display:grid;
+      grid-template-columns:1.1fr 0.9fr;
+      gap:18px;
+      margin-top:10px;
+    }
+    @media(max-width:860px){
+      .preview-layout{grid-template-columns:1fr;}
+    }
+    .preview-media{
+      position:relative;
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 10px 26px rgba(0,0,0,0.25);
+      background:#000;
+    }
+
+    .preview-info h2{
+      font-size:1.2rem;
+      margin-bottom:6px;
+      color:var(--secondary);
+    }
+    .preview-info p{
+      font-size:0.9rem;
+      color:#4b5563;
+      margin-bottom:8px;
+      line-height:1.5;
+    }
+    .preview-list{
+      margin-top:8px;
+      padding-left:1.2rem;
+      font-size:0.9rem;
+      color:#374151;
+    }
+    .preview-actions{
+      margin-top:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .code-layout{
+      margin-top:8px;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
+    }
+
+    .code-box{
+      border-radius:16px;
+      border:1px solid rgba(214,34,34,0.35);
+      background:#fff5f5;
+      padding:14px 16px;
+    }
+    .code-box h3{
+      font-size:1rem;
+      margin-bottom:6px;
+      color:var(--secondary);
+    }
+    .code-label{
+      font-size:0.85rem;
+      margin-bottom:4px;
+      color:#4b5563;
+    }
+    .code-input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #e5e7eb;
+      font-family:inherit;
+      font-size:0.95rem;
+      direction:ltr;
+    }
+    .code-help{
+      margin-top:6px;
+      font-size:0.8rem;
+      color:#6b7280;
+    }
+    .code-error{
+      margin-top:6px;
+      font-size:0.8rem;
+      color:#b91c1c;
+      display:none;
+    }
+
+    .payment-box{
+      border-radius:16px;
+      border:1px solid rgba(214,34,34,0.35);
+      background:#ffffff;
+      padding:14px 16px;
+    }
+    .payment-box h3{
+      font-size:1rem;
+      margin-bottom:8px;
+      color:var(--secondary);
+    }
+    .pay-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-top:8px;
+      font-size:0.9rem;
+    }
+    .rib-box{
+      margin-top:6px;
+      padding:8px 10px;
+      border-radius:10px;
+      background:#f9fafb;
+      border:1px dashed rgba(148,163,184,0.7);
+      font-size:0.85rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      direction:ltr;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .copy-btn{
+      border:none;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:0.8rem;
+      cursor:pointer;
+      background:var(--primary);
+      color:#fff;
+      white-space:nowrap;
+    }
+    .telegram-link{
+      margin-top:10px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:0.9rem;
+      color:#0f766e;
+      text-decoration:none;
+    }
+
+    .payment-options-grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    @media(max-width:680px){
+      .payment-options-grid{grid-template-columns:1fr;}
+    }
+    .pay-option-card{
+      border-radius:14px;
+      border:1px solid #e5e7eb;
+      background:#f9fafb;
+      padding:14px 16px;
+      font-size:0.85rem;
+      color:#374151;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .pay-option-card strong{
+      display:block;
+      margin-bottom:2px;
+      color:var(--secondary);
+      font-size:0.95rem;
+    }
+
+    .admin-layout{
+      margin-top:8px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .admin-search{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .admin-search input{
+      flex:1;
+      min-width:180px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid #e5e7eb;
+      font-size:0.9rem;
+      direction:ltr;
+    }
+    .admin-list{
+      margin-top:6px;
+      max-height:340px;
+      overflow:auto;
+      border-radius:14px;
+      border:1px solid #e5e7eb;
+    }
+    .admin-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:0.8rem;
+    }
+    .admin-table thead{
+      background:#f9fafb;
+      position:sticky;
+      top:0;
+      z-index:1;
+    }
+    .admin-table th,
+    .admin-table td{
+      padding:6px 8px;
+      border-bottom:1px solid #f1f5f9;
+      text-align:left;
+      direction:ltr;
+    }
+    .token-badge{
+      font-family:monospace;
+      background:#fee2e2;
+      padding:2px 6px;
+      border-radius:6px;
+    }
+    .btn-mini{
+      border:none;
+      border-radius:999px;
+      padding:4px 8px;
+      font-size:0.75rem;
+      cursor:pointer;
+      background:#f97316;
+      color:#fff;
+    }
+
+    .footer-note{
+      margin-top:18px;
+      font-size:0.8rem;
+      color:#6b7280;
+      text-align:center;
+      line-height:1.5;
+    }
+
+    @media(max-width:720px){
+      .header{flex-direction:column;align-items:flex-start;}
+      .header-actions{margin-inline-start:0;justify-content:flex-start;}
+    }
+
+    body.protected{
+      -webkit-user-select:none;
+      -moz-user-select:none;
+      -ms-user-select:none;
+      user-select:none;
+    }
+  </style>
+</head>
+<body class="protected">
+  <div class="bg-orbs">
+    <div class="orb red"></div>
+    <div class="orb gold"></div>
+  </div>
+
+  <header class="header">
+    <div class="header-logo"></div>
+    <div class="header-text">
+      <div class="header-title">Mon Carnet</div>
+      <div class="header-sub">
+        Résumés architecturaux organisés pour les étudiants d’architecture.
+      </div>
+      <div class="header-note">
+        التسجيل في المنصة يمنحكم امتيازات إضافية ومحتوى معماري خاص بطلاب الهندسة المعمارية.
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" onclick="goBack()">
+        <i class="fas fa-arrow-right"></i> رجوع
+      </button>
+      <a href="login.html" class="btn">
+        <i class="fas fa-user-plus"></i> تسجيل في المنصة
+      </a>
+      <a href="Trendyplazashop.html" class="btn">
+        <i class="fas fa-store"></i>
+        المتجر
+      </a>
+      <button id="adminBtn" class="btn btn-admin">
+        <i class="fas fa-user-shield"></i>
+        Admin
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="carnet-card">
+      <div class="badge-new">Nouveau 2025</div>
+
+      <div class="carnet-top">
+        <div class="carnet-info">
+          <h1 class="carnet-title">Mon Carnet HA 1</h1>
+          <p class="carnet-sub">
+            Résumé complet en français pour l’histoire de l’architecture – niveau 1ère année, avec schémas, tableaux et vocabulaire architectural ciblé.
+          </p>
+          <span class="pill-fr">
+            <i class="fas fa-language"></i> Contenu 100% en français
+          </span>
+
+          <div class="carnet-meta">
+            <div class="meta-chip">📚 De la préhistoire à la civilisation byzantine</div>
+            <div class="meta-chip">🏛 Matériaux, systèmes porteurs, urbanisme, monuments clés</div>
+            <div class="meta-chip">📘 Glossaire architectural des principaux termes</div>
+          </div>
+
+          <div class="rating-row">
+            <div class="rating-stars">★ ★ ★ ★ ★</div>
+            <div class="rating-text">
+              التقييم:
+              <span id="ratingAverage">5.0</span>/5
+              (<span id="ratingCount">0</span> تقييم)
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="carnet-visual">
+            <div class="carnet-visual-inner">
+              <div class="carnet-cover">
+                <img src="CHA1 - 2 (1).svg" alt="غلاف Mon Carnet HA 1">
+              </div>
+              <div class="carnet-toc">
+                <img src="CHA1 - 2.svg" alt="فهرس Mon Carnet HA 1">
+              </div>
+            </div>
+          </div>
+          <div class="price-main">600 دج</div>
+          <div class="price-note"> نسخة رقمية خاصة، مخصصة للاستعمال من طرف طالب واحد الدخول لها بكود صالح على حساب واحد مدة 7 اشهر.</div>
+        </div>
+      </div>
+
+      <div class="carnet-actions">
+        <button class="btn btn-primary" onclick="openCodeModal()">
+          🔑 دخول بالكود
+        </button>
+        <button class="btn btn-ghost" onclick="openPreviewModal()">
+          👀 معاينة سريعة
+        </button>
+        <button class="btn btn-ghost" onclick="openOrderModal()">
+          🛒 طلب الكود / شراء
+        </button>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      هذا العمل اجتهاد شخصي، فإن أصبت فمن الله، وإن أخطأت فمن نفسي. لا تنسونا من صالح الدعاء.
+    </div>
+  </main>
+
+  <!-- معاينة سريعة بالفيديو -->
+  <div id="previewModal" class="modal">
+    <div class="modal-inner">
+      <button class="modal-close" onclick="closeModal('previewModal')">&times;</button>
+      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">Aperçu de Mon Carnet HA 1</h2>
+      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">
+        Vidéo de présentation rapide pour voir le style général du carnet.
+      </p>
+
+      <div class="preview-layout">
+        <div class="preview-media">
+          <video id="previewVideo"
+                 autoplay
+                 muted
+                 playsinline
+                 loop
+                 style="width:100%;display:block;max-height:380px;object-fit:cover;">
+            <source src="Screen Recording 2025-12-05 174724.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        </div>
+        <div class="preview-info">
+          <h2>Contenu du carnet</h2>
+          <p>
+            • Ligne du temps des grandes périodes : préhistoire, Mésopotamie, Égypte, monde grec, empire romain, monde paléochrétien, civilisation byzantine.
+          </p>
+          <p>
+            • Pour chaque civilisation : matériaux de construction, systèmes porteurs, voûtes, arcs, organisation urbaine, exemples d’édifices (temples, basiliques, forums…).
+          </p>
+          <p>
+            • Schémas simples, coupes, élévations et plans commentés pour fixer les idées – adaptés au niveau 1ère année.
+          </p>
+          <ul class="preview-list">
+            <li>Tableaux comparatifs entre civilisations.</li>
+            <li>Définitions courtes des notions clés (axe, travée, module, trame…).</li>
+            <li>Vocabulaire architectural français ciblé pour les examens.</li>
+          </ul>
+
+          <div class="preview-actions">
+            <button class="btn btn-primary" onclick="openCodeModal();closeModal('previewModal')">
+              🔑 الدخول عبر كود
+            </button>
+            <button class="btn btn-ghost" onclick="closeModal('previewModal')">
+              إغلاق
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- دخول بالكود -->
+  <div id="codeModal" class="modal">
+    <div class="modal-inner">
+      <button class="modal-close" onclick="closeModal('codeModal')">&times;</button>
+      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">دخول إلى Mon Carnet HA 1</h2>
+      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">
+        أدخل الكود الخاص بك للوصول إلى رابط Mon Carnet HA.
+      </p>
+
+      <div class="code-layout">
+        <div class="code-box">
+          <h3>🔑 أدخل الكود الخاص بحسابك</h3>
+          <div class="code-label">Code d’accès :</div>
+          <input id="accessCodeInput" class="code-input" type="text" placeholder="ex : HA-4F7K9Q" />
+          <div class="code-help">بعد الدفع، يصلك هذا الكود من إدارة Trendy Plaza.</div>
+          <div id="codeError" class="code-error"></div>
+          <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">
+            <button class="btn btn-primary" onclick="useAccessCode()">دخول إلى الملخص</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- خيارات الدفع (تبقى للباريدي موب فقط) -->
+  <div id="paymentChoiceModal" class="modal">
+    <div class="modal-inner">
+      <button class="modal-close" onclick="closeModal('paymentChoiceModal')">&times;</button>
+      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">اختيار طريقة طلب الكود</h2>
+      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">
+        اختر الطريقة المناسبة لك لطلب كود Mon Carnet HA 1.
+      </p>
+
+      <div class="payment-options-grid">
+        <div class="pay-option-card">
+          <strong>💵 طلبة EPAU – الدفع نقداً</strong>
+          <p>
+            مخصص لطلبة <b>EPAU</b>. يتم الاتفاق على مكان و وقت الدفع عبر تلغرام، ثم تستلم كودك الخاص.
+          </p>
+          <button class="btn btn-primary" style="margin-top:4px;"
+                  onclick="closeModal('paymentChoiceModal');requestCode('cash_epau');">
+            طلب كود نقداً (EPAU)
+          </button>
+        </div>
+
+        <div class="pay-option-card">
+          <strong>💳 الدفع عبر Baridi Mob / البطاقة الذهبية</strong>
+          <p>
+            مخصص لجميع الطلبة من مختلف الكليات. تقوم بالتحويل عبر Baridi Mob أو البطاقة الذهبية، ثم ترسل وصل الدفع و بريدك الإلكتروني على تلغرام.
+          </p>
+          <button class="btn btn-ghost" style="margin-top:4px;"
+                  onclick="closeModal('paymentChoiceModal');openBaridiModal();">
+            متابعة الدفع بالبطاقة الذهبية
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة الباريدي موب -->
+  <div id="baridiModal" class="modal">
+    <div class="modal-inner">
+      <button class="modal-close" onclick="closeModal('baridiModal')">&times;</button>
+      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">الدفع عبر Baridi Mob / البطاقة الذهبية</h2>
+      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:4px;">
+        1) ادفع مبلغ <strong>600 دج</strong> إلى RIB الموضح أدناه.<br>
+        2) انسخ RIB وأتمم التحويل عبر Baridi Mob / البطاقة الذهبية.<br>
+        3) أرسل وصل الدفع مع البريد الإلكتروني إلى حساب تلغرام، وسيتم إنشاء كود خاص بك وإرساله لك.
+      </p>
+
+      <div class="payment-box">
+        <div class="pay-row">
+          <span>بيانات الدفع</span>
+          <span style="font-size:1.6rem;">💳</span>
+        </div>
+
+        <div class="rib-box">
+          <span id="ribText">00799999004014138305</span>
+          <button class="copy-btn" onclick="copyRIB()">نسخ RIB</button>
+        </div>
+
+        <a id="telegramLink" href="#" class="telegram-link" target="_blank" rel="noopener">
+          <i class="fab fa-telegram"></i>
+          @trendyplaza10 – إرسال وصل الدفع واسمك الكامل و بريدك الالكتروني اضغط على طلب كود قبل الإرسال
+        </a>
+
+        <p id="requestStatus" style="margin-top:8px;font-size:0.8rem;color:#16a34a;display:none;">
+          تم تسجيل طلب الكود، يرجى إرسال وصل الدفع عبر تلغرام لتفعيل الكود الخاص بك.
+        </p>
+
+        <div style="margin-top:10px;">
+          <button class="btn btn-ghost" onclick="requestCode('baridimob')">
+            تسجيل طلب كود Baridi Mob
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة الأدمن -->
+  <div id="adminModal" class="modal">
+    <div class="modal-inner">
+      <button class="modal-close" onclick="closeModal('adminModal')">&times;</button>
+      <h2 style="font-size:1.1rem;color:#374151;margin-bottom:6px;">Admin – Mon Carnet Codes</h2>
+      <p style="font-size:0.8rem;color:#6b7280;margin-bottom:4px;">
+        إدارة الأكواد الخاصة بـ Mon Carnet HA 1.
+      </p>
+      <div id="adminStats" style="font-size:0.8rem;color:#4b5563;margin-bottom:8px;"></div>
+
+      <div class="admin-layout">
+        <div class="admin-search">
+          <input id="adminSearchEmail" type="email" placeholder="بحث حسب email (اختياري)" />
+          <button class="btn-mini" onclick="loadCodes()">تحديث القائمة</button>
+          <button class="btn-mini" onclick="openCreateCodePrompt()">+ إنشاء كود جديد</button>
+        </div>
+
+        <div class="admin-list">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Produit</th>
+                <th>Email lié</th>
+                <th>Expire le</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="codesTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- نموذج طلب الكود يرسل للشيت -->
   <div id="orderModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('orderModal')">&times;</button>
       <h2 style="font-size:1.1rem;color:#374151;margin-bottom:4px;">طلب كود Mon Carnet HA 1</h2>
-      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:8px;
+      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:8px;">
+        املأ البيانات التالية، وسيتم تسجيل طلبك في جدول المُلّا مباشرة.
       </p>
 
       <form id="orderForm">
@@ -941,7 +942,67 @@
             <input name="fullName" class="code-input" type="text" required />
 
             <div class="code-label" style="margin-top:8px;">الولاية</div>
-            <input name="wilaya" class="code-input" type="text" required />
+            <select name="wilaya" class="code-input" required>
+              <option value="">اختر الولاية</option>
+              <option value="Adrar">Adrar</option>
+              <option value="Chlef">Chlef</option>
+              <option value="Laghouat">Laghouat</option>
+              <option value="Oum El Bouaghi">Oum El Bouaghi</option>
+              <option value="Batna">Batna</option>
+              <option value="Béjaïa">Béjaïa</option>
+              <option value="Biskra">Biskra</option>
+              <option value="Béchar">Béchar</option>
+              <option value="Blida">Blida</option>
+              <option value="Bouira">Bouira</option>
+              <option value="Tamanrasset">Tamanrasset</option>
+              <option value="Tébessa">Tébessa</option>
+              <option value="Tlemcen">Tlemcen</option>
+              <option value="Tiaret">Tiaret</option>
+              <option value="Tizi Ouzou">Tizi Ouzou</option>
+              <option value="Alger">Alger</option>
+              <option value="Djelfa">Djelfa</option>
+              <option value="Jijel">Jijel</option>
+              <option value="Sétif">Sétif</option>
+              <option value="Saïda">Saïda</option>
+              <option value="Skikda">Skikda</option>
+              <option value="Sidi Bel Abbès">Sidi Bel Abbès</option>
+              <option value="Annaba">Annaba</option>
+              <option value="Guelma">Guelma</option>
+              <option value="Constantine">Constantine</option>
+              <option value="Médéa">Médéa</option>
+              <option value="Mostaganem">Mostaganem</option>
+              <option value="M'Sila">M'Sila</option>
+              <option value="Mascara">Mascara</option>
+              <option value="Ouargla">Ouargla</option>
+              <option value="Oran">Oran</option>
+              <option value="El Bayadh">El Bayadh</option>
+              <option value="Illizi">Illizi</option>
+              <option value="Bordj Bou Arreridj">Bordj Bou Arreridj</option>
+              <option value="Boumerdès">Boumerdès</option>
+              <option value="El Tarf">El Tarf</option>
+              <option value="Tindouf">Tindouf</option>
+              <option value="Tissemsilt">Tissemsilt</option>
+              <option value="El Oued">El Oued</option>
+              <option value="Khenchela">Khenchela</option>
+              <option value="Souk Ahras">Souk Ahras</option>
+              <option value="Tipaza">Tipaza</option>
+              <option value="Mila">Mila</option>
+              <option value="Aïn Defla">Aïn Defla</option>
+              <option value="Naâma">Naâma</option>
+              <option value="Aïn Témouchent">Aïn Témouchent</option>
+              <option value="Ghardaïa">Ghardaïa</option>
+              <option value="Relizane">Relizane</option>
+              <option value="Timimoun">Timimoun</option>
+              <option value="Bordj Badji Mokhtar">Bordj Badji Mokhtar</option>
+              <option value="Ouled Djellal">Ouled Djellal</option>
+              <option value="Béni Abbès">Béni Abbès</option>
+              <option value="In Salah">In Salah</option>
+              <option value="In Guezzam">In Guezzam</option>
+              <option value="Touggourt">Touggourt</option>
+              <option value="Djanet">Djanet</option>
+              <option value="El M'Ghair">El M'Ghair</option>
+              <option value="El Meniaa">El Meniaa</option>
+            </select>
 
             <div class="code-label" style="margin-top:8px;">الجامعة / المدرسة</div>
             <input name="university" class="code-input" type="text" required />
@@ -959,15 +1020,15 @@
             <div class="code-label">Type de payement</div>
             <select name="paymentType" id="paymentTypeSelect" class="code-input" required>
               <option value="">اختر نوع الدفع</option>
-              <option value="cash">كاش</option>
-              <option value="baridimob">Baridi Mob / البطاقة الذهبية</option>
+              <option value="CASH">كاش</option>
+              <option value="BaridiMob">Baridi Mob / البطاقة الذهبية</option>
             </select>
 
             <div id="cashLocationWrapper" style="margin-top:8px;display:none;">
               <div class="code-label">مكان الدفع نقداً</div>
               <select name="cashLocation" class="code-input">
                 <option value="Tifawt bureau">Tifawt bureau</option>
-                <option value="daa">daa</option>
+                <option value="DAA">DAA</option>
                 <option value="EPAU">EPAU</option>
               </select>
             </div>
@@ -976,7 +1037,7 @@
               <span>السعر الإجمالي</span>
               <span style="font-weight:700;color:var(--secondary);">600 دج</span>
             </div>
-            <input type="hidden" name="totalPrice" value="600" />
+            <input type="hidden" name="totalPrice" value="600DA" />
           </div>
         </div>
 
@@ -991,342 +1052,342 @@
     </div>
   </div>
 
-  <script>  
-    const CARNET_HA_DRIVE_URL = "https://drive.google.com/file/d/1fLvA1EJIaMVaMwyo_vwk36qJKTgaGos7/view?usp=drivesdk";  
-    const TELEGRAM_URL = "https://t.me/trendyplaza10";  
-    const RIB_VALUE = "00799999004014138305";  
-    const ADMIN_EMAIL = "toumiiyadetude@gmail.com";  
+  <script>
+    const CARNET_HA_DRIVE_URL = "https://drive.google.com/file/d/1fLvA1EJIaMVaMwyo_vwk36qJKTgaGos7/view?usp=drivesdk";
+    const TELEGRAM_URL = "https://t.me/trendyplaza10";
+    const RIB_VALUE = "00799999004014138305";
+    const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
 
-    // ضع هنا رابط الـ Web App الخاص بـ Google Apps Script
-    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxlxPXctvwnhroIGsWHO2d_ZWsxdRmAudnn-DrLf51TY0TXnRDnh4ZRFW5xSHieImBN/exec";  
-  
-    const firebaseConfig = {  
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",  
-      authDomain: "TrendyPlaza-72624.firebaseapp.com",  
-      projectId: "TrendyPlaza-72624",  
-      storageBucket: "TrendyPlaza-72624.firebasestorage.app",  
-      messagingSenderId: "407015246505",  
-      appId: "1:407015246505:web:c914a78566b882b80df7b8",  
-      measurementId: "G-RZV7LSDQBD"  
-    };  
-  
-    if (!firebase.apps.length) {  
-      firebase.initializeApp(firebaseConfig);  
-    }  
-    const auth = firebase.auth();  
-    const db = firebase.firestore();  
-  
-    document.getElementById("telegramLink").href = TELEGRAM_URL;  
-    document.getElementById("ribText").textContent = RIB_VALUE;  
-  
-    function openPreviewModal(){  
-      const modal = document.getElementById("previewModal");  
-      modal.style.display = "flex";  
-      const v = document.getElementById("previewVideo");  
-      if (v) {  
-        v.currentTime = 0;  
-        v.play();  
-      }  
-    }  
-  
-    function openCodeModal(){  
-      const codeError = document.getElementById("codeError");  
-      codeError.style.display = "none";  
-      codeError.textContent = "";  
-      document.getElementById("accessCodeInput").value = "";  
-      document.getElementById("codeModal").style.display = "flex";  
-    }  
-  
-    function openPaymentChoiceModal(){  
-      const rs = document.getElementById("requestStatus");  
-      if(rs) rs.style.display = "none";  
-      document.getElementById("paymentChoiceModal").style.display = "flex";  
-    }  
-    function openBaridiModal(){  
-      const rs = document.getElementById("requestStatus");  
-      if(rs) rs.style.display = "none";  
-      document.getElementById("baridiModal").style.display = "flex";  
-    }  
-    function closeModal(id){  
-      const el = document.getElementById(id);  
-      el.style.display = "none";  
+    // رابط Web App الخاص بـ Google Apps Script
+    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxlxPXctvwnhroIGsWHO2d_ZWsxdRmAudnn-DrLf51TY0TXnRDnh4ZRFW5xSHieImBN/exec";
 
-      if (id === "previewModal") {  
-        const v = document.getElementById("previewVideo");  
-        if (v) v.pause();  
-      }  
-    }  
-  
-    function copyRIB(){  
-      navigator.clipboard.writeText(RIB_VALUE).then(()=>{  
-        alert("تم نسخ RIB بنجاح ✅");  
-        window.open(TELEGRAM_URL, "_blank");  
-      }).catch(()=>{  
-        alert("تعذر نسخ RIB، انسخه يدوياً.");  
-        window.open(TELEGRAM_URL, "_blank");  
-      });  
-    }  
-  
-    async function useAccessCode(){  
-      const codeInput = document.getElementById("accessCodeInput");  
-      const codeError = document.getElementById("codeError");  
-      const rawCode = codeInput.value.trim();  
-  
-      codeError.style.display = "none";  
-      codeError.textContent = "";  
-  
-      if(!rawCode){  
-        codeError.textContent = "الرجاء إدخال الكود.";  
-        codeError.style.display = "block";  
-        return;  
-      }  
-  
-      try{  
-        const snap = await db.collection("monCarnetCodes")  
-          .where("code","==",rawCode)  
-          .where("productId","==","mon_carnet_ha1")  
-          .limit(1)  
-          .get();  
-  
-        if(snap.empty){  
-          codeError.textContent = "الكود غير صحيح أو غير موجود.";  
-          codeError.style.display = "block";  
-          return;  
-        }  
-  
-        const doc = snap.docs[0];  
-        const data = doc.data();  
-        const now = new Date();  
-  
-        if(data.expiresAt && data.expiresAt.toDate && data.expiresAt.toDate() < now){  
-          codeError.textContent = "انتهت صلاحية هذا الكود.";  
-          codeError.style.display = "block";  
-          return;  
-        }  
-  
-        window.location.href = CARNET_HA_DRIVE_URL;  
-      }catch(err){  
-        console.error(err);  
-        codeError.textContent = "حدث خطأ غير متوقع، حاول مرة أخرى.";  
-        codeError.style.display = "block";  
-      }  
-    }  
-  
-    function goBack(){  
-      if (window.history.length > 1) {  
-        window.history.back();  
-      } else {  
-        window.location.href = "Trendyplazashop.html";  
-      }  
-    }  
-  
-    function generateRandomCode(){  
-      const raw = Math.random().toString(36).substring(2,8).toUpperCase();  
-      return "HA-" + raw;  
-    }  
-  
-    async function requestCode(method){  
-      const requestStatus = document.getElementById("requestStatus");  
-      let email = prompt("أدخل بريدك الإلكتروني لاستلام الكود:","");  
-      if(email === null) return;  
-      email = email.trim();  
-      if(!email){  
-        alert("البريد الإلكتروني إجباري لطلب الكود.");  
-        return;  
-      }  
-  
-      try{  
-        const baseData = {  
-          productId:"mon_carnet_ha1",  
-          requesterEmail: email,  
-          createdAt:firebase.firestore.FieldValue.serverTimestamp(),  
-          paymentMethod:method,  
-          status:"pending"  
-        };  
-        await db.collection("monCarnetCodeRequests").add(baseData);  
-  
-        if(method === "cash_epau"){  
-          const code = generateRandomCode();  
-          const expiresAt = new Date();  
-          expiresAt.setMonth(expiresAt.getMonth() + 7);  
-  
-          await db.collection("monCarnetCodes").add({  
-            code,  
-            productId:"mon_carnet_ha1",  
-            ownerEmail:email,  
-            createdAt:firebase.firestore.FieldValue.serverTimestamp(),  
-            paymentMethod:"cash_epau",  
-            expiresAt:expiresAt,  
-            status:"pending_payment"  
-          });  
-  
-          alert("تم تسجيل طلب الكود لطلبة EPAU. تواصل عبر تلغرام لإتمام التفاصيل.");  
-          window.open(TELEGRAM_URL, "_blank");  
-        }else if(method === "baridimob"){  
-          if(requestStatus){  
-            requestStatus.style.display = "block";  
-          }  
-        }  
-      }catch(err){  
-        console.error(err);  
-        alert("تعذر تسجيل الطلب، حاول لاحقاً.");  
-      }  
-    }  
-  
-    async function loadRatings(){  
-      try{  
-        const snap = await db.collection("monCarnetRatings")  
-          .where("productId","==","mon_carnet_ha1")  
-          .limit(100)  
-          .get();  
-        if(snap.empty) return;  
-        let sum = 0;  
-        let count = 0;  
-        snap.forEach(d=>{  
-          const val = d.data().stars;  
-          if(typeof val === "number"){  
-            sum += val;  
-            count++;  
-          }  
-        });  
-        if(count === 0) return;  
-        const avg = (sum / count).toFixed(1);  
-        const avgEl = document.getElementById("ratingAverage");  
-        const countEl = document.getElementById("ratingCount");  
-        if(avgEl) avgEl.textContent = avg;  
-        if(countEl) countEl.textContent = count;  
-      }catch(e){  
-        console.error(e);  
-      }  
-    }  
-    loadRatings();  
-  
-    const adminBtn = document.getElementById("adminBtn");  
-    const codesTableBody = document.getElementById("codesTableBody");  
-    const adminStatsEl = document.getElementById("adminStats");  
-  
-    function openAdminModal(){  
-      document.getElementById("adminModal").style.display = "flex";  
-      loadCodes();  
-    }  
-  
-    async function loadCodes(){  
-      codesTableBody.innerHTML = "<tr><td colspan='5'>جارِ التحميل...</td></tr>";  
-      if(adminStatsEl) adminStatsEl.textContent = "";  
-      const searchEmail = document.getElementById("adminSearchEmail").value.trim();  
-  
-      try{  
-        let query = db.collection("monCarnetCodes")  
-          .where("productId","==","mon_carnet_ha1")  
-          .orderBy("createdAt","desc")  
-          .limit(120);  
-  
-        const snap = await query.get();  
-        let rows = [];  
-        snap.forEach(doc=>{  
-          const d = doc.data();  
-          if(searchEmail && d.ownerEmail && d.ownerEmail !== searchEmail) return;  
-          rows.push({id:doc.id,data:d});  
-        });  
-  
-        if(adminStatsEl){  
-          adminStatsEl.textContent = "عدد الأكواد المسجّلة (تقريبي لعدد المبيعات): " + rows.length;  
-        }  
-  
-        if(rows.length === 0){  
-          codesTableBody.innerHTML = "<tr><td colspan='5'>لا توجد أكواد مطابقة.</td></tr>";  
-          return;  
-        }  
-  
-        codesTableBody.innerHTML = "";  
-        rows.forEach(row=>{  
-          const d = row.data;  
-          const tr = document.createElement("tr");  
-          const expDate = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : null;  
-          const expStr = expDate ? expDate.toLocaleDateString("fr-FR") : "-";  
-  
-          tr.innerHTML = `  
-            <td><span class="token-badge">${d.code || ""}</span></td>  
-            <td>${d.productId || ""}</td>  
-            <td>${d.ownerEmail || ""}</td>  
-            <td>${expStr}</td>  
-            <td><button class="btn-mini" onclick="updateCodeExpiry('${row.id}')">تغيير المدة</button></td>  
-          `;  
-          codesTableBody.appendChild(tr);  
-        });  
-      }catch(err){  
-        console.error(err);  
-        codesTableBody.innerHTML = "<tr><td colspan='5'>خطأ في جلب الأكواد.</td></tr>";  
-      }  
-    }  
-  
-    function openCreateCodePrompt(){  
-      const email = prompt("أدخل email الذي سيرتبط به الكود (يمكن تركه فارغ الآن):","");  
-      if(email === null) return;  
-      createNewCode(email.trim() || null);  
-    }  
-  
-    async function createNewCode(ownerEmail){  
-      try{  
-        const user = auth.currentUser;  
-        if(!user || user.email !== ADMIN_EMAIL){  
-          alert("غير مخول.");  
-          return;  
-        }  
-  
-        const code = generateRandomCode();  
-        const expiresAt = new Date();  
-        expiresAt.setMonth(expiresAt.getMonth() + 7);  
-  
-        await db.collection("monCarnetCodes").add({  
-          code,  
-          productId:"mon_carnet_ha1",  
-          ownerEmail:ownerEmail || null,  
-          createdAt:firebase.firestore.FieldValue.serverTimestamp(),  
-          expiresAt:expiresAt  
-        });  
-  
-        alert("تم إنشاء الكود: " + code);  
-        loadCodes();  
-      }catch(err){  
-        console.error(err);  
-        alert("تعذر إنشاء الكود.");  
-      }  
-    }  
-  
-    async function updateCodeExpiry(docId){  
-      const monthsStr = prompt("مدة جديدة بالأشهر (مثال: 7):","7");  
-      if(monthsStr === null) return;  
-      const months = parseInt(monthsStr,10);  
-      if(isNaN(months) || months <= 0){  
-        alert("قيمة غير صالحة.");  
-        return;  
-      }  
-      try{  
-        const user = auth.currentUser;  
-        if(!user || user.email !== ADMIN_EMAIL){  
-          alert("غير مخول.");  
-          return;  
-        }  
-        const newDate = new Date();  
-        newDate.setMonth(newDate.getMonth() + months);  
-        await db.collection("monCarnetCodes").doc(docId).update({  
-          expiresAt:newDate  
-        });  
-        alert("تم تحديث مدة الكود.");  
-        loadCodes();  
-      }catch(err){  
-        console.error(err);  
-        alert("فشل تحديث المدة.");  
-      }  
-    }  
-  
-    auth.onAuthStateChanged(user=>{  
-      if(user && user.email === ADMIN_EMAIL){  
-        adminBtn.style.display = "inline-flex";  
-        adminBtn.onclick = openAdminModal;  
-      }  
-    });  
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "TrendyPlaza-72624.firebaseapp.com",
+      projectId: "TrendyPlaza-72624",
+      storageBucket: "TrendyPlaza-72624.firebasestorage.app",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    document.getElementById("telegramLink").href = TELEGRAM_URL;
+    document.getElementById("ribText").textContent = RIB_VALUE;
+
+    function openPreviewModal(){
+      const modal = document.getElementById("previewModal");
+      modal.style.display = "flex";
+      const v = document.getElementById("previewVideo");
+      if (v) {
+        v.currentTime = 0;
+        v.play();
+      }
+    }
+
+    function openCodeModal(){
+      const codeError = document.getElementById("codeError");
+      codeError.style.display = "none";
+      codeError.textContent = "";
+      document.getElementById("accessCodeInput").value = "";
+      document.getElementById("codeModal").style.display = "flex";
+    }
+
+    function openPaymentChoiceModal(){
+      const rs = document.getElementById("requestStatus");
+      if(rs) rs.style.display = "none";
+      document.getElementById("paymentChoiceModal").style.display = "flex";
+    }
+    function openBaridiModal(){
+      const rs = document.getElementById("requestStatus");
+      if(rs) rs.style.display = "none";
+      document.getElementById("baridiModal").style.display = "flex";
+    }
+    function closeModal(id){
+      const el = document.getElementById(id);
+      el.style.display = "none";
+
+      if (id === "previewModal") {
+        const v = document.getElementById("previewVideo");
+        if (v) v.pause();
+      }
+    }
+
+    function copyRIB(){
+      navigator.clipboard.writeText(RIB_VALUE).then(()=>{
+        alert("تم نسخ RIB بنجاح ✅");
+        window.open(TELEGRAM_URL, "_blank");
+      }).catch(()=>{
+        alert("تعذر نسخ RIB، انسخه يدوياً.");
+        window.open(TELEGRAM_URL, "_blank");
+      });
+    }
+
+    async function useAccessCode(){
+      const codeInput = document.getElementById("accessCodeInput");
+      const codeError = document.getElementById("codeError");
+      const rawCode = codeInput.value.trim();
+
+      codeError.style.display = "none";
+      codeError.textContent = "";
+
+      if(!rawCode){
+        codeError.textContent = "الرجاء إدخال الكود.";
+        codeError.style.display = "block";
+        return;
+      }
+
+      try{
+        const snap = await db.collection("monCarnetCodes")
+          .where("code","==",rawCode)
+          .where("productId","==","mon_carnet_ha1")
+          .limit(1)
+          .get();
+
+        if(snap.empty){
+          codeError.textContent = "الكود غير صحيح أو غير موجود.";
+          codeError.style.display = "block";
+          return;
+        }
+
+        const docRef = snap.docs[0];
+        const data = docRef.data();
+        const now = new Date();
+
+        if(data.expiresAt && data.expiresAt.toDate && data.expiresAt.toDate() < now){
+          codeError.textContent = "انتهت صلاحية هذا الكود.";
+          codeError.style.display = "block";
+          return;
+        }
+
+        window.location.href = CARNET_HA_DRIVE_URL;
+      }catch(err){
+        console.error(err);
+        codeError.textContent = "حدث خطأ غير متوقع، حاول مرة أخرى.";
+        codeError.style.display = "block";
+      }
+    }
+
+    function goBack(){
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = "Trendyplazashop.html";
+      }
+    }
+
+    function generateRandomCode(){
+      const raw = Math.random().toString(36).substring(2,8).toUpperCase();
+      return "HA-" + raw;
+    }
+
+    async function requestCode(method){
+      const requestStatus = document.getElementById("requestStatus");
+      let email = prompt("أدخل بريدك الإلكتروني لاستلام الكود:","");
+      if(email === null) return;
+      email = email.trim();
+      if(!email){
+        alert("البريد الإلكتروني إجباري لطلب الكود.");
+        return;
+      }
+
+      try{
+        const baseData = {
+          productId:"mon_carnet_ha1",
+          requesterEmail: email,
+          createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+          paymentMethod:method,
+          status:"pending"
+        };
+        await db.collection("monCarnetCodeRequests").add(baseData);
+
+        if(method === "cash_epau"){
+          const code = generateRandomCode();
+          const expiresAt = new Date();
+          expiresAt.setMonth(expiresAt.getMonth() + 7);
+
+          await db.collection("monCarnetCodes").add({
+            code,
+            productId:"mon_carnet_ha1",
+            ownerEmail:email,
+            createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+            paymentMethod:"cash_epau",
+            expiresAt:expiresAt,
+            status:"pending_payment"
+          });
+
+          alert("تم تسجيل طلب الكود لطلبة EPAU. تواصل عبر تلغرام لإتمام التفاصيل.");
+          window.open(TELEGRAM_URL, "_blank");
+        }else if(method === "baridimob"){
+          if(requestStatus){
+            requestStatus.style.display = "block";
+          }
+        }
+      }catch(err){
+        console.error(err);
+        alert("تعذر تسجيل الطلب، حاول لاحقاً.");
+      }
+    }
+
+    async function loadRatings(){
+      try{
+        const snap = await db.collection("monCarnetRatings")
+          .where("productId","==","mon_carnet_ha1")
+          .limit(100)
+          .get();
+        if(snap.empty) return;
+        let sum = 0;
+        let count = 0;
+        snap.forEach(d=>{
+          const val = d.data().stars;
+          if(typeof val === "number"){
+            sum += val;
+            count++;
+          }
+        });
+        if(count === 0) return;
+        const avg = (sum / count).toFixed(1);
+        const avgEl = document.getElementById("ratingAverage");
+        const countEl = document.getElementById("ratingCount");
+        if(avgEl) avgEl.textContent = avg;
+        if(countEl) countEl.textContent = count;
+      }catch(e){
+        console.error(e);
+      }
+    }
+    loadRatings();
+
+    const adminBtn = document.getElementById("adminBtn");
+    const codesTableBody = document.getElementById("codesTableBody");
+    const adminStatsEl = document.getElementById("adminStats");
+
+    function openAdminModal(){
+      document.getElementById("adminModal").style.display = "flex";
+      loadCodes();
+    }
+
+    async function loadCodes(){
+      codesTableBody.innerHTML = "<tr><td colspan='5'>جارِ التحميل...</td></tr>";
+      if(adminStatsEl) adminStatsEl.textContent = "";
+      const searchEmail = document.getElementById("adminSearchEmail").value.trim();
+
+      try{
+        let query = db.collection("monCarnetCodes")
+          .where("productId","==","mon_carnet_ha1")
+          .orderBy("createdAt","desc")
+          .limit(120);
+
+        const snap = await query.get();
+        let rows = [];
+        snap.forEach(doc=>{
+          const d = doc.data();
+          if(searchEmail && d.ownerEmail && d.ownerEmail !== searchEmail) return;
+          rows.push({id:doc.id,data:d});
+        });
+
+        if(adminStatsEl){
+          adminStatsEl.textContent = "عدد الأكواد المسجّلة (تقريبي لعدد المبيعات): " + rows.length;
+        }
+
+        if(rows.length === 0){
+          codesTableBody.innerHTML = "<tr><td colspan='5'>لا توجد أكواد مطابقة.</td></tr>";
+          return;
+        }
+
+        codesTableBody.innerHTML = "";
+        rows.forEach(row=>{
+          const d = row.data;
+          const tr = document.createElement("tr");
+          const expDate = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : null;
+          const expStr = expDate ? expDate.toLocaleDateString("fr-FR") : "-";
+
+          tr.innerHTML = `
+            <td><span class="token-badge">${d.code || ""}</span></td>
+            <td>${d.productId || ""}</td>
+            <td>${d.ownerEmail || ""}</td>
+            <td>${expStr}</td>
+            <td><button class="btn-mini" onclick="updateCodeExpiry('${row.id}')">تغيير المدة</button></td>
+          `;
+          codesTableBody.appendChild(tr);
+        });
+      }catch(err){
+        console.error(err);
+        codesTableBody.innerHTML = "<tr><td colspan='5'>خطأ في جلب الأكواد.</td></tr>";
+      }
+    }
+
+    function openCreateCodePrompt(){
+      const email = prompt("أدخل email الذي سيرتبط به الكود (يمكن تركه فارغ الآن):","");
+      if(email === null) return;
+      createNewCode(email.trim() || null);
+    }
+
+    async function createNewCode(ownerEmail){
+      try{
+        const user = auth.currentUser;
+        if(!user || user.email !== ADMIN_EMAIL){
+          alert("غير مخول.");
+          return;
+        }
+
+        const code = generateRandomCode();
+        const expiresAt = new Date();
+        expiresAt.setMonth(expiresAt.getMonth() + 7);
+
+        await db.collection("monCarnetCodes").add({
+          code,
+          productId:"mon_carnet_ha1",
+          ownerEmail:ownerEmail || null,
+          createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+          expiresAt:expiresAt
+        });
+
+        alert("تم إنشاء الكود: " + code);
+        loadCodes();
+      }catch(err){
+        console.error(err);
+        alert("تعذر إنشاء الكود.");
+      }
+    }
+
+    async function updateCodeExpiry(docId){
+      const monthsStr = prompt("مدة جديدة بالأشهر (مثال: 7):","7");
+      if(monthsStr === null) return;
+      const months = parseInt(monthsStr,10);
+      if(isNaN(months) || months <= 0){
+        alert("قيمة غير صالحة.");
+        return;
+      }
+      try{
+        const user = auth.currentUser;
+        if(!user || user.email !== ADMIN_EMAIL){
+          alert("غير مخول.");
+          return;
+        }
+        const newDate = new Date();
+        newDate.setMonth(newDate.getMonth() + months);
+        await db.collection("monCarnetCodes").doc(docId).update({
+          expiresAt:newDate
+        });
+        alert("تم تحديث مدة الكود.");
+        loadCodes();
+      }catch(err){
+        console.error(err);
+        alert("فشل تحديث المدة.");
+      }
+    }
+
+    auth.onAuthStateChanged(user=>{
+      if(user && user.email === ADMIN_EMAIL){
+        adminBtn.style.display = "inline-flex";
+        adminBtn.onclick = openAdminModal;
+      }
+    });
 
     function openOrderModal(){
       const form = document.getElementById("orderForm");
@@ -1339,7 +1400,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-    
+
       const previewVideo = document.getElementById("previewVideo");
       if (previewVideo) {
         let lastTime = 0;
@@ -1359,17 +1420,15 @@
         });
       }
 
-    
       const paySelect = document.getElementById("paymentTypeSelect");
       if (paySelect) {
         paySelect.addEventListener("change", () => {
           const wrapper = document.getElementById("cashLocationWrapper");
           if (!wrapper) return;
-          wrapper.style.display = (paySelect.value === "cash") ? "block" : "none";
+          wrapper.style.display = (paySelect.value === "CASH") ? "block" : "none";
         });
       }
 
-      
       const orderForm = document.getElementById("orderForm");
       if (orderForm) {
         orderForm.addEventListener("submit", async (e) => {
@@ -1383,6 +1442,9 @@
           const formData = new FormData(orderForm);
           const payType = formData.get("paymentType");
 
+          // نضيف حالة ETAT = Applied من جهة السكربت
+          formData.append("etat", "Applied");
+
           try {
             await fetch(SHEET_WEBAPP_URL, {
               method: "POST",
@@ -1392,9 +1454,9 @@
             const msg = document.getElementById("orderMsg");
             if (msg) msg.style.display = "inline";
 
-            if (payType === "baridimob") {
+            if (payType === "BaridiMob") {
               openBaridiModal();
-            } else if (payType === "cash") {
+            } else if (payType === "CASH") {
               alert("تم تسجيل طلب الدفع نقداً. تواصل مع المُلا لتأكيد الموعد.");
             }
           } catch (err) {
@@ -1404,13 +1466,13 @@
         });
       }
     });
-  
-    document.addEventListener("contextmenu",e=>{e.preventDefault();});  
-    document.addEventListener("keydown",e=>{  
-      if(e.key === "F12") e.preventDefault();  
-      if(e.ctrlKey && ["u","s","p"].includes(e.key.toLowerCase())) e.preventDefault();  
-      if(e.ctrlKey && e.shiftKey && ["i","j","c"].includes(e.key.toLowerCase())) e.preventDefault();  
-    });  
-  </script>  
-</body>  
-  </html>
+
+    document.addEventListener("contextmenu",e=>{e.preventDefault();});
+    document.addEventListener("keydown",e=>{
+      if(e.key === "F12") e.preventDefault();
+      if(e.ctrlKey && ["u","s","p"].includes(e.key.toLowerCase())) e.preventDefault();
+      if(e.ctrlKey && e.shiftKey && ["i","j","c"].includes(e.key.toLowerCase())) e.preventDefault();
+    });
+  </script>
+</body>
+</html>
