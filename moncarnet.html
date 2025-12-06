@@ -370,7 +370,7 @@
       overflow-y:auto;
       display:flex;
       flex-direction:column;
-      animation:modalIn 0.35s.ease-out;
+      animation:modalIn 0.35s ease-out;
     }
     @keyframes modalIn{
       from{opacity:0;transform:translateY(30px) scale(0.96);}
@@ -639,8 +639,7 @@
         <i class="fas fa-user-plus"></i> تسجيل في المنصة
       </a>
       <a href="Trendyplazashop.html" class="btn">
-        <i class="fas fa-store"></i>
-        المتجر
+        <i class="fas fa-store"></i> المتجر
       </a>
       <button id="adminBtn" class="btn btn-admin">
         <i class="fas fa-user-shield"></i>
@@ -657,7 +656,7 @@
         <div class="carnet-info">
           <h1 class="carnet-title">Mon Carnet HA 1</h1>
           <p class="carnet-sub">
-            Résumé complet en français pour l’histoire de l’architecture – niveau 1ère année, avec schémas، tableaux et vocabulaire architectural ciblé.
+            Résumé complet en français pour l’histoire de l’architecture – niveau 1ère année, avec schémas, tableaux et vocabulaire architectural ciblé.
           </p>
           <span class="pill-fr">
             <i class="fas fa-language"></i> Contenu 100% en français
@@ -741,7 +740,7 @@
             • Ligne du temps des grandes périodes : préhistoire, Mésopotamie, Égypte, monde grec, empire romain, monde paléochrétien, civilisation byzantine.
           </p>
           <p>
-            • Pour chaque civilisation : matériaux de construction, systèmes porteurs, voûtes, arcs, organisation urbaine، exemples d’édifices (temples, basiliques, forums…).
+            • Pour chaque civilisation : matériaux de construction, systèmes porteurs, voûtes, arcs, organisation urbaine, exemples d’édifices (temples, basiliques, forums…).
           </p>
           <p>
             • Schémas simples، coupes، élévations et plans commentés pour fixer les idées – adaptés au niveau 1ère année.
@@ -764,7 +763,6 @@
       </div>
     </div>
   </div>
-
 
   <div id="codeModal" class="modal">
     <div class="modal-inner">
@@ -970,7 +968,7 @@
     const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
 
 
-    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbywpQ7qZCsDNG9FvF4wEA8SEN128JTfr39H9SQF_IfzNfE3VyNP1faT1AlrY94BI9pq/exec";
+    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbysyoJwH3AUIlaFoJGZoBdXTn33vNigzO9DyyxaWYPTdYXYE_k67JknoDvazNR8R-E1/exec";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
@@ -988,12 +986,7 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const tgl = document.getElementById("telegramLink");
-      if (tgl) tgl.href = TELEGRAM_URL;
-      const ribSpan = document.getElementById("ribText");
-      if (ribSpan) ribSpan.textContent = RIB_VALUE;
-    });
+
 
     function openPreviewModal(){
       const modal = document.getElementById("previewModal");
@@ -1036,43 +1029,37 @@
       return "HA-" + raw;
     }
 
-
+    // ✅ هذه الدالة الآن ترسل فقط إلى Google Sheets (لا Firestore)
     async function registerOrderInSheet(order){
-      if (!SHEET_WEBAPP_URL || SHEET_WEBAPP_URL.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
-        console.error("SHEET_WEBAPP_URL غير مضبوط.");
-        return;
+      if (!SHEET_WEBAPP_URL){
+        throw new Error("NO_WEBAPP_URL");
       }
 
-      try {
-        const fd = new FormData();
-        fd.append("fullName", order.fullName || "");
-        fd.append("wilaya", order.wilaya || "");
-        fd.append("university", order.university || "");
-        fd.append("phone", order.phone || "");
-        fd.append("email", order.email || "");
-        fd.append("paymentType", order.paymentType || "");
-        fd.append("cashLocation", order.cashLocation || "");
-        fd.append("totalPrice", order.totalPrice || "");
-        fd.append("etat", order.etat || "Applied");
+      const fd = new FormData();
+      fd.append("fullName", order.fullName || "");
+      fd.append("wilaya", order.wilaya || "");
+      fd.append("university", order.university || "");
+      fd.append("phone", order.phone || "");
+      fd.append("email", order.email || "");
+      fd.append("paymentType", order.paymentType || "");
+      fd.append("cashLocation", order.cashLocation || "");
+      fd.append("totalPrice", order.totalPrice || "");
+      fd.append("etat", order.etat || "Applied");
 
-        const res = await fetch(SHEET_WEBAPP_URL, {
-          method: "POST",
-          body: fd
-        });
+      const res = await fetch(SHEET_WEBAPP_URL, {
+        method: "POST",
+        body: fd
+      });
 
-        try {
-          const txt = await res.text();
-          console.log("Sheet response:", res.status, txt);
-        } catch(e){
-          console.log("Sheet response (no text)", res.status);
-        }
-
-      } catch (err) {
-        console.error("Sheet fetch error:", err);
+      if (!res.ok){
+        throw new Error("HTTP_" + res.status);
       }
+
+
+      return true;
     }
 
-
+    // ========= نسخ RIB + تسجيل الطلب BaridiMob =========
     async function copyRIB(){
       const form = document.getElementById("orderForm");
       if (!form) {
@@ -1104,13 +1091,19 @@
         phone: fd.get("phone"),
         email: fd.get("email"),
         paymentType: paymentType,
-        cashLocation: fd.get("cashLocation") || "",
+        cashLocation: "",          
         totalPrice: "600DA",
         etat: "Applied"
       };
 
+      try{
+        await registerOrderInSheet(order);
+      }catch(err){
+        console.error(err);
+        alert("وقع خطأ أثناء تسجيل الطلب، حاول مرة أخرى.");
+        return;
+      }
 
-      await registerOrderInSheet(order);
 
       try{
         await navigator.clipboard.writeText(RIB_VALUE);
@@ -1119,8 +1112,10 @@
       }
 
       closeModal("orderModal");
+
       window.location.href = TELEGRAM_URL;
     }
+
 
     async function useAccessCode(){
       const codeInput = document.getElementById("accessCodeInput");
@@ -1166,6 +1161,7 @@
       }
     }
 
+
     async function loadRatings(){
       try{
         const snap = await db.collection("monCarnetRatings")
@@ -1193,6 +1189,7 @@
       }
     }
     loadRatings();
+
 
     const adminBtn = document.getElementById("adminBtn");
     const codesTableBody = document.getElementById("codesTableBody");
@@ -1321,6 +1318,7 @@
       }
     });
 
+    
     function openOrderModal(){
       const form = document.getElementById("orderForm");
       if (form) form.reset();
@@ -1333,7 +1331,14 @@
       document.getElementById("orderModal").style.display = "flex";
     }
 
+
     document.addEventListener("DOMContentLoaded", () => {
+
+
+      const tgl = document.getElementById("telegramLink");
+      if (tgl) tgl.href = TELEGRAM_URL;
+      const ribSpan = document.getElementById("ribText");
+      if (ribSpan) ribSpan.textContent = RIB_VALUE;
 
       const previewVideo = document.getElementById("previewVideo");
       if (previewVideo) {
@@ -1374,6 +1379,13 @@
             return;
           }
 
+
+          if (payType === "BaridiMob") {
+            alert("للدفع عبر Baridi Mob اضغط على زر نسخ RIB و تأكيد الطلب.");
+            return;
+          }
+
+
           const order = {
             fullName: formData.get("fullName"),
             wilaya: formData.get("wilaya"),
@@ -1386,15 +1398,16 @@
             etat: "Applied"
           };
 
-          if (payType === "BaridiMob") {
-            alert("للدفع عبر Baridi Mob اضغط على زر نسخ RIB و تأكيد الطلب.");
-            return;
-          }
-
-          if (payType === "CASH") {
+          try{
             await registerOrderInSheet(order);
+            const msg = document.getElementById("orderMsg");
+            if (msg) msg.style.display = "inline";
             closeModal("orderModal");
+            // تحويل مباشر إلى التلغرام بعد تسجيل الطلب كاش
             window.location.href = TELEGRAM_URL;
+          }catch(err){
+            console.error(err);
+            alert("وقع خطأ أثناء إرسال الطلب إلى الشيت، حاول مرة أخرى.");
           }
         });
       }
