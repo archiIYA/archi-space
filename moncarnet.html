@@ -944,19 +944,17 @@
     const RIB_VALUE = "00799999004014138305";
     const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
 
-
     const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbysyoJwH3AUIlaFoJGZoBdXTn33vNigzO9DyyxaWYPTdYXYE_k67JknoDvazNR8R-E1/exec";
 
     const firebaseConfig = {
-  apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-  authDomain: "archi-space-72624.firebaseapp.com",
-  projectId: "archi-space-72624",
-  storageBucket: "archi-space-72624.firebasestorage.app",
-  messagingSenderId: "407015246505",
-  appId: "1:407015246505:web:c914a78566b882b80df7b8",
-  measurementId: "G-RZV7LSDQBD"
-};
-
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "archi-space-72624.firebaseapp.com",
+      projectId: "archi-space-72624",
+      storageBucket: "archi-space-72624.firebasestorage.app",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
 
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
@@ -964,12 +962,10 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-
     function generateRandomCode(){
       const raw = Math.random().toString(36).substring(2,8).toUpperCase();
       return "HA-" + raw;
     }
-
 
     async function registerOrderInSheet(order){
       if (!SHEET_WEBAPP_URL){
@@ -997,44 +993,39 @@
       console.log("Sheet response:", text);
     }
 
-
     async function saveOrderToFirestore(order){
-      try{
-        // monCarnetCodeRequests
-        const reqRef = await db.collection("monCarnetCodeRequests").add({
-          productId: "mon_carnet_ha1",
-          email: order.email,
-          fullName: order.fullName,
-          wilaya: order.wilaya,
-          university: order.university,
-          phone: order.phone,
-          paymentMethod: order.paymentType,
-          cashLocation: order.cashLocation || "",
-          totalPrice: order.totalPrice,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          status: "pending"
-        });
+      // 1) monCarnetCodeRequests
+      const reqRef = await db.collection("monCarnetCodeRequests").add({
+        productId: "mon_carnet_ha1",
+        email: order.email,
+        fullName: order.fullName,
+        wilaya: order.wilaya,
+        university: order.university,
+        phone: order.phone,
+        paymentMethod: order.paymentType,
+        cashLocation: order.cashLocation || "",
+        totalPrice: order.totalPrice,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        status: "pending"
+      });
 
-        // monCarnetCodes
-        const code = generateRandomCode();
-        const expiresAt = new Date();
-        expiresAt.setMonth(expiresAt.getMonth() + 7);
 
-        await db.collection("monCarnetCodes").add({
-          code: code,
-          productId: "mon_carnet_ha1",
-          ownerEmail: order.email,
-          paymentMethod: order.paymentType,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          expiresAt: expiresAt,
-          status: "pending_payment"
-        });
+      const code = generateRandomCode();
+      const expiresAt = new Date();
+      expiresAt.setMonth(expiresAt.getMonth() + 7);
 
-        console.log("Firestore OK → requestId:", reqRef.id, "code:", code);
-      }catch(err){
-        console.error("Firestore error:", err);
+      await db.collection("monCarnetCodes").add({
+        code: code,
+        productId: "mon_carnet_ha1",
+        ownerEmail: order.email,
+        paymentMethod: order.paymentType,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        expiresAt: expiresAt,
+        status: "pending_payment"
+      });
 
-      }
+      console.log("Firestore OK → requestId:", reqRef.id, "code:", code);
+      return code;
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -1117,19 +1108,14 @@
       };
 
       try{
-
         await registerOrderInSheet(order);
-
-
         await saveOrderToFirestore(order);
 
-  
         try{
           await navigator.clipboard.writeText(RIB_VALUE);
         }catch(e){
           console.warn("Clipboard error:", e);
         }
-
 
         closeModal("orderModal");
         window.location.href = TELEGRAM_URL;
@@ -1411,13 +1397,9 @@
 
           if (payType === "CASH") {
             try{
-              // 1) تسجيل الطلب في الشيت
               await registerOrderInSheet(order);
-
-              // 2) تسجيل الطلب + كود في الفايرباس
               await saveOrderToFirestore(order);
 
-              // 3) غلق المودال + التحويل للتلغرام
               const msg = document.getElementById("orderMsg");
               if (msg) msg.style.display = "inline";
               closeModal("orderModal");
