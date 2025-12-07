@@ -634,11 +634,11 @@
             exemples d’édifices (temples, basiliques, forums…).
           </p>
           <p>
-            • Schémas simples, coupes, élévations et plans commentés pour fixer les idées – adaptés au niveau 1ère année.
+            • Schémas simples، coupes، élévations et plans commentés pour fixer les idées – adaptés au niveau 1ère année.
           </p>
           <ul class="preview-list">
             <li>Tableaux comparatifs entre les civilisations.</li>
-            <li>Définitions courtes des notions clés (axe, travée, module, trame…).</li>
+            <li>Définitions courtes des notions clés (axe، travée، module، trame…).</li>
             <li>Vocabulaire architectural français ciblé pour les examens.</li>
           </ul>
           <div class="preview-actions">
@@ -855,7 +855,7 @@
     const RIB_VALUE = "00799999004014138305";
     const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
 
-    // رابط الويب آب الجديد الذي أرسلته
+    // رابط الويب آب الذي يكتب في الشيت
     const SHEET_WEBAPP_URL =
       "https://script.google.com/macros/s/AKfycbwJdIl7sqtp6wmXQGk_-4BLu3U_Y6CdaX-xIKGt2Btta3mlWGeOlohodgU7ElHgcRRy/exec";
 
@@ -879,7 +879,7 @@
       }
       auth = firebase.auth();
       db = firebase.firestore();
-      console.log("✅ Firebase initialized");
+      console.log("✅ Firebase initialized", db ? "Firestore OK" : "Firestore NULL");
     } catch (e) {
       console.error("💥 Firebase init error:", e);
     }
@@ -919,37 +919,15 @@
       return text;
     }
 
-    // ================== 5) Firestore: طلب + كود ==================
+    // ================== 5) Firestore: طلب + كود (مبسّطة) ==================
     async function createOrderAndCodeInFirestore(order) {
-      if (!db) throw new Error("Firestore not initialized");
-
-      const now = new Date();
-
-      // نبحث إذا عنده كود سابق صالح لنفس الإيميل
-      const snap = await db.collection("monCarnetCodes")
-        .where("ownerEmail", "==", order.email)
-        .limit(50)
-        .get();
-
-      let existing = null;
-      snap.forEach(doc => {
-        const d = doc.data();
-        if (d.productId !== "mon_carnet_ha1") return;
-        const exp = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : null;
-        const status = d.status || "active";
-        if (exp && exp > now && (status === "active" || status === "pending_payment") && !existing) {
-          existing = d;
-        }
-      });
-
-      if (existing) {
-        console.log("📱 FIRESTORE: existing code", existing.code);
-        return { hasExistingCode: true, code: existing.code };
+      if (!db) {
+        throw new Error("Firestore غير مهيّأ (db = null). تأكد من تفعيل Firestore في مشروع archi-space-72624.");
       }
 
-      console.log("📱 FIRESTORE: creating new order + code for", order.email);
+      console.log("📱 FIRESTORE: creating order + code for", order.email);
 
-      // monCarnetCodeRequests
+      // 1) monCarnetCodeRequests
       const reqRef = await db.collection("monCarnetCodeRequests").add({
         productId: "mon_carnet_ha1",
         email: order.email,
@@ -964,7 +942,7 @@
         status: "pending"
       });
 
-      // monCarnetCodes
+      // 2) monCarnetCodes (كود جديد دائماً لمدة 7 أشهر)
       const code = generateRandomCode();
       const expiresAtDate = new Date();
       expiresAtDate.setMonth(expiresAtDate.getMonth() + 7);
@@ -979,6 +957,8 @@
         status: "pending_payment",
         requestId: reqRef.id
       });
+
+      console.log("✅ FIRESTORE: code created:", code);
 
       return { hasExistingCode: false, code, requestId: reqRef.id };
     }
@@ -996,11 +976,13 @@
 
       let fsResult = null;
       let sheetOk = false;
+      let fsError = null;
 
       // 1) Firestore
       try {
         fsResult = await createOrderAndCodeInFirestore(order);
       } catch (e) {
+        fsError = e;
         console.error("💥 Firestore error:", e);
       }
 
@@ -1020,18 +1002,17 @@
           msgEl.style.color = "#b91c1c";
           msgEl.style.display = "inline";
         }
-        alert("حدث خطأ في التسجيل. تحقق من إعدادات Firebase و Apps Script.");
+        alert("حدث خطأ في التسجيل.\nFirestore: " + (fsError?.message || "؟") + "\nتحقق من إعدادات Firebase و Apps Script.");
         return;
       }
 
       // 4) رسالة نجاح
       let finalMsg = "";
-      if (fsResult?.hasExistingCode) {
-        finalMsg = `✅ لديك كود ساري: ${fsResult.code}`;
-      } else if (fsResult?.code) {
-        finalMsg = `✅ تم تسجيل طلبك وإنشاء كود: ${fsResult.code}`;
+      if (fsResult?.code) {
+        finalMsg = `✅ تم تسجيل طلبك وإنشاء كود في Firebase: ${fsResult.code}`;
       } else {
-        finalMsg = "✅ تم تسجيل طلبك في الشيت، وسيتم إرسال الكود من طرف الإدارة.";
+        finalMsg =
+          "✅ تم تسجيل طلبك في الشيت بنجاح، لكن لم يتم إنشاء كود تلقائياً في Firestore (تحقق من الإعدادات).";
       }
 
       if (msgEl) {
@@ -1109,6 +1090,7 @@
       if (!db) {
         errorEl.textContent = "Firestore غير مهيّأ.";
         errorEl.style.display = "block";
+        alert("Firestore غير مهيّأ (db = null). تأكد من تفعيل Firestore في المشروع.");
         return;
       }
 
@@ -1148,6 +1130,7 @@
 
       if (!db) {
         tbody.innerHTML = "<tr><td colspan='5'>Firestore غير متاح.</td></tr>";
+        alert("Firestore غير مهيّأ (db = null).");
         return;
       }
 
@@ -1207,6 +1190,11 @@
           return;
         }
 
+        if (!db) {
+          alert("Firestore غير مهيّأ.");
+          return;
+        }
+
         const code = generateRandomCode();
         const expiresAt = new Date();
         expiresAt.setMonth(expiresAt.getMonth() + 7);
@@ -1241,6 +1229,11 @@
         const user = auth?.currentUser;
         if (!user || user.email !== ADMIN_EMAIL) {
           alert("غير مخوّل.");
+          return;
+        }
+
+        if (!db) {
+          alert("Firestore غير مهيّأ.");
           return;
         }
 
