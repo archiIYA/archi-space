@@ -367,6 +367,7 @@
       background:#fff5f5;
       padding:14px 16px;
     }
+    .code-box h3{font-size:1rem;margin-bottom:6px;color:var(--secondary);}
     .code-label{font-size:0.85rem;margin-bottom:4px;color:#4b5563;}
     .code-input{
       width:100%;
@@ -547,7 +548,7 @@
         <div class="carnet-info">
           <h1 class="carnet-title">Mon Carnet HA 1</h1>
           <p class="carnet-sub">
-            Résumé complet en français pour l’histoire de l’architecture (1ère année) avec schémas, tableaux
+            Résumé complet en français pour l’histoire de l’architecture – 1ère année, avec schémas, tableaux
             et vocabulaire architectural ciblé.
           </p>
           <span class="pill-fr">
@@ -663,6 +664,7 @@
       </p>
       <div class="code-layout">
         <div class="code-box">
+          <h3>🔐 الكود الخاص بحسابك</h3>
           <div class="code-label">Code d’accès :</div>
           <input id="accessCodeInput" class="code-input" type="text" placeholder="ex : HA-4F7K9Q">
           <div class="code-help">بعد الدفع، يصلك هذا الكود من إدارة Trendy Plaza.</div>
@@ -726,6 +728,7 @@
             <div class="code-label" style="margin-top:8px;">الولاية</div>
             <select name="wilaya" class="code-input" required>
               <option value="">اختر الولاية</option>
+              <!-- ولايات الجزائر -->
               <option value="Adrar">Adrar</option>
               <option value="Chlef">Chlef</option>
               <option value="Laghouat">Laghouat</option>
@@ -798,7 +801,7 @@
 
           <div class="payment-box">
             <h3>طريقة الدفع</h3>
-            <div class="code-label">Type de payement</div>
+            <div class="code-label">Type de paiement</div>
             <select name="paymentType" id="paymentTypeSelect" class="code-input" required>
               <option value="">اختر نوع الدفع</option>
               <option value="CASH">كاش</option>
@@ -852,9 +855,9 @@
     const RIB_VALUE = "00799999004014138305";
     const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
 
-    // ✔ تأكد من أن هذا الرابط هو رابط الويب آب الصحيح من Apps Script
+    // رابط الويب آب الجديد الذي أرسلته
     const SHEET_WEBAPP_URL =
-      "https://script.google.com/macros/s/AKfycbysyoJwH3AUIlaFoJGZoBdXTn33vNigzO9DyyxaWYPTdYXYEk67JknoDvazNR8R-E1/exec";
+      "https://script.google.com/macros/s/AKfycbwJdIl7sqtp6wmXQGk_-4BLu3U_Y6CdaX-xIKGt2Btta3mlWGeOlohodgU7ElHgcRRy/exec";
 
     // ================== 2) Firebase ==================
     const firebaseConfig = {
@@ -922,7 +925,7 @@
 
       const now = new Date();
 
-      // البحث عن كود سابق ساري لنفس الإيميل
+      // نبحث إذا عنده كود سابق صالح لنفس الإيميل
       const snap = await db.collection("monCarnetCodes")
         .where("ownerEmail", "==", order.email)
         .limit(50)
@@ -994,63 +997,64 @@
       let fsResult = null;
       let sheetOk = false;
 
+      // 1) Firestore
       try {
-        // Firestore
-        try {
-          fsResult = await createOrderAndCodeInFirestore(order);
-        } catch (e) {
-          console.error("💥 Firestore error:", e);
-        }
-
-        // Google Sheet
-        try {
-          await registerOrderInSheet(order);
-          sheetOk = true;
-        } catch (e) {
-          console.error("⚠️ Sheet error:", e);
-        }
-
-        if (!fsResult && !sheetOk) {
-          throw new Error("لم يتم حفظ الطلب لا في الشيت ولا في Firestore.");
-        }
-
-        let finalMsg = "";
-        if (fsResult?.hasExistingCode) {
-          finalMsg = `✅ لديك كود ساري: ${fsResult.code}`;
-        } else if (fsResult?.code) {
-          finalMsg = `✅ تم تسجيل طلبك وإنشاء كود: ${fsResult.code}`;
-        } else {
-          finalMsg = "✅ تم تسجيل طلبك في الشيت، وسيتم إرسال الكود من طرف الإدارة.";
-        }
-
-        if (msgEl) {
-          msgEl.textContent = finalMsg;
-          msgEl.style.display = "inline";
-        }
-
-        if (order.paymentType === "BaridiMob" && navigator.clipboard) {
-          try {
-            await navigator.clipboard.writeText(RIB_VALUE);
-            console.log("📋 RIB copied");
-          } catch (e) {
-            console.warn("Clipboard error:", e);
-          }
-        }
-
-        closeModal("orderModal");
-        window.location.href = TELEGRAM_URL;
+        fsResult = await createOrderAndCodeInFirestore(order);
       } catch (e) {
-        console.error("💥 processOrder FAILED:", e);
+        console.error("💥 Firestore error:", e);
+      }
+
+      // 2) Google Sheet
+      try {
+        await registerOrderInSheet(order);
+        sheetOk = true;
+      } catch (e) {
+        console.error("⚠️ Sheet error:", e);
+      }
+
+      // 3) لو الاثنين فشلوا
+      if (!fsResult && !sheetOk) {
         if (msgEl) {
           msgEl.textContent =
-            "❌ وقع خطأ أثناء تسجيل الطلب. تأكد من إعدادات Firestore و Google Sheet ثم أعد المحاولة.";
+            "❌ وقع خطأ أثناء تسجيل الطلب (لا في الشيت ولا في Firestore). راجع الإعدادات.";
           msgEl.style.color = "#b91c1c";
           msgEl.style.display = "inline";
         }
+        alert("حدث خطأ في التسجيل. تحقق من إعدادات Firebase و Apps Script.");
+        return;
       }
+
+      // 4) رسالة نجاح
+      let finalMsg = "";
+      if (fsResult?.hasExistingCode) {
+        finalMsg = `✅ لديك كود ساري: ${fsResult.code}`;
+      } else if (fsResult?.code) {
+        finalMsg = `✅ تم تسجيل طلبك وإنشاء كود: ${fsResult.code}`;
+      } else {
+        finalMsg = "✅ تم تسجيل طلبك في الشيت، وسيتم إرسال الكود من طرف الإدارة.";
+      }
+
+      if (msgEl) {
+        msgEl.textContent = finalMsg;
+        msgEl.style.display = "inline";
+      }
+
+      // نسخ RIB لو BaridiMob
+      if (order.paymentType === "BaridiMob" && navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(RIB_VALUE);
+          console.log("📋 RIB copied");
+        } catch (e) {
+          console.warn("Clipboard error:", e);
+        }
+      }
+
+      // إغلاق المودال + توجيه للتلغرام
+      closeModal("orderModal");
+      window.location.href = TELEGRAM_URL;
     }
 
-    // ================== 7) واجهة: نسخ RIB + إرسال الطلب ==================
+    // ================== 7) واجهة: نسخ RIB ==================
     async function copyRIB() {
       const form = document.getElementById("orderForm");
       if (!form) return;
@@ -1086,7 +1090,7 @@
       await processOrder(order);
     }
 
-    // ================== 8) استعمال الكود لفتح الدفتر ==================
+    // ================== 8) استعمال الكود ==================
     async function useAccessCode() {
       const input = document.getElementById("accessCodeInput");
       const errorEl = document.getElementById("codeError");
@@ -1103,7 +1107,7 @@
       }
 
       if (!db) {
-        errorEl.textContent = "Firestore غير مهيأ.";
+        errorEl.textContent = "Firestore غير مهيّأ.";
         errorEl.style.display = "block";
         return;
       }
@@ -1136,7 +1140,7 @@
       }
     }
 
-    // ================== 9) Admin: جلب الأكواد ==================
+    // ================== 9) Admin: الأكواد ==================
     async function loadCodes() {
       const tbody = document.getElementById("codesTableBody");
       const stats = document.getElementById("adminStats");
@@ -1319,7 +1323,7 @@
       loadCodes();
     }
 
-
+    // ================== 11) INIT & LISTENERS ==================
     document.addEventListener("DOMContentLoaded", () => {
       console.log("🚀 DOM ready");
 
@@ -1391,7 +1395,7 @@
         });
       }
 
-
+      // تحميل التقييمات (اختياري)
       (async function loadRatings() {
         try {
           if (!db) return;
@@ -1416,7 +1420,7 @@
         }
       })();
 
-
+      // حماية بسيطة
       document.addEventListener("contextmenu", e => e.preventDefault());
       document.addEventListener("keydown", e => {
         const k = e.key.toLowerCase();
@@ -1426,6 +1430,7 @@
       });
     });
 
+    // جعل الدوال متاحة لـ onclick
     window.openPreviewModal = openPreviewModal;
     window.openCodeModal = openCodeModal;
     window.openOrderModal = openOrderModal;
