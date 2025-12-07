@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Firebase -->
+
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -604,7 +604,7 @@
     </div>
   </main>
 
-  <!-- PREVIEW MODAL -->
+
   <div id="previewModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('previewModal')">&times;</button>
@@ -654,7 +654,7 @@
     </div>
   </div>
 
-  <!-- CODE MODAL -->
+
   <div id="codeModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('codeModal')">&times;</button>
@@ -677,7 +677,7 @@
     </div>
   </div>
 
-  <!-- ADMIN MODAL -->
+
   <div id="adminModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('adminModal')">&times;</button>
@@ -710,7 +710,7 @@
     </div>
   </div>
 
-  <!-- ORDER MODAL -->
+
   <div id="orderModal" class="modal">
     <div class="modal-inner">
       <button class="modal-close" onclick="closeModal('orderModal')">&times;</button>
@@ -728,7 +728,7 @@
             <div class="code-label" style="margin-top:8px;">الولاية</div>
             <select name="wilaya" class="code-input" required>
               <option value="">اختر الولاية</option>
-              <!-- ولايات الجزائر -->
+             
               <option value="Adrar">Adrar</option>
               <option value="Chlef">Chlef</option>
               <option value="Laghouat">Laghouat</option>
@@ -848,18 +848,18 @@
   </div>
 
   <script>
-    // ================== 1) الثوابت العامة ==================
+
     const CARNET_HA_DRIVE_URL =
-      "https://drive.google.com/file/d/1fLvA1EJIaMVaMwyovwk36qJKTgaGos7/view?usp=drivesdk";
+      "https://drive.google.com/drive/folders/1nIFaSfw5O8vEwrCxXf3gjtTJhwWoVDvV?usp=drive_link";
     const TELEGRAM_URL = "https://t.me/trendyplaza10";
     const RIB_VALUE = "00799999004014138305";
     const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
 
-    // رابط الويب آب الذي يكتب في الشيت
+
     const SHEET_WEBAPP_URL =
       "https://script.google.com/macros/s/AKfycbwJdIl7sqtp6wmXQGk_-4BLu3U_Y6CdaX-xIKGt2Btta3mlWGeOlohodgU7ElHgcRRy/exec";
 
-    // ================== 2) Firebase ==================
+
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -884,12 +884,12 @@
       console.error("💥 Firebase init error:", e);
     }
 
-    // ================== 3) توليد كود عشوائي ==================
+
     function generateRandomCode() {
       return "HA-" + Math.random().toString(36).substring(2, 8).toUpperCase();
     }
 
-    // ================== 4) إرسال الطلب إلى Google Sheet ==================
+
     async function registerOrderInSheet(order) {
       if (!SHEET_WEBAPP_URL) throw new Error("NO_SHEET_WEBAPP_URL");
 
@@ -919,7 +919,7 @@
       return text;
     }
 
-    // ================== 5) Firestore: طلب + كود (مبسّطة) ==================
+
     async function createOrderAndCodeInFirestore(order) {
       if (!db) {
         throw new Error("Firestore غير مهيّأ (db = null). تأكد من تفعيل Firestore في مشروع archi-space-72624.");
@@ -927,7 +927,7 @@
 
       console.log("📱 FIRESTORE: creating order + code for", order.email);
 
-      // 1) monCarnetCodeRequests
+
       const reqRef = await db.collection("monCarnetCodeRequests").add({
         productId: "mon_carnet_ha1",
         email: order.email,
@@ -942,7 +942,7 @@
         status: "pending"
       });
 
-      // 2) monCarnetCodes (كود جديد دائماً لمدة 7 أشهر)
+
       const code = generateRandomCode();
       const expiresAtDate = new Date();
       expiresAtDate.setMonth(expiresAtDate.getMonth() + 7);
@@ -963,7 +963,7 @@
       return { hasExistingCode: false, code, requestId: reqRef.id };
     }
 
-    // ================== 6) العملية الرئيسية للطلب ==================
+
     async function processOrder(order) {
       const msgEl = document.getElementById("orderMsg");
       if (msgEl) {
@@ -978,7 +978,7 @@
       let sheetOk = false;
       let fsError = null;
 
-      // 1) Firestore
+
       try {
         fsResult = await createOrderAndCodeInFirestore(order);
       } catch (e) {
@@ -986,7 +986,7 @@
         console.error("💥 Firestore error:", e);
       }
 
-      // 2) Google Sheet
+
       try {
         await registerOrderInSheet(order);
         sheetOk = true;
@@ -994,7 +994,7 @@
         console.error("⚠️ Sheet error:", e);
       }
 
-      // 3) لو الاثنين فشلوا
+
       if (!fsResult && !sheetOk) {
         if (msgEl) {
           msgEl.textContent =
@@ -1006,7 +1006,7 @@
         return;
       }
 
-      // 4) رسالة نجاح
+
       let finalMsg = "";
       if (fsResult?.code) {
         finalMsg = `✅ تم تسجيل طلبك وإنشاء كود في Firebase: ${fsResult.code}`;
@@ -1020,7 +1020,7 @@
         msgEl.style.display = "inline";
       }
 
-      // نسخ RIB لو BaridiMob
+
       if (order.paymentType === "BaridiMob" && navigator.clipboard) {
         try {
           await navigator.clipboard.writeText(RIB_VALUE);
@@ -1030,12 +1030,12 @@
         }
       }
 
-      // إغلاق المودال + توجيه للتلغرام
+
       closeModal("orderModal");
       window.location.href = TELEGRAM_URL;
     }
 
-    // ================== 7) واجهة: نسخ RIB ==================
+
     async function copyRIB() {
       const form = document.getElementById("orderForm");
       if (!form) return;
@@ -1071,7 +1071,7 @@
       await processOrder(order);
     }
 
-    // ================== 8) استعمال الكود ==================
+
     async function useAccessCode() {
       const input = document.getElementById("accessCodeInput");
       const errorEl = document.getElementById("codeError");
@@ -1122,7 +1122,7 @@
       }
     }
 
-    // ================== 9) Admin: الأكواد ==================
+
     async function loadCodes() {
       const tbody = document.getElementById("codesTableBody");
       const stats = document.getElementById("adminStats");
@@ -1258,7 +1258,7 @@
       createNewCode(email.trim() || null);
     }
 
-    // ================== 10) المودالات والتنقل ==================
+
     function openPreviewModal() {
       const m = document.getElementById("previewModal");
       if (m) m.style.display = "flex";
@@ -1316,7 +1316,7 @@
       loadCodes();
     }
 
-    // ================== 11) INIT & LISTENERS ==================
+
     document.addEventListener("DOMContentLoaded", () => {
       console.log("🚀 DOM ready");
 
@@ -1388,7 +1388,7 @@
         });
       }
 
-      // تحميل التقييمات (اختياري)
+
       (async function loadRatings() {
         try {
           if (!db) return;
@@ -1413,7 +1413,7 @@
         }
       })();
 
-      // حماية بسيطة
+
       document.addEventListener("contextmenu", e => e.preventDefault());
       document.addEventListener("keydown", e => {
         const k = e.key.toLowerCase();
@@ -1423,7 +1423,7 @@
       });
     });
 
-    // جعل الدوال متاحة لـ onclick
+
     window.openPreviewModal = openPreviewModal;
     window.openCodeModal = openCodeModal;
     window.openOrderModal = openOrderModal;
