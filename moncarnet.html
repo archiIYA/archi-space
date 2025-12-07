@@ -846,563 +846,345 @@
       </form>
     </div>
   </div>
-
   <script>
-    // ثوابت عامة
-    const CARNET_HA_DRIVE_URL =
-      "https://drive.google.com/file/d/1fLvA1EJIaMVaMwyo_vwk36qJKTgaGos7/view?usp=drivesdk";
-    const TELEGRAM_URL = "https://t.me/trendyplaza10";
-    const RIB_VALUE = "00799999004014138305";
-    const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
+  /* =========================
+      1) الثوابت العامة
+  ========================== */
+  const CARNETHADRIVEURL = "https://drive.google.com/file/d/1fLvA1EJIaMVaMwyovwk36qJKTgaGos7/view?usp=drivesdk";
+  const TELEGRAMURL = "https://t.me/trendyplaza10";
+  const RIBVALUE = "00799999004014138305";
+  const ADMINEMAIL = "toumiiyadetude@gmail.com";
+  const SHEETWEBAPPURL = "https://script.google.com/macros/s/AKfycbysyoJwH3AUIlaFoJGZoBdXTn33vNigzO9DyyxaWYPTdYXYEk67JknoDvazNR8R-E1/exec";
 
-    const SHEET_WEBAPP_URL =
-      "https://script.google.com/macros/s/AKfycbysyoJwH3AUIlaFoJGZoBdXTn33vNigzO9DyyxaWYPTdYXYE_k67JknoDvazNR8R-E1/exec";
+  /* =========================
+      2) إعداد Firebase
+  ========================== */
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.firebasestorage.app",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+    measurementId: "G-RZV7LSDQBD"
+  };
 
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-      authDomain: "archi-space-72624.firebaseapp.com",
-      projectId: "archi-space-72624",
-      storageBucket: "archi-space-72624.firebasestorage.app",
-      messagingSenderId: "407015246505",
-      appId: "1:407015246505:web:c914a78566b882b80df7b8",
-      measurementId: "G-RZV7LSDQBD"
-    };
-
+  let db = null;
+  try {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    db = firebase.firestore();
+    console.log("✅ Firebase initialized");
+  } catch (error) {
+    console.error("💥 Firebase init error:", error);
+  }
 
-    // توليد كود عشوائي
-    function generateRandomCode() {
-      const raw = Math.random().toString(36).substring(2, 8).toUpperCase();
-      return "HA-" + raw;
+  /* =========================
+      3) كود عشوائي
+  ========================== */
+  function generateRandomCode() {
+    const raw = Math.random().toString(36).substring(2, 8).toUpperCase();
+    return `HA-${raw}`;
+  }
+
+  /* =========================
+      4) تخزين الطلب في Google Sheet
+  ========================== */
+  async function registerOrderInSheet(order) {
+    if (!SHEETWEBAPPURL) {
+      throw new Error("رابط Google Sheet غير مضبوط");
     }
 
-    // تسجيل الطلب في Google Sheet
-    async function registerOrderInSheet(order) {
-      if (!SHEET_WEBAPP_URL) {
-        throw new Error("NO_SHEET_WEBAPP_URL");
-      }
-      const fd = new FormData();
-      fd.append("fullName", order.fullName || "");
-      fd.append("wilaya", order.wilaya || "");
-      fd.append("university", order.university || "");
-      fd.append("phone", order.phone || "");
-      fd.append("email", order.email || "");
-      fd.append("paymentType", order.paymentType || "");
-      fd.append("cashLocation", order.cashLocation || "");
-      fd.append("totalPrice", order.totalPrice || "");
-      fd.append("etat", order.etat || "Applied");
+    const fd = new FormData();
+    Object.keys(order).forEach(key => {
+      fd.append(key, order[key] || "");
+    });
 
-      const res = await fetch(SHEET_WEBAPP_URL, {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s
+
+    try {
+      const res = await fetch(SHEETWEBAPPURL, {
         method: "POST",
-        body: fd
+        body: fd,
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
+
+      const text = await res.text().catch(() => "");
+      console.log("📥 Sheet response:", res.status, text);
+
       if (!res.ok) {
-        const text = await res.text();
-        console.error("Sheet error:", res.status, text);
-        throw new Error("Sheet response not OK");
+        throw new Error("تعذر حفظ الطلب في الشيت");
       }
-      const text = await res.text();
-      console.log("Sheet response:", text);
+      return true;
+    } catch (err) {
+      console.error("💥 Sheet error:", err);
+      throw err;
+    }
+  }
+
+  /* =========================
+      5) Firestore: إنشاء / استرجاع الكود
+  ========================== */
+  async function checkAndSaveOrder(order) {
+    if (!db) {
+      throw new Error("Firestore غير مهيأ");
     }
 
-    // التعامل مع الطلب في Firestore: التحقق من وجود كود ساري أو إنشاء جديد
-    async function createOrderAndCodeInFirestore(order) {
+    const nowTs = firebase.firestore.Timestamp.now();
+    const nowDate = new Date();
+
+    // 1) البحث عن كود ساري لنفس الإيميل ونفس المنتج
+    const snap = await db.collection("monCarnetCodes")
+      .where("ownerEmail", "==", order.email)
+      .where("productId", "==", "moncarnet-ha1")
+      .limit(20)
+      .get();
+
+    let validExisting = null;
+
+    snap.forEach(doc => {
+      const d = doc.data();
+      const status = d.status || "pending_payment";
+      const expDate = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : null;
+
+      if (!expDate) return;
+
+      const notExpired = expDate > nowDate;
+      const okStatus = status === "active" || status === "pending_payment";
+
+      if (notExpired && okStatus && !validExisting) {
+        validExisting = d;
+      }
+    });
+
+    if (validExisting) {
+      console.log("✅ Found existing code:", validExisting.code);
+      return {
+        hasExistingCode: true,
+        code: validExisting.code,
+        message: `لديك كود ساري: ${validExisting.code}`
+      };
+    }
+
+    console.log("➕ No valid code, creating new one...");
+
+    // 2) تسجيل الطلب في مجموعة الطلبات (للسجلّ)
+    const reqRef = await db.collection("monCarnetCodeRequests").add({
+      productId: "moncarnet-ha1",
+      email: order.email,
+      fullName: order.fullName,
+      wilaya: order.wilaya,
+      university: order.university,
+      phone: order.phone,
+      paymentMethod: order.paymentType,
+      cashLocation: order.cashLocation || "",
+      totalPrice: order.totalPrice,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      status: "pending"
+    });
+
+    // 3) إنشاء كود جديد
+    const code = generateRandomCode();
+    const expiresAt = new Date();
+    expiresAt.setMonth(expiresAt.getMonth() + 7); // 7 أشهر صلاحية
+
+    await db.collection("monCarnetCodes").add({
+      code,
+      productId: "moncarnet-ha1",
+      ownerEmail: order.email,
+      paymentMethod: order.paymentType,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      expiresAt: firebase.firestore.Timestamp.fromDate(expiresAt),
+      status: "pending_payment",
+      requestId: reqRef.id
+    });
+
+    console.log("✅ New code created:", code);
+
+    return {
+      hasExistingCode: false,
+      code,
+      requestId: reqRef.id
+    };
+  }
+
+  /* =========================
+      6) الدالة الرئيسية: طلب + كود
+  ========================== */
+  async function processOrder(order) {
+    const msgEl = document.getElementById("orderMsg");
+    if (msgEl) {
+      msgEl.style.display = "inline";
+      msgEl.style.color = "#555";
+      msgEl.textContent = "⏳ جاري تسجيل طلبك...";
+    }
+
+    let sheetOk = false;
+    let firestoreOk = false;
+    let firestoreResult = null;
+
+    try {
+      // أ) Google Sheet (تخزين الطلبيات)
       try {
-        const now = new Date();
-
-        // 1) البحث عن كود سابق لنفس الإيميل والمنتج
-        const snap = await db.collection("monCarnetCodes")
-          .where("ownerEmail", "==", order.email)
-          .where("productId", "==", "mon_carnet_ha1")
-          .limit(50)
-          .get();
-
-        let existing = null;
-        snap.forEach(doc => {
-          const d = doc.data();
-          const exp = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : null;
-          const st = d.status || "active";
-          if (
-            (st === "active" || st === "pending_payment") &&
-            exp && exp > now
-          ) {
-            existing = d;
-          }
-        });
-
-        if (existing) {
-          console.log("Existing valid code:", existing.code);
-          return {
-            hasExistingCode: true,
-            code: existing.code
-          };
-        }
-
-        console.log("Creating new order + code for:", order.email);
-
-        // 2) monCarnetCodeRequests
-        const reqRef = await db.collection("monCarnetCodeRequests").add({
-          productId: "mon_carnet_ha1",
-          email: order.email,
-          fullName: order.fullName,
-          wilaya: order.wilaya,
-          university: order.university,
-          phone: order.phone,
-          paymentMethod: order.paymentType,
-          cashLocation: order.cashLocation || "",
-          totalPrice: order.totalPrice,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          status: "pending"
-        });
-
-        // 3) monCarnetCodes
-        const code = generateRandomCode();
-        const expiresAtDate = new Date();
-        expiresAtDate.setMonth(expiresAtDate.getMonth() + 7);
-
-        await db.collection("monCarnetCodes").add({
-          code: code,
-          productId: "mon_carnet_ha1",
-          ownerEmail: order.email,
-          paymentMethod: order.paymentType,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          expiresAt: firebase.firestore.Timestamp.fromDate(expiresAtDate),
-          status: "pending_payment"
-        });
-
-        return {
-          hasExistingCode: false,
-          code: code,
-          requestId: reqRef.id
-        };
+        await registerOrderInSheet(order);
+        sheetOk = true;
       } catch (err) {
-        console.error("Firestore createOrder error:", err);
-        throw err;
-      }
-    }
-
-    // معالجة الطلب بالكامل (Firestore + Sheet + UI)
-    async function processOrder(order) {
-      const msgEl = document.getElementById("orderMsg");
-      if (msgEl) {
-        msgEl.style.display = "none";
-        msgEl.textContent = "";
-        msgEl.style.color = "#16a34a";
+        sheetOk = false;
       }
 
-      try {
-        // 1) Firestore
-        const fsResult = await createOrderAndCodeInFirestore(order);
-
-        // 2) Google Sheet (لو فشل، نكمّل)
+      // ب) Firestore (إنشاء/استرجاع الكود)
+      if (db) {
         try {
-          await registerOrderInSheet(order);
-        } catch (sheetErr) {
-          console.warn("Sheet error (متجاوز):", sheetErr);
+          firestoreResult = await checkAndSaveOrder(order);
+          firestoreOk = true;
+        } catch (err) {
+          firestoreOk = false;
         }
-
-        // 3) رسالة نجاح
-        if (msgEl) {
-          if (fsResult.hasExistingCode) {
-            msgEl.textContent = `✅ لديك كود ساري: ${fsResult.code}`;
-          } else {
-            msgEl.textContent = `✅ تم تسجيل طلبك بنجاح! سيتم تأكيد الكود عبر الإدارة.`;
-          }
-          msgEl.style.display = "inline";
-        }
-
-        // لو BaridiMob ننسخ RIB
-        if (order.paymentType === "BaridiMob" && navigator.clipboard) {
-          try {
-            await navigator.clipboard.writeText(RIB_VALUE);
-            console.log("RIB copied to clipboard");
-          } catch (e) {
-            console.warn("Clipboard error:", e);
-          }
-        }
-
-        // غلق المودال + تحويل للتلغرام
-        closeModal("orderModal");
-        window.location.href = TELEGRAM_URL;
-
-      } catch (error) {
-        console.error("processOrder error:", error);
-        if (msgEl) {
-          msgEl.textContent =
-            "❌ وقع خطأ أثناء تسجيل الطلب في قاعدة البيانات. تأكد من إعدادات Firestore أو حاول مرة أخرى.";
-          msgEl.style.color = "#b91c1c";
-          msgEl.style.display = "inline";
-        }
-        throw error;
       }
-    }
 
-    // ========= دوال الواجهة (GLOBAL عشان onclick يشتغل) =========
-    function openPreviewModal() {
-      const modal = document.getElementById("previewModal");
-      modal.style.display = "flex";
-      const v = document.getElementById("previewVideo");
-      if (v) {
-        v.currentTime = 0;
-        v.play();
+      // لو فشل الإثنان معًا
+      if (!sheetOk && !firestoreOk) {
+        throw new Error("تعذر حفظ الطلب، يرجى المحاولة لاحقاً أو الاتصال بالمطور.");
       }
-    }
 
-    function openCodeModal() {
-      const codeError = document.getElementById("codeError");
-      if (codeError) {
-        codeError.style.display = "none";
-        codeError.textContent = "";
-      }
-      const input = document.getElementById("accessCodeInput");
-      if (input) input.value = "";
-      document.getElementById("codeModal").style.display = "flex";
-    }
+      // رسالة النجاح + الكود
+      let finalCode = firestoreResult?.code || generateRandomCode();
+      let successMsg = "";
 
-    function openOrderModal() {
-      const form = document.getElementById("orderForm");
-      if (form) form.reset();
-      const cashWrapper = document.getElementById("cashLocationWrapper");
-      const baridiInfo = document.getElementById("baridiInfo");
-      const msg = document.getElementById("orderMsg");
-      if (cashWrapper) cashWrapper.style.display = "none";
-      if (baridiInfo) baridiInfo.style.display = "none";
-      if (msg) msg.style.display = "none";
-      document.getElementById("orderModal").style.display = "flex";
-    }
-
-    function closeModal(id) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.style.display = "none";
-      if (id === "previewModal") {
-        const v = document.getElementById("previewVideo");
-        if (v) v.pause();
-      }
-    }
-
-    function goBack() {
-      if (window.history.length > 1) {
-        window.history.back();
+      if (firestoreResult?.hasExistingCode) {
+        successMsg = `✅ ${firestoreResult.message}`;
       } else {
-        window.location.href = "Trendyplazashop.html";
+        successMsg = `✅ تم تسجيل طلبك بنجاح! كودك: ${finalCode}`;
+      }
+
+      if (msgEl) {
+        msgEl.style.color = "#15803d";
+        msgEl.textContent = successMsg;
+      }
+
+      // تحويل للتلغرام
+      setTimeout(() => {
+        window.location.href = TELEGRAMURL;
+      }, 2000);
+
+    } catch (error) {
+      console.error("💥 processOrder error:", error);
+      if (msgEl) {
+        msgEl.style.color = "#b91c1c";
+        msgEl.textContent = "❌ وقع خطأ أثناء تسجيل الطلب. أعد المحاولة.";
       }
     }
+  }
 
-    async function copyRIB() {
-      const form = document.getElementById("orderForm");
-      if (!form) {
-        alert("افتح نموذج الطلب أولاً.");
+  /* =========================
+      7) لوحة الأدمن (اختياري)
+  ========================== */
+  async function loadCodes() {
+    const codesTableBody = document.getElementById("codesTableBody");
+    const adminStatsEl = document.getElementById("adminStats");
+
+    if (!codesTableBody || !db) {
+      return;
+    }
+
+    try {
+      codesTableBody.innerHTML = '<tr><td colspan="5">جاري التحميل...</td></tr>';
+
+      const snap = await db.collection("monCarnetCodes")
+        .where("productId", "==", "moncarnet-ha1")
+        .orderBy("createdAt", "desc")
+        .limit(50)
+        .get();
+
+      const rows = [];
+      snap.forEach(doc => {
+        rows.push({ id: doc.id, data: doc.data() });
+      });
+
+      if (adminStatsEl) {
+        adminStatsEl.textContent = `${rows.length} كود`;
+      }
+
+      if (!rows.length) {
+        codesTableBody.innerHTML = '<tr><td colspan="5">لا توجد أكواد</td></tr>';
         return;
       }
 
-      const fd = new FormData(form);
+      codesTableBody.innerHTML = "";
+      rows.forEach(({ id, data: d }) => {
+        const expDate = d.expiresAt?.toDate?.() || null;
+        const expStr = expDate ? expDate.toLocaleDateString('fr-FR') : 'غير محدد';
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><span class="token-badge">${d.code}</span></td>
+          <td>${d.productId || ""}</td>
+          <td>${d.ownerEmail || ""}</td>
+          <td>${expStr}</td>
+          <td>${d.status || ""}</td>
+        `;
+        codesTableBody.appendChild(tr);
+      });
+
+    } catch (err) {
+      console.error("💥 loadCodes error:", err);
+      codesTableBody.innerHTML = '<tr><td colspan="5" style="color:#b91c1c">خطأ في جلب الأكواد</td></tr>';
+    }
+  }
+
+  // جعلها متاحة لـ onclick في الـ HTML إن وجدت
+  window.loadCodes = loadCodes;
+
+  /* =========================
+      8) تهيئة الصفحة والفورم
+  ========================== */
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("🚀 Page ready");
+
+    // ربط التلغرام والـ RIB إن وجدوا في الـ HTML
+    const telegramLink = document.getElementById("telegramLink");
+    if (telegramLink) telegramLink.href = TELEGRAMURL;
+
+    const ribText = document.getElementById("ribText");
+    if (ribText) ribText.textContent = RIBVALUE;
+
+    const orderForm = document.getElementById("orderForm");
+    if (!orderForm) {
+      console.warn("⚠️ لم يتم العثور على الفورم id='orderForm'");
+      return;
+    }
+
+    orderForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const fd = new FormData(orderForm);
+
       const paymentType = fd.get("paymentType");
-
-      if (paymentType !== "BaridiMob") {
-        alert("اختر Baridi Mob / البطاقة الذهبية كطريقة الدفع أولاً.");
+      if (!paymentType) {
+        alert("❌ اختر طريقة الدفع");
         return;
-      }
-
-      const requiredFields = ["fullName","wilaya","university","phone","email"];
-      for (const name of requiredFields) {
-        const v = (fd.get(name) || "").toString().trim();
-        if (!v) {
-          alert("الرجاء ملء جميع الحقول قبل نسخ RIB.");
-          return;
-        }
       }
 
       const order = {
-        fullName: fd.get("fullName"),
-        wilaya: fd.get("wilaya"),
-        university: fd.get("university"),
-        phone: fd.get("phone"),
-        email: fd.get("email"),
+        fullName: fd.get("fullName") || "",
+        wilaya: fd.get("wilaya") || "",
+        university: fd.get("university") || "",
+        phone: fd.get("phone") || "",
+        email: fd.get("email") || "",
         paymentType: paymentType,
         cashLocation: fd.get("cashLocation") || "",
         totalPrice: "600DA",
         etat: "Applied"
       };
 
-      try {
-        await processOrder(order);
-      } catch (err) {
-        console.error("copyRIB / processOrder error:", err);
-      }
-    }
-
-    async function useAccessCode() {
-      const codeInput = document.getElementById("accessCodeInput");
-      const codeError = document.getElementById("codeError");
-      if (!codeInput || !codeError) return;
-
-      const rawCode = codeInput.value.trim();
-      codeError.style.display = "none";
-      codeError.textContent = "";
-
-      if (!rawCode) {
-        codeError.textContent = "الرجاء إدخال الكود.";
-        codeError.style.display = "block";
-        return;
-      }
-
-      try {
-        const snap = await db.collection("monCarnetCodes")
-          .where("code", "==", rawCode)
-          .where("productId", "==", "mon_carnet_ha1")
-          .limit(1)
-          .get();
-
-        if (snap.empty) {
-          codeError.textContent = "الكود غير صحيح أو غير موجود.";
-          codeError.style.display = "block";
-          return;
-        }
-
-        const data = snap.docs[0].data();
-        const now = new Date();
-        const exp = data.expiresAt && data.expiresAt.toDate ? data.expiresAt.toDate() : null;
-        if (!exp || exp < now) {
-          codeError.textContent = "انتهت صلاحية هذا الكود.";
-          codeError.style.display = "block";
-          return;
-        }
-
-        window.location.href = CARNET_HA_DRIVE_URL;
-      } catch (err) {
-        console.error("useAccessCode error:", err);
-        codeError.textContent = "حدث خطأ غير متوقع، حاول مرة أخرى.";
-        codeError.style.display = "block";
-      }
-    }
-
-    // ========== Admin functions (إدارة الأكواد) ==========
-    const adminBtn = document.getElementById("adminBtn");
-    const codesTableBody = document.getElementById("codesTableBody");
-    const adminStatsEl = document.getElementById("adminStats");
-
-    function openAdminModal() {
-      document.getElementById("adminModal").style.display = "flex";
-      loadCodes();
-    }
-
-    async function loadCodes() {
-      if (!codesTableBody) return;
-      codesTableBody.innerHTML = "<tr><td colspan='5'>جارِ التحميل...</td></tr>";
-      if (adminStatsEl) adminStatsEl.textContent = "";
-      const searchEmailInput = document.getElementById("adminSearchEmail");
-      const searchEmail = searchEmailInput ? searchEmailInput.value.trim() : "";
-
-      try {
-        let query = db.collection("monCarnetCodes")
-          .where("productId","==","mon_carnet_ha1");
-        const snap = await query.get();
-        let rows = [];
-        snap.forEach(doc => {
-          const d = doc.data();
-          if (searchEmail && d.ownerEmail && d.ownerEmail !== searchEmail) return;
-          rows.push({id:doc.id,data:d});
-        });
-
-        if (adminStatsEl) {
-          adminStatsEl.textContent = "عدد الأكواد المسجّلة (تقريبي): " + rows.length;
-        }
-
-        if (rows.length === 0) {
-          codesTableBody.innerHTML = "<tr><td colspan='5'>لا توجد أكواد.</td></tr>";
-          return;
-        }
-
-        codesTableBody.innerHTML = "";
-        rows.forEach(row => {
-          const d = row.data;
-          const tr = document.createElement("tr");
-          const expDate = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : null;
-          const expStr = expDate ? expDate.toLocaleDateString("fr-FR") : "-";
-          tr.innerHTML = `
-            <td><span class="token-badge">${d.code || ""}</span></td>
-            <td>${d.productId || ""}</td>
-            <td>${d.ownerEmail || ""}</td>
-            <td>${expStr}</td>
-            <td><button class="btn-mini" onclick="updateCodeExpiry('${row.id}')">تغيير المدة</button></td>
-          `;
-          codesTableBody.appendChild(tr);
-        });
-      } catch (err) {
-        console.error("loadCodes error:", err);
-        codesTableBody.innerHTML = "<tr><td colspan='5'>خطأ في جلب الأكواد.</td></tr>";
-      }
-    }
-
-    function openCreateCodePrompt() {
-      const email = prompt("أدخل email الذي سيرتبط به الكود (يمكن تركه فارغاً):","");
-      if (email === null) return;
-      createNewCode(email.trim() || null);
-    }
-
-    async function createNewCode(ownerEmail) {
-      try {
-        const user = auth.currentUser;
-        if (!user || user.email !== ADMIN_EMAIL) {
-          alert("غير مخوَّل.");
-          return;
-        }
-        const code = generateRandomCode();
-        const expiresAt = new Date();
-        expiresAt.setMonth(expiresAt.getMonth() + 7);
-        await db.collection("monCarnetCodes").add({
-          code,
-          productId:"mon_carnet_ha1",
-          ownerEmail:ownerEmail || null,
-          createdAt:firebase.firestore.FieldValue.serverTimestamp(),
-          expiresAt:firebase.firestore.Timestamp.fromDate(expiresAt),
-          status:"active"
-        });
-        alert("تم إنشاء الكود: " + code);
-        loadCodes();
-      } catch (err) {
-        console.error("createNewCode error:", err);
-        alert("تعذر إنشاء الكود.");
-      }
-    }
-
-    async function updateCodeExpiry(docId) {
-      const monthsStr = prompt("مدة جديدة بالأشهر (مثال: 7):","7");
-      if (monthsStr === null) return;
-      const months = parseInt(monthsStr,10);
-      if (isNaN(months) || months <= 0) {
-        alert("قيمة غير صالحة.");
-        return;
-      }
-      try {
-        const user = auth.currentUser;
-        if (!user || user.email !== ADMIN_EMAIL) {
-          alert("غير مخوَّل.");
-          return;
-        }
-        const newDate = new Date();
-        newDate.setMonth(newDate.getMonth() + months);
-        await db.collection("monCarnetCodes").doc(docId).update({
-          expiresAt:firebase.firestore.Timestamp.fromDate(newDate)
-        });
-        alert("تم تحديث مدة الكود.");
-        loadCodes();
-      } catch (err) {
-        console.error("updateCodeExpiry error:", err);
-        alert("فشل تحديث المدة.");
-      }
-    }
-
-    // ====== INIT & LISTENERS ======
-    document.addEventListener("DOMContentLoaded", () => {
-      const tgl = document.getElementById("telegramLink");
-      if (tgl) tgl.href = TELEGRAM_URL;
-      const ribSpan = document.getElementById("ribText");
-      if (ribSpan) ribSpan.textContent = RIB_VALUE;
-
-      const paySelect = document.getElementById("paymentTypeSelect");
-      if (paySelect) {
-        paySelect.addEventListener("change", () => {
-          const cashWrapper = document.getElementById("cashLocationWrapper");
-          const baridiInfo = document.getElementById("baridiInfo");
-          if (cashWrapper) cashWrapper.style.display = (paySelect.value === "CASH") ? "block" : "none";
-          if (baridiInfo) baridiInfo.style.display = (paySelect.value === "BaridiMob") ? "block" : "none";
-        });
-      }
-
-      const orderForm = document.getElementById("orderForm");
-      if (orderForm) {
-        orderForm.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const formData = new FormData(orderForm);
-          const payType = formData.get("paymentType");
-
-          if (!payType) {
-            alert("الرجاء اختيار نوع الدفع.");
-            return;
-          }
-
-          const order = {
-            fullName: formData.get("fullName"),
-            wilaya: formData.get("wilaya"),
-            university: formData.get("university"),
-            phone: formData.get("phone"),
-            email: formData.get("email"),
-            paymentType: payType,
-            cashLocation: formData.get("cashLocation") || "",
-            totalPrice: "600DA",
-            etat: "Applied"
-          };
-
-          try {
-            await processOrder(order);
-          } catch (err) {
-            console.error("Form submit error:", err);
-            alert("وقع خطأ أثناء تسجيل الطلب، حاول مرة أخرى.");
-          }
-        });
-      }
-
-      const previewVideo = document.getElementById("previewVideo");
-      if (previewVideo) {
-        let lastTime = 0;
-        previewVideo.addEventListener("timeupdate", () => {
-          if (!previewVideo.seeking) lastTime = previewVideo.currentTime;
-        });
-        previewVideo.addEventListener("seeking", () => {
-          previewVideo.currentTime = lastTime;
-        });
-        previewVideo.addEventListener("pause", () => {
-          previewVideo.play();
-        });
-      }
-
-      // تفعيل زر الأدمن
-      auth.onAuthStateChanged(user => {
-        if (user && user.email === ADMIN_EMAIL && adminBtn) {
-          adminBtn.style.display = "inline-flex";
-          adminBtn.onclick = openAdminModal;
-        }
-      });
-
-      // تحميل التقييمات
-      (async function loadRatings(){
-        try{
-          const snap = await db.collection("monCarnetRatings")
-            .where("productId","==","mon_carnet_ha1")
-            .limit(100)
-            .get();
-          if (snap.empty) return;
-          let sum=0,count=0;
-          snap.forEach(d=>{
-            const val=d.data().stars;
-            if(typeof val==="number"){sum+=val;count++;}
-          });
-          if(count===0)return;
-          const avg=(sum/count).toFixed(1);
-          const avgEl=document.getElementById("ratingAverage");
-          const countEl=document.getElementById("ratingCount");
-          if(avgEl)avgEl.textContent=avg;
-          if(countEl)countEl.textContent=count;
-        }catch(e){
-          console.error("loadRatings error:",e);
-        }
-      })();
-
-      // منع F12 و context menu
-      document.addEventListener("contextmenu",e=>{e.preventDefault();});
-      document.addEventListener("keydown",e=>{
-        if(e.key==="F12") e.preventDefault();
-        if(e.ctrlKey && ["u","s","p"].includes(e.key.toLowerCase())) e.preventDefault();
-        if(e.ctrlKey && e.shiftKey && ["i","j","c"].includes(e.key.toLowerCase())) e.preventDefault();
-      });
+      processOrder(order);
     });
-  </script>
+  });
+</script>
+
+        
 </body>
 </html>
