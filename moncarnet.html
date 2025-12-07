@@ -1,3 +1,5 @@
+
+Vous avez dit :
 <!DOCTYPE html>
 <html lang="fr" dir="rtl">
 <head>
@@ -927,39 +929,7 @@
 
       console.log("📱 FIRESTORE: creating order + code for", order.email);
 
-      // 🔍 أولاً: التحقق هل يوجد لهذا البريد كود صالح لنفس المنتج
-      const now = new Date();
-      const existingSnap = await db.collection("monCarnetCodes")
-        .where("productId", "==", "mon_carnet_ha1")
-        .where("ownerEmail", "==", order.email)
-        .orderBy("createdAt", "desc")
-        .limit(10)
-        .get();
 
-      let existingValidCode = null;
-      let existingDocId = null;
-
-      existingSnap.forEach(doc => {
-        const d = doc.data();
-        const exp = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : null;
-        const status = d.status || "active";
-        if (exp && exp > now && (status === "active" || status === "pending_payment")) {
-          existingValidCode = d.code;
-          existingDocId = doc.id;
-        }
-      });
-
-      if (existingValidCode) {
-        console.log("ℹ️ Existing valid code found, no new code created:", existingValidCode);
-        // نرجع فقط معلومات أن لديه كود صالح ولا ننشئ كود جديد
-        return {
-          hasExistingCode: true,
-          code: existingValidCode,
-          requestId: existingDocId || null
-        };
-      }
-
-      // 🧾 لا يوجد كود صالح، نواصل كما في السابق: إنشاء طلب + كود جديد
       const reqRef = await db.collection("monCarnetCodeRequests").add({
         productId: "mon_carnet_ha1",
         email: order.email,
@@ -1018,22 +988,6 @@
         console.error("💥 Firestore error:", e);
       }
 
-      // 🛑 في حالة وجود كود صالح مسبقاً لنفس البريد، لا نسجل طلباً جديداً ولا ننشئ كوداً جديداً
-      if (fsResult && fsResult.hasExistingCode) {
-        const existingMsg =
-          `✅ لديك سابقاً كود صالح لهذا الملخص: ${fsResult.code}\n` +
-          `لا يمكن إنشاء كود جديد لنفس البريد قبل انتهاء صلاحية الكود الحالي.`;
-
-        if (msgEl) {
-          msgEl.textContent = existingMsg;
-          msgEl.style.display = "inline";
-          msgEl.style.color = "#b91c1c";
-        }
-
-        alert(existingMsg);
-        return; // إيقاف المعالجة هنا
-      }
-
 
       try {
         await registerOrderInSheet(order);
@@ -1057,7 +1011,7 @@
 
       let finalMsg = "";
       if (fsResult?.code) {
-        finalMsg = `✅ تم تسجيل طلبك وإنشاء كود في Firebase: ${fsResult.code}`;
+        finalMsg = ✅ تم تسجيل طلبك وإنشاء كود في Firebase: ${fsResult.code};
       } else {
         finalMsg =
           "✅ تم تسجيل طلبك في الشيت بنجاح، لكن لم يتم إنشاء كود تلقائياً في Firestore (تحقق من الإعدادات).";
@@ -1201,7 +1155,7 @@
           rows.push({ id: doc.id, data: d });
         });
 
-        if (stats) stats.textContent = `عدد الأكواد: ${rows.length}`;
+        if (stats) stats.textContent = عدد الأكواد: ${rows.length};
 
         if (!rows.length) {
           tbody.innerHTML = "<tr><td colspan='5'>لا توجد أكواد.</td></tr>";
@@ -1215,13 +1169,13 @@
           const expStr = exp ? exp.toLocaleDateString("fr-FR") : "-";
 
           const tr = document.createElement("tr");
-          tr.innerHTML = `
+          tr.innerHTML = 
             <td><span class="token-badge">${d.code || ""}</span></td>
             <td>${d.productId || ""}</td>
             <td>${d.ownerEmail || ""}</td>
             <td>${expStr}</td>
             <td><button class="btn-mini" onclick="updateCodeExpiry('${row.id}')">تغيير المدة</button></td>
-          `;
+          ;
           tbody.appendChild(tr);
         });
       } catch (e) {
