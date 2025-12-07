@@ -548,7 +548,7 @@
         <div class="carnet-info">
           <h1 class="carnet-title">Mon Carnet HA 1</h1>
           <p class="carnet-sub">
-            Résumé complet en français pour l’histoire de l’architecture – 1ère année, avec schémas, tableaux
+            Résumé complet en français pour l’histoire de l’architecture – 1ère année، مع schémas، tableaux
             et vocabulaire architectural ciblé.
           </p>
           <span class="pill-fr">
@@ -630,14 +630,14 @@
             empire romain, monde paléochrétien, civilisation byzantine.
           </p>
           <p>
-            • Pour chaque civilisation : matériaux de construction, systèmes porteurs, organisation urbaine,
+            • Pour chaque civilisation : matériaux de construction، systèmes porteurs، organisation urbaine،
             exemples d’édifices (temples, basiliques, forums…).
           </p>
           <p>
             • Schémas simples، coupes، élévations et plans commentés pour fixer les idées – adaptés au niveau 1ère année.
           </p>
           <ul class="preview-list">
-            <li>Tableaux comparatifs entre les civilisations.</li>
+            <li>Tableaux comparatifs بين les civilisations.</li>
             <li>Définitions courtes des notions clés (axe، travée، module، trame…).</li>
             <li>Vocabulaire architectural français ciblé pour les examens.</li>
           </ul>
@@ -849,7 +849,8 @@
 
   <script>
 
-    const CARNET_HA_DRIVE_URL = "https://drive.google.com/file/d/1fVE0l5Xlb96xTjDoOitlslFVQxzC-DWj/view?usp=sharing";
+    const CARNET_HA_DRIVE_URL =
+      "https://drive.google.com/drive/folders/1nIFaSfw5O8vEwrCxXf3gjtTJhwWoVDvV?usp=drive_link";
     const TELEGRAM_URL = "https://t.me/trendyplaza10";
     const RIB_VALUE = "00799999004014138305";
     const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
@@ -962,6 +963,34 @@
       return { hasExistingCode: false, code, requestId: reqRef.id };
     }
 
+    /* 🔎 دالة جديدة: البحث عن كود ساري المفعول لنفس الإيميل */
+    async function findActiveCodeForEmail(email) {
+      if (!db || !email) return null;
+      try {
+        const snap = await db.collection("monCarnetCodes")
+          .where("ownerEmail", "==", email)
+          .where("productId", "==", "mon_carnet_ha1")
+          .limit(20)
+          .get();
+
+        const now = new Date();
+        let found = null;
+
+        snap.forEach(doc => {
+          const d = doc.data();
+          const exp = d.expiresAt && d.expiresAt.toDate ? d.expiresAt.toDate() : null;
+          if (exp && exp >= now) {
+            found = d;
+          }
+        });
+
+        return found;
+      } catch (e) {
+        console.error("findActiveCodeForEmail error:", e);
+        return null;
+      }
+    }
+
 
     async function processOrder(order) {
       const msgEl = document.getElementById("orderMsg");
@@ -972,6 +1001,31 @@
       }
 
       console.log("🚀 processOrder START", order);
+
+      /* ✅ أولاً: التحقق من وجود كود ساري المفعول لنفس البريد */
+      if (order.email) {
+        try {
+          const existing = await findActiveCodeForEmail(order.email);
+          if (existing) {
+            const exp = existing.expiresAt && existing.expiresAt.toDate ? existing.expiresAt.toDate() : null;
+            const expStr = exp ? exp.toLocaleDateString("fr-FR") : "";
+            const text =
+              `✅ لديك بالفعل كود ساري المفعول لهذا الملخص: ${existing.code || ""}` +
+              (expStr ? ` (صالح إلى غاية: ${expStr})` : "");
+
+            if (msgEl) {
+              msgEl.textContent = text;
+              msgEl.style.color = "#b45309"; // لون برتقالي لتحذير لطيف
+              msgEl.style.display = "inline";
+            }
+
+            alert(text + "\nلا يمكنك طلب كود جديد قبل انتهاء صلاحية الكود الحالي.");
+            return; // إيقاف العملية وعدم إنشاء كود جديد
+          }
+        } catch (e) {
+          console.error("💥 error while checking existing active code:", e);
+        }
+      }
 
       let fsResult = null;
       let sheetOk = false;
