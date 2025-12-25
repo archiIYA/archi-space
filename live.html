@@ -54,8 +54,8 @@
         <video id="localVideo" autoplay playsinline muted></video>
 
         <div class="controls">
-          <button id="btnCam" class="primary">تشغيل الكاميرا</button>
-          <button id="btnScreen" class="secondary">مشاركة الشاشة</button>
+          <button id="btnCam" class="primary" disabled>تشغيل الكاميرا</button>
+          <button id="btnScreen" class="secondary" disabled>مشاركة الشاشة</button>
           <button id="btnStopMedia" class="secondary" disabled>إيقاف الكاميرا/الشاشة</button>
         </div>
 
@@ -71,7 +71,7 @@
         </div>
 
         <div class="controls" style="margin-top:12px">
-          <button id="btnStartRec" class="primary">⏺ بدء التسجيل</button>
+          <button id="btnStartRec" class="primary" disabled>⏺ بدء التسجيل</button>
           <button id="btnStopRec" class="danger" disabled>⏹ إيقاف التسجيل</button>
           <button id="btnDownload" class="secondary" disabled>⬇ تنزيل آخر تسجيل</button>
         </div>
@@ -90,29 +90,29 @@
         <p>✅ كاميرا / مشاركة شاشة</p>
         <p>✅ تسجيل البث + تنزيله، مع خيار رفعه للسحابة</p>
         <hr style="border:0;border-top:1px solid #14204b;margin:14px 0" />
-        <p><b>ملاحظة:</b> هذا “تسجيل + عرض محلي” (ليس مكالمة جماعية WebRTC مثل Meet). إذا تحب بعدها نزيد “غرفة متعددة المشاركين” نركب WebRTC + Signaling على Firestore.</p>
+        <p><b>ملاحظة:</b> هذا “تسجيل + عرض محلي” (ليس مكالمة جماعية WebRTC مثل Meet).</p>
         <p id="lastUpload"></p>
       </div>
     </div>
   </div>
 
 <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+  authDomain: "archi-space-72624.firebaseapp.com",
+  projectId: "archi-space-72624",
+  storageBucket: "archi-space-72624.firebasestorage.app",
+  messagingSenderId: "407015246505",
+  appId: "1:407015246505:web:c914a78566b882b80df7b8",
+  measurementId: "G-RZV7LSDQBD"
+};
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-    authDomain: "TrendyPlaza-72624.firebaseapp.com",
-    projectId: "TrendyPlaza-72624",
-    storageBucket: "TrendyPlaza-72624.firebasestorage.app",
-    messagingSenderId: "407015246505",
-    appId: "1:407015246505:web:c914a78566b882b80df7b8",
-    measurementId: "G-RZV7LSDQBD"
-  };
+  try { firebase.initializeApp(firebaseConfig); }
+  catch(e){ console.warn("Firebase already initialized?", e); }
 
-  firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
   const storage = firebase.storage();
-
 
   const params = new URLSearchParams(location.search);
   const courseId = params.get("courseId") || "ATELIER1";
@@ -145,11 +145,20 @@
   let lastBlob = null;
 
   function setStatus(msg){ statusEl.textContent = msg; }
+
+  function setAllowedUI(on){
+    btnCam.disabled = !on;
+    btnScreen.disabled = !on;
+
+    btnStartRec.disabled = !on || !localStream;
+  }
+
   function safeFilename() {
     const d = new Date();
     const pad = (n)=> String(n).padStart(2,"0");
     return `record-${courseId}-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.webm`;
   }
+
   function downloadBlob(blob, filename){
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -161,36 +170,6 @@
     setTimeout(()=> URL.revokeObjectURL(url), 2000);
   }
 
-
-  auth.onAuthStateChanged(async (user) => {
-    if (!user) {
-      allowed = false;
-      setStatus("❌ لازم تسجّل دخول باش تدخل للبث.");
-      return;
-    }
-    currentUser = user;
-
-    try {
-      const docRef = db.collection("courses").doc(courseId)
-                       .collection("students").doc(user.uid);
-      const snap = await docRef.get();
-
-      if (!snap.exists) {
-        allowed = false;
-        setStatus("⛔ ليس لديك صلاحية لهذه الدورة.");
-        alert("هذا البث مخصص فقط لطلاب هذه الدورة.");
-        return;
-      }
-
-      allowed = true;
-      setStatus("✅ مرحباً! تم التحقق من اشتراكك في الدورة.");
-    } catch (e) {
-      allowed = false;
-      console.error(e);
-      setStatus("❌ خطأ أثناء التحقق من الصلاحية.");
-    }
-  });
-
   function requireAllowed(){
     if (!allowed) {
       alert("لا يمكن: يجب تسجيل الدخول وأن تكون مسجلاً في الدورة.");
@@ -199,28 +178,68 @@
     return true;
   }
 
+  auth.onAuthStateChanged(async (user) => {
+    if (!user) {
+      allowed = false;
+      currentUser = null;
+      setAllowedUI(false);
+      setStatus("❌ لازم تسجّل دخول باش تدخل للبث.");
+      return;
+    }
+
+    currentUser = user;
+    try {
+      const docRef = db.collection("courses").doc(courseId)
+        .collection("students").doc(user.uid);
+
+      const snap = await docRef.get();
+
+      if (!snap.exists) {
+        allowed = false;
+        setAllowedUI(false);
+        setStatus("⛔ ليس لديك صلاحية لهذه الدورة.");
+        alert("هذا البث مخصص فقط لطلاب هذه الدورة.");
+        return;
+      }
+
+      allowed = true;
+      setAllowedUI(true);
+      setStatus("✅ مرحباً! تم التحقق من اشتراكك في الدورة.");
+    } catch (e) {
+      allowed = false;
+      setAllowedUI(false);
+      console.error(e);
+      setStatus("❌ خطأ أثناء التحقق من الصلاحية (Firestore).");
+    }
+  });
 
   async function startCamera(){
     if (!requireAllowed()) return;
-    stopMedia(); // stop previous if any
+    stopMedia();
+
     try {
       localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       localVideo.srcObject = localStream;
+
       btnStopMedia.disabled = false;
+      btnStartRec.disabled = false; 
       setStatus("🎥 الكاميرا تعمل الآن.");
     } catch (e) {
       console.error(e);
-      alert("تعذر تشغيل الكاميرا/المايك.");
+      alert("تعذر تشغيل الكاميرا/المايك. تأكد من السماح Permissions.");
     }
   }
 
   async function startScreen(){
     if (!requireAllowed()) return;
-    stopMedia(); 
+    stopMedia();
+
     try {
       localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
       localVideo.srcObject = localStream;
+
       btnStopMedia.disabled = false;
+      btnStartRec.disabled = false;
       setStatus("🖥️ مشاركة الشاشة تعمل الآن.");
 
       const track = localStream.getVideoTracks()[0];
@@ -244,6 +263,7 @@
     }
     localVideo.srcObject = null;
     btnStopMedia.disabled = true;
+    btnStartRec.disabled = !allowed;
   }
 
   btnCam.addEventListener("click", startCamera);
@@ -253,7 +273,6 @@
     stopMedia();
     setStatus("🛑 تم إيقاف الكاميرا/الشاشة.");
   });
-
 
   function startRecording(){
     if (!requireAllowed()) return;
@@ -267,7 +286,6 @@
     btnDownload.disabled = true;
     lastUploadEl.textContent = "";
 
-
     const prefer = [
       "video/webm;codecs=vp9,opus",
       "video/webm;codecs=vp8,opus",
@@ -275,7 +293,7 @@
     ];
     let mimeType = "";
     for (const m of prefer) {
-      if (MediaRecorder.isTypeSupported(m)) { mimeType = m; break; }
+      if (window.MediaRecorder && MediaRecorder.isTypeSupported(m)) { mimeType = m; break; }
     }
 
     try {
@@ -291,32 +309,31 @@
     };
 
     mediaRecorder.onstop = async () => {
-      lastBlob = new Blob(recordedChunks, { type: "video/webm" });
-      btnDownload.disabled = false;
+      try {
+        lastBlob = new Blob(recordedChunks, { type: "video/webm" });
+        btnDownload.disabled = false;
 
-        downloadBlob(lastBlob, safeFilename());
-      }
+        if (chkAutoDownload.checked) {
+          downloadBlob(lastBlob, safeFilename());
+        }
 
-
-      if (chkUpload.checked) {
-        try {
+        if (chkUpload.checked) {
           setStatus("📤 جاري رفع التسجيل إلى السحابة...");
           const path = `records/${courseId}/${Date.now()}-${currentUser.uid}.webm`;
           const ref = storage.ref().child(path);
           await ref.put(lastBlob);
           const url = await ref.getDownloadURL();
 
-
-
-          lastUploadEl.innerHTML = `✅ تم رفع التسجيل. رابط التحميل (للاختبار): <a href="${url}" target="_blank" rel="noopener">فتح</a>`;
+          lastUploadEl.innerHTML =
+            `✅ تم رفع التسجيل. رابط (للاختبار): <a href="${url}" target="_blank" rel="noopener">فتح</a>`;
           setStatus("✅ تم حفظ التسجيل.");
-        } catch (e) {
-          console.error(e);
-          setStatus("❌ فشل رفع التسجيل.");
-          alert("فشل رفع التسجيل إلى السحابة. تفقد Storage Rules والإنترنت.");
+        } else {
+          setStatus("✅ تم حفظ التسجيل محليًا.");
         }
-      } else {
-        setStatus("✅ تم حفظ التسجيل محليًا.");
+      } catch (err) {
+        console.error(err);
+        setStatus("❌ حصل خطأ بعد إيقاف التسجيل.");
+        alert("حصل خطأ في تجهيز/رفع التسجيل. راجع Console.");
       }
     };
 
@@ -330,24 +347,20 @@
     if (mediaRecorder && mediaRecorder.state !== "inactive") {
       mediaRecorder.stop();
     }
-    btnStartRec.disabled = false;
+    btnStartRec.disabled = !allowed || !localStream;
     btnStopRec.disabled = true;
   }
 
   btnStartRec.addEventListener("click", startRecording);
   btnStopRec.addEventListener("click", stopRecording);
 
-  // تنزيل آخر تسجيل (زر)
   btnDownload.addEventListener("click", () => {
     if (!lastBlob) return;
     downloadBlob(lastBlob, safeFilename());
   });
 
-  // حماية: عند الخروج من الصفحة
   window.addEventListener("beforeunload", () => {
-    try {
-      if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
-    } catch {}
+    try { if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop(); } catch {}
     stopMedia();
   });
 </script>
