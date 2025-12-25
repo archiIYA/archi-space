@@ -100,9 +100,7 @@
       box-shadow:0 0 0 0 rgba(34,211,238,0.45);
       animation:pulse 2.2s infinite;
     }
-    :root[data-theme="light"] .toggle-thumb{
-      transform:translateX(18px);
-    }
+    :root[data-theme="light"] .toggle-thumb{ transform:translateX(18px); }
     @keyframes pulse{
       0%{box-shadow:0 0 0 0 rgba(34,211,238,0.5);}
       70%{box-shadow:0 0 0 14px rgba(34,211,238,0);}
@@ -117,54 +115,34 @@
       padding-right:70px;
     }
     .hero-icon{
-      width:44px;
-      height:44px;
-      border-radius:20px;
+      width:44px;height:44px;border-radius:20px;
       background:radial-gradient(circle at 20% 0, #38bdf8, transparent 55%),
                  radial-gradient(circle at 80% 100%, #22c55e, transparent 55%),
                  var(--card);
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      display:flex;align-items:center;justify-content:center;
       border:1px solid var(--border);
       box-shadow:0 10px 30px rgba(15,23,42,0.6);
-      position:relative;
-      overflow:hidden;
+      position:relative;overflow:hidden;
     }
     .hero-icon::after{
       content:"BIM";
-      position:absolute;
-      bottom:3px;
-      right:7px;
-      font-size:9px;
-      color:var(--muted);
-      opacity:0.9;
+      position:absolute;bottom:3px;right:7px;
+      font-size:9px;color:var(--muted);opacity:0.9;
     }
-    .hero-icon span{
-      font-size:22px;
-    }
+    .hero-icon span{ font-size:22px; }
+
     .header-text h1{
-      font-size:1.35rem;
-      font-weight:700;
-      letter-spacing:0.03em;
-      display:flex;
-      align-items:center;
-      gap:6px;
+      font-size:1.35rem;font-weight:700;letter-spacing:0.03em;
+      display:flex;align-items:center;gap:6px;
     }
     .header-text h1 span.label{
-      font-size:0.7rem;
-      font-weight:500;
-      padding:2px 7px;
-      border-radius:999px;
+      font-size:0.7rem;font-weight:500;
+      padding:2px 7px;border-radius:999px;
       background:var(--accent-soft);
       color:var(--accent);
       border:1px solid var(--accent-soft);
     }
-    .header-text p{
-      margin-top:3px;
-      font-size:0.82rem;
-      color:var(--muted);
-    }
+    .header-text p{ margin-top:3px;font-size:0.82rem;color:var(--muted); }
 
     .grid{
       display:grid;
@@ -182,9 +160,8 @@
       position:relative;
       overflow:hidden;
     }
-    .card.soft{
-      background:color-mix(in srgb, var(--card-soft) 88%, transparent);
-    }
+    .card.soft{ background:color-mix(in srgb, var(--card-soft) 88%, transparent); }
+
     .card-header{
       display:flex;
       align-items:center;
@@ -198,9 +175,7 @@
       align-items:center;
       gap:8px;
     }
-    .card-title span.icon{
-      font-size:1.1rem;
-    }
+    .card-title span.icon{font-size:1.1rem;}
     .badge{
       font-size:0.7rem;
       padding:2px 7px;
@@ -210,7 +185,6 @@
       border:1px solid var(--border);
     }
 
-    /* --- Annonces de la formation --- */
     .announcements-block{
       margin-bottom:10px;
       border-radius:14px;
@@ -220,137 +194,97 @@
         color-mix(in srgb,#020617 70%,transparent));
       padding:8px 9px;
       font-size:0.78rem;
-      display:none; /* تظهر فقط إذا وجدنا إعلانات */
+      display:none;
     }
-    .ann-header{
-      display:flex;
-      align-items:flex-start;
-      gap:8px;
-      margin-bottom:6px;
-    }
+    .ann-header{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;}
     .ann-icon{
-      width:26px;
-      height:26px;
-      border-radius:10px;
+      width:26px;height:26px;border-radius:10px;
       background:radial-gradient(circle at 0 0,#f97316,transparent 55%),var(--card);
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      display:flex;align-items:center;justify-content:center;
       font-size:1.1rem;
     }
-    .ann-title{
-      font-weight:600;
-      font-size:0.82rem;
-    }
-    .ann-sub{
-      font-size:0.72rem;
-      color:var(--muted);
-    }
-    .ann-list{
-      margin-top:4px;
-      display:flex;
-      flex-direction:column;
-      gap:5px;
-      max-height:120px;
-      overflow-y:auto;
-    }
+    .ann-title{font-weight:600;font-size:0.82rem;}
+    .ann-sub{font-size:0.72rem;color:var(--muted);}
+    .ann-list{margin-top:4px;display:flex;flex-direction:column;gap:5px;max-height:120px;overflow-y:auto;}
     .ann-item{
-      padding:5px 7px;
-      border-radius:10px;
+      padding:5px 7px;border-radius:10px;
       background:color-mix(in srgb,var(--card) 85%,transparent);
       border:1px solid color-mix(in srgb,var(--border) 80%,transparent);
     }
-    .ann-item-title{
-      font-size:0.8rem;
-      font-weight:500;
-      margin-bottom:2px;
-    }
-    .ann-item-body{
-      font-size:0.75rem;
-    }
-    .ann-item-meta{
-      margin-top:2px;
-      font-size:0.67rem;
-      color:var(--muted);
-      display:flex;
-      justify-content:space-between;
-      gap:6px;
-      flex-wrap:wrap;
-    }
-    .ann-empty{
-      font-size:0.74rem;
-      color:var(--muted);
-    }
+    .ann-item-title{font-size:0.8rem;font-weight:500;margin-bottom:2px;}
+    .ann-item-body{font-size:0.75rem;}
+    .ann-item-meta{margin-top:2px;font-size:0.67rem;color:var(--muted);display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap;}
+    .ann-empty{font-size:0.74rem;color:var(--muted);}
 
-    .progress-wrapper{
+    .live-block{
+      margin-bottom:10px;
+      border-radius:14px;
+      border:1px solid rgba(239,68,68,0.35);
+      background:linear-gradient(135deg,
+        rgba(239,68,68,0.18),
+        color-mix(in srgb,var(--card-soft) 75%,transparent));
+      padding:10px 10px;
+      font-size:0.78rem;
+      display:none;
+    }
+    .live-actions{
       display:flex;
-      gap:14px;
-      align-items:center;
-      margin-bottom:12px;
+      gap:8px;
       flex-wrap:wrap;
-    }
-    .progress-circle{
-      width:74px;
-      height:74px;
-      border-radius:50%;
-      background:conic-gradient(var(--accent) calc(var(--p) * 1%), #1f2933 0);
-      display:flex;
       align-items:center;
-      justify-content:center;
-      position:relative;
+      margin-top:8px;
     }
-    .progress-circle::before{
-      content:"";
-      position:absolute;
-      width:60px;
-      height:60px;
-      border-radius:50%;
-      background:var(--card);
-    }
-    .progress-circle span{
-      position:relative;
-      font-size:0.9rem;
+    .btn{
+      border-radius:999px;
+      border:1px solid var(--accent-soft);
+      background:transparent;
+      color:var(--accent);
+      font-size:0.72rem;
+      padding:6px 12px;
+      cursor:pointer;
       font-weight:600;
     }
-    .progress-labels{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      font-size:0.8rem;
-      color:var(--muted);
+    .btn.primary{
+      background:var(--accent);
+      color:#020617;
+      border:none;
+      box-shadow:0 8px 18px rgba(34,211,238,0.35);
     }
-    .level-pill{
-      display:inline-flex;
-      align-items:center;
-      gap:5px;
+    .btn.danger{
+      border-color:rgba(239,68,68,0.55);
+      color:#fff;
+      background:rgba(239,68,68,0.18);
+    }
+    .live-pill{
       padding:2px 8px;
       border-radius:999px;
-      background:var(--card-soft);
-      border:1px solid var(--border);
-      font-size:0.75rem;
-    }
-    .level-pill span.state{
-      font-size:0.78rem;
+      border:1px solid rgba(239,68,68,0.35);
+      color:rgba(239,68,68,0.95);
+      font-size:0.7rem;
+      background:rgba(239,68,68,0.08);
     }
 
-    .sessions{
-      margin-top:10px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
+    .progress-wrapper{display:flex;gap:14px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
+    .progress-circle{
+      width:74px;height:74px;border-radius:50%;
+      background:conic-gradient(var(--accent) calc(var(--p) * 1%), #1f2933 0);
+      display:flex;align-items:center;justify-content:center;position:relative;
     }
+    .progress-circle::before{content:"";position:absolute;width:60px;height:60px;border-radius:50%;background:var(--card);}
+    .progress-circle span{position:relative;font-size:0.9rem;font-weight:600;}
+    .progress-labels{display:flex;flex-direction:column;gap:6px;font-size:0.8rem;color:var(--muted);}
+    .level-pill{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:var(--card-soft);border:1px solid var(--border);font-size:0.75rem;}
+    .level-pill span.state{font-size:0.78rem;}
+
+    .sessions{margin-top:10px;display:flex;flex-direction:column;gap:8px;}
     .session-item{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      padding:9px 10px;
-      border-radius:12px;
+      display:flex;justify-content:space-between;align-items:flex-start;
+      padding:9px 10px;border-radius:12px;
       background:color-mix(in srgb, var(--card-soft) 75%, transparent);
       border:1px solid color-mix(in srgb, var(--border) 85%, transparent);
       font-size:0.8rem;
       transition:transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-      cursor:pointer;
-      position:relative;
+      cursor:pointer;position:relative;
     }
     .session-item:hover{
       transform:translateY(-1px);
@@ -361,304 +295,124 @@
       border-color:rgba(34,197,94,0.6);
       background:linear-gradient(120deg, color-mix(in srgb,var(--card-soft) 80%,transparent), rgba(34,197,94,0.15));
     }
-    .session-left{
-      display:flex;
-      flex-direction:column;
-      gap:3px;
-    }
-    .session-title{
-      font-weight:500;
-      font-size:0.82rem;
-    }
-    .session-meta{
-      display:flex;
-      gap:7px;
-      color:var(--muted);
-      font-size:0.75rem;
-      flex-wrap:wrap;
-    }
-    .chip{
-      padding:2px 6px;
-      border-radius:999px;
-      background:var(--card);
-      border:1px solid var(--border);
-    }
-    .session-right{
-      text-align:right;
-      font-size:0.75rem;
-      color:var(--muted);
-      display:flex;
-      flex-direction:column;
-      gap:3px;
-      align-items:flex-end;
-    }
-    .status{
-      display:inline-flex;
-      align-items:center;
-      gap:4px;
-      padding:2px 7px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background:rgba(15,23,42,0.7);
-      font-size:0.72rem;
-    }
+    .session-left{display:flex;flex-direction:column;gap:3px;}
+    .session-title{font-weight:500;font-size:0.82rem;}
+    .session-meta{display:flex;gap:7px;color:var(--muted);font-size:0.75rem;flex-wrap:wrap;}
+    .chip{padding:2px 6px;border-radius:999px;background:var(--card);border:1px solid var(--border);}
+    .session-right{text-align:right;font-size:0.75rem;color:var(--muted);display:flex;flex-direction:column;gap:3px;align-items:flex-end;}
+    .status{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:999px;border:1px solid var(--border);background:rgba(15,23,42,0.7);font-size:0.72rem;}
     .status.open{ color:#4ade80; border-color:rgba(74,222,128,0.32); }
     .status.locked{ color:#facc15; border-color:rgba(250,204,21,0.32); }
     .status.done{ color:#22c55e; border-color:rgba(34,197,94,0.5); }
 
     .mark-done-btn{
-      margin-top:4px;
-      font-size:0.7rem;
-      padding:2px 7px;
-      border-radius:999px;
+      margin-top:4px;font-size:0.7rem;padding:2px 7px;border-radius:999px;
       border:1px solid var(--accent-soft);
-      background:transparent;
-      color:var(--accent);
-      cursor:pointer;
+      background:transparent;color:var(--accent);cursor:pointer;
     }
 
-    .trainer-header{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-bottom:10px;
-    }
+    .trainer-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
     .trainer-avatar{
-      width:46px;
-      height:46px;
-      border-radius:50%;
+      width:46px;height:46px;border-radius:50%;
       background:radial-gradient(circle at 0 0,#22c55e,transparent 55%), radial-gradient(circle at 100% 100%,#38bdf8,transparent 55%), var(--card);
       border:1px solid var(--border);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      font-size:1.05rem;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;font-size:1.05rem;
     }
-    .trainer-info small{
-      font-size:0.72rem;
-      color:var(--muted);
-    }
-    .trainer-info h3{
-      font-size:0.95rem;
-      font-weight:600;
-    }
-    .trainer-tags{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-      margin-top:6px;
-      font-size:0.72rem;
-    }
-    .trainer-tags span{
-      padding:2px 7px;
-      border-radius:999px;
-      background:var(--card-soft);
-      border:1px solid var(--border);
-      color:var(--muted);
-    }
+    .trainer-info small{font-size:0.72rem;color:var(--muted);}
+    .trainer-info h3{font-size:0.95rem;font-weight:600;}
+    .trainer-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;font-size:0.72rem;}
+    .trainer-tags span{padding:2px 7px;border-radius:999px;background:var(--card-soft);border:1px solid var(--border);color:var(--muted);}
 
     .messages-wrapper{
-      margin-top:10px;
-      display:flex;
-      flex-direction:column;
-      height:260px;
-      border-radius:14px;
-      border:1px solid color-mix(in srgb,var(--border) 85%, transparent);
+      margin-top:10px;display:flex;flex-direction:column;height:260px;
+      border-radius:14px;border:1px solid color-mix(in srgb,var(--border) 85%, transparent);
       background:linear-gradient(145deg,color-mix(in srgb,var(--card-soft) 90%,transparent),color-mix(in srgb,#020617 70%,transparent));
       overflow:hidden;
     }
-    .messages-list{
-      flex:1;
-      padding:8px 10px 6px;
-      overflow-y:auto;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      scroll-behavior:smooth;
-    }
+    .messages-list{flex:1;padding:8px 10px 6px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;scroll-behavior:smooth;}
     .msg{
       max-width:92%;
-      padding:6px 8px;
-      border-radius:9px;
-      font-size:0.78rem;
-      line-height:1.25rem;
-      display:inline-block;
-      position:relative;
-      word-wrap:break-word;
+      padding:6px 8px;border-radius:9px;
+      font-size:0.78rem;line-height:1.25rem;
+      display:inline-block;position:relative;word-wrap:break-word;
     }
     .msg.me{
-      align-self:flex-end;
-      background:var(--accent-soft);
-      color:var(--text);
-      border:1px solid var(--accent);
-      border-bottom-right-radius:2px;
+      align-self:flex-end;background:var(--accent-soft);color:var(--text);
+      border:1px solid var(--accent);border-bottom-right-radius:2px;
     }
     .msg.other{
-      align-self:flex-start;
-      background:color-mix(in srgb,var(--card) 85%,transparent);
-      border:1px solid var(--border);
-      border-bottom-left-radius:2px;
+      align-self:flex-start;background:color-mix(in srgb,var(--card) 85%,transparent);
+      border:1px solid var(--border);border-bottom-left-radius:2px;
     }
-    .msg-meta{
-      font-size:0.65rem;
-      color:var(--muted);
-      margin-top:2px;
-      text-align:right;
-    }
+    .msg-meta{font-size:0.65rem;color:var(--muted);margin-top:2px;text-align:right;}
 
     .messages-input{
       border-top:1px solid color-mix(in srgb,var(--border) 80%,transparent);
-      padding:7px 8px;
-      display:flex;
-      gap:6px;
-      align-items:center;
+      padding:7px 8px;display:flex;gap:6px;align-items:center;
       background:linear-gradient(to right,var(--card-soft), color-mix(in srgb,var(--card) 85%,transparent));
     }
     .messages-input input{
-      flex:1;
-      border-radius:999px;
-      border:1px solid var(--border);
-      padding:7px 10px;
-      font-size:0.8rem;
-      background:var(--input-bg);
-      color:var(--text);
-      outline:none;
+      flex:1;border-radius:999px;border:1px solid var(--border);
+      padding:7px 10px;font-size:0.8rem;background:var(--input-bg);
+      color:var(--text);outline:none;
       transition:border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
     }
-    .messages-input input:focus{
-      border-color:var(--accent);
-      box-shadow:0 0 0 1px var(--accent-soft);
-    }
+    .messages-input input:focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent-soft);}
     .messages-input button{
-      border-radius:999px;
-      border:none;
-      padding:7px 11px;
-      font-size:0.8rem;
-      background:var(--accent);
-      color:#020617;
-      font-weight:600;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      gap:5px;
+      border-radius:999px;border:none;padding:7px 11px;font-size:0.8rem;
+      background:var(--accent);color:#020617;font-weight:600;cursor:pointer;
+      display:flex;align-items:center;gap:5px;
       transition:transform 0.1s ease, box-shadow 0.12s ease, background 0.18s ease;
       box-shadow:0 8px 18px rgba(34,211,238,0.45);
     }
-    .messages-input button:active{
-      transform:translateY(1px);
-      box-shadow:0 3px 10px rgba(34,211,238,0.5);
-    }
+    .messages-input button:active{transform:translateY(1px);box-shadow:0 3px 10px rgba(34,211,238,0.5);}
 
     .locked{
-      text-align:center;
-      padding:24px 14px;
-      font-size:0.9rem;
-      color:var(--muted);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:10px;
+      text-align:center;padding:24px 14px;font-size:0.9rem;color:var(--muted);
+      display:flex;flex-direction:column;align-items:center;gap:10px;
     }
     .locked-icon{
-      width:52px;
-      height:52px;
-      border-radius:18px;
-      border:1px solid var(--border);
+      width:52px;height:52px;border-radius:18px;border:1px solid var(--border);
       background:radial-gradient(circle at 20% 0,#facc15,transparent 55%), var(--card);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:1.4rem;
+      display:flex;align-items:center;justify-content:center;font-size:1.4rem;
     }
     .locked button{
-      margin-top:4px;
-      padding:6px 10px;
-      font-size:0.8rem;
-      border-radius:999px;
-      border:1px solid var(--accent-soft);
-      background:transparent;
-      color:var(--accent);
+      margin-top:4px;padding:6px 10px;font-size:0.8rem;border-radius:999px;
+      border:1px solid var(--accent-soft);background:transparent;color:var(--accent);
       cursor:pointer;
     }
 
     .footer-line{
-      margin-top:10px;
-      font-size:0.72rem;
-      color:var(--muted);
-      display:flex;
-      justify-content:space-between;
-      gap:8px;
-      flex-wrap:wrap;
+      margin-top:10px;font-size:0.72rem;color:var(--muted);
+      display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;
     }
-    .footer-actions{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-wrap:wrap;
-    }
+    .footer-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
     .footer-btn{
-      border-radius:999px;
-      border:1px solid var(--accent-soft);
-      background:transparent;
-      color:var(--accent);
-      font-size:0.72rem;
-      padding:4px 10px;
-      cursor:pointer;
+      border-radius:999px;border:1px solid var(--accent-soft);background:transparent;color:var(--accent);
+      font-size:0.72rem;padding:4px 10px;cursor:pointer;
     }
-    .footer-btn.admin-btn{
-      border-color:var(--danger);
-      color:var(--danger);
-    }
-    .footer-btn:hover{
-      background:var(--accent-soft);
-    }
-    .footer-btn.admin-btn:hover{
-      background:rgba(239,68,68,0.15);
-    }
+    .footer-btn.admin-btn{border-color:var(--danger);color:var(--danger);}
+    .footer-btn:hover{background:var(--accent-soft);}
+    .footer-btn.admin-btn:hover{background:rgba(239,68,68,0.15);}
 
     #adminPanel input[type="email"]{
-      border-radius:999px;
-      border:1px solid var(--border);
-      background:var(--input-bg);
-      color:var(--text);
-      outline:none;
-      transition:border-color 0.18s ease, box-shadow 0.18s ease;
-      padding:6px 10px;
-      font-size:0.8rem;
+      border-radius:999px;border:1px solid var(--border);background:var(--input-bg);
+      color:var(--text);outline:none;transition:border-color 0.18s ease, box-shadow 0.18s ease;
+      padding:6px 10px;font-size:0.8rem;
     }
-    #adminPanel input[type="email"]:focus{
-      border-color:var(--accent);
-      box-shadow:0 0 0 1px var(--accent-soft);
-    }
+    #adminPanel input[type="email"]:focus{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent-soft);}
 
     @media (max-width:900px){
-      .grid{
-        grid-template-columns:1fr;
-      }
-      .messages-wrapper{
-        height:220px;
-      }
+      .grid{grid-template-columns:1fr;}
+      .messages-wrapper{height:220px;}
     }
     @media (max-width:600px){
-      .app-shell{
-        padding:14px 12px 16px;
-        border-radius:18px;
-      }
-      .header{
-        padding-right:50px;
-      }
-      .hero-icon{
-        width:40px;
-        height:40px;
-        border-radius:16px;
-      }
-      .header-text h1{
-        font-size:1.15rem;
-      }
-      .theme-toggle{
-        font-size:12px;
-      }
+      .app-shell{padding:14px 12px 16px;border-radius:18px;}
+      .header{padding-right:50px;}
+      .hero-icon{width:40px;height:40px;border-radius:16px;}
+      .header-text h1{font-size:1.15rem;}
+      .theme-toggle{font-size:12px;}
     }
   </style>
 </head>
@@ -667,20 +421,13 @@
 
     <div class="theme-toggle" id="themeToggle">
       <span id="themeLabel">Mode sombre</span>
-      <div class="toggle-track">
-        <div class="toggle-thumb"></div>
-      </div>
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
     </div>
 
     <header class="header">
-      <div class="hero-icon">
-        <span>R</span>
-      </div>
+      <div class="hero-icon"><span>R</span></div>
       <div class="header-text">
-        <h1>
-          Formation Revit – Niveau 1
-          <span class="label">Trendy Plaza</span>
-        </h1>
+        <h1>Formation Revit – Niveau 1 <span class="label">Trendy Plaza</span></h1>
         <p>Maîtrisez les bases du BIM et de la modélisation architecturale avec Revit, pas à pas.</p>
       </div>
     </header>
@@ -689,14 +436,10 @@
 
       <section class="card" id="contentCard">
         <div class="card-header">
-          <div class="card-title">
-            <span class="icon">📋</span>
-            <span>Parcours de la formation</span>
-          </div>
+          <div class="card-title"><span class="icon">📋</span><span>Parcours de la formation</span></div>
           <span class="badge" id="userEmailBadge">Compte: —</span>
         </div>
 
-        <!-- Annonces -->
         <div class="announcements-block" id="announcementsBlock">
           <div class="ann-header">
             <div class="ann-icon">📢</div>
@@ -710,17 +453,31 @@
           </div>
         </div>
 
-        <div class="progress-wrapper">
-          <div class="progress-circle" id="progressCircle" style="--p: 0;">
-            <span id="progressLabel">0%</span>
+        <div class="live-block" id="liveBanner">
+          <div class="ann-header">
+            <div class="ann-icon" style="background:radial-gradient(circle at 0 0,#ef4444,transparent 55%),var(--card);">🔴</div>
+            <div style="flex:1">
+              <div class="ann-title">Séance en direct</div>
+              <div class="ann-sub" id="liveSubText">Le formateur a ouvert une séance LIVE. Rejoignez maintenant.</div>
+            </div>
+            <span class="live-pill" id="liveMeta">LIVE</span>
           </div>
+
+          <div class="live-actions">
+            <button type="button" class="btn primary" id="btnJoinLive">🔴 Join Live</button>
+            <button type="button" class="btn danger" id="btnEndLive" style="display:none;">⏹ Terminer</button>
+          </div>
+        </div>
+
+        <button type="button" id="btnOpenLive" class="btn danger" style="display:none; margin-bottom:10px;">
+          📡 Ouvrir une séance LIVE
+        </button>
+
+        <div class="progress-wrapper">
+          <div class="progress-circle" id="progressCircle" style="--p: 0;"><span id="progressLabel">0%</span></div>
           <div class="progress-labels">
-            <div class="level-pill">
-              Niveau 1 <span class="state">• en cours</span>
-            </div>
-            <div class="level-pill">
-              Niveau 2 <span class="state">• 🔒 après test</span>
-            </div>
+            <div class="level-pill">Niveau 1 <span class="state">• en cours</span></div>
+            <div class="level-pill">Niveau 2 <span class="state">• 🔒 après test</span></div>
             <span>Avancement basé sur les séances validées. Le niveau 2 se débloque après la réussite du test final.</span>
           </div>
         </div>
@@ -728,11 +485,8 @@
         <div class="sessions">
           <div class="session-item" data-session-id="1">
             <div class="session-left">
-              <div class="session-title">Séance 1 – Introduction au BIM & interface Revit</div>
-              <div class="session-meta">
-                <span class="chip">🎥 2 h</span>
-                <span class="chip">Présentation + démo</span>
-              </div>
+              <div class="session-title">Séance 1 : Introduction au logiciel Revit et découverte de l’interface architecturale</div>
+              <div class="session-meta"><span class="chip">🎥 2 h</span><span class="chip">Interface & bases</span></div>
             </div>
             <div class="session-right">
               <span class="status open">✓ Ouverte</span>
@@ -742,11 +496,8 @@
 
           <div class="session-item" data-session-id="2">
             <div class="session-left">
-              <div class="session-title">Séance 2 – Modélisation d’un volume simple</div>
-              <div class="session-meta">
-                <span class="chip">🎥 2 h</span>
-                <span class="chip">Exercice guidé</span>
-              </div>
+              <div class="session-title">Séance 2 : Modélisation des éléments de base et début de l’exercice 1</div>
+              <div class="session-meta"><span class="chip">🧱 Murs / Sols</span><span class="chip">Exercice 1</span></div>
             </div>
             <div class="session-right">
               <span class="status open">✓ Ouverte</span>
@@ -756,11 +507,8 @@
 
           <div class="session-item" data-session-id="3">
             <div class="session-left">
-              <div class="session-title">Séance 3 – Niveaux, grilles & murs porteurs</div>
-              <div class="session-meta">
-                <span class="chip">🧱 Structure</span>
-                <span class="chip">Projet complet</span>
-              </div>
+              <div class="session-title">Séance 3 : Finitions du projet et finalisation de l’exercice 1</div>
+              <div class="session-meta"><span class="chip">🧩 Détails</span><span class="chip">Finalisation</span></div>
             </div>
             <div class="session-right">
               <span class="status open">✓ Ouverte</span>
@@ -770,11 +518,8 @@
 
           <div class="session-item" data-session-id="4">
             <div class="session-left">
-              <div class="session-title">Séance 4 – Détails, familles & annotations</div>
-              <div class="session-meta">
-                <span class="chip">📐 Détails</span>
-                <span class="chip">Familles simples</span>
-              </div>
+              <div class="session-title">Séance 4 : Modélisation d’un bâtiment à plusieurs niveaux – Exercice 2</div>
+              <div class="session-meta"><span class="chip">🏢 Niveaux</span><span class="chip">Exercice 2</span></div>
             </div>
             <div class="session-right">
               <span class="status open">✓ Ouverte</span>
@@ -784,13 +529,11 @@
 
           <div class="session-item" data-session-id="5">
             <div class="session-left">
-              <div class="session-title">Séance 5 – Test de fin de niveau & mini-projet</div>
-              <div class="session-meta">
-                <span class="chip">✅ QCM + mini-projet</span>
-              </div>
+              <div class="session-title">Séance 5 : Finalisation du projet, mise en page et export des livrables</div>
+              <div class="session-meta"><span class="chip">🖨️ Mise en page</span><span class="chip">Export</span></div>
             </div>
             <div class="session-right">
-              <span class="status locked">🔒 Verrouillé</span>
+              <span class="status open">✓ Ouverte</span>
               <button type="button" class="mark-done-btn" data-session-id="5">Marquer terminé</button>
             </div>
           </div>
@@ -799,10 +542,7 @@
 
       <section class="card soft" id="trainerCard">
         <div class="card-header">
-          <div class="card-title">
-            <span class="icon">👨‍🏫</span>
-            <span>Espace formateur & messages</span>
-          </div>
+          <div class="card-title"><span class="icon">👨‍🏫</span><span>Espace formateur & messages</span></div>
           <span class="badge" id="roleBadge">Rôle: étudiant</span>
         </div>
 
@@ -826,9 +566,7 @@
           <div class="messages-list" id="messagesList"></div>
           <form class="messages-input" id="messageForm">
             <input type="text" id="messageInput" placeholder="Écrire un message au formateur..." autocomplete="off"/>
-            <button type="submit">
-              <span>Envoyer</span> <span>📨</span>
-            </button>
+            <button type="submit"><span>Envoyer</span> <span>📨</span></button>
           </form>
         </div>
       </section>
@@ -836,10 +574,7 @@
 
     <section class="card soft" id="adminPanel" style="margin-top:8px; display:none;">
       <div class="card-header">
-        <div class="card-title">
-          <span class="icon">🛠️</span>
-          <span>Admin – Gestion des e-mails</span>
-        </div>
+        <div class="card-title"><span class="icon">🛠️</span><span>Admin – Gestion des e-mails</span></div>
         <span class="badge">Compte admin</span>
       </div>
       <p style="font-size:0.78rem;color:var(--muted);margin-bottom:8px;">
@@ -857,9 +592,7 @@
     <div id="lockedOverlay" class="card soft" style="margin-top:8px; display:none;">
       <div class="locked">
         <div class="locked-icon">🔒</div>
-        <div>
-          <strong>Accès restreint à la formation Revit.</strong>
-        </div>
+        <div><strong>Accès restreint à la formation Revit.</strong></div>
         <p>
           Cette page est réservée aux comptes ajoutés manuellement à la formation par le formateur.
           Assurez-vous d’être connecté avec l’adresse e-mail utilisée lors de l’inscription.
@@ -927,6 +660,13 @@
     const announcementsBlock = document.getElementById("announcementsBlock");
     const announcementsList = document.getElementById("announcementsList");
 
+    const liveBanner = document.getElementById("liveBanner");
+    const btnJoinLive = document.getElementById("btnJoinLive");
+    const btnOpenLive = document.getElementById("btnOpenLive");
+    const btnEndLive = document.getElementById("btnEndLive");
+    const liveSubText = document.getElementById("liveSubText");
+    const liveMeta = document.getElementById("liveMeta");
+
     const messagesList = document.getElementById("messagesList");
     const messageForm = document.getElementById("messageForm");
     const messageInput = document.getElementById("messageInput");
@@ -945,19 +685,23 @@
     const adminEmailList = document.getElementById("adminEmailList");
 
     function _d(b){return atob(b);}
-    const ADMIN_EMAIL = _d("dG91bWlpeWFkZXR1ZGVAZ21haWwuY29t"); 
+    const ADMIN_EMAIL = _d("dG91bWlpeWFkZXR1ZGVAZ21haWwuY29t");
 
     let currentUser = null;
     let isTrainer = false;
     let unsubscribeMessages = null;
     let unsubscribeProgress = null;
     let unsubscribeAnnouncements = null;
+    let unsubscribeLive = null;
+
     let userProgress = { completedSessions: [] };
     let revitConfig = { allowedEmails: [], trainerEmail: null, trainerName: null };
 
-    goToDashboardBtn.addEventListener("click", ()=>{
-      window.location.href = "lecteur.html";
-    });
+    const FORMATION_ID = "revit-niveau1";
+    let currentLiveSessionId = null;
+    let currentJoinUrl = null;
+
+    goToDashboardBtn.addEventListener("click", ()=>{ window.location.href = "lecteur.html"; });
 
     if(auth && db){
       auth.onAuthStateChanged(async (user)=>{
@@ -971,7 +715,7 @@
         userEmailBadge.textContent = "Compte: " + (user.email || "—");
 
         try{
-          const docRef = db.collection("formations").doc("revit-niveau1");
+          const docRef = db.collection("formations").doc(FORMATION_ID);
           const docSnap = await docRef.get();
 
           if(!docSnap.exists){
@@ -986,6 +730,7 @@
             trainerEmail: data.trainerEmail || null,
             trainerName: data.trainerName || "Formateur Revit"
           };
+
           const allowedEmails = revitConfig.allowedEmails;
           const trainerEmail = revitConfig.trainerEmail;
           const trainerName = revitConfig.trainerName;
@@ -993,10 +738,7 @@
           trainerNameEl.textContent = trainerName;
           trainerInitialsEl.textContent = (trainerName || "TR")
             .split(" ")
-            .map(p=>p[0])
-            .join("")
-            .substring(0,2)
-            .toUpperCase();
+            .map(p=>p[0]).join("").substring(0,2).toUpperCase();
 
           if(trainerEmail && user.email && user.email.toLowerCase() === trainerEmail.toLowerCase()){
             isTrainer = true;
@@ -1022,21 +764,15 @@
 
           if(isTrainer && teacherSpaceBtn){
             teacherSpaceBtn.style.display = "inline-flex";
-            teacherSpaceBtn.onclick = function(){
-              window.location.href = "enseignant.html";
-            };
+            teacherSpaceBtn.onclick = ()=>{ window.location.href = "enseignant.html"; };
           }
 
           if(currentUser.email && currentUser.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()){
             if(adminBtn){
               adminBtn.style.display = "inline-flex";
-              adminBtn.onclick = function(){
-                if(adminPanel.style.display === "none" || adminPanel.style.display === ""){
-                  adminPanel.style.display = "block";
-                  renderAdminEmailList();
-                }else{
-                  adminPanel.style.display = "none";
-                }
+              adminBtn.onclick = ()=>{
+                adminPanel.style.display = (adminPanel.style.display === "block") ? "none" : "block";
+                renderAdminEmailList();
               };
             }
           }
@@ -1045,6 +781,13 @@
           subscribeToMessages();
           subscribeToProgress();
           subscribeToAnnouncements();
+
+          if(btnOpenLive){
+            btnOpenLive.style.display = isTrainer ? "inline-flex" : "none";
+            btnOpenLive.onclick = openLiveSession;
+          }
+          subscribeToLive();
+
         }catch(err){
           console.error(err);
           statusText.textContent = "Erreur lors de la vérification de l’accès.";
@@ -1066,6 +809,8 @@
       messageForm.style.pointerEvents = "none";
       messageInput.disabled = true;
       markButtons.forEach(btn => btn.disabled = true);
+      if(liveBanner) liveBanner.style.display = "none";
+      if(btnOpenLive) btnOpenLive.style.display = "none";
     }
 
     function unlockMainUI(){
@@ -1076,6 +821,101 @@
       messageForm.style.pointerEvents = "auto";
       messageInput.disabled = false;
       markButtons.forEach(btn => btn.disabled = false);
+    }
+
+    function subscribeToLive(){
+      if(!db || !currentUser) return;
+      if(unsubscribeLive) unsubscribeLive();
+
+      unsubscribeLive = db.collection("formations").doc(FORMATION_ID)
+        .collection("liveSessions")
+        .where("status","==","live")
+        .orderBy("startedAt","desc")
+        .limit(1)
+        .onSnapshot((snap)=>{
+          if(snap.empty){
+            currentLiveSessionId = null;
+            currentJoinUrl = null;
+            if(liveBanner) liveBanner.style.display = "none";
+            if(btnEndLive) btnEndLive.style.display = "none";
+            return;
+          }
+
+          const doc = snap.docs[0];
+          const data = doc.data() || {};
+          currentLiveSessionId = doc.id;
+          currentJoinUrl = data.joinUrl || null;
+
+          if(liveBanner) liveBanner.style.display = "block";
+          if(liveSubText) liveSubText.textContent = data.title || "Le formateur a ouvert une séance LIVE. Rejoignez maintenant.";
+          if(liveMeta){
+            const time = (data.startedAt && data.startedAt.toDate)
+              ? data.startedAt.toDate().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})
+              : "";
+            liveMeta.textContent = time ? ("LIVE • " + time) : "LIVE";
+          }
+
+          if(btnJoinLive){
+            btnJoinLive.onclick = ()=>{
+              if(!currentJoinUrl) return alert("Lien de la séance indisponible.");
+              window.location.href = currentJoinUrl;
+            };
+          }
+
+          if(btnEndLive){
+            btnEndLive.style.display = isTrainer ? "inline-flex" : "none";
+            btnEndLive.onclick = endLiveSession;
+          }
+        }, (err)=>console.error("Live listen error:", err));
+    }
+
+    async function openLiveSession(){
+      if(!db || !currentUser) return;
+      if(!isTrainer) return alert("هذه الميزة للمدرس فقط.");
+
+      try{
+        const old = await db.collection("formations").doc(FORMATION_ID)
+          .collection("liveSessions").where("status","==","live").limit(5).get();
+        const batch = db.batch();
+        old.forEach(d=> batch.update(d.ref, {status:"ended", endedAt: firebase.firestore.FieldValue.serverTimestamp()}));
+        await batch.commit();
+
+        const ref = db.collection("formations").doc(FORMATION_ID).collection("liveSessions").doc();
+        const joinUrl = `live.html?courseId=${encodeURIComponent(FORMATION_ID)}&sessionId=${ref.id}`;
+
+        await ref.set({
+          status:"live",
+          title:"Séance LIVE – Formation Revit",
+          startedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          teacherUid: currentUser.uid,
+          teacherEmail: currentUser.email || null,
+          joinUrl
+        });
+
+        window.location.href = joinUrl;
+      }catch(e){
+        console.error(e);
+        alert("تعذر فتح الحصة. تحقق من قواعد Firestore.");
+      }
+    }
+
+    async function endLiveSession(){
+      if(!db || !currentUser) return;
+      if(!isTrainer) return alert("غير مسموح.");
+
+      if(!currentLiveSessionId) return;
+
+      try{
+        await db.collection("formations").doc(FORMATION_ID)
+          .collection("liveSessions").doc(currentLiveSessionId)
+          .update({
+            status:"ended",
+            endedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+      }catch(e){
+        console.error(e);
+        alert("تعذر إنهاء الحصة. تحقق من قواعد Firestore.");
+      }
     }
 
     function subscribeToMessages(){
@@ -1092,9 +932,7 @@
             renderMessage(msg);
           });
           messagesList.scrollTop = messagesList.scrollHeight;
-        },(err)=>{
-          console.error("Erreur flux messages:", err);
-        });
+        },(err)=>console.error("Erreur flux messages:", err));
     }
 
     function renderMessage(msg){
@@ -1156,15 +994,11 @@
           userProgress = { completedSessions: [] };
         }else{
           const data = snap.data() || {};
-          userProgress = {
-            completedSessions: Array.isArray(data.completedSessions) ? data.completedSessions : []
-          };
+          userProgress = { completedSessions: Array.isArray(data.completedSessions) ? data.completedSessions : [] };
         }
         updateProgressUI();
         updateSessionsUI();
-      }, (err)=>{
-        console.error("Erreur flux progress:", err);
-      });
+      }, (err)=>console.error("Erreur flux progress:", err));
     }
 
     function updateProgressUI(){
@@ -1197,10 +1031,10 @@
           }
         }else{
           item.classList.remove("done");
-          if(statusEl && !statusEl.classList.contains("locked")){
+          if(statusEl){
             statusEl.textContent = "✓ Ouverte";
             statusEl.classList.add("open");
-            statusEl.classList.remove("done");
+            statusEl.classList.remove("done","locked");
           }
           if(btn){
             btn.disabled = false;
@@ -1220,11 +1054,9 @@
         if(!id) return;
 
         try{
-          await db.collection("revit_progress")
-            .doc(currentUser.uid)
-            .set({
-              completedSessions: firebase.firestore.FieldValue.arrayUnion(id)
-            }, { merge:true });
+          await db.collection("revit_progress").doc(currentUser.uid).set({
+            completedSessions: firebase.firestore.FieldValue.arrayUnion(id)
+          }, { merge:true });
         }catch(err){
           console.error("Erreur maj progress:", err);
           alert("Erreur lors de la mise à jour du progrès.");
@@ -1232,35 +1064,25 @@
       });
     });
 
+
     function formatAnnDate(ts){
       if(!ts || !ts.toDate) return "";
       const d = ts.toDate();
-      return d.toLocaleString("fr-FR", {
-        day:"2-digit",
-        month:"2-digit",
-        hour:"2-digit",
-        minute:"2-digit"
-      });
+      return d.toLocaleString("fr-FR", { day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit" });
     }
 
     function subscribeToAnnouncements(){
       if(!db || !currentUser) return;
       if(unsubscribeAnnouncements) unsubscribeAnnouncements();
 
-      const docRef = db.collection("formations").doc("revit-niveau1");
-      unsubscribeAnnouncements = docRef
-        .collection("announcements")
-        .orderBy("createdAt","desc")
-        .limit(5)
+      const docRef = db.collection("formations").doc(FORMATION_ID);
+      unsubscribeAnnouncements = docRef.collection("announcements")
+        .orderBy("createdAt","desc").limit(5)
         .onSnapshot((snap)=>{
           const anns = [];
-          snap.forEach(doc=>{
-            anns.push(doc.data() || {});
-          });
+          snap.forEach(doc=>anns.push(doc.data() || {}));
           renderAnnouncements(anns);
-        }, (err)=>{
-          console.error("Erreur flux annonces:", err);
-        });
+        }, (err)=>console.error("Erreur flux annonces:", err));
     }
 
     function renderAnnouncements(anns){
@@ -1300,10 +1122,10 @@
         item.appendChild(title);
         item.appendChild(body);
         item.appendChild(meta);
-
         announcementsList.appendChild(item);
       });
     }
+
 
     function renderAdminEmailList(){
       if(!adminEmailList) return;
@@ -1313,7 +1135,7 @@
         return;
       }
       adminEmailList.innerHTML = "";
-      list.forEach(function(mail){
+      list.forEach((mail)=>{
         const div = document.createElement("div");
         div.textContent = mail;
         adminEmailList.appendChild(div);
@@ -1321,20 +1143,16 @@
     }
 
     if(adminAddEmailBtn){
-      adminAddEmailBtn.addEventListener("click", async function(){
+      adminAddEmailBtn.addEventListener("click", async ()=>{
         if(!db || !currentUser) return;
         const email = (adminEmailInput.value || "").trim().toLowerCase();
-        if(!email){
-          alert("Veuillez saisir une adresse e-mail.");
-          return;
-        }
+        if(!email) return alert("Veuillez saisir une adresse e-mail.");
+
         try{
-          await db.collection("formations").doc("revit-niveau1").update({
+          await db.collection("formations").doc(FORMATION_ID).update({
             allowedEmails: firebase.firestore.FieldValue.arrayUnion(email)
           });
-          if(!revitConfig.allowedEmails.includes(email)){
-            revitConfig.allowedEmails.push(email);
-          }
+          if(!revitConfig.allowedEmails.includes(email)) revitConfig.allowedEmails.push(email);
           adminEmailInput.value = "";
           renderAdminEmailList();
           alert("Adresse ajoutée avec succès.");
@@ -1345,20 +1163,12 @@
       });
     }
 
-    document.addEventListener("contextmenu", function(e){
-      e.preventDefault();
-    });
 
-    document.addEventListener("keydown", function(e){
-      if(e.key === "F12"){
-        e.preventDefault();
-      }
-      if(e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S")){
-        e.preventDefault();
-      }
-      if(e.ctrlKey && e.shiftKey && ["I","i","J","j","C","c"].includes(e.key)){
-        e.preventDefault();
-      }
+    document.addEventListener("contextmenu", (e)=>e.preventDefault());
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "F12") e.preventDefault();
+      if(e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S")) e.preventDefault();
+      if(e.ctrlKey && e.shiftKey && ["I","i","J","j","C","c"].includes(e.key)) e.preventDefault();
     });
   </script>
 </body>
