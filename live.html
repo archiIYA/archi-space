@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trendy Plaza Live</title>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+  <style>
+    :root{--bg:#050816;--card:#0b1228;--text:#e9eefc;--muted:#a7b0d6;--accent:#22d3ee;--danger:#ef4444;}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,"Cairo",sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1200px;margin:0 auto;padding:20px}
+    .top{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .badge{display:inline-flex;gap:8px;align-items:center;background:#111a38;border:1px solid #1b2a60;color:var(--text);padding:6px 10px;border-radius:999px;font-size:12px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media (max-width: 980px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid #14204b;border-radius:16px;padding:16px}
+    h1{margin:0;font-size:20px}
+    h2{margin:0 0 10px 0;font-size:16px}
+    p{margin:6px 0;color:var(--muted)}
+    video{width:100%;background:#000;border-radius:14px;max-height:420px}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    button{border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .primary{background:var(--accent);color:#021018}
+    .secondary{background:#1f2a52;color:var(--text)}
+    .danger{background:var(--danger);color:#fff}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    .switch{display:flex;gap:10px;align-items:center;background:#0d1738;border:1px solid #1b2a60;padding:10px 12px;border-radius:14px}
+    input[type="checkbox"]{width:18px;height:18px;accent-color: var(--accent);}
+    .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#b9c6ff}
+    a{color:var(--accent)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>📡 بث مباشر — Trendy Plaza</h1>
+        <p id="status">جاري التحقق من حسابك...</p>
+      </div>
+      <div class="badge" id="courseBadge">الدورة: ...</div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>🎥 الفيديو (كاميرا/شاشة)</h2>
+        <video id="localVideo" autoplay playsinline muted></video>
+
+        <div class="controls">
+          <button id="btnCam" class="primary">تشغيل الكاميرا</button>
+          <button id="btnScreen" class="secondary">مشاركة الشاشة</button>
+          <button id="btnStopMedia" class="secondary" disabled>إيقاف الكاميرا/الشاشة</button>
+        </div>
+
+        <div class="row" style="margin-top:14px">
+          <div class="switch">
+            <input id="chkUpload" type="checkbox" />
+            <label for="chkUpload">رفع التسجيل تلقائيًا إلى Firebase Storage</label>
+          </div>
+          <div class="switch">
+            <input id="chkAutoDownload" type="checkbox" checked />
+            <label for="chkAutoDownload">تنزيل التسجيل تلقائيًا عند الإيقاف</label>
+          </div>
+        </div>
+
+        <div class="controls" style="margin-top:12px">
+          <button id="btnStartRec" class="primary">⏺ بدء التسجيل</button>
+          <button id="btnStopRec" class="danger" disabled>⏹ إيقاف التسجيل</button>
+          <button id="btnDownload" class="secondary" disabled>⬇ تنزيل آخر تسجيل</button>
+        </div>
+
+        <div class="hint">
+          • افتح الصفحة هكذا: <span class="mono">live.html?courseId=ATELIER1</span><br/>
+          • الدخول مسموح فقط لمن يوجد UID تاعه في: <span class="mono">courses/{courseId}/students/{uid}</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>ℹ️ معلومات / روابط</h2>
+        <p>هذه الصفحة تقوم بـ:</p>
+        <p>✅ التحقق من تسجيل الدخول (Firebase Auth)</p>
+        <p>✅ التحقق من أن المستخدم مسجّل في الدورة (Firestore)</p>
+        <p>✅ كاميرا / مشاركة شاشة</p>
+        <p>✅ تسجيل البث + تنزيله، مع خيار رفعه للسحابة</p>
+        <hr style="border:0;border-top:1px solid #14204b;margin:14px 0" />
+        <p><b>ملاحظة:</b> هذا “تسجيل + عرض محلي” (ليس مكالمة جماعية WebRTC مثل Meet). إذا تحب بعدها نزيد “غرفة متعددة المشاركين” نركب WebRTC + Signaling على Firestore.</p>
+        <p id="lastUpload"></p>
+      </div>
+    </div>
+  </div>
+
+<script>
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "TrendyPlaza-72624.firebaseapp.com",
+    projectId: "TrendyPlaza-72624",
+    storageBucket: "TrendyPlaza-72624.firebasestorage.app",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+    measurementId: "G-RZV7LSDQBD"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+
+
+  const params = new URLSearchParams(location.search);
+  const courseId = params.get("courseId") || "ATELIER1";
+
+  const statusEl = document.getElementById("status");
+  const courseBadge = document.getElementById("courseBadge");
+  const lastUploadEl = document.getElementById("lastUpload");
+
+  const localVideo = document.getElementById("localVideo");
+
+  const btnCam = document.getElementById("btnCam");
+  const btnScreen = document.getElementById("btnScreen");
+  const btnStopMedia = document.getElementById("btnStopMedia");
+
+  const btnStartRec = document.getElementById("btnStartRec");
+  const btnStopRec = document.getElementById("btnStopRec");
+  const btnDownload = document.getElementById("btnDownload");
+
+  const chkUpload = document.getElementById("chkUpload");
+  const chkAutoDownload = document.getElementById("chkAutoDownload");
+
+  courseBadge.textContent = "الدورة: " + courseId;
+
+  let allowed = false;
+  let currentUser = null;
+
+  let localStream = null;
+  let mediaRecorder = null;
+  let recordedChunks = [];
+  let lastBlob = null;
+
+  function setStatus(msg){ statusEl.textContent = msg; }
+  function safeFilename() {
+    const d = new Date();
+    const pad = (n)=> String(n).padStart(2,"0");
+    return `record-${courseId}-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.webm`;
+  }
+  function downloadBlob(blob, filename){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=> URL.revokeObjectURL(url), 2000);
+  }
+
+
+  auth.onAuthStateChanged(async (user) => {
+    if (!user) {
+      allowed = false;
+      setStatus("❌ لازم تسجّل دخول باش تدخل للبث.");
+      return;
+    }
+    currentUser = user;
+
+    try {
+      const docRef = db.collection("courses").doc(courseId)
+                       .collection("students").doc(user.uid);
+      const snap = await docRef.get();
+
+      if (!snap.exists) {
+        allowed = false;
+        setStatus("⛔ ليس لديك صلاحية لهذه الدورة.");
+        alert("هذا البث مخصص فقط لطلاب هذه الدورة.");
+        return;
+      }
+
+      allowed = true;
+      setStatus("✅ مرحباً! تم التحقق من اشتراكك في الدورة.");
+    } catch (e) {
+      allowed = false;
+      console.error(e);
+      setStatus("❌ خطأ أثناء التحقق من الصلاحية.");
+    }
+  });
+
+  function requireAllowed(){
+    if (!allowed) {
+      alert("لا يمكن: يجب تسجيل الدخول وأن تكون مسجلاً في الدورة.");
+      return false;
+    }
+    return true;
+  }
+
+
+  async function startCamera(){
+    if (!requireAllowed()) return;
+    stopMedia(); // stop previous if any
+    try {
+      localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      localVideo.srcObject = localStream;
+      btnStopMedia.disabled = false;
+      setStatus("🎥 الكاميرا تعمل الآن.");
+    } catch (e) {
+      console.error(e);
+      alert("تعذر تشغيل الكاميرا/المايك.");
+    }
+  }
+
+  async function startScreen(){
+    if (!requireAllowed()) return;
+    stopMedia(); 
+    try {
+      localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+      localVideo.srcObject = localStream;
+      btnStopMedia.disabled = false;
+      setStatus("🖥️ مشاركة الشاشة تعمل الآن.");
+
+      const track = localStream.getVideoTracks()[0];
+      if (track) {
+        track.onended = () => {
+          if (mediaRecorder && mediaRecorder.state !== "inactive") stopRecording();
+          stopMedia();
+          setStatus("🛑 تم إيقاف مشاركة الشاشة.");
+        };
+      }
+    } catch (e) {
+      console.error(e);
+      alert("تعذر مشاركة الشاشة.");
+    }
+  }
+
+  function stopMedia(){
+    if (localStream) {
+      localStream.getTracks().forEach(t => t.stop());
+      localStream = null;
+    }
+    localVideo.srcObject = null;
+    btnStopMedia.disabled = true;
+  }
+
+  btnCam.addEventListener("click", startCamera);
+  btnScreen.addEventListener("click", startScreen);
+  btnStopMedia.addEventListener("click", () => {
+    if (mediaRecorder && mediaRecorder.state !== "inactive") stopRecording();
+    stopMedia();
+    setStatus("🛑 تم إيقاف الكاميرا/الشاشة.");
+  });
+
+
+  function startRecording(){
+    if (!requireAllowed()) return;
+    if (!localStream) {
+      alert("شغّل الكاميرا أو مشاركة الشاشة أولاً.");
+      return;
+    }
+
+    recordedChunks = [];
+    lastBlob = null;
+    btnDownload.disabled = true;
+    lastUploadEl.textContent = "";
+
+
+    const prefer = [
+      "video/webm;codecs=vp9,opus",
+      "video/webm;codecs=vp8,opus",
+      "video/webm"
+    ];
+    let mimeType = "";
+    for (const m of prefer) {
+      if (MediaRecorder.isTypeSupported(m)) { mimeType = m; break; }
+    }
+
+    try {
+      mediaRecorder = new MediaRecorder(localStream, mimeType ? { mimeType } : undefined);
+    } catch (e) {
+      console.error(e);
+      alert("MediaRecorder غير مدعوم في هذا المتصفح.");
+      return;
+    }
+
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = async () => {
+      lastBlob = new Blob(recordedChunks, { type: "video/webm" });
+      btnDownload.disabled = false;
+
+        downloadBlob(lastBlob, safeFilename());
+      }
+
+
+      if (chkUpload.checked) {
+        try {
+          setStatus("📤 جاري رفع التسجيل إلى السحابة...");
+          const path = `records/${courseId}/${Date.now()}-${currentUser.uid}.webm`;
+          const ref = storage.ref().child(path);
+          await ref.put(lastBlob);
+          const url = await ref.getDownloadURL();
+
+
+
+          lastUploadEl.innerHTML = `✅ تم رفع التسجيل. رابط التحميل (للاختبار): <a href="${url}" target="_blank" rel="noopener">فتح</a>`;
+          setStatus("✅ تم حفظ التسجيل.");
+        } catch (e) {
+          console.error(e);
+          setStatus("❌ فشل رفع التسجيل.");
+          alert("فشل رفع التسجيل إلى السحابة. تفقد Storage Rules والإنترنت.");
+        }
+      } else {
+        setStatus("✅ تم حفظ التسجيل محليًا.");
+      }
+    };
+
+    mediaRecorder.start();
+    btnStartRec.disabled = true;
+    btnStopRec.disabled = false;
+    setStatus("⏺ جاري التسجيل الآن...");
+  }
+
+  function stopRecording(){
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+      mediaRecorder.stop();
+    }
+    btnStartRec.disabled = false;
+    btnStopRec.disabled = true;
+  }
+
+  btnStartRec.addEventListener("click", startRecording);
+  btnStopRec.addEventListener("click", stopRecording);
+
+  // تنزيل آخر تسجيل (زر)
+  btnDownload.addEventListener("click", () => {
+    if (!lastBlob) return;
+    downloadBlob(lastBlob, safeFilename());
+  });
+
+  // حماية: عند الخروج من الصفحة
+  window.addEventListener("beforeunload", () => {
+    try {
+      if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
+    } catch {}
+    stopMedia();
+  });
+</script>
+</body>
+</html>
