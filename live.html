@@ -40,6 +40,12 @@
     .err{color:#ff8a8a}
     .mini{font-size:12px;color:#c8d1ff}
     .hr{border:0;border-top:1px solid var(--b);margin:12px 0}
+
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#0d1738;border:1px solid #1b2a60;
+      padding:6px 10px;border-radius:999px;font-size:12px;color:var(--text)
+    }
   </style>
 </head>
 <body>
@@ -49,6 +55,11 @@
         <h1>📡 بث مباشر — Trendy Plaza</h1>
         <p id="status">جاري التحقق من حسابك...</p>
         <div class="mini" id="who"></div>
+
+        <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+          <div class="pill" id="liveStatePill">🔴 LIVE</div>
+          <div class="pill" id="viewersPill">👀 المشاهدون: 0</div>
+        </div>
       </div>
       <div class="badge" id="courseBadge">الدورة: ...</div>
     </div>
@@ -84,7 +95,7 @@
         <div class="hint">
           ✅ لتسجيل <b>صوت النظام</b>: عند الضغط على "مشاركة الشاشة" اختر <b>Tab</b> ثم فعّل <b>Share tab audio</b> (Chrome).<br/>
           ❌ لا يمكن التقاط "صوت الغرفة" بدون ميكروفون (قيود المتصفح).<br/>
-          افتح الصفحة هكذا: <span class="mono">live.html?formationId=revit-niveau1&sessionId=main</span>
+          افتح الصفحة هكذا: <span class="mono">live.html?formationId=revit-niveau1&sessionId=ID</span>
         </div>
       </div>
 
@@ -94,9 +105,11 @@
         <p class="mini">
           • التحقق يتم من وثيقة: <span class="mono">formations/{formationId}</span><br/>
           • يسمح إذا كان إيميلك داخل <span class="mono">allowedEmails</span> أو هو <span class="mono">trainerEmail</span><br/>
+          • تسجيل المشاهد يتم في: <span class="mono">liveSessions/{sessionId}/viewers/{uid}</span>
         </p>
         <p id="audioInfo" class="mini"></p>
         <p id="lastUpload" class="mini"></p>
+        <p id="liveInfo" class="mini"></p>
       </div>
     </div>
   </div>
@@ -128,6 +141,7 @@
   const courseBadge = document.getElementById("courseBadge");
   const lastUploadEl = document.getElementById("lastUpload");
   const audioInfoEl = document.getElementById("audioInfo");
+  const liveInfoEl = document.getElementById("liveInfo");
 
   const localVideo = document.getElementById("localVideo");
 
@@ -141,6 +155,9 @@
 
   const chkUpload = document.getElementById("chkUpload");
   const chkAutoDownload = document.getElementById("chkAutoDownload");
+
+  const viewersPill = document.getElementById("viewersPill");
+  const liveStatePill = document.getElementById("liveStatePill");
 
   courseBadge.textContent = "الدورة: " + formationId;
 
@@ -157,11 +174,11 @@
   let allowed = false;
   let currentUser = null;
 
-  let camStream = null;      
-  let screenStream = null;  
-  let micStream = null;      
+  let camStream = null;
+  let screenStream = null;
+  let micStream = null;
 
-  let mixedStream = null;    
+  let mixedStream = null;
   let mediaRecorder = null;
   let recordedChunks = [];
   let lastBlob = null;
@@ -229,7 +246,6 @@
     return true;
   }
 
-
   async function mixAudioTracks(trackA, trackB){
     if(trackA && !trackB) return trackA;
     if(!trackA && trackB) return trackB;
@@ -248,9 +264,7 @@
 
     const outTrack = dest.stream.getAudioTracks()[0] || null;
 
-
     if(outTrack) outTrack.__tpAudioCtx = ctx;
-
     return outTrack;
   }
 
@@ -269,7 +283,7 @@
       });
 
       const vTrack = camStream.getVideoTracks()[0] || null;
-      const aTrack = camStream.getAudioTracks()[0] || null; 
+      const aTrack = camStream.getAudioTracks()[0] || null;
 
       mixedStream = new MediaStream();
       if(vTrack) mixedStream.addTrack(vTrack);
@@ -307,7 +321,7 @@
       });
 
       const vTrack = screenStream.getVideoTracks()[0] || null;
-      const sysAudio = screenStream.getAudioTracks()[0] || null; 
+      const sysAudio = screenStream.getAudioTracks()[0] || null;
       const micAudio = micStream.getAudioTracks()[0] || null;
 
       const mixedAudio = await mixAudioTracks(micAudio, sysAudio);
@@ -438,6 +452,84 @@
     downloadBlob(lastBlob, safeFilename());
   });
 
+
+  let viewersUnsub = null;
+  let heartbeatTimer = null;
+  let viewerDocRef = null;
+
+  function getLiveSessionRef(){
+    return db.collection("formations").doc(formationId)
+      .collection("liveSessions").doc(sessionId);
+  }
+  function getViewersColRef(){
+    return getLiveSessionRef().collection("viewers");
+  }
+
+  async function ensureLiveSessionIsLive(){
+    const ref = getLiveSessionRef();
+    const snap = await ref.get();
+    if(!snap.exists) return { ok:false, reason:"جلسة LIVE غير موجودة (sessionId غير صحيح)." };
+    const data = snap.data() || {};
+    if(String(data.status || "").toLowerCase() !== "live"){
+      return { ok:false, reason:"هذه الجلسة ليست LIVE الآن (status ليست live)." };
+    }
+    return { ok:true, data };
+  }
+
+  async function registerViewer(){
+    if(!db || !currentUser) return;
+    viewerDocRef = getViewersColRef().doc(currentUser.uid);
+
+    await viewerDocRef.set({
+      uid: currentUser.uid,
+      email: currentUser.email || null,
+      displayName: currentUser.displayName || null,
+      joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+      userAgent: navigator.userAgent || null
+    }, { merge:true });
+
+    clearInterval(heartbeatTimer);
+    heartbeatTimer = setInterval(()=>{
+      try{
+        if(viewerDocRef){
+          viewerDocRef.set({
+            lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge:true });
+        }
+      }catch{}
+    }, 25000);
+
+    if(viewersUnsub) viewersUnsub();
+    viewersUnsub = getViewersColRef().onSnapshot((snap)=>{
+      if(viewersPill) viewersPill.textContent = "👀 المشاهدون: " + (snap.size || 0);
+    });
+  }
+
+  async function unregisterViewer(){
+    try{
+      if(viewersUnsub){ viewersUnsub(); viewersUnsub = null; }
+      if(heartbeatTimer){ clearInterval(heartbeatTimer); heartbeatTimer = null; }
+      if(viewerDocRef){ await viewerDocRef.delete(); }
+    }catch{}
+  }
+
+  document.addEventListener("visibilitychange", ()=>{
+    if(document.visibilityState === "hidden"){
+      unregisterViewer();
+    }else{
+      if(allowed && currentUser){
+        registerViewer().catch(()=>{});
+      }
+    }
+  });
+
+  window.addEventListener("beforeunload", ()=>{
+    try{ if(mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop(); }catch{}
+    clearMedia();
+    unregisterViewer();
+  });
+
   auth.onAuthStateChanged(async (user)=>{
     if(!user){
       allowed=false;
@@ -445,6 +537,10 @@
       setAllowedUI(false);
       setStatus("❌ لازم تسجّل دخول باش تدخل للبث.", "err");
       whoEl.textContent = "";
+      liveInfoEl.textContent = "";
+      if(liveStatePill) liveStatePill.textContent = "⚫ OFF";
+      if(viewersPill) viewersPill.textContent = "👀 المشاهدون: 0";
+      await unregisterViewer();
       return;
     }
 
@@ -458,23 +554,41 @@
         allowed=false;
         setAllowedUI(false);
         setStatus("⛔ ليس لديك صلاحية لهذه الدورة.", "err");
+        liveInfoEl.textContent = "";
+        if(liveStatePill) liveStatePill.textContent = "⚫ OFF";
+        await unregisterViewer();
+        return;
+      }
+
+      const liveRes = await ensureLiveSessionIsLive();
+      if(!liveRes.ok){
+        allowed=false;
+        setAllowedUI(false);
+        setStatus("⛔ لا يمكنك الدخول الآن.", "err");
+        liveInfoEl.innerHTML = `سبب: <span class="mono">${liveRes.reason}</span>`;
+        if(liveStatePill) liveStatePill.textContent = "⚫ OFF";
+        await unregisterViewer();
         return;
       }
 
       allowed=true;
       setAllowedUI(true);
       setStatus("✅ تم التحقق! يمكنك فتح البث.", "ok");
+
+      const title = liveRes.data && liveRes.data.title ? liveRes.data.title : "LIVE";
+      liveInfoEl.innerHTML = `جلسة: <span class="mono">${title}</span> — sessionId: <span class="mono">${sessionId}</span>`;
+      if(liveStatePill) liveStatePill.textContent = "🔴 LIVE";
+
+      await registerViewer();
+
     }catch(err){
       console.error(err);
       allowed=false;
       setAllowedUI(false);
-      setStatus("❌ خطأ أثناء التحقق من الصلاحية (Firestore).", "err");
+      setStatus("❌ خطأ أثناء التحقق (Firestore).", "err");
+      await unregisterViewer();
+      if(liveStatePill) liveStatePill.textContent = "⚫ OFF";
     }
-  });
-
-  window.addEventListener("beforeunload", ()=>{
-    try{ if(mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop(); }catch{}
-    clearMedia();
   });
 </script>
 </body>
