@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trendy Plaza Meet</title>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root{--bg:#050816;--card:#0b1228;--text:#e9eefc;--muted:#a7b0d6;--accent:#22d3ee;--danger:#ef4444;}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,"Cairo",sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1200px;margin:0 auto;padding:18px}
+    .top{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .badge{display:inline-flex;gap:8px;align-items:center;background:#111a38;border:1px solid #1b2a60;padding:6px 10px;border-radius:999px;font-size:12px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width: 980px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid #14204b;border-radius:16px;padding:14px}
+    h1{margin:0;font-size:18px}
+    h2{margin:0 0 10px 0;font-size:15px}
+    p{margin:6px 0;color:var(--muted)}
+    button{border:0;border-radius:12px;padding:10px 12px;font-weight:800;cursor:pointer}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .primary{background:var(--accent);color:#021018}
+    .secondary{background:#1f2a52;color:var(--text)}
+    .danger{background:var(--danger);color:#fff}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#b9c6ff}
+    .videos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    @media (max-width: 700px){.videos{grid-template-columns:1fr}}
+    video{width:100%;background:#000;border-radius:14px;max-height:260px}
+    .pill{display:inline-flex;gap:6px;align-items:center;border:1px solid #1b2a60;background:#0d1738;padding:6px 10px;border-radius:999px;font-size:12px}
+    .list{display:flex;flex-direction:column;gap:10px}
+    .item{border:1px solid #14204b;border-radius:14px;padding:10px;background:#08102a}
+    .hint{font-size:12px;color:var(--muted);line-height:1.55}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>🎙️ مكالمة جماعية — Trendy Plaza</h1>
+      <p id="status">جاري التحقق...</p>
+    </div>
+    <div class="badge" id="roomBadge">الغرفة: ...</div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>🎥 الفيديوهات</h2>
+
+      <div class="row" style="margin-bottom:10px">
+        <span class="pill" id="rolePill">الدور: ...</span>
+        <span class="pill" id="permPill">Mic: - | Cam: -</span>
+      </div>
+
+      <div class="row" style="margin-bottom:10px">
+        <button id="btnJoin" class="primary">طلب الانضمام</button>
+        <button id="btnLeave" class="danger" disabled>مغادرة</button>
+        <button id="btnToggleMic" class="secondary" disabled>تشغيل/إيقاف المايك</button>
+        <button id="btnToggleCam" class="secondary" disabled>تشغيل/إيقاف الكاميرا</button>
+      </div>
+
+      <div class="videos">
+        <div>
+          <p class="mono">محلي (أنت)</p>
+          <video id="localVideo" autoplay playsinline muted></video>
+        </div>
+        <div>
+          <p class="mono">مشاركون (ريموت)</p>
+          <div id="remoteVideos" class="list"></div>
+        </div>
+      </div>
+
+      <div class="hint" style="margin-top:10px">
+        افتح الصفحة هكذا: <span class="mono">meet.html?roomId=ATELIER1</span><br/>
+        أدمن الغرفة: <span class="mono">toumiiyadetude@gmail.com</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🛡️ لوحة الأدمن (قبول/رفض + تحكم mic/cam)</h2>
+      <div id="adminBox" style="display:none">
+        <h3 style="margin:0 0 8px 0;font-size:14px">طلبات الانضمام</h3>
+        <div id="reqList" class="list"></div>
+
+        <hr style="border:0;border-top:1px solid #14204b;margin:12px 0"/>
+
+        <h3 style="margin:0 0 8px 0;font-size:14px">المشاركون</h3>
+        <div id="partList" class="list"></div>
+      </div>
+
+      <div id="notAdmin" class="hint">
+        هذه اللوحة تظهر فقط للأدمن.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+ const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.firebasestorage.app",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+    measurementId: "G-RZV7LSDQBD"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  const params = new URLSearchParams(location.search);
+  const roomId = params.get("roomId") || "ATELIER1";
+  document.getElementById("roomBadge").textContent = "الغرفة: " + roomId;
+
+  const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
+
+  const statusEl = document.getElementById("status");
+  const rolePill = document.getElementById("rolePill");
+  const permPill = document.getElementById("permPill");
+
+  const btnJoin = document.getElementById("btnJoin");
+  const btnLeave = document.getElementById("btnLeave");
+  const btnToggleMic = document.getElementById("btnToggleMic");
+  const btnToggleCam = document.getElementById("btnToggleCam");
+
+  const localVideo = document.getElementById("localVideo");
+  const remoteVideos = document.getElementById("remoteVideos");
+
+  const adminBox = document.getElementById("adminBox");
+  const notAdmin = document.getElementById("notAdmin");
+  const reqList = document.getElementById("reqList");
+  const partList = document.getElementById("partList");
+
+  const setStatus = (m)=> statusEl.textContent = m;
+
+  const rtcConfig = {
+    iceServers: [
+      { urls: "stun:stun.l.google.com:19302" },
+      { urls: "stun:stun1.l.google.com:19302" }
+    ]
+  };
+
+  let user = null;
+  let isAdmin = false;
+
+  let joined = false;
+  let localStream = null;
+
+  const peers = new Map();
+
+  let audioAllowed = false;
+  let videoAllowed = false;
+
+  function updatePermPill(){
+    permPill.textContent = `Mic: ${audioAllowed ? "مفتوح" : "مغلق"} | Cam: ${videoAllowed ? "مفتوح" : "مغلق"}`;
+  }
+
+  function pairId(a,b){
+    return (a < b) ? `${a}__${b}` : `${b}__${a}`;
+  }
+
+  function cleanRemote(uid){
+    const el = document.getElementById("rv_"+uid);
+    if (el) el.remove();
+  }
+
+  function ensureRemoteVideo(uid){
+    let wrap = document.getElementById("rv_"+uid);
+    if (!wrap){
+      wrap = document.createElement("div");
+      wrap.id = "rv_"+uid;
+      wrap.className = "item";
+      wrap.innerHTML = `
+        <div class="row">
+          <span class="mono">${uid}</span>
+          <span class="pill" id="st_${uid}">...</span>
+        </div>
+        <video autoplay playsinline></video>
+      `;
+      remoteVideos.appendChild(wrap);
+    }
+    return wrap.querySelector("video");
+  }
+
+  function setRemoteStatus(uid, txt){
+    const st = document.getElementById("st_"+uid);
+    if (st) st.textContent = txt;
+  }
+
+  async function getLocalStream(){
+    if (localStream) return localStream;
+    localStream = await navigator.mediaDevices.getUserMedia({ video:true, audio:true });
+    localStream.getAudioTracks().forEach(t => t.enabled = audioAllowed);
+    localStream.getVideoTracks().forEach(t => t.enabled = videoAllowed);
+
+    localVideo.srcObject = localStream;
+    return localStream;
+  }
+
+  function setLocalTracksEnabled(){
+    if (!localStream) return;
+    localStream.getAudioTracks().forEach(t => t.enabled = audioAllowed);
+    localStream.getVideoTracks().forEach(t => t.enabled = videoAllowed);
+    updatePermPill();
+  }
+
+  async function createPeer(remoteUid){
+    if (peers.has(remoteUid)) return peers.get(remoteUid);
+
+    const pc = new RTCPeerConnection(rtcConfig);
+
+    const stream = await getLocalStream();
+    stream.getTracks().forEach(track => pc.addTrack(track, stream));
+
+    pc.ontrack = (ev) => {
+      const v = ensureRemoteVideo(remoteUid);
+      v.srcObject = ev.streams[0];
+      setRemoteStatus(remoteUid, "متصل");
+    };
+
+    pc.onconnectionstatechange = () => {
+      setRemoteStatus(remoteUid, pc.connectionState);
+      if (["failed","disconnected","closed"].includes(pc.connectionState)){
+      }
+    };
+
+    const sid = pairId(user.uid, remoteUid);
+    const signalRef = db.collection("rooms").doc(roomId).collection("signals").doc(sid);
+
+    pc.onicecandidate = async (e) => {
+      if (!e.candidate) return;
+      const from = user.uid;
+      await signalRef.collection("ice").add({
+        from,
+        candidate: e.candidate.toJSON(),
+        ts: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    };
+
+    const obj = { pc, signalRef, remoteUid };
+    peers.set(remoteUid, obj);
+    return obj;
+  }
+
+  async function makeOffer(remoteUid){
+    const { pc, signalRef } = await createPeer(remoteUid);
+    setRemoteStatus(remoteUid, "جاري الاتصال...");
+
+    const offer = await pc.createOffer({ offerToReceiveAudio:true, offerToReceiveVideo:true });
+    await pc.setLocalDescription(offer);
+
+    await signalRef.set({
+      a: user.uid,
+      b: remoteUid,
+      offer: offer.toJSON(),
+      offerFrom: user.uid,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge:true });
+  }
+
+  async function handleSignalDocChange(doc){
+    const data = doc.data();
+    if (!data) return;
+
+    const a = data.a, b = data.b;
+    if (![a,b].includes(user.uid)) return;
+
+    const remoteUid = (a === user.uid) ? b : a;
+    const { pc, signalRef } = await createPeer(remoteUid);
+
+    if (data.offer && data.offerFrom !== user.uid){
+      const offerDesc = new RTCSessionDescription(data.offer);
+      if (!pc.currentRemoteDescription){
+        await pc.setRemoteDescription(offerDesc);
+        const ans = await pc.createAnswer();
+        await pc.setLocalDescription(ans);
+        await signalRef.set({
+          answer: ans.toJSON(),
+          answerFrom: user.uid,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge:true });
+      }
+    }
+
+    if (data.answer && data.offerFrom === user.uid){
+      const ansDesc = new RTCSessionDescription(data.answer);
+      if (!pc.currentRemoteDescription){
+        await pc.setRemoteDescription(ansDesc);
+      }
+    }
+  }
+
+  function listenIce(remoteUid){
+    const sid = pairId(user.uid, remoteUid);
+    const iceRef = db.collection("rooms").doc(roomId).collection("signals").doc(sid).collection("ice");
+    return iceRef.orderBy("ts").onSnapshot(async (snap) => {
+      for (const ch of snap.docChanges()){
+        if (ch.type !== "added") continue;
+        const d = ch.doc.data();
+        if (!d || d.from === user.uid) continue;
+        const peer = peers.get(remoteUid);
+        if (!peer) continue;
+        try {
+          await peer.pc.addIceCandidate(new RTCIceCandidate(d.candidate));
+        } catch (e) {
+        }
+      }
+    });
+  }
+
+  async function requestJoin(){
+    if (!user) return alert("سجّل دخول أولاً.");
+    const reqRef = db.collection("rooms").doc(roomId).collection("joinRequests").doc(user.uid);
+    await reqRef.set({
+      uid: user.uid,
+      email: user.email || null,
+      name: user.displayName || null,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      status: "pending"
+    }, { merge:true });
+    setStatus("🕒 تم إرسال الطلب. انتظر قبول الأدمن...");
+  }
+
+  async function leaveRoom(){
+    joined = false;
+    btnLeave.disabled = true;
+    btnJoin.disabled = false;
+    btnToggleMic.disabled = true;
+    btnToggleCam.disabled = true;
+
+    for (const [uid, p] of peers.entries()){
+      try { p.pc.close(); } catch {}
+      cleanRemote(uid);
+    }
+    peers.clear();
+
+    if (localStream){
+      localStream.getTracks().forEach(t => t.stop());
+      localStream = null;
+    }
+    localVideo.srcObject = null;
+
+    try {
+      await db.collection("rooms").doc(roomId).collection("participants").doc(user.uid).delete();
+    } catch {}
+    setStatus("🚪 غادرت الغرفة.");
+  }
+
+  async function onApproved(){
+    joined = true;
+    btnLeave.disabled = false;
+    btnJoin.disabled = true;
+    btnToggleMic.disabled = false;
+    btnToggleCam.disabled = false;
+
+    await getLocalStream();
+    setLocalTracksEnabled();
+    setStatus("✅ تم قبولك. جاري ربط المشاركين...");
+
+    const partsRef = db.collection("rooms").doc(roomId).collection("participants");
+
+    partsRef.doc(user.uid).onSnapshot((s)=>{
+      const d = s.data();
+      if (!d) return;
+      if (d.status === "kicked"){
+        alert("تم إخراجك من الغرفة.");
+        leaveRoom();
+        return;
+      }
+      audioAllowed = !!d.audioAllowed;
+      videoAllowed = !!d.videoAllowed;
+      setLocalTracksEnabled();
+    });
+
+    partsRef.onSnapshot(async (snap)=>{
+      const uids = snap.docs.map(x=>x.id).filter(x=>x !== user.uid);
+
+      for (const rid of uids){
+        if (!peers.has(rid)){
+          await makeOffer(rid);
+
+          const sid = pairId(user.uid, rid);
+          const signalDocRef = db.collection("rooms").doc(roomId).collection("signals").doc(sid);
+          signalDocRef.onSnapshot((doc)=> handleSignalDocChange(doc));
+
+          listenIce(rid);
+        }
+      }
+
+      for (const [rid] of peers.entries()){
+        if (!uids.includes(rid)){
+          try { peers.get(rid).pc.close(); } catch {}
+          peers.delete(rid);
+          cleanRemote(rid);
+        }
+      }
+    });
+  }
+
+  function renderReq(doc){
+    const d = doc.data();
+    const el = document.createElement("div");
+    el.className = "item";
+    el.innerHTML = `
+      <div class="row">
+        <span class="mono">${d.email || d.uid}</span>
+        <span class="pill">${d.status || "pending"}</span>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="primary">قبول</button>
+        <button class="danger">رفض</button>
+      </div>
+    `;
+    const [btnAccept, btnReject] = el.querySelectorAll("button");
+    btnAccept.onclick = async () => {
+      const uid = doc.id;
+      await db.collection("rooms").doc(roomId).collection("participants").doc(uid).set({
+        uid,
+        audioAllowed: false,
+        videoAllowed: false,
+        status: "active",
+        joinedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge:true });
+      await doc.ref.set({ status:"approved" }, { merge:true });
+    };
+    btnReject.onclick = async () => {
+      await doc.ref.set({ status:"rejected" }, { merge:true });
+    };
+    return el;
+  }
+
+  function renderParticipant(doc){
+    const d = doc.data();
+    const el = document.createElement("div");
+    el.className = "item";
+    el.innerHTML = `
+      <div class="row">
+        <span class="mono">${doc.id}</span>
+        <span class="pill">${d.status || "active"}</span>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="secondary">Mic: ${d.audioAllowed ? "ON" : "OFF"}</button>
+        <button class="secondary">Cam: ${d.videoAllowed ? "ON" : "OFF"}</button>
+        <button class="danger">إخراج</button>
+      </div>
+    `;
+    const [bMic, bCam, bKick] = el.querySelectorAll("button");
+    bMic.onclick = async ()=>{
+      await doc.ref.set({ audioAllowed: !d.audioAllowed }, { merge:true });
+    };
+    bCam.onclick = async ()=>{
+      await doc.ref.set({ videoAllowed: !d.videoAllowed }, { merge:true });
+    };
+    bKick.onclick = async ()=>{
+      await doc.ref.set({ status:"kicked", audioAllowed:false, videoAllowed:false }, { merge:true });
+    };
+    return el;
+  }
+
+  btnJoin.addEventListener("click", requestJoin);
+  btnLeave.addEventListener("click", leaveRoom);
+
+  btnToggleMic.addEventListener("click", ()=>{
+    if (!audioAllowed){
+      alert("المايك مغلق من طرف الأدمن.");
+      return;
+    }
+    if (!localStream) return;
+    const t = localStream.getAudioTracks()[0];
+    if (!t) return;
+    t.enabled = !t.enabled;
+  });
+
+  btnToggleCam.addEventListener("click", ()=>{
+    if (!videoAllowed){
+      alert("الكاميرا مغلقة من طرف الأدمن.");
+      return;
+    }
+    if (!localStream) return;
+    const t = localStream.getVideoTracks()[0];
+    if (!t) return;
+    t.enabled = !t.enabled;
+  });
+
+  auth.onAuthStateChanged(async (u)=>{
+    user = u;
+    if (!user){
+      setStatus("❌ لازم تسجيل الدخول أولاً.");
+      rolePill.textContent = "الدور: غير مسجل";
+      btnJoin.disabled = true;
+      return;
+    }
+
+    isAdmin = (user.email === ADMIN_EMAIL);
+    rolePill.textContent = "الدور: " + (isAdmin ? "ADMIN" : "STUDENT");
+    btnJoin.disabled = false;
+
+    if (isAdmin){
+      adminBox.style.display = "block";
+      notAdmin.style.display = "none";
+
+      db.collection("rooms").doc(roomId).collection("joinRequests")
+        .orderBy("createdAt","desc")
+        .onSnapshot((snap)=>{
+          reqList.innerHTML = "";
+          snap.docs.forEach(doc => reqList.appendChild(renderReq(doc)));
+        });
+
+      db.collection("rooms").doc(roomId).collection("participants")
+        .onSnapshot((snap)=>{
+          partList.innerHTML = "";
+          snap.docs.forEach(doc => partList.appendChild(renderParticipant(doc)));
+        });
+
+      setStatus("✅ أنت الأدمن. يمكنك قبول الطلبات والتحكم.");
+    } else {
+      setStatus("✅ مسجل. اضغط: طلب الانضمام.");
+    }
+
+    const reqRef = db.collection("rooms").doc(roomId).collection("joinRequests").doc(user.uid);
+    reqRef.onSnapshot(async (s)=>{
+      const d = s.data();
+      if (!d) return;
+      if (d.status === "approved" && !joined){
+        await onApproved();
+      }
+      if (d.status === "rejected"){
+        setStatus("⛔ تم رفض الطلب.");
+      }
+    });
+
+    const myPartRef = db.collection("rooms").doc(roomId).collection("participants").doc(user.uid);
+    myPartRef.get().then((s)=>{
+      if (s.exists && !joined) onApproved();
+    });
+  });
+
+  window.addEventListener("beforeunload", ()=>{
+    try { for (const [uid,p] of peers.entries()) p.pc.close(); } catch {}
+    try { if (localStream) localStream.getTracks().forEach(t=>t.stop()); } catch {}
+  });
+</script>
+</body>
+</html>
