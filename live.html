@@ -36,6 +36,8 @@
     .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#b9c6ff}
     a{color:var(--accent)}
+    .ok{color:#4ade80}
+    .bad{color:#fca5a5}
   </style>
 </head>
 <body>
@@ -77,49 +79,48 @@
         </div>
 
         <div class="hint">
-          • افتح الصفحة هكذا: <span class="mono">live.html?courseId=ATELIER1</span><br/>
-          • الدخول مسموح فقط لمن يوجد UID تاعه في: <span class="mono">courses/{courseId}/students/{uid}</span>
+          • افتح الصفحة هكذا: <span class="mono">live.html?formationId=revit-niveau1</span><br/>
+          • التحقق يتم من: <span class="mono">formations/{formationId}.allowedEmails + trainerEmail</span><br/>
+          • الحساب يجب أن يكون مسجل دخول.
         </div>
       </div>
 
       <div class="card">
         <h2>ℹ️ معلومات / روابط</h2>
-        <p>هذه الصفحة تقوم بـ:</p>
-        <p>✅ التحقق من تسجيل الدخول (Firebase Auth)</p>
-        <p>✅ التحقق من أن المستخدم مسجّل في الدورة (Firestore)</p>
-        <p>✅ كاميرا / مشاركة شاشة</p>
-        <p>✅ تسجيل البث + تنزيله، مع خيار رفعه للسحابة</p>
+        <p>✅ Auth + Firestore + كاميرا/شاشة + تسجيل</p>
+        <p id="who"></p>
         <hr style="border:0;border-top:1px solid #14204b;margin:14px 0" />
-        <p><b>ملاحظة:</b> هذا “تسجيل + عرض محلي” (ليس مكالمة جماعية WebRTC مثل Meet).</p>
         <p id="lastUpload"></p>
+        <p class="mono" id="debug"></p>
       </div>
     </div>
   </div>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
-  authDomain: "archi-space-72624.firebaseapp.com",
-  projectId: "archi-space-72624",
-  storageBucket: "archi-space-72624.firebasestorage.app",
-  messagingSenderId: "407015246505",
-  appId: "1:407015246505:web:c914a78566b882b80df7b8",
-  measurementId: "G-RZV7LSDQBD"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+    authDomain: "archi-space-72624.firebaseapp.com",
+    projectId: "archi-space-72624",
+    storageBucket: "archi-space-72624.firebasestorage.app",
+    messagingSenderId: "407015246505",
+    appId: "1:407015246505:web:c914a78566b882b80df7b8",
+    measurementId: "G-RZV7LSDQBD"
+  };
 
-  try { firebase.initializeApp(firebaseConfig); }
-  catch(e){ console.warn("Firebase already initialized?", e); }
+  try { firebase.initializeApp(firebaseConfig); } catch(e){}
 
   const auth = firebase.auth();
   const db = firebase.firestore();
   const storage = firebase.storage();
 
   const params = new URLSearchParams(location.search);
-  const courseId = params.get("courseId") || "ATELIER1";
+  const formationId = params.get("formationId") || "revit-niveau1";
 
   const statusEl = document.getElementById("status");
   const courseBadge = document.getElementById("courseBadge");
   const lastUploadEl = document.getElementById("lastUpload");
+  const whoEl = document.getElementById("who");
+  const debugEl = document.getElementById("debug");
 
   const localVideo = document.getElementById("localVideo");
 
@@ -134,7 +135,7 @@ const firebaseConfig = {
   const chkUpload = document.getElementById("chkUpload");
   const chkAutoDownload = document.getElementById("chkAutoDownload");
 
-  courseBadge.textContent = "الدورة: " + courseId;
+  courseBadge.textContent = "الدورة: " + formationId;
 
   let allowed = false;
   let currentUser = null;
@@ -144,19 +145,21 @@ const firebaseConfig = {
   let recordedChunks = [];
   let lastBlob = null;
 
+  const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
+
   function setStatus(msg){ statusEl.textContent = msg; }
+  function setDebug(msg){ debugEl.textContent = msg || ""; }
 
   function setAllowedUI(on){
     btnCam.disabled = !on;
     btnScreen.disabled = !on;
-
     btnStartRec.disabled = !on || !localStream;
   }
 
   function safeFilename() {
     const d = new Date();
     const pad = (n)=> String(n).padStart(2,"0");
-    return `record-${courseId}-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.webm`;
+    return `record-${formationId}-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.webm`;
   }
 
   function downloadBlob(blob, filename){
@@ -172,10 +175,31 @@ const firebaseConfig = {
 
   function requireAllowed(){
     if (!allowed) {
-      alert("لا يمكن: يجب تسجيل الدخول وأن تكون مسجلاً في الدورة.");
+      alert("لا يمكن: يجب تسجيل الدخول وأن تكون مسجلاً في هذه الدورة.");
       return false;
     }
     return true;
+  }
+
+  async function checkAccessFromFormation(user){
+    const email = (user.email || "").toLowerCase().trim();
+    const docRef = db.collection("formations").doc(formationId);
+    const snap = await docRef.get();
+    if (!snap.exists) return { ok:false, reason:"وثيقة الدورة غير موجودة في formations." };
+
+    const data = snap.data() || {};
+    const allowedEmails = Array.isArray(data.allowedEmails) ? data.allowedEmails.map(x=>String(x).toLowerCase().trim()) : [];
+    const trainerEmail = (data.trainerEmail || "").toLowerCase().trim();
+
+    const isAdmin = email && email === ADMIN_EMAIL;
+    const isTrainer = email && trainerEmail && email === trainerEmail;
+    const isEnrolled = email && allowedEmails.includes(email);
+
+    return {
+      ok: isAdmin || isTrainer || isEnrolled,
+      isAdmin, isTrainer, isEnrolled,
+      trainerEmail, countAllowed: allowedEmails.length
+    };
   }
 
   auth.onAuthStateChanged(async (user) => {
@@ -184,32 +208,37 @@ const firebaseConfig = {
       currentUser = null;
       setAllowedUI(false);
       setStatus("❌ لازم تسجّل دخول باش تدخل للبث.");
+      whoEl.innerHTML = `<span class="bad">غير مسجل دخول</span>`;
       return;
     }
 
     currentUser = user;
+    whoEl.innerHTML = `الحساب: <span class="ok">${user.email || user.uid}</span>`;
+    setStatus("⏳ جاري التحقق من صلاحية الدورة...");
+
     try {
-      const docRef = db.collection("courses").doc(courseId)
-        .collection("students").doc(user.uid);
+      const res = await checkAccessFromFormation(user);
 
-      const snap = await docRef.get();
-
-      if (!snap.exists) {
+      if (!res.ok) {
         allowed = false;
         setAllowedUI(false);
         setStatus("⛔ ليس لديك صلاحية لهذه الدورة.");
-        alert("هذا البث مخصص فقط لطلاب هذه الدورة.");
+        setDebug(`سبب محتمل: ايميلك غير موجود في allowedEmails. (allowedEmails=${res.countAllowed || 0})`);
         return;
       }
 
       allowed = true;
       setAllowedUI(true);
-      setStatus("✅ مرحباً! تم التحقق من اشتراكك في الدورة.");
+
+      const role = res.isAdmin ? "ADMIN" : (res.isTrainer ? "FORMATEUR" : "ETUDIANT");
+      setStatus("✅ تم التحقق! يمكنك فتح البث.");
+      setDebug(`role=${role} | trainerEmail=${res.trainerEmail || "—"} | allowedEmails=${res.countAllowed}`);
     } catch (e) {
       allowed = false;
       setAllowedUI(false);
       console.error(e);
       setStatus("❌ خطأ أثناء التحقق من الصلاحية (Firestore).");
+      alert(e && e.message ? e.message : "Firestore error");
     }
   });
 
@@ -220,9 +249,8 @@ const firebaseConfig = {
     try {
       localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       localVideo.srcObject = localStream;
-
       btnStopMedia.disabled = false;
-      btnStartRec.disabled = false; 
+      btnStartRec.disabled = false;
       setStatus("🎥 الكاميرا تعمل الآن.");
     } catch (e) {
       console.error(e);
@@ -237,7 +265,6 @@ const firebaseConfig = {
     try {
       localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
       localVideo.srcObject = localStream;
-
       btnStopMedia.disabled = false;
       btnStartRec.disabled = false;
       setStatus("🖥️ مشاركة الشاشة تعمل الآن.");
@@ -319,13 +346,13 @@ const firebaseConfig = {
 
         if (chkUpload.checked) {
           setStatus("📤 جاري رفع التسجيل إلى السحابة...");
-          const path = `records/${courseId}/${Date.now()}-${currentUser.uid}.webm`;
+          const path = `records/${formationId}/${Date.now()}-${currentUser.uid}.webm`;
           const ref = storage.ref().child(path);
           await ref.put(lastBlob);
           const url = await ref.getDownloadURL();
 
           lastUploadEl.innerHTML =
-            `✅ تم رفع التسجيل. رابط (للاختبار): <a href="${url}" target="_blank" rel="noopener">فتح</a>`;
+            `✅ تم رفع التسجيل. رابط: <a href="${url}" target="_blank" rel="noopener">فتح</a>`;
           setStatus("✅ تم حفظ التسجيل.");
         } else {
           setStatus("✅ تم حفظ التسجيل محليًا.");
