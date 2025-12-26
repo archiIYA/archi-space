@@ -11,33 +11,35 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
   <style>
-    :root{--bg:#050816;--card:#0b1228;--text:#e9eefc;--muted:#a7b0d6;--accent:#22d3ee;--danger:#ef4444;}
+    :root{--bg:#050816;--card:#0b1228;--text:#e9eefc;--muted:#a7b0d6;--accent:#22d3ee;--danger:#ef4444;--b:#14204b}
     *{box-sizing:border-box}
     body{margin:0;font-family:system-ui,-apple-system,"Cairo",sans-serif;background:var(--bg);color:var(--text)}
-    .wrap{max-width:1200px;margin:0 auto;padding:20px}
+    .wrap{max-width:1200px;margin:0 auto;padding:18px}
     .top{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:12px}
-    .badge{display:inline-flex;gap:8px;align-items:center;background:#111a38;border:1px solid #1b2a60;color:var(--text);padding:6px 10px;border-radius:999px;font-size:12px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    @media (max-width: 980px){.grid{grid-template-columns:1fr}}
-    .card{background:var(--card);border:1px solid #14204b;border-radius:16px;padding:16px}
     h1{margin:0;font-size:20px}
-    h2{margin:0 0 10px 0;font-size:16px}
     p{margin:6px 0;color:var(--muted)}
-    video{width:100%;background:#000;border-radius:14px;max-height:420px}
+    .badge{display:inline-flex;gap:8px;align-items:center;background:#111a38;border:1px solid #1b2a60;color:var(--text);padding:6px 10px;border-radius:999px;font-size:12px}
+    .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+    @media (max-width: 980px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid var(--b);border-radius:16px;padding:14px}
+    video{width:100%;background:#000;border-radius:14px;max-height:440px}
     .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    button{border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}
+    button{border:0;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer}
     button:disabled{opacity:.55;cursor:not-allowed}
     .primary{background:var(--accent);color:#021018}
     .secondary{background:#1f2a52;color:var(--text)}
     .danger{background:var(--danger);color:#fff}
-    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:12px}
     .switch{display:flex;gap:10px;align-items:center;background:#0d1738;border:1px solid #1b2a60;padding:10px 12px;border-radius:14px}
     input[type="checkbox"]{width:18px;height:18px;accent-color: var(--accent);}
-    .hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+    .hint{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.65}
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#b9c6ff}
     a{color:var(--accent)}
-    .ok{color:#4ade80}
-    .bad{color:#fca5a5}
+    .ok{color:#72ffb1}
+    .warn{color:#ffd36a}
+    .err{color:#ff8a8a}
+    .mini{font-size:12px;color:#c8d1ff}
+    .hr{border:0;border-top:1px solid var(--b);margin:12px 0}
   </style>
 </head>
 <body>
@@ -46,22 +48,23 @@
       <div>
         <h1>📡 بث مباشر — Trendy Plaza</h1>
         <p id="status">جاري التحقق من حسابك...</p>
+        <div class="mini" id="who"></div>
       </div>
       <div class="badge" id="courseBadge">الدورة: ...</div>
     </div>
 
     <div class="grid">
       <div class="card">
-        <h2>🎥 الفيديو (كاميرا/شاشة)</h2>
+        <h2 style="margin:0 0 10px 0;font-size:16px">🎥 الفيديو (كاميرا/شاشة) + 🎙️ صوت (ميك + نظام)</h2>
         <video id="localVideo" autoplay playsinline muted></video>
 
         <div class="controls">
           <button id="btnCam" class="primary" disabled>تشغيل الكاميرا</button>
-          <button id="btnScreen" class="secondary" disabled>مشاركة الشاشة</button>
-          <button id="btnStopMedia" class="secondary" disabled>إيقاف الكاميرا/الشاشة</button>
+          <button id="btnScreen" class="secondary" disabled>مشاركة الشاشة (مع صوت النظام)</button>
+          <button id="btnStopMedia" class="secondary" disabled>إيقاف</button>
         </div>
 
-        <div class="row" style="margin-top:14px">
+        <div class="row">
           <div class="switch">
             <input id="chkUpload" type="checkbox" />
             <label for="chkUpload">رفع التسجيل تلقائيًا إلى Firebase Storage</label>
@@ -72,26 +75,28 @@
           </div>
         </div>
 
-        <div class="controls" style="margin-top:12px">
+        <div class="controls">
           <button id="btnStartRec" class="primary" disabled>⏺ بدء التسجيل</button>
           <button id="btnStopRec" class="danger" disabled>⏹ إيقاف التسجيل</button>
           <button id="btnDownload" class="secondary" disabled>⬇ تنزيل آخر تسجيل</button>
         </div>
 
         <div class="hint">
-          • افتح الصفحة هكذا: <span class="mono">live.html?formationId=revit-niveau1</span><br/>
-          • التحقق يتم من: <span class="mono">formations/{formationId}.allowedEmails + trainerEmail</span><br/>
-          • الحساب يجب أن يكون مسجل دخول.
+          ✅ لتسجيل <b>صوت النظام</b>: عند الضغط على "مشاركة الشاشة" اختر <b>Tab</b> ثم فعّل <b>Share tab audio</b> (Chrome).<br/>
+          ❌ لا يمكن التقاط "صوت الغرفة" بدون ميكروفون (قيود المتصفح).<br/>
+          افتح الصفحة هكذا: <span class="mono">live.html?formationId=revit-niveau1&sessionId=main</span>
         </div>
       </div>
 
       <div class="card">
-        <h2>ℹ️ معلومات / روابط</h2>
-        <p>✅ Auth + Firestore + كاميرا/شاشة + تسجيل</p>
-        <p id="who"></p>
-        <hr style="border:0;border-top:1px solid #14204b;margin:14px 0" />
-        <p id="lastUpload"></p>
-        <p class="mono" id="debug"></p>
+        <h2 style="margin:0 0 10px 0;font-size:16px">ℹ️ الحالة / الروابط</h2>
+        <div class="hr"></div>
+        <p class="mini">
+          • التحقق يتم من وثيقة: <span class="mono">formations/{formationId}</span><br/>
+          • يسمح إذا كان إيميلك داخل <span class="mono">allowedEmails</span> أو هو <span class="mono">trainerEmail</span><br/>
+        </p>
+        <p id="audioInfo" class="mini"></p>
+        <p id="lastUpload" class="mini"></p>
       </div>
     </div>
   </div>
@@ -106,7 +111,6 @@
     appId: "1:407015246505:web:c914a78566b882b80df7b8",
     measurementId: "G-RZV7LSDQBD"
   };
-
   try { firebase.initializeApp(firebaseConfig); } catch(e){}
 
   const auth = firebase.auth();
@@ -115,12 +119,15 @@
 
   const params = new URLSearchParams(location.search);
   const formationId = params.get("formationId") || "revit-niveau1";
+  const sessionId = params.get("sessionId") || "main";
+
+  const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
 
   const statusEl = document.getElementById("status");
+  const whoEl = document.getElementById("who");
   const courseBadge = document.getElementById("courseBadge");
   const lastUploadEl = document.getElementById("lastUpload");
-  const whoEl = document.getElementById("who");
-  const debugEl = document.getElementById("debug");
+  const audioInfoEl = document.getElementById("audioInfo");
 
   const localVideo = document.getElementById("localVideo");
 
@@ -137,31 +144,52 @@
 
   courseBadge.textContent = "الدورة: " + formationId;
 
+  function setStatus(msg, cls=""){
+    statusEl.className = cls;
+    statusEl.textContent = msg;
+  }
+  function setAllowedUI(on){
+    btnCam.disabled = !on;
+    btnScreen.disabled = !on;
+    btnStartRec.disabled = !on || !mixedStream;
+  }
+
   let allowed = false;
   let currentUser = null;
 
-  let localStream = null;
+  let camStream = null;      
+  let screenStream = null;  
+  let micStream = null;      
+
+  let mixedStream = null;    
   let mediaRecorder = null;
   let recordedChunks = [];
   let lastBlob = null;
 
-  const ADMIN_EMAIL = "toumiiyadetude@gmail.com";
+  function normalizeEmail(e){ return String(e || "").toLowerCase().trim(); }
 
-  function setStatus(msg){ statusEl.textContent = msg; }
-  function setDebug(msg){ debugEl.textContent = msg || ""; }
+  async function checkAccess(user){
+    const email = normalizeEmail(user.email);
+    const docRef = db.collection("formations").doc(formationId);
+    const snap = await docRef.get();
+    if(!snap.exists) return { ok:false, reason:"وثيقة الدورة غير موجودة." };
 
-  function setAllowedUI(on){
-    btnCam.disabled = !on;
-    btnScreen.disabled = !on;
-    btnStartRec.disabled = !on || !localStream;
+    const data = snap.data() || {};
+    const allowedEmails = Array.isArray(data.allowedEmails) ? data.allowedEmails.map(normalizeEmail) : [];
+    const trainerEmail = normalizeEmail(data.trainerEmail);
+
+    const isAdmin = email && email === normalizeEmail(ADMIN_EMAIL);
+    const isTrainer = email && trainerEmail && email === trainerEmail;
+    const isEnrolled = email && allowedEmails.includes(email);
+
+    return { ok: (isAdmin || isTrainer || isEnrolled), isAdmin, isTrainer, isEnrolled, trainerEmail };
   }
 
-  function safeFilename() {
+  function safeFilename(){
     const d = new Date();
     const pad = (n)=> String(n).padStart(2,"0");
-    return `record-${formationId}-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.webm`;
+    return `record-${formationId}-${sessionId}-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}.webm`;
   }
-
   function downloadBlob(blob, filename){
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -173,137 +201,152 @@
     setTimeout(()=> URL.revokeObjectURL(url), 2000);
   }
 
+  function stopTracks(stream){
+    if(!stream) return;
+    stream.getTracks().forEach(t=>{ try{ t.stop(); }catch{} });
+  }
+
+  function clearMedia(){
+    stopTracks(camStream); camStream=null;
+    stopTracks(screenStream); screenStream=null;
+    stopTracks(micStream); micStream=null;
+
+    if(mixedStream){
+      stopTracks(mixedStream);
+      mixedStream = null;
+    }
+    localVideo.srcObject = null;
+    btnStopMedia.disabled = true;
+    btnStartRec.disabled = true;
+    audioInfoEl.textContent = "";
+  }
+
   function requireAllowed(){
-    if (!allowed) {
+    if(!allowed){
       alert("لا يمكن: يجب تسجيل الدخول وأن تكون مسجلاً في هذه الدورة.");
       return false;
     }
     return true;
   }
 
-  async function checkAccessFromFormation(user){
-    const email = (user.email || "").toLowerCase().trim();
-    const docRef = db.collection("formations").doc(formationId);
-    const snap = await docRef.get();
-    if (!snap.exists) return { ok:false, reason:"وثيقة الدورة غير موجودة في formations." };
 
-    const data = snap.data() || {};
-    const allowedEmails = Array.isArray(data.allowedEmails) ? data.allowedEmails.map(x=>String(x).toLowerCase().trim()) : [];
-    const trainerEmail = (data.trainerEmail || "").toLowerCase().trim();
+  async function mixAudioTracks(trackA, trackB){
+    if(trackA && !trackB) return trackA;
+    if(!trackA && trackB) return trackB;
+    if(!trackA && !trackB) return null;
 
-    const isAdmin = email && email === ADMIN_EMAIL;
-    const isTrainer = email && trainerEmail && email === trainerEmail;
-    const isEnrolled = email && allowedEmails.includes(email);
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const dest = ctx.createMediaStreamDestination();
 
-    return {
-      ok: isAdmin || isTrainer || isEnrolled,
-      isAdmin, isTrainer, isEnrolled,
-      trainerEmail, countAllowed: allowedEmails.length
-    };
+    const sA = new MediaStream([trackA]);
+    const srcA = ctx.createMediaStreamSource(sA);
+    srcA.connect(dest);
+
+    const sB = new MediaStream([trackB]);
+    const srcB = ctx.createMediaStreamSource(sB);
+    srcB.connect(dest);
+
+    const outTrack = dest.stream.getAudioTracks()[0] || null;
+
+
+    if(outTrack) outTrack.__tpAudioCtx = ctx;
+
+    return outTrack;
   }
 
-  auth.onAuthStateChanged(async (user) => {
-    if (!user) {
-      allowed = false;
-      currentUser = null;
-      setAllowedUI(false);
-      setStatus("❌ لازم تسجّل دخول باش تدخل للبث.");
-      whoEl.innerHTML = `<span class="bad">غير مسجل دخول</span>`;
-      return;
-    }
-
-    currentUser = user;
-    whoEl.innerHTML = `الحساب: <span class="ok">${user.email || user.uid}</span>`;
-    setStatus("⏳ جاري التحقق من صلاحية الدورة...");
-
-    try {
-      const res = await checkAccessFromFormation(user);
-
-      if (!res.ok) {
-        allowed = false;
-        setAllowedUI(false);
-        setStatus("⛔ ليس لديك صلاحية لهذه الدورة.");
-        setDebug(`سبب محتمل: ايميلك غير موجود في allowedEmails. (allowedEmails=${res.countAllowed || 0})`);
-        return;
-      }
-
-      allowed = true;
-      setAllowedUI(true);
-
-      const role = res.isAdmin ? "ADMIN" : (res.isTrainer ? "FORMATEUR" : "ETUDIANT");
-      setStatus("✅ تم التحقق! يمكنك فتح البث.");
-      setDebug(`role=${role} | trainerEmail=${res.trainerEmail || "—"} | allowedEmails=${res.countAllowed}`);
-    } catch (e) {
-      allowed = false;
-      setAllowedUI(false);
-      console.error(e);
-      setStatus("❌ خطأ أثناء التحقق من الصلاحية (Firestore).");
-      alert(e && e.message ? e.message : "Firestore error");
-    }
-  });
-
   async function startCamera(){
-    if (!requireAllowed()) return;
-    stopMedia();
+    if(!requireAllowed()) return;
+    clearMedia();
 
-    try {
-      localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-      localVideo.srcObject = localStream;
+    try{
+      camStream = await navigator.mediaDevices.getUserMedia({
+        video:true,
+        audio:{
+          echoCancellation:true,
+          noiseSuppression:true,
+          autoGainControl:true
+        }
+      });
+
+      const vTrack = camStream.getVideoTracks()[0] || null;
+      const aTrack = camStream.getAudioTracks()[0] || null; 
+
+      mixedStream = new MediaStream();
+      if(vTrack) mixedStream.addTrack(vTrack);
+      if(aTrack) mixedStream.addTrack(aTrack);
+
+      localVideo.srcObject = mixedStream;
       btnStopMedia.disabled = false;
       btnStartRec.disabled = false;
-      setStatus("🎥 الكاميرا تعمل الآن.");
-    } catch (e) {
-      console.error(e);
-      alert("تعذر تشغيل الكاميرا/المايك. تأكد من السماح Permissions.");
+
+      audioInfoEl.innerHTML = `🎙️ الصوت: <span class="ok">ميكروفون</span> (لا يوجد صوت نظام في وضع الكاميرا)`;
+      setStatus("✅ الكاميرا + الميكروفون يعملان.", "ok");
+    }catch(err){
+      console.error(err);
+      setStatus("❌ تعذر تشغيل الكاميرا/المايك. راجع Permissions.", "err");
+      alert("تعذر تشغيل الكاميرا/المايك. اسمح بالميكروفون والكاميرا.");
     }
   }
 
   async function startScreen(){
-    if (!requireAllowed()) return;
-    stopMedia();
+    if(!requireAllowed()) return;
+    clearMedia();
 
-    try {
-      localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-      localVideo.srcObject = localStream;
+    try{
+      screenStream = await navigator.mediaDevices.getDisplayMedia({
+        video:true,
+        audio:true
+      });
+
+      micStream = await navigator.mediaDevices.getUserMedia({
+        audio:{
+          echoCancellation:true,
+          noiseSuppression:true,
+          autoGainControl:true
+        }
+      });
+
+      const vTrack = screenStream.getVideoTracks()[0] || null;
+      const sysAudio = screenStream.getAudioTracks()[0] || null; 
+      const micAudio = micStream.getAudioTracks()[0] || null;
+
+      const mixedAudio = await mixAudioTracks(micAudio, sysAudio);
+
+      mixedStream = new MediaStream();
+      if(vTrack) mixedStream.addTrack(vTrack);
+      if(mixedAudio) mixedStream.addTrack(mixedAudio);
+
+      localVideo.srcObject = mixedStream;
       btnStopMedia.disabled = false;
       btnStartRec.disabled = false;
-      setStatus("🖥️ مشاركة الشاشة تعمل الآن.");
 
-      const track = localStream.getVideoTracks()[0];
-      if (track) {
-        track.onended = () => {
-          if (mediaRecorder && mediaRecorder.state !== "inactive") stopRecording();
-          stopMedia();
-          setStatus("🛑 تم إيقاف مشاركة الشاشة.");
+      const sysOk = !!sysAudio;
+      audioInfoEl.innerHTML =
+        `🎙️ الصوت: <span class="ok">ميكروفون</span> + ` +
+        (sysOk ? `<span class="ok">صوت النظام/التبويب</span>` : `<span class="warn">صوت النظام غير مُلتقط</span> (اختر Tab وفعّل Share tab audio)`);
+
+      setStatus("✅ مشاركة الشاشة جاهزة للتسجيل.", "ok");
+
+      const track = screenStream.getVideoTracks()[0];
+      if(track){
+        track.onended = ()=>{
+          if(mediaRecorder && mediaRecorder.state !== "inactive") stopRecording();
+          clearMedia();
+          setAllowedUI(true);
+          setStatus("🛑 تم إيقاف مشاركة الشاشة.", "warn");
         };
       }
-    } catch (e) {
-      console.error(e);
-      alert("تعذر مشاركة الشاشة.");
+    }catch(err){
+      console.error(err);
+      setStatus("❌ تعذر مشاركة الشاشة.", "err");
+      alert("تعذر مشاركة الشاشة. استعمل Chrome Desktop وحاول اختيار Tab مع Share audio.");
+      clearMedia();
     }
   }
-
-  function stopMedia(){
-    if (localStream) {
-      localStream.getTracks().forEach(t => t.stop());
-      localStream = null;
-    }
-    localVideo.srcObject = null;
-    btnStopMedia.disabled = true;
-    btnStartRec.disabled = !allowed;
-  }
-
-  btnCam.addEventListener("click", startCamera);
-  btnScreen.addEventListener("click", startScreen);
-  btnStopMedia.addEventListener("click", () => {
-    if (mediaRecorder && mediaRecorder.state !== "inactive") stopRecording();
-    stopMedia();
-    setStatus("🛑 تم إيقاف الكاميرا/الشاشة.");
-  });
 
   function startRecording(){
-    if (!requireAllowed()) return;
-    if (!localStream) {
+    if(!requireAllowed()) return;
+    if(!mixedStream){
       alert("شغّل الكاميرا أو مشاركة الشاشة أولاً.");
       return;
     }
@@ -319,76 +362,119 @@
       "video/webm"
     ];
     let mimeType = "";
-    for (const m of prefer) {
-      if (window.MediaRecorder && MediaRecorder.isTypeSupported(m)) { mimeType = m; break; }
+    for(const m of prefer){
+      if(window.MediaRecorder && MediaRecorder.isTypeSupported(m)){ mimeType=m; break; }
     }
 
-    try {
-      mediaRecorder = new MediaRecorder(localStream, mimeType ? { mimeType } : undefined);
-    } catch (e) {
-      console.error(e);
+    try{
+      mediaRecorder = new MediaRecorder(mixedStream, mimeType ? { mimeType } : undefined);
+    }catch(err){
+      console.error(err);
       alert("MediaRecorder غير مدعوم في هذا المتصفح.");
       return;
     }
 
-    mediaRecorder.ondataavailable = (e) => {
-      if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+    mediaRecorder.ondataavailable = (e)=>{
+      if(e.data && e.data.size>0) recordedChunks.push(e.data);
     };
 
-    mediaRecorder.onstop = async () => {
-      try {
-        lastBlob = new Blob(recordedChunks, { type: "video/webm" });
+    mediaRecorder.onstop = async ()=>{
+      try{
+        lastBlob = new Blob(recordedChunks, { type:"video/webm" });
         btnDownload.disabled = false;
 
-        if (chkAutoDownload.checked) {
+        if(chkAutoDownload.checked){
           downloadBlob(lastBlob, safeFilename());
         }
 
-        if (chkUpload.checked) {
-          setStatus("📤 جاري رفع التسجيل إلى السحابة...");
-          const path = `records/${formationId}/${Date.now()}-${currentUser.uid}.webm`;
+        if(chkUpload.checked){
+          setStatus("📤 جاري رفع التسجيل إلى Firebase Storage...", "warn");
+          const path = `records/${formationId}/${sessionId}/${Date.now()}-${currentUser.uid}.webm`;
           const ref = storage.ref().child(path);
           await ref.put(lastBlob);
           const url = await ref.getDownloadURL();
 
-          lastUploadEl.innerHTML =
-            `✅ تم رفع التسجيل. رابط: <a href="${url}" target="_blank" rel="noopener">فتح</a>`;
-          setStatus("✅ تم حفظ التسجيل.");
-        } else {
-          setStatus("✅ تم حفظ التسجيل محليًا.");
+          lastUploadEl.innerHTML = `✅ تم رفع التسجيل: <a href="${url}" target="_blank" rel="noopener">فتح</a>`;
+          setStatus("✅ تم حفظ التسجيل.", "ok");
+        }else{
+          setStatus("✅ تم حفظ التسجيل محليًا.", "ok");
         }
-      } catch (err) {
+      }catch(err){
         console.error(err);
-        setStatus("❌ حصل خطأ بعد إيقاف التسجيل.");
-        alert("حصل خطأ في تجهيز/رفع التسجيل. راجع Console.");
+        setStatus("❌ خطأ بعد إيقاف التسجيل. راجع Console.", "err");
+        alert("حصل خطأ بعد إيقاف التسجيل (رفع/تجهيز).");
       }
     };
 
-    mediaRecorder.start();
+    mediaRecorder.start(1000);
     btnStartRec.disabled = true;
     btnStopRec.disabled = false;
-    setStatus("⏺ جاري التسجيل الآن...");
+    setStatus("⏺ جاري التسجيل الآن...", "ok");
   }
 
   function stopRecording(){
-    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+    if(mediaRecorder && mediaRecorder.state !== "inactive"){
       mediaRecorder.stop();
     }
-    btnStartRec.disabled = !allowed || !localStream;
+    btnStartRec.disabled = !allowed || !mixedStream;
     btnStopRec.disabled = true;
   }
+
+  btnCam.addEventListener("click", startCamera);
+  btnScreen.addEventListener("click", startScreen);
+
+  btnStopMedia.addEventListener("click", ()=>{
+    if(mediaRecorder && mediaRecorder.state !== "inactive") stopRecording();
+    clearMedia();
+    setAllowedUI(true);
+    setStatus("🛑 تم الإيقاف.", "warn");
+  });
 
   btnStartRec.addEventListener("click", startRecording);
   btnStopRec.addEventListener("click", stopRecording);
 
-  btnDownload.addEventListener("click", () => {
-    if (!lastBlob) return;
+  btnDownload.addEventListener("click", ()=>{
+    if(!lastBlob) return;
     downloadBlob(lastBlob, safeFilename());
   });
 
-  window.addEventListener("beforeunload", () => {
-    try { if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop(); } catch {}
-    stopMedia();
+  auth.onAuthStateChanged(async (user)=>{
+    if(!user){
+      allowed=false;
+      currentUser=null;
+      setAllowedUI(false);
+      setStatus("❌ لازم تسجّل دخول باش تدخل للبث.", "err");
+      whoEl.textContent = "";
+      return;
+    }
+
+    currentUser=user;
+    whoEl.textContent = "حساب: " + (user.email || user.uid);
+
+    setStatus("⏳ جاري التحقق من صلاحية الدورة...", "warn");
+    try{
+      const res = await checkAccess(user);
+      if(!res.ok){
+        allowed=false;
+        setAllowedUI(false);
+        setStatus("⛔ ليس لديك صلاحية لهذه الدورة.", "err");
+        return;
+      }
+
+      allowed=true;
+      setAllowedUI(true);
+      setStatus("✅ تم التحقق! يمكنك فتح البث.", "ok");
+    }catch(err){
+      console.error(err);
+      allowed=false;
+      setAllowedUI(false);
+      setStatus("❌ خطأ أثناء التحقق من الصلاحية (Firestore).", "err");
+    }
+  });
+
+  window.addEventListener("beforeunload", ()=>{
+    try{ if(mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop(); }catch{}
+    clearMedia();
   });
 </script>
 </body>
