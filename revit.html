@@ -262,17 +262,6 @@
       color:rgba(239,68,68,0.95);
       font-size:0.7rem;
       background:rgba(239,68,68,0.08);
-      white-space:nowrap;
-    }
-    /* ✅ viewers pill */
-    .viewers-pill{
-      padding:2px 8px;
-      border-radius:999px;
-      border:1px solid rgba(34,211,238,0.35);
-      color:var(--text);
-      font-size:0.7rem;
-      background:rgba(34,211,238,0.08);
-      white-space:nowrap;
     }
 
     .progress-wrapper{display:flex;gap:14px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
@@ -464,7 +453,6 @@
           </div>
         </div>
 
-        <!-- ✅ LIVE BANNER (مع عدّاد المشاهدين) -->
         <div class="live-block" id="liveBanner">
           <div class="ann-header">
             <div class="ann-icon" style="background:radial-gradient(circle at 0 0,#ef4444,transparent 55%),var(--card);">🔴</div>
@@ -472,11 +460,7 @@
               <div class="ann-title">Séance en direct</div>
               <div class="ann-sub" id="liveSubText">Le formateur a ouvert une séance LIVE. Rejoignez maintenant.</div>
             </div>
-
-            <div style="display:flex; gap:6px; align-items:center;">
-              <span class="live-pill" id="liveMeta">LIVE</span>
-              <span class="viewers-pill" id="liveViewers">👀 0</span>
-            </div>
+            <span class="live-pill" id="liveMeta">LIVE</span>
           </div>
 
           <div class="live-actions">
@@ -682,7 +666,6 @@
     const btnEndLive = document.getElementById("btnEndLive");
     const liveSubText = document.getElementById("liveSubText");
     const liveMeta = document.getElementById("liveMeta");
-    const liveViewers = document.getElementById("liveViewers");
 
     const messagesList = document.getElementById("messagesList");
     const messageForm = document.getElementById("messageForm");
@@ -710,12 +693,12 @@
     let unsubscribeProgress = null;
     let unsubscribeAnnouncements = null;
     let unsubscribeLive = null;
-    let unsubscribeLiveViewers = null; // ✅ جديد
 
     let userProgress = { completedSessions: [] };
     let revitConfig = { allowedEmails: [], trainerEmail: null, trainerName: null };
 
     const FORMATION_ID = "revit-niveau1";
+    const LIVE_DOC_ID = "main"; // ✅ مهم: وثيقة ثابتة لتفادي الـ Index
     let currentLiveSessionId = null;
     let currentJoinUrl = null;
 
@@ -804,7 +787,8 @@
             btnOpenLive.style.display = isTrainer ? "inline-flex" : "none";
             btnOpenLive.onclick = openLiveSession;
           }
-          subscribeToLive();
+
+          subscribeToLive(); // ✅ مهم
 
         }catch(err){
           console.error(err);
@@ -829,8 +813,6 @@
       markButtons.forEach(btn => btn.disabled = true);
       if(liveBanner) liveBanner.style.display = "none";
       if(btnOpenLive) btnOpenLive.style.display = "none";
-      if(unsubscribeLiveViewers){ unsubscribeLiveViewers(); unsubscribeLiveViewers = null; }
-      if(liveViewers) liveViewers.textContent = "👀 0";
     }
 
     function unlockMainUI(){
@@ -843,83 +825,70 @@
       markButtons.forEach(btn => btn.disabled = false);
     }
 
+    // ✅ لايف بدون Index: listen على doc ثابت: liveSessions/main
     function subscribeToLive(){
       if(!db || !currentUser) return;
       if(unsubscribeLive) unsubscribeLive();
 
-      unsubscribeLive = db.collection("formations").doc(FORMATION_ID)
-        .collection("liveSessions")
-        .where("status","==","live")
-        .orderBy("startedAt","desc")
-        .limit(1)
-        .onSnapshot((snap)=>{
+      const ref = db.collection("formations").doc(FORMATION_ID)
+        .collection("liveSessions").doc(LIVE_DOC_ID);
 
-          if(snap.empty){
-            currentLiveSessionId = null;
-            currentJoinUrl = null;
-            if(liveBanner) liveBanner.style.display = "none";
-            if(btnEndLive) btnEndLive.style.display = "none";
+      unsubscribeLive = ref.onSnapshot((doc)=>{
+        if(!doc.exists){
+          currentLiveSessionId = null;
+          currentJoinUrl = null;
+          if(liveBanner) liveBanner.style.display = "none";
+          if(btnEndLive) btnEndLive.style.display = "none";
+          return;
+        }
 
-            if(unsubscribeLiveViewers){ unsubscribeLiveViewers(); unsubscribeLiveViewers = null; }
-            if(liveViewers) liveViewers.textContent = "👀 0";
-            return;
-          }
-
-          const doc = snap.docs[0];
-          const data = doc.data() || {};
+        const data = doc.data() || {};
+        if(data.status !== "live"){
           currentLiveSessionId = doc.id;
-          currentJoinUrl = data.joinUrl || null;
+          currentJoinUrl = null;
+          if(liveBanner) liveBanner.style.display = "none";
+          if(btnEndLive) btnEndLive.style.display = "none";
+          return;
+        }
 
-          if(liveBanner) liveBanner.style.display = "block";
-          if(liveSubText) liveSubText.textContent = data.title || "Le formateur a ouvert une séance LIVE. Rejoignez maintenant.";
-          if(liveMeta){
-            const time = (data.startedAt && data.startedAt.toDate)
-              ? data.startedAt.toDate().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})
-              : "";
-            liveMeta.textContent = time ? ("LIVE • " + time) : "LIVE";
-          }
+        currentLiveSessionId = doc.id;
+        currentJoinUrl = data.joinUrl || null;
 
-          try{
-            if(unsubscribeLiveViewers) unsubscribeLiveViewers();
-            unsubscribeLiveViewers = db.collection("formations").doc(FORMATION_ID)
-              .collection("liveSessions").doc(currentLiveSessionId)
-              .collection("viewers")
-              .onSnapshot((vsnap)=>{
-                if(liveViewers) liveViewers.textContent = "👀 " + String(vsnap.size || 0);
-              });
-          }catch(e){
-            console.error("viewers listen error:", e);
-            if(liveViewers) liveViewers.textContent = "👀 0";
-          }
+        if(liveBanner) liveBanner.style.display = "block";
+        if(liveSubText) liveSubText.textContent = data.title || "Le formateur a ouvert une séance LIVE. Rejoignez maintenant.";
+        if(liveMeta){
+          const time = (data.startedAt && data.startedAt.toDate)
+            ? data.startedAt.toDate().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})
+            : "";
+          liveMeta.textContent = time ? ("LIVE • " + time) : "LIVE";
+        }
 
-          if(btnJoinLive){
-            btnJoinLive.onclick = ()=>{
-              if(!currentJoinUrl) return alert("Lien de la séance indisponible.");
-              window.location.href = currentJoinUrl;
-            };
-          }
+        if(btnJoinLive){
+          btnJoinLive.onclick = ()=>{
+            if(!currentJoinUrl) return alert("Lien de la séance indisponible.");
+            window.location.href = currentJoinUrl;
+          };
+        }
 
-          if(btnEndLive){
-            btnEndLive.style.display = isTrainer ? "inline-flex" : "none";
-            btnEndLive.onclick = endLiveSession;
-          }
-        }, (err)=>console.error("Live listen error:", err));
+        if(btnEndLive){
+          btnEndLive.style.display = isTrainer ? "inline-flex" : "none";
+          btnEndLive.onclick = endLiveSession;
+        }
+      }, (err)=>{
+        console.error("Live listen error:", err);
+      });
     }
 
+    // ✅ فتح اللايف يكتب دائما على main
     async function openLiveSession(){
       if(!db || !currentUser) return;
       if(!isTrainer) return alert("هذه الميزة للمدرس فقط.");
 
       try{
-        const old = await db.collection("formations").doc(FORMATION_ID)
-          .collection("liveSessions").where("status","==","live").limit(5).get();
-        const batch = db.batch();
-        old.forEach(d=> batch.update(d.ref, {status:"ended", endedAt: firebase.firestore.FieldValue.serverTimestamp()}));
-        await batch.commit();
+        const ref = db.collection("formations").doc(FORMATION_ID)
+          .collection("liveSessions").doc(LIVE_DOC_ID);
 
-        const ref = db.collection("formations").doc(FORMATION_ID).collection("liveSessions").doc();
-
-        const joinUrl = `live.html?formationId=${encodeURIComponent(FORMATION_ID)}&sessionId=${ref.id}`;
+        const joinUrl = `live.html?formationId=${encodeURIComponent(FORMATION_ID)}&sessionId=${encodeURIComponent(LIVE_DOC_ID)}`;
 
         await ref.set({
           status:"live",
@@ -928,7 +897,7 @@
           teacherUid: currentUser.uid,
           teacherEmail: currentUser.email || null,
           joinUrl
-        });
+        }, { merge:true });
 
         window.location.href = joinUrl;
       }catch(e){
@@ -937,21 +906,18 @@
       }
     }
 
+    // ✅ إنهاء اللايف على main
     async function endLiveSession(){
       if(!db || !currentUser) return;
       if(!isTrainer) return alert("غير مسموح.");
-      if(!currentLiveSessionId) return;
 
       try{
         await db.collection("formations").doc(FORMATION_ID)
-          .collection("liveSessions").doc(currentLiveSessionId)
+          .collection("liveSessions").doc(LIVE_DOC_ID)
           .update({
             status:"ended",
             endedAt: firebase.firestore.FieldValue.serverTimestamp()
           });
-
-        if(unsubscribeLiveViewers){ unsubscribeLiveViewers(); unsubscribeLiveViewers = null; }
-        if(liveViewers) liveViewers.textContent = "👀 0";
       }catch(e){
         console.error(e);
         alert("تعذر إنهاء الحصة. تحقق من قواعد Firestore.");
