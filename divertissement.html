@@ -8,303 +8,475 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Poppins", sans-serif; }
-    body {
-      min-height: 100vh;
+    :root{
+      --red:#e11d2e;
+      --red2:#ff2d2d;
+      --white:#ffffff;
+      --dark:#0b0f14;
+      --glass: rgba(255,255,255,.78);
+      --border: rgba(225,29,46,.22);
+      --shadow: 0 18px 50px rgba(0,0,0,.12);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif}
+    body{
+      min-height:100vh;
       background:
-        radial-gradient(circle at 10% 10%, rgba(255,255,255,.10), transparent 35%),
-        radial-gradient(circle at 90% 30%, rgba(255,255,255,.08), transparent 40%),
-        linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      overflow-x: hidden;
+        radial-gradient(circle at 10% 0%, rgba(225,29,46,.10), transparent 45%),
+        radial-gradient(circle at 90% 15%, rgba(255,45,45,.10), transparent 40%),
+        linear-gradient(180deg, #ffffff, #fff5f6 65%, #ffffff);
+      color: var(--dark);
+      overflow-x:hidden;
+      position: relative;
     }
 
-
-    .app {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      min-height: 100vh;
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image: url("logotrendy.svg");
+      background-repeat:no-repeat;
+      background-position:center;
+      background-size:min(760px, 88vw);
+      opacity:.06;
+      pointer-events:none;
+      z-index:0;
+      filter: saturate(1.2);
     }
 
+    .app{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns: 290px 1fr;
+      min-height:100vh;
+    }
 
-    .sidebar {
-      background: rgba(0,0,0,.45);
-      border-right: 1px solid rgba(255,255,255,.12);
-      backdrop-filter: blur(12px);
+    .sidebar{
+      background: var(--glass);
+      border-right: 1px solid var(--border);
       padding: 18px;
       position: sticky;
       top: 0;
       height: 100vh;
+      backdrop-filter: blur(12px);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
+    .brand{
+      display:flex;
+      align-items:center;
       gap: 12px;
       padding: 10px 10px 14px;
-      border-bottom: 1px solid rgba(255,255,255,.12);
-      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      margin-bottom: 12px;
     }
 
-    .brand img {
+    .brand img{
       width: 48px;
       height: 48px;
       border-radius: 14px;
       object-fit: cover;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(225,29,46,.25);
+      background: #fff;
+      padding: 6px;
+      box-shadow: 0 10px 30px rgba(225,29,46,.10);
     }
 
-    .brand h1 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      line-height: 1.1;
-    }
-    .brand p {
-      font-size: .82rem;
-      opacity: .8;
-      margin-top: 3px;
+    .brand h1{
+      font-size:1.05rem;
+      font-weight:800;
+      line-height:1.05;
+      color: #111;
     }
 
-    .side-actions {
-      display: grid;
+    .side-actions{
+      display:grid;
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 12px;
     }
 
-    .btn {
-      border: none;
-      cursor: pointer;
+    .btn{
+      border:none;
+      cursor:pointer;
       padding: 11px 12px;
       border-radius: 14px;
-      font-weight: 700;
+      font-weight: 800;
       transition: .2s;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       gap: 8px;
-      user-select: none;
+      user-select:none;
+      box-shadow: 0 8px 22px rgba(0,0,0,.06);
     }
 
-    .btn.primary {
-      background: rgba(255,255,255,.92);
-      color: #0b1a20;
-    }
-
-    .btn.ghost {
-      background: transparent;
+    .btn.primary{
+      background: linear-gradient(135deg, var(--red), var(--red2));
       color: #fff;
-      border: 1px solid rgba(255,255,255,.22);
     }
 
-    .btn:hover { transform: translateY(-2px); }
+    .btn.ghost{
+      background: #fff;
+      color: var(--red);
+      border: 1px solid rgba(225,29,46,.25);
+      box-shadow: none;
+    }
 
-    .nav {
-      margin-top: 16px;
-      display: grid;
+    .btn:hover{transform: translateY(-2px);}
+
+    .nav{
+      margin-top: 14px;
+      display:grid;
       gap: 10px;
     }
 
-    .nav-title {
-      font-size: .85rem;
-      opacity: .75;
+    .nav-title{
+      font-size:.84rem;
+      color: rgba(0,0,0,.60);
       padding: 8px 10px 0;
+      font-weight: 700;
     }
 
-    .nav a {
-      text-decoration: none;
-      color: #fff;
+    .nav a{
+      text-decoration:none;
+      color: #111;
       padding: 12px 12px;
       border-radius: 14px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
+      background: #fff;
+      border: 1px solid rgba(225,29,46,.18);
       transition: .2s;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       gap: 10px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.06);
     }
-    .nav a:hover { background: rgba(255,255,255,.12); transform: translateY(-2px); }
-    .pill {
-      font-size: .75rem;
+
+    .nav a:hover{
+      transform: translateY(-2px);
+      border-color: rgba(225,29,46,.35);
+    }
+
+    .pill{
+      font-size:.75rem;
       padding: 5px 10px;
       border-radius: 999px;
-      background: rgba(0,0,0,.25);
-      border: 1px solid rgba(255,255,255,.14);
-      opacity: .95;
+      background: rgba(225,29,46,.08);
+      border: 1px solid rgba(225,29,46,.18);
+      color: var(--red);
+      font-weight: 800;
       white-space: nowrap;
     }
 
+    .main{ padding: 18px 16px 40px; }
+    .wrap{ max-width: 1150px; margin: 0 auto; }
 
-    .main {
-      padding: 22px 18px 40px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       gap: 12px;
-      background: rgba(0,0,0,.25);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 18px;
+      background: #fff;
+      border: 1px solid rgba(225,29,46,.18);
+      border-radius: 20px;
       padding: 14px 14px;
-      backdrop-filter: blur(10px);
-      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
     }
 
-    .topbar .title h2 {
-      font-size: 1.35rem;
-      font-weight: 800;
+    .title h2{
+      font-size:1.35rem;
+      font-weight: 900;
+      color: #111;
+      display:flex;
+      align-items:center;
+      gap: 8px;
     }
-    .topbar .title p {
+    .title p{
       margin-top: 4px;
       font-size: .92rem;
-      opacity: .85;
+      color: rgba(0,0,0,.62);
+      font-weight: 600;
     }
 
-    .wrap {
-      max-width: 1150px;
-      margin: 0 auto;
+    .login-state{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
     }
 
-    .sections {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    .chip{
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(225,29,46,.20);
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      font-weight: 800;
+      font-size: .84rem;
+      white-space: nowrap;
+    }
+
+    .sections{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
       gap: 16px;
     }
 
-    .section {
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.14);
-      border-radius: 20px;
+    .section{
+      background: #fff;
+      border: 1px solid rgba(225,29,46,.18);
+      border-radius: 22px;
       padding: 16px;
-      box-shadow: 0 14px 32px rgba(0,0,0,.25);
+      box-shadow: var(--shadow);
     }
 
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       gap: 10px;
       padding: 10px 10px 14px;
-      border-bottom: 1px solid rgba(255,255,255,.12);
+      border-bottom: 1px solid rgba(0,0,0,.06);
       margin-bottom: 12px;
     }
 
-    .section-head h3 { font-size: 1.08rem; }
-
-    .games {
-      display: grid;
-      gap: 10px;
+    .section-head h3{
+      font-size: 1.08rem;
+      font-weight: 900;
+      color:#111;
     }
 
-    .game {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .games{ display:grid; gap: 10px; }
+
+    .game{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       gap: 10px;
       padding: 12px 12px;
-      border-radius: 16px;
-      background: rgba(0,0,0,.18);
-      border: 1px solid rgba(255,255,255,.12);
-      transition: .22s;
-    }
-    .game:hover {
-      transform: translateY(-3px);
-      background: rgba(255,255,255,.10);
-      border-color: rgba(255,255,255,.22);
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fff, #fff7f8);
+      border: 1px solid rgba(225,29,46,.14);
+      transition:.22s;
     }
 
-    .left {
-      display: flex;
-      align-items: center;
+    .game:hover{
+      transform: translateY(-3px);
+      border-color: rgba(225,29,46,.30);
+      box-shadow: 0 14px 34px rgba(225,29,46,.10);
+    }
+
+    .left{
+      display:flex;
+      align-items:center;
       gap: 10px;
       min-width: 0;
     }
 
-    .icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.14);
+    .icon{
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(225,29,46,.08);
+      border: 1px solid rgba(225,29,46,.18);
       font-size: 1.25rem;
       flex: 0 0 auto;
     }
 
-    .txt { min-width: 0; }
-    .txt h4 {
+    .txt{ min-width: 0; }
+    .txt h4{
       font-size: .98rem;
-      font-weight: 700;
+      font-weight: 900;
+      color:#111;
       white-space: nowrap;
-      overflow: hidden;
+      overflow:hidden;
       text-overflow: ellipsis;
     }
-    .txt p {
+    .txt p{
       font-size: .86rem;
-      opacity: .82;
-      margin-top: 2px;
+      margin-top:2px;
+      color: rgba(0,0,0,.62);
       white-space: nowrap;
-      overflow: hidden;
+      overflow:hidden;
       text-overflow: ellipsis;
+      font-weight: 600;
     }
 
-    .go {
-      text-decoration: none;
-      background: rgba(255,255,255,.92);
-      color: #0b1a20;
+    .go{
+      text-decoration:none;
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      color:#fff;
       padding: 10px 12px;
       border-radius: 14px;
-      font-weight: 800;
-      transition: .2s;
+      font-weight: 900;
+      transition:.2s;
       white-space: nowrap;
-      flex: 0 0 auto;
+      flex:0 0 auto;
+      box-shadow: 0 12px 30px rgba(225,29,46,.22);
     }
-    .go:hover { transform: translateY(-2px); }
+    .go:hover{ transform: translateY(-2px); }
 
-    .footer {
+    .footer{
       margin-top: 18px;
-      text-align: center;
-      opacity: .75;
-      font-size: .9rem;
+      text-align:center;
+      color: rgba(0,0,0,.55);
+      font-size:.9rem;
+      font-weight: 700;
     }
 
+    .mobilebar{
+      display:none;
+      position: sticky;
+      top:0;
+      z-index:10;
+      background:#fff;
+      border-bottom: 1px solid rgba(225,29,46,.18);
+      padding: 12px 12px;
+    }
+    .mobilebar-inner{
+      max-width:1150px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .burger{
+      border:1px solid rgba(225,29,46,.22);
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      font-weight: 900;
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor:pointer;
+    }
+    .mbrand{
+      display:flex;align-items:center;gap:10px;
+    }
+    .mbrand img{
+      width:38px;height:38px;border-radius:12px;
+      border:1px solid rgba(225,29,46,.22);
+      background:#fff;
+      padding:5px;
+    }
+    .mbrand b{font-weight:900;color:#111}
 
-    @media (max-width: 920px) {
-      .app { grid-template-columns: 1fr; }
-      .sidebar {
-        position: relative;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid rgba(255,255,255,.12);
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+      .sidebar{
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: min(320px, 88vw);
+        transform: translateX(-110%);
+        transition: .25s;
+        z-index: 50;
+        box-shadow: 0 30px 80px rgba(0,0,0,.20);
       }
+      .sidebar.open{ transform: translateX(0); }
+      .main{ padding-top: 14px; }
+      .mobilebar{ display:block; }
+      .overlay{
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.35);
+        display: none;
+        z-index: 40;
+      }
+      .overlay.show{ display:block; }
+    }
+
+    @media (max-width: 520px){
+      .topbar{ flex-direction: column; align-items: flex-start; }
+      .login-state{ width:100%; justify-content:flex-start; }
+      .game{ align-items:flex-start; }
+      .go{ padding: 10px 10px; }
+      .txt p{ display:none; } 
+    }
+
+    .modal{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.35);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 100;
+    }
+    .modal.show{ display:flex; }
+    .modal-box{
+      width: min(520px, 100%);
+      background: #fff;
+      border-radius: 22px;
+      border: 1px solid rgba(225,29,46,.22);
+      box-shadow: 0 30px 90px rgba(0,0,0,.22);
+      padding: 16px;
+    }
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      margin-bottom: 10px;
+    }
+    .modal-head h3{ font-size: 1.05rem; font-weight: 900; color:#111; }
+    .close{
+      border: 1px solid rgba(225,29,46,.22);
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight: 900;
+      cursor:pointer;
+    }
+    .modal p{ color: rgba(0,0,0,.70); font-weight: 700; line-height: 1.7; }
+    .modal-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
     }
   </style>
 </head>
 
 <body>
+
+  <div class="mobilebar">
+    <div class="mobilebar-inner">
+      <button class="burger" id="openMenu">☰ Menu</button>
+      <div class="mbrand">
+        <img src="logotrendy.svg" alt="Trendy Logo">
+        <b>Trendy Plaza</b>
+      </div>
+      <a class="btn ghost" href="lecteur.html" style="padding:10px 12px;border-radius:14px;">⟵ Retour</a>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
   <div class="app">
 
-
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
       <div class="brand">
-
-        <img src="Capture d'écran 2025-07-21 212951.png" alt="Trendy Plaza Logo">
+        <img src="logotrendy.svg" alt="Trendy Plaza Logo">
         <div>
           <h1>Trendy Plaza</h1>
-          <p>Learning • Design • Fun</p>
         </div>
       </div>
 
       <div class="side-actions">
-
         <a class="btn primary" href="lecteur.html">⟵ Retour</a>
-
         <a class="btn ghost" href="#" onclick="alert('Fonction à ajouter plus tard'); return false;">⚙️ Paramètres</a>
       </div>
 
@@ -316,21 +488,22 @@
       </div>
     </aside>
 
-
     <main class="main">
       <div class="wrap">
 
         <div class="topbar">
           <div class="title">
-            <h2>Espace Jeux</h2>
-            <p>Choisissez une catégorie, puis lancez un jeu (liens à ajouter plus tard).</p>
+            <h2>🎮 Espace Jeux</h2>
+            <p>Connectez-vous pour jouer. Cliquez sur un jeu pour l’ouvrir.</p>
           </div>
 
-          <a class="btn ghost" href="lecteur.html">Retour au Lecteur</a>
+          <div class="login-state">
+            <span class="chip" id="authChip">Vérification de connexion…</span>
+            <a class="btn ghost" href="lecteur.html">Retour au Lecteur</a>
+          </div>
         </div>
 
         <div class="sections">
-
 
           <section id="educatifs" class="section">
             <div class="section-head">
@@ -347,8 +520,7 @@
                     <p>Vocabulaire (architecture / études) sous forme de grille.</p>
                   </div>
                 </div>
-
-                <a class="go" href="MotsCroisés.html" data-game="mots-croises">Ouvrir</a>
+                <a class="go play-link" href="MotsCroisés.html">Ouvrir</a>
               </div>
 
               <div class="game">
@@ -359,7 +531,7 @@
                     <p>Questions rapides + score (mode révision).</p>
                   </div>
                 </div>
-                <a class="go" href="#" data-game="quiz">Ouvrir</a>
+                <a class="go play-link" href="quiz.html">Ouvrir</a>
               </div>
 
               <div class="game">
@@ -370,12 +542,11 @@
                     <p>Reliez chaque terme à sa définition correcte.</p>
                   </div>
                 </div>
-                <a class="go" href="#" data-game="associe-terme">Ouvrir</a>
+                <a class="go play-link" href="associe-terme.html">Ouvrir</a>
               </div>
             </div>
           </section>
 
- 
           <section id="divertissants" class="section">
             <div class="section-head">
               <h3>🎮 Jeux divertissants</h3>
@@ -391,7 +562,7 @@
                     <p>À partir d’une image/indice, trouvez le nom du bâtiment.</p>
                   </div>
                 </div>
-                <a class="go" href="#" data-game="devine-batiment">Ouvrir</a>
+                <a class="go play-link" href="devine-batiment.html">Ouvrir</a>
               </div>
 
               <div class="game">
@@ -402,7 +573,7 @@
                     <p>Trouvez l’élément qui ne correspond pas au groupe.</p>
                   </div>
                 </div>
-                <a class="go" href="#" data-game="hors-sujet">Ouvrir</a>
+                <a class="go play-link" href="hors-sujet.html">Ouvrir</a>
               </div>
 
               <div class="game">
@@ -413,12 +584,11 @@
                     <p>Défis rapides (30s) : répondre, choisir, réagir.</p>
                   </div>
                 </div>
-                <a class="go" href="#" data-game="defi-vitesse">Ouvrir</a>
+                <a class="go play-link" href="defi-vitesse.html">Ouvrir</a>
               </div>
             </div>
           </section>
 
-          <!-- 🧑‍🤝‍🧑 Jeux collectifs -->
           <section id="collectifs" class="section">
             <div class="section-head">
               <h3>🧑‍🤝‍🧑 Jeux collectifs</h3>
@@ -434,7 +604,7 @@
                     <p>Rôles, débat, vote final (simulation).</p>
                   </div>
                 </div>
-                <a class="go" href="#" data-game="tribunal-en-ligne">Ouvrir</a>
+                <a class="go play-link" href="tribunal-en-ligne.html">Ouvrir</a>
               </div>
 
               <div class="game">
@@ -445,7 +615,7 @@
                     <p>Déduisez qui est l’espion avant qu’il vous piège.</p>
                   </div>
                 </div>
-                <a class="go" href="#" data-game="espion">Ouvrir</a>
+                <a class="go play-link" href="espion.html">Ouvrir</a>
               </div>
 
               <div class="game">
@@ -456,7 +626,7 @@
                     <p>Jeu de rôles inspiré des “loups” (version architecture).</p>
                   </div>
                 </div>
-                <a class="go" href="#" data-game="loups-architecture">Ouvrir</a>
+                <a class="go play-link" href="loups-architecture.html">Ouvrir</a>
               </div>
             </div>
           </section>
@@ -466,17 +636,86 @@
         <div class="footer">© 2025 Trendy Plaza — Divertissement</div>
       </div>
     </main>
-
   </div>
 
+  <div class="modal" id="loginModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>Connexion requise</h3>
+        <button class="close" onclick="hideLoginModal()">Fermer ✕</button>
+      </div>
+      <p>Vous devez être connecté pour jouer. Cliquez sur “Se connecter” pour accéder à la page de connexion.</p>
+      <div class="modal-actions">
+        <a class="btn primary" href="login.html">Se connecter</a>
+        <a class="btn ghost" href="lecteur.html">Retour</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
   <script>
-    document.querySelectorAll('a.go[href="#"]').forEach(a => {
-      a.addEventListener('click', (e) => {
-        e.preventDefault();
-        const key = a.getAttribute("data-game") || "jeu";
-        alert("Lien à ajouter plus tard ✅\nJeu: " + key);
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const openMenu = document.getElementById("openMenu");
+
+    function openSidebar(){
+      sidebar.classList.add("open");
+      overlay.classList.add("show");
+    }
+    function closeSidebar(){
+      sidebar.classList.remove("open");
+      overlay.classList.remove("show");
+    }
+    if(openMenu){
+      openMenu.addEventListener("click", openSidebar);
+      overlay.addEventListener("click", closeSidebar);
+    }
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "TrendyPlaza-72624.firebaseapp.com",
+      projectId: "TrendyPlaza-72624",
+      storageBucket: "TrendyPlaza-72624.firebasestorage.app",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    let isLoggedIn = false;
+    const authChip = document.getElementById("authChip");
+    const loginModal = document.getElementById("loginModal");
+
+    function showLoginModal(){
+      loginModal.classList.add("show");
+    }
+    function hideLoginModal(){
+      loginModal.classList.remove("show");
+    }
+
+    auth.onAuthStateChanged((user) => {
+      isLoggedIn = !!user;
+      if(isLoggedIn){
+        authChip.textContent = "Connecté ✅";
+      } else {
+        authChip.textContent = "Non connecté ❌";
+      }
+    });
+
+    document.querySelectorAll(".play-link").forEach(link => {
+      link.addEventListener("click", (e) => {
+        if(!isLoggedIn){
+          e.preventDefault();
+          showLoginModal();
+
+        }
       });
     });
+
     document.addEventListener("contextmenu", (e)=>e.preventDefault());
     document.addEventListener("keydown", (e)=>{
       if(e.key === "F12") e.preventDefault();
