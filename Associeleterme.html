@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Associe le terme | Trendy Plaza</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --red:#e11d2e;
+      --red2:#ff2d2d;
+      --white:#ffffff;
+      --dark:#0b0f14;
+      --glass: rgba(255,255,255,.78);
+      --border: rgba(225,29,46,.22);
+      --shadow: 0 18px 50px rgba(0,0,0,.12);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif}
+    body{
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(225,29,46,.10), transparent 45%),
+        radial-gradient(circle at 90% 15%, rgba(255,45,45,.10), transparent 40%),
+        linear-gradient(180deg, #ffffff, #fff5f6 65%, #ffffff);
+      color: var(--dark);
+      overflow-x:hidden;
+      position: relative;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image: url("logotrendy.svg");
+      background-repeat:no-repeat;
+      background-position:center;
+      background-size:min(760px, 88vw);
+      opacity:.06;
+      pointer-events:none;
+      z-index:0;
+      filter: saturate(1.2);
+    }
+
+    .app{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns: 290px 1fr;
+      min-height:100vh;
+    }
+
+    .sidebar{
+      background: var(--glass);
+      border-right: 1px solid var(--border);
+      padding: 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      backdrop-filter: blur(12px);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      padding: 10px 10px 14px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      margin-bottom: 12px;
+    }
+    .brand img{
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid rgba(225,29,46,.25);
+      background: #fff;
+      padding: 6px;
+      box-shadow: 0 10px 30px rgba(225,29,46,.10);
+    }
+    .brand h1{
+      font-size:1.05rem;
+      font-weight:800;
+      line-height:1.05;
+      color: #111;
+    }
+    .side-actions{
+      display:grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      padding: 11px 12px;
+      border-radius: 14px;
+      font-weight: 800;
+      transition: .2s;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 8px;
+      user-select:none;
+      box-shadow: 0 8px 22px rgba(0,0,0,.06);
+    }
+    .btn.primary{
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      color: #fff;
+    }
+    .btn.ghost{
+      background: #fff;
+      color: var(--red);
+      border: 1px solid rgba(225,29,46,.25);
+      box-shadow: none;
+    }
+    .btn:hover{transform: translateY(-2px);}
+
+    .nav{
+      margin-top: 14px;
+      display:grid;
+      gap: 10px;
+    }
+    .nav-title{
+      font-size:.84rem;
+      color: rgba(0,0,0,.60);
+      padding: 8px 10px 0;
+      font-weight: 700;
+    }
+    .nav a{
+      text-decoration:none;
+      color: #111;
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid rgba(225,29,46,.18);
+      transition: .2s;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.06);
+    }
+    .nav a:hover{transform: translateY(-2px);border-color: rgba(225,29,46,.35);}
+
+    .pill{
+      font-size:.75rem;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(225,29,46,.08);
+      border: 1px solid rgba(225,29,46,.18);
+      color: var(--red);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .main{ padding: 18px 16px 40px; }
+    .wrap{ max-width: 1150px; margin: 0 auto; }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid rgba(225,29,46,.18);
+      border-radius: 20px;
+      padding: 14px 14px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .title h2{
+      font-size:1.25rem;
+      font-weight: 900;
+      color: #111;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+    }
+    .title p{
+      margin-top: 4px;
+      font-size: .92rem;
+      color: rgba(0,0,0,.62);
+      font-weight: 600;
+    }
+
+    .chip{
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(225,29,46,.20);
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      font-weight: 800;
+      font-size: .84rem;
+      white-space: nowrap;
+    }
+
+    .card{
+      background:#fff;
+      border: 1px solid rgba(225,29,46,.18);
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom: 12px;
+    }
+    .controls .left-ctrl{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .select{
+      appearance:none;
+      border:1px solid rgba(225,29,46,.20);
+      border-radius: 14px;
+      padding: 10px 12px;
+      background:#fff;
+      font-weight:800;
+      color:#111;
+      cursor:pointer;
+      min-width: 220px;
+    }
+
+    .small-btn{
+      border:none;
+      cursor:pointer;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 900;
+      transition:.2s;
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      border: 1px solid rgba(225,29,46,.20);
+    }
+    .small-btn:hover{transform:translateY(-2px);}
+    .small-btn.primary{
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      color:#fff;
+      border:none;
+    }
+
+    .score{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .col h3{
+      font-size: .95rem;
+      font-weight: 900;
+      color:#111;
+      margin-bottom: 10px;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+    }
+
+    .list{
+      display:grid;
+      gap: 10px;
+    }
+
+    .item{
+      border: 1px solid rgba(225,29,46,.14);
+      background: linear-gradient(180deg,#fff,#fff7f8);
+      border-radius: 18px;
+      padding: 12px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      justify-content:space-between;
+      transition:.2s;
+    }
+    .item:hover{
+      transform: translateY(-2px);
+      border-color: rgba(225,29,46,.28);
+      box-shadow: 0 14px 34px rgba(225,29,46,.08);
+    }
+
+    .term{
+      font-weight: 900;
+      color:#111;
+      font-size: .95rem;
+      line-height:1.2;
+    }
+    .def{
+      font-weight: 600;
+      color: rgba(0,0,0,.70);
+      font-size: .88rem;
+      line-height:1.5;
+      flex:1;
+    }
+
+    .choice{
+      appearance:none;
+      border:1px solid rgba(225,29,46,.20);
+      border-radius: 14px;
+      padding: 10px 12px;
+      background:#fff;
+      font-weight:800;
+      color:#111;
+      cursor:pointer;
+      min-width: 190px;
+      flex:0 0 auto;
+    }
+
+    .result{
+      margin-top: 14px;
+      border-top: 1px solid rgba(0,0,0,.06);
+      padding-top: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .msg{
+      font-weight: 800;
+      color: rgba(0,0,0,.70);
+    }
+    .msg.ok{color:#0a7a2a;}
+    .msg.bad{color:var(--red);}
+
+    .mobilebar{
+      display:none;
+      position: sticky;
+      top:0;
+      z-index:10;
+      background:#fff;
+      border-bottom: 1px solid rgba(225,29,46,.18);
+      padding: 12px 12px;
+    }
+    .mobilebar-inner{
+      max-width:1150px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .burger{
+      border:1px solid rgba(225,29,46,.22);
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      font-weight: 900;
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor:pointer;
+    }
+    .mbrand{
+      display:flex;align-items:center;gap:10px;
+    }
+    .mbrand img{
+      width:38px;height:38px;border-radius:12px;
+      border:1px solid rgba(225,29,46,.22);
+      background:#fff;
+      padding:5px;
+    }
+    .mbrand b{font-weight:900;color:#111}
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+      .sidebar{
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: min(320px, 88vw);
+        transform: translateX(-110%);
+        transition: .25s;
+        z-index: 50;
+        box-shadow: 0 30px 80px rgba(0,0,0,.20);
+      }
+      .sidebar.open{ transform: translateX(0); }
+      .mobilebar{ display:block; }
+      .overlay{
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.35);
+        display: none;
+        z-index: 40;
+      }
+      .overlay.show{ display:block; }
+      .grid{ grid-template-columns: 1fr; } 
+    }
+
+    @media (max-width: 520px){
+      .select{min-width: 100%;}
+      .choice{min-width: 100%;}
+    }
+
+    .modal{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.35);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 100;
+    }
+    .modal.show{ display:flex; }
+    .modal-box{
+      width: min(520px, 100%);
+      background: #fff;
+      border-radius: 22px;
+      border: 1px solid rgba(225,29,46,.22);
+      box-shadow: 0 30px 90px rgba(0,0,0,.22);
+      padding: 16px;
+    }
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      margin-bottom: 10px;
+    }
+    .modal-head h3{ font-size: 1.05rem; font-weight: 900; color:#111; }
+    .close{
+      border: 1px solid rgba(225,29,46,.22);
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight: 900;
+      cursor:pointer;
+    }
+    .modal p{ color: rgba(0,0,0,.70); font-weight: 700; line-height: 1.7; }
+    .modal-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="mobilebar">
+    <div class="mobilebar-inner">
+      <button class="burger" id="openMenu">☰ Menu</button>
+      <div class="mbrand">
+        <img src="logotrendy.svg" alt="Trendy Logo">
+        <b>Trendy Plaza</b>
+      </div>
+      <a class="btn ghost" href="divertissement.html" style="padding:10px 12px;border-radius:14px;">⟵ Retour</a>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="app">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <img src="logotrendy.svg" alt="Trendy Plaza Logo">
+        <div>
+          <h1>Trendy Plaza</h1>
+        </div>
+      </div>
+
+      <div class="side-actions">
+        <a class="btn primary" href="divertissement.html">⟵ Retour</a>
+        <a class="btn ghost" href="lecteur.html">📚 Lecteur</a>
+      </div>
+
+      <div class="nav">
+        <div class="nav-title">Jeu</div>
+        <a href="#jeu"><span>🔗 Associe le terme</span><span class="pill">Quiz</span></a>
+        <a href="#regles"><span>📌 Règles</span><span class="pill">Simple</span></a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="wrap">
+
+        <div class="topbar">
+          <div class="title">
+            <h2>🔗 Associe le terme</h2>
+            <p>Reliez chaque terme à sa définition correcte.</p>
+          </div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;">
+            <span class="chip" id="authChip">Vérification de connexion…</span>
+            <a class="btn ghost" href="divertissement.html">Retour aux jeux</a>
+          </div>
+        </div>
+
+        <section id="jeu" class="card">
+          <div class="controls">
+            <div class="left-ctrl">
+              <select class="select" id="packSelect" aria-label="Choisir un pack">
+                <option value="archi">Pack Architecture (Facile)</option>
+                <option value="urban">Pack Urbanisme (Facile)</option>
+                <option value="mix">Pack Mix (Moyen)</option>
+              </select>
+
+              <button class="small-btn" id="shuffleBtn">🔀 Mélanger</button>
+              <button class="small-btn" id="resetBtn">↺ Réinitialiser</button>
+            </div>
+
+            <div class="score">
+              <span class="pill" id="progressPill">0 / 0</span>
+              <button class="small-btn primary" id="checkBtn">✅ Vérifier</button>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="col">
+              <h3>🧩 Termes</h3>
+              <div class="list" id="termsList"></div>
+            </div>
+
+            <div class="col">
+              <h3>📘 Définitions (référence)</h3>
+              <div class="list" id="defsList"></div>
+            </div>
+          </div>
+
+          <div class="result">
+            <div class="msg" id="msg">Choisissez une définition pour chaque terme, puis cliquez sur “Vérifier”.</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="small-btn" id="showAnswersBtn">👁️ Afficher les réponses</button>
+              <button class="small-btn" id="hideAnswersBtn">🙈 Masquer</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="regles" class="card" style="margin-top:16px;">
+          <div class="section-head" style="border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:10px;">
+            <h3>📌 Règles</h3>
+            <span class="pill">1 minute</span>
+          </div>
+          <div style="color:rgba(0,0,0,.70);font-weight:700;line-height:1.8;">
+            <ul style="padding-left:18px;">
+              <li>Choisissez la définition correcte pour chaque terme.</li>
+              <li>Cliquez sur <b>Vérifier</b> pour obtenir votre score.</li>
+              <li>Vous pouvez <b>Mélanger</b> pour changer l’ordre.</li>
+            </ul>
+          </div>
+        </section>
+
+        <div class="footer">© 2025 Trendy Plaza — Associe le terme</div>
+      </div>
+    </main>
+
+  </div>
+
+  <div class="modal" id="loginModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>Connexion requise</h3>
+        <button class="close" onclick="hideLoginModal()">Fermer ✕</button>
+      </div>
+      <p>Vous devez être connecté pour jouer. Cliquez sur “Se connecter” pour accéder à la page de connexion.</p>
+      <div class="modal-actions">
+        <a class="btn primary" href="login.html">Se connecter</a>
+        <a class="btn ghost" href="divertissement.html">Retour</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <script>
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+    const openMenu = document.getElementById("openMenu");
+
+    function openSidebar(){
+      sidebar.classList.add("open");
+      overlay.classList.add("show");
+    }
+    function closeSidebar(){
+      sidebar.classList.remove("open");
+      overlay.classList.remove("show");
+    }
+    if(openMenu){
+      openMenu.addEventListener("click", openSidebar);
+      overlay.addEventListener("click", closeSidebar);
+    }
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
+      authDomain: "TrendyPlaza-72624.firebaseapp.com",
+      projectId: "TrendyPlaza-72624",
+      storageBucket: "TrendyPlaza-72624.firebasestorage.app",
+      messagingSenderId: "407015246505",
+      appId: "1:407015246505:web:c914a78566b882b80df7b8",
+      measurementId: "G-RZV7LSDQBD"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    let isLoggedIn = false;
+    const authChip = document.getElementById("authChip");
+    const loginModal = document.getElementById("loginModal");
+
+    function showLoginModal(){ loginModal.classList.add("show"); }
+    function hideLoginModal(){ loginModal.classList.remove("show"); }
+
+    auth.onAuthStateChanged((user) => {
+      isLoggedIn = !!user;
+      authChip.textContent = isLoggedIn ? "Connecté ✅" : "Non connecté ❌";
+      if(!isLoggedIn) showLoginModal();
+    });
+
+    // ====== GAME DATA ======
+    const packs = {
+      archi: [
+        { term: "Façade", def: "Face extérieure d’un bâtiment (composition, ouvertures, matériaux)." },
+        { term: "Plan", def: "Représentation à plat d’un niveau d’un bâtiment (pièces, murs, circulations)." },
+        { term: "Coupe", def: "Représentation verticale montrant l’intérieur et les hauteurs (niveaux, structure)." },
+        { term: "Perspective", def: "Représentation donnant une impression de profondeur et de volume." },
+        { term: "Structure", def: "Ensemble des éléments porteurs assurant la stabilité (poteaux, poutres, voiles…)." }
+      ],
+      urban: [
+        { term: "Trame viaire", def: "Organisation du réseau des rues, axes et voies d’un quartier/ville." },
+        { term: "Zonage", def: "Répartition du territoire en zones selon les usages (habitat, équipements, industrie…)." },
+        { term: "Densité", def: "Rapport entre quantité construite/population et surface considérée." },
+        { term: "Mobilité", def: "Déplacements des personnes/biens et les modes de transport associés." },
+        { term: "Espace public", def: "Lieu accessible à tous : rues, places, parcs, promenades…" }
+      ],
+      mix: [
+        { term: "Programme", def: "Liste des fonctions attendues et des besoins d’un projet (surfaces, usages)." },
+        { term: "Gabarit", def: "Enveloppe volumétrique : hauteur, alignement, limites de construction." },
+        { term: "Matériau", def: "Substance utilisée pour construire (béton, acier, bois, brique…)." },
+        { term: "Insertion", def: "Manière dont un projet s’intègre dans le site (contextes, échelle, vues)." },
+        { term: "Circulation", def: "Organisation des flux et déplacements à l’intérieur ou autour du projet." }
+      ]
+    };
+
+    const termsList = document.getElementById("termsList");
+    const defsList  = document.getElementById("defsList");
+    const packSelect = document.getElementById("packSelect");
+    const shuffleBtn = document.getElementById("shuffleBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const checkBtn = document.getElementById("checkBtn");
+    const showAnswersBtn = document.getElementById("showAnswersBtn");
+    const hideAnswersBtn = document.getElementById("hideAnswersBtn");
+    const msg = document.getElementById("msg");
+    const progressPill = document.getElementById("progressPill");
+
+    let current = [];
+    let defsPool = [];
+    let revealed = false;
+
+    function shuffleArray(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]] = [arr[j],arr[i]];
+      }
+      return arr;
+    }
+
+    function build(){
+      current = JSON.parse(JSON.stringify(packs[packSelect.value] || packs.archi));
+      defsPool = current.map(x => x.def);
+      shuffleArray(current);
+      shuffleArray(defsPool);
+
+      termsList.innerHTML = "";
+      defsList.innerHTML  = "";
+      revealed = false;
+
+      defsPool.forEach((def, idx) => {
+        const row = document.createElement("div");
+        row.className = "item";
+        row.innerHTML = `<div class="def"><b>${idx+1}.</b> ${escapeHtml(def)}</div>`;
+        defsList.appendChild(row);
+      });
+
+      current.forEach((pair, i) => {
+        const row = document.createElement("div");
+        row.className = "item";
+        const options = defsPool.map((d, idx) => `<option value="${escapeAttr(d)}">${idx+1}</option>`).join("");
+        row.innerHTML = `
+          <div style="display:flex;flex-direction:column;gap:6px;min-width:0;">
+            <div class="term">${escapeHtml(pair.term)}</div>
+            <div class="def" style="font-weight:700;opacity:.9;">Choisir une définition :</div>
+          </div>
+          <select class="choice" data-term="${escapeAttr(pair.term)}">
+            <option value="">— Sélectionner —</option>
+            ${options}
+          </select>
+        `;
+        termsList.appendChild(row);
+      });
+
+      updateProgress();
+      setMsg("Choisissez une définition pour chaque terme, puis cliquez sur “Vérifier”.", "");
+    }
+
+    function updateProgress(){
+      const choices = Array.from(document.querySelectorAll(".choice"));
+      const filled = choices.filter(s => s.value && s.value.trim() !== "").length;
+      progressPill.textContent = `${filled} / ${choices.length}`;
+    }
+
+    function setMsg(text, type){
+      msg.className = "msg";
+      if(type === "ok") msg.classList.add("ok");
+      if(type === "bad") msg.classList.add("bad");
+      msg.textContent = text;
+    }
+
+    function check(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+
+      const map = new Map(current.map(x => [x.term, x.def]));
+      const selects = Array.from(document.querySelectorAll(".choice"));
+      const total = selects.length;
+
+      let filled = 0, correct = 0;
+
+      selects.forEach(sel => {
+        const term = sel.getAttribute("data-term");
+        const chosen = sel.value || "";
+        if(chosen.trim() !== "") filled++;
+        if(chosen === map.get(term)) correct++;
+      });
+
+      updateProgress();
+
+      if(filled < total){
+        setMsg(`Complétez toutes les réponses (${filled}/${total}).`, "bad");
+        return;
+      }
+
+      if(correct === total){
+        setMsg(`Parfait ✅ Score: ${correct}/${total}.`, "ok");
+      } else {
+        setMsg(`Score: ${correct}/${total}. Continuez et essayez encore !`, "bad");
+      }
+    }
+
+    function showAnswers(){
+      const map = new Map(current.map(x => [x.term, x.def]));
+      const selects = Array.from(document.querySelectorAll(".choice"));
+      selects.forEach(sel => {
+        const term = sel.getAttribute("data-term");
+        sel.value = map.get(term);
+      });
+      revealed = true;
+      updateProgress();
+      setMsg("Réponses affichées 👁️", "ok");
+    }
+
+    function hideAnswers(){
+      const selects = Array.from(document.querySelectorAll(".choice"));
+      selects.forEach(sel => sel.value = "");
+      revealed = false;
+      updateProgress();
+      setMsg("Réponses masquées 🙈", "");
+    }
+
+    function reset(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      hideAnswers();
+      setMsg("Réinitialisé. Recommencez !", "");
+    }
+
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, s => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[s]));
+    }
+    function escapeAttr(str){
+      return escapeHtml(str).replace(/"/g, "&quot;");
+    }
+
+    packSelect.addEventListener("change", build);
+    shuffleBtn.addEventListener("click", () => build());
+    resetBtn.addEventListener("click", reset);
+    checkBtn.addEventListener("click", check);
+    showAnswersBtn.addEventListener("click", () => { if(!isLoggedIn){showLoginModal();return;} showAnswers(); });
+    hideAnswersBtn.addEventListener("click", hideAnswers);
+
+    document.addEventListener("change", (e) => {
+      if(e.target && e.target.classList.contains("choice")){
+        updateProgress();
+      }
+    });
+
+    build();
+
+    document.addEventListener("contextmenu", (e)=>e.preventDefault());
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "F12") e.preventDefault();
+      if(e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S")) e.preventDefault();
+      if(e.ctrlKey && e.shiftKey && ["I","i","J","j","C","c"].includes(e.key)) e.preventDefault();
+    });
+  </script>
+</body>
+</html>
