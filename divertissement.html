@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Divertissement | Trendy Plaza</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Poppins", sans-serif; }
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255,255,255,.10), transparent 35%),
+        radial-gradient(circle at 90% 30%, rgba(255,255,255,.08), transparent 40%),
+        linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+
+
+    .sidebar {
+      background: rgba(0,0,0,.45);
+      border-right: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(12px);
+      padding: 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      margin-bottom: 14px;
+    }
+
+    .brand img {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+    }
+
+    .brand h1 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .brand p {
+      font-size: .82rem;
+      opacity: .8;
+      margin-top: 3px;
+    }
+
+    .side-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      padding: 11px 12px;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: .2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      user-select: none;
+    }
+
+    .btn.primary {
+      background: rgba(255,255,255,.92);
+      color: #0b1a20;
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.22);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .nav {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .nav-title {
+      font-size: .85rem;
+      opacity: .75;
+      padding: 8px 10px 0;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #fff;
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      transition: .2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .nav a:hover { background: rgba(255,255,255,.12); transform: translateY(-2px); }
+    .pill {
+      font-size: .75rem;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.14);
+      opacity: .95;
+      white-space: nowrap;
+    }
+
+
+    .main {
+      padding: 22px 18px 40px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      padding: 14px 14px;
+      backdrop-filter: blur(10px);
+      margin-bottom: 18px;
+    }
+
+    .topbar .title h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+    }
+    .topbar .title p {
+      margin-top: 4px;
+      font-size: .92rem;
+      opacity: .85;
+    }
+
+    .wrap {
+      max-width: 1150px;
+      margin: 0 auto;
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .section {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 14px 32px rgba(0,0,0,.25);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      margin-bottom: 12px;
+    }
+
+    .section-head h3 { font-size: 1.08rem; }
+
+    .games {
+      display: grid;
+      gap: 10px;
+    }
+
+    .game {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.12);
+      transition: .22s;
+    }
+    .game:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    .left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      font-size: 1.25rem;
+      flex: 0 0 auto;
+    }
+
+    .txt { min-width: 0; }
+    .txt h4 {
+      font-size: .98rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .txt p {
+      font-size: .86rem;
+      opacity: .82;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .go {
+      text-decoration: none;
+      background: rgba(255,255,255,.92);
+      color: #0b1a20;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 800;
+      transition: .2s;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+    .go:hover { transform: translateY(-2px); }
+
+    .footer {
+      margin-top: 18px;
+      text-align: center;
+      opacity: .75;
+      font-size: .9rem;
+    }
+
+
+    @media (max-width: 920px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,.12);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+
+    <aside class="sidebar">
+      <div class="brand">
+
+        <img src="Capture d'écran 2025-07-21 212951.png" alt="Trendy Plaza Logo">
+        <div>
+          <h1>Trendy Plaza</h1>
+          <p>Learning • Design • Fun</p>
+        </div>
+      </div>
+
+      <div class="side-actions">
+
+        <a class="btn primary" href="lecteur.html">⟵ Retour</a>
+
+        <a class="btn ghost" href="#" onclick="alert('Fonction à ajouter plus tard'); return false;">⚙️ Paramètres</a>
+      </div>
+
+      <div class="nav">
+        <div class="nav-title">Catégories</div>
+        <a href="#educatifs"><span>🧠 Jeux éducatifs</span><span class="pill">3</span></a>
+        <a href="#divertissants"><span>🎮 Jeux divertissants</span><span class="pill">3</span></a>
+        <a href="#collectifs"><span>🧑‍🤝‍🧑 Jeux collectifs</span><span class="pill">3</span></a>
+      </div>
+    </aside>
+
+
+    <main class="main">
+      <div class="wrap">
+
+        <div class="topbar">
+          <div class="title">
+            <h2>Espace Jeux</h2>
+            <p>Choisissez une catégorie, puis lancez un jeu (liens à ajouter plus tard).</p>
+          </div>
+
+          <a class="btn ghost" href="lecteur.html">Retour au Lecteur</a>
+        </div>
+
+        <div class="sections">
+
+
+          <section id="educatifs" class="section">
+            <div class="section-head">
+              <h3>🧠 Jeux éducatifs</h3>
+              <span class="pill">Apprendre en s’amusant</span>
+            </div>
+
+            <div class="games">
+              <div class="game">
+                <div class="left">
+                  <div class="icon">🧩</div>
+                  <div class="txt">
+                    <h4>Mots croisés</h4>
+                    <p>Vocabulaire (architecture / études) sous forme de grille.</p>
+                  </div>
+                </div>
+
+                <a class="go" href="#" data-game="mots-croises">Ouvrir</a>
+              </div>
+
+              <div class="game">
+                <div class="left">
+                  <div class="icon">🧠</div>
+                  <div class="txt">
+                    <h4>Quiz</h4>
+                    <p>Questions rapides + score (mode révision).</p>
+                  </div>
+                </div>
+                <a class="go" href="#" data-game="quiz">Ouvrir</a>
+              </div>
+
+              <div class="game">
+                <div class="left">
+                  <div class="icon">🔗</div>
+                  <div class="txt">
+                    <h4>Associe le terme</h4>
+                    <p>Reliez chaque terme à sa définition correcte.</p>
+                  </div>
+                </div>
+                <a class="go" href="#" data-game="associe-terme">Ouvrir</a>
+              </div>
+            </div>
+          </section>
+
+ 
+          <section id="divertissants" class="section">
+            <div class="section-head">
+              <h3>🎮 Jeux divertissants</h3>
+              <span class="pill">Fun & détente</span>
+            </div>
+
+            <div class="games">
+              <div class="game">
+                <div class="left">
+                  <div class="icon">🏛️</div>
+                  <div class="txt">
+                    <h4>Devine le bâtiment</h4>
+                    <p>À partir d’une image/indice, trouvez le nom du bâtiment.</p>
+                  </div>
+                </div>
+                <a class="go" href="#" data-game="devine-batiment">Ouvrir</a>
+              </div>
+
+              <div class="game">
+                <div class="left">
+                  <div class="icon">😅</div>
+                  <div class="txt">
+                    <h4>Hors sujet</h4>
+                    <p>Trouvez l’élément qui ne correspond pas au groupe.</p>
+                  </div>
+                </div>
+                <a class="go" href="#" data-game="hors-sujet">Ouvrir</a>
+              </div>
+
+              <div class="game">
+                <div class="left">
+                  <div class="icon">⚡</div>
+                  <div class="txt">
+                    <h4>Défi vitesse</h4>
+                    <p>Défis rapides (30s) : répondre, choisir, réagir.</p>
+                  </div>
+                </div>
+                <a class="go" href="#" data-game="defi-vitesse">Ouvrir</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- 🧑‍🤝‍🧑 Jeux collectifs -->
+          <section id="collectifs" class="section">
+            <div class="section-head">
+              <h3>🧑‍🤝‍🧑 Jeux collectifs</h3>
+              <span class="pill">Entre amis / classe</span>
+            </div>
+
+            <div class="games">
+              <div class="game">
+                <div class="left">
+                  <div class="icon">⚖️</div>
+                  <div class="txt">
+                    <h4>Tribunal en ligne</h4>
+                    <p>Rôles, débat, vote final (simulation).</p>
+                  </div>
+                </div>
+                <a class="go" href="#" data-game="tribunal-en-ligne">Ouvrir</a>
+              </div>
+
+              <div class="game">
+                <div class="left">
+                  <div class="icon">🕵️</div>
+                  <div class="txt">
+                    <h4>L’Espion</h4>
+                    <p>Déduisez qui est l’espion avant qu’il vous piège.</p>
+                  </div>
+                </div>
+                <a class="go" href="#" data-game="espion">Ouvrir</a>
+              </div>
+
+              <div class="game">
+                <div class="left">
+                  <div class="icon">🐺</div>
+                  <div class="txt">
+                    <h4>Les Loups de l’Architecture</h4>
+                    <p>Jeu de rôles inspiré des “loups” (version architecture).</p>
+                  </div>
+                </div>
+                <a class="go" href="#" data-game="loups-architecture">Ouvrir</a>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <div class="footer">© 2025 Trendy Plaza — Divertissement</div>
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    document.querySelectorAll('a.go[href="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const key = a.getAttribute("data-game") || "jeu";
+        alert("Lien à ajouter plus tard ✅\nJeu: " + key);
+      });
+    });
+    document.addEventListener("contextmenu", (e)=>e.preventDefault());
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "F12") e.preventDefault();
+      if(e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S")) e.preventDefault();
+      if(e.ctrlKey && e.shiftKey && ["I","i","J","j","C","c"].includes(e.key)) e.preventDefault();
+    });
+  </script>
+</body>
+</html>
