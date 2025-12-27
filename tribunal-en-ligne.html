@@ -18,9 +18,9 @@
       --shadow: 0 18px 50px rgba(0,0,0,.12);
       --ok:#0a7a2a;
       --muted: rgba(0,0,0,.62);
+      --warn:#b45309;
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif}
-
     body{
       min-height:100vh;
       background:
@@ -65,441 +65,333 @@
       backdrop-filter: blur(12px);
     }
     .brand{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      padding: 10px 10px 14px;
+      display:flex;align-items:center;gap:12px;
+      padding:10px 10px 14px;
       border-bottom: 1px solid rgba(0,0,0,.06);
       margin-bottom: 12px;
     }
     .brand img{
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      object-fit: cover;
-      border: 1px solid rgba(225,29,46,.25);
-      background: #fff;
-      padding: 6px;
+      width:48px;height:48px;border-radius:14px;object-fit:cover;
+      border:1px solid rgba(225,29,46,.25);
+      background:#fff;padding:6px;
       box-shadow: 0 10px 30px rgba(225,29,46,.10);
     }
-    .brand h1{
-      font-size:1.05rem;
-      font-weight:900;
-      line-height:1.05;
-      color: #111;
-    }
+    .brand h1{font-size:1.05rem;font-weight:900;line-height:1.05;color:#111}
 
-    .side-actions{
-      display:grid;
-      gap: 10px;
-      margin-top: 12px;
-    }
+    .side-actions{display:grid;gap:10px;margin-top:12px}
 
     .btn{
-      border:none;
-      cursor:pointer;
-      padding: 11px 12px;
-      border-radius: 14px;
-      font-weight: 900;
-      transition: .2s;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap: 8px;
-      user-select:none;
-      box-shadow: 0 8px 22px rgba(0,0,0,.06);
-      background:#fff;
-      color:#111;
-      border:1px solid rgba(225,29,46,.18);
+      border:none;cursor:pointer;
+      padding: 11px 12px;border-radius:14px;font-weight:900;
+      transition:.2s;text-decoration:none;
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      user-select:none;box-shadow:0 8px 22px rgba(0,0,0,.06);
+      background:#fff;color:#111;border:1px solid rgba(225,29,46,.18);
     }
-    .btn.primary{
-      background: linear-gradient(135deg, var(--red), var(--red2));
-      color: #fff;
-      border:none;
-    }
-    .btn.ghost{
-      background: #fff;
-      color: var(--red);
-      border: 1px solid rgba(225,29,46,.25);
-      box-shadow: none;
-    }
-    .btn:hover{transform: translateY(-2px);}
+    .btn.primary{background: linear-gradient(135deg, var(--red), var(--red2));color:#fff;border:none;}
+    .btn.ghost{background:#fff;color:var(--red);border:1px solid rgba(225,29,46,.25);box-shadow:none;}
+    .btn:hover{transform:translateY(-2px)}
 
-    .nav{
-      margin-top: 14px;
-      display:grid;
-      gap: 10px;
-    }
-    .nav-title{
-      font-size:.84rem;
-      color: rgba(0,0,0,.60);
-      padding: 8px 10px 0;
-      font-weight: 800;
-    }
+    .nav{margin-top:14px;display:grid;gap:10px}
+    .nav-title{font-size:.84rem;color:rgba(0,0,0,.60);padding:8px 10px 0;font-weight:900}
     .nav a{
-      text-decoration:none;
-      color: #111;
-      padding: 12px 12px;
-      border-radius: 14px;
-      background: #fff;
-      border: 1px solid rgba(225,29,46,.18);
-      transition: .2s;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      box-shadow: 0 10px 28px rgba(0,0,0,.06);
+      text-decoration:none;color:#111;
+      padding: 12px 12px;border-radius:14px;background:#fff;
+      border:1px solid rgba(225,29,46,.18);
+      transition:.2s;display:flex;align-items:center;justify-content:space-between;gap:10px;
+      box-shadow:0 10px 28px rgba(0,0,0,.06);
     }
-    .nav a:hover{transform: translateY(-2px);border-color: rgba(225,29,46,.35);}
+    .nav a:hover{transform:translateY(-2px);border-color: rgba(225,29,46,.35);}
 
     .pill{
-      font-size:.75rem;
-      padding: 5px 10px;
-      border-radius: 999px;
+      font-size:.75rem;padding:5px 10px;border-radius:999px;
       background: rgba(225,29,46,.08);
-      border: 1px solid rgba(225,29,46,.18);
+      border:1px solid rgba(225,29,46,.18);
       color: var(--red);
-      font-weight: 900;
-      white-space: nowrap;
+      font-weight: 900;white-space:nowrap;
     }
+    .pill.ok{background: rgba(10,122,42,.08);border-color:rgba(10,122,42,.22);color: var(--ok);}
+    .pill.warn{background: rgba(180,83,9,.10);border-color: rgba(180,83,9,.22);color: var(--warn);}
+    .pill.gray{background: rgba(0,0,0,.06);border-color: rgba(0,0,0,.12);color: rgba(0,0,0,.65);}
 
     /* main */
-    .main{ padding: 18px 16px 40px; }
-    .wrap{ max-width: 1150px; margin: 0 auto; }
+    .main{padding:18px 16px 40px;}
+    .wrap{max-width: 1220px;margin:0 auto;}
 
     .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      background: #fff;
-      border: 1px solid rgba(225,29,46,.18);
-      border-radius: 20px;
-      padding: 14px 14px;
-      box-shadow: var(--shadow);
-      margin-bottom: 16px;
-      flex-wrap: wrap;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      background:#fff;border:1px solid rgba(225,29,46,.18);
+      border-radius: 20px;padding: 14px 14px;
+      box-shadow: var(--shadow);margin-bottom: 16px;
     }
     .title h2{
-      font-size:1.25rem;
-      font-weight: 900;
-      color: #111;
-      display:flex;
-      align-items:center;
-      gap: 8px;
+      font-size:1.25rem;font-weight:900;color:#111;
+      display:flex;align-items:center;gap:8px;
     }
     .title p{
-      margin-top: 4px;
-      font-size: .92rem;
-      color: rgba(0,0,0,.62);
-      font-weight: 700;
-      line-height:1.4;
+      margin-top:4px;font-size:.92rem;color: rgba(0,0,0,.62);
+      font-weight:800;line-height:1.4;
     }
     .chip{
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(225,29,46,.20);
+      padding: 8px 12px;border-radius:999px;
+      border:1px solid rgba(225,29,46,.20);
       background: rgba(225,29,46,.06);
-      color: var(--red);
-      font-weight: 900;
-      font-size: .84rem;
-      white-space: nowrap;
+      color: var(--red);font-weight:900;font-size:.84rem;white-space:nowrap;
     }
 
-    /* cards + grid */
     .card{
-      background:#fff;
-      border: 1px solid rgba(225,29,46,.18);
-      border-radius: 22px;
-      padding: 16px;
-      box-shadow: var(--shadow);
+      background:#fff;border:1px solid rgba(225,29,46,.18);
+      border-radius:22px;padding:16px;box-shadow: var(--shadow);
     }
-    .grid{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 14px;
-      margin-top: 10px;
-    }
-    @media (max-width: 980px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-
     .section-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      border-bottom: 1px solid rgba(0,0,0,.06);
-      padding-bottom:10px;
-      margin-bottom:10px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      border-bottom:1px solid rgba(0,0,0,.06);padding-bottom:10px;margin-bottom:10px;
     }
-    .section-head h3{ font-size:1.05rem; font-weight: 900; color:#111; display:flex; align-items:center; gap:8px; }
+    .section-head h3{font-size:1.05rem;font-weight:900;color:#111;display:flex;align-items:center;gap:8px;}
 
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    .two{display:grid; grid-template-columns: 1fr 1fr; gap: 10px;}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
     @media (max-width: 620px){ .two{grid-template-columns:1fr;} }
 
-    label{font-size:.84rem;color:rgba(0,0,0,.65);font-weight:800;display:block;margin:10px 0 6px}
+    label{font-size:.84rem;color: rgba(0,0,0,.65);font-weight:900;display:block;margin:10px 0 6px}
     input, textarea, select{
       width:100%;
       border:1px solid rgba(225,29,46,.20);
-      border-radius: 14px;
-      padding: 10px 12px;
-      background:#fff;
-      font-weight:800;
-      color:#111;
-      outline:none;
+      border-radius:14px;padding:10px 12px;background:#fff;
+      font-weight:800;color:#111;outline:none;
     }
-    textarea{min-height:92px; resize:vertical; font-weight:700; color: rgba(0,0,0,.80); line-height:1.6;}
+    textarea{min-height:96px;resize:vertical;font-weight:700;color: rgba(0,0,0,.80);line-height:1.6;}
     .small-btn{
-      border:none;
-      cursor:pointer;
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-weight: 900;
-      transition:.2s;
-      background: rgba(225,29,46,.06);
-      color: var(--red);
-      border: 1px solid rgba(225,29,46,.20);
-      box-shadow:none;
+      border:none;cursor:pointer;padding:10px 12px;border-radius:14px;
+      font-weight:900;transition:.2s;background: rgba(225,29,46,.06);color: var(--red);
+      border:1px solid rgba(225,29,46,.20);
     }
-    .small-btn:hover{transform: translateY(-2px);}
-    .small-btn.primary{
-      background: linear-gradient(135deg, var(--red), var(--red2));
-      color:#fff;
-      border:none;
-    }
-    .small-btn.ok{
-      background: rgba(10,122,42,.08);
-      border-color: rgba(10,122,42,.22);
-      color: var(--ok);
-    }
+    .small-btn:hover{transform:translateY(-2px)}
+    .small-btn.primary{background: linear-gradient(135deg, var(--red), var(--red2));color:#fff;border:none;}
+    .small-btn.ok{background: rgba(10,122,42,.08);border-color: rgba(10,122,42,.22);color: var(--ok);}
+    .small-btn.warn{background: rgba(180,83,9,.10);border-color: rgba(180,83,9,.22);color: var(--warn);}
     .small-btn.block{width:100%}
+    .small-btn:disabled,.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
 
     .note{
-      margin-top:10px;
-      color: rgba(0,0,0,.70);
-      font-weight:700;
-      line-height:1.7;
+      margin-top:10px;color: rgba(0,0,0,.72);
+      font-weight:800;line-height:1.7;
       background: linear-gradient(180deg,#fff,#fff7f8);
-      border: 1px solid rgba(225,29,46,.14);
-      border-radius: 18px;
-      padding: 12px;
+      border:1px solid rgba(225,29,46,.14);
+      border-radius:18px;padding:12px;
     }
 
-    /* timer */
-    .timerBox{
-      border: 1px solid rgba(225,29,46,.18);
-      background: linear-gradient(180deg,#fff,#fff7f8);
-      border-radius: 18px;
-      padding: 12px;
-    }
-    .time{
-      font-size: 30px;
-      font-weight: 900;
-      color:#111;
-      letter-spacing:.5px;
-      margin-top: 6px;
-    }
-    .bar{height:10px;border-radius:999px;background: rgba(225,29,46,.10);overflow:hidden;margin-top:10px}
-    .bar i{display:block;height:100%;width:0%;background: linear-gradient(90deg, var(--red), var(--red2));}
-
-    /* lists */
-    .list{display:grid; gap:10px;}
+    /* lobby list */
+    .list{display:grid;gap:10px;}
     .item{
-      border: 1px solid rgba(225,29,46,.14);
+      border:1px solid rgba(225,29,46,.14);
       background: linear-gradient(180deg,#fff,#fff7f8);
-      border-radius: 18px;
-      padding: 12px;
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      justify-content:space-between;
+      border-radius:18px;padding:12px;
+      display:flex;gap:10px;align-items:flex-start;justify-content:space-between;
       transition:.2s;
     }
-    .item:hover{
-      transform: translateY(-2px);
-      border-color: rgba(225,29,46,.28);
-      box-shadow: 0 14px 34px rgba(225,29,46,.08);
-    }
-    .item b{color:#111}
-    .muted{color: rgba(0,0,0,.65); font-weight:700; line-height:1.6; font-size:.9rem}
-    .right-tools{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .item:hover{transform:translateY(-2px);border-color: rgba(225,29,46,.28);box-shadow: 0 14px 34px rgba(225,29,46,.08);}
+    .muted{color: rgba(0,0,0,.65);font-weight:800;line-height:1.6;font-size:.9rem}
 
-    /* chat */
-    .chat{
+    /* game area split + side panel */
+    .gameGrid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      margin-top: 10px;
+      align-items:start;
+    }
+    @media (max-width: 980px){ .gameGrid{grid-template-columns:1fr;} }
+
+    .courtBox{
       border:1px solid rgba(225,29,46,.18);
       border-radius: 18px;
       overflow:hidden;
-      background: #fff;
+      background:#fff;
     }
+    .courtTop{
+      padding:12px;
+      border-bottom:1px solid rgba(0,0,0,.06);
+      display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      background: linear-gradient(180deg,#fff,#fff7f8);
+    }
+    .courtTop b{font-weight:900;color:#111}
+
     .chatLog{
-      height: 330px;
-      overflow:auto;
-      padding: 12px;
-      display:grid;
-      gap:10px;
+      height: 320px;overflow:auto;padding:12px;display:grid;gap:10px;
       background: linear-gradient(180deg,#fff,#fff7f8);
     }
     .msg{
       border:1px solid rgba(225,29,46,.14);
-      border-radius: 18px;
-      padding: 10px 12px;
-      background:#fff;
+      border-radius:18px;padding:10px 12px;background:#fff;
     }
     .meta{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px;
-      font-size:.78rem;
-      font-weight:900;
-      color: rgba(0,0,0,.60);
-      margin-bottom:6px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      font-size:.78rem;font-weight:900;color: rgba(0,0,0,.60);margin-bottom:6px;
     }
-    .text{white-space:pre-wrap;font-weight:700;color: rgba(0,0,0,.82);line-height:1.6;font-size:.9rem}
+    .text{white-space:pre-wrap;font-weight:750;color: rgba(0,0,0,.82);line-height:1.6;font-size:.9rem}
+
     .chatSend{
-      padding: 12px;
+      padding:12px;border-top:1px solid rgba(0,0,0,.06);
+      display:grid;gap:10px;background:#fff;
+    }
+
+    .panel{
+      border:1px solid rgba(225,29,46,.18);
+      border-radius:18px;overflow:hidden;background:#fff;
+    }
+    .panelHead{
+      padding:12px;border-bottom:1px solid rgba(0,0,0,.06);
+      display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      background: linear-gradient(180deg,#fff,#fff7f8);
+    }
+    .tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .tab{
+      border:1px solid rgba(225,29,46,.18);
+      background:#fff;color:#111;font-weight:900;
+      padding:8px 10px;border-radius:999px;cursor:pointer;
+    }
+    .tab.active{
+      background: rgba(225,29,46,.06);
+      border-color: rgba(225,29,46,.28);
+      color: var(--red);
+    }
+    .panelBody{padding:0}
+    .iframeWrap{height: 520px; background:#fff}
+    .iframeWrap iframe{width:100%;height:100%;border:0}
+
+    /* timer + voice */
+    .timerBox{
+      border:1px solid rgba(225,29,46,.18);
+      background: linear-gradient(180deg,#fff,#fff7f8);
+      border-radius:18px;padding:12px;
+    }
+    .time{font-size:30px;font-weight:900;color:#111;letter-spacing:.5px;margin-top:6px;}
+    .bar{height:10px;border-radius:999px;background: rgba(225,29,46,.10);overflow:hidden;margin-top:10px}
+    .bar i{display:block;height:100%;width:0%;background: linear-gradient(90deg, var(--red), var(--red2));}
+
+    .footer{
+      margin-top: 16px;
+      text-align:center;
+      color: rgba(0,0,0,.55);
+      font-weight: 900;
+      font-size: .9rem;
+    }
+
+    /* intro typewriter overlay */
+    .intro{
+      position:fixed;inset:0;z-index:200;
+      display:none;align-items:center;justify-content:center;padding:18px;
+      background: rgba(0,0,0,.35);
+    }
+    .intro.show{display:flex;}
+    .introBox{
+      width:min(860px, 100%);
+      background:#fff;border-radius:22px;border:1px solid rgba(225,29,46,.22);
+      box-shadow: 0 30px 90px rgba(0,0,0,.22);
+      overflow:hidden;
+    }
+    .introHead{
+      padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.06);
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      background: linear-gradient(180deg,#fff,#fff7f8);
+    }
+    .introHead b{font-weight:900;color:#111}
+    .typeArea{
+      padding:16px;
+      font-weight:800;
+      color: rgba(0,0,0,.82);
+      line-height:1.9;
+      min-height: 240px;
+      white-space:pre-wrap;
+    }
+    .introActions{
+      padding: 14px 16px;
       border-top:1px solid rgba(0,0,0,.06);
-      display:grid;
-      gap:10px;
+      display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;
       background:#fff;
     }
 
+    /* modals */
+    .modal{
+      position:fixed;inset:0;background: rgba(0,0,0,.35);
+      display:none;align-items:center;justify-content:center;padding:18px;z-index:250;
+    }
+    .modal.show{display:flex;}
+    .modal-box{
+      width:min(620px, 100%);
+      background:#fff;border-radius:22px;border:1px solid rgba(225,29,46,.22);
+      box-shadow: 0 30px 90px rgba(0,0,0,.22);
+      padding:16px;
+    }
+    .modal-head{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:10px;
+    }
+    .modal-head h3{font-size:1.05rem;font-weight:900;color:#111;}
+    .close{
+      border:1px solid rgba(225,29,46,.22);
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      border-radius:14px;padding:10px 12px;
+      font-weight:900;cursor:pointer;
+    }
+    .modal p{color: rgba(0,0,0,.72);font-weight:800;line-height:1.7;}
+    .modal-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;justify-content:flex-end;}
+
+    .bigRole{
+      margin-top:10px;border:1px dashed rgba(225,29,46,.30);
+      background: linear-gradient(180deg,#fff,#fff7f8);
+      border-radius:18px;padding:12px;
+      font-weight:900;color:#111;line-height:1.7;
+    }
+    .qBox{
+      margin-top:10px;
+      border: 1px solid rgba(225,29,46,.14);
+      border-radius: 18px;
+      padding: 12px;
+      background: #fff;
+    }
+    .qBox .muted{font-weight:800}
+    .qList{margin-top:8px;display:grid;gap:8px;}
+    .q{padding:10px 12px;border-radius:16px;border:1px solid rgba(225,29,46,.14);background: linear-gradient(180deg,#fff,#fff7f8);font-weight:900;color:#111}
+
     /* mobile header */
     .mobilebar{
-      display:none;
-      position: sticky;
-      top:0;
-      z-index:10;
-      background:#fff;
-      border-bottom: 1px solid rgba(225,29,46,.18);
-      padding: 12px 12px;
+      display:none;position:sticky;top:0;z-index:10;background:#fff;
+      border-bottom:1px solid rgba(225,29,46,.18);
+      padding:12px 12px;
     }
     .mobilebar-inner{
-      max-width:1150px;
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
+      max-width:1220px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;
     }
     .burger{
       border:1px solid rgba(225,29,46,.22);
       background: rgba(225,29,46,.06);
       color: var(--red);
       font-weight: 900;
-      border-radius: 14px;
-      padding: 10px 12px;
-      cursor:pointer;
+      border-radius:14px;padding:10px 12px;cursor:pointer;
     }
-    .mbrand{
-      display:flex;align-items:center;gap:10px;
-    }
+    .mbrand{display:flex;align-items:center;gap:10px;}
     .mbrand img{
-      width:38px;height:38px;border-radius:12px;
-      border:1px solid rgba(225,29,46,.22);
-      background:#fff;
-      padding:5px;
+      width:38px;height:38px;border-radius:12px;border:1px solid rgba(225,29,46,.22);
+      background:#fff;padding:5px;
     }
     .mbrand b{font-weight:900;color:#111}
 
     @media (max-width: 980px){
-      .app{ grid-template-columns: 1fr; }
+      .app{grid-template-columns:1fr;}
       .sidebar{
-        position: fixed;
-        left: 0;
-        top: 0;
-        height: 100vh;
-        width: min(320px, 88vw);
+        position:fixed;left:0;top:0;height:100vh;width:min(320px, 88vw);
         transform: translateX(-110%);
-        transition: .25s;
-        z-index: 50;
-        box-shadow: 0 30px 80px rgba(0,0,0,.20);
+        transition:.25s;z-index:50;
+        box-shadow:0 30px 80px rgba(0,0,0,.20);
       }
-      .sidebar.open{ transform: translateX(0); }
-      .mobilebar{ display:block; }
-      .overlay{
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,.35);
-        display: none;
-        z-index: 40;
-      }
-      .overlay.show{ display:block; }
+      .sidebar.open{transform: translateX(0);}
+      .mobilebar{display:block;}
+      .overlay{position:fixed;inset:0;background: rgba(0,0,0,.35);display:none;z-index:40;}
+      .overlay.show{display:block;}
     }
-
-    /* login modal + role modal */
-    .modal{
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.35);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding: 18px;
-      z-index: 100;
-    }
-    .modal.show{ display:flex; }
-    .modal-box{
-      width: min(560px, 100%);
-      background: #fff;
-      border-radius: 22px;
-      border: 1px solid rgba(225,29,46,.22);
-      box-shadow: 0 30px 90px rgba(0,0,0,.22);
-      padding: 16px;
-    }
-    .modal-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(0,0,0,.06);
-      margin-bottom: 10px;
-    }
-    .modal-head h3{ font-size: 1.05rem; font-weight: 900; color:#111; }
-    .close{
-      border: 1px solid rgba(225,29,46,.22);
-      background: rgba(225,29,46,.06);
-      color: var(--red);
-      border-radius: 14px;
-      padding: 10px 12px;
-      font-weight: 900;
-      cursor:pointer;
-    }
-    .modal p{ color: rgba(0,0,0,.70); font-weight: 800; line-height: 1.7; }
-    .modal-actions{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-      justify-content:flex-end;
-    }
-    .bigRole{
-      margin-top:10px;
-      border: 1px dashed rgba(225,29,46,.30);
-      background: linear-gradient(180deg,#fff,#fff7f8);
-      border-radius: 18px;
-      padding: 12px;
-      font-weight: 900;
-      color:#111;
-      line-height:1.7;
-    }
-    .tip{
-      margin-top:10px;
-      color: rgba(0,0,0,.70);
-      font-weight:800;
-      line-height:1.7;
-    }
-
-    .footer{
-      margin-top: 16px;
-      text-align:center;
-      color: rgba(0,0,0,.55);
-      font-weight: 800;
-      font-size: .9rem;
-    }
-    .hide{display:none !important;}
   </style>
 </head>
 
@@ -516,7 +408,6 @@
       <a class="btn ghost" href="divertissement.html" style="padding:10px 12px;border-radius:14px;">⟵ Retour</a>
     </div>
   </div>
-
   <div class="overlay" id="overlay"></div>
 
   <div class="app">
@@ -524,26 +415,32 @@
     <aside class="sidebar" id="sidebar">
       <div class="brand">
         <img src="logotrendy.svg" alt="Trendy Plaza Logo">
-        <div>
-          <h1>Trendy Plaza</h1>
-        </div>
+        <div><h1>Trendy Plaza</h1></div>
       </div>
 
       <div class="side-actions">
         <a class="btn primary" href="divertissement.html">⟵ Retour</a>
         <a class="btn ghost" href="lecteur.html">📚 Lecteur</a>
+        <button class="btn" id="btnShowRules">📌 Règles (شرح اللعبة)</button>
       </div>
 
       <div class="nav">
-        <div class="nav-title">Jeu</div>
-        <a href="#salle"><span>⚖️ Tribunal en ligne</span><span class="pill">Multi</span></a>
+        <div class="nav-title">Tribunal</div>
         <a href="#lobby"><span>🧑‍🤝‍🧑 Salle d’attente</span><span class="pill">Room</span></a>
-        <a href="#regles"><span>📌 Règles</span><span class="pill">Roleplay</span></a>
+        <a href="#court"><span>🏛️ Salle d’audience</span><span class="pill">Live</span></a>
+        <a href="#panel"><span>📄 Dossiers PDF</span><span class="pill">Side</span></a>
       </div>
 
       <div class="note" style="margin-top:14px">
-        <b>Condition de départ:</b><br>
-        اللعبة لا تبدأ حتى يكتمل دخول الأدوار الأساسية: <b>القاضي + الدفاع + المتهم + المخرب</b>.
+        <b>Départ obligatoire:</b><br>
+        لا تبدأ اللعبة حتى يكتمل <b>5 أدوار أساسية</b>:
+        <b>قاضي</b> + <b>محامي</b> + <b>متهم</b> + <b>خبير</b> + <b>Jury رئيسي</b>.<br><br>
+        <span class="pill warn">⚡ Rejoindre سريع</span> يختارك أقرب Room ناقصة لبدء اللعبة بسرعة.
+      </div>
+
+      <div class="note">
+        <b>🟣 مشاهدة (Spectateur)</b><br>
+        زر “مشاهدة” يسمح بـ <b>شخصين فقط</b> في كل غرفة (بدون تصويت/مايك).
       </div>
     </aside>
 
@@ -554,31 +451,30 @@
         <div class="topbar">
           <div class="title">
             <h2>⚖️ Tribunal en ligne — The Architectural Trial</h2>
-            <p>Rôles secrets · Débat · Preuves · Timer · Vote final (en temps réel عبر Firebase)</p>
+            <p>لعبة محكمة معمارية: أدوار سرّية، أدلة، نقاش حماسي، تصويت سري، وحكم معماري 🔥</p>
           </div>
-
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;">
-            <span class="chip" id="authChip">Vérification de connexion…</span>
+            <span class="chip" id="authChip">Vérification…</span>
             <span class="chip" id="roomChip">Room: —</span>
-            <a class="btn ghost" href="divertissement.html">Retour aux jeux</a>
+            <span class="chip" id="modeChip">Mode: —</span>
           </div>
         </div>
 
-        <!-- Lobby / Room -->
+        <!-- Lobby -->
         <section id="lobby" class="card">
           <div class="section-head">
-            <h3>🧑‍🤝‍🧑 Salle d’attente (Room)</h3>
+            <h3>🧑‍🤝‍🧑 Salle d’attente</h3>
             <span class="pill" id="statusPill">—</span>
           </div>
 
           <div class="two">
             <div>
-              <label>Ton nom (ou pseudo)</label>
-              <input id="inName" placeholder="Ex: Juge / Iyad / Juré 2…" />
+              <label>Ton nom (pseudo)</label>
+              <input id="inName" placeholder="Ex: Iyad / Juré 1 / Architecte…" />
             </div>
             <div>
               <label>Code room</label>
-              <input id="inRoom" placeholder="Ex: A1B2C3" style="text-transform:uppercase" />
+              <input id="inRoom" placeholder="Ex: URB-9K2XQ1" style="text-transform:uppercase" />
             </div>
           </div>
 
@@ -586,21 +482,24 @@
             <div class="row">
               <button class="small-btn primary" id="btnCreateRoom">➕ Créer une room</button>
               <button class="small-btn" id="btnJoinRoom">🔗 Rejoindre</button>
+              <button class="small-btn warn" id="btnQuickJoin">⚡ Rejoindre سريع</button>
               <button class="small-btn" id="btnLeaveRoom">🚪 Quitter</button>
             </div>
 
-            <div class="right-tools">
-              <button class="small-btn ok" id="btnMyRole">🕵️ Voir mon rôle</button>
-              <button class="small-btn primary" id="btnStartGame" title="Juge فقط" disabled>▶️ Démarrer la partie</button>
+            <div class="row">
+              <button class="small-btn" id="btnSpectate">👁️ مشاهدة (max 2)</button>
+              <button class="small-btn ok" id="btnMyRole" disabled>🕵️ Mon rôle</button>
+              <button class="small-btn primary" id="btnStartGame" disabled title="Juge فقط">▶️ Démarrer</button>
             </div>
           </div>
 
           <div class="note" id="lobbyNote">
-            ✅ عند إنشاء/الانضمام: يتم توزيع الأدوار تلقائياً حسب ترتيب الدخول:
-            <b>1) Juge</b> · <b>2) Défense</b> · <b>3) Accusé</b> · <b>4) Saboteur</b> · ثم باقي اللاعبين Jurés/Witnesses.
+            ✍️ توزيع الأدوار تلقائي وحماسي حسب ترتيب الدخول:
+            <b>1) القاضي</b> · <b>2) المحامي</b> · <b>3) المتهم</b> · <b>4) الخبير</b> · <b>5) Jury رئيسي</b>
+            · ثم باقي اللاعبين (محلفين/شهود) — ويمكن وجود “مخرب خفي” إذا كان العدد ≥ 6.
           </div>
 
-          <div class="grid" style="grid-template-columns:1fr; margin-top:14px;">
+          <div class="two" style="margin-top:12px">
             <div class="card" style="box-shadow:none">
               <div class="section-head">
                 <h3>👥 Joueurs</h3>
@@ -608,97 +507,85 @@
               </div>
               <div class="list" id="playersList"></div>
             </div>
+
+            <div class="card" style="box-shadow:none">
+              <div class="section-head">
+                <h3>👁️ Spectateurs</h3>
+                <span class="pill" id="spectatorsCountPill">0 / 2</span>
+              </div>
+              <div class="list" id="spectatorsList"></div>
+
+              <div class="note" style="margin-top:12px">
+                ✅ المشاهد يشوف القضية + الشات + الأدلة + الحكم، لكن:
+                <b>لا يصوّت</b>، <b>لا يطلب المايك</b>، <b>لا يأخذ دور</b>.
+              </div>
+            </div>
           </div>
+
         </section>
 
-        <!-- Game -->
-        <section id="salle" class="card" style="margin-top:16px;">
+        <!-- Court -->
+        <section id="court" class="card" style="margin-top:16px;">
           <div class="section-head">
             <h3>🏛️ Salle d’audience</h3>
             <span class="pill" id="gamePill">En attente…</span>
           </div>
 
-          <div id="waitingBlock" class="note">
-            ⏳ اللعبة لم تبدأ بعد. انتظر حتى يكتمل دخول الأدوار الأساسية، ثم القاضي يضغط “Démarrer la partie”.
+          <div class="note" id="waitingBlock">
+            ⏳ في انتظار اكتمال الأدوار الأساسية. عندما يصبح العدد جاهزًا، القاضي يضغط “Démarrer”.
           </div>
 
-          <div id="gameBlock" class="hide">
-            <div class="grid">
-              <!-- LEFT -->
+          <div id="gameBlock" style="display:none;">
+            <div class="gameGrid">
+              <!-- LEFT: Court + controls -->
               <div>
-                <div class="card" style="box-shadow:none; margin-bottom:14px">
+
+                <div class="card" style="box-shadow:none;margin-bottom:14px">
                   <div class="section-head">
-                    <h3>📁 Dossier (Affaire)</h3>
+                    <h3>📁 القضية (Case) — بنك قضايا</h3>
                     <span class="pill" id="phasePill">—</span>
                   </div>
 
                   <div class="two">
                     <div>
-                      <label>Nom de l’affaire</label>
-                      <input id="caseName" placeholder="Ex: Tour en verre dans quartier historique…" />
+                      <label>Topic</label>
+                      <select id="topicSelect" disabled></select>
                     </div>
                     <div>
-                      <label>Durée d’un round (minutes)</label>
-                      <input id="roundMinutes" type="number" min="1" max="20" value="5" />
+                      <label>Case</label>
+                      <select id="caseSelect" disabled></select>
                     </div>
                   </div>
 
-                  <label>Description / Accusation</label>
-                  <textarea id="caseDesc" placeholder="Ex: مخالف للسياق / ignores climat / matériaux غير مناسبة…"></textarea>
+                  <label>عنوان القضية</label>
+                  <input id="caseTitle" disabled />
+
+                  <label>التهمة / وصف مختصر</label>
+                  <textarea id="caseAccusation" disabled></textarea>
 
                   <div class="row" style="margin-top:12px;justify-content:space-between;">
                     <div class="row">
-                      <button class="small-btn primary" id="btnSaveCase" disabled>💾 Enregistrer (Juge)</button>
-                      <button class="small-btn" id="btnNextPhase" disabled>⏭️ Phase التالية (Juge)</button>
+                      <button class="small-btn primary" id="btnPickCase" disabled>🎲 اختيار قضية (Juge)</button>
+                      <button class="small-btn" id="btnNextPhase" disabled>⏭️ المرحلة التالية (Juge)</button>
+                      <button class="small-btn warn" id="btnEndSession" disabled>📦 إنهاء + أرشفة (Juge)</button>
                     </div>
-                    <span class="pill" id="whoAmI">—</span>
-                  </div>
-                </div>
-
-                <div class="card" style="box-shadow:none">
-                  <div class="section-head">
-                    <h3>🧾 Preuves</h3>
-                    <span class="pill" id="eviPill">—</span>
-                  </div>
-
-                  <div class="two">
-                    <div>
-                      <label>Titre</label>
-                      <input id="eviTitle" placeholder="Plan masse / Coupe / Témoignage…" />
-                    </div>
-                    <div>
-                      <label>Image URL (optionnel)</label>
-                      <input id="eviImg" placeholder="https://… (png/jpg/webp)" />
-                    </div>
-                  </div>
-                  <label>Contenu</label>
-                  <textarea id="eviText" placeholder="Ex: Le projet bloque la ventilation…"></textarea>
-
-                  <div class="row" style="margin-top:12px;justify-content:space-between;">
                     <div class="row">
-                      <button class="small-btn primary" id="btnAddEvidence" disabled>➕ Ajouter (Juge)</button>
-                      <button class="small-btn" id="btnRevealNextEvidence" disabled>🧩 Révéler التالي (Juge)</button>
+                      <span class="pill" id="whoAmI">—</span>
+                      <span class="pill gray" id="powerPill">—</span>
                     </div>
-                    <span class="pill" id="revealedCount">0</span>
                   </div>
 
-                  <div class="list" id="evidenceList" style="margin-top:12px"></div>
+                  <div class="note">
+                    🔥 <b>تحدّي المحكمة:</b> لا تهرب من الأسئلة! كل دور عنده “أسئلة ضاربة” لازم تتجاوب عليها.
+                    الخبير صوته <b>3 أصوات</b>… والقاضي يملك <b>قرار نهائي</b> حتى ضد التصويت (براءة مع تعليل).
+                  </div>
                 </div>
-              </div>
 
-              <!-- RIGHT -->
-              <div>
-                <div class="card" style="box-shadow:none; margin-bottom:14px">
-                  <div class="section-head">
-                    <h3>⏱️ Timer (Round)</h3>
-                    <span class="pill" id="roundPill">—</span>
-                  </div>
-
+                <div class="two">
                   <div class="timerBox">
                     <div class="muted"><b>Round:</b> <span id="roundLabel">—</span></div>
                     <div class="time" id="timeLabel">--:--</div>
                     <div class="bar"><i id="timeBar"></i></div>
-
                     <div class="row" style="margin-top:12px;justify-content:space-between;">
                       <div class="row">
                         <button class="small-btn primary" id="btnTimerStart" disabled>▶️ Start (Juge)</button>
@@ -708,93 +595,134 @@
                       <span class="pill" id="timerState">—</span>
                     </div>
                   </div>
-                </div>
 
-                <div class="card" style="box-shadow:none; margin-bottom:14px">
-                  <div class="section-head">
-                    <h3>🗣️ Débat</h3>
-                    <span class="pill">Live</span>
-                  </div>
+                  <div class="timerBox">
+                    <div class="muted"><b>صوت (Voice):</b> رفع اليد ✋ ثم موافقة القاضي ✅</div>
 
-                  <div class="chat">
-                    <div class="chatLog" id="chatLog"></div>
-                    <div class="chatSend">
-                      <div class="two">
-                        <div>
-                          <label>Type</label>
-                          <select id="msgType">
-                            <option value="question">❓ Question</option>
-                            <option value="argument">🧠 Argument</option>
-                            <option value="objection">⛔ Objection</option>
-                            <option value="clue">🧾 Réf preuve</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label>Message</label>
-                          <input id="msgText" placeholder="Tape ton message…" />
-                        </div>
-                      </div>
-                      <button class="small-btn primary block" id="btnSendMsg">Envoyer</button>
-                      <div class="muted" style="font-size:.85rem">
-                        💡 المخرب يحاول التشويش “بذكاء” بدون سبام. القاضي يتحكم في النظام.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="card" style="box-shadow:none">
-                  <div class="section-head">
-                    <h3>🗳️ Vote final</h3>
-                    <span class="pill" id="votePill">—</span>
-                  </div>
-
-                  <div class="row">
-                    <button class="small-btn primary" id="btnVoteGuilty">⚠️ Coupable (إدانة)</button>
-                    <button class="small-btn ok" id="btnVoteInnocent">✅ Innocent (براءة)</button>
-                  </div>
-
-                  <div class="note" style="margin-top:12px">
-                    <b>Résultats:</b>
-                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
-                      <span class="pill" id="countG">Coupable: 0</span>
-                      <span class="pill" id="countI">Innocent: 0</span>
-                      <span class="pill" id="countT">Total: 0</span>
+                    <div class="row" style="margin-top:10px">
+                      <button class="small-btn" id="btnRaiseHand" disabled>✋ رفع اليد</button>
+                      <button class="small-btn ok" id="btnLowerHand" disabled>✅ نزّل يدك</button>
+                      <span class="pill" id="handPill">—</span>
                     </div>
 
-                    <div class="row" style="margin-top:12px;justify-content:space-between;">
+                    <div class="row" style="margin-top:10px;justify-content:space-between;">
                       <div class="row">
-                        <button class="small-btn" id="btnLockVote" disabled>🔒 Verrouiller (Juge)</button>
-                        <button class="small-btn" id="btnResetVote" disabled>♻️ Reset (Juge)</button>
+                        <button class="small-btn primary" id="btnMicToggle" disabled>🎙️ Mic: OFF</button>
+                        <button class="small-btn" id="btnRequestSpeak" disabled>🔔 طلب الكلام</button>
                       </div>
-                      <span class="pill" id="verdictPill">—</span>
+                      <span class="pill gray" id="speakPill">—</span>
+                    </div>
+
+                    <div class="note" style="margin-top:10px">
+                      ℹ️ هذا الكود يتعامل مع “رفع اليد + الموافقة” عبر Firebase.
+                      إذا أردت الصوت الحقيقي WebRTC Mesh داخل الصفحة، نفعّله في خطوة ثانية (بدون LiveKit) داخل نفس الملف.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="courtBox" style="margin-top:14px">
+                  <div class="courtTop">
+                    <div><b>🗣️ Débat (Chat)</b> <span class="pill" id="chatModePill">—</span></div>
+                    <div class="row">
+                      <button class="small-btn" id="btnShowRole" disabled>🕵️ Mon rôle</button>
+                      <button class="small-btn primary" id="btnOpenVote" disabled>🗳️ فتح التصويت (Juge)</button>
+                      <button class="small-btn" id="btnLockVote" disabled>🔒 قفل التصويت (Juge)</button>
+                      <button class="small-btn warn" id="btnJudgeOverride" disabled>⚖️ قرار القاضي النهائي</button>
                     </div>
                   </div>
 
+                  <div class="chatLog" id="chatLog"></div>
+
+                  <div class="chatSend">
+                    <div class="two">
+                      <div>
+                        <label>Type</label>
+                        <select id="msgType">
+                          <option value="question">❓ سؤال قوي</option>
+                          <option value="argument">🧠 حجة معمارية</option>
+                          <option value="objection">⛔ اعتراض</option>
+                          <option value="evidence">🧾 إحالة إلى دليل</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label>Message</label>
+                        <input id="msgText" placeholder="اكتب… لكن تذكّر: المحكمة لا ترحم التناقضات 😈" />
+                      </div>
+                    </div>
+
+                    <button class="small-btn primary block" id="btnSendMsg">Envoyer</button>
+
+                    <div class="two">
+                      <div class="note" style="margin-top:0">
+                        <b>🗳️ التصويت (سري):</b><br>
+                        <div class="row" style="margin-top:8px">
+                          <button class="small-btn primary" id="btnVoteGuilty" disabled>⚠️ Coupable</button>
+                          <button class="small-btn ok" id="btnVoteInnocent" disabled>✅ Innocent</button>
+                          <span class="pill" id="votePill">—</span>
+                        </div>
+                        <div class="row" style="margin-top:10px">
+                          <span class="pill" id="countG">Coupable: 0</span>
+                          <span class="pill" id="countI">Innocent: 0</span>
+                          <span class="pill" id="countT">Total: 0</span>
+                        </div>
+                        <div class="note" style="margin-top:10px">
+                          🔥 الخبير = <b>3 أصوات</b>. عند التعادل القاضي يفصل. والقاضي يملك “براءة” حتى ضد التصويت (مع تعليل).
+                        </div>
+                      </div>
+                      <div class="note" style="margin-top:0">
+                        <b>⭐ نقاط وبادجات:</b><br>
+                        بعد الأرشفة، سنمنح badges تلقائيًا (Session Completed / Strong Defense / Eco Insight…).
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
               </div>
+
+              <!-- RIGHT: PDF side panel -->
+              <div id="panel" class="panel">
+                <div class="panelHead">
+                  <div><b>📄 Dossiers PDF</b> <span class="pill gray" id="pdfPill">—</span></div>
+                  <div class="tabs">
+                    <button class="tab active" data-tab="dossier">📁 Dossier</button>
+                    <button class="tab" data-tab="role">👤 Mon rôle</button>
+                  </div>
+                </div>
+
+                <div class="panelBody">
+                  <div class="iframeWrap">
+                    <iframe id="pdfFrame" src="" title="PDF"></iframe>
+                  </div>
+                </div>
+
+                <div class="note">
+                  ✅ ملفات PDF محلية داخل مشروعك. ضعها مثلاً:
+                  <b>assets/cases/...</b> ثم حدّث المسارات في بنك القضايا داخل الكود.
+                </div>
+              </div>
             </div>
           </div>
-        </section>
 
-        <section id="regles" class="card" style="margin-top:16px;">
-          <div class="section-head">
-            <h3>📌 Règles rapides</h3>
-            <span class="pill">5 phases</span>
-          </div>
-          <div class="muted" style="font-weight:800; line-height:1.9">
-            <ul style="padding-left:18px">
-              <li><b>أدوار سرية</b>: المتهم / القاضي / محامي دفاع / شهود / محلفين / مخرب خفي.</li>
-              <li><b>جولات</b> مع مؤقت: Interrogatoire → Contre-interrogatoire → Preuves → Plaidoiries → Vote.</li>
-              <li>الأدلة تُكشف تدريجيًا (Révéler) حسب القاضي.</li>
-              <li>التصويت النهائي: Coupable أو Innocent، ثم القاضي يقفل التصويت ويعلن الحكم.</li>
-            </ul>
-          </div>
         </section>
 
         <div class="footer">© 2025 Trendy Plaza — Tribunal en ligne</div>
       </div>
     </main>
+  </div>
+
+  <!-- Intro typewriter (shows once) -->
+  <div class="intro" id="intro">
+    <div class="introBox">
+      <div class="introHead">
+        <b>🖋️ Greffier — “Le tribunal s’ouvre…”</b>
+        <span class="pill" id="introPill">LIVE</span>
+      </div>
+      <div class="typeArea" id="typeArea"></div>
+      <div class="introActions">
+        <button class="btn ghost" id="btnSkipIntro">⏩ تخطي</button>
+        <button class="btn primary" id="btnIntroContinue">⚖️ Entrer au tribunal</button>
+      </div>
+    </div>
   </div>
 
   <!-- Login modal -->
@@ -804,10 +732,59 @@
         <h3>Connexion requise</h3>
         <button class="close" onclick="hideLoginModal()">Fermer ✕</button>
       </div>
-      <p>Vous devez être connecté pour jouer. Cliquez sur “Se connecter” pour accéder à la page de connexion.</p>
+      <p>لازم تكون مسجّل دخول باش تلعب. اضغط “Se connecter”.</p>
       <div class="modal-actions">
         <a class="btn primary" href="login.html">Se connecter</a>
         <a class="btn ghost" href="divertissement.html">Retour</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create room modal -->
+  <div class="modal" id="createModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>➕ Créer une room</h3>
+        <button class="close" onclick="hideCreateModal()">Fermer ✕</button>
+      </div>
+      <p>اختر موضوعًا… وسيُنشأ رمز Room تلقائيًا (يمكن نسخه).</p>
+
+      <label>Topic</label>
+      <select id="createTopic"></select>
+
+      <label>Nom room (اختياري)</label>
+      <input id="createRoomName" placeholder="Ex: Tribunal Patrimoine — Groupe A" />
+
+      <div class="modal-actions">
+        <button class="btn primary" id="btnConfirmCreate">Créer maintenant</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rules modal -->
+  <div class="modal" id="rulesModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>📌 Règles — المحكمة المعمارية</h3>
+        <button class="close" onclick="hideRules()">Fermer ✕</button>
+      </div>
+      <p>
+        🎭 <b>أدوار سرّية</b> — كل لاعب يتلقى ملفه الخاص وأسئلة “قوية”.<br>
+        🧾 <b>ملف القضية</b> — أدلة، سياق، مخططات، وتناقضات ممكنة.<br>
+        ✋ <b>رفع اليد</b> — القاضي يفتح المايك لمن يشاء (الصوت عند الطلب).<br>
+        🗳️ <b>تصويت سري</b> — الخبير = <b>3 أصوات</b>، والقاضي يفصل… بل ويستطيع إصدار <b>براءة نهائية</b> مع تعليل.<br>
+        📦 <b>أرشفة</b> — كل شيء يُحفظ كجلسة (Chat + Vote + Verdict + Case).
+      </p>
+
+      <div class="qBox">
+        <div class="muted"><b>🔥 أسئلة تشعل القاعة (أمثلة):</b></div>
+        <div class="qList">
+          <div class="q">“أين دليل الانسجام مع السياق؟ أجب بنقطة + دليل!”</div>
+          <div class="q">“هل المشروع يحترم المناخ؟ ماذا عن التهوية والظل؟”</div>
+          <div class="q">“أين مسارات الحركة؟ من يدخل؟ من يخرج؟ من يتكدّس؟”</div>
+          <div class="q">“المواد: لماذا هذه المادة هنا؟ عمرها؟ صيانتها؟”</div>
+          <div class="q">“هل هذا القرار تصميم… أم كارثة قابلة للتبرير؟”</div>
+        </div>
       </div>
     </div>
   </div>
@@ -819,11 +796,40 @@
         <h3>🔐 Ton rôle (سري)</h3>
         <button class="close" onclick="hideRoleModal()">Fermer ✕</button>
       </div>
-      <p>اقرأ دورك بسرعة ثم أغلق النافذة.</p>
+      <p>اقرأ دورك… ثم حضّر جوابك. هنا تبدأ المتعة 🔥</p>
       <div class="bigRole" id="roleText">—</div>
-      <div class="tip" id="roleTip">—</div>
+
+      <div class="qBox">
+        <div class="muted"><b>🎯 أسئلة دورك (جاهزة للهجوم):</b></div>
+        <div class="qList" id="roleQuestions"></div>
+      </div>
+
       <div class="modal-actions">
         <button class="btn primary" onclick="hideRoleModal()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Judge Override modal -->
+  <div class="modal" id="overrideModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>⚖️ قرار القاضي النهائي</h3>
+        <button class="close" onclick="hideOverride()">Fermer ✕</button>
+      </div>
+      <p>حتى لو التصويت ضد المتهم، يمكنك إصدار <b>براءة</b> أو <b>إدانة</b> مع تعليل رسمي.</p>
+
+      <label>القرار</label>
+      <select id="overrideDecision">
+        <option value="INNOCENT">✅ براءة (Override)</option>
+        <option value="GUILTY">⚠️ إدانة</option>
+      </select>
+
+      <label>تعليل الحكم (Obligation)</label>
+      <textarea id="overrideReason" placeholder="اكتب تعليل معماري/قانوني: سياق، مناخ، وظيفة، معايير…"></textarea>
+
+      <div class="modal-actions">
+        <button class="btn primary" id="btnApplyOverride">تطبيق الحكم</button>
       </div>
     </div>
   </div>
@@ -834,9 +840,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <script>
-    /* =========================
-       MENU MOBILE
-    ========================== */
+    /***********************
+     * MENU MOBILE
+     ***********************/
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
     const openMenu = document.getElementById("openMenu");
@@ -847,27 +853,9 @@
       overlay.addEventListener("click", closeSidebar);
     }
 
-    /* =========================
-       LOGIN MODAL
-    ========================== */
-    const loginModal = document.getElementById("loginModal");
-    function showLoginModal(){ loginModal.classList.add("show"); }
-    function hideLoginModal(){ loginModal.classList.remove("show"); }
-
-    /* =========================
-       ROLE MODAL
-    ========================== */
-    const roleModal = document.getElementById("roleModal");
-    function showRoleModal(role, tip){
-      document.getElementById("roleText").textContent = role || "—";
-      document.getElementById("roleTip").textContent = tip ? ("💡 " + tip) : "—";
-      roleModal.classList.add("show");
-    }
-    function hideRoleModal(){ roleModal.classList.remove("show"); }
-
-    /* =========================
-       FIREBASE INIT
-    ========================== */
+    /***********************
+     * FIREBASE INIT
+     ***********************/
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "TrendyPlaza-72624.firebaseapp.com",
@@ -879,41 +867,51 @@
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const db   = firebase.firestore();
-    const SVT  = firebase.firestore.FieldValue.serverTimestamp;
+    const db = firebase.firestore();
+    const SVT = firebase.firestore.FieldValue.serverTimestamp;
 
-    /* =========================
-       UI refs
-    ========================== */
+    /***********************
+     * UI refs
+     ***********************/
     const authChip = document.getElementById("authChip");
     const roomChip = document.getElementById("roomChip");
+    const modeChip = document.getElementById("modeChip");
+
     const statusPill = document.getElementById("statusPill");
-    const playersList = document.getElementById("playersList");
     const playersCountPill = document.getElementById("playersCountPill");
+    const playersList = document.getElementById("playersList");
+    const spectatorsCountPill = document.getElementById("spectatorsCountPill");
+    const spectatorsList = document.getElementById("spectatorsList");
 
     const inName = document.getElementById("inName");
     const inRoom = document.getElementById("inRoom");
 
     const btnCreateRoom = document.getElementById("btnCreateRoom");
-    const btnJoinRoom   = document.getElementById("btnJoinRoom");
-    const btnLeaveRoom  = document.getElementById("btnLeaveRoom");
-    const btnMyRole     = document.getElementById("btnMyRole");
-    const btnStartGame  = document.getElementById("btnStartGame");
+    const btnJoinRoom = document.getElementById("btnJoinRoom");
+    const btnQuickJoin = document.getElementById("btnQuickJoin");
+    const btnLeaveRoom = document.getElementById("btnLeaveRoom");
+    const btnSpectate = document.getElementById("btnSpectate");
+    const btnMyRole = document.getElementById("btnMyRole");
+    const btnStartGame = document.getElementById("btnStartGame");
 
+    const lobbyNote = document.getElementById("lobbyNote");
+
+    const gamePill = document.getElementById("gamePill");
     const waitingBlock = document.getElementById("waitingBlock");
-    const gameBlock    = document.getElementById("gameBlock");
-    const gamePill     = document.getElementById("gamePill");
+    const gameBlock = document.getElementById("gameBlock");
 
-    const whoAmI = document.getElementById("whoAmI");
-
-    const caseName = document.getElementById("caseName");
-    const roundMinutes = document.getElementById("roundMinutes");
-    const caseDesc = document.getElementById("caseDesc");
-    const btnSaveCase = document.getElementById("btnSaveCase");
+    const topicSelect = document.getElementById("topicSelect");
+    const caseSelect = document.getElementById("caseSelect");
+    const caseTitle = document.getElementById("caseTitle");
+    const caseAccusation = document.getElementById("caseAccusation");
+    const btnPickCase = document.getElementById("btnPickCase");
     const btnNextPhase = document.getElementById("btnNextPhase");
-    const phasePill = document.getElementById("phasePill");
+    const btnEndSession = document.getElementById("btnEndSession");
 
-    const roundPill = document.getElementById("roundPill");
+    const phasePill = document.getElementById("phasePill");
+    const whoAmI = document.getElementById("whoAmI");
+    const powerPill = document.getElementById("powerPill");
+
     const roundLabel = document.getElementById("roundLabel");
     const timeLabel = document.getElementById("timeLabel");
     const timeBar = document.getElementById("timeBar");
@@ -922,15 +920,19 @@
     const btnTimerPause = document.getElementById("btnTimerPause");
     const btnTimerReset = document.getElementById("btnTimerReset");
 
-    const eviTitle = document.getElementById("eviTitle");
-    const eviImg   = document.getElementById("eviImg");
-    const eviText  = document.getElementById("eviText");
-    const btnAddEvidence = document.getElementById("btnAddEvidence");
-    const btnRevealNextEvidence = document.getElementById("btnRevealNextEvidence");
-    const evidenceList = document.getElementById("evidenceList");
-    const revealedCount = document.getElementById("revealedCount");
-    const eviPill = document.getElementById("eviPill");
+    const btnRaiseHand = document.getElementById("btnRaiseHand");
+    const btnLowerHand = document.getElementById("btnLowerHand");
+    const handPill = document.getElementById("handPill");
+    const btnMicToggle = document.getElementById("btnMicToggle");
+    const btnRequestSpeak = document.getElementById("btnRequestSpeak");
+    const speakPill = document.getElementById("speakPill");
 
+    const btnShowRole = document.getElementById("btnShowRole");
+    const btnOpenVote = document.getElementById("btnOpenVote");
+    const btnLockVote = document.getElementById("btnLockVote");
+    const btnJudgeOverride = document.getElementById("btnJudgeOverride");
+
+    const chatModePill = document.getElementById("chatModePill");
     const chatLog = document.getElementById("chatLog");
     const msgType = document.getElementById("msgType");
     const msgText = document.getElementById("msgText");
@@ -938,86 +940,304 @@
 
     const btnVoteGuilty = document.getElementById("btnVoteGuilty");
     const btnVoteInnocent = document.getElementById("btnVoteInnocent");
+    const votePill = document.getElementById("votePill");
     const countG = document.getElementById("countG");
     const countI = document.getElementById("countI");
     const countT = document.getElementById("countT");
-    const btnLockVote = document.getElementById("btnLockVote");
-    const btnResetVote = document.getElementById("btnResetVote");
-    const verdictPill = document.getElementById("verdictPill");
-    const votePill = document.getElementById("votePill");
 
-    /* =========================
-       State
-    ========================== */
+    const pdfFrame = document.getElementById("pdfFrame");
+    const pdfPill = document.getElementById("pdfPill");
+
+    /***********************
+     * MODALS
+     ***********************/
+    const loginModal = document.getElementById("loginModal");
+    function showLoginModal(){ loginModal.classList.add("show"); }
+    function hideLoginModal(){ loginModal.classList.remove("show"); }
+
+    const createModal = document.getElementById("createModal");
+    function showCreateModal(){ createModal.classList.add("show"); }
+    function hideCreateModal(){ createModal.classList.remove("show"); }
+
+    const rulesModal = document.getElementById("rulesModal");
+    function showRules(){ rulesModal.classList.add("show"); }
+    function hideRules(){ rulesModal.classList.remove("show"); }
+
+    const roleModal = document.getElementById("roleModal");
+    function showRoleModal(){ roleModal.classList.add("show"); }
+    function hideRoleModal(){ roleModal.classList.remove("show"); }
+
+    const overrideModal = document.getElementById("overrideModal");
+    function showOverride(){ overrideModal.classList.add("show"); }
+    function hideOverride(){ overrideModal.classList.remove("show"); }
+
+    document.getElementById("btnShowRules").addEventListener("click", showRules);
+
+    /***********************
+     * INTRO TYPEWRITER (once)
+     ***********************/
+    const intro = document.getElementById("intro");
+    const typeArea = document.getElementById("typeArea");
+    const btnSkipIntro = document.getElementById("btnSkipIntro");
+    const btnIntroContinue = document.getElementById("btnIntroContinue");
+
+    const INTRO_KEY = "tp_tribunal_intro_seen_v1";
+    const introText = [
+      "⚖️ المحكمة المعمارية — The Architectural Trial",
+      "",
+      "🖋️ “حضر الجميع… تُفتَح الجلسة!”",
+      "",
+      "🎭 ستدخل في محكمة حقيقية… لكن بلغة العمارة:",
+      "— قاضي يسيّر الجلسة ويُصدر الحكم النهائي.",
+      "— متهم يبرّر مشروعًا “مشتبهًا” أو خارج السياق.",
+      "— محامي دفاع يقاتل بالحجج لا بالمجاملات.",
+      "— خبير معماري صوته 3 أصوات… لا يمرّ شيء بلا تقييم.",
+      "— Jury رئيسي يضغط عليك بأسئلة لا ترحم.",
+      "",
+      "🧾 كل دور لديه ملف PDF خاص وأسئلة حماسية جاهزة.",
+      "✋ الصوت عند الطلب: ارفع يدك… القاضي يقرر من يتكلم.",
+      "🗳️ التصويت سري… لكن القاضي يملك “قرار نهائي” حتى ضد التصويت (براءة مع تعليل).",
+      "",
+      "🔥 جاهز؟ ادخل… واثبت أنك معماري يفهم السياق قبل الشكل."
+    ].join("\n");
+
+    function runTypewriter(text){
+      typeArea.textContent = "";
+      let i = 0;
+      const speed = 14;
+      const t = setInterval(()=>{
+        i++;
+        typeArea.textContent = text.slice(0, i);
+        if(i >= text.length){
+          clearInterval(t);
+          document.getElementById("introPill").textContent = "OK";
+          document.getElementById("introPill").className = "pill ok";
+        }
+      }, speed);
+      return () => clearInterval(t);
+    }
+    function showIntroIfNeeded(){
+      const seen = localStorage.getItem(INTRO_KEY) === "1";
+      if(seen) return;
+      intro.classList.add("show");
+      const stop = runTypewriter(introText);
+      btnSkipIntro.onclick = ()=>{
+        stop();
+        typeArea.textContent = introText;
+      };
+      btnIntroContinue.onclick = ()=>{
+        localStorage.setItem(INTRO_KEY, "1");
+        intro.classList.remove("show");
+      };
+    }
+
+    /***********************
+     * BANK CASES (EDIT PATHS)
+     * - PDFs are local paths inside your project
+     ***********************/
+    const CASE_BANK = {
+      "PATRIMOINE": {
+        label: "Patrimoine & Contexte",
+        cases: [
+          {
+            id:"PAT-01",
+            title:"Tour en verre في نسيج تاريخي",
+            accusation:"المتهم صمم برج زجاجي ضخم داخل حي تراثي. الاتهام: كسر الهوية، تشويه المشهد، تجاهل المقياس والمواد المحلية.",
+            pdfDossier:"assets/cases/PATRIMOINE/PAT-01/Dossier_Affaire.pdf",
+            pdfRole: {
+              ACCUSE:"assets/cases/PATRIMOINE/PAT-01/Role_Accuse.pdf",
+              JURY_PRINCIPAL:"assets/cases/PATRIMOINE/PAT-01/Role_JuryPrincipal.pdf",
+              SHARED:"assets/cases/PATRIMOINE/PAT-01/Role_Juge_Defense_Expert.pdf"
+            }
+          },
+          {
+            id:"PAT-02",
+            title:"ترميم كارثي لمبنى قديم",
+            accusation:"ترميم بمواد حديثة ولمعان مبالغ. الاتهام: تزوير بصري، فقدان أصالة، تفاصيل غير محترمة للزمن.",
+            pdfDossier:"assets/cases/PATRIMOINE/PAT-02/Dossier_Affaire.pdf",
+            pdfRole: {
+              ACCUSE:"assets/cases/PATRIMOINE/PAT-02/Role_Accuse.pdf",
+              JURY_PRINCIPAL:"assets/cases/PATRIMOINE/PAT-02/Role_JuryPrincipal.pdf",
+              SHARED:"assets/cases/PATRIMOINE/PAT-02/Role_Juge_Defense_Expert.pdf"
+            }
+          }
+        ]
+      },
+      "BIOCLIM": {
+        label: "Bioclimatique & Environnement",
+        cases: [
+          {
+            id:"BIO-01",
+            title:"مبنى يحبس الريح والظلّ",
+            accusation:"الكتلة تمنع التهوية الطبيعية وتخلق جزيرة حرارية. الاتهام: تجاهل المناخ، سوء توجيه، واجهات غير فعّالة.",
+            pdfDossier:"assets/cases/BIOCLIM/BIO-01/Dossier_Affaire.pdf",
+            pdfRole: {
+              ACCUSE:"assets/cases/BIOCLIM/BIO-01/Role_Accuse.pdf",
+              JURY_PRINCIPAL:"assets/cases/BIOCLIM/BIO-01/Role_JuryPrincipal.pdf",
+              SHARED:"assets/cases/BIOCLIM/BIO-01/Role_Juge_Defense_Expert.pdf"
+            }
+          }
+        ]
+      },
+      "URBAN": {
+        label: "Urbanisme & Mobilité",
+        cases: [
+          {
+            id:"URB-01",
+            title:"محطة نقل بلا مسارات واضحة",
+            accusation:"تدفقات متقاطعة، ازدحام، غياب فصل المشاة/السيارات. الاتهام: فشل وظيفي وتهديد السلامة.",
+            pdfDossier:"assets/cases/URBAN/URB-01/Dossier_Affaire.pdf",
+            pdfRole: {
+              ACCUSE:"assets/cases/URBAN/URB-01/Role_Accuse.pdf",
+              JURY_PRINCIPAL:"assets/cases/URBAN/URB-01/Role_JuryPrincipal.pdf",
+              SHARED:"assets/cases/URBAN/URB-01/Role_Juge_Defense_Expert.pdf"
+            }
+          }
+        ]
+      }
+    };
+
+    /***********************
+     * ROLES + QUESTIONS (HYPER HYPE)
+     ***********************/
+    const roleLabels = {
+      JUGE:"👨‍⚖️ القاضي (Juge)",
+      DEFENSE:"🧑‍💼 محامي الدفاع (Défense)",
+      ACCUSE:"😈 المتهم (Accusé)",
+      EXPERT:"🏗️ الخبير المعماري (Expert)",
+      JURY_PRINCIPAL:"🧑‍🤝‍🧑 Jury رئيسي",
+      SABOTEUR:"🕳️ مخرب خفي (Saboteur)",
+      JURE:"🧑‍🤝‍🧑 محلف (Juré)",
+      TEMOIN:"🧑‍🏫 شاهد (Témoin)",
+      SPECTATOR:"👁️ مشاهد (Spectateur)"
+    };
+
+    const rolePowerWeight = {
+      JUGE: 1,
+      DEFENSE: 1,
+      ACCUSE: 1,
+      EXPERT: 3,          // ✅ your requirement
+      JURY_PRINCIPAL: 1,
+      SABOTEUR: 1,
+      JURE: 1,
+      TEMOIN: 1,
+      SPECTATOR: 0
+    };
+
+    const roleQuestions = {
+      JUGE: [
+        "“أولاً: عرّف لنا السياق… ثم اسأل المتهم: لماذا هذا القرار هنا؟”",
+        "“اطلب دليلًا: مخطط؟ قياس؟ مسار؟ لا نريد كلامًا فارغًا.”",
+        "“ذكّر الجميع: المحكمة تُحاكم الفكرة + أثرها على المدينة.”"
+      ],
+      DEFENSE: [
+        "“أين البديل؟ إن كنت تهاجم… قدّم حلًا.”",
+        "“هل توجد قيود موقع تبرّر القرار؟ أعطنا 3 قيود.”",
+        "“حوّل الاتهام إلى فرصة: ما الذي يمكن تحسينه دون هدم المشروع؟”"
+      ],
+      ACCUSE: [
+        "“برّر التوجيه والواجهة: كيف تتعامل مع الشمس والظل؟”",
+        "“ماذا عن الحركة والوظائف؟ أين يدخل الناس؟ أين يتكدّسون؟”",
+        "“قدّم دليلًا: لماذا هذا المقياس؟ لماذا هذه المادة؟”"
+      ],
+      EXPERT: [
+        "“أعطني 3 نقاط تقنية: مناخ/مواد/وظيفة… ثم قيّمها بوضوح.”",
+        "“هل المشروع يخرق قاعدة معمارية/معيار؟ سمّه.”",
+        "“ما هو التعديل الأدنى الذي ينقذ المشروع؟”"
+      ],
+      JURY_PRINCIPAL: [
+        "“سؤال واحد يُفجّر التناقض: أين يتعارض كلامك مع المخطط؟”",
+        "“هل هذا انسجام مع السياق أم استعراض؟ أثبت.”",
+        "“إذا كنت مكان المستخدم… هل ستشعر بالراحة أم بالضياع؟ ولماذا؟”"
+      ],
+      SABOTEUR: [
+        "“شوش… لكن بذكاء: ادّعِ تفاصيل ‘قابلة للتصديق’.”",
+        "“اصنع تناقضًا صغيرًا… ثم راقب من ينتبه.”",
+        "“لا تفضح نفسك: لا سبام. أنت ظلّ المحكمة.”"
+      ],
+      JURE: [
+        "“اطلب رقمًا/قياسًا/سببًا… لا تتركه يهرب.”",
+        "“اسأل عن أثر القرار على الناس: ضوء/حرارة/حركة/سلامة.”"
+      ],
+      TEMOIN: [
+        "“اشهد على الواقع: ضجيج؟ رياح؟ حركة؟ مشاكل موقع؟”",
+        "“قل حقيقة واحدة تُغيّر رأي المحكمة.”"
+      ],
+      SPECTATOR: [
+        "“راقب… ودوّن: أين الفكرة تنهار؟ أين تقنع؟”"
+      ]
+    };
+
+    /***********************
+     * GAME PHASES
+     ***********************/
+    const phases = [
+      "افتتاح الجلسة",
+      "عرض التهمة + الملف",
+      "استجواب المتهم",
+      "دفاع المحامي",
+      "شهادة/خبرة الخبير",
+      "أسئلة Jury رئيسي + المحلفين",
+      "المرافعات الأخيرة",
+      "التصويت السري",
+      "الحكم النهائي"
+    ];
+
+    /***********************
+     * State
+     ***********************/
     let user = null;
     let roomId = null;
-    let myRole = null;
-    let myRoleTip = null;
     let isJudge = false;
+    let myRole = null;
+    let myMode = "player"; // player | spectator
+    let myHand = false;
+    let micOn = false;
 
     let unsubRoom = null;
     let unsubPlayers = null;
+    let unsubSpectators = null;
     let unsubChat = null;
-    let unsubEvidence = null;
     let unsubVotes = null;
 
-    let timerLocalTick = null;
+    let timerTick = null;
 
-    const phases = ["Ouverture", "Interrogatoire", "Contre-interrogatoire", "Analyse des preuves", "Plaidoiries", "Délibération", "Vote final"];
-    const roleTips = {
-      "JUGE": "تدير الجولات، تفرض النظام، وتعلن الحكم النهائي. أنت الوحيد الذي يمكنه بدء اللعبة/التحكم في التايمر/قفل التصويت.",
-      "DEFENSE": "يدافع عن المتهم، يقدم حجج واقعية، ويقترح بدائل معقولة.",
-      "ACCUSE": "أنت مصمم المشروع. برر قراراتك دون تناقض وبدون مبالغة.",
-      "SABOTEUR": "شوّش بذكاء: تغيير بسيط بالمعلومات، تشتيت، لكن بدون فضح نفسك أو سبام.",
-      "TEMOIN": "قدّم شهادة: سياق، مناخ، حركة، قيود الموقع، مشاكل واقعية.",
-      "JURE": "ناقش بموضوعية، اسأل عن الأدلة، وصوّت في النهاية."
-    };
-
-    const roleLabels = {
-      "JUGE":"👨‍⚖️ Juge (القاضي)",
-      "DEFENSE":"🧑‍💼 Avocat de défense (محامي دفاع)",
-      "ACCUSE":"😈 Accusé (المتهم)",
-      "SABOTEUR":"🕳️ Saboteur secret (مخرب خفي)",
-      "TEMOIN":"🧑‍🏫 Témoin (شاهد)",
-      "JURE":"🧑‍🤝‍🧑 Juré (محلف)"
-    };
-
+    /***********************
+     * Helpers
+     ***********************/
     function escapeHtml(str){
       return String(str ?? "").replace(/[&<>"']/g, s => ({
         "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
       }[s]));
     }
-
     function genRoomCode(){
       const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
       let out = "";
       for(let i=0;i<6;i++) out += chars[Math.floor(Math.random()*chars.length)];
       return out;
     }
-
-    function setGameVisible(isRunning){
-      if(isRunning){
-        waitingBlock.classList.add("hide");
-        gameBlock.classList.remove("hide");
-        gamePill.textContent = "En cours ✅";
+    function setGameVisible(running){
+      if(running){
+        waitingBlock.style.display="none";
+        gameBlock.style.display="block";
+        gamePill.textContent="En cours ✅";
+        gamePill.className="pill ok";
       } else {
-        waitingBlock.classList.remove("hide");
-        gameBlock.classList.add("hide");
-        gamePill.textContent = "En attente…";
+        waitingBlock.style.display="block";
+        gameBlock.style.display="none";
+        gamePill.textContent="En attente…";
+        gamePill.className="pill";
       }
     }
-
     function cleanupSubs(){
-      [unsubRoom, unsubPlayers, unsubChat, unsubEvidence, unsubVotes].forEach(fn=>{ try{ fn && fn(); }catch(e){} });
-      unsubRoom = unsubPlayers = unsubChat = unsubEvidence = unsubVotes = null;
-      stopTimerTick();
+      [unsubRoom,unsubPlayers,unsubSpectators,unsubChat,unsubVotes].forEach(fn=>{ try{fn&&fn()}catch(e){} });
+      unsubRoom=unsubPlayers=unsubSpectators=unsubChat=unsubVotes=null;
+      stopTimer();
     }
-
-    function stopTimerTick(){
-      if(timerLocalTick) clearInterval(timerLocalTick);
-      timerLocalTick = null;
+    function stopTimer(){
+      if(timerTick) clearInterval(timerTick);
+      timerTick=null;
     }
-
     function fmtTime(sec){
       sec = Math.max(0, Math.floor(sec));
       const m = String(Math.floor(sec/60)).padStart(2,"0");
@@ -1025,132 +1245,381 @@
       return `${m}:${s}`;
     }
 
-    /* =========================
-       Room logic
-    ========================== */
+    function essentialReady(players){
+      const roles = new Set(players.map(p=>p.role));
+      return roles.has("JUGE") && roles.has("DEFENSE") && roles.has("ACCUSE") && roles.has("EXPERT") && roles.has("JURY_PRINCIPAL");
+    }
+
+    function calcWeightForUser(role){
+      return rolePowerWeight[role] ?? 1;
+    }
+
+    function setPdf(src){
+      pdfFrame.src = src || "";
+      pdfPill.textContent = src ? "PDF chargé ✅" : "—";
+    }
+
+    function fillTopicCaseDropdowns(){
+      topicSelect.innerHTML = "";
+      Object.keys(CASE_BANK).forEach(k=>{
+        const opt = document.createElement("option");
+        opt.value = k;
+        opt.textContent = CASE_BANK[k].label;
+        topicSelect.appendChild(opt);
+      });
+      syncCaseSelect();
+    }
+    function syncCaseSelect(){
+      const topic = topicSelect.value;
+      caseSelect.innerHTML = "";
+      const arr = CASE_BANK[topic]?.cases || [];
+      arr.forEach(c=>{
+        const opt = document.createElement("option");
+        opt.value = c.id;
+        opt.textContent = `${c.id} — ${c.title}`;
+        caseSelect.appendChild(opt);
+      });
+    }
+    function getCase(topic, caseId){
+      const arr = CASE_BANK[topic]?.cases || [];
+      return arr.find(x=>x.id===caseId) || arr[0] || null;
+    }
+
+    /***********************
+     * Intro show once
+     ***********************/
+    showIntroIfNeeded();
+
+    /***********************
+     * Tabs PDF
+     ***********************/
+    document.querySelectorAll(".tab").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+        if(!roomId) return;
+
+        const tab = btn.getAttribute("data-tab");
+        if(tab === "dossier") showDossierPdf();
+        if(tab === "role") showRolePdf();
+      });
+    });
+
+    function showDossierPdf(){
+      if(!currentRoomData || !currentRoomData.caseTopic || !currentRoomData.caseId) return;
+      const c = getCase(currentRoomData.caseTopic, currentRoomData.caseId);
+      if(!c) return;
+      setPdf(c.pdfDossier);
+    }
+    function showRolePdf(){
+      if(!currentRoomData || !currentRoomData.caseTopic || !currentRoomData.caseId) return;
+      const c = getCase(currentRoomData.caseTopic, currentRoomData.caseId);
+      if(!c) return;
+
+      if(myMode === "spectator"){
+        setPdf(c.pdfDossier);
+        return;
+      }
+
+      if(myRole === "ACCUSE") setPdf(c.pdfRole.ACCUSE);
+      else if(myRole === "JURY_PRINCIPAL") setPdf(c.pdfRole.JURY_PRINCIPAL);
+      else setPdf(c.pdfRole.SHARED);
+    }
+
+    /***********************
+     * Create Room Modal
+     ***********************/
+    const createTopic = document.getElementById("createTopic");
+    const createRoomName = document.getElementById("createRoomName");
+    const btnConfirmCreate = document.getElementById("btnConfirmCreate");
+
+    function initCreateTopic(){
+      createTopic.innerHTML = "";
+      Object.keys(CASE_BANK).forEach(k=>{
+        const opt = document.createElement("option");
+        opt.value = k;
+        opt.textContent = CASE_BANK[k].label;
+        createTopic.appendChild(opt);
+      });
+    }
+    initCreateTopic();
+
+    btnCreateRoom.addEventListener("click", ()=>{
+      if(!user) return showLoginModal();
+      const name = (inName.value || "").trim();
+      if(!name) return alert("اكتب اسمك أولاً.");
+      showCreateModal();
+    });
+    btnConfirmCreate.addEventListener("click", async ()=>{
+      hideCreateModal();
+      await createRoom();
+    });
+
+    /***********************
+     * Auth gate
+     ***********************/
+    auth.onAuthStateChanged((u)=>{
+      user = u || null;
+      const logged = !!user;
+      authChip.textContent = logged ? "Connecté ✅" : "Non connecté ❌";
+      if(!logged){
+        showLoginModal();
+        cleanupSubs();
+        resetLocalState();
+        return;
+      }
+      hideLoginModal();
+      // show intro once after login too
+      showIntroIfNeeded();
+    });
+
+    function resetLocalState(){
+      roomId=null;
+      isJudge=false;
+      myRole=null;
+      myMode="player";
+      myHand=false;
+      micOn=false;
+      roomChip.textContent="Room: —";
+      modeChip.textContent="Mode: —";
+      statusPill.textContent="—";
+      playersList.innerHTML="";
+      spectatorsList.innerHTML="";
+      playersCountPill.textContent="0";
+      spectatorsCountPill.textContent="0 / 2";
+      setGameVisible(false);
+      whoAmI.textContent="—";
+      powerPill.textContent="—";
+      setPdf("");
+      btnMyRole.disabled=true;
+      btnShowRole.disabled=true;
+      btnStartGame.disabled=true;
+    }
+
+    /***********************
+     * Room actions
+     ***********************/
     async function createRoom(){
       if(!user) return showLoginModal();
-
       const name = (inName.value || "").trim();
-      if(!name){ alert("اكتب اسمك أولاً."); return; }
+      if(!name) return alert("اكتب اسمك أولاً.");
 
-      const code = genRoomCode();
+      const topic = createTopic.value || "URBAN";
+      const code = `${topic.slice(0,3)}-${genRoomCode()}`.toUpperCase();
+
+      const roomRef = db.collection("tribunalRooms").doc(code);
+
+      // pick default case
+      const firstCase = CASE_BANK[topic]?.cases?.[0] || null;
+
+      await roomRef.set({
+        createdAt: SVT(),
+        createdBy: user.uid,
+        roomName: (createRoomName.value || "").trim() || null,
+        status: "lobby",          // lobby | running | ended
+        phaseIndex: 0,
+        roundIndex: 1,
+
+        // case selection
+        caseTopic: topic,
+        caseId: firstCase ? firstCase.id : null,
+
+        // timer
+        timerRunning: false,
+        timerStartMs: null,
+        timerDurationSec: 5 * 60,
+
+        // voting
+        voteOpen: false,
+        voteLocked: false,
+        judgeOverride: null,      // { decision, reason, at }
+
+        // spectators
+        spectatorsMax: 2
+      }, { merge:true });
+
       roomId = code;
       inRoom.value = code;
       roomChip.textContent = "Room: " + code;
 
-      const roomRef = db.collection("tribunalRooms").doc(code);
-      await roomRef.set({
-        createdAt: SVT(),
-        createdBy: user.uid,
-        status: "lobby", // lobby | running
-        phaseIndex: 1,
-        roundIndex: 1,
-        roundMinutes: 5,
-        caseName: "Affaire : Projet suspect d’un design hors contexte",
-        caseDesc: "Accusation: مخالف للسياق / البيئة…",
-        timerRunning: false,
-        timerStartMs: null,      // server ms number
-        timerDurationSec: 300,
-        voteLocked: false,
-        voteVerdict: null
-      }, { merge:true });
+      try{ await navigator.clipboard.writeText(code); }catch(e){}
+      await joinRoom(code, { asSpectator:false });
 
-      await joinRoom(code);
-      try{
-        await navigator.clipboard.writeText(code);
-      }catch(e){}
-      alert("Room créée ✅ (code copié si ممكن).");
+      alert("✅ Room créée. Code copié (si possible).");
     }
 
-    async function joinRoom(codeInput){
+    async function joinRoom(codeInput, opts={asSpectator:false}){
       if(!user) return showLoginModal();
 
       const name = (inName.value || "").trim();
-      if(!name){ alert("اكتب اسمك أولاً."); return; }
+      if(!name) return alert("اكتب اسمك أولاً.");
 
       const code = (codeInput || inRoom.value || "").trim().toUpperCase();
-      if(!code){ alert("أدخل كود الغرفة."); return; }
+      if(!code) return alert("أدخل كود الغرفة.");
 
-      // verify room exists
       const roomRef = db.collection("tribunalRooms").doc(code);
       const snap = await roomRef.get();
-      if(!snap.exists){
-        alert("Room غير موجودة. أنشئ واحدة أو تأكد من الكود.");
-        return;
-      }
+      if(!snap.exists) return alert("Room غير موجودة.");
 
       roomId = code;
       roomChip.textContent = "Room: " + code;
-      statusPill.textContent = "Connecté à la room ✅";
 
-      // Add/Update player with role assignment in transaction (auto roles by join order)
-      const playerRef = roomRef.collection("players").doc(user.uid);
+      myMode = opts.asSpectator ? "spectator" : "player";
+      modeChip.textContent = myMode === "spectator" ? "Mode: Spectateur 👁️" : "Mode: Joueur 🎭";
 
-      await db.runTransaction(async (tx)=>{
-        const myDoc = await tx.get(playerRef);
-        if(myDoc.exists){
-          tx.set(playerRef, { name, online:true, lastSeen: SVT() }, { merge:true });
-          return;
-        }
+      if(myMode === "spectator"){
+        const specRef = roomRef.collection("spectators").doc(user.uid);
 
-        const playersSnap = await tx.get(roomRef.collection("players"));
-        const count = playersSnap.size;
+        // enforce max 2
+        await db.runTransaction(async (tx)=>{
+          const specsSnap = await tx.get(roomRef.collection("spectators"));
+          const existing = await tx.get(specRef);
+          if(existing.exists){
+            tx.set(specRef, { name, online:true, lastSeen: SVT() }, { merge:true });
+            return;
+          }
+          const max = (snap.data()?.spectatorsMax ?? 2);
+          if(specsSnap.size >= max) throw new Error("MAX_SPECTATORS");
+          tx.set(specRef, { uid:user.uid, name, joinedAt: SVT(), online:true, lastSeen: SVT() }, { merge:true });
+        }).catch(err=>{
+          if(String(err?.message||"").includes("MAX_SPECTATORS")){
+            alert("👁️ المشاهدة ممتلئة (max 2).");
+          } else {
+            alert("Erreur spectateur.");
+          }
+          myMode="player";
+          modeChip.textContent="Mode: Joueur 🎭";
+          throw err;
+        });
 
-        let assigned = "JURE";
-        if(count === 0) assigned = "JUGE";
-        else if(count === 1) assigned = "DEFENSE";
-        else if(count === 2) assigned = "ACCUSE";
-        else if(count === 3) assigned = "SABOTEUR";
-        else {
-          // بعد 4: تناوب شاهد/محلف
-          assigned = (count % 2 === 0) ? "TEMOIN" : "JURE";
-        }
+      } else {
+        // player join with role assignment by join order
+        const playerRef = roomRef.collection("players").doc(user.uid);
 
-        tx.set(playerRef, {
-          uid: user.uid,
-          name,
-          role: assigned,
-          joinedAt: SVT(),
-          online: true,
-          lastSeen: SVT()
-        }, { merge:true });
-      });
+        await db.runTransaction(async (tx)=>{
+          const me = await tx.get(playerRef);
+          if(me.exists){
+            tx.set(playerRef, { name, online:true, lastSeen: SVT() }, { merge:true });
+            return;
+          }
 
-      // subscribe to room, players, chat, evidence, votes
+          const playersSnap = await tx.get(roomRef.collection("players"));
+          const count = playersSnap.size;
+
+          let assigned = "JURE";
+          if(count === 0) assigned = "JUGE";
+          else if(count === 1) assigned = "DEFENSE";
+          else if(count === 2) assigned = "ACCUSE";
+          else if(count === 3) assigned = "EXPERT";
+          else if(count === 4) assigned = "JURY_PRINCIPAL";
+          else if(count === 5) assigned = "SABOTEUR"; // optional extra role from 6th player
+          else {
+            assigned = (count % 2 === 0) ? "TEMOIN" : "JURE";
+          }
+
+          tx.set(playerRef, {
+            uid:user.uid,
+            name,
+            role: assigned,
+            joinedAt: SVT(),
+            online:true,
+            lastSeen: SVT(),
+            handRaised: false,
+            micAllowed: false,
+            badge: []
+          }, { merge:true });
+        });
+      }
+
       subscribeAll();
+      // write a dramatic greet in chat (only if room running or enough players)
+      await announceJoin();
+    }
+
+    async function announceJoin(){
+      if(!roomId || !user) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      const label = myMode === "spectator" ? "👁️ Spectateur" : "🎭 Joueur";
+      await roomRef.collection("chat").add({
+        createdAt: SVT(),
+        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+        name: "Greffier",
+        type: "argument",
+        text: `🔔 ${label} “${(inName.value||"").trim()}” دخل القاعة. التوتر يرتفع…`
+      });
     }
 
     async function leaveRoom(){
       if(!roomId || !user) return;
       const roomRef = db.collection("tribunalRooms").doc(roomId);
+
       try{
-        await roomRef.collection("players").doc(user.uid).set({ online:false, lastSeen: SVT() }, { merge:true });
+        if(myMode === "spectator"){
+          await roomRef.collection("spectators").doc(user.uid).set({ online:false, lastSeen: SVT() }, { merge:true });
+        } else {
+          await roomRef.collection("players").doc(user.uid).set({ online:false, lastSeen: SVT(), handRaised:false, micAllowed:false }, { merge:true });
+        }
       }catch(e){}
 
       cleanupSubs();
-      roomId = null;
-      myRole = null; myRoleTip = null; isJudge = false;
-      roomChip.textContent = "Room: —";
-      statusPill.textContent = "—";
-      playersList.innerHTML = "";
-      playersCountPill.textContent = "0";
-      setGameVisible(false);
-      gamePill.textContent = "En attente…";
-      whoAmI.textContent = "—";
-      phasePill.textContent = "—";
-      votePill.textContent = "—";
-      verdictPill.textContent = "—";
-      timerState.textContent = "—";
-      timeLabel.textContent = "--:--";
-      timeBar.style.width = "0%";
-      alert("Tu as quitté la room.");
+      resetLocalState();
+      alert("🚪 خرجت من الغرفة.");
     }
 
-    function essentialReady(players){
-      const roles = new Set(players.map(p=>p.role));
-      return roles.has("JUGE") && roles.has("DEFENSE") && roles.has("ACCUSE") && roles.has("SABOTEUR");
-    }
+    btnJoinRoom.addEventListener("click", async ()=>{
+      try{ await joinRoom(null, {asSpectator:false}); }catch(e){}
+    });
+    btnSpectate.addEventListener("click", async ()=>{
+      try{ await joinRoom(null, {asSpectator:true}); }catch(e){}
+    });
+    btnLeaveRoom.addEventListener("click", leaveRoom);
+
+    /***********************
+     * Quick Join (fast)
+     ***********************/
+    btnQuickJoin.addEventListener("click", async ()=>{
+      if(!user) return showLoginModal();
+      const name = (inName.value || "").trim();
+      if(!name) return alert("اكتب اسمك أولاً.");
+
+      // find lobby rooms (simple approach)
+      const qs = await db.collection("tribunalRooms")
+        .where("status","==","lobby")
+        .limit(15)
+        .get();
+
+      if(qs.empty){
+        alert("لا توجد Rooms متاحة الآن. أنشئ واحدة 🔥");
+        return;
+      }
+
+      // pick the room with smallest missing essentials (approx by players count)
+      let best = null;
+      for(const doc of qs.docs){
+        const rid = doc.id;
+        const roomRef = db.collection("tribunalRooms").doc(rid);
+        const playersSnap = await roomRef.collection("players").get();
+        // if already 5+ still ok but we prefer <5
+        const count = playersSnap.size;
+        if(count >= 5) continue;
+        best = { id: rid, count };
+        break;
+      }
+
+      if(!best){
+        alert("كل الغرف تقريبًا مكتملة أو غير مناسبة. أنشئ Room 🔥");
+        return;
+      }
+
+      inRoom.value = best.id;
+      await joinRoom(best.id, {asSpectator:false});
+      alert("⚡ تم الانضمام السريع. شد حزامك…");
+    });
+
+    /***********************
+     * Subscribe to room + players + spectators + chat + votes
+     ***********************/
+    let currentRoomData = null;
 
     function subscribeAll(){
       cleanupSubs();
@@ -1161,95 +1630,179 @@
       unsubRoom = roomRef.onSnapshot((doc)=>{
         if(!doc.exists) return;
         const r = doc.data() || {};
+        currentRoomData = r;
 
-        // status
-        statusPill.textContent = (r.status === "running") ? "Partie en cours ✅" : "Lobby (en attente)";
+        statusPill.textContent = (r.status === "running") ? "Partie en cours ✅" : (r.status === "ended" ? "Session archivée 📦" : "Lobby (en attente)");
+        statusPill.className = "pill " + (r.status === "running" ? "ok" : r.status === "ended" ? "gray" : "");
         setGameVisible(r.status === "running");
 
-        // phase / case
-        phasePill.textContent = `Phase: ${phases[r.phaseIndex] || "—"}`;
-        roundPill.textContent = `Round #${r.roundIndex || 1}`;
-        roundLabel.textContent = `#${r.roundIndex || 1} · ${(phases[r.phaseIndex] || "—")}`;
-        caseName.value = r.caseName || "";
-        caseDesc.value = r.caseDesc || "";
-        roundMinutes.value = (r.roundMinutes || 5);
+        // fill dropdown (view only) always
+        fillTopicCaseDropdowns();
+        topicSelect.value = r.caseTopic || Object.keys(CASE_BANK)[0];
+        syncCaseSelect();
+        caseSelect.value = r.caseId || (CASE_BANK[topicSelect.value]?.cases?.[0]?.id || "");
+
+        // show case data
+        const c = getCase(r.caseTopic, r.caseId);
+        caseTitle.value = c ? c.title : "";
+        caseAccusation.value = c ? c.accusation : "";
+
+        phasePill.textContent = "Phase: " + (phases[r.phaseIndex] || "—");
+        roundLabel.textContent = `#${r.roundIndex || 1} · ${phases[r.phaseIndex] || "—"}`;
+
+        // voting UI
+        votePill.textContent = r.voteOpen ? (r.voteLocked ? "Vote verrouillé 🔒" : "Vote ouvert ✅") : "Vote fermé";
+        btnVoteGuilty.disabled = (myMode === "spectator") || !r.voteOpen || r.voteLocked || (r.status !== "running") || !roomId;
+        btnVoteInnocent.disabled = btnVoteGuilty.disabled;
 
         // judge controls
-        btnSaveCase.disabled = !isJudge || r.status !== "running";
+        btnPickCase.disabled = !isJudge || r.status !== "running";
         btnNextPhase.disabled = !isJudge || r.status !== "running";
+        btnEndSession.disabled = !isJudge || r.status !== "running";
+
+        btnOpenVote.disabled = !isJudge || r.status !== "running";
+        btnLockVote.disabled = !isJudge || r.status !== "running";
+        btnJudgeOverride.disabled = !isJudge || r.status !== "running";
 
         btnTimerStart.disabled = !isJudge || r.status !== "running";
         btnTimerPause.disabled = !isJudge || r.status !== "running";
         btnTimerReset.disabled = !isJudge || r.status !== "running";
 
-        btnAddEvidence.disabled = !isJudge || r.status !== "running";
-        btnRevealNextEvidence.disabled = !isJudge || r.status !== "running";
+        // chat perms
+        const canChat = (r.status === "running") && (myMode !== "spectator");
+        chatModePill.textContent = canChat ? "Écriture ✅" : "Lecture فقط";
+        btnSendMsg.disabled = !canChat;
 
-        btnLockVote.disabled = !isJudge || r.status !== "running";
-        btnResetVote.disabled = !isJudge || r.status !== "running";
+        // pdf default tab
+        if(document.querySelector(".tab.active")?.getAttribute("data-tab")==="dossier"){
+          showDossierPdf();
+        } else {
+          showRolePdf();
+        }
 
-        // vote lock
-        votePill.textContent = r.voteLocked ? "Vote verrouillé 🔒" : "Vote ouvert";
-        verdictPill.textContent = r.voteVerdict ? r.voteVerdict : (r.voteLocked ? "Résultat…" : "—");
-
-        // timer state compute
+        // timer sync
         syncTimerFromRoom(r);
+
+        // override status
+        if(r.judgeOverride){
+          powerPill.textContent = "⚖️ Verdict: " + (r.judgeOverride.decision === "INNOCENT" ? "براءة (Override)" : "إدانة");
+          powerPill.className = "pill ok";
+        }
       });
 
-      unsubPlayers = roomRef.collection("players").orderBy("joinedAt","asc").onSnapshot((qs)=>{
+      unsubPlayers = roomRef.collection("players").orderBy("joinedAt","asc").onSnapshot(async (qs)=>{
         const players = [];
         qs.forEach(d=>players.push(d.data()));
         playersCountPill.textContent = String(players.length);
 
-        // my role
+        // detect my role
         const me = players.find(p=>p.uid === user.uid);
-        if(me){
+        if(me && myMode !== "spectator"){
           myRole = me.role || null;
           isJudge = (myRole === "JUGE");
-          myRoleTip = roleTips[myRole] || "";
-          whoAmI.textContent = myRole ? `${roleLabels[myRole] || myRole}` : "—";
+          whoAmI.textContent = myRole ? roleLabels[myRole] : "—";
+          powerPill.textContent = `Poids vote: ${calcWeightForUser(myRole)}x`;
+          powerPill.className = "pill " + (myRole === "EXPERT" ? "warn" : "gray");
+
+          btnMyRole.disabled = !myRole;
+          btnShowRole.disabled = !myRole;
+
+          // hand + allowed
+          myHand = !!me.handRaised;
+          handPill.textContent = myHand ? "✋ في الانتظار…" : "—";
+          btnRaiseHand.disabled = !currentRoomData || currentRoomData.status !== "running" || currentRoomData.voteLocked || myMode === "spectator";
+          btnLowerHand.disabled = !myHand || myMode === "spectator";
+
+          const allowed = !!me.micAllowed;
+          speakPill.textContent = allowed ? "✅ مسموح بالكلام" : "⛔ ممنوع";
+          btnMicToggle.disabled = !allowed || myMode === "spectator";
+          btnRequestSpeak.disabled = myMode === "spectator";
+          btnMicToggle.textContent = "🎙️ Mic: " + (micOn ? "ON" : "OFF");
+        } else if(myMode === "spectator"){
+          isJudge=false;
+          myRole = "SPECTATOR";
+          whoAmI.textContent = roleLabels.SPECTATOR;
+          powerPill.textContent = "Poids vote: 0x";
+          powerPill.className = "pill gray";
+          btnMyRole.disabled = true;
+          btnShowRole.disabled = true;
         }
 
-        // render players (roles hidden for non-judge to keep secret)
+        // render players list (judge sees roles; others see masked roles)
         playersList.innerHTML = "";
         if(players.length === 0){
           playersList.innerHTML = `<div class="item"><div class="muted">Aucun joueur.</div></div>`;
         } else {
           players.forEach((p, idx)=>{
-            const roleShown = isJudge ? (roleLabels[p.role] || p.role) : "🎭 Rôle secret";
             const online = p.online ? "🟢" : "⚪";
+            const roleShown = isJudge ? (roleLabels[p.role] || p.role) : "🎭 Rôle secret";
+            const hand = p.handRaised ? "✋" : "";
+            const allow = p.micAllowed ? "🎙️" : "";
             const row = document.createElement("div");
             row.className = "item";
             row.innerHTML = `
               <div style="display:flex;flex-direction:column;gap:6px;min-width:0;">
-                <div><b>${online} ${escapeHtml(p.name || ("Joueur "+(idx+1)))}</b></div>
+                <div><b>${online} ${escapeHtml(p.name || ("Joueur "+(idx+1)))}</b> <span style="margin-left:6px">${hand} ${allow}</span></div>
                 <div class="muted">${escapeHtml(roleShown)}</div>
               </div>
-              <span class="pill">#${idx+1}</span>
+              ${isJudge ? `
+                <div style="display:flex;flex-direction:column;gap:8px;min-width:170px">
+                  <button class="small-btn ok" data-act="allow" data-uid="${p.uid}" ${p.micAllowed ? "disabled":""}>✅ Autoriser mic</button>
+                  <button class="small-btn" data-act="mute" data-uid="${p.uid}" ${!p.micAllowed ? "disabled":""}>⛔ Couper mic</button>
+                </div>
+              ` : `<span class="pill">#${idx+1}</span>`}
             `;
             playersList.appendChild(row);
           });
         }
 
-        // start button rule: only judge + essentials ready + at least 4
+        // enable start game only for judge + essentials ready (5 roles)
         const ready = essentialReady(players);
-        btnStartGame.disabled = !(isJudge && ready);
+        btnStartGame.disabled = !(isJudge && ready && currentRoomData && currentRoomData.status === "lobby");
 
-        // update lobby notes
+        // lobby hint
         if(!ready){
-          document.getElementById("lobbyNote").innerHTML =
-            `⏳ <b>في انتظار الأدوار الأساسية</b>: القاضي + الدفاع + المتهم + المخرب. <br>
-             ✅ التوزيع تلقائي حسب ترتيب الدخول.`;
+          lobbyNote.innerHTML =
+            `⏳ <b>في انتظار اكتمال الأدوار الأساسية</b> (5): قاضي + محامي + متهم + خبير + Jury رئيسي.<br>
+             ✅ يمكنك الدخول مبكرًا… لكن <b>البدء</b> يتفعل فقط عند الاكتمال.`;
         } else {
-          document.getElementById("lobbyNote").innerHTML =
-            `✅ <b>الأدوار الأساسية مكتملة</b>. القاضي يمكنه بدء اللعبة الآن.`;
+          lobbyNote.innerHTML =
+            `✅ <b>الأدوار الأساسية اكتملت</b>! القاضي الآن يستطيع بدء اللعبة 🔥`;
+        }
+
+        // auto-failover judge if judge leaves: Defense -> Jury Principal -> first online
+        await judgeFailover(players);
+
+      });
+
+      unsubSpectators = roomRef.collection("spectators").orderBy("joinedAt","asc").onSnapshot((qs)=>{
+        const specs = [];
+        qs.forEach(d=>specs.push(d.data()));
+        spectatorsCountPill.textContent = `${specs.length} / 2`;
+        spectatorsList.innerHTML = "";
+        if(specs.length === 0){
+          spectatorsList.innerHTML = `<div class="item"><div class="muted">Aucun spectateur.</div></div>`;
+        } else {
+          specs.forEach((s, idx)=>{
+            const online = s.online ? "🟣" : "⚪";
+            const row = document.createElement("div");
+            row.className="item";
+            row.innerHTML = `
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0;">
+                <div><b>${online} ${escapeHtml(s.name || ("Spectateur "+(idx+1)))}</b></div>
+                <div class="muted">Lecture فقط — بدون تصويت/مايك</div>
+              </div>
+              <span class="pill">👁️</span>
+            `;
+            spectatorsList.appendChild(row);
+          });
         }
       });
 
-      unsubChat = roomRef.collection("chat").orderBy("createdAt","asc").limit(200).onSnapshot((qs)=>{
+      unsubChat = roomRef.collection("chat").orderBy("createdAt","asc").limit(250).onSnapshot((qs)=>{
         chatLog.innerHTML = "";
         if(qs.empty){
-          chatLog.innerHTML = `<div class="msg"><div class="meta"><span>🧑‍⚖️ Greffier</span><span>—</span></div><div class="text">ابدأ النقاش بعد بدء اللعبة.</div></div>`;
+          chatLog.innerHTML = `<div class="msg"><div class="meta"><span>Greffier</span><span>—</span></div><div class="text">ابدأوا… المحكمة تنتظر 🔥</div></div>`;
           return;
         }
         qs.forEach(doc=>{
@@ -1259,7 +1812,7 @@
           el.className = "msg";
           el.innerHTML = `
             <div class="meta">
-              <span>${icon} ${escapeHtml(m.name || "Anonyme")}</span>
+              <span>${icon} ${escapeHtml(m.name || "—")}</span>
               <span>${escapeHtml(m.at || "")}</span>
             </div>
             <div class="text">${escapeHtml(m.text || "")}</div>
@@ -1269,173 +1822,165 @@
         chatLog.scrollTop = chatLog.scrollHeight;
       });
 
-      unsubEvidence = roomRef.collection("evidence").orderBy("createdAt","asc").onSnapshot((qs)=>{
-        let revealed = 0;
-        evidenceList.innerHTML = "";
-        if(qs.empty){
-          evidenceList.innerHTML = `<div class="item"><div class="muted">Aucune preuve.</div></div>`;
-          revealedCount.textContent = "0";
-          eviPill.textContent = "0";
-          return;
-        }
-
-        qs.forEach(doc=>{
-          const e = doc.data() || {};
-          if(e.revealed) revealed++;
-          const row = document.createElement("div");
-          row.className = "item";
-          row.innerHTML = `
-            <div style="display:flex;flex-direction:column;gap:6px;min-width:0;flex:1;">
-              <div><b>${escapeHtml(e.title || "Preuve")}</b> <span class="pill" style="margin-left:8px">${e.revealed ? "✅ Révélée" : "🔒 Cachée"}</span></div>
-              <div class="muted">${escapeHtml(e.revealed ? (e.text || "") : "Cette preuve est encore cachée.")}</div>
-              ${e.revealed && e.img ? `<div class="muted" style="margin-top:6px">🖼️ ${escapeHtml(e.img)}</div>` : ``}
-            </div>
-            ${isJudge ? `
-              <div style="display:flex;flex-direction:column;gap:8px;min-width:180px">
-                ${e.revealed ? "" : `<button class="small-btn primary" data-act="reveal" data-id="${doc.id}">🧩 Reveal</button>`}
-                <button class="small-btn" data-act="delete" data-id="${doc.id}">🗑️ Delete</button>
-              </div>` : `<span class="pill">#</span>`}
-          `;
-          evidenceList.appendChild(row);
-        });
-
-        revealedCount.textContent = String(revealed);
-        eviPill.textContent = `${revealed} révélées`;
-      });
-
       unsubVotes = roomRef.collection("votes").onSnapshot((qs)=>{
-        let g=0,i=0;
+        let g = 0, i = 0, totalWeight = 0;
         qs.forEach(d=>{
           const v = d.data() || {};
-          if(v.choice === "GUILTY") g++;
-          if(v.choice === "INNOCENT") i++;
+          const w = Math.max(0, parseInt(v.weight || 1, 10) || 1);
+          if(v.choice === "GUILTY"){ g += w; totalWeight += w; }
+          if(v.choice === "INNOCENT"){ i += w; totalWeight += w; }
         });
         countG.textContent = "Coupable: " + g;
         countI.textContent = "Innocent: " + i;
-        countT.textContent = "Total: " + (g+i);
+        countT.textContent = "Total (poids): " + totalWeight;
+      });
+
+      // allow judge to click allow/mute
+      playersList.addEventListener("click", async (e)=>{
+        const b = e.target.closest("button[data-act]");
+        if(!b || !isJudge) return;
+        const act = b.getAttribute("data-act");
+        const uid = b.getAttribute("data-uid");
+        if(!uid) return;
+        const playerRef = roomRef.collection("players").doc(uid);
+
+        if(act === "allow"){
+          await playerRef.set({ micAllowed:true }, { merge:true });
+          await roomRef.collection("chat").add({
+            createdAt: SVT(),
+            at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+            name: "Juge",
+            type: "argument",
+            text: `🎙️ الكلمة الآن لـ ${uid.slice(0,6)}… (mic autorisé)`
+          });
+        }
+        if(act === "mute"){
+          await playerRef.set({ micAllowed:false, handRaised:false }, { merge:true });
+          await roomRef.collection("chat").add({
+            createdAt: SVT(),
+            at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+            name: "Juge",
+            type: "argument",
+            text: `⛔ تم سحب الكلمة. (mic coupé)`
+          });
+        }
       });
     }
 
-    /* =========================
-       Game actions (Firestore)
-    ========================== */
-    async function startGame(){
-      if(!isJudge) return alert("Seul le juge peut démarrer.");
-      const code = roomId;
-      if(!code) return;
-      const roomRef = db.collection("tribunalRooms").doc(code);
-      await roomRef.set({ status:"running" }, { merge:true });
+    /***********************
+     * Judge failover:
+     * If judge offline, set new judge:
+     * Defense -> Jury Principal -> first online
+     ***********************/
+    let failoverLock = false;
+    async function judgeFailover(players){
+      if(!roomId || failoverLock) return;
+      if(!players.length) return;
 
-      // announce in chat
+      const judge = players.find(p=>p.role==="JUGE");
+      if(judge && judge.online) return;
+
+      // find replacement
+      const defense = players.find(p=>p.role==="DEFENSE" && p.online);
+      const juryP = players.find(p=>p.role==="JURY_PRINCIPAL" && p.online);
+      const firstOnline = players.find(p=>p.online);
+
+      const target = defense || juryP || firstOnline;
+      if(!target) return;
+
+      // prevent loops
+      failoverLock = true;
+      try{
+        const roomRef = db.collection("tribunalRooms").doc(roomId);
+        const batch = db.batch();
+
+        // change roles: old judge -> JURE, new -> JUGE (best effort)
+        if(judge){
+          batch.set(roomRef.collection("players").doc(judge.uid), { role:"JURE" }, { merge:true });
+        }
+        batch.set(roomRef.collection("players").doc(target.uid), { role:"JUGE" }, { merge:true });
+
+        await batch.commit();
+
+        await roomRef.collection("chat").add({
+          createdAt: SVT(),
+          at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+          name: "Greffier",
+          type: "argument",
+          text: `⚖️ تغيير القاضي تلقائيًا: ${escapeHtml(target.name || "—")} أصبح القاضي الجديد.`
+        });
+      }catch(e){
+        // ignore
+      }finally{
+        setTimeout(()=>failoverLock=false, 1200);
+      }
+    }
+
+    /***********************
+     * Start game
+     ***********************/
+    btnStartGame.addEventListener("click", async ()=>{
+      if(!isJudge || !roomId) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+
+      await roomRef.set({ status:"running", phaseIndex: 0, roundIndex: 1 }, { merge:true });
+
       await roomRef.collection("chat").add({
         createdAt: SVT(),
         at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
         name: "Juge",
         type: "argument",
-        text: "▶️ La partie commence. Round 1: Interrogatoire."
-      });
-    }
-
-    async function saveCase(){
-      if(!isJudge) return;
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const mins = Math.max(1, Math.min(20, parseInt(roundMinutes.value,10) || 5));
-      await roomRef.set({
-        caseName: (caseName.value || "").trim() || "Affaire",
-        caseDesc: (caseDesc.value || "").trim() || "",
-        roundMinutes: mins,
-        timerDurationSec: mins * 60
-      }, { merge:true });
-
-      await roomRef.collection("chat").add({
-        createdAt: SVT(),
-        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
-        name: "Greffier",
-        type: "clue",
-        text: "📁 Dossier mis à jour."
-      });
-    }
-
-    async function nextPhase(){
-      if(!isJudge) return;
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const snap = await roomRef.get();
-      const r = snap.data() || {};
-      let p = (r.phaseIndex ?? 1) + 1;
-      if(p >= phases.length) p = phases.length - 1;
-
-      await roomRef.set({
-        phaseIndex: p,
-        roundIndex: (r.roundIndex ?? 1) + 1
-      }, { merge:true });
-
-      await roomRef.collection("chat").add({
-        createdAt: SVT(),
-        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
-        name: "Juge",
-        type: "question",
-        text: `⏭️ Phase suivante: ${phases[p] || "—"}`
-      });
-    }
-
-    async function addEvidence(){
-      if(!isJudge) return;
-      const title = (eviTitle.value || "").trim() || "Preuve";
-      const text  = (eviText.value || "").trim() || "—";
-      const img   = (eviImg.value || "").trim();
-
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-      await roomRef.collection("evidence").add({
-        title, text, img,
-        revealed:false,
-        createdAt: SVT()
+        text: "🏛️ تُفتَح الجلسة الآن. حضّروا الأدلة… المحكمة تبدأ 🔥"
       });
 
-      eviTitle.value = "";
-      eviText.value = "";
-      eviImg.value = "";
+      // enable role button
+      btnMyRole.disabled = false;
+      btnShowRole.disabled = false;
+    });
 
-      await roomRef.collection("chat").add({
-        createdAt: SVT(),
-        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
-        name: "Greffier",
-        type: "clue",
-        text: `🧾 Preuve ajoutée: "${title}" (cachée).`
-      });
-    }
+    /***********************
+     * Role viewing
+     ***********************/
+    btnMyRole.addEventListener("click", showMyRole);
+    btnShowRole.addEventListener("click", showMyRole);
 
-    async function revealNextEvidence(){
-      if(!isJudge) return;
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const qs = await roomRef.collection("evidence").orderBy("createdAt","asc").get();
-      const hidden = qs.docs.find(d => !(d.data() || {}).revealed);
-      if(!hidden){ alert("Aucune preuve cachée."); return; }
-      await roomRef.collection("evidence").doc(hidden.id).set({ revealed:true }, { merge:true });
-
-      await roomRef.collection("chat").add({
-        createdAt: SVT(),
-        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
-        name: "Greffier",
-        type: "clue",
-        text: `🧩 Preuve révélée: "${(hidden.data()||{}).title || "Preuve"}"`
-      });
-    }
-
-    async function evidenceAdminAction(act, id){
-      if(!isJudge) return;
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const ref = roomRef.collection("evidence").doc(id);
-      if(act === "delete"){
-        if(!confirm("Supprimer cette preuve ?")) return;
-        await ref.delete();
+    function showMyRole(){
+      if(myMode === "spectator"){
+        document.getElementById("roleText").textContent = roleLabels.SPECTATOR;
+        setRoleQuestions("SPECTATOR");
+        showRoleModal();
+        return;
       }
-      if(act === "reveal"){
-        await ref.set({ revealed:true }, { merge:true });
+      if(!myRole){
+        alert("Role غير جاهز بعد.");
+        return;
       }
+      document.getElementById("roleText").textContent = roleLabels[myRole] || myRole;
+      setRoleQuestions(myRole);
+      showRoleModal();
     }
+    function setRoleQuestions(role){
+      const box = document.getElementById("roleQuestions");
+      box.innerHTML = "";
+      (roleQuestions[role] || []).forEach(q=>{
+        const el = document.createElement("div");
+        el.className = "q";
+        el.textContent = q;
+        box.appendChild(el);
+      });
+    }
+
+    /***********************
+     * Chat
+     ***********************/
+    btnSendMsg.addEventListener("click", sendMsg);
+    msgText.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); sendMsg(); } });
 
     async function sendMsg(){
       if(!roomId || !user) return;
+      if(myMode === "spectator") return alert("المشاهد لا يكتب في الشات.");
+      if(!currentRoomData || currentRoomData.status !== "running") return;
+
       const text = (msgText.value || "").trim();
       if(text.length < 2) return;
 
@@ -1447,165 +1992,260 @@
         type: msgType.value,
         text
       });
-
       msgText.value = "";
       msgText.focus();
     }
 
-    async function vote(choice){
+    /***********************
+     * Raise hand + mic allowed logic
+     ***********************/
+    btnRaiseHand.addEventListener("click", async ()=>{
       if(!roomId || !user) return;
+      if(myMode === "spectator") return;
       const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const r = await roomRef.get();
-      const data = r.data() || {};
-      if(data.voteLocked){ alert("Vote verrouillé."); return; }
-
-      await roomRef.collection("votes").doc(user.uid).set({
-        uid: user.uid,
-        name: (inName.value || "Anonyme").trim(),
-        choice,
-        createdAt: SVT()
-      }, { merge:true });
-    }
-
-    async function lockVote(){
-      if(!isJudge) return;
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-
-      const qs = await roomRef.collection("votes").get();
-      let g=0,i=0;
-      qs.forEach(d=>{
-        const v = d.data() || {};
-        if(v.choice==="GUILTY") g++;
-        if(v.choice==="INNOCENT") i++;
+      await roomRef.collection("players").doc(user.uid).set({ handRaised:true }, { merge:true });
+      myHand = true;
+      handPill.textContent = "✋ في الانتظار…";
+      await roomRef.collection("chat").add({
+        createdAt: SVT(),
+        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+        name: "Greffier",
+        type: "argument",
+        text: `✋ ${(inName.value||"").trim()} رفع اليد.`
       });
+    });
 
-      let verdict = "⚖️ Égalité — Le juge tranche.";
-      if(g>i) verdict = "⚠️ Verdict: COUPABLE";
-      if(i>g) verdict = "✅ Verdict: INNOCENT";
+    btnLowerHand.addEventListener("click", async ()=>{
+      if(!roomId || !user) return;
+      if(myMode === "spectator") return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      await roomRef.collection("players").doc(user.uid).set({ handRaised:false }, { merge:true });
+      myHand = false;
+      handPill.textContent = "—";
+    });
 
-      await roomRef.set({ voteLocked:true, voteVerdict: verdict }, { merge:true });
+    btnRequestSpeak.addEventListener("click", async ()=>{
+      if(!roomId || !user) return;
+      if(myMode === "spectator") return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      await roomRef.collection("chat").add({
+        createdAt: SVT(),
+        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+        name: (inName.value || "—").trim(),
+        type: "question",
+        text: "🔔 أطلب الكلمة الآن. لدي نقطة حاسمة!"
+      });
+    });
+
+    btnMicToggle.addEventListener("click", ()=>{
+      // Placeholder: toggles UI only
+      // If you want true WebRTC Mesh audio, we add it in next step.
+      micOn = !micOn;
+      btnMicToggle.textContent = "🎙️ Mic: " + (micOn ? "ON" : "OFF");
+      speakPill.textContent = micOn ? "🎙️ يتكلم الآن" : "✅ مسموح بالكلام";
+    });
+
+    /***********************
+     * Case picking + phases + archive
+     ***********************/
+    btnPickCase.addEventListener("click", async ()=>{
+      if(!isJudge || !roomId) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+
+      const topics = Object.keys(CASE_BANK);
+      const t = topics[Math.floor(Math.random()*topics.length)];
+      const arr = CASE_BANK[t].cases || [];
+      const c = arr[Math.floor(Math.random()*arr.length)];
+      if(!c) return;
+
+      await roomRef.set({
+        caseTopic: t,
+        caseId: c.id
+      }, { merge:true });
+
+      await roomRef.collection("chat").add({
+        createdAt: SVT(),
+        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+        name: "Greffier",
+        type: "evidence",
+        text: `🎲 تم اختيار قضية جديدة: ${c.id} — ${c.title}`
+      });
+    });
+
+    btnNextPhase.addEventListener("click", async ()=>{
+      if(!isJudge || !roomId) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      const snap = await roomRef.get();
+      const r = snap.data() || {};
+      let next = (r.phaseIndex ?? 0) + 1;
+      if(next >= phases.length) next = phases.length - 1;
+
+      await roomRef.set({
+        phaseIndex: next,
+        roundIndex: (r.roundIndex ?? 1) + 1,
+        voteOpen: (next >= 7) ? true : (r.voteOpen || false) // open on vote phase
+      }, { merge:true });
 
       await roomRef.collection("chat").add({
         createdAt: SVT(),
         at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
         name: "Juge",
         type: "argument",
-        text: "🔒 Vote verrouillé. " + verdict
+        text: `⏭️ المرحلة التالية: ${phases[next]}`
       });
-    }
+    });
 
-    async function resetVote(){
-      if(!isJudge) return;
+    btnEndSession.addEventListener("click", async ()=>{
+      if(!isJudge || !roomId) return;
+      if(!confirm("إنهاء الجلسة وأرشفتها؟")) return;
+
       const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const qs = await roomRef.collection("votes").get();
-      const batch = db.batch();
-      qs.forEach(d=>batch.delete(d.ref));
-      await batch.commit();
-      await roomRef.set({ voteLocked:false, voteVerdict:null }, { merge:true });
+      await archiveSession(roomRef);
+      await roomRef.set({ status:"ended" }, { merge:true });
 
       await roomRef.collection("chat").add({
         createdAt: SVT(),
         at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
         name: "Greffier",
         type: "argument",
-        text: "♻️ Vote reset."
+        text: "📦 تم إنهاء الجلسة وأرشفتها. المحكمة تُغلق…"
       });
+
+      alert("📦 Session archivée.");
+    });
+
+    async function archiveSession(roomRef){
+      // Client-side archive (works without Cloud Functions)
+      const roomSnap = await roomRef.get();
+      const roomData = roomSnap.data() || {};
+
+      const playersSnap = await roomRef.collection("players").get();
+      const players = playersSnap.docs.map(d=>d.data());
+
+      const spectatorsSnap = await roomRef.collection("spectators").get();
+      const spectators = spectatorsSnap.docs.map(d=>d.data());
+
+      const chatSnap = await roomRef.collection("chat").orderBy("createdAt","asc").get();
+      const chat = chatSnap.docs.map(d=>d.data());
+
+      const votesSnap = await roomRef.collection("votes").get();
+      const votes = votesSnap.docs.map(d=>d.data());
+
+      const archiveId = `${roomId}_${Date.now()}`;
+      await db.collection("tribunalArchives").doc(archiveId).set({
+        archiveId,
+        roomId,
+        archivedAt: SVT(),
+        roomData,
+        players,
+        spectators,
+        chat,
+        votes,
+        // reveal saboteur in archive (your requirement)
+        reveal: {
+          saboteurUids: players.filter(p=>p.role==="SABOTEUR").map(p=>p.uid)
+        }
+      }, { merge:true });
     }
 
-    /* =========================
-       Timer (synced)
-    ========================== */
-    async function timerStart(){
-      if(!isJudge) return;
+    /***********************
+     * Voting (weighted) + judge override
+     ***********************/
+    btnOpenVote.addEventListener("click", async ()=>{
+      if(!isJudge || !roomId) return;
       const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const snap = await roomRef.get();
-      const r = snap.data() || {};
-      const dur = (r.timerDurationSec || (Math.max(1, Math.min(20, parseInt(roundMinutes.value,10)||5)) * 60));
+      await roomRef.set({ voteOpen:true, voteLocked:false }, { merge:true });
 
-      // Store server time as ms number for easier compute
+      await roomRef.collection("chat").add({
+        createdAt: SVT(),
+        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+        name: "Juge",
+        type: "argument",
+        text: "🗳️ فتح التصويت السري. صوّتوا الآن…"
+      });
+    });
+
+    btnLockVote.addEventListener("click", async ()=>{
+      if(!isJudge || !roomId) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+
+      await roomRef.set({ voteLocked:true }, { merge:true });
+
+      await roomRef.collection("chat").add({
+        createdAt: SVT(),
+        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+        name: "Juge",
+        type: "argument",
+        text: "🔒 تم قفل التصويت. المحكمة تنتقل للحكم…"
+      });
+    });
+
+    btnVoteGuilty.addEventListener("click", ()=>vote("GUILTY"));
+    btnVoteInnocent.addEventListener("click", ()=>vote("INNOCENT"));
+
+    async function vote(choice){
+      if(!roomId || !user) return;
+      if(myMode === "spectator") return alert("المشاهد لا يصوّت.");
+      if(!currentRoomData || !currentRoomData.voteOpen || currentRoomData.voteLocked) return alert("التصويت غير متاح.");
+
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      const w = calcWeightForUser(myRole);
+      await roomRef.collection("votes").doc(user.uid).set({
+        uid:user.uid,
+        name:(inName.value||"—").trim(),
+        role: myRole,
+        weight: w,
+        choice,
+        createdAt: SVT()
+      }, { merge:true });
+
+      votePill.textContent = "✅ تم التصويت (سري)";
+      votePill.className = "pill ok";
+    }
+
+    btnJudgeOverride.addEventListener("click", ()=>{
+      if(!isJudge) return;
+      showOverride();
+    });
+
+    document.getElementById("btnApplyOverride").addEventListener("click", async ()=>{
+      if(!isJudge || !roomId) return;
+      const decision = document.getElementById("overrideDecision").value;
+      const reason = (document.getElementById("overrideReason").value || "").trim();
+      if(reason.length < 12){
+        alert("اكتب تعليلًا واضحًا (12 حرف على الأقل).");
+        return;
+      }
+
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
       await roomRef.set({
-        timerRunning: true,
-        timerStartMs: Date.now(), // (client ms) good enough for this use
-        timerDurationSec: dur
+        judgeOverride: {
+          decision,
+          reason,
+          at: new Date().toLocaleString()
+        }
       }, { merge:true });
 
       await roomRef.collection("chat").add({
         createdAt: SVT(),
         at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
-        name: "Greffier",
+        name: "Juge",
         type: "argument",
-        text: "▶️ Timer lancé."
+        text: `⚖️ حكم القاضي النهائي: ${decision === "INNOCENT" ? "براءة" : "إدانة"}.\n📝 التعليل: ${reason}`
       });
-    }
 
-    async function timerPause(){
-      if(!isJudge) return;
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const snap = await roomRef.get();
-      const r = snap.data() || {};
-      if(!r.timerRunning) return;
+      hideOverride();
+      document.getElementById("overrideReason").value = "";
+    });
 
-      const left = computeTimerLeft(r);
-      await roomRef.set({
-        timerRunning:false,
-        timerStartMs: null,
-        timerDurationSec: left
-      }, { merge:true });
-
-      await roomRef.collection("chat").add({
-        createdAt: SVT(),
-        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
-        name: "Greffier",
-        type: "argument",
-        text: "⏸️ Timer en pause."
-      });
-    }
-
-    async function timerReset(){
-      if(!isJudge) return;
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const mins = Math.max(1, Math.min(20, parseInt(roundMinutes.value,10)||5));
-      await roomRef.set({
-        timerRunning:false,
-        timerStartMs:null,
-        timerDurationSec: mins*60
-      }, { merge:true });
-
-      await roomRef.collection("chat").add({
-        createdAt: SVT(),
-        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
-        name: "Greffier",
-        type: "argument",
-        text: "🔄 Timer reset."
-      });
-    }
-
-    function computeTimerLeft(r){
+    /***********************
+     * Timer (synced)
+     ***********************/
+    function computeLeft(r){
       const dur = (r.timerDurationSec || 0);
       if(!r.timerRunning || !r.timerStartMs) return dur;
       const elapsed = (Date.now() - r.timerStartMs) / 1000;
       return Math.max(0, dur - elapsed);
-    }
-
-    function syncTimerFromRoom(r){
-      stopTimerTick();
-
-      const left = computeTimerLeft(r);
-      renderTimer(left, (r.timerDurationSec || 1), r.timerRunning);
-
-      if(r.timerRunning){
-        timerState.textContent = "Running";
-        timerLocalTick = setInterval(()=>{
-          const l = computeTimerLeft(r);
-          renderTimer(l, (r.timerDurationSec || 1), true);
-          if(l <= 0){
-            stopTimerTick();
-            timerState.textContent = "Time!";
-          }
-        }, 500);
-      } else {
-        timerState.textContent = "Paused";
-      }
     }
 
     function renderTimer(left, total, running){
@@ -1614,82 +2254,113 @@
       timeBar.style.width = Math.max(0, Math.min(100, pct)) + "%";
     }
 
-    /* =========================
-       My role
-    ========================== */
-    async function showMyRole(){
-      if(!roomId || !user) return;
-      if(!myRole){
-        alert("Role غير متوفر بعد. انتظر ثانية.");
-        return;
+    function syncTimerFromRoom(r){
+      stopTimer();
+      const total = (r.timerDurationSec || 1);
+      const left = computeLeft(r);
+      renderTimer(left, total, r.timerRunning);
+      timerState.textContent = r.timerRunning ? "Running" : "Paused";
+
+      if(r.timerRunning){
+        timerTick = setInterval(()=>{
+          const l = computeLeft(r);
+          renderTimer(l, total, true);
+          if(l <= 0){
+            stopTimer();
+            timerState.textContent = "Time!";
+          }
+        }, 500);
       }
-      showRoleModal(roleLabels[myRole] || myRole, roleTips[myRole] || "");
     }
 
-    /* =========================
-       Auth state
-    ========================== */
-    auth.onAuthStateChanged((u)=>{
-      user = u || null;
-      const logged = !!user;
-      authChip.textContent = logged ? "Connecté ✅" : "Non connecté ❌";
-      if(!logged){
-        showLoginModal();
-        cleanupSubs();
-        roomId = null;
-        roomChip.textContent = "Room: —";
-        statusPill.textContent = "—";
-        setGameVisible(false);
-        return;
-      }
-      hideLoginModal();
+    btnTimerStart.addEventListener("click", async ()=>{
+      if(!isJudge || !roomId) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      await roomRef.set({
+        timerRunning:true,
+        timerStartMs: Date.now()
+      }, { merge:true });
+      await roomRef.collection("chat").add({
+        createdAt: SVT(),
+        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+        name: "Greffier",
+        type: "argument",
+        text: "▶️ التوقيت بدأ. ركّزوا…"
+      });
     });
 
-    /* =========================
-       Events
-    ========================== */
-    btnCreateRoom.addEventListener("click", createRoom);
-    btnJoinRoom.addEventListener("click", ()=>joinRoom());
-    btnLeaveRoom.addEventListener("click", leaveRoom);
-    btnMyRole.addEventListener("click", showMyRole);
-    btnStartGame.addEventListener("click", startGame);
+    btnTimerPause.addEventListener("click", async ()=>{
+      if(!isJudge || !roomId) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      const snap = await roomRef.get();
+      const r = snap.data() || {};
+      if(!r.timerRunning) return;
 
-    btnSaveCase.addEventListener("click", saveCase);
-    btnNextPhase.addEventListener("click", nextPhase);
+      const left = computeLeft(r);
+      await roomRef.set({
+        timerRunning:false,
+        timerStartMs:null,
+        timerDurationSec: left
+      }, { merge:true });
 
-    btnAddEvidence.addEventListener("click", addEvidence);
-    btnRevealNextEvidence.addEventListener("click", revealNextEvidence);
-
-    evidenceList.addEventListener("click", (e)=>{
-      const b = e.target.closest("button[data-act]");
-      if(!b) return;
-      evidenceAdminAction(b.getAttribute("data-act"), b.getAttribute("data-id"));
+      await roomRef.collection("chat").add({
+        createdAt: SVT(),
+        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+        name: "Greffier",
+        type: "argument",
+        text: "⏸️ توقيف مؤقت."
+      });
     });
 
-    btnSendMsg.addEventListener("click", sendMsg);
-    msgText.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); sendMsg(); } });
+    btnTimerReset.addEventListener("click", async ()=>{
+      if(!isJudge || !roomId) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      await roomRef.set({
+        timerRunning:false,
+        timerStartMs:null,
+        timerDurationSec: 5*60
+      }, { merge:true });
 
-    btnVoteGuilty.addEventListener("click", ()=>vote("GUILTY"));
-    btnVoteInnocent.addEventListener("click", ()=>vote("INNOCENT"));
-    btnLockVote.addEventListener("click", lockVote);
-    btnResetVote.addEventListener("click", resetVote);
+      await roomRef.collection("chat").add({
+        createdAt: SVT(),
+        at: new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}),
+        name: "Greffier",
+        type: "argument",
+        text: "🔄 Reset التوقيت (5 دقائق)."
+      });
+    });
 
-    btnTimerStart.addEventListener("click", timerStart);
-    btnTimerPause.addEventListener("click", timerPause);
-    btnTimerReset.addEventListener("click", timerReset);
+    /***********************
+     * Règles button
+     ***********************/
+    // already wired with btnShowRules
 
-    // UI init
-    statusPill.textContent = "—";
-    roomChip.textContent = "Room: —";
+    /***********************
+     * Default UI init
+     ***********************/
+    fillTopicCaseDropdowns();
+    syncCaseSelect();
     setGameVisible(false);
+    resetLocalState();
 
-    /* protection (optional) */
+    /***********************
+     * Security (optional)
+     ***********************/
     document.addEventListener("contextmenu", (e)=>e.preventDefault());
     document.addEventListener("keydown", (e)=>{
       if(e.key === "F12") e.preventDefault();
       if(e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S")) e.preventDefault();
       if(e.ctrlKey && e.shiftKey && ["I","i","J","j","C","c"].includes(e.key)) e.preventDefault();
     });
+
+    /***********************
+     * Buttons in modals
+     ***********************/
+    window.hideLoginModal = hideLoginModal;
+    window.hideCreateModal = hideCreateModal;
+    window.hideRules = hideRules;
+    window.hideRoleModal = hideRoleModal;
+    window.hideOverride = hideOverride;
   </script>
 </body>
 </html>
