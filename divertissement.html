@@ -220,9 +220,10 @@
       white-space: nowrap;
     }
 
+    /* ✅ CHANGE: cards stacked vertically (one below another) */
     .sections{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      display: grid;
+      grid-template-columns: 1fr; /* always one column */
       gap: 16px;
     }
 
@@ -242,6 +243,7 @@
       padding: 10px 10px 14px;
       border-bottom: 1px solid rgba(0,0,0,.06);
       margin-bottom: 12px;
+      flex-wrap: wrap; /* responsive */
     }
 
     .section-head h3{
@@ -368,6 +370,7 @@
     }
     .mbrand b{font-weight:900;color:#111}
 
+    /* ✅ stronger responsiveness for small devices */
     @media (max-width: 980px){
       .app{ grid-template-columns: 1fr; }
       .sidebar{
@@ -397,9 +400,10 @@
     @media (max-width: 520px){
       .topbar{ flex-direction: column; align-items: flex-start; }
       .login-state{ width:100%; justify-content:flex-start; }
-      .game{ align-items:flex-start; }
-      .go{ padding: 10px 10px; }
-      .txt p{ display:none; } 
+      .game{ flex-direction: column; align-items: stretch; }
+      .left{ width: 100%; }
+      .go{ width: 100%; text-align: center; }
+      .txt p{ display:none; }
     }
 
     .modal{
@@ -711,7 +715,6 @@
         if(!isLoggedIn){
           e.preventDefault();
           showLoginModal();
-
         }
       });
     });
