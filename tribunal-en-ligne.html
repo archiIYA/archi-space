@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tribunal en ligne | The Architectural Trial</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --red:#e11d2e;
+      --red2:#ff2d2d;
+      --dark:#0b0f14;
+      --dark2:#0f1620;
+      --txt:#e9edf5;
+      --muted:#b9c2d3;
+      --glass: rgba(255,255,255,.08);
+      --glass2: rgba(255,255,255,.12);
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --radius: 18px;
+      --ok:#22c55e;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif}
+    body{
+      min-height:100vh;
+      background:
+        radial-gradient(900px 500px at 10% 10%, rgba(225,29,46,.25), transparent 60%),
+        radial-gradient(700px 450px at 90% 20%, rgba(255,45,45,.18), transparent 60%),
+        radial-gradient(900px 700px at 50% 100%, rgba(255,255,255,.06), transparent 55%),
+        linear-gradient(180deg, #05070b, #0b0f14 60%, #070a0f);
+      color:var(--txt);
+      overflow-x:hidden;
+    }
+
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:26px 18px 40px;
+    }
+
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .badge{
+      width:46px;height:46px;border-radius:14px;
+      background: linear-gradient(135deg, rgba(225,29,46,.95), rgba(255,45,45,.55));
+      box-shadow: 0 10px 30px rgba(225,29,46,.25);
+      display:grid;place-items:center;
+      border:1px solid rgba(255,255,255,.2);
+      font-weight:900;
+    }
+    .title h1{
+      font-size:18px;
+      line-height:1.1;
+      margin-bottom:4px;
+    }
+    .title p{
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .pill{
+      display:flex;align-items:center;gap:8px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      background:var(--glass);
+      border-radius:999px;
+      box-shadow: var(--shadow);
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .pill b{color:var(--txt)}
+    .dot{
+      width:9px;height:9px;border-radius:999px;
+      background: var(--ok);
+      box-shadow:0 0 0 6px rgba(34,197,94,.12);
+    }
+
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:16px;
+      margin-top:14px;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    .card{
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card-h{
+      padding:14px 14px 10px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+    }
+    .card-h h2{
+      font-size:14px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .tag{
+      font-size:11px;
+      color:var(--muted);
+      padding:6px 10px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px;
+      background: rgba(0,0,0,.18);
+    }
+    .card-b{padding:14px}
+
+
+    .row{display:flex; gap:10px; flex-wrap:wrap}
+    .btn{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      color:var(--txt);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      transition:.18s transform, .18s opacity, .18s background;
+      display:inline-flex;align-items:center;gap:8px;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06)}
+    .btn:active{transform: translateY(0px); opacity:.9}
+    .btn.red{
+      background: linear-gradient(135deg, rgba(225,29,46,.92), rgba(255,45,45,.55));
+      border-color: rgba(255,255,255,.18);
+      box-shadow: 0 14px 34px rgba(225,29,46,.22);
+    }
+    .btn.green{
+      background: linear-gradient(135deg, rgba(34,197,94,.85), rgba(34,197,94,.35));
+      border-color: rgba(255,255,255,.18);
+      box-shadow: 0 14px 34px rgba(34,197,94,.18);
+    }
+    .btn.gray{opacity:.9}
+    .btn.small{padding:8px 10px;border-radius:12px;font-size:12px}
+    .btn.block{width:100%; justify-content:center}
+
+    input, textarea, select{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.25);
+      color:var(--txt);
+      padding:10px 12px;
+      outline:none;
+    }
+    textarea{min-height:90px; resize:vertical}
+    label{font-size:12px;color:var(--muted);display:block;margin:10px 0 6px}
+
+    .two{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 620px){ .two{grid-template-columns:1fr} }
+
+
+    .court{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+    .court-banner{
+      padding:14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(400px 250px at 20% 10%, rgba(225,29,46,.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+    }
+    .case-title{
+      max-width: 74%;
+    }
+    .case-title h3{font-size:15px;margin-bottom:6px}
+    .case-title p{font-size:12px;color:var(--muted);line-height:1.45}
+
+    .timerBox{
+      min-width: 220px;
+      border-radius: 16px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+    }
+    .timerTop{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .timerTop b{font-size:12px}
+    .timerTop span{font-size:12px;color:var(--muted)}
+    .time{
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:.5px;
+    }
+    .bar{
+      height:10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+      margin-top:8px;
+    }
+    .bar > i{
+      display:block;
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(225,29,46,.95), rgba(255,45,45,.55));
+    }
+
+
+    .roles{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 700px){ .roles{grid-template-columns:1fr} }
+
+    .roleBox{
+      padding:12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+    }
+    .roleBox h4{
+      font-size:13px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .roleBox p{font-size:12px;color:var(--muted);line-height:1.45}
+    .secret{
+      margin-top:10px;
+      display:none;
+      padding:10px;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.22);
+      font-size:12px;
+      line-height:1.45;
+    }
+
+
+    .evidenceList{
+      display:grid;
+      gap:10px;
+    }
+    .evi{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.20);
+      border-radius:16px;
+      overflow:hidden;
+    }
+    .eviHead{
+      padding:10px 12px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+    }
+    .eviHead b{font-size:12px}
+    .eviHead span{font-size:11px;color:var(--muted)}
+    .eviBody{padding:12px}
+    .eviBody p{font-size:12px;color:var(--muted);line-height:1.5}
+    .eviImg{
+      width:100%;
+      max-height:180px;
+      object-fit:cover;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      margin-top:10px;
+      display:none;
+    }
+
+
+    .chat{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      border-radius: 16px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      height: 340px;
+    }
+    .chatLog{
+      padding:12px;
+      overflow:auto;
+      flex:1;
+      display:grid;
+      gap:10px;
+    }
+    .msg{
+      padding:10px 12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+    }
+    .msg .meta{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      font-size:11px; color:var(--muted);
+      margin-bottom:6px;
+    }
+    .msg .text{
+      font-size:12px;
+      line-height:1.5;
+      color:var(--txt);
+      white-space:pre-wrap;
+    }
+    .chatSend{
+      padding:10px;
+      border-top:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      display:grid;
+      gap:8px;
+    }
+    .chatSend .sendRow{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:10px;
+    }
+    .hint{
+      font-size:11px;
+      color:var(--muted);
+      line-height:1.4;
+    }
+
+    /* Vote */
+    .voteGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 620px){ .voteGrid{grid-template-columns:1fr} }
+
+    .voteBox{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:16px;
+      background: rgba(0,0,0,.22);
+      padding:12px;
+    }
+    .voteBox h4{font-size:13px;margin-bottom:6px}
+    .voteBox p{font-size:12px;color:var(--muted);line-height:1.45;margin-bottom:10px}
+    .result{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size:12px;
+    }
+    .kpi{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:12px;
+      color:var(--muted);
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .kpi span{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color:var(--muted);
+    }
+    .footerNote{
+      margin-top:14px;
+      font-size:11px;
+      color:var(--muted);
+      opacity:.95;
+      line-height:1.5;
+    }
+
+
+    .modal{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:999;
+    }
+    .modal .box{
+      max-width:560px;
+      width:100%;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(15,22,32,.98), rgba(8,11,16,.98));
+      box-shadow: 0 20px 60px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .modal .box .mh{
+      padding:14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      background: rgba(255,255,255,.04);
+    }
+    .modal .box .mh b{font-size:13px}
+    .modal .box .mb{padding:14px}
+    .modal .box .mb p{color:var(--muted);font-size:12px;line-height:1.6}
+    .modal .box .mb .bigRole{
+      margin-top:10px;
+      padding:12px;
+      border-radius:16px;
+      border:1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.22);
+      font-size:13px;
+      line-height:1.6;
+    }
+    .modal .box .mf{padding:14px; display:flex; gap:10px; justify-content:flex-end}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="badge">⚖️</div>
+        <div class="title">
+          <h1>Tribunal en ligne — <span style="color:var(--red2)">The Architectural Trial</span></h1>
+          <p>Jeux collectifs · Rôles secrets · Débat · Preuves · Vote final</p>
+        </div>
+      </div>
+      <div class="pill"><span class="dot"></span> Mode local : <b>1 appareil</b> · Timer + vote</div>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-h">
+          <h2>🏛️ Salle d’audience</h2>
+          <span class="tag">Configurer l’affaire + lancer les rounds</span>
+        </div>
+
+        <div class="card-b court">
+          <div class="court-banner">
+            <div class="case-title">
+              <h3 id="caseName">Affaire : Projet “X” suspect d’un design hors contexte</h3>
+              <p id="caseDesc">السيناريو: أحد اللاعبين “متهم” بتصميم فاشل أو مخالف للسياق/البيئة. الباقي يأخذ أدوارًا سرية: قاضٍ، محامي دفاع، شهود، هيئة محلفين، ومخرب خفي.</p>
+            </div>
+
+            <div class="timerBox">
+              <div class="timerTop">
+                <b>⏱️ Round</b>
+                <span id="roundLabel">—</span>
+              </div>
+              <div class="time" id="timeLabel">05:00</div>
+              <div class="bar"><i id="timeBar"></i></div>
+
+              <div class="row" style="margin-top:10px">
+                <button class="btn small green" id="btnStart">▶️ Start</button>
+                <button class="btn small" id="btnPause">⏸️ Pause</button>
+                <button class="btn small" id="btnReset">🔄 Reset</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="two">
+            <div>
+              <label>Nom de l’affaire (عنوان القضية)</label>
+              <input id="inCaseName" placeholder="Ex: Le Musée sur la corniche / برج زجاجي في حي تاريخي…" />
+            </div>
+            <div>
+              <label>Durée d’un round (minutes)</label>
+              <input id="inMinutes" type="number" min="1" max="20" value="5"/>
+            </div>
+          </div>
+
+          <label>Description / Accusation (وصف الاتهام)</label>
+          <textarea id="inCaseDesc" placeholder="Ex: Projet trop haut, ignore le climat, matériaux غير ملائمة، تدمير المشهد الحضري…"></textarea>
+
+          <div class="row">
+            <button class="btn red" id="btnApplyCase">✅ Appliquer l’affaire</button>
+            <button class="btn" id="btnNextRound">⏭️ Round suivant</button>
+            <button class="btn gray" id="btnClearAll" title="Efface discussion + preuves + votes">🧹 Tout réinitialiser</button>
+          </div>
+
+          <div class="roles">
+            <div class="roleBox">
+              <h4>🎭 توزيع الأدوار <span class="tag">secret</span></h4>
+              <p>
+                ضع عدد اللاعبين ثم اضغط “Générer”. كل لاعب يضغط “Voir mon rôle” ثم يغلق النافذة فورًا.
+              </p>
+
+              <label>Nombre de joueurs</label>
+              <input id="inPlayers" type="number" min="4" max="14" value="7"/>
+
+              <label>Mode témoins</label>
+              <select id="inWitnessMode">
+                <option value="2">2 témoins</option>
+                <option value="3">3 témoins</option>
+                <option value="4">4 témoins</option>
+              </select>
+
+              <div class="row" style="margin-top:10px">
+                <button class="btn green" id="btnGenRoles">🎲 Générer</button>
+                <button class="btn" id="btnShowRole">🕵️ Voir mon rôle</button>
+                <button class="btn small" id="btnRevealAll">👁️ Reveal (admin)</button>
+              </div>
+
+              <div class="secret" id="rolesSummary"></div>
+            </div>
+
+            <div class="roleBox">
+              <h4>📜 قواعد سريعة <span class="tag">guide</span></h4>
+              <p>
+                <b>جولات استجواب ⏱️</b> (القاضي يدير الوقت) ·
+                <b>أدلة</b> تظهر تدريجيًا ·
+                <b>المخرب الخفي</b> يحاول التشويش دون انكشاف ·
+                وفي النهاية <b>تصويت: إدانة أو براءة</b>.
+              </p>
+
+              <div class="kpi">
+                <span>1) Lancement</span>
+                <span>2) Interrogatoire</span>
+                <span>3) Preuves</span>
+                <span>4) Plaidoiries</span>
+                <span>5) Vote final</span>
+              </div>
+
+              <div class="footerNote">
+                💡 اقتراح “مخرب خفي”:
+                يقدّم “أكاذيب معقولة” أو يغيّر التفاصيل. لو انكشف، يقل تأثيره ويخسر نقطة!
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="border-radius:16px">
+            <div class="card-h">
+              <h2>🧾 Preuves (أدلة)</h2>
+              <span class="tag">Texte + Image URL + “révélation”</span>
+            </div>
+            <div class="card-b">
+              <div class="two">
+                <div>
+                  <label>Titre</label>
+                  <input id="inEviTitle" placeholder="Ex: Plan masse / Coupe / Témoignage…" />
+                </div>
+                <div>
+                  <label>Image URL (optionnel)</label>
+                  <input id="inEviImg" placeholder="https://… (png/jpg/webp)" />
+                </div>
+              </div>
+
+              <label>Description / Contenu</label>
+              <textarea id="inEviText" placeholder="Ex: Le projet bloque la ventilation, ignore les vues, تلوث بصري…"></textarea>
+
+              <div class="row">
+                <button class="btn red" id="btnAddEvi">➕ Ajouter preuve</button>
+                <button class="btn" id="btnRevealNext">🧩 Révéler la prochaine preuve</button>
+              </div>
+
+              <div class="evidenceList" id="evidenceList" style="margin-top:12px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="card">
+        <div class="card-h">
+          <h2>🗣️ Débat & Vote</h2>
+          <span class="tag">Discussion + jury + verdict</span>
+        </div>
+
+        <div class="card-b">
+          <div class="chat">
+            <div class="chatLog" id="chatLog"></div>
+            <div class="chatSend">
+              <div class="two">
+                <div>
+                  <label>Nom (ou rôle)</label>
+                  <input id="inName" placeholder="Ex: Juge / Avocat / Juré 1 / شاهد 2…" />
+                </div>
+                <div>
+                  <label>Type</label>
+                  <select id="inType">
+                    <option value="question">❓ Question</option>
+                    <option value="argument">🧠 Argument</option>
+                    <option value="objection">⛔ Objection</option>
+                    <option value="clue">🧾 Référence preuve</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="sendRow">
+                <input id="inMsg" placeholder="Tape ton message… (sans spam 😉)" />
+                <button class="btn red" id="btnSend">Envoyer</button>
+              </div>
+              <div class="hint">Astuce: Le juge peut annoncer “Round 1: Interrogatoire”, ثم تشغيل المؤقت. المخرب يحاول التشويش بدون مبالغة.</div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="voteGrid">
+            <div class="voteBox">
+              <h4>🗳️ Vote final — Verdict</h4>
+              <p>هيئة المحلفين تصوّت: <b>إدانة</b> أو <b>براءة</b>. (Local counts على نفس الجهاز)</p>
+
+              <div class="row">
+                <button class="btn red block" id="btnGuilty">⚠️ Coupable (إدانة)</button>
+                <button class="btn green block" id="btnNotGuilty">✅ Innocent (براءة)</button>
+              </div>
+
+              <div class="result">
+                <span>📊 Résultats</span>
+                <b id="voteStats">0 / 0</b>
+              </div>
+
+              <div class="kpi">
+                <span id="kpiG">Coupable: 0</span>
+                <span id="kpiI">Innocent: 0</span>
+                <span id="kpiT">Total: 0</span>
+              </div>
+
+              <div class="row" style="margin-top:10px">
+                <button class="btn small" id="btnLockVote">🔒 Verrouiller</button>
+                <button class="btn small" id="btnResetVote">♻️ Reset vote</button>
+              </div>
+
+              <div class="footerNote" id="verdictNote">
+                🔔 عند الإقفال: يتم إعلان النتيجة النهائية + رسالة القاضي.
+              </div>
+            </div>
+
+            <div class="voteBox">
+              <h4>🎯 أدوات الحكم (Juge)</h4>
+              <p>اقتراح أسئلة للاستجواب + “بطاقة تشويش” للمخرب (اختيارية).</p>
+
+              <label>Questions rapides (استجواب)</label>
+              <textarea id="judgePrompts" placeholder="1) لماذا اخترت هذا الارتفاع؟
+2) أين حلول المناخ؟
+3) كيف تحترم النسيج؟
+4) ما البدائل؟"></textarea>
+
+              <div class="row">
+                <button class="btn" id="btnPostPrompts">📌 نشر الأسئلة في النقاش</button>
+                <button class="btn" id="btnSaboteurCard">🃏 بطاقة للمخرب (سرية)</button>
+              </div>
+
+              <div class="footerNote">
+                💡 فكرة ممتعة: كل Round، “Reveal” دليل واحد فقط.  
+                في النهاية، المتهم/الدفاع يقدم 30 ثانية “Plaidoirie”.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="roleModal">
+    <div class="box">
+      <div class="mh">
+        <b>🔐 Ton rôle (سري)</b>
+        <button class="btn small" id="btnCloseModal">✖️</button>
+      </div>
+      <div class="mb">
+        <p>اقرأ دورك بسرعة ثم أغلق النافذة قبل أن يراه الآخرون.</p>
+        <div class="bigRole" id="modalRole">—</div>
+        <div class="footerNote" id="modalTip"></div>
+      </div>
+      <div class="mf">
+        <button class="btn red" id="btnOkModal">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  
+    const state = {
+      caseName: "Affaire : Projet “X” suspect d’un design hors contexte",
+      caseDesc: "السيناريو: أحد اللاعبين “متهم” بتصميم فاشل أو مخالف للسياق/البيئة...",
+      round: 1,
+      roundName: "Interrogatoire",
+      roundMinutes: 5,
+      timer: { running:false, total: 300, left: 300, t:null },
+      roles: {
+        generated: false,
+        pool: [],
+        revealIndex: 0
+      },
+      evidence: {
+        all: [],        
+        revealCursor: 0
+      },
+      chat: [],
+      vote: {
+        locked: false,
+        guilty: 0,
+        innocent: 0
+      }
+    };
+
+    const $ = (id)=>document.getElementById(id);
+
+
+    function pad2(n){ return String(n).padStart(2,"0"); }
+    function fmtTime(sec){
+      sec = Math.max(0, sec|0);
+      const m = Math.floor(sec/60);
+      const s = sec%60;
+      return `${pad2(m)}:${pad2(s)}`;
+    }
+    function nowStr(){
+      const d = new Date();
+      return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+    }
+    function safeText(t){
+      return (t||"").toString().trim();
+    }
+    function pushChat(name, type, text){
+      const msg = {
+        at: nowStr(),
+        name: safeText(name) || "Anonyme",
+        type,
+        text: safeText(text)
+      };
+      if(!msg.text) return;
+      state.chat.push(msg);
+      renderChat();
+    }
+    function scrollChatBottom(){
+      const el = $("chatLog");
+      el.scrollTop = el.scrollHeight;
+    }
+
+
+    function applyCase(){
+      const n = safeText($("inCaseName").value);
+      const d = safeText($("inCaseDesc").value);
+      const mins = parseInt($("inMinutes").value,10);
+
+      if(n) state.caseName = "Affaire : " + n;
+      if(d) state.caseDesc = d;
+      if(Number.isFinite(mins) && mins>=1 && mins<=20){
+        state.roundMinutes = mins;
+        resetTimer();
+      }
+
+      $("caseName").textContent = state.caseName;
+      $("caseDesc").textContent = state.caseDesc;
+
+      pushChat("Greffier", "clue", `📁 Dossier mis à jour: ${state.caseName}`);
+    }
+
+    const roundNames = [
+      "Ouverture",
+      "Interrogatoire",
+      "Contre-interrogatoire",
+      "Analyse des preuves",
+      "Plaidoiries",
+      "Délibération"
+    ];
+
+    function nextRound(){
+      state.round++;
+      state.roundName = roundNames[(state.round-1) % roundNames.length];
+      $("roundLabel").textContent = `#${state.round} · ${state.roundName}`;
+      resetTimer();
+      pushChat("Juge", "question", `⏱️ Round #${state.round} بدأ: ${state.roundName}`);
+    }
+
+
+    function syncTimerUI(){
+      $("timeLabel").textContent = fmtTime(state.timer.left);
+      const pct = state.timer.total ? ( (state.timer.total - state.timer.left) / state.timer.total ) * 100 : 0;
+      $("timeBar").style.width = Math.max(0, Math.min(100, pct)) + "%";
+      $("roundLabel").textContent = `#${state.round} · ${state.roundName}`;
+    }
+
+    function startTimer(){
+      if(state.timer.running) return;
+      state.timer.running = true;
+      state.timer.t = setInterval(()=>{
+        state.timer.left--;
+        if(state.timer.left <= 0){
+          state.timer.left = 0;
+          pauseTimer();
+          pushChat("Greffier", "argument", "⏰ Time! انتهى الوقت.");
+        }
+        syncTimerUI();
+      }, 1000);
+      pushChat("Greffier", "argument", "▶️ Timer lancé.");
+    }
+
+    function pauseTimer(){
+      state.timer.running = false;
+      if(state.timer.t) clearInterval(state.timer.t);
+      state.timer.t = null;
+      syncTimerUI();
+    }
+
+    function resetTimer(){
+      pauseTimer();
+      state.timer.total = state.roundMinutes * 60;
+      state.timer.left = state.timer.total;
+      syncTimerUI();
+      pushChat("Greffier", "argument", `🔄 Timer reset (${state.roundMinutes} min).`);
+    }
+
+
+    function generateRoles(){
+      const players = parseInt($("inPlayers").value,10);
+      const witnessCount = parseInt($("inWitnessMode").value,10);
+
+      if(!Number.isFinite(players) || players < 4){
+        alert("Nombre de joueurs يجب أن يكون 4 أو أكثر.");
+        return;
+      }
+
+      const pool = [];
+      pool.push({role:"👨‍⚖️ Juge (القاضي)", tip:"تدير الجولات، تفرض النظام، وتعلن الحكم النهائي."});
+      pool.push({role:"🧑‍💼 Avocat de défense (محامي دفاع)", tip:"يدافع عن المتهم ويقدّم تبريرات/بدائل معقولة."});
+      pool.push({role:"😈 Accusé (المتهم)", tip:"أنت مصمم المشروع. حاول تبرير قراراتك بدون تناقض."});
+      pool.push({role:"🕳️ Saboteur secret (مخرب خفي)", tip:"شوش بشكل ذكي: أكاذيب صغيرة، خلط معلومات، لكن بدون فضح نفسك."});
+
+      for(let i=1;i<=witnessCount;i++){
+        pool.push({role:`🧑‍🏫 Témoin ${i} (شاهد)`, tip:"قدّم شهادة: سياق، مناخ، استعمالات، قيود الموقع…"});
+      }
+
+      while(pool.length < players){
+        const idx = pool.filter(x=>x.role.startsWith("🧑‍🤝‍🧑 Juré")).length + 1;
+        pool.push({role:`🧑‍🤝‍🧑 Juré ${idx} (محلف)`, tip:"اسأل، ناقش، وركّز على الأدلة قبل التصويت."});
+      }
+
+      for(let i=pool.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+
+      state.roles.pool = pool;
+      state.roles.generated = true;
+      state.roles.revealIndex = 0;
+
+      $("rolesSummary").style.display = "block";
+      $("rolesSummary").textContent =
+        `تم إنشاء الأدوار ✅\n`+
+        `عدد اللاعبين: ${players}\n`+
+        `اضغط "Voir mon rôle" لكل لاعب بالترتيب.\n`+
+        `ملاحظة: لا تكشف دورك بصوت عالٍ 😉`;
+
+      pushChat("Greffier", "argument", `🎲 Rôles générés pour ${players} joueurs.`);
+    }
+
+    function openRoleModal(roleObj, title="Ton rôle (سري)"){
+      $("modalRole").textContent = roleObj?.role || "—";
+      $("modalTip").textContent = "💡 " + (roleObj?.tip || "");
+      $("roleModal").style.display = "flex";
+    }
+    function closeRoleModal(){
+      $("roleModal").style.display = "none";
+    }
+
+    function showMyRole(){
+      if(!state.roles.generated || !state.roles.pool.length){
+        alert("قم بإنشاء الأدوار أولاً (Générer).");
+        return;
+      }
+      if(state.roles.revealIndex >= state.roles.pool.length){
+        alert("تم توزيع كل الأدوار.");
+        return;
+      }
+      const roleObj = state.roles.pool[state.roles.revealIndex];
+      state.roles.revealIndex++;
+      openRoleModal(roleObj);
+    }
+
+    function revealAllRoles(){
+      if(!state.roles.generated) return alert("Générer أولاً.");
+      const list = state.roles.pool.map((r,i)=>`${i+1}. ${r.role}`).join("\n");
+      $("rolesSummary").style.display = "block";
+      $("rolesSummary").textContent = "Reveal (admin) — جميع الأدوار:\n" + list;
+    }
+
+
+    function addEvidence(){
+      const title = safeText($("inEviTitle").value) || `Preuve #${state.evidence.all.length+1}`;
+      const text  = safeText($("inEviText").value) || "—";
+      const img   = safeText($("inEviImg").value);
+
+      state.evidence.all.push({
+        title, text, img,
+        revealed: false,
+        createdAt: Date.now()
+      });
+
+      $("inEviTitle").value = "";
+      $("inEviText").value = "";
+      $("inEviImg").value = "";
+
+      renderEvidence();
+      pushChat("Greffier", "clue", `🧾 Preuve ajoutée: "${title}" (non révélée).`);
+    }
+
+    function revealNextEvidence(){
+      const next = state.evidence.all.find(e=>!e.revealed);
+      if(!next){
+        alert("لا توجد أدلة غير مكشوفة.");
+        return;
+      }
+      next.revealed = true;
+      renderEvidence();
+      pushChat("Greffier", "clue", `🧩 Preuve révélée: "${next.title}"`);
+    }
+
+    function renderEvidence(){
+      const box = $("evidenceList");
+      box.innerHTML = "";
+
+      if(state.evidence.all.length === 0){
+        const empty = document.createElement("div");
+        empty.className = "evi";
+        empty.innerHTML = `
+          <div class="eviHead"><b>—</b><span>Aucune preuve pour l’instant</span></div>
+          <div class="eviBody"><p>Ajoute des preuves (texte / image URL) ثم “Révéler” تدريجيًا.</p></div>
+        `;
+        box.appendChild(empty);
+        return;
+      }
+
+      state.evidence.all.forEach((e, idx)=>{
+        const el = document.createElement("div");
+        el.className = "evi";
+        const status = e.revealed ? "✅ Révélée" : "🔒 Cachée";
+        el.innerHTML = `
+          <div class="eviHead">
+            <b>${idx+1}. ${escapeHtml(e.title)}</b>
+            <span>${status}</span>
+          </div>
+          <div class="eviBody">
+            <p>${escapeHtml(e.revealed ? e.text : "Cette preuve est encore cachée.")}</p>
+            <img class="eviImg" />
+            <div class="row" style="margin-top:10px">
+              ${e.revealed ? "" : `<button class="btn small" data-act="reveal" data-i="${idx}">🧩 Reveal</button>`}
+              <button class="btn small" data-act="delete" data-i="${idx}">🗑️ Delete</button>
+            </div>
+          </div>
+        `;
+        box.appendChild(el);
+
+        const imgEl = el.querySelector(".eviImg");
+        if(e.revealed && e.img){
+          imgEl.src = e.img;
+          imgEl.style.display = "block";
+          imgEl.onerror = ()=>{ imgEl.style.display="none"; };
+        }
+      });
+    }
+
+    function onEvidenceClick(e){
+      const btn = e.target.closest("button[data-act]");
+      if(!btn) return;
+      const act = btn.getAttribute("data-act");
+      const i = parseInt(btn.getAttribute("data-i"),10);
+      const item = state.evidence.all[i];
+      if(!item) return;
+
+      if(act === "delete"){
+        if(confirm("Supprimer cette preuve ?")){
+          state.evidence.all.splice(i,1);
+          renderEvidence();
+          pushChat("Greffier","argument",`🗑️ Preuve supprimée (#${i+1}).`);
+        }
+      }
+      if(act === "reveal"){
+        item.revealed = true;
+        renderEvidence();
+        pushChat("Greffier","clue",`🧩 Preuve révélée: "${item.title}"`);
+      }
+    }
+
+
+    function renderChat(){
+      const log = $("chatLog");
+      log.innerHTML = "";
+
+      if(state.chat.length === 0){
+        const starter = document.createElement("div");
+        starter.className = "msg";
+        starter.innerHTML = `
+          <div class="meta"><span>🧑‍⚖️ Greffier</span><span>${nowStr()}</span></div>
+          <div class="text">ابدأ: عيّن الأدوار ثم اكتب “Round 1” وشغّل المؤقت. أضف الأدلة تدريجيًا.</div>
+        `;
+        log.appendChild(starter);
+      }
+
+      state.chat.forEach(m=>{
+        const el = document.createElement("div");
+        el.className = "msg";
+        const icon = m.type === "question" ? "❓" : m.type === "argument" ? "🧠" : m.type === "objection" ? "⛔" : "🧾";
+        el.innerHTML = `
+          <div class="meta">
+            <span>${icon} ${escapeHtml(m.name)}</span>
+            <span>${escapeHtml(m.at)}</span>
+          </div>
+          <div class="text">${escapeHtml(m.text)}</div>
+        `;
+        log.appendChild(el);
+      });
+
+      scrollChatBottom();
+    }
+
+    function sendMsg(){
+      const name = $("inName").value;
+      const type = $("inType").value;
+      const text = $("inMsg").value;
+
+
+      if(safeText(text).length < 2) return;
+
+      pushChat(name, type, text);
+      $("inMsg").value = "";
+      $("inMsg").focus();
+    }
+
+
+    function updateVoteUI(){
+      const total = state.vote.guilty + state.vote.innocent;
+      $("kpiG").textContent = `Coupable: ${state.vote.guilty}`;
+      $("kpiI").textContent = `Innocent: ${state.vote.innocent}`;
+      $("kpiT").textContent = `Total: ${total}`;
+      $("voteStats").textContent = `${state.vote.guilty} / ${state.vote.innocent}`;
+
+      if(state.vote.locked){
+        const verdict = state.vote.guilty === state.vote.innocent
+          ? "⚖️ Égalité — Le juge tranche."
+          : (state.vote.guilty > state.vote.innocent ? "⚠️ Verdict: COUPABLE" : "✅ Verdict: INNOCENT");
+
+        $("verdictNote").textContent = `🔒 Vote verrouillé. ${verdict}`;
+      }else{
+        $("verdictNote").textContent = "🔔 عند الإقفال: يتم إعلان النتيجة النهائية + رسالة القاضي.";
+      }
+    }
+
+    function voteGuilty(){
+      if(state.vote.locked) return alert("Vote verrouillé.");
+      state.vote.guilty++;
+      updateVoteUI();
+      pushChat("Juré", "argument", "🗳️ Vote: Coupable (إدانة).");
+    }
+    function voteInnocent(){
+      if(state.vote.locked) return alert("Vote verrouillé.");
+      state.vote.innocent++;
+      updateVoteUI();
+      pushChat("Juré", "argument", "🗳️ Vote: Innocent (براءة).");
+    }
+
+    function lockVote(){
+      state.vote.locked = true;
+      updateVoteUI();
+      pushChat("Juge", "argument", "🔒 Vote verrouillé. إعلان النتيجة.");
+    }
+
+    function resetVote(){
+      state.vote.locked = false;
+      state.vote.guilty = 0;
+      state.vote.innocent = 0;
+      updateVoteUI();
+      pushChat("Greffier", "argument", "♻️ Vote reset.");
+    }
+
+
+    function postPrompts(){
+      const t = safeText($("judgePrompts").value);
+      if(!t) return;
+      pushChat("Juge", "question", "📌 أسئلة الاستجواب:\n" + t);
+    }
+
+    function saboteurCard(){
+      const cards = [
+        {role:"🃏 مهمة سرية", tip:"أدخل معلومة “ناقصة” مرة واحدة فقط، ثم تراجع لاحقًا وكأنك نسيت."},
+        {role:"🃏 مهمة سرية", tip:"حاول تحويل النقاش إلى نقطة ثانوية (لون الواجهة/ديكور) بدل المشكلة الأساسية."},
+        {role:"🃏 مهمة سرية", tip:"قدّم “مصطلح معماري” بشكل خاطئ، وشوف من يصحّح لك."},
+        {role:"🃏 مهمة سرية", tip:"ادّعِ أن هناك “قانون” يمنع شيئًا (بدون مبالغة)، وشوف من يطلب دليل."},
+      ];
+      const c = cards[Math.floor(Math.random()*cards.length)];
+      openRoleModal(c, "🕳️ بطاقة سرية");
+    }
+
+
+    function clearAll(){
+      if(!confirm("Tout réinitialiser ؟ (chat + preuves + vote + roles)")) return;
+      pauseTimer();
+      state.round = 1;
+      state.roundName = "Interrogatoire";
+      state.chat = [];
+      state.evidence.all = [];
+      state.roles.generated = false;
+      state.roles.pool = [];
+      state.roles.revealIndex = 0;
+      resetVote();
+
+      $("rolesSummary").style.display = "none";
+      $("rolesSummary").textContent = "";
+
+      $("caseName").textContent = state.caseName;
+      $("caseDesc").textContent = state.caseDesc;
+
+      renderChat();
+      renderEvidence();
+      resetTimer();
+    }
+
+
+    function escapeHtml(str){
+      return (str ?? "").toString()
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+
+    function init(){
+      $("caseName").textContent = state.caseName;
+      $("caseDesc").textContent = state.caseDesc;
+
+      $("roundLabel").textContent = `#${state.round} · ${state.roundName}`;
+      resetTimer();
+
+      renderChat();
+      renderEvidence();
+      updateVoteUI();
+
+      $("btnApplyCase").addEventListener("click", applyCase);
+      $("btnNextRound").addEventListener("click", nextRound);
+      $("btnClearAll").addEventListener("click", clearAll);
+
+      $("btnStart").addEventListener("click", startTimer);
+      $("btnPause").addEventListener("click", pauseTimer);
+      $("btnReset").addEventListener("click", resetTimer);
+
+      $("btnGenRoles").addEventListener("click", generateRoles);
+      $("btnShowRole").addEventListener("click", showMyRole);
+      $("btnRevealAll").addEventListener("click", revealAllRoles);
+
+      $("btnCloseModal").addEventListener("click", closeRoleModal);
+      $("btnOkModal").addEventListener("click", closeRoleModal);
+      $("roleModal").addEventListener("click", (e)=>{
+        if(e.target === $("roleModal")) closeRoleModal();
+      });
+
+      $("btnAddEvi").addEventListener("click", addEvidence);
+      $("btnRevealNext").addEventListener("click", revealNextEvidence);
+      $("evidenceList").addEventListener("click", onEvidenceClick);
+
+      $("btnSend").addEventListener("click", sendMsg);
+      $("inMsg").addEventListener("keydown", (e)=>{
+        if(e.key === "Enter"){ e.preventDefault(); sendMsg(); }
+      });
+
+      $("btnGuilty").addEventListener("click", voteGuilty);
+      $("btnNotGuilty").addEventListener("click", voteInnocent);
+      $("btnLockVote").addEventListener("click", lockVote);
+      $("btnResetVote").addEventListener("click", resetVote);
+
+      $("btnPostPrompts").addEventListener("click", postPrompts);
+      $("btnSaboteurCard").addEventListener("click", saboteurCard);
+
+      $("roundLabel").textContent = `#${state.round} · ${state.roundName}`;
+    }
+
+    init();
+  </script>
+</body>
+</html>
