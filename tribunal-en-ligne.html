@@ -2,7 +2,7 @@
 <html lang="fr" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tribunal en ligne | Trendy Plaza</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
@@ -17,7 +17,6 @@
       --border: rgba(225,29,46,.22);
       --shadow: 0 18px 50px rgba(0,0,0,.12);
       --radius: 18px;
-      --ok:#0a7a2a;
     }
     *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif}
     body{
@@ -32,7 +31,8 @@
     }
     body::before{
       content:"";
-      position:fixed; inset:0;
+      position:fixed;
+      inset:0;
       background-image: url("logotrendy.svg");
       background-repeat:no-repeat;
       background-position:center;
@@ -54,127 +54,181 @@
       background: var(--glass);
       border-right: 1px solid var(--border);
       padding: 18px;
-      position: sticky; top: 0;
+      position: sticky;
+      top: 0;
       height: 100vh;
       backdrop-filter: blur(12px);
     }
     .brand{
-      display:flex;align-items:center;gap:12px;
-      padding:10px 10px 14px;
+      display:flex; align-items:center; gap: 12px;
+      padding: 10px 10px 14px;
       border-bottom: 1px solid rgba(0,0,0,.06);
       margin-bottom: 12px;
     }
     .brand img{
-      width:48px;height:48px;border-radius:14px;
+      width: 48px; height: 48px;
+      border-radius: 14px;
       object-fit: cover;
-      border:1px solid rgba(225,29,46,.25);
-      background:#fff;padding:6px;
+      border: 1px solid rgba(225,29,46,.25);
+      background: #fff;
+      padding: 6px;
       box-shadow: 0 10px 30px rgba(225,29,46,.10);
     }
-    .brand h1{font-size:1.05rem;font-weight:900;line-height:1.05;color:#111}
-    .side-actions{display:grid;gap:10px;margin-top:12px}
+    .brand h1{
+      font-size:1.05rem;
+      font-weight:900;
+      line-height:1.05;
+      color: #111;
+    }
+
+    .side-actions{
+      display:grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
 
     .btn{
-      border:none;cursor:pointer;
+      border:none;
+      cursor:pointer;
       padding: 11px 12px;
       border-radius: 14px;
       font-weight: 900;
-      transition:.2s;
+      transition: .2s;
       text-decoration:none;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap:8px;
+      gap: 8px;
       user-select:none;
       box-shadow: 0 8px 22px rgba(0,0,0,.06);
+      background:#fff;
+      color:#111;
+      border: 1px solid rgba(225,29,46,.18);
     }
-    .btn.primary{background: linear-gradient(135deg,var(--red),var(--red2)); color:#fff;}
-    .btn.ghost{background:#fff;color:var(--red);border:1px solid rgba(225,29,46,.25);box-shadow:none;}
+    .btn.primary{
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      color: #fff;
+      border:none;
+    }
+    .btn.ghost{
+      background:#fff;
+      color: var(--red);
+      border: 1px solid rgba(225,29,46,.25);
+      box-shadow: none;
+    }
     .btn:hover{transform: translateY(-2px);}
 
-    .nav{margin-top:14px;display:grid;gap:10px;}
-    .nav-title{font-size:.84rem;color:rgba(0,0,0,.60);padding:8px 10px 0;font-weight:800;}
+    .nav{ margin-top: 14px; display:grid; gap: 10px; }
+    .nav-title{
+      font-size:.84rem; color: rgba(0,0,0,.60);
+      padding: 8px 10px 0;
+      font-weight: 800;
+    }
     .nav a{
-      text-decoration:none;color:#111;
+      text-decoration:none; color: #111;
       padding: 12px 12px;
       border-radius: 14px;
-      background:#fff;
-      border:1px solid rgba(225,29,46,.18);
-      transition:.2s;
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      background: #fff;
+      border: 1px solid rgba(225,29,46,.18);
+      transition: .2s;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
       box-shadow: 0 10px 28px rgba(0,0,0,.06);
     }
-    .nav a:hover{transform: translateY(-2px); border-color: rgba(225,29,46,.35);}
+    .nav a:hover{transform: translateY(-2px);border-color: rgba(225,29,46,.35);}
+
     .pill{
-      font-size:.75rem;padding:5px 10px;border-radius:999px;
+      font-size:.75rem;
+      padding: 5px 10px;
+      border-radius: 999px;
       background: rgba(225,29,46,.08);
       border: 1px solid rgba(225,29,46,.18);
       color: var(--red);
       font-weight: 900;
-      white-space:nowrap;
+      white-space: nowrap;
     }
-    .pill.ok{ color: var(--ok); border-color: rgba(10,122,42,.22); background: rgba(10,122,42,.08); }
-    .pill.dark{ color:#111; background: rgba(0,0,0,.06); border-color: rgba(0,0,0,.10); }
 
-    .main{padding:18px 16px 40px;}
-    .wrap{max-width: 1180px; margin:0 auto;}
+    .main{ padding: 18px 16px 40px; }
+    .wrap{ max-width: 1200px; margin: 0 auto; }
 
     .topbar{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      background:#fff;
-      border:1px solid rgba(225,29,46,.18);
-      border-radius:20px;
-      padding:14px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid rgba(225,29,46,.18);
+      border-radius: 20px;
+      padding: 14px 14px;
       box-shadow: var(--shadow);
-      margin-bottom:16px;
-      flex-wrap:wrap;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
     }
     .title h2{
-      font-size:1.25rem;font-weight: 900;color:#111;
-      display:flex;align-items:center;gap:8px;
+      font-size:1.25rem;
+      font-weight: 900;
+      color: #111;
+      display:flex;
+      align-items:center;
+      gap: 8px;
     }
     .title p{
-      margin-top:4px;
-      font-size:.92rem;
+      margin-top: 4px;
+      font-size: .92rem;
       color: rgba(0,0,0,.62);
       font-weight: 700;
-      line-height:1.6;
+    }
+
+    .chip{
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(225,29,46,.20);
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      font-weight: 900;
+      font-size: .84rem;
+      white-space: nowrap;
     }
 
     .card{
       background:#fff;
-      border:1px solid rgba(225,29,46,.18);
-      border-radius:22px;
+      border: 1px solid rgba(225,29,46,.18);
+      border-radius: 22px;
       padding: 16px;
       box-shadow: var(--shadow);
     }
 
-    .grid2{
+    .grid{
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:14px;
-      margin-top:14px;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 14px;
+      margin-top: 12px;
+      align-items:start;
     }
 
-    .controls{
-      display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;
-      margin: 8px 0 0;
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
     }
-    .controls .left{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
 
-    .input, .select{
+    .input{
       border:1px solid rgba(225,29,46,.20);
       border-radius: 14px;
       padding: 10px 12px;
       background:#fff;
-      font-weight: 800;
+      font-weight:800;
       color:#111;
-      outline:none;
       min-width: 220px;
+      outline:none;
     }
-    .input{min-width: 250px;}
+
     .small-btn{
-      border:none;cursor:pointer;
+      border:none;
+      cursor:pointer;
       padding: 10px 12px;
       border-radius: 14px;
       font-weight: 900;
@@ -182,60 +236,43 @@
       background: rgba(225,29,46,.06);
       color: var(--red);
       border: 1px solid rgba(225,29,46,.20);
-      user-select:none;
+    }
+    .small-btn.primary{
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      color:#fff;
+      border:none;
     }
     .small-btn:hover{transform:translateY(-2px);}
-    .small-btn.primary{
-      background: linear-gradient(135deg,var(--red),var(--red2));
-      color:#fff;border:none;
-    }
-    .small-btn.danger{
-      background: rgba(225,29,46,.10);
-      border-color: rgba(225,29,46,.26);
-    }
 
-    .section-head{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:10px;
-    }
-    .section-head h3{font-size:1rem;font-weight:900;color:#111}
-
-    .typebox{
-      border:1px dashed rgba(225,29,46,.35);
+    .typing{
       background: linear-gradient(180deg,#fff,#fff7f8);
+      border:1px solid rgba(225,29,46,.14);
       border-radius: 18px;
-      padding: 14px;
-      line-height:1.8;
-      font-weight:800;
+      padding: 12px;
+      line-height:1.85;
+      font-weight: 700;
       color: rgba(0,0,0,.78);
-      min-height: 120px;
-      position: relative;
-      overflow:hidden;
-    }
-    .cursor{
-      display:inline-block;
-      width:10px;height:18px;
-      background: rgba(225,29,46,.8);
-      margin-left:6px;
-      animation: blink .8s infinite;
-      vertical-align: middle;
-      border-radius: 4px;
-    }
-    @keyframes blink{ 0%,49%{opacity:1} 50%,100%{opacity:.1} }
-
-    .row{
-      display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+      min-height: 140px;
+      white-space: pre-wrap;
     }
 
+    .section-title{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      margin-bottom: 10px;
+    }
+    .section-title h3{ font-size: .98rem; font-weight: 900; color:#111; }
     .list{
-      display:grid;gap:10px;
+      display:grid;
+      gap: 10px;
+      margin-top: 8px;
     }
     .item{
-      border:1px solid rgba(225,29,46,.14);
+      border: 1px solid rgba(225,29,46,.14);
       background: linear-gradient(180deg,#fff,#fff7f8);
       border-radius: 18px;
-      padding:12px;
-      display:flex;gap:10px;
+      padding: 12px;
+      display:flex;
+      gap:10px;
       align-items:flex-start;
       justify-content:space-between;
       transition:.2s;
@@ -245,122 +282,117 @@
       border-color: rgba(225,29,46,.28);
       box-shadow: 0 14px 34px rgba(225,29,46,.08);
     }
+    .term{ font-weight: 900; color:#111; font-size: .95rem; }
+    .def{ font-weight: 700; color: rgba(0,0,0,.72); font-size: .88rem; line-height:1.6; }
 
-    .meta{display:flex;flex-direction:column;gap:4px;min-width:0;}
-    .meta .k{font-weight:900;color:#111}
-    .meta .v{font-weight:700;color:rgba(0,0,0,.68);line-height:1.6;word-break:break-word;}
-
-    .chatbox{
-      border:1px solid rgba(225,29,46,.16);
-      border-radius: 18px;
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      min-height: 340px;
-      background:#fff;
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
     }
-    .chatlog{
-      padding: 12px;
-      height: 270px;
-      overflow:auto;
+
+    .chat{
       display:flex;
       flex-direction:column;
       gap:10px;
-      background: linear-gradient(180deg,#fff,#fff7f8);
+      height: 340px;
     }
-    .bubble{
-      border:1px solid rgba(0,0,0,.08);
-      border-radius: 14px;
-      padding: 10px 10px;
-      background:#fff;
-      box-shadow: 0 8px 18px rgba(0,0,0,.04);
-    }
-    .bubble .who{font-weight:900;color:#111;font-size:.85rem}
-    .bubble .txt{font-weight:700;color:rgba(0,0,0,.74);line-height:1.6;margin-top:4px;white-space:pre-wrap;}
-    .chatinput{
-      display:flex;gap:10px;
+    .chatbox{
+      border:1px solid rgba(225,29,46,.14);
+      border-radius: 18px;
       padding: 10px;
-      border-top: 1px solid rgba(0,0,0,.06);
-      background:#fff;
+      background: linear-gradient(180deg,#fff,#fff7f8);
+      overflow:auto;
+      flex:1;
     }
-    .chatinput input{
-      flex:1;border:1px solid rgba(225,29,46,.20);
+    .msg{
+      margin: 7px 0;
+      padding: 8px 10px;
       border-radius: 14px;
-      padding: 10px 12px;
-      font-weight:800; outline:none;
+      border:1px solid rgba(225,29,46,.12);
+      background:#fff;
+      font-weight: 750;
+      color: rgba(0,0,0,.80);
+      line-height:1.5;
     }
+    .msg small{display:block; opacity:.65; font-weight:800; margin-top:4px;}
+    .chatinput{
+      display:flex; gap:10px; align-items:center;
+    }
+    .chatinput input{ flex:1; min-width:0; }
 
     .sidepanel{
-      border:1px solid rgba(225,29,46,.18);
-      border-radius: 22px;
-      overflow:hidden;
-      background:#fff;
-      box-shadow: var(--shadow);
-      display:flex;
-      flex-direction:column;
-      min-height: 520px;
+      position: sticky;
+      top: 12px;
+      display:grid;
+      gap: 12px;
     }
-    .tabs{
-      display:flex; gap:10px; flex-wrap:wrap;
+
+    .pdfslot{
+      border:1px dashed rgba(225,29,46,.30);
+      border-radius: 18px;
       padding: 12px;
-      border-bottom: 1px solid rgba(0,0,0,.06);
-      background:#fff;
-    }
-    .tab{
-      cursor:pointer;
-      border:1px solid rgba(225,29,46,.20);
-      background: rgba(225,29,46,.06);
-      color: var(--red);
-      font-weight: 900;
-      padding: 8px 10px;
-      border-radius: 999px;
-      transition:.2s;
-      user-select:none;
-    }
-    .tab.active{
-      background: linear-gradient(135deg,var(--red),var(--red2));
-      color:#fff; border:none;
-    }
-    .pdfwrap{
-      flex:1;
-      background: #0b0f14;
-      position:relative;
-    }
-    .pdfwrap iframe{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      border:0;
-      background:#0b0f14;
-    }
-    .pdfhint{
-      position:absolute; inset:0;
-      display:flex;align-items:center;justify-content:center;
-      color: rgba(255,255,255,.85);
-      font-weight:800;
-      padding: 18px;
-      text-align:center;
+      background: rgba(225,29,46,.04);
+      font-weight: 850;
+      color: rgba(0,0,0,.72);
       line-height:1.7;
     }
 
-    .footer{
-      text-align:center;
-      margin-top: 14px;
-      color: rgba(0,0,0,.55);
-      font-weight: 800;
-      font-size:.86rem;
+    .rolebox{
+      border:1px solid rgba(225,29,46,.18);
+      border-radius: 18px;
+      padding: 12px;
+      background:#fff;
+      line-height:1.7;
+      font-weight: 720;
+      color: rgba(0,0,0,.78);
+    }
+    .rolebox h4{
+      font-size: .95rem;
+      font-weight: 950;
+      color:#111;
+      margin-bottom: 8px;
+    }
+    .rolebox .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(225,29,46,.20);
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      font-weight: 950;
+      font-size:.82rem;
+      margin-bottom: 10px;
     }
 
+    .footer{
+      margin-top: 16px;
+      text-align:center;
+      color: rgba(0,0,0,.55);
+      font-weight: 800;
+      font-size: .85rem;
+    }
+
+    /* mobile */
     .mobilebar{
       display:none;
-      position: sticky; top:0;
+      position: sticky;
+      top:0;
       z-index:10;
       background:#fff;
       border-bottom: 1px solid rgba(225,29,46,.18);
       padding: 12px 12px;
     }
     .mobilebar-inner{
-      max-width:1180px;margin:0 auto;
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      max-width:1200px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
     }
     .burger{
       border:1px solid rgba(225,29,46,.22);
@@ -371,24 +403,28 @@
       padding: 10px 12px;
       cursor:pointer;
     }
-    .mbrand{display:flex;align-items:center;gap:10px;}
+    .mbrand{display:flex;align-items:center;gap:10px}
     .mbrand img{
       width:38px;height:38px;border-radius:12px;
       border:1px solid rgba(225,29,46,.22);
-      background:#fff;padding:5px;
+      background:#fff;
+      padding:5px;
     }
-    .mbrand b{font-weight:900;color:#111}
-
-    @media (max-width: 1080px){
-      .grid2{ grid-template-columns: 1fr; }
-      .sidepanel{ min-height: 440px; }
+    .overlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.35);
+      display: none;
+      z-index: 40;
     }
+    .overlay.show{ display:block; }
 
     @media (max-width: 980px){
       .app{ grid-template-columns: 1fr; }
       .sidebar{
         position: fixed;
-        left: 0; top: 0;
+        left: 0;
+        top: 0;
         height: 100vh;
         width: min(320px, 88vw);
         transform: translateX(-110%);
@@ -398,14 +434,55 @@
       }
       .sidebar.open{ transform: translateX(0); }
       .mobilebar{ display:block; }
-      .overlay{
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,.35);
-        display: none;
-        z-index: 40;
-      }
-      .overlay.show{ display:block; }
+      .grid{ grid-template-columns: 1fr; }
+      .split{ grid-template-columns: 1fr; }
+    }
+
+    /* modal */
+    .modal{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.35);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 100;
+    }
+    .modal.show{ display:flex; }
+    .modal-box{
+      width: min(560px, 100%);
+      background: #fff;
+      border-radius: 22px;
+      border: 1px solid rgba(225,29,46,.22);
+      box-shadow: 0 30px 90px rgba(0,0,0,.22);
+      padding: 16px;
+    }
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      margin-bottom: 10px;
+    }
+    .modal-head h3{ font-size: 1.05rem; font-weight: 950; color:#111; }
+    .close{
+      border: 1px solid rgba(225,29,46,.22);
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight: 900;
+      cursor:pointer;
+    }
+    .modal p{ color: rgba(0,0,0,.70); font-weight: 750; line-height: 1.8; }
+    .modal-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
     }
   </style>
 </head>
@@ -417,7 +494,7 @@
       <button class="burger" id="openMenu">☰ Menu</button>
       <div class="mbrand">
         <img src="logotrendy.svg" alt="Trendy Logo">
-        <b>Trendy Plaza</b>
+        <b style="font-weight:950;color:#111">Trendy Plaza</b>
       </div>
       <a class="btn ghost" href="divertissement.html" style="padding:10px 12px;border-radius:14px;">⟵ Retour</a>
     </div>
@@ -441,282 +518,249 @@
       </div>
 
       <div class="nav">
-        <div class="nav-title">Jeu</div>
-        <a href="#accueil"><span>⚖️ Tribunal en ligne</span><span class="pill">Collectif</span></a>
-        <a href="#room"><span>🏛️ Room & Lobby</span><span class="pill">Live</span></a>
-        <a href="#regles"><span>📌 Règles</span><span class="pill">Vote</span></a>
+        <div class="nav-title">Tribunal</div>
+        <a href="#lobby"><span>🏛️ Lobby</span><span class="pill" id="roomPill">Aucune</span></a>
+        <a href="#jeu"><span>⚖️ Session</span><span class="pill" id="statusPill">Lancement…</span></a>
+        <a href="#regles"><span>📌 Règles</span><span class="pill">5 rôles</span></a>
       </div>
-
-      <div style="margin-top:12px;display:grid;gap:10px;">
-        <div class="item" style="align-items:center;">
-          <div class="meta">
-            <div class="k">Connexion</div>
-            <div class="v" id="authText">Vérification…</div>
-          </div>
-          <span class="pill" id="authPill">…</span>
-        </div>
-
-        <div class="item" style="align-items:center;">
-          <div class="meta">
-            <div class="k">Room</div>
-            <div class="v" id="roomText">Aucune</div>
-          </div>
-          <span class="pill dark" id="roomPill">—</span>
-        </div>
-
-        <div class="item" style="align-items:center;">
-          <div class="meta">
-            <div class="k">Votre rôle</div>
-            <div class="v" id="roleText">—</div>
-          </div>
-          <span class="pill" id="rolePill">?</span>
-        </div>
-      </div>
-
     </aside>
 
     <main class="main">
       <div class="wrap">
 
-        <div class="topbar" id="accueil">
+        <div class="topbar">
           <div class="title">
-            <h2>⚖️ Tribunal en ligne — المحكمة المعمارية</h2>
-            <p>محاكاة قضائية حماسية للطلبة والمهندسين: أدوار، تحقيق، وثائق، مناظرة، ثم تصويت سري وحكم نهائي.</p>
+            <h2>🏛️ Tribunal en ligne</h2>
+            <p>La “Cour Architecturale” : débat, enquête, vote… et jugement final.</p>
           </div>
 
-          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;">
-            <span class="pill" id="statusPill">En attente…</span>
+          <div class="row">
+            <span class="chip" id="authChip">Vérification de connexion…</span>
             <a class="btn ghost" href="divertissement.html">Retour aux jeux</a>
           </div>
         </div>
 
-        <section class="card">
-          <div class="section-head">
-            <h3>🎬 مقدّمة اللعبة</h3>
-            <span class="pill">Typewriter</span>
+        <!-- Intro typing + Lobby -->
+        <section id="lobby" class="card">
+          <div class="section-title">
+            <h3>🧑‍🤝‍🧑 Lobby — Entrée dans la salle</h3>
+            <span class="pill" id="playersPill">0 / 5</span>
           </div>
 
-          <div class="typebox">
-            <span id="typed"></span><span class="cursor"></span>
+          <div class="typing" id="typingBox"></div>
+
+          <div style="margin-top:12px;" class="row">
+            <input class="input" id="inName" placeholder="Votre nom (ex: Iyad)" />
+            <button class="btn primary" id="btnCreate">Créer une room</button>
+            <button class="btn" id="btnJoin">Rejoindre</button>
+            <button class="btn" id="btnQuick">⚡ Entrée rapide</button>
+            <button class="btn ghost" id="btnQuit" disabled>Quitter</button>
           </div>
 
-          <div class="controls" style="margin-top:12px;">
-            <div class="left">
-              <button class="small-btn primary" id="btnCreate">➕ Créer une room</button>
-              <button class="small-btn" id="btnJoin">🔑 Rejoindre</button>
-              <button class="small-btn" id="btnQuick">⚡ Rejoindre سريعًا</button>
-              <button class="small-btn danger" id="btnQuit" disabled>🚪 Quitter</button>
-            </div>
-            <div class="row">
-              <span class="pill" id="playersPill">0 joueurs</span>
-              <span class="pill" id="spectatorsPill">0 spectateurs</span>
-            </div>
+          <div style="margin-top:12px;" class="row">
+            <input class="input" id="inRoom" placeholder="Code room (ex: A9K3PZ)" style="text-transform:uppercase"/>
+            <button class="small-btn" id="btnCopy" disabled>📋 Copier le code</button>
+            <span class="pill" id="modePill">Mode: —</span>
           </div>
-        </section>
 
-        <div class="grid2" id="room">
-          <section class="card">
-            <div class="section-head">
-              <h3>🏛️ Lobby & Session</h3>
-              <span class="pill">Auto-roles</span>
-            </div>
-
-            <div class="row" style="margin-bottom:10px;">
-              <input class="input" id="inName" placeholder="Votre nom (ex: Iyad)" />
-              <input class="input" id="inRoom" placeholder="Code room (ex: ARC-5F9K2D)" />
-              <button class="small-btn" id="btnJoinNow">Entrer</button>
-            </div>
-
-            <div class="item" style="align-items:center;">
-              <div class="meta">
-                <div class="k">قضية اليوم</div>
-                <div class="v" id="caseTitle">—</div>
-              </div>
-              <span class="pill" id="phasePill">Lobby</span>
-            </div>
-
-            <div class="controls" style="margin-top:10px;">
-              <div class="left">
-                <button class="small-btn" id="btnRaise" disabled>✋ رفع اليد</button>
-                <button class="small-btn" id="btnAllow" disabled>✅ السماح بالكلام (القاضي)</button>
-                <button class="small-btn primary" id="btnStart" disabled>🚀 بدء القضية</button>
-              </div>
-              <div class="row">
-                <button class="small-btn" id="btnOpenVote" disabled>🗳️ فتح التصويت</button>
-                <button class="small-btn" id="btnEnd" disabled>📦 إنهاء + أرشفة</button>
-              </div>
-            </div>
-
-            <div style="margin-top:12px;">
-              <div class="section-head" style="margin-bottom:8px;">
-                <h3>👥 اللاعبين</h3>
-                <span class="pill">Roles</span>
+          <div class="grid">
+            <div>
+              <div class="section-title" style="margin-top:10px;">
+                <h3>👥 Participants</h3>
+                <span class="pill" id="spectatorsPill">👁️ 0 / 2</span>
               </div>
               <div class="list" id="playersList"></div>
-            </div>
 
-            <div style="margin-top:12px;">
-              <div class="section-head" style="margin-bottom:8px;">
-                <h3>🗳️ التصويت</h3>
-                <span class="pill">Secret</span>
+              <div class="row" style="margin-top:12px;">
+                <button class="small-btn" id="btnSpectate">👁️ Regarder (max 2)</button>
+                <button class="small-btn primary" id="btnStart" disabled>🚀 Démarrer la session</button>
               </div>
 
-              <div class="item">
-                <div class="meta">
-                  <div class="k">اختيارك</div>
-                  <div class="v">التصويت سري — الخبير = 3 أصوات — القاضي فاصل — القاضي يمكنه Override</div>
-                </div>
-                <div class="row" style="justify-content:flex-end;">
-                  <button class="small-btn" id="voteG" disabled>إدانة</button>
-                  <button class="small-btn" id="voteNG" disabled>براءة</button>
-                  <button class="small-btn" id="voteOR" disabled>براءة + توصية (Override)</button>
+              <div style="margin-top:10px;color:rgba(0,0,0,.70);font-weight:800;line-height:1.75">
+                ✅ اللعبة لا تبدأ إلا عند اكتمال <b>5 أدوار أساسية</b>.<br>
+                🔒 الدور يُعرض فقط لصاحبه (Secret Role).<br>
+                🧠 الخبير صوته <b>3</b> أصوات، القاضي صوته فاصل + Override.
+              </div>
+            </div>
+
+            <div class="sidepanel">
+              <div class="rolebox" id="roleBox">
+                <h4>🎭 Votre rôle</h4>
+                <div class="tag" id="roleTag">—</div>
+                <div id="roleContent" style="color:rgba(0,0,0,.75);font-weight:750;line-height:1.75">
+                  أدخل الغرفة… وعند بدء الجلسة سترى دورك هنا.
                 </div>
               </div>
 
-              <div class="item" style="align-items:center;">
-                <div class="meta">
-                  <div class="k">النتيجة</div>
-                  <div class="v" id="voteResult">—</div>
-                </div>
-                <span class="pill" id="votePill">Closed</span>
+              <div class="pdfslot" id="pdfSlot">
+                📁 ملفات PDF ستظهر هنا (قضية + ملف الدور).<br>
+                💡 ضع روابط ملفاتك في الكود داخل CASE BANK.
               </div>
-            </div>
-          </section>
-
-          <section class="sidepanel">
-            <div class="tabs">
-              <div class="tab active" data-tab="case">📁 ملف القضية</div>
-              <div class="tab" data-tab="role">🧑‍⚖️ ملف الدور</div>
-              <div class="tab" data-tab="notes">⭐ أهم النقاط</div>
-            </div>
-
-            <div class="pdfwrap" id="tab_case">
-              <iframe id="caseFrame" src=""></iframe>
-              <div class="pdfhint" id="caseHint">اختر غرفة أو أنشئ واحدة… ثم سيظهر PDF القضية هنا (إن كان موجودًا في مجلدك).</div>
-            </div>
-
-            <div class="pdfwrap" id="tab_role" style="display:none;">
-              <iframe id="roleFrame" src=""></iframe>
-              <div class="pdfhint" id="roleHint">ملف الدور سيظهر هنا (لبعض الأدوار فقط) بعد بدء القضية.</div>
-            </div>
-
-            <div class="pdfwrap" id="tab_notes" style="display:none;background:#fff;">
-              <div style="padding:14px;">
-                <div class="item">
-                  <div class="meta">
-                    <div class="k">مذكّرة الدور</div>
-                    <div class="v" id="roleNotes">—</div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="meta">
-                    <div class="k">أسئلة قوية</div>
-                    <div class="v" id="roleQuestions">—</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <section class="card" style="margin-top:14px;">
-          <div class="section-head">
-            <h3>💬 Chat</h3>
-            <span class="pill">Live</span>
-          </div>
-
-          <div class="chatbox">
-            <div class="chatlog" id="chatLog"></div>
-            <div class="chatinput">
-              <input id="chatText" placeholder="اكتب رسالة..." />
-              <button class="small-btn primary" id="sendChat">Envoyer</button>
             </div>
           </div>
-
-          <div class="footer">© 2025 Trendy Plaza — Tribunal en ligne</div>
         </section>
 
-        <section id="regles" class="card" style="margin-top:14px;">
-          <div class="section-head">
-            <h3>📌 القواعد المختصرة</h3>
-            <span class="pill">Pro</span>
+        <!-- Session -->
+        <section id="jeu" class="card" style="margin-top:16px;">
+          <div class="section-title">
+            <h3>⚖️ Session — القضية والملف</h3>
+            <span class="pill" id="casePill">—</span>
           </div>
-          <div style="color:rgba(0,0,0,.70);font-weight:800;line-height:1.9;">
+
+          <div class="split">
+            <div>
+              <div class="item">
+                <div style="min-width:0">
+                  <div class="term">📌 موضوع القضية</div>
+                  <div class="def" id="caseTitle">—</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+                  <span class="pill" id="timerPill">⏱️ 00:00</span>
+                  <div class="row">
+                    <button class="small-btn" id="btnHand">✋ رفع اليد</button>
+                    <button class="small-btn" id="btnMic">🎙️ المايك: OFF</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="item" style="margin-top:12px;">
+                <div style="min-width:0">
+                  <div class="term">📜 ملف القضية (مختصر)</div>
+                  <div class="def" id="caseSummary">—</div>
+                </div>
+              </div>
+
+              <div class="item" style="margin-top:12px;">
+                <div style="min-width:0">
+                  <div class="term">🧾 إجراءات الجلسة</div>
+                  <div class="def" id="flowBox">—</div>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top:12px;">
+                <button class="small-btn" id="btnVote" disabled>🗳️ تصويت سري</button>
+                <button class="small-btn primary" id="btnVerdict" disabled>⚖️ نطق الحكم</button>
+                <button class="small-btn" id="btnArchive" disabled>🗄️ أرشفة</button>
+              </div>
+
+              <div class="item" style="margin-top:12px;">
+                <div style="min-width:0">
+                  <div class="term">🧠 ملاحظات الخبير</div>
+                  <div class="def" id="expertHint">—</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chat">
+              <div class="section-title">
+                <h3>💬 Chat</h3>
+                <span class="pill" id="handsPill">✋ 0</span>
+              </div>
+              <div class="chatbox" id="chatBox"></div>
+              <div class="chatinput">
+                <input class="input" id="chatText" placeholder="اكتب رسالة…" />
+                <button class="small-btn primary" id="btnSend">Envoyer</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Rules -->
+        <section id="regles" class="card" style="margin-top:16px;">
+          <div class="section-title">
+            <h3>📌 قواعد اللعبة</h3>
+            <span class="pill">Arch Students</span>
+          </div>
+          <div style="color:rgba(0,0,0,.70);font-weight:800;line-height:1.85;">
             <ul style="padding-left:18px;">
-              <li>اللعبة لا تبدأ حتى يكتمل اللاعبون الأساسيون (5 أدوار).</li>
-              <li>التصويت سري — الخبير = 3 أصوات — القاضي فاصل عند التعادل.</li>
-              <li>القاضي يملك حق Override بالبراءة مع توصية تقنية.</li>
-              <li>رفع اليد ثم السماح بالكلام (قرار القاضي).</li>
-              <li>الأرشفة تُحفظ تلقائيًا بعد نهاية الجلسة.</li>
-              <li>المشاهدة (Spectator) بحد أقصى شخصين.</li>
+              <li>5 أدوار أساسية: <b>قاضي</b> — <b>متهم</b> — <b>محامي دفاع</b> — <b>خبير</b> — <b>Jury رئيسي</b>.</li>
+              <li>الخبير صوته <b>3</b> أصوات. كل دور آخر صوته 1.</li>
+              <li>التصويت <b>سري</b>. القاضي صوته <b>فاصل</b> عند التعادل.</li>
+              <li>القاضي يملك حق <b>Override</b>: يمكنه الحكم بالبراءة حتى لو كانت الأصوات ضد المتهم (مع توصية تقنية).</li>
+              <li>المشاهدون: <b>شخصان فقط</b> كحد أقصى.</li>
             </ul>
           </div>
         </section>
 
+        <div class="footer">© 2025 Trendy Plaza — Tribunal en ligne</div>
       </div>
     </main>
 
   </div>
 
-  <div id="modal" style="position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;padding:18px;z-index:999;">
-    <div style="width:min(560px,100%);background:#fff;border-radius:22px;border:1px solid rgba(225,29,46,.22);box-shadow:0 30px 90px rgba(0,0,0,.22);padding:16px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:10px;">
-        <h3 style="font-size:1.05rem;font-weight:900;color:#111;" id="modalTitle">Créer une room</h3>
-        <button id="modalClose" class="small-btn">Fermer ✕</button>
+  <!-- Login modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>Connexion requise</h3>
+        <button class="close" onclick="hideLoginModal()">Fermer ✕</button>
       </div>
-
-      <div style="display:grid;gap:10px;">
-        <input class="input" id="createRoomName" placeholder="اسم الغرفة (مثال: Jury-01)" />
-        <select class="select" id="createCase">
-          <option value="arch012025">arch/01/2025 — قضية التراث والهيمنة البصرية</option>
-          <option value="arch022025">arch/02/2025 — قضية الانسجام العمراني</option>
-        </select>
-
-        <div class="item" style="align-items:center;">
-          <div class="meta">
-            <div class="k">معلومة</div>
-            <div class="v">سيتم توليد رمز غرفة ويمكنك نسخه وإرساله للزملاء.</div>
-          </div>
-          <span class="pill">Code</span>
-        </div>
-
-        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
-          <button class="small-btn primary" id="createNow">✅ Créer maintenant</button>
-        </div>
-
-        <div class="item" style="align-items:center;">
-          <div class="meta">
-            <div class="k">Room code</div>
-            <div class="v" id="createdCode">—</div>
-          </div>
-          <button class="small-btn" id="copyCode" disabled>📋 Copier</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="loginModal" style="position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000;">
-    <div style="width:min(520px,100%);background:#fff;border-radius:22px;border:1px solid rgba(225,29,46,.22);box-shadow:0 30px 90px rgba(0,0,0,.22);padding:16px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:10px;">
-        <h3 style="font-size:1.05rem;font-weight:900;color:#111;">Connexion requise</h3>
-        <button class="small-btn" id="closeLogin">Fermer ✕</button>
-      </div>
-      <p style="color:rgba(0,0,0,.70);font-weight:800;line-height:1.8;">
-        يجب تسجيل الدخول للعب. اضغط “Se connecter”.
-      </p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;justify-content:flex-end;">
+      <p>Vous devez être connecté pour jouer. Cliquez sur “Se connecter”.</p>
+      <div class="modal-actions">
         <a class="btn primary" href="login.html">Se connecter</a>
         <a class="btn ghost" href="divertissement.html">Retour</a>
       </div>
     </div>
   </div>
 
+  <!-- Create Room modal -->
+  <div class="modal" id="createModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>Créer une room</h3>
+        <button class="close" onclick="hideCreateModal()">Fermer ✕</button>
+      </div>
+      <p>اكتب اسم الغرفة (مثال: المحكمة التراثية) وسيتم إنشاء <b>رمز</b> قابل للنسخ.</p>
+      <div class="modal-actions">
+        <input class="input" id="roomName" placeholder="Nom de la room" style="flex:1;min-width:220px"/>
+        <button class="btn primary" id="confirmCreate">Créer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vote modal -->
+  <div class="modal" id="voteModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>🗳️ التصويت السري</h3>
+        <button class="close" onclick="hideVoteModal()">Fermer ✕</button>
+      </div>
+      <p>اختر: <b>إدانة</b> أو <b>براءة</b>. (الخبير صوته = 3)</p>
+      <div class="modal-actions">
+        <button class="btn" id="voteGuilty">⛔ إدانة</button>
+        <button class="btn primary" id="voteNotGuilty">✅ براءة</button>
+      </div>
+      <p style="margin-top:10px;opacity:.8">ملاحظة: القاضي يستطيع Override بعد التصويت.</p>
+    </div>
+  </div>
+
+  <!-- Verdict modal -->
+  <div class="modal" id="verdictModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>⚖️ الحكم</h3>
+        <button class="close" onclick="hideVerdictModal()">Fermer ✕</button>
+      </div>
+      <p>اكتب الحكم (اختياري). سيتم حفظه ويمكن أرشفته.</p>
+      <div class="modal-actions">
+        <input class="input" id="verdictText" placeholder="نص الحكم (اختياري)" style="flex:1;min-width:240px"/>
+        <button class="btn primary" id="confirmVerdict">نطق الحكم</button>
+      </div>
+      <div class="modal-actions" style="margin-top:10px;">
+        <button class="btn ghost" id="overrideBtn">🛡️ Override: براءة مع توصية</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase (Compat) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <script>
-
+    /***********************
+     * MOBILE MENU
+     ***********************/
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
     const openMenu = document.getElementById("openMenu");
@@ -727,8 +771,29 @@
       overlay.addEventListener("click", closeSidebar);
     }
 
+    /***********************
+     * MODALS
+     ***********************/
+    const loginModal = document.getElementById("loginModal");
+    function showLoginModal(){ loginModal.classList.add("show"); }
+    function hideLoginModal(){ loginModal.classList.remove("show"); }
 
-    const firebaseConfig = {
+    const createModal = document.getElementById("createModal");
+    function showCreateModal(){ createModal.classList.add("show"); }
+    function hideCreateModal(){ createModal.classList.remove("show"); }
+
+    const voteModal = document.getElementById("voteModal");
+    function showVoteModal(){ voteModal.classList.add("show"); }
+    function hideVoteModal(){ voteModal.classList.remove("show"); }
+
+    const verdictModal = document.getElementById("verdictModal");
+    function showVerdictModal(){ verdictModal.classList.add("show"); }
+    function hideVerdictModal(){ verdictModal.classList.remove("show"); }
+
+    /***********************
+     * FIREBASE INIT
+     ***********************/
+  const firebaseConfig = {
   apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
   authDomain: "archi-space-72624.firebaseapp.com",
   projectId: "archi-space-72624",
@@ -737,389 +802,350 @@
   appId: "1:407015246505:web:1b3b54b87ca3f9a10df7b8",
   measurementId: "G-3JF6KDRNBP"
 };
-
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-
-    const authText = document.getElementById("authText");
-    const authPill = document.getElementById("authPill");
-    const statusPill = document.getElementById("statusPill");
-    const roomText = document.getElementById("roomText");
+    /***********************
+     * UI ELEMENTS
+     ***********************/
+    const authChip = document.getElementById("authChip");
     const roomPill = document.getElementById("roomPill");
-    const roleText = document.getElementById("roleText");
-    const rolePill = document.getElementById("rolePill");
+    const statusPill = document.getElementById("statusPill");
     const playersPill = document.getElementById("playersPill");
     const spectatorsPill = document.getElementById("spectatorsPill");
     const playersList = document.getElementById("playersList");
-    const caseTitle = document.getElementById("caseTitle");
-    const phasePill = document.getElementById("phasePill");
+    const modePill = document.getElementById("modePill");
 
     const btnCreate = document.getElementById("btnCreate");
     const btnJoin = document.getElementById("btnJoin");
     const btnQuick = document.getElementById("btnQuick");
     const btnQuit = document.getElementById("btnQuit");
-    const btnJoinNow = document.getElementById("btnJoinNow");
+    const btnCopy = document.getElementById("btnCopy");
+    const btnStart = document.getElementById("btnStart");
+    const btnSpectate = document.getElementById("btnSpectate");
 
     const inName = document.getElementById("inName");
     const inRoom = document.getElementById("inRoom");
+    const roomName = document.getElementById("roomName");
+    const confirmCreate = document.getElementById("confirmCreate");
 
-    const btnRaise = document.getElementById("btnRaise");
-    const btnAllow = document.getElementById("btnAllow");
-    const btnStart = document.getElementById("btnStart");
-    const btnOpenVote = document.getElementById("btnOpenVote");
-    const btnEnd = document.getElementById("btnEnd");
+    const roleTag = document.getElementById("roleTag");
+    const roleContent = document.getElementById("roleContent");
+    const pdfSlot = document.getElementById("pdfSlot");
 
-    const voteG = document.getElementById("voteG");
-    const voteNG = document.getElementById("voteNG");
-    const voteOR = document.getElementById("voteOR");
-    const voteResult = document.getElementById("voteResult");
-    const votePill = document.getElementById("votePill");
+    const casePill = document.getElementById("casePill");
+    const caseTitle = document.getElementById("caseTitle");
+    const caseSummary = document.getElementById("caseSummary");
+    const expertHint = document.getElementById("expertHint");
+    const flowBox = document.getElementById("flowBox");
 
-    const chatLog = document.getElementById("chatLog");
+    const timerPill = document.getElementById("timerPill");
+    const btnHand = document.getElementById("btnHand");
+    const btnMic = document.getElementById("btnMic");
+    const handsPill = document.getElementById("handsPill");
+
+    const chatBox = document.getElementById("chatBox");
     const chatText = document.getElementById("chatText");
-    const sendChat = document.getElementById("sendChat");
+    const btnSend = document.getElementById("btnSend");
 
-    const caseFrame = document.getElementById("caseFrame");
-    const roleFrame = document.getElementById("roleFrame");
-    const caseHint = document.getElementById("caseHint");
-    const roleHint = document.getElementById("roleHint");
-    const roleNotes = document.getElementById("roleNotes");
-    const roleQuestions = document.getElementById("roleQuestions");
+    const btnVote = document.getElementById("btnVote");
+    const btnVerdict = document.getElementById("btnVerdict");
+    const btnArchive = document.getElementById("btnArchive");
 
+    const voteGuilty = document.getElementById("voteGuilty");
+    const voteNotGuilty = document.getElementById("voteNotGuilty");
 
-    const typedEl = document.getElementById("typed");
-    const introText =
-`مرحبًا بك في "المحكمة المعمارية" ⚖️
-أحد اللاعبين متهم بتصميم مثير للجدل…
-قاضٍ، دفاع، خبير معماري بصوت مضاعف، وهيئة Jury تُصوّت سرًا.
-افتح ملف القضية، ارفع يدك، ناقش بذكاء…
-وفي النهاية: حكم + تصويت + أرشفة.
-هل أنت جاهز تصنع جلسة لا تُنسى؟ 🔥`;
-    (function typewrite(){
-      let i = 0;
-      const speed = 18;
-      const timer = setInterval(()=>{
-        typedEl.textContent = introText.slice(0, i++);
-        if(i > introText.length) clearInterval(timer);
-      }, speed);
-    })();
+    const verdictText = document.getElementById("verdictText");
+    const confirmVerdict = document.getElementById("confirmVerdict");
+    const overrideBtn = document.getElementById("overrideBtn");
 
-
-    const CASES = {
-      arch012025: {
-        title: "arch/01/2025 — قضية التراث والهيمنة البصرية",
-        casePdf: "assets/pdf/arch012025.pdf",
-        rolePdf: {
-          ACCUSE: "assets/pdf/Role_Accuse_arch012025.pdf",
-          JURY_PRINCIPAL: "assets/pdf/Role_JuryPrincipal_arch012025.pdf"
+    /***********************
+     * CASE BANK (ضع روابط PDF هنا)
+     ***********************/
+    const CASES = [
+      {
+        id: "arch/01/2025",
+        label: "arch/01/2025",
+        title: "القضية التراثية: مشروع معاصر داخل نسيج حساس — هل هو تشويه أم حرية إبداع؟",
+        summary:
+`الملف يتناول تدخلاً معماريًا معاصرًا داخل سياق حساس. الخلاف ليس حول “المعاصرة” بحد ذاتها،
+بل حول المقياس، الهيمنة البصرية، وغياب الدراسة السياقية المكتوبة.`,
+        expertHint:
+`الخبير يركّز على: المقياس — الانتقال الحجمي — قابلية التعديل دون فقدان الهوية.
+رأيه التقني لا قانوني، لكنه “حكم مصغّر” بسبب وزن التصويت.`,
+        pdf: {
+          casePdf: "arch012025.pdf", // <-- بدّلها برابطك
+          rolesPdf: "roles_arch012025.pdf" // <-- ملف واحد للأدوار/النقاط كما طلبت
         },
-        roles: {
-          JUGE: {
-            label: "القاضي (J)",
-            notes:
-`الصفة: رئيس الجلسة وصاحب السلطة التقديرية العليا.
-المرجعيات: قانون 98-04 (م16/17) + قانون 90-29 (م3/76) + حماية التراث والمصلحة العامة.
-يركّز على: حدود الحرية المعمارية، الهيمنة البصرية، الدراسة السياقية، إمكانية البراءة لغياب نص تجريمي.`,
-            questions: [
-              "ما الحد الفاصل بين التعبير المعماري والتشويه؟",
-              "هل يمكن تصحيح المشروع دون المساس بجوهره؟",
-              "هل الضرر واقع أم محتمل فقط؟"
-            ]
-          },
-          ACCUSE: {
-            label: "المتهم – المعماري المصمم (A)",
-            notes:
-`لا ينكر الوقائع ويعتبرها خيارًا معماريًا واعيًا.
-خط الدفاع: المعاصرة طبيعة المشروع + التباين ليس تشويهًا + لا نص يمنع صراحة.
-نقاط ضعف: غياب دراسة سياقية مكتوبة + غياب التدرج الحجمي + الاعتراف بالهيمنة البصرية.`,
-            questions: [
-              "هل العمارة مطالبة دائمًا بالتقليد؟",
-              "هل التباين جريمة؟",
-              "هل الحماية تعني الجمود؟"
-            ]
-          },
-          DEFENSE: {
-            label: "محامي الدفاع (D)",
-            notes:
-`يركز على غياب النص التجريمي الصريح.
-يحاول تحويل القضية إلى “خلاف تقديري” لا “خطأ معاقب”.
-يتجنب النقاش الجمالي وإنكار الوقائع.`,
-            questions: [
-              "هل يوجد نص يمنع هذا التصميم؟",
-              "هل ثبت ضرر فعلي أم مجرد انطباع بصري؟",
-              "هل يمكن اعتبار التعديل حلًا بدل الإدانة؟"
-            ]
-          },
-          EXPERT: {
-            label: "الخبير المعماري (E) — 3 أصوات",
-            weight: 3,
-            notes:
-`خبير معماري مستقل، رأيه تقني لا قانوني وله وزن مضاعف.
-الرأي المرجح: الإشكال ليس المعاصرة بل المقياس والانتقال الحجمي.
-المشروع قابل للتعديل دون فقدان الهوية.`,
-            questions: [
-              "هل الهيمنة البصرية مثبتة؟",
-              "هل المشروع يقطع السياق أم يحاوره؟",
-              "هل الخطأ جوهري أم قابل للتصحيح؟"
-            ]
-          },
-          JURY_PRINCIPAL: {
-            label: "Jury الرئيسي (JP)",
-            notes:
-`هيئة تقييم وتصويت سري.
-معايير: المقياس الإنساني، علاقة الكتلة بالمحيط، المواد والضوء، الإدماج مقابل الفرض.
-ممنوع: الحكم بالذوق أو التعاطف.`,
-            questions: [
-              "هل أضاف المشروع قيمة للمكان؟",
-              "هل فرض نفسه أم اندمج؟",
-              "هل كان يمكن تفادي الأخطاء؟"
-            ]
-          }
+        rolesHtml: {
+          J: `<b>القاضي (J)</b><br>ضبط الجلسة + تكييف الوقائع + Override.<br><b>يركّز على:</b> الهيمنة البصرية، غياب الدراسة السياقية، حدود حرية الإبداع.`,
+          A: `<b>المتهم (A)</b><br>يعترف بالوقائع ويعتبرها خيارًا معماريًا واعيًا.<br><b>يردّ بـ:</b> “هل التباين جريمة؟ هل الحماية تعني الجمود؟”`,
+          D: `<b>محامي الدفاع (D)</b><br>يُفكك التكييف القانوني: لا نص تجريمي صريح، الضرر غير ثابت ماديا، التعديل حل أفضل من الإدانة.`,
+          E: `<b>الخبير المعماري (E)</b> — <b>3 أصوات</b><br>يحكم تقنيًا: المشكلة في المقياس والانتقال الحجمي. المشروع قابل للتعديل دون فقدان الهوية.`,
+          JP: `<b>Jury الرئيسي (JP)</b><br>تحليل موضوعي وفق: المقياس الإنساني، علاقة الكتلة بالمحيط، المواد والضوء، الإدماج مقابل الفرض.`
         }
       },
-
-      arch022025: {
-        title: "arch/02/2025 — قضية الانسجام العمراني والمشهد الحضري",
-        casePdf: "assets/pdf/arch022025.pdf",
-        rolePdf: {
-          ACCUSE: "assets/pdf/Role_Accuse_arch022025.pdf",
-          JURY_PRINCIPAL: "assets/pdf/Role_JuryPrincipal_arch022025.pdf"
+      {
+        id: "arch/02/2025",
+        label: "arch/02/2025",
+        title: "قضية فندق سياحي داخل نسيج غير مصنّف — هل الارتفاع غير المنسجم إخلال عمراني؟",
+        summary:
+`النسيج غير مصنف رسميًا لكن محمي ضمنيًا بالانسجام البصري والمقياس الحضري.
+الخلاف حول: خط السماء، الكتلة، الهيمنة البصرية، وتوازن الاستثمار مع المصلحة العامة.`,
+        expertHint:
+`الخبير يشرح مفهوم الانسجام العمراني داخل نسيج غير مصنف.
+يركز على: الارتفاع — الكتلة المدمجة — إمكانية التفكيك/التخفيض لمعالجة الهيمنة.`,
+        pdf: {
+          casePdf: "arch022025.pdf", // <-- بدّلها برابطك
+          rolesPdf: "roles_arch022025.pdf" // <-- ملف واحد للأدوار/النقاط كما طلبت
         },
-        roles: {
-          JUGE: {
-            label: "القاضي (J)",
-            notes:
-`قضية طابعها تقني–عمراني داخل نسيج غير مصنف لكنه محمي ضمنيًا بالانسجام البصري.
-مرجعيات: قانون 90-29 (م3/76) + القانون المدني (124/125) + مبدأ حماية المشهد الحضري.`,
-            questions: [
-              "هل تجاوز المشروع المقياس الحضري السائد؟",
-              "هل كان يمكن تفادي الهيمنة دون المساس بالوظيفة؟",
-              "هل ثبت تشويه المشهد العام أم مجرد تباين؟"
-            ]
-          },
-          ACCUSE: {
-            label: "المتهم – المعماري المصمم (B)",
-            notes:
-`لا ينكر الوقائع. يعتبرها خيارًا معماريًا–وظيفيًا مشروعًا.
-خط دفاع: مشروع سياحي يتطلب حضورًا بصريًا + النسيج غير مصنف + لا نص يمنع الارتفاع.
-نقاط ضعف: غياب دراسة تأثير بصري + اعتراف بالهيمنة وعدم التعديل.`,
-            questions: [
-              "هل كل بروز بصري يُعد تشويهًا؟",
-              "هل الطابع السياحي يُعامل كالسكن التقليدي؟",
-              "هل الاستثمار جريمة عمرانية؟"
-            ]
-          },
-          DEFENSE: {
-            label: "محامي الدفاع (D)",
-            notes:
-`يؤكد أن النسيج غير مصنف رسميًا، ويركز على احترام الرخص والارتدادات.
-القضية تقديرية لا تجريمية. يتجنب الدفاع الجمالي.`,
-            questions: [
-              "أين النص الذي يمنع هذا الارتفاع؟",
-              "هل ثبت ضرر ملموس أم مجرد انطباع بصري؟",
-              "هل التعديل حلّ كافٍ بدل الإدانة؟"
-            ]
-          },
-          EXPERT: {
-            label: "الخبير المعماري (E) — 3 أصوات",
-            weight: 3,
-            notes:
-`خبير في المشهد الحضري. رأيه تقني وله وزن حاسم.
-الرأي المرجح: الإشكال في الارتفاع والكتلة المدمجة، قابل للتعديل عبر تخفيض/تفكيك الكتلة.`,
-            questions: [
-              "هل الارتفاع مبرر عمرانيًا؟",
-              "هل التدرج الحجمي كان ممكنًا؟",
-              "هل الهيمنة قابلة للمعالجة؟"
-            ]
-          },
-          JURY_PRINCIPAL: {
-            label: "Jury الرئيسي (JP)",
-            notes:
-`تقييم عمراني–معماري للمشهد الحضري.
-معايير: المقياس الحضري، خط السماء، علاقة الكتلة بالفراغ العام، الانسجام مقابل الجذب البصري.`,
-            questions: [
-              "هل أخلّ المشروع بالمشهد العام؟",
-              "هل كان بالإمكان تحقيق نفس الوظيفة دون هيمنة؟",
-              "هل التعديل حلّ كافٍ؟"
-            ]
-          }
+        rolesHtml: {
+          J: `<b>القاضي (J)</b><br>يوازن بين الاستثمار السياحي والمصلحة العمرانية العامة، ويمنع تحويلها لجدل جمالي.`,
+          A: `<b>المتهم (B)</b><br>يعتبر الحضور البصري مطلبًا سياحيًا وأن النسيج غير مصنف ولا نص يمنع الارتفاع صراحة.`,
+          D: `<b>محامي الدفاع (D)</b><br>يركز على احترام الرخص والارتدادات، وغياب الضرر المادي المباشر.`,
+          E: `<b>الخبير المعماري (E)</b> — <b>3 أصوات</b><br>المشكلة في الارتفاع والكتلة. الحل: تفكيك/تخفيض الكتلة لمعالجة الهيمنة.`,
+          JP: `<b>Jury الرئيسي (JP)</b><br>يقيّم: المقياس الحضري، خط السماء، علاقة الكتلة بالفراغ العام، الانسجام مقابل الجذب البصري.`
         }
       }
-    };
+    ];
 
-
+    /***********************
+     * STATE
+     ***********************/
     let me = null;
     let roomId = null;
-    let roomUnsub = null;
-    let playersUnsub = null;
-    let chatUnsub = null;
-    let voteUnsub = null;
+    let myMode = null; // "player" | "spectator"
+    let myRole = null; // {key,label,weight,html}
+    let roomUnsub = null, playersUnsub = null, specsUnsub = null, chatUnsub = null, handUnsub=null, secretsUnsub=null;
+    let timerInterval = null;
+    let micOn = false;
 
-    let myRole = null;
-    let myMode = "player"; 
-    let currentCaseKey = null;
-    let currentPhase = "lobby";
+    /***********************
+     * TYPING INTRO
+     ***********************/
+    const typingBox = document.getElementById("typingBox");
+    const introText =
+`🎓 مرحباً بك في "المحكمة المعمارية"!
+هنا لا نناقش الذوق فقط… بل نبحث عن: المقياس، السياق، الهيمنة البصرية، والالتزام المهني.
 
-    const CORE_ROLE_KEYS = ["JUGE","ACCUSE","DEFENSE","EXPERT","JURY_PRINCIPAL"];
-    const MAX_SPECTATORS = 2;
-    const MAX_PLAYERS = 12;
+⚖️ كيف تبدأ؟
+1) اكتب اسمك.
+2) أنشئ غرفة أو انضم برمز.
+3) انتظر اكتمال 5 أدوار أساسية.
+4) تُوزَّع الأدوار سرياً… ثم تبدأ الجلسة.
 
-    function escapeHtml(s){
-      return String(s ?? "").replace(/[&<>"']/g, m => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-      }[m]));
+🧠 تذكير:
+— الخبير صوته 3 أصوات.
+— التصويت سري.
+— القاضي فاصل + Override.
+
+🔥 جاهز؟ اختر: "Créer une room" أو "Entrée rapide".`;
+
+    function typeWriter(text, el, speed=16){
+      el.textContent = "";
+      let i = 0;
+      const t = setInterval(()=>{
+        el.textContent += text[i] || "";
+        i++;
+        if(i >= text.length) clearInterval(t);
+      }, speed);
     }
-    function nowTS(){ return firebase.firestore.FieldValue.serverTimestamp(); }
+    typeWriter(introText, typingBox, 12);
 
-    function setAuthUI(){
-      if(me){
-        authText.textContent = me.email || "Connecté";
-        authPill.textContent = "Connecté ✅";
-        authPill.className = "pill ok";
-      }else{
-        authText.textContent = "Non connecté";
-        authPill.textContent = "Non connecté ❌";
-        authPill.className = "pill";
+    /***********************
+     * HELPERS
+     ***********************/
+    function now(){ return new Date(); }
+    function pad(n){ return String(n).padStart(2,"0"); }
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, s => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[s]));
+    }
+    function genRoomCode(len=6){
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let out = "";
+      for(let i=0;i<len;i++){
+        out += chars[Math.floor(Math.random()*chars.length)];
       }
+      return out;
+    }
+    function setRoleUI(role){
+      if(!role){
+        roleTag.textContent = "—";
+        roleContent.innerHTML = "أدخل الغرفة… وعند بدء الجلسة سترى دورك هنا.";
+        return;
+      }
+      roleTag.textContent = `${role.label} ${role.weight>1 ? `• وزن ${role.weight}` : ""}`.trim();
+      roleContent.innerHTML = role.html || "—";
+    }
+    function setPdfUI(caseObj){
+      if(!caseObj){
+        pdfSlot.innerHTML = `📁 ملفات PDF ستظهر هنا (قضية + ملف الدور).<br>💡 ضع روابط ملفاتك في الكود داخل CASE BANK.`;
+        return;
+      }
+      pdfSlot.innerHTML =
+        `📁 <b>قضية:</b> <a href="${escapeHtml(caseObj.pdf.casePdf)}" target="_blank">${escapeHtml(caseObj.pdf.casePdf)}</a><br>
+         📁 <b>ملف الأدوار/النقاط:</b> <a href="${escapeHtml(caseObj.pdf.rolesPdf)}" target="_blank">${escapeHtml(caseObj.pdf.rolesPdf)}</a><br>
+         <div style="margin-top:8px;opacity:.85">يمكنك إضافة ملفات أخرى لاحقًا في نفس المكان.</div>`;
     }
 
     function setRoomUI(){
-      roomText.textContent = roomId ? roomId : "Aucune";
-      roomPill.textContent = roomId ? "LIVE" : "—";
-      roleText.textContent = myRole ? myRole : "—";
-      rolePill.textContent = myMode === "spectator" ? "👁️" : (myRole ? "OK" : "?");
+      roomPill.textContent = roomId ? roomId : "Aucune";
+      btnCopy.disabled = !roomId;
+      btnQuit.disabled = !roomId;
+      modePill.textContent = `Mode: ${myMode || "—"}`;
+      inRoom.value = roomId || "";
     }
 
-    function setStatus(text){
-      statusPill.textContent = text;
+    function clearListeners(){
+      if(roomUnsub) roomUnsub(); roomUnsub=null;
+      if(playersUnsub) playersUnsub(); playersUnsub=null;
+      if(specsUnsub) specsUnsub(); specsUnsub=null;
+      if(chatUnsub) chatUnsub(); chatUnsub=null;
+      if(handUnsub) handUnsub(); handUnsub=null;
+      if(secretsUnsub) secretsUnsub(); secretsUnsub=null;
     }
 
- 
+    async function leaveRoom(silent=false){
+      if(!roomId || !me) return;
+      try{
+        const ref = db.collection("tribunalRooms").doc(roomId);
+        if(myMode === "player"){
+          await ref.collection("players").doc(me.uid).delete().catch(()=>{});
+          await ref.collection("hands").doc(me.uid).delete().catch(()=>{});
+        }else if(myMode === "spectator"){
+          await ref.collection("spectators").doc(me.uid).delete().catch(()=>{});
+        }
+        await ref.collection("secrets").doc(me.uid).delete().catch(()=>{});
+      }catch(e){}
+      clearListeners();
+      roomId=null; myMode=null; myRole=null; micOn=false;
+      setRoleUI(null);
+      setPdfUI(null);
+      stopTimer();
+      setRoomUI();
+      playersList.innerHTML="";
+      chatBox.innerHTML="";
+      statusPill.textContent="—";
+      casePill.textContent="—";
+      caseTitle.textContent="—";
+      caseSummary.textContent="—";
+      expertHint.textContent="—";
+      flowBox.textContent="—";
+      btnStart.disabled=true;
+      btnVote.disabled=true;
+      btnVerdict.disabled=true;
+      btnArchive.disabled=true;
+      if(!silent) alert("✅ خرجت من الغرفة");
+    }
 
-    document.querySelectorAll(".tab").forEach(t=>{
-      t.addEventListener("click", ()=>{
-        document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-        t.classList.add("active");
-        const k = t.dataset.tab;
-
-        document.getElementById("tab_case").style.display = (k==="case") ? "block" : "none";
-        document.getElementById("tab_role").style.display = (k==="role") ? "block" : "none";
-        document.getElementById("tab_notes").style.display = (k==="notes") ? "block" : "none";
-      });
-    });
-
-
-    const loginModal = document.getElementById("loginModal");
-    document.getElementById("closeLogin").onclick = ()=> loginModal.style.display="none";
-
-    auth.onAuthStateChanged(u=>{
-      me = u || null;
-      setAuthUI();
-      if(!me){
-        loginModal.style.display = "flex";
-        setStatus("Connexion requise");
+    /***********************
+     * AUTH
+     ***********************/
+    auth.onAuthStateChanged((user)=>{
+      me = user || null;
+      if(me){
+        authChip.textContent = "Connecté ✅";
+        hideLoginModal();
       }else{
-        loginModal.style.display = "none";
-        setStatus("Prêt ✅");
+        authChip.textContent = "Non connecté ❌";
+        showLoginModal();
       }
     });
 
-
-    const modal = document.getElementById("modal");
-    const modalClose = document.getElementById("modalClose");
-    const createRoomName = document.getElementById("createRoomName");
-    const createCase = document.getElementById("createCase");
-    const createNow = document.getElementById("createNow");
-    const createdCode = document.getElementById("createdCode");
-    const copyCode = document.getElementById("copyCode");
-
-    function openModal(){
-      modal.style.display="flex";
-      createdCode.textContent="—";
-      copyCode.disabled = true;
-    }
-    function closeModal(){ modal.style.display="none"; }
-    modalClose.onclick = closeModal;
-
+    /***********************
+     * JOIN / QUICK JOIN / CREATE
+     ***********************/
     btnCreate.onclick = ()=>{
-      if(!me){ loginModal.style.display="flex"; return; }
-      openModal();
+      if(!me) return showLoginModal();
+      showCreateModal();
     };
 
-    function genRoomCode(){
-      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      let out = "";
-      for(let i=0;i<6;i++) out += chars[Math.floor(Math.random()*chars.length)];
-      return out;
-    }
+    confirmCreate.onclick = async ()=>{
+      if(!me) return showLoginModal();
+      const name = inName.value.trim();
+      if(!name) return alert("اكتب اسمك أولاً");
+      const rName = roomName.value.trim() || "Tribunal room";
 
-    async function createRoom(){
-      if(!me){ loginModal.style.display="flex"; return; }
+      // generate unique code
+      let code = genRoomCode();
+      let attempts = 0;
+      while(attempts < 6){
+        const exists = await db.collection("tribunalRooms").doc(code).get();
+        if(!exists.exists) break;
+        code = genRoomCode();
+        attempts++;
+      }
 
-      const rName = createRoomName.value.trim() || "Tribunal";
-      const caseKey = createCase.value || "arch012025";
-      const prefix = (caseKey === "arch022025") ? "URB" : "ARC";
-      const code = `${prefix}-${genRoomCode()}`;
+      const seed = Math.floor(Math.random()*1e9);
+      const casePick = CASES[seed % CASES.length];
 
+      await leaveRoom(true);
+
+      const roomRef = db.collection("tribunalRooms").doc(code);
       try{
-        const ref = db.collection("tribunalRooms").doc(code);
-        await ref.set({
-          createdAt: nowTS(),
+        await roomRef.set({
+          name: rName,
           createdBy: me.uid,
-          roomName: rName,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           status: "lobby",
-          phase: "lobby",
-          caseKey,
-          voteOpen: false,
-          voteLocked: false,
-          handQueue: [],
-          allowToSpeak: {},
-          verdictText: "",
-          ended: false
+          ended: false,
+          maxPlayers: 7,
+          maxSpectators: 2,
+          seed,
+          caseId: casePick.id,
+          caseTitle: casePick.title,
+          currentJudgeUid: null,
+          startedAt: null,
+          verdict: null,
+          verdictText: null,
+          overrideUsed: false,
+          overrideNote: null
         });
 
-        createdCode.textContent = code;
-        copyCode.disabled = false;
+        roomId = code;
+        myMode = "player";
+        setRoomUI();
+        hideCreateModal();
 
-        try{ await navigator.clipboard.writeText(code); }catch(e){}
+        // join as player
+        await roomRef.collection("players").doc(me.uid).set({
+          uid: me.uid,
+          name,
+          joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+          micOn: false
+        }, {merge:true});
 
-        inRoom.value = code;
-        await joinRoom(code, {mode:"player"});
-
+        await sendSystemChat(`🏛️ ${name} أنشأ الغرفة. رمزها: ${code}`);
+        attachRoomListeners();
       }catch(err){
-        console.error("CREATE ROOM ERROR", err);
-        alert("❌ فشل إنشاء الغرفة. افتح Console لمعرفة الخطأ.");
+        console.error(err);
+        alert("❌ فشل إنشاء الغرفة (Rules/Network)");
       }
-    }
-
-    createNow.onclick = createRoom;
-    copyCode.onclick = async ()=>{
-      const txt = createdCode.textContent.trim();
-      if(!txt || txt==="—") return;
-      try{ await navigator.clipboard.writeText(txt); alert("✅ Copié"); }catch(e){ alert("انسخ يدويًا: " + txt); }
     };
 
+    btnJoin.onclick = async ()=>{
+      if(!me) return showLoginModal();
+      const name = inName.value.trim();
+      if(!name) return alert("اكتب اسمك أولاً");
+      const code = (inRoom.value || "").trim().toUpperCase();
+      if(!code) return alert("اكتب رمز الغرفة");
 
-    btnJoin.onclick = ()=>{
-      document.getElementById("tab_case").scrollIntoView({behavior:"smooth"});
-      inRoom.focus();
-    };
-
-    btnJoinNow.onclick = async ()=>{
-      const code = inRoom.value.trim().toUpperCase();
-      if(!code){ alert("اكتب رمز الغرفة"); return; }
-      await joinRoom(code, {mode:"player"});
+      await joinRoom(code, "player");
     };
 
     btnQuick.onclick = async ()=>{
-      if(!me){ loginModal.style.display="flex"; return; }
+      if(!me) return showLoginModal();
+      const name = inName.value.trim();
+      if(!name) return alert("اكتب اسمك أولاً");
+
       try{
         const snap = await db.collection("tribunalRooms")
           .where("status","==","lobby")
-          .where("ended","==",false)
-          .limit(10)
+          .limit(25)
           .get();
 
         if(snap.empty){
@@ -1127,541 +1153,595 @@
           return;
         }
 
+        // find first room that has space (count players/spectators)
         for(const doc of snap.docs){
-          const rid = doc.id;
-          const playersSnap = await db.collection("tribunalRooms").doc(rid).collection("players").get();
-          const spectatorsSnap = await db.collection("tribunalRooms").doc(rid).collection("spectators").get();
+          const data = doc.data() || {};
+          if(data.ended) continue;
 
-          const playersCount = playersSnap.size;
-          const spectatorsCount = spectatorsSnap.size;
+          const ref = db.collection("tribunalRooms").doc(doc.id);
+          const pSnap = await ref.collection("players").get();
+          const sSnap = await ref.collection("spectators").get();
+          const pCount = pSnap.size;
+          const sCount = sSnap.size;
 
-          if(playersCount < MAX_PLAYERS){
-            inRoom.value = rid;
-            await joinRoom(rid, {mode:"player"});
+          if(pCount < 7){ // players space
+            inRoom.value = doc.id;
+            await joinRoom(doc.id, "player");
             return;
           }
-          if(spectatorsCount < MAX_SPECTATORS){
-            inRoom.value = rid;
-            await joinRoom(rid, {mode:"spectator"});
+          // if players full but spectators space, auto spectate
+          if(sCount < 2){
+            inRoom.value = doc.id;
+            await joinRoom(doc.id, "spectator");
             return;
           }
         }
 
-        alert("كل الغرف ممتلئة حاليًا.");
+        alert("❌ فشل الانضمام السريع: كل الغرف ممتلئة الآن.");
       }catch(err){
-        console.error("QUICK JOIN ERROR", err);
-        alert("❌ فشل الانضمام السريع");
+        console.error(err);
+        alert("❌ فشل الانضمام السريع (تحقق من Rules)");
       }
     };
 
-    btnQuit.onclick = async ()=>{
-      await leaveRoom();
+    btnSpectate.onclick = async ()=>{
+      if(!me) return showLoginModal();
+      const name = inName.value.trim();
+      if(!name) return alert("اكتب اسمك أولاً");
+      const code = (inRoom.value || "").trim().toUpperCase();
+      if(!code) return alert("اكتب رمز الغرفة");
+      await joinRoom(code, "spectator");
     };
 
-    async function joinRoom(code, {mode="player"} = {}){
-      if(!me){ loginModal.style.display="flex"; return; }
-      const name = inName.value.trim();
-      if(!name){ alert("اكتب اسمك"); return; }
+    btnQuit.onclick = ()=> leaveRoom(false);
 
+    btnCopy.onclick = async ()=>{
+      if(!roomId) return;
+      try{
+        await navigator.clipboard.writeText(roomId);
+        alert("✅ تم نسخ رمز الغرفة");
+      }catch(e){
+        alert("انسخ يدويًا: " + roomId);
+      }
+    };
+
+    async function joinRoom(code, mode){
       await leaveRoom(true);
 
+      const name = inName.value.trim();
       const roomRef = db.collection("tribunalRooms").doc(code);
+
       const roomSnap = await roomRef.get();
-      if(!roomSnap.exists){
-        alert("❌ الغرفة غير موجودة");
-        return;
-      }
-      const roomData = roomSnap.data();
+      if(!roomSnap.exists) return alert("❌ الغرفة غير موجودة");
 
-      if(roomData.ended){
-        alert("هذه الجلسة منتهية.");
-        return;
+      const roomData = roomSnap.data() || {};
+      if(roomData.ended) return alert("هذه الجلسة منتهية.");
+      if(roomData.status !== "lobby" && mode === "spectator"){
+        // spectators allowed even during session (حسب رغبتك)
       }
 
-      if(mode === "player"){
-        const playersSnap = await roomRef.collection("players").get();
-        if(playersSnap.size >= MAX_PLAYERS){
-          const specSnap = await roomRef.collection("spectators").get();
-          if(specSnap.size < MAX_SPECTATORS){
-            mode = "spectator";
-          }else{
-            alert("الغرفة ممتلئة (لاعبين + مشاهدين).");
-            return;
-          }
-        }
-      }else{
-        const specSnap = await roomRef.collection("spectators").get();
-        if(specSnap.size >= MAX_SPECTATORS){
-          alert("المشاهدة ممتلئة (2 فقط).");
-          return;
-        }
+      // capacity check
+      const pSnap = await roomRef.collection("players").get();
+      const sSnap = await roomRef.collection("spectators").get();
+      if(mode === "player" && pSnap.size >= (roomData.maxPlayers || 7)){
+        alert("الغرفة ممتلئة (لاعبين). جرّب مشاهدة.");
+        return;
+      }
+      if(mode === "spectator" && sSnap.size >= (roomData.maxSpectators || 2)){
+        alert("❌ المشاهدة ممتلئة (2 فقط).");
+        return;
       }
 
       roomId = code;
       myMode = mode;
       myRole = null;
-
-      const base = {
-        uid: me.uid,
-        name,
-        joinedAt: nowTS(),
-        lastSeen: nowTS(),
-        mode
-      };
+      setRoleUI(null);
+      setRoomUI();
 
       if(mode === "player"){
-        await roomRef.collection("players").doc(me.uid).set(base, {merge:true});
+        await roomRef.collection("players").doc(me.uid).set({
+          uid: me.uid,
+          name,
+          joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+          micOn: false
+        }, {merge:true});
       }else{
-        await roomRef.collection("spectators").doc(me.uid).set(base, {merge:true});
+        await roomRef.collection("spectators").doc(me.uid).set({
+          uid: me.uid,
+          name,
+          joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+        }, {merge:true});
       }
 
-      setRoomUI();
-      btnQuit.disabled = false;
+      await sendSystemChat(mode === "player"
+        ? `👤 ${name} انضم لاعبًا.`
+        : `👁️ ${name} انضم كمشاهد.`);
 
       attachRoomListeners();
-      closeModal();
-
-      
-      if(mode === "player"){
-        await sendSystemChat(`👤 ${name} انضم لاعبًا.`);
-      }else{
-        await sendSystemChat(`👁️ ${name} انضم كمشاهد.`);
-      }
     }
 
-    async function leaveRoom(silent=false){
-      if(!roomId || !me) {
-        detachRoomListeners();
-        roomId = null; myRole=null; myMode="player";
-        setRoomUI();
-        btnQuit.disabled = true;
-        return;
-      }
-
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-
-      try{
-        await roomRef.collection("players").doc(me.uid).delete().catch(()=>{});
-        await roomRef.collection("spectators").doc(me.uid).delete().catch(()=>{});
-
-        await roomRef.update({
-          handQueue: firebase.firestore.FieldValue.arrayRemove(me.uid)
-        }).catch(()=>{});
-
-        if(!silent){
-          await sendSystemChat(`🚪 ${inName.value.trim()||"Un joueur"} غادر الغرفة.`);
-        }
-
-      }catch(err){
-        console.error("LEAVE ERROR", err);
-      }
-
-      detachRoomListeners();
-      roomId = null; myRole=null; myMode="player"; currentCaseKey=null; currentPhase="lobby";
-      caseTitle.textContent = "—";
-      phasePill.textContent = "Lobby";
-      setRoomUI();
-      btnQuit.disabled = true;
-
-      btnRaise.disabled = true;
-      btnAllow.disabled = true;
-      btnStart.disabled = true;
-      btnOpenVote.disabled = true;
-      btnEnd.disabled = true;
-
-      voteG.disabled = voteNG.disabled = voteOR.disabled = true;
-      voteResult.textContent = "—";
-      votePill.textContent = "Closed";
-      chatLog.innerHTML = "";
-    }
-
-    function detachRoomListeners(){
-      if(roomUnsub){ roomUnsub(); roomUnsub=null; }
-      if(playersUnsub){ playersUnsub(); playersUnsub=null; }
-      if(chatUnsub){ chatUnsub(); chatUnsub=null; }
-      if(voteUnsub){ voteUnsub(); voteUnsub=null; }
-    }
-
-
+    /***********************
+     * LISTENERS
+     ***********************/
     function attachRoomListeners(){
       if(!roomId) return;
       const roomRef = db.collection("tribunalRooms").doc(roomId);
 
-      roomUnsub = roomRef.onSnapshot(doc=>{
-        if(!doc.exists) return;
-        const d = doc.data();
+      // room
+      roomUnsub = roomRef.onSnapshot((snap)=>{
+        const data = snap.data() || {};
+        statusPill.textContent = data.status || "—";
 
-        currentCaseKey = d.caseKey;
-        currentPhase = d.phase || "lobby";
-        caseTitle.textContent = CASES[currentCaseKey]?.title || "—";
-        phasePill.textContent = currentPhase;
+        // case UI
+        const c = CASES.find(x => x.id === data.caseId) || CASES[0];
+        casePill.textContent = c ? c.label : "—";
+        caseTitle.textContent = data.caseTitle || (c ? c.title : "—");
+        caseSummary.textContent = c ? c.summary : "—";
+        expertHint.textContent = c ? c.expertHint : "—";
+        flowBox.textContent = flowText(data);
 
-        const cPdf = CASES[currentCaseKey]?.casePdf || "";
-        if(cPdf){
-          caseFrame.src = cPdf;
-          caseHint.style.display = "none";
-        }else{
-          caseFrame.src = "";
-          caseHint.style.display = "flex";
-        }
+        setPdfUI(c);
 
-        const isJudge = (myRole === "JUGE");
-        btnAllow.disabled = !(isJudge && myMode==="player");
-        btnOpenVote.disabled = !(isJudge && myMode==="player" && currentPhase!=="lobby");
-        btnEnd.disabled = !(isJudge && myMode==="player");
-        btnRaise.disabled = !(myMode==="player" && currentPhase!=="ended");
+        // buttons
+        const isPlayer = (myMode === "player");
+        btnVote.disabled = !(isPlayer && data.status === "running");
+        btnArchive.disabled = !(isPlayer && (isJudge(data) || isCreator(data)) && (data.status === "ended" || data.verdict));
+        btnVerdict.disabled = !(isPlayer && isJudge(data) && data.status === "running");
 
-        const vOpen = !!d.voteOpen;
-        votePill.textContent = vOpen ? "Open" : "Closed";
-        votePill.className = "pill " + (vOpen ? "ok" : "");
-        voteG.disabled = voteNG.disabled = voteOR.disabled = !(vOpen && myMode==="player");
-        voteOR.disabled = !(vOpen && myMode==="player" && myRole==="JUGE"); // override only judge
-
-        const allowMap = d.allowToSpeak || {};
-        const meAllowed = !!allowMap[me?.uid];
-        if(myMode==="player"){
-          statusPill.textContent = meAllowed ? "🔊 مسموح بالكلام" : "🔇 انتظر الإذن";
-        }
-
+        // start enabled only for creator in lobby with >=5 players
+        // players count updated in players listener below
       });
 
-      playersUnsub = roomRef.collection("players").orderBy("joinedAt","asc").onSnapshot(async snap=>{
-        const arr = snap.docs.map(x=>({id:x.id,...x.data()}));
-        const countPlayers = arr.length;
+      // players list
+      playersUnsub = roomRef.collection("players").orderBy("joinedAt","asc")
+        .onSnapshot(async (snap)=>{
+          const players = snap.docs.map(d => d.data());
+          const count = players.length;
+          playersPill.textContent = `${count} / 5`;
 
-        const specSnap = await roomRef.collection("spectators").get();
-        const specCount = specSnap.size;
+          // show list
+          playersList.innerHTML = "";
+          players.forEach(p=>{
+            const row = document.createElement("div");
+            row.className = "item";
+            row.innerHTML = `
+              <div style="min-width:0">
+                <div class="term">👤 ${escapeHtml(p.name || "—")}</div>
+                <div class="def">UID: <span style="opacity:.75">${escapeHtml((p.uid||"").slice(0,8))}…</span></div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+                <span class="pill">${p.micOn ? "🎙️ ON" : "🎙️ OFF"}</span>
+              </div>
+            `;
+            playersList.appendChild(row);
+          });
 
-        playersPill.textContent = `${countPlayers} joueurs`;
-        spectatorsPill.textContent = `${specCount} spectateurs`;
+          // start btn
+          const roomSnap = await roomRef.get();
+          const data = roomSnap.data() || {};
+          btnStart.disabled = !(isCreator(data) && data.status === "lobby" && count >= 5);
 
-        renderPlayers(arr);
-
-        const myDoc = arr.find(p=>p.uid===me?.uid);
-        if(myDoc && myDoc.role){
-          myRole = myDoc.role;
-          roleText.textContent = roleLabel(myRole);
-          rolePill.textContent = (myMode==="spectator") ? "👁️" : "OK";
-          setRoomUI();
-
-          const roleKey = myRole;
-          const roleObj = CASES[currentCaseKey]?.roles?.[roleKey];
-          if(roleObj){
-            roleNotes.textContent = roleObj.notes || "—";
-            roleQuestions.textContent = (roleObj.questions || []).map(q=>`• ${q}`).join("\n") || "—";
-
-            const rPdf = CASES[currentCaseKey]?.rolePdf?.[roleKey] || "";
-            if(rPdf){
-              roleFrame.src = rPdf;
-              roleHint.style.display = "none";
-            }else{
-              roleFrame.src = "";
-              roleHint.style.display = "flex";
+          // auto-claim judge transfer if needed (client-side best effort)
+          if(data.status === "running" && data.currentJudgeUid){
+            const judgeExists = players.some(x => x.uid === data.currentJudgeUid);
+            if(!judgeExists){
+              // pick defense first then JP
+              // We can only know roles via secrets (private), so we pick first player after creator as fallback:
+              // judge transfer controlled by rules: any player can set if old judge missing; we set ourselves if present.
+              if(me && myMode==="player"){
+                // if I'm the creator, set a new judge to the first remaining player
+                if(data.createdBy === me.uid){
+                  const newJ = players[0]?.uid || null;
+                  if(newJ){
+                    roomRef.update({ currentJudgeUid: newJ }).catch(()=>{});
+                  }
+                }
+              }
             }
           }
-        }
-
-        if(currentPhase === "lobby"){
-          const assignedCount = arr.filter(x=>!!x.role).length;
-          const judgeCandidate = arr.some(x=>x.uid===me?.uid);
-          const iAmIn = !!arr.find(x=>x.uid===me?.uid);
-
-
-          const roomDoc = await roomRef.get();
-          const isCreator = roomDoc.exists && roomDoc.data().createdBy === me?.uid;
-
-          btnStart.disabled = !(iAmIn && (isCreator || myRole==="JUGE") && countPlayers>=5 && assignedCount < countPlayers);
-        }else{
-          btnStart.disabled = true;
-        }
-      });
-
-      chatUnsub = roomRef.collection("chat").orderBy("createdAt","asc").limit(200).onSnapshot(snap=>{
-        chatLog.innerHTML = "";
-        snap.docs.forEach(d=>{
-          const m = d.data();
-          const b = document.createElement("div");
-          b.className = "bubble";
-          b.innerHTML = `<div class="who">${escapeHtml(m.who || "—")} <span style="opacity:.65;font-weight:800;">${escapeHtml(m.tag||"")}</span></div>
-                         <div class="txt">${escapeHtml(m.text || "")}</div>`;
-          chatLog.appendChild(b);
-        });
-        chatLog.scrollTop = chatLog.scrollHeight;
-      });
-
-      voteUnsub = roomRef.collection("votes").onSnapshot(async snap=>{
-        const votes = snap.docs.map(d=>d.data());
-        let guilty=0, notguilty=0, override=0;
-        votes.forEach(v=>{
-          if(v.choice==="G") guilty += (v.weight||1);
-          if(v.choice==="NG") notguilty += (v.weight||1);
-          if(v.choice==="OR") override += (v.weight||1);
         });
 
-        if(votes.length===0){
-          voteResult.textContent = "—";
-          return;
-        }
-
-        voteResult.textContent = `إدانة: ${guilty} | براءة: ${notguilty} | Override: ${override} (وزن الخبير محسوب)`;
+      // spectators count
+      specsUnsub = roomRef.collection("spectators").onSnapshot((snap)=>{
+        spectatorsPill.textContent = `👁️ ${snap.size} / 2`;
       });
 
-      btnRaise.disabled = (myMode!=="player");
+      // chat
+      chatUnsub = roomRef.collection("chat").orderBy("createdAt","asc").limit(200)
+        .onSnapshot((snap)=>{
+          chatBox.innerHTML = "";
+          snap.docs.forEach(d=>{
+            const m = d.data();
+            const div = document.createElement("div");
+            div.className = "msg";
+            div.innerHTML = `
+              ${escapeHtml(m.text || "")}
+              <small>${escapeHtml(m.senderName || "—")} • ${fmtTime(m.createdAt)}</small>
+            `;
+            chatBox.appendChild(div);
+          });
+          chatBox.scrollTop = chatBox.scrollHeight;
+        });
+
+      // hands
+      handUnsub = roomRef.collection("hands").onSnapshot((snap)=>{
+        handsPill.textContent = `✋ ${snap.size}`;
+      });
+
+      // secret role for me
+      secretsUnsub = roomRef.collection("secrets").doc(me.uid).onSnapshot((snap)=>{
+        if(!snap.exists) return;
+        const r = snap.data() || null;
+        if(r){
+          myRole = r;
+          setRoleUI(r);
+
+          const roomRef2 = db.collection("tribunalRooms").doc(roomId);
+          roomRef2.get().then(rs=>{
+            const rd = rs.data() || {};
+            // enable verdict only if judge
+            btnVerdict.disabled = !(myMode==="player" && isJudge(rd));
+          }).catch(()=>{});
+        }
+      });
     }
 
-    function roleLabel(roleKey){
-      const obj = CASES[currentCaseKey]?.roles?.[roleKey];
-      return obj?.label || roleKey || "—";
+    function fmtTime(ts){
+      if(!ts || !ts.toDate) return "";
+      const d = ts.toDate();
+      return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
     }
 
-    function renderPlayers(players){
-      playersList.innerHTML = "";
-      if(players.length===0){
-        playersList.innerHTML = `<div class="item"><div class="meta"><div class="k">لا يوجد لاعبين بعد</div><div class="v">أنشئ غرفة وادعُ زملاءك.</div></div><span class="pill">0</span></div>`;
-        return;
+    function flowText(roomData){
+      if(roomData.status === "lobby"){
+        return "🎬 Lobby: أكملوا 5 لاعبين… ثم “Démarrer”.";
       }
-
-      players.forEach(p=>{
-        const role = p.role ? roleLabel(p.role) : "En attente de rôle…";
-        const speak = p.canSpeak ? "🔊" : "🔇";
-        const it = document.createElement("div");
-        it.className = "item";
-        it.innerHTML = `
-          <div class="meta">
-            <div class="k">${escapeHtml(p.name || "—")} ${p.uid===me?.uid ? " (vous)" : ""}</div>
-            <div class="v">${escapeHtml(role)} • ${escapeHtml(p.mode||"player")}</div>
-          </div>
-          <span class="pill">${speak}</span>
-        `;
-        playersList.appendChild(it);
-      });
+      if(roomData.status === "running"){
+        return `1) استجواب ⏱️  2) عرض الأدلة  3) مرافعات  4) تصويت سري  5) حكم القاضي (مع Override عند الحاجة).`;
+      }
+      if(roomData.status === "ended"){
+        return "✅ انتهت الجلسة. يمكنك أرشفتها.";
+      }
+      return "—";
     }
 
-
-    sendChat.onclick = sendChatMsg;
-    chatText.addEventListener("keydown", (e)=>{ if(e.key==="Enter") sendChatMsg(); });
-
-    async function sendChatMsg(){
-      if(!roomId || !me) return;
-      const txt = chatText.value.trim();
-      if(!txt) return;
-      chatText.value = "";
-
-      const tag = (myMode==="spectator") ? "Spectateur" : (myRole ? roleLabel(myRole) : "Player");
-      await db.collection("tribunalRooms").doc(roomId).collection("chat").add({
-        uid: me.uid,
-        who: inName.value.trim() || "—",
-        tag,
-        text: txt,
-        createdAt: nowTS()
-      });
+    function isCreator(roomData){
+      return me && roomData && roomData.createdBy === me.uid;
     }
+    function isJudge(roomData){
+      return me && roomData && roomData.currentJudgeUid === me.uid;
+    }
+
+    /***********************
+     * CHAT
+     ***********************/
+    btnSend.onclick = sendChat;
+    chatText.addEventListener("keydown",(e)=>{
+      if(e.key === "Enter") sendChat();
+    });
 
     async function sendSystemChat(text){
-      if(!roomId) return;
-      return db.collection("tribunalRooms").doc(roomId).collection("chat").add({
-        uid: "system",
-        who: "SYSTEM",
-        tag: "⚖️",
+      if(!roomId || !me) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      const myName = inName.value.trim() || "System";
+      return roomRef.collection("chat").add({
         text,
-        createdAt: nowTS()
+        senderUid: me.uid,
+        senderName: myName,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        system: true
       });
     }
 
+    async function sendChat(){
+      if(!roomId || !me) return;
+      const txt = (chatText.value || "").trim();
+      if(!txt) return;
+      chatText.value = "";
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      const myName = inName.value.trim() || "—";
+      try{
+        await roomRef.collection("chat").add({
+          text: txt,
+          senderUid: me.uid,
+          senderName: myName,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }catch(e){
+        alert("❌ فشل إرسال الرسالة (Rules)");
+      }
+    }
 
+    /***********************
+     * HAND + MIC (UI only)
+     ***********************/
+    btnHand.onclick = async ()=>{
+      if(!roomId || !me) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      try{
+        await roomRef.collection("hands").doc(me.uid).set({
+          uid: me.uid,
+          name: inName.value.trim() || "—",
+          at: firebase.firestore.FieldValue.serverTimestamp()
+        }, {merge:true});
+        await sendSystemChat(`✋ ${inName.value.trim() || "—"} رفع اليد.`);
+      }catch(e){
+        alert("❌ فشل رفع اليد");
+      }
+    };
+
+    btnMic.onclick = async ()=>{
+      if(!roomId || !me || myMode!=="player") return;
+      micOn = !micOn;
+      btnMic.textContent = micOn ? "🎙️ المايك: ON" : "🎙️ المايك: OFF";
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      await roomRef.collection("players").doc(me.uid).set({ micOn }, {merge:true}).catch(()=>{});
+    };
+
+    /***********************
+     * START SESSION + ROLE ASSIGN (secret)
+     ***********************/
     btnStart.onclick = async ()=>{
       if(!roomId || !me) return;
       const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const roomDoc = await roomRef.get();
-      if(!roomDoc.exists) return;
+      const roomSnap = await roomRef.get();
+      const roomData = roomSnap.data() || {};
+      if(!isCreator(roomData)) return alert("فقط منشئ الغرفة يستطيع البدء.");
 
-      const d = roomDoc.data();
-      if(d.phase !== "lobby"){
-        alert("الجلسة بدأت بالفعل.");
-        return;
-      }
+      const pSnap = await roomRef.collection("players").get();
+      const players = pSnap.docs.map(d => d.data());
+      if(players.length < 5) return alert("لا يمكن البدء قبل اكتمال 5 لاعبين.");
 
-      const ps = await roomRef.collection("players").orderBy("joinedAt","asc").get();
-      const players = ps.docs.map(x=>({id:x.id,...x.data()}));
-      if(players.length < 5){
-        alert("تحتاج 5 لاعبين على الأقل لبدء القضية.");
-        return;
-      }
+      // pick case
+      const c = CASES.find(x => x.id === roomData.caseId) || CASES[0];
 
+      // shuffle players
       const uids = players.map(p=>p.uid);
+      shuffle(uids);
 
-      const shuffled = [...uids];
-      for(let i=shuffled.length-1;i>0;i--){
-        const j = Math.floor(Math.random()*(i+1));
-        [shuffled[i],shuffled[j]] = [shuffled[j],shuffled[i]];
+      // assign 5 core roles
+      const core = ["J","A","D","E","JP"];
+      const assignments = {};
+      for(let i=0;i<core.length;i++){
+        assignments[uids[i]] = core[i];
       }
 
-      const assignments = {};
+      // if more players > 7 => more experts? user said if >7 more expert,
+      // but maxPlayers=7. you can raise maxPlayers later.
+      // For now: extra players become "E" (expert) or "JP" secondary jury; here: expert.
+      for(let i=5;i<uids.length;i++){
+        assignments[uids[i]] = "E";
+      }
 
-      CORE_ROLE_KEYS.forEach((rk, idx)=>{
-        assignments[shuffled[idx]] = rk;
-      });
-
-
-      const extra = shuffled.slice(5);
-
-      const total = players.length;
-      let expertCount = 1;
-      if(total >= 8) expertCount = 2;
-      if(total >= 10) expertCount = 3;
-      if(total >= 12) expertCount = 4;
-
-      let assignedExtraExperts = 0;
-      extra.forEach(uid=>{
-        if(assignedExtraExperts < (expertCount-1)){
-          assignments[uid] = "EXPERT";
-          assignedExtraExperts++;
-        }else{
-          assignments[uid] = "JURY_PRINCIPAL";
-        }
-      });
-
+      // write secrets
       const batch = db.batch();
-      players.forEach(p=>{
-        const r = assignments[p.uid] || "JURY_PRINCIPAL";
-        batch.set(roomRef.collection("players").doc(p.uid), {
-          role: r,
-          weight: (r==="EXPERT") ? 3 : 1,
-          canSpeak: false
-        }, {merge:true});
+      Object.entries(assignments).forEach(([uid, key])=>{
+        const role = roleObject(key, c);
+        batch.set(roomRef.collection("secrets").doc(uid), role, {merge:true});
       });
 
-      const judgeUid = Object.keys(assignments).find(uid=>assignments[uid]==="JUGE");
+      // choose judge uid
+      const judgeUid = Object.keys(assignments).find(uid => assignments[uid] === "J");
 
       batch.update(roomRef, {
-        status: "started",
-        phase: "trial",
-        voteOpen: false,
-        voteLocked: false,
-        handQueue: [],
-        allowToSpeak: judgeUid ? {[judgeUid]: true} : {},
-        verdictText: ""
+        status: "running",
+        startedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        currentJudgeUid: judgeUid || null,
+        verdict: null,
+        verdictText: null,
+        overrideUsed: false,
+        overrideNote: null
       });
 
       await batch.commit();
 
-      await sendSystemChat("🚀 بدأت القضية! تم توزيع الأدوار سرًا. افتح ملف القضية وابدأ التحقيق.");
-      setStatus("Session LIVE ⚖️");
+      startTimerFromServer(roomRef);
+
+      await sendSystemChat(`🚀 بدأت الجلسة! القضية: ${c.label}. الأدوار وُزّعت سرياً… استعدّوا!`);
+      btnStart.disabled = true;
     };
 
+    function roleObject(key, caseObj){
+      const labels = {
+        J: "القاضي (J)",
+        A: "المتهم (A)",
+        D: "محامي الدفاع (D)",
+        E: "الخبير المعماري (E)",
+        JP:"Jury الرئيسي (JP)"
+      };
+      const weights = { J:1, A:1, D:1, E:3, JP:1 };
+      return {
+        key,
+        label: labels[key] || key,
+        weight: weights[key] || 1,
+        html: (caseObj.rolesHtml[key] || "—"),
+        caseId: caseObj.id,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+    }
 
-    btnRaise.onclick = async ()=>{
-      if(!roomId || !me || myMode!=="player") return;
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-      await roomRef.update({
-        handQueue: firebase.firestore.FieldValue.arrayUnion(me.uid)
-      });
-      await sendSystemChat(`✋ ${inName.value.trim()||"لاعب"} رفع يده.`);
-    };
-
-    btnAllow.onclick = async ()=>{
-      if(!roomId || !me) return;
-      if(myRole !== "JUGE"){ alert("هذا الزر للقاضي فقط."); return; }
-
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const doc = await roomRef.get();
-      if(!doc.exists) return;
-      const q = doc.data().handQueue || [];
-      if(q.length === 0){
-        alert("لا يوجد أحد رفع يده.");
-        return;
+    function shuffle(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]] = [arr[j],arr[i]];
       }
-      const uidToAllow = q[0];
+    }
 
-      const allowMap = doc.data().allowToSpeak || {};
-      allowMap[uidToAllow] = true;
+    /***********************
+     * TIMER
+     ***********************/
+    function stopTimer(){
+      if(timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+      timerPill.textContent = "⏱️ 00:00";
+    }
 
-      await roomRef.update({
-        allowToSpeak: allowMap,
-        handQueue: q.slice(1)
-      });
+    async function startTimerFromServer(roomRef){
+      const snap = await roomRef.get();
+      const data = snap.data() || {};
+      if(!data.startedAt) return;
+      const start = data.startedAt.toDate();
+      stopTimer();
+      timerInterval = setInterval(()=>{
+        const diff = Math.max(0, Math.floor((Date.now() - start.getTime())/1000));
+        const mm = Math.floor(diff/60);
+        const ss = diff%60;
+        timerPill.textContent = `⏱️ ${pad(mm)}:${pad(ss)}`;
+      }, 500);
+    }
 
-      await roomRef.collection("players").doc(uidToAllow).set({canSpeak:true},{merge:true});
-
-      await sendSystemChat(`✅ القاضي سمح بالكلام للاعب.`);
-    };
-
-
-    btnOpenVote.onclick = async ()=>{
-      if(!roomId || !me) return;
-      if(myRole !== "JUGE"){ alert("القاضي فقط يفتح التصويت."); return; }
-
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-      await roomRef.update({ voteOpen: true, voteLocked: false });
-      await sendSystemChat("🗳️ تم فتح التصويت السري! (الخبير 3 أصوات)");
-    };
-
-    async function castVote(choice){
+    /***********************
+     * VOTE + VERDICT + ARCHIVE
+     ***********************/
+    btnVote.onclick = ()=>{
       if(!roomId || !me || myMode!=="player") return;
-      const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const myDoc = await roomRef.collection("players").doc(me.uid).get();
-      if(!myDoc.exists){ alert("غير مسموح لك بالتصويت."); return; }
-      const r = myDoc.data().role;
-      const w = (r==="EXPERT") ? 3 : 1;
+      showVoteModal();
+    };
 
-      if(choice==="OR" && r!=="JUGE"){ return; }
+    voteGuilty.onclick = ()=> submitVote("guilty");
+    voteNotGuilty.onclick = ()=> submitVote("not_guilty");
+
+    async function submitVote(choice){
+      if(!roomId || !me) return;
+      hideVoteModal();
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+
+      // ensure role
+      const roleSnap = await roomRef.collection("secrets").doc(me.uid).get();
+      if(!roleSnap.exists) return alert("دورك غير جاهز.");
+
+      const r = roleSnap.data();
+      const weight = Number(r.weight || 1);
 
       await roomRef.collection("votes").doc(me.uid).set({
         uid: me.uid,
-        name: inName.value.trim() || "—",
-        role: r || "—",
-        weight: w,
         choice,
-        createdAt: nowTS()
+        weight,
+        at: firebase.firestore.FieldValue.serverTimestamp()
       }, {merge:true});
+
+      await sendSystemChat(`🗳️ تم تسجيل تصويت (سري).`);
     }
 
-    voteG.onclick = ()=> castVote("G");
-    voteNG.onclick = ()=> castVote("NG");
-    voteOR.onclick = ()=> castVote("OR");
-
-
-    btnEnd.onclick = async ()=>{
+    btnVerdict.onclick = async ()=>{
       if(!roomId || !me) return;
-      if(myRole !== "JUGE"){ alert("القاضي فقط ينهي الجلسة."); return; }
-
       const roomRef = db.collection("tribunalRooms").doc(roomId);
-      const roomDoc = await roomRef.get();
-      if(!roomDoc.exists) return;
-      const roomData = roomDoc.data();
+      const snap = await roomRef.get();
+      const data = snap.data() || {};
+      if(!isJudge(data)) return alert("فقط القاضي ينطق الحكم.");
+      showVerdictModal();
+    };
 
-      const [ps, cs, vs, ss] = await Promise.all([
-        roomRef.collection("players").get(),
-        roomRef.collection("chat").get(),
-        roomRef.collection("votes").get(),
-        roomRef.collection("spectators").get()
-      ]);
+    overrideBtn.onclick = async ()=>{
+      if(!roomId || !me) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      const snap = await roomRef.get();
+      const data = snap.data() || {};
+      if(!isJudge(data)) return alert("فقط القاضي.");
+      await roomRef.update({
+        verdict: "not_guilty",
+        verdictText: "Override: براءة مع توصية تقنية.",
+        overrideUsed: true,
+        overrideNote: "القاضي استعمل حق Override.",
+        status: "ended"
+      });
+      hideVerdictModal();
+      await sendSystemChat(`🛡️ القاضي استعمل Override: براءة مع توصية تقنية.`);
+    };
 
-      const archiveRef = db.collection("tribunalArchives").doc(roomId);
+    confirmVerdict.onclick = async ()=>{
+      if(!roomId || !me) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      const snap = await roomRef.get();
+      const data = snap.data() || {};
+      if(!isJudge(data)) return alert("فقط القاضي.");
 
-      await archiveRef.set({
-        archivedAt: nowTS(),
+      // tally votes (judge can read in rules; on client we do best effort)
+      let vSnap;
+      try{
+        vSnap = await roomRef.collection("votes").get();
+      }catch(e){
+        // if blocked, still allow judge to set manual verdict
+        vSnap = null;
+      }
+
+      let guilty=0, notguilty=0;
+      if(vSnap){
+        vSnap.docs.forEach(d=>{
+          const v = d.data();
+          const w = Number(v.weight || 1);
+          if(v.choice === "guilty") guilty += w;
+          if(v.choice === "not_guilty") notguilty += w;
+        });
+      }
+
+      // judge final (tie breaker + override handled separately)
+      let verdict = "guilty";
+      if(notguilty > guilty) verdict = "not_guilty";
+      if(notguilty === guilty) verdict = "judge_tiebreak"; // judge breaks tie
+
+      const text = (verdictText.value || "").trim();
+
+      // if tie: judge decides by prompt (we keep as "guilty" unless they wrote "براءة")
+      let finalVerdict = verdict;
+      if(verdict === "judge_tiebreak"){
+        finalVerdict = (text.includes("براءة") || text.toLowerCase().includes("not")) ? "not_guilty" : "guilty";
+      }
+
+      await roomRef.update({
+        verdict: finalVerdict,
+        verdictText: text || null,
+        overrideUsed: false,
+        status: "ended"
+      });
+
+      hideVerdictModal();
+
+      const verdictLabel = finalVerdict === "not_guilty" ? "✅ براءة" : "⛔ إدانة";
+      await sendSystemChat(`⚖️ الحكم: ${verdictLabel}. (أصوات: إدانة=${guilty} / براءة=${notguilty})`);
+    };
+
+    btnArchive.onclick = async ()=>{
+      if(!roomId || !me) return;
+      const roomRef = db.collection("tribunalRooms").doc(roomId);
+      const snap = await roomRef.get();
+      const data = snap.data() || {};
+      if(!(isCreator(data) || isJudge(data))) return alert("الأرشفة للقاضي/المنشئ فقط.");
+
+      // collect summary
+      const pSnap = await roomRef.collection("players").get();
+      const players = pSnap.docs.map(d=>d.data());
+
+      let votes = [];
+      try{
+        const vSnap = await roomRef.collection("votes").get();
+        votes = vSnap.docs.map(d=>d.data());
+      }catch(e){}
+
+      await db.collection("tribunalArchives").doc(roomId).set({
         roomId,
-        room: roomData,
-        players: ps.docs.map(d=>d.data()),
-        spectators: ss.docs.map(d=>d.data()),
-        chat: cs.docs.map(d=>d.data()),
-        votes: vs.docs.map(d=>d.data())
+        archivedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        caseId: data.caseId || null,
+        caseTitle: data.caseTitle || null,
+        createdBy: data.createdBy || null,
+        currentJudgeUid: data.currentJudgeUid || null,
+        startedAt: data.startedAt || null,
+        verdict: data.verdict || null,
+        verdictText: data.verdictText || null,
+        overrideUsed: !!data.overrideUsed,
+        players: players.map(p=>({uid:p.uid, name:p.name})),
+        votes
       }, {merge:true});
 
-      await roomRef.update({ ended: true, status: "ended", phase: "ended", voteOpen: false });
-
-      await sendSystemChat("📦 انتهت الجلسة وتمت أرشفتها بنجاح.");
-
-      alert("✅ تم إنهاء الجلسة وأرشفتها.");
+      await sendSystemChat("🗄️ تم حفظ الجلسة في الأرشيف.");
+      alert("✅ تم الأرشفة بنجاح.");
     };
 
-
-    btnJoin.onclick = ()=>{
-      inRoom.focus();
-    };
-
-
+    /***********************
+     * UI protection (optional)
+     ***********************/
     document.addEventListener("contextmenu", (e)=>e.preventDefault());
     document.addEventListener("keydown", (e)=>{
       if(e.key === "F12") e.preventDefault();
@@ -1669,10 +1749,6 @@
       if(e.ctrlKey && e.shiftKey && ["I","i","J","j","C","c"].includes(e.key)) e.preventDefault();
     });
 
-
-    setAuthUI();
-    setRoomUI();
-    setStatus("Chargement…");
   </script>
 </body>
 </html>
