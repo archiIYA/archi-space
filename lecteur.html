@@ -54,7 +54,7 @@
       font-weight:600;
       color:#000;
       user-select:none;
-      transition:background-color .3s ease, color .3s ease;
+      transition:background-color .3s ease, color .3s ease, transform .3s ease;
     }
     body.dark-mode .sidebar{ background-color:#1a1a1a; border-right-color:#333; color:#e0e0e0; }
 
@@ -231,7 +231,6 @@
     .telegram-button:hover .telegram-icon{ color:#fff; }
     .telegram-icon{ font-size:1.2rem; color:#0088cc; transition:color .3s ease; }
 
-
     .annonce-wrap{ margin: 0 0 18px 0; }
     .annonce-box{
       padding:16px 18px;
@@ -264,7 +263,7 @@
 
     .annonce-admin{
       margin-top:12px;
-      display:none; 
+      display:none;
       gap:10px;
       flex-direction:column;
     }
@@ -308,6 +307,11 @@
     body.dark-mode .hint{ color:#aaa; }
 
     @keyframes fadeIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+    /* Fix desktop sidebar toggle "hidden" */
+    .sidebar.hidden{
+      transform: translateX(-100%);
+    }
 
     @media (max-width:768px){
       .sidebar-toggle{ display:block; }
@@ -376,18 +380,16 @@
       السنوات الدراسية موجودة في القائمة الجانبية ☰ أعلى اليسار.
     </div>
 
-
     <div class="annonce-wrap">
       <div class="annonce-box">
         <div class="annonce-title">📢 Annonce</div>
         <div id="annonceContent" class="annonce-content"></div>
 
         <div id="annonceAdmin" class="annonce-admin">
-          <textarea id="annonceInput" placeholder=اكتب></textarea>
+          <textarea id="annonceInput" placeholder="اكتب"></textarea>
           <div class="row">
             <button class="btn" id="saveAnnonceBtn">💾 حفظ الإعلان</button>
             <button class="btn secondary" id="clearAnnonceBtn">🧹 مسح</button>
-        
           </div>
         </div>
       </div>
@@ -410,13 +412,18 @@
           <li><a href="https://www.instagram.com/urfav_sam_archi_epau" target="_blank" rel="noopener">urfav_sam_archi_epau</a></li>
           <li><a href="https://www.instagram.com/trendyplaza_architecture?utm_source=ig_web_button_share_sheet&igsh=MXc5MjVydGhrenA5dw==" target="_blank" rel="noopener">trendyplaza_architecture</a></li>
         </ul>
-   <div class="card">
+      </div>
+
+      <div class="card">
         <span>✨</span>
-        <h3>صفحات Trendy </h3>
-            <li><a href="https://www.instagram.com/trendyplaza_architecture?igsh=MXc5MjVydGhrenA5dw%3D%3D&utm_source=qr" target="_blank" rel="noopener">trendyplaza_architecture</a></li>
-            <li><a href="https://www.instagram.com/trendy.plaza_platform?igsh=bXh3dHdidGRydjQy&utm_source=qr" target="_blank" rel="noopener">trendy.plaza_service</a></li>
-            <li><a href="https://www.instagram.com/trendy.plaza_platform?igsh=bXh3dHdidGRydjQy&utm_source=qr" target="_blank" rel="noopener">trendy.plaza_platform</a></li>
-    
+        <h3>صفحات Trendy</h3>
+        <ul>
+          <li><a href="https://www.instagram.com/trendyplaza_architecture?igsh=MXc5MjVydGhrenA5dw%3D%3D&utm_source=qr" target="_blank" rel="noopener">trendyplaza_architecture</a></li>
+          <li><a href="https://www.instagram.com/trendy.plaza_platform?igsh=bXh3dHdidGRydjQy&utm_source=qr" target="_blank" rel="noopener">trendy.plaza_service</a></li>
+          <li><a href="https://www.instagram.com/trendy.plaza_platform?igsh=bXh3dHdidGRydjQy&utm_source=qr" target="_blank" rel="noopener">trendy.plaza_platform</a></li>
+        </ul>
+      </div>
+
       <a href="trendyservice.html" class="card">
         <span>🪅</span>
         <h3>Trendy service</h3>
@@ -464,7 +471,6 @@
         <h3>les pdau et les pos</h3>
         <p>pdau et pos</p>
       </a>
-
 
       <a href="podcast.html" class="card">
         <span>🎙️</span>
@@ -564,7 +570,6 @@
       if(email === OWNER_EMAIL.toLowerCase()){
         annonceAdmin.style.display = "flex";
 
-
         annonceInput.value = annonceContent.textContent === "لا توجد إعلانات حالياً." ? "" : annonceContent.textContent;
 
         saveAnnonceBtn.addEventListener("click", async () => {
@@ -608,21 +613,17 @@
       document.querySelector('.dark-mode-toggle').textContent = "🌙";
     }
 
-
     document.addEventListener("contextmenu", (e) => e.preventDefault());
 
     document.addEventListener("keydown", (e) => {
       const key = (e.key || "").toLowerCase();
 
-
       if (e.key === "F12") { e.preventDefault(); e.stopPropagation(); return; }
-
 
       if (e.ctrlKey || e.metaKey) {
         const blocked = ["u","s","p","c","x","v","a","i","j","k","h","r","f","g"];
         if (blocked.includes(key)) { e.preventDefault(); e.stopPropagation(); return; }
       }
-
 
       if (e.ctrlKey && e.shiftKey) {
         const blocked2 = ["i","j","c","k","u"];
