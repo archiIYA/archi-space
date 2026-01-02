@@ -1,85 +1,317 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Archi.Space - En Construction</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trendy Plaza | Redirection</title>
+
+  <link rel="icon" href="logotrendy.svg" type="image/svg+xml">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #e0f7f4, #ffffff);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #333;
+    :root{
+      --red:#e11d2e;
+      --red2:#ff2d2d;
+      --dark:#0b0f14;
+      --glass: rgba(255,255,255,.14);
+      --border: rgba(255,255,255,.18);
+      --shadow: 0 30px 80px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif}
+    body{
+      min-height:100vh;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(225,29,46,.30), transparent 55%),
+        radial-gradient(circle at 80% 20%, rgba(255,45,45,.22), transparent 50%),
+        radial-gradient(circle at 40% 90%, rgba(255,255,255,.10), transparent 60%),
+        linear-gradient(120deg, #05070a, #0b0f14 55%, #07090d);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
     }
 
-    .container {
-      text-align: center;
-      max-width: 600px;
-      padding: 40px;
-      background-color: #fff;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      animation: fadeIn 1.5s ease-in-out;
+    .noise{
+      position:absolute; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+      mix-blend-mode:overlay;
+      opacity:.20;
+      pointer-events:none;
     }
 
-    h1 {
-      font-size: 2.5em;
-      color: #2a9d8f;
-      margin-bottom: 10px;
+    .orb{
+      position:absolute;
+      width:520px; height:520px;
+      border-radius:50%;
+      filter: blur(30px);
+      opacity:.55;
+      animation: floaty 10s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .orb.red{ background: radial-gradient(circle, rgba(225,29,46,.9), transparent 60%); left:-180px; top:-160px; }
+    .orb.white{ background: radial-gradient(circle, rgba(255,255,255,.35), transparent 60%); right:-210px; top:40px; animation-duration: 12s; }
+    .orb.gold{ background: radial-gradient(circle, rgba(255,45,45,.45), transparent 60%); left:10%; bottom:-240px; animation-duration: 14s; }
+
+    @keyframes floaty{
+      0%,100%{ transform: translate(0,0) scale(1); }
+      50%{ transform: translate(0,-18px) scale(1.04); }
     }
 
-    p {
-      font-size: 1.2em;
-      color: #555;
-      margin-bottom: 30px;
+    .lines{
+      position:absolute; inset:-40px;
+      background:
+        repeating-linear-gradient(
+          115deg,
+          rgba(255,255,255,.06) 0px,
+          rgba(255,255,255,.06) 1px,
+          transparent 1px,
+          transparent 22px
+        );
+      transform: skewY(-8deg);
+      opacity:.25;
+      animation: drift 8s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes drift{
+      0%{ transform: translateX(0) skewY(-8deg); }
+      100%{ transform: translateX(-120px) skewY(-8deg); }
     }
 
-    .emoji {
-      font-size: 50px;
-      animation: bounce 2s infinite;
+    .card{
+      width:min(720px, 92vw);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.08));
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 26px;
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transform: translateY(10px);
+      opacity:0;
+      animation: pop 700ms ease forwards;
+    }
+    @keyframes pop{
+      to{ transform: translateY(0); opacity:1; }
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    .shine{
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.26), transparent 40%),
+                  radial-gradient(circle at 80% 10%, rgba(255,255,255,.18), transparent 38%);
+      opacity:.45;
+      pointer-events:none;
     }
 
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
+    .top{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-bottom:14px;
+    }
+    .logo{
+      width:56px; height:56px;
+      border-radius:16px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.20);
+      box-shadow: 0 12px 28px rgba(0,0,0,.25);
+      overflow:hidden;
+    }
+    .logo img{
+      width:80%;
+      height:80%;
+      object-fit:contain;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.30));
     }
 
-    .back-link {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 25px;
-      background-color: #2a9d8f;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 500;
-      transition: background-color 0.3s;
+    .title{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
+    }
+    .title h1{
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing:.2px;
+    }
+    .title p{
+      margin-top:6px;
+      font-size:.95rem;
+      opacity:.86;
+      font-weight: 400;
     }
 
-    .back-link:hover {
-      background-color: #21867a;
+    .bar{
+      margin-top:18px;
+      height:12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      overflow:hidden;
+      position:relative;
+    }
+    .bar > span{
+      position:absolute; left:-35%;
+      top:0; height:100%;
+      width:35%;
+      border-radius:999px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+      animation: load 1.2s ease-in-out infinite;
+    }
+    @keyframes load{
+      0%{ left:-35%; opacity:.6; }
+      50%{ opacity:1; }
+      100%{ left:100%; opacity:.6; }
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+      margin-top:18px;
+    }
+    @media (max-width:720px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .pill{
+      padding:12px 14px;
+      border-radius:16px;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 12px 26px rgba(0,0,0,.22);
+    }
+    .pill b{ display:block; font-size:.92rem; }
+    .pill span{ display:block; margin-top:6px; opacity:.85; font-size:.88rem; line-height:1.5; }
+
+    .actions{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      border-radius:14px;
+      padding:12px 16px;
+      font-weight:800;
+      letter-spacing:.2px;
+      color:#fff;
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      box-shadow: 0 16px 36px rgba(225,29,46,.28);
+      transition: transform .2s ease, filter .2s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+    }
+    .btn:hover{ transform: translateY(-2px); filter: brightness(1.06); }
+    .btn:active{ transform: translateY(0); }
+
+    .link{
+      font-size:.92rem;
+      opacity:.82;
+      text-decoration:none;
+      color:#fff;
+      border-bottom:1px dashed rgba(255,255,255,.5);
+      padding-bottom:2px;
+    }
+    .link:hover{ opacity:1; }
+
+    .foot{
+      margin-top:14px;
+      font-size:.85rem;
+      opacity:.72;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      font-size:.82rem;
+      opacity:.9;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background: rgba(0,255,160,.85);
+      box-shadow: 0 0 0 6px rgba(0,255,160,.12);
+      animation: pulse 1.3s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(1); opacity:.9;}
+      50%{ transform: scale(1.12); opacity:1;}
     }
   </style>
 </head>
+
 <body>
+  <div class="orb red"></div>
+  <div class="orb white"></div>
+  <div class="orb gold"></div>
+  <div class="lines"></div>
+  <div class="noise"></div>
 
-  <div class="container">
-    <div class="emoji">🚧</div>
-    <h1>Bienvenue sur Archi.Space 👷‍♂️</h1>
-    <p>Le site est en construction… Merci de revenir bientôt !</p>
-    <a href="#" class="back-link">↩ Revenir plus tard</a>
-  </div>
+  <main class="card" role="main" aria-label="Redirection">
+    <div class="shine"></div>
 
+    <div class="top">
+      <div class="logo" aria-hidden="true">
+        <img src="logotrendy.svg" alt="Trendy Plaza">
+      </div>
+      <div class="title">
+        <h1>Trendy Plaza • Archi.Space</h1>
+        <p>Redirection automatique vers la page de connexion…</p>
+      </div>
+    </div>
+
+    <div class="bar" aria-hidden="true"><span></span></div>
+
+    <div class="grid">
+      <div class="pill">
+        <b>✨ منصة معمارية بتجربة عصرية</b>
+        <span>دروس، PDF، فيديوهات، مشاريع… وكل شيء منظم للطلبة.</span>
+      </div>
+      <div class="pill">
+        <b>🔒 وصول آمن</b>
+        <span>الرجاء تسجيل الدخول للمتابعة.</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="btn" href="login.html">🚀 الدخول الآن</a>
+      <a class="link" href="signup.html">إنشاء حساب جديد</a>
+    </div>
+
+    <div class="foot">
+      <span class="badge"><span class="dot"></span> Système en ligne</span>
+      <span>إذا لم يتم التوجيه تلقائياً، اضغط “الدخول الآن”.</span>
+    </div>
+  </main>
+
+  <script>
+    setTimeout(() => {
+      window.location.replace("login.html");
+    }, 1200); 
+  </script>
 </body>
 </html>
