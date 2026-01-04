@@ -4,211 +4,264 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Années Universitaires - archiSpace</title>
+
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: #fff;
-    margin: 20px;
-    color: #111;
-    text-align: center;
-  }
-  h1 {
-    font-weight: 700;
-    font-size: 2.5rem;
-    margin-bottom: 0.2em;
-    user-select: none;
-  }
-  p.subtitle {
-    font-size: 1.1rem;
-    margin-bottom: 2em;
-    color: #555;
-    user-select: none;
-  }
-  .year-grid {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-  }
-  .year-card {
-    position: relative;
-    width: 250px;
-    background: #000;
-    color: #fff;
-    padding: 2rem 1.5rem 5.5rem 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    user-select: none;
-  }
-  .year-card:hover {
-    transform: translateY(-15px) scale(1.05);
-  }
-  .year-title {
-    font-size: 1.7rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .year-title .emoji {
-    font-size: 1.8rem;
-    user-select: none;
-  }
-  .year-subtitle {
-    font-weight: 500;
-    color: #ccc;
-  }
-  
-  .semesters-container {
-    position: absolute;
-    bottom: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 1.2rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .year-card:hover .semesters-container {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .semester-card {
-    background: #111;
-    color: #eee;
-    border-radius: 0.8rem;
-    padding: 1rem 1.2rem;
-    width: 110px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.6);
-    transition: background-color 0.3s ease;
-    text-align: center;
-    text-decoration: none;
-    user-select: none;
-    display: block;
-  }
-  .semester-card:hover {
-    background: #333;
-  }
-  .semester-title {
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-bottom: 0.3rem;
-  }
-  .semester-desc {
-    font-weight: 400;
-    font-size: 0.9rem;
-    color: #bbb;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+body{
+  font-family:'Poppins',sans-serif;
+  margin:20px;
+  color:#111;
+  text-align:center;
+  background:#fff;
+  position:relative;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:url("logotrendy.svg") no-repeat center;
+  background-size:clamp(200px, 40vw, 450px);
+  opacity:0.04;
+  pointer-events:none;
+  z-index:-1;
+}
+
+h1{
+  font-weight:700;
+  font-size:2.5rem;
+  margin-bottom:.2em;
+}
+.subtitle{
+  font-size:1.1rem;
+  margin-bottom:2.5em;
+  color:#555;
+}
+
+.year-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:2rem;
+  max-width:1200px;
+  margin-inline:auto;
+}
+
+.year-card{
+  position:relative;
+  background:#000;
+  color:#fff;
+  padding:2rem 1.5rem 5.5rem;
+  border-radius:1rem;
+  box-shadow:0 12px 25px rgba(0,0,0,.35);
+  cursor:pointer;
+  transition:transform .3s ease;
+  outline:none;
+}
+
+.year-card:hover{
+  transform:translateY(-12px) scale(1.04);
+}
+
+.year-title{
+  font-size:1.7rem;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:.5rem;
+}
+
+.year-subtitle{
+  font-weight:500;
+  color:#ccc;
+}
+
+.semesters-container{
+  position:absolute;
+  bottom:1.4rem;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:1.2rem;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease;
+}
+
+.year-card:hover .semesters-container,
+.year-card.is-open .semesters-container{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.semester-card{
+  background:#111;
+  color:#eee;
+  border-radius:.8rem;
+  padding:1rem 1.2rem;
+  width:110px;
+  text-decoration:none;
+  box-shadow:0 6px 16px rgba(0,0,0,.6);
+  transition:.25s ease;
+}
+
+.semester-card:hover{
+  background:#333;
+  transform:translateY(-2px);
+}
+
+.semester-title{
+  font-weight:600;
+  font-size:1.05rem;
+}
+
+.semester-desc{
+  font-size:.9rem;
+  color:#bbb;
+}
+
+.year-card:focus-visible,
+.semester-card:focus-visible{
+  outline:2px solid #777;
+  outline-offset:3px;
+}
+
+@media(max-width:768px){
+  h1{font-size:2rem}
+  .subtitle{font-size:1rem}
+
+  .year-card{
+    padding-bottom:6.5rem;
   }
 
-  a.semester-card:focus-visible, a.semester-card:focus {
-    outline: 2px solid #555;
-    outline-offset: 2px;
+  .year-card:hover{
+    transform:none;
   }
+}
 
-  @media (max-width: 600px) {
-    .year-grid {
-      flex-direction: column;
-      align-items: center;
-    }
-    .year-card {
-      width: 90%;
-      padding-bottom: 7rem;
-    }
-    .semesters-container {
-      bottom: 2rem;
-      gap: 1rem;
-    }
+@media (hover:none){
+  .year-card:hover .semesters-container{
+    opacity:0;
+    pointer-events:none;
   }
+}
 </style>
 </head>
+
 <body>
-  <h1>Années <strong>Universitaires</strong></h1>
-  <p class="subtitle">Survolez chaque année pour voir les deux semestres associés</p>
-  <div class="year-grid">
 
-    <div class="year-card" tabindex="0" aria-label="Première Année - afficher semestres 1 et 2">
-      <div class="year-title"><span class="emoji">🎓</span> Première Année</div>
-      <div class="year-subtitle">1ère année</div>
-      <div class="semesters-container" aria-hidden="true">
-        <a href="sem1.html" class="semester-card" aria-label="Semestre 1 Première Année">
-          <div class="semester-title">Semestre 1</div>
-          <div class="semester-desc">10 Modules</div>
-        </a>
-        <a href="sem2.html" class="semester-card" aria-label="Semestre 2 Première Année">
-          <div class="semester-title">Semestre 2</div>
-          <div class="semester-desc">8 Modules</div>
-        </a>
-      </div>
+<h1>Années <strong>Universitaires</strong></h1>
+<p class="subtitle">Survolez (PC) ou appuyez (mobile) sur chaque année</p>
+
+<div class="year-grid">
+
+  <div class="year-card" tabindex="0">
+    <div class="year-title">🎓 Première Année</div>
+    <div class="year-subtitle">1ère année</div>
+    <div class="semesters-container">
+      <a href="sem1.html" class="semester-card">
+        <div class="semester-title">Semestre 1</div>
+        <div class="semester-desc">10 Modules</div>
+      </a>
+      <a href="sem2.html" class="semester-card">
+        <div class="semester-title">Semestre 2</div>
+        <div class="semester-desc">8 Modules</div>
+      </a>
     </div>
-
-    <div class="year-card" tabindex="0" aria-label="Deuxième Année - afficher semestres 3 و 4">
-      <div class="year-title"><span class="emoji">📐</span> Deuxième Année</div>
-      <div class="year-subtitle">2ème année</div>
-      <div class="semesters-container" aria-hidden="true">
-        <a href="sem3.html" class="semester-card" aria-label="Semestre 3 Deuxième Année">
-          <div class="semester-title">Semestre 3</div>
-          <div class="semester-desc">6 Modules</div>
-        </a>
-        <a href="sem4.html" class="semester-card" aria-label="Semestre 4 Deuxième Année">
-          <div class="semester-title">Semestre 4</div>
-          <div class="semester-desc">7 Modules</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="year-card" tabindex="0" aria-label="Troisième Année - afficher semestres 5 و 6">
-      <div class="year-title"><span class="emoji">🏗️</span> Troisième Année</div>
-      <div class="year-subtitle">3ème année</div>
-      <div class="semesters-container" aria-hidden="true">
-        <a href="sem5.html" class="semester-card" aria-label="Semestre 5 Troisième Année">
-          <div class="semester-title">Semestre 5</div>
-          <div class="semester-desc">9 Modules</div>
-        </a>
-        <a href="sem6.html" class="semester-card" aria-label="Semestre 6 Troisième Année">
-          <div class="semester-title">Semestre 6</div>
-          <div class="semester-desc">9 Modules</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="year-card" tabindex="0" aria-label="Quatrième Année - afficher semestres 7 و 8">
-      <div class="year-title"><span class="emoji">🏛️</span> Quatrième Année</div>
-      <div class="year-subtitle">4ème année</div>
-      <div class="semesters-container" aria-hidden="true">
-        <a href="sem7.html" class="semester-card" aria-label="Semestre 7 Quatrième Année">
-          <div class="semester-title">Semestre 7</div>
-          <div class="semester-desc">9 Modules</div>
-        </a>
-        <a href="sem8.html" class="semester-card" aria-label="Semestre 8 Quatrième Année">
-          <div class="semester-title">Semestre 8</div>
-          <div class="semester-desc">9 Modules</div>
-        </a>
-      </div>
-    </div>
-
-    <div class="year-card" tabindex="0" aria-label="Cinquième Année - afficher semestres 9 و 10">
-      <div class="year-title"><span class="emoji">📚</span> Cinquième Année</div>
-      <div class="year-subtitle">5ème année</div>
-      <div class="semesters-container" aria-hidden="true">
-        <a href="sem9.html" class="semester-card" aria-label="Semestre 9 Cinquième Année">
-          <div class="semester-title">Semestre 9</div>
-          <div class="semester-desc">6 Modules</div>
-        </a>
-        <a href="sem10.html" class="semester-card" aria-label="Semestre 10 Cinquième Année">
-          <div class="semester-title">Semestre 10</div>
-          <div class="semester-desc">2 Modules</div>
-        </a>
-      </div>
-    </div>
-
-      </div>
-    </div>
-
   </div>
+
+  <div class="year-card" tabindex="0">
+    <div class="year-title">📐 Deuxième Année</div>
+    <div class="year-subtitle">2ème année</div>
+    <div class="semesters-container">
+      <a href="sem3.html" class="semester-card">
+        <div class="semester-title">Semestre 3</div>
+        <div class="semester-desc">6 Modules</div>
+      </a>
+      <a href="sem4.html" class="semester-card">
+        <div class="semester-title">Semestre 4</div>
+        <div class="semester-desc">7 Modules</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="year-card" tabindex="0">
+    <div class="year-title">🏗️ Troisième Année</div>
+    <div class="year-subtitle">3ème année</div>
+    <div class="semesters-container">
+      <a href="sem5.html" class="semester-card">
+        <div class="semester-title">Semestre 5</div>
+        <div class="semester-desc">9 Modules</div>
+      </a>
+      <a href="sem6.html" class="semester-card">
+        <div class="semester-title">Semestre 6</div>
+        <div class="semester-desc">9 Modules</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="year-card" tabindex="0">
+    <div class="year-title">🏛️ Quatrième Année</div>
+    <div class="year-subtitle">4ème année</div>
+    <div class="semesters-container">
+      <a href="sem7.html" class="semester-card">
+        <div class="semester-title">Semestre 7</div>
+        <div class="semester-desc">9 Modules</div>
+      </a>
+      <a href="sem8.html" class="semester-card">
+        <div class="semester-title">Semestre 8</div>
+        <div class="semester-desc">9 Modules</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="year-card" tabindex="0">
+    <div class="year-title">📚 Cinquième Année</div>
+    <div class="year-subtitle">5ème année</div>
+    <div class="semesters-container">
+      <a href="sem9.html" class="semester-card">
+        <div class="semester-title">Semestre 9</div>
+        <div class="semester-desc">6 Modules</div>
+      </a>
+      <a href="sem10.html" class="semester-card">
+        <div class="semester-title">Semestre 10</div>
+        <div class="semester-desc">2 Modules</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const cards = document.querySelectorAll('.year-card');
+
+function closeAll(){
+  cards.forEach(c => c.classList.remove('is-open'));
+}
+
+cards.forEach(card=>{
+  card.addEventListener('click',e=>{
+    if(e.target.closest('a')) return;
+    const open = card.classList.contains('is-open');
+    closeAll();
+    if(!open) card.classList.add('is-open');
+  });
+
+  card.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){
+      e.preventDefault();
+      card.click();
+    }
+  });
+});
+
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.year-card')) closeAll();
+});
+</script>
+
 </body>
 </html>
