@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Années Universitaires - archiSpace</title>
+<title>Années Universitaires - trendy plaza</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
@@ -52,12 +52,13 @@ h1{
   position:relative;
   background:#000;
   color:#fff;
-  padding:2rem 1.5rem 5.5rem;
+  padding:2rem 1.5rem 6.2rem; 
   border-radius:1rem;
   box-shadow:0 12px 25px rgba(0,0,0,.35);
   cursor:pointer;
   transition:transform .3s ease;
   outline:none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .year-card:hover{
@@ -91,7 +92,13 @@ h1{
   transition:opacity .25s ease;
 }
 
-.year-card:hover .semesters-container,
+@media (hover:hover){
+  .year-card:hover .semesters-container{
+    opacity:1;
+    pointer-events:auto;
+  }
+}
+
 .year-card.is-open .semesters-container{
   opacity:1;
   pointer-events:auto;
@@ -132,21 +139,8 @@ h1{
 @media(max-width:768px){
   h1{font-size:2rem}
   .subtitle{font-size:1rem}
-
-  .year-card{
-    padding-bottom:6.5rem;
-  }
-
-  .year-card:hover{
-    transform:none;
-  }
-}
-
-@media (hover:none){
-  .year-card:hover .semesters-container{
-    opacity:0;
-    pointer-events:none;
-  }
+  .year-card:hover{transform:none;}
+  .semesters-container{gap:1rem;}
 }
 </style>
 </head>
@@ -154,6 +148,7 @@ h1{
 <body>
 
 <h1>Années <strong>Universitaires</strong></h1>
+<p class="subtitle"> </p>
 
 <div class="year-grid">
 
@@ -237,20 +232,18 @@ h1{
 <script>
 const cards = document.querySelectorAll('.year-card');
 
-function closeAll(){
-  cards.forEach(c => c.classList.remove('is-open'));
-}
+function closeAll(){ cards.forEach(c => c.classList.remove('is-open')); }
 
 cards.forEach(card=>{
   card.addEventListener('click',e=>{
-    if(e.target.closest('a')) return;
+    if(e.target.closest('a')) return; 
     const open = card.classList.contains('is-open');
     closeAll();
     if(!open) card.classList.add('is-open');
   });
 
   card.addEventListener('keydown',e=>{
-    if(e.key==='Enter'||e.key===' '){
+    if(e.key==='Enter' || e.key===' '){
       e.preventDefault();
       card.click();
     }
