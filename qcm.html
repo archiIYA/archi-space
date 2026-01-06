@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QCM – Interface</title>
+  <style>
+    :root{
+      --bg:#f3f5f9;
+      --panel:#ffffff;
+      --border:#d7dbe3;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --blue:#0ea5e9;
+      --blue2:#0284c7;
+      --green:#16a34a;
+      --darkbtn:#3f3f46;
+      --shadow:0 6px 18px rgba(15,23,42,.10);
+      --radius:10px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+    .app{display:grid;grid-template-columns:120px 1fr;min-height:100vh}
+
+    .side{
+      background:#fff;border-right:1px solid var(--border);
+      display:flex;flex-direction:column;gap:10px;padding:10px 8px;
+    }
+    .qst{
+      user-select:none;
+      display:flex;align-items:center;justify-content:center;
+      height:48px;border-radius:10px;
+      color:#9aa3b2;font-weight:700;
+      border:1px solid transparent;
+      cursor:pointer;
+    }
+    .qst:hover{background:#f6f8fc;color:#6b7280}
+    .qst.active{
+      color:var(--blue2);
+      border-color:#bfe7fb;
+      background:#ecf8ff;
+      position:relative;
+    }
+    .qst.active::after{
+      content:"";
+      position:absolute;left:0;right:0;bottom:-8px;margin:auto;
+      height:3px;width:72%;
+      background:var(--blue);
+      border-radius:999px;
+    }
+    .timerBox{
+      margin-top:auto;
+      background:#fff;border:1px solid var(--border);
+      border-radius:14px;padding:10px;
+      box-shadow:var(--shadow);
+      font-size:12px;color:var(--muted);
+      text-align:left;
+    }
+    .timerRow{display:flex;justify-content:space-between;gap:8px;margin-top:6px}
+    .timerRow b{color:var(--text)}
+    .clock{
+      margin:10px auto 0;
+      width:44px;height:44px;border-radius:999px;
+      border:2px solid #e5e7eb;display:grid;place-items:center;color:#9aa3b2;
+      font-weight:900;
+    }
+
+    .main{display:flex;flex-direction:column}
+    .topbar{
+      background:#fff;border-bottom:1px solid var(--border);
+      padding:12px 16px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      box-shadow:0 2px 10px rgba(15,23,42,.06);
+    }
+    .title{
+      font-weight:800;line-height:1.1;
+    }
+    .title small{display:block;font-weight:600;color:var(--muted);margin-top:2px}
+    .tools{display:flex;align-items:center;gap:10px}
+    .pill{
+      border:1px solid var(--border);
+      background:#fff;
+      padding:8px 10px;border-radius:999px;
+      font-weight:700;color:var(--muted);cursor:pointer;
+    }
+    .pill.blue{border-color:#bfe7fb;color:var(--blue2)}
+    .btn{
+      border:1px solid var(--border);
+      background:#fff;
+      padding:10px 12px;border-radius:12px;
+      font-weight:800;cursor:pointer;
+    }
+    .btn:hover{background:#f6f8fc}
+    .btn.primary{border-color:#bfe7fb;background:#ecf8ff;color:var(--blue2)}
+    .btn.dark{background:var(--darkbtn);border-color:transparent;color:#fff}
+    .btn.green{background:var(--green);border-color:transparent;color:#fff}
+    .content{padding:14px 16px 24px}
+
+    .card{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:12px;
+    }
+    .caseHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .caseHead h3{margin:0;font-size:16px}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+    .tag{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:6px 10px;border-radius:10px;
+      font-weight:800;font-size:12px;
+      background:#e6f7ff;color:#035b79;border:1px solid #bfe7fb;
+    }
+    .tag.small{background:#eafaf0;color:#146c2e;border-color:#b7f0c8}
+    .caseText{
+      margin-top:10px;
+      white-space:pre-wrap;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+      font-size:13px;line-height:1.55;color:#111827;
+      border:1px solid #eef2f7;background:#fbfcff;
+      border-radius:10px;padding:10px;
+    }
+
+    .acc{margin-top:12px}
+    .accItem{
+      background:#fff;border:1px solid var(--border);
+      border-radius:10px;margin-top:8px;overflow:hidden;
+    }
+    .accBtn{
+      width:100%;
+      display:flex;align-items:center;gap:10px;
+      padding:12px 12px;
+      background:#fff;border:0;cursor:pointer;
+      font-weight:800;color:#374151;
+    }
+    .chev{font-weight:900;color:#9aa3b2}
+    .accBtn:hover{background:#f7fafc}
+    .accBody{
+      display:none;
+      padding:10px 12px 12px;
+      border-top:1px solid var(--border);
+      background:#f9fbff;
+    }
+    .accItem.open .accBody{display:block}
+
+    .qTitle{
+      font-weight:900;margin:0 0 10px 0
+    }
+    .opt{
+      background:#fff;border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px;
+      display:flex;align-items:center;gap:10px;
+      cursor:pointer;
+      margin-top:8px;
+    }
+    .opt input{transform:scale(1.1)}
+    .opt b{min-width:18px}
+    .opt.correct{
+      border-color:#a7f3d0;background:#ecfdf5;
+    }
+    .opt.wrongPick{
+      border-color:#fecaca;background:#fff1f2;
+    }
+    .qActions{
+      display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;
+      margin-top:12px
+    }
+
+    .nav{
+      display:flex;justify-content:space-between;align-items:center;
+      margin-top:12px
+    }
+
+    .modalBack{
+      position:fixed;inset:0;background:rgba(15,23,42,.45);
+      display:none;place-items:center;padding:14px;z-index:50;
+    }
+    .modal{
+      width:min(980px,100%);
+      background:#fff;border-radius:16px;border:1px solid var(--border);
+      box-shadow:0 20px 70px rgba(0,0,0,.25);
+      overflow:hidden;
+    }
+    .modalTop{
+      padding:12px 14px;
+      display:flex;justify-content:space-between;align-items:center;gap:10px;
+      border-bottom:1px solid var(--border);
+    }
+    .modalTop h4{margin:0;font-size:14px}
+    .modalBody{padding:14px;display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:900px){ .modalBody{grid-template-columns:1fr 1fr} }
+    .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:800}
+    .field input,.field textarea,.field select{
+      width:100%;border:1px solid var(--border);border-radius:12px;padding:10px;
+      font:inherit;background:#fbfcff;outline:none;
+    }
+    .field textarea{min-height:100px;resize:vertical}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .list{
+      border:1px solid var(--border);border-radius:12px;padding:10px;background:#fbfcff;
+      max-height:360px;overflow:auto;
+    }
+    .itemLine{
+      padding:10px;border:1px solid var(--border);
+      border-radius:12px;background:#fff;margin-top:8px;
+      display:flex;justify-content:space-between;gap:10px;align-items:flex-start;
+    }
+    .itemLine:first-child{margin-top:0}
+    .itemLine .meta{font-size:12px;color:var(--muted);margin-top:4px}
+    .modalBtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:10px}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="app">
+   <aside class="side" id="side"></aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="title" id="examTitle">
+          2025 (P1) Dermatologie (Externat alger)
+          <small id="examSub">6 janvier 2026 à 10:15:15</small>
+        </div>
+        <div class="tools">
+          <div class="pill blue" id="langPill">Fr</div>
+          <button class="btn primary" id="adminBtn">Admin</button>
+        </div>
+      </div>
+
+      <div class="content">
+        <section class="card">
+          <div class="caseHead">
+            <div>
+              <h3 id="caseNumber">Question n° 8 :</h3>
+              <div class="tags">
+                <span class="tag small" id="caseTag1">Cas Clinique</span>
+                <span class="tag" id="caseTag2">N°8 (2025 P1)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="caseText" id="caseText"></div>
+
+          <div class="acc" id="acc"></div>
+
+          <div class="nav">
+            <button class="btn dark" id="prevBtn">◀ Précédent</button>
+            <button class="btn dark" id="nextBtn">Suivant ▶</button>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+
+  <div class="modalBack" id="modalBack">
+    <div class="modal">
+      <div class="modalTop">
+        <h4>🛠️ Admin – أضف/عدّل الأسئلة وحدّد الإجابة الصحيحة</h4>
+        <button class="btn" id="closeModal">✕</button>
+      </div>
+
+      <div class="modalBody">
+        <div>
+          <div class="field">
+            <label>نص الحالة (Cas Clinique)</label>
+            <textarea id="editCaseText" placeholder="اكتب نص الحالة هنا..."></textarea>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>Case Number</label>
+              <input id="editCaseNumber" placeholder="Question n° 8 :" />
+            </div>
+            <div class="field">
+              <label>Tag 2</label>
+              <input id="editCaseTag2" placeholder="N°8 (2025 P1)" />
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:10px">
+            <label>سؤال جديد (عنوان السؤال)</label>
+            <input id="qText" placeholder="مثال: Quel diagnostic évoquez-vous ? (réponse juste)" />
+          </div>
+
+          <div class="field">
+            <label>الاختيارات (A/B/C/D/E… سطر لكل خيار)</label>
+            <textarea id="qOptions" placeholder="Dermatophytie&#10;Dermatite atopique&#10;Dermatite séborrhéique&#10;Eczéma chronique&#10;Psoriasis vulgaire"></textarea>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>الإجابة الصحيحة (رقم الخيار يبدأ من 1)</label>
+              <input id="qCorrect" type="number" min="1" value="1" />
+            </div>
+            <div class="field">
+              <label>شرح/تعليل (اختياري)</label>
+              <input id="qExplain" placeholder="سبب الإجابة الصحيحة..." />
+            </div>
+          </div>
+
+          <div class="modalBtns">
+            <button class="btn green" id="addQuestion">➕ إضافة</button>
+            <button class="btn" id="exportBtn">⬇︎ Export JSON</button>
+            <button class="btn" id="importBtn">⬆︎ Import JSON</button>
+          </div>
+
+          <div class="field" style="margin-top:10px">
+            <label>JSON (للنسخ/اللصق عند التصدير أو الاستيراد)</label>
+            <textarea class="mono" id="jsonBox" placeholder="{...}"></textarea>
+          </div>
+        </div>
+
+        <div>
+          <div class="field">
+            <label>قائمة الأسئلة الحالية</label>
+            <div class="list" id="adminList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    const KEY = "QCM_UI_V1";
+    const defaultData = {
+      examTitle: "2025 (P1) Dermatologie (Externat alger)",
+      examSub: "6 janvier 2026 à 10:15:15",
+      caseNumber: "Question n° 8 :",
+      caseTag1: "Cas Clinique",
+      caseTag2: "N°8 (2025 P1)",
+      caseText:
+`Une femme de 25 ans est hospitalisée pour une dermatose érythémato squameuse...
+(هذا مثال فقط—بدّله من Admin)`,
+      questions: [
+        {
+          title: "Quel diagnostic évoquez-vous ? (réponse juste)",
+          options: ["Dermatophytie","Dermatite atopique","Dermatite séborrhéique","Eczéma chronique","Psoriasis vulgaire"],
+          correctIndex: 4, // 0-based
+          explain: ""
+        },
+        {
+          title: "Quelle prise en charge initiale ? (réponse juste)",
+          options: ["Option A","Option B","Option C","Option D"],
+          correctIndex: 1,
+          explain: "Exemple de justification."
+        }
+      ]
+    };
+
+    function load(){
+      try{
+        const raw = localStorage.getItem(KEY);
+        return raw ? JSON.parse(raw) : structuredClone(defaultData);
+      }catch(e){
+        return structuredClone(defaultData);
+      }
+    }
+    function save(){
+      localStorage.setItem(KEY, JSON.stringify(DATA));
+    }
+    let DATA = load();
+
+
+    let current = 0;
+    let answers = [];          
+    let showAnswer = [];       
+    let sessionStart = Date.now();
+    let questionStart = Date.now();
+
+    function resetState(){
+      current = 0;
+      answers = Array(DATA.questions.length).fill(null);
+      showAnswer = Array(DATA.questions.length).fill(false);
+      sessionStart = Date.now();
+      questionStart = Date.now();
+    }
+    resetState();
+
+
+    const side = document.getElementById("side");
+    const acc = document.getElementById("acc");
+
+    const examTitle = document.getElementById("examTitle");
+    const examSub = document.getElementById("examSub");
+
+    const caseNumber = document.getElementById("caseNumber");
+    const caseTag1 = document.getElementById("caseTag1");
+    const caseTag2 = document.getElementById("caseTag2");
+    const caseText = document.getElementById("caseText");
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    const modalBack = document.getElementById("modalBack");
+    const adminBtn = document.getElementById("adminBtn");
+    const closeModal = document.getElementById("closeModal");
+
+    const editCaseText = document.getElementById("editCaseText");
+    const editCaseNumber = document.getElementById("editCaseNumber");
+    const editCaseTag2 = document.getElementById("editCaseTag2");
+
+    const qText = document.getElementById("qText");
+    const qOptions = document.getElementById("qOptions");
+    const qCorrect = document.getElementById("qCorrect");
+    const qExplain = document.getElementById("qExplain");
+
+    const adminList = document.getElementById("adminList");
+    const jsonBox = document.getElementById("jsonBox");
+    const addQuestion = document.getElementById("addQuestion");
+    const exportBtn = document.getElementById("exportBtn");
+    const importBtn = document.getElementById("importBtn");
+
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+    function mmss(ms){
+      const t = Math.max(0, Math.floor(ms/1000));
+      const m = String(Math.floor(t/60)).padStart(2,"0");
+      const s = String(t%60).padStart(2,"0");
+      return `${m}:${s}`;
+    }
+
+
+    function renderHeader(){
+      examTitle.firstChild.nodeValue = DATA.examTitle + " ";
+      examSub.textContent = DATA.examSub;
+
+      caseNumber.textContent = DATA.caseNumber;
+      caseTag1.textContent = DATA.caseTag1 || "Cas Clinique";
+      caseTag2.textContent = DATA.caseTag2;
+      caseText.textContent = DATA.caseText;
+    }
+
+    function renderSidebar(){
+      side.innerHTML = "";
+      DATA.questions.forEach((_, i)=>{
+        const d = document.createElement("div");
+        d.className = "qst" + (i===current ? " active":"");
+        d.textContent = `Qst ${i+1}`;
+        d.onclick = ()=>goTo(i);
+        side.appendChild(d);
+      });
+
+      const timer = document.createElement("div");
+      timer.className = "timerBox";
+      timer.innerHTML = `
+        <div><b>Session</b> <span style="float:right">${mmss(Date.now()-sessionStart)}</span></div>
+        <div class="timerRow"><span>Question</span><b>${mmss(Date.now()-questionStart)}</b></div>
+        <div class="clock">⏱</div>
+      `;
+      side.appendChild(timer);
+    }
+
+    function renderAccordion(){
+      acc.innerHTML = "";
+
+      DATA.questions.forEach((q, qi)=>{
+        const item = document.createElement("div");
+        item.className = "accItem" + (qi===current ? " open":"");
+        item.innerHTML = `
+          <button class="accBtn" type="button">
+            <span class="chev">${qi===current ? "⌄":"›"}</span>
+            <span>Question ${qi+1}</span>
+          </button>
+          <div class="accBody">
+            <p class="qTitle">${escapeHtml(q.title)}</p>
+            <div class="optList" id="optList_${qi}"></div>
+
+            <div class="qActions">
+              <button class="btn green" type="button" data-show="${qi}">Afficher la réponse</button>
+            </div>
+
+            ${q.explain ? `<div style="margin-top:10px;color:#6b7280;font-size:12px"><b>Note:</b> ${escapeHtml(q.explain)}</div>` : ""}
+          </div>
+        `;
+        acc.appendChild(item);
+
+        const btn = item.querySelector(".accBtn");
+        btn.onclick = ()=>{
+          goTo(qi);
+        };
+
+        const optList = item.querySelector(`#optList_${qi}`);
+        q.options.forEach((opt, oi)=>{
+          const label = document.createElement("label");
+          label.className = "opt";
+          const letter = String.fromCharCode(65+oi);
+          const checked = answers[qi]===oi ? "checked" : "";
+          label.innerHTML = `
+            <input type="radio" name="q_${qi}" value="${oi}" ${checked} />
+            <b>${letter}.</b>
+            <span>${escapeHtml(opt)}</span>
+          `;
+          label.onclick = ()=>{
+            answers[qi]=oi;
+            render(); 
+          };
+          optList.appendChild(label);
+        });
+      });
+
+      document.querySelectorAll("[data-show]").forEach(b=>{
+        b.onclick = ()=>{
+          const qi = Number(b.getAttribute("data-show"));
+          showAnswer[qi] = !showAnswer[qi];
+          render();
+        };
+      });
+
+      DATA.questions.forEach((q, qi)=>{
+        const list = document.querySelectorAll(`#optList_${qi} .opt`);
+        list.forEach((optEl, oi)=>{
+          optEl.classList.remove("correct","wrongPick");
+          if(showAnswer[qi] && oi === q.correctIndex) optEl.classList.add("correct");
+          if(showAnswer[qi] && answers[qi] !== null && oi === answers[qi] && answers[qi] !== q.correctIndex){
+            optEl.classList.add("wrongPick");
+          }
+        });
+      });
+    }
+
+    function render(){
+      renderHeader();
+      renderSidebar();
+      renderAccordion();
+      prevBtn.disabled = current===0;
+      nextBtn.disabled = current===DATA.questions.length-1;
+      save();
+    }
+
+
+    function goTo(i){
+      if(i<0 || i>=DATA.questions.length) return;
+      current = i;
+      questionStart = Date.now();
+      render();
+      const openItem = acc.children[current];
+      openItem?.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+
+    prevBtn.onclick = ()=>goTo(current-1);
+    nextBtn.onclick = ()=>goTo(current+1);
+
+
+    function openAdmin(){
+      editCaseText.value = DATA.caseText;
+      editCaseNumber.value = DATA.caseNumber;
+      editCaseTag2.value = DATA.caseTag2;
+      jsonBox.value = "";
+      renderAdminList();
+      modalBack.style.display = "grid";
+    }
+    function closeAdminModal(){
+      modalBack.style.display = "none";
+
+      DATA.caseText = editCaseText.value;
+      DATA.caseNumber = editCaseNumber.value || "Question n° :";
+      DATA.caseTag2 = editCaseTag2.value || DATA.caseTag2;
+
+      if(answers.length !== DATA.questions.length) resetState();
+      render();
+    }
+
+    function renderAdminList(){
+      adminList.innerHTML = "";
+      if(DATA.questions.length === 0){
+        adminList.innerHTML = `<div style="color:#6b7280;font-weight:700">لا توجد أسئلة بعد.</div>`;
+        return;
+      }
+      DATA.questions.forEach((q, i)=>{
+        const line = document.createElement("div");
+        line.className = "itemLine";
+        line.innerHTML = `
+          <div>
+            <div style="font-weight:900">${i+1}) ${escapeHtml(q.title)}</div>
+            <div class="meta">Options: ${q.options.length} — Correct: ${q.correctIndex+1}</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn" data-edit="${i}">Edit</button>
+            <button class="btn" data-del="${i}" style="border-color:#fecaca;background:#fff1f2">Delete</button>
+          </div>
+        `;
+        adminList.appendChild(line);
+      });
+
+      adminList.querySelectorAll("[data-del]").forEach(btn=>{
+        btn.onclick = ()=>{
+          const i = Number(btn.getAttribute("data-del"));
+          DATA.questions.splice(i,1);
+          resetState();
+          renderAdminList();
+          render();
+        };
+      });
+
+      adminList.querySelectorAll("[data-edit]").forEach(btn=>{
+        btn.onclick = ()=>{
+          const i = Number(btn.getAttribute("data-edit"));
+          const q = DATA.questions[i];
+          qText.value = q.title;
+          qOptions.value = q.options.join("\n");
+          qCorrect.value = String(q.correctIndex+1);
+          qExplain.value = q.explain || "";
+
+          addQuestion.textContent = "💾 Save (replace)";
+          addQuestion.onclick = ()=>{
+            const title = qText.value.trim();
+            const opts = qOptions.value.split("\n").map(s=>s.trim()).filter(Boolean);
+            const corr = Math.max(1, Number(qCorrect.value||1));
+            if(!title) return alert("أدخل عنوان السؤال");
+            if(opts.length < 2) return alert("أدخل خيارين على الأقل");
+            if(corr > opts.length) return alert("رقم الإجابة الصحيحة أكبر من عدد الخيارات");
+            DATA.questions[i] = { title, options: opts, correctIndex: corr-1, explain: qExplain.value.trim() };
+            addQuestion.textContent = "➕ إضافة";
+            addQuestion.onclick = addNewQuestion;
+            qText.value=""; qOptions.value=""; qCorrect.value="1"; qExplain.value="";
+            resetState();
+            renderAdminList();
+            render();
+          };
+        };
+      });
+    }
+
+    function addNewQuestion(){
+      const title = qText.value.trim();
+      const opts = qOptions.value.split("\n").map(s=>s.trim()).filter(Boolean);
+      const corr = Math.max(1, Number(qCorrect.value||1));
+      if(!title) return alert("أدخل عنوان السؤال");
+      if(opts.length < 2) return alert("أدخل خيارين على الأقل");
+      if(corr > opts.length) return alert("رقم الإجابة الصحيحة أكبر من عدد الخيارات");
+
+      DATA.questions.push({ title, options: opts, correctIndex: corr-1, explain: qExplain.value.trim() });
+      qText.value=""; qOptions.value=""; qCorrect.value="1"; qExplain.value="";
+      resetState();
+      renderAdminList();
+      render();
+    }
+
+    adminBtn.onclick = openAdmin;
+    closeModal.onclick = closeAdminModal;
+    modalBack.onclick = (e)=>{ if(e.target === modalBack) closeAdminModal(); };
+
+    addQuestion.onclick = addNewQuestion;
+
+    exportBtn.onclick = ()=>{
+      jsonBox.value = JSON.stringify(DATA, null, 2);
+    };
+    importBtn.onclick = ()=>{
+      try{
+        const obj = JSON.parse(jsonBox.value);
+        if(!obj || !Array.isArray(obj.questions)) throw new Error("bad");
+        DATA = obj;
+        resetState();
+        renderAdminList();
+        render();
+        alert("تم الاستيراد ✅");
+      }catch(e){
+        alert("JSON غير صالح");
+      }
+    };
+
+    setInterval(()=>renderSidebar(), 1000);
+
+    // init
+    render();
+  </script>
+</body>
+</html>
