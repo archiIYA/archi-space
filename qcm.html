@@ -141,11 +141,10 @@
     </main>
   </div>
 
-
   <div class="modalBack" id="authBack">
     <div class="modal">
       <div class="modalTop">
-        <h4>🔐 Connexion / Inscription </h4>
+        <h4>🔐 Connexion / Inscription</h4>
         <button class="btn" id="authClose">✕</button>
       </div>
       <div class="modalBody">
@@ -169,13 +168,12 @@
         </div>
         <div>
           <div class="warn">
-            ✅ عند Submit، نطلب: <b>Nom, Prénom, Date & Lieu de naissance</b> (بالفرنسية) ثم نحفظ النتائج 
+            ✅ عند Submit، نطلب: <b>Nom, Prénom, Date & Lieu de naissance</b> (بالفرنسية) ثم نحفظ النتائج
           </div>
         </div>
       </div>
     </div>
   </div>
-
 
   <div class="modalBack" id="infoBack">
     <div class="modal">
@@ -215,10 +213,6 @@
           <div class="modalBtns">
             <button class="btn green" id="saveInfoBtn">✅ Continuer</button>
           </div>
-
-          <div class="note">
-       
-          </div>
         </div>
 
         <div>
@@ -237,7 +231,6 @@
     </div>
   </div>
 
-
   <div class="modalBack" id="adminBack">
     <div class="modal">
       <div class="modalTop">
@@ -252,10 +245,9 @@
       </div>
 
       <div class="modalBody">
- 
         <div id="questionsPane">
           <div class="field">
-            <label>Cas </label>
+            <label>Cas</label>
             <textarea id="editCaseText" placeholder="Tapez votre cas clinique..."></textarea>
           </div>
 
@@ -303,7 +295,6 @@
           </div>
         </div>
 
-
         <div>
           <div id="subsPane" class="hide">
             <div class="field">
@@ -313,9 +304,6 @@
                 <button class="btn" id="exportCsvBtn">⬇️ Export CSV</button>
               </div>
               <div class="list" id="subsList"></div>
-              <div class="note" style="margin-top:8px">
-                
-              </div>
             </div>
           </div>
 
@@ -331,7 +319,6 @@
   </div>
 
   <script type="module">
-
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -342,19 +329,15 @@
       measurementId: "G-3JF6KDRNBP"
     };
 
-    // ✅ ضع إيميلات الأدمـن هنا
     const ADMIN_EMAILS = [
-  "toumiiyadetude@gmail.com",
-  "boukhariahlem09@gmail.com"
-];
+      "toumiiyadetude@gmail.com",
+      "boukhariahlem09@gmail.com"
+    ];
 
     const ADMIN_SECOND_PASSWORD = "trendyoilsawb@2026";
-
     const SUBS_COLLECTION = "qcm_submissions";
-
-    const KEY_DATA = "QCM_UI_V3_DATA";
+    const EXAM_DOC_PATH = { col: "qcm", doc: "exam_active" };
     const KEY_STUDENT_INFO = "QCM_STUDENT_INFO_V1";
-
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import {
@@ -363,7 +346,8 @@
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import {
       getFirestore, collection, addDoc, serverTimestamp,
-      query, orderBy, getDocs
+      query, orderBy, getDocs, doc, getDoc, setDoc, onSnapshot,
+      disableNetwork, enableNetwork
     } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
     const app = initializeApp(firebaseConfig);
@@ -371,41 +355,62 @@
     const db = getFirestore(app);
 
 
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("dragstart", e => e.preventDefault());
+    document.addEventListener("keydown", (e)=>{
+      const k = (e.key||"").toLowerCase();
+      const ctrl = e.ctrlKey || e.metaKey;
+      if (k === "f12") { e.preventDefault(); return; }
+      if (ctrl && (k === "u" || k === "s" || k === "p" || k === "c" || k === "x" || k === "v" || k === "a" || k === "f")) { e.preventDefault(); return; }
+      if (ctrl && e.shiftKey && (k === "i" || k === "j" || k === "c")) { e.preventDefault(); return; }
+      if (e.altKey && (k === "left" || k === "right")) { e.preventDefault(); return; }
+    }, true);
+
     const defaultData = {
       examTitle: "QCM – archiSpace",
       examSub: new Date().toLocaleString("fr-FR"),
       caseNumber: "Question n° 1 :",
-      caseTag1: "Cas Clinique",
+      caseTag1: "Cas ",
       caseTag2: "N°1",
-      caseText:
-`(Exemple) Remplace ce texte depuis Admin.`,
+      caseText: `(Exemple) Remplace ce texte depuis Admin.`,
       questions: [
         {
           title: "Quelles propositions sont exactes ? (choix multiple)",
           options: ["Option A","Option B","Option C","Option D"],
-          correctIndices: [0,2], // A + C
+          correctIndices: [0,2],
           explain: ""
         }
-      ]
+      ],
+      updatedAt: null
     };
 
-    function loadData(){
-      try{
-        const raw = localStorage.getItem(KEY_DATA);
-        const obj = raw ? JSON.parse(raw) : structuredClone(defaultData);
-        obj.questions = (obj.questions||[]).map(q=>{
-          if(Array.isArray(q.correctIndices)) return q;
-          if(typeof q.correctIndex === "number") return {...q, correctIndices:[q.correctIndex]};
-          return {...q, correctIndices:[]};
-        });
-        return obj;
-      }catch(e){
-        return structuredClone(defaultData);
-      }
+    function normalizeData(obj){
+      const x = obj && typeof obj === "object" ? obj : structuredClone(defaultData);
+      x.questions = (x.questions||[]).map(q=>{
+        const qq = q && typeof q === "object" ? q : {};
+        const options = Array.isArray(qq.options) ? qq.options : [];
+        let correctIndices = [];
+        if(Array.isArray(qq.correctIndices)) correctIndices = qq.correctIndices.filter(n=>Number.isInteger(n));
+        else if(typeof qq.correctIndex === "number") correctIndices = [qq.correctIndex];
+        correctIndices = [...new Set(correctIndices)].filter(i=>i>=0 && i<options.length).sort((a,b)=>a-b);
+        return {
+          title: String(qq.title ?? ""),
+          options: options.map(s=>String(s)),
+          correctIndices,
+          explain: String(qq.explain ?? "")
+        };
+      });
+      x.examTitle  = String(x.examTitle  ?? defaultData.examTitle);
+      x.examSub    = String(x.examSub    ?? defaultData.examSub);
+      x.caseNumber = String(x.caseNumber ?? defaultData.caseNumber);
+      x.caseTag1   = String(x.caseTag1   ?? defaultData.caseTag1);
+      x.caseTag2   = String(x.caseTag2   ?? defaultData.caseTag2);
+      x.caseText   = String(x.caseText   ?? defaultData.caseText);
+      return x;
     }
-    let DATA = loadData();
-    function saveLocal(){ localStorage.setItem(KEY_DATA, JSON.stringify(DATA)); }
 
+    let DATA = structuredClone(defaultData);
+    const examDocRef = doc(db, EXAM_DOC_PATH.col, EXAM_DOC_PATH.doc);
 
     function loadStudentInfo(){
       try{
@@ -418,15 +423,13 @@
     function saveStudentInfo(info){
       localStorage.setItem(KEY_STUDENT_INFO, JSON.stringify(info));
     }
-
     function isFrenchLikeName(s){
-      return /^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]+$/.test(s.trim());
+      return /^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]+$/.test(String(s||"").trim());
     }
 
-
     let current = 0;
-    let answers = [];    
-    let showAnswer = [];  
+    let answers = [];
+    let showAnswer = [];
     let sessionStart = Date.now();
     let questionStart = Date.now();
 
@@ -439,8 +442,6 @@
       window.DATA = DATA;
       window.answers = answers;
     }
-    resetState();
-
 
     const side = document.getElementById("side");
     const acc = document.getElementById("acc");
@@ -504,7 +505,6 @@
     const exportCsvBtn = document.getElementById("exportCsvBtn");
     const subsList = document.getElementById("subsList");
 
-
     function escapeHtml(s){
       return String(s).replace(/[&<>"']/g, m => ({
         "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
@@ -525,13 +525,11 @@
       const idx = [...new Set(nums.map(n=>n-1).filter(i=>i>=0 && i<max))].sort((a,b)=>a-b);
       return idx;
     }
-
     function setsEqual(aSet, bSet){
       if(aSet.size !== bSet.size) return false;
       for(const v of aSet) if(!bSet.has(v)) return false;
       return true;
     }
-
 
     function renderHeader(){
       examTitle.firstChild.nodeValue = DATA.examTitle + " ";
@@ -620,7 +618,6 @@
         };
       });
 
-
       DATA.questions.forEach((q, qi)=>{
         const correct = new Set(q.correctIndices || []);
         const picked = answers[qi];
@@ -639,7 +636,6 @@
       renderAccordion();
       prevBtn.disabled = current===0;
       nextBtn.disabled = current===DATA.questions.length-1;
-      saveLocal();
       window.DATA = DATA;
       window.answers = answers;
     }
@@ -656,7 +652,6 @@
     prevBtn.onclick = ()=>goTo(current-1);
     nextBtn.onclick = ()=>goTo(current+1);
 
-
     let currentUser = null;
 
     function openAuth(){ authBack.style.display = "grid"; }
@@ -671,7 +666,7 @@
       const pass = authPass.value;
       if(!email || !pass) return alert("Email/Password required.");
       try{ await signInWithEmailAndPassword(auth, email, pass); closeAuth(); }
-      catch(err){ console.error(err); alert("Login failed."); }
+      catch(err){ alert("Login failed."); }
     };
 
     doSignup.onclick = async ()=>{
@@ -679,29 +674,10 @@
       const pass = authPass.value;
       if(!email || !pass) return alert("Email/Password required.");
       try{ await createUserWithEmailAndPassword(auth, email, pass); closeAuth(); }
-      catch(err){ console.error(err); alert("Signup failed."); }
+      catch(err){ alert("Signup failed."); }
     };
 
     logoutBtn.onclick = async ()=>{ await signOut(auth); };
-
-    onAuthStateChanged(auth, (user)=>{
-      currentUser = user || null;
-
-      if(currentUser){
-        userPill.textContent = currentUser.email || "Signed in";
-        userPill.classList.add("blue");
-        loginBtn.style.display = "none";
-        logoutBtn.style.display = "inline-block";
-      }else{
-        userPill.textContent = "Not signed in";
-        userPill.classList.remove("blue");
-        loginBtn.style.display = "inline-block";
-        logoutBtn.style.display = "none";
-      }
-
-      adminBtn.style.display = isAdminUser(currentUser) ? "inline-block" : "none";
-    });
-
 
     function openInfo(){
       const info = loadStudentInfo();
@@ -745,7 +721,6 @@
       if(pendingSubmit){ pendingSubmit = false; doSubmitWithInfo(info); }
     };
 
-  
     function setAdminTab(which){
       const isQ = which === "questions";
       tabQuestions.classList.toggle("active", isQ);
@@ -757,6 +732,14 @@
     tabQuestions.onclick = ()=>setAdminTab("questions");
     tabSubs.onclick = ()=>setAdminTab("subs");
 
+    async function saveExamToFirestore(){
+      const payload = {
+        ...DATA,
+        updatedAt: serverTimestamp()
+      };
+      await setDoc(examDocRef, payload, { merge: false });
+    }
+
     function openAdmin(){
       editCaseText.value = DATA.caseText;
       editCaseNumber.value = DATA.caseNumber;
@@ -766,13 +749,16 @@
       setAdminTab("questions");
       adminBack.style.display = "grid";
     }
-    function closeAdminModal(){
+
+    async function closeAdminModal(){
       adminBack.style.display = "none";
       DATA.caseText = editCaseText.value;
       DATA.caseNumber = editCaseNumber.value || "Question n° 1 :";
       DATA.caseTag2 = editCaseTag2.value || "N°1";
+      DATA.examSub = new Date().toLocaleString("fr-FR");
       resetState();
       render();
+      await saveExamToFirestore();
     }
 
     adminBtn.onclick = ()=>{
@@ -783,8 +769,8 @@
       openAdmin();
     };
 
-    adminClose.onclick = closeAdminModal;
-    adminBack.onclick = (e)=>{ if(e.target === adminBack) closeAdminModal(); };
+    adminClose.onclick = async ()=>{ try{ await closeAdminModal(); }catch(e){ alert("Save failed (Firestore rules)."); } };
+    adminBack.onclick = async (e)=>{ if(e.target === adminBack){ try{ await closeAdminModal(); }catch(err){ alert("Save failed (Firestore rules)."); } } };
 
     function renderAdminList(){
       adminList.innerHTML = "";
@@ -811,13 +797,14 @@
       });
 
       adminList.querySelectorAll("[data-del]").forEach(btn=>{
-        btn.onclick = ()=>{
+        btn.onclick = async ()=>{
           const i = Number(btn.getAttribute("data-del"));
           if(!confirm("Delete this question?")) return;
           DATA.questions.splice(i,1);
           resetState();
           renderAdminList();
           render();
+          try{ await saveExamToFirestore(); }catch(e){ alert("Save failed (Firestore rules)."); }
         };
       });
 
@@ -831,7 +818,7 @@
           qExplain.value = q.explain || "";
 
           addQuestion.textContent = "💾 Save (replace)";
-          addQuestion.onclick = ()=>{
+          addQuestion.onclick = async ()=>{
             const title = qText.value.trim();
             const opts = qOptions.value.split("\n").map(s=>s.trim()).filter(Boolean);
             if(!title) return alert("Entrez le titre.");
@@ -848,12 +835,13 @@
             resetState();
             renderAdminList();
             render();
+            try{ await saveExamToFirestore(); }catch(e){ alert("Save failed (Firestore rules)."); }
           };
         };
       });
     }
 
-    function addNewQuestion(){
+    async function addNewQuestion(){
       const title = qText.value.trim();
       const opts = qOptions.value.split("\n").map(s=>s.trim()).filter(Boolean);
       if(!title) return alert("Entrez le titre.");
@@ -867,79 +855,101 @@
       resetState();
       renderAdminList();
       render();
+      try{ await saveExamToFirestore(); }catch(e){ alert("Save failed (Firestore rules)."); }
     }
     addQuestion.onclick = addNewQuestion;
 
     exportBtn.onclick = ()=>{ jsonBox.value = JSON.stringify(DATA, null, 2); };
 
-    importBtn.onclick = ()=>{
+    importBtn.onclick = async ()=>{
       try{
-        const obj = JSON.parse(jsonBox.value);
-        if(!obj || !Array.isArray(obj.questions)) throw new Error("bad");
-        obj.questions = obj.questions.map(q=>{
-          if(Array.isArray(q.correctIndices)) return q;
-          if(typeof q.correctIndex === "number") return {...q, correctIndices:[q.correctIndex]};
-          return {...q, correctIndices:[]};
-        });
+        const obj = normalizeData(JSON.parse(jsonBox.value));
         DATA = obj;
         resetState();
         renderAdminList();
         render();
+        await saveExamToFirestore();
         alert("Imported ✅");
       }catch(e){
         alert("JSON invalide");
       }
     };
 
-
     function computeScoreMulti(){
       let score = 0;
       const total = DATA.questions.length;
-
       DATA.questions.forEach((q, i)=>{
         const correctSet = new Set(q.correctIndices || []);
         const pickedSet = answers[i] || new Set();
         if(setsEqual(correctSet, pickedSet)) score++;
       });
-
       return {score, total};
     }
 
+    let submitLock = false;
+
+    async function ensureOnline(){
+      try{
+        await enableNetwork(db);
+      }catch(e){}
+    }
+
     async function doSubmitWithInfo(info){
-      const unanswered = answers.map((set,i)=>(set && set.size>0) ? null : (i+1)).filter(Boolean);
-      if(unanswered.length){
-        const ok = confirm(`Unanswered: ${unanswered.join(", ")}\nSubmit anyway?`);
-        if(!ok) return;
-      }
-
-      const {score, total} = computeScoreMulti();
-
-      const payload = {
-        quizTitle: DATA.examTitle,
-        caseTag: DATA.caseTag2,
-
-
-        nomFR: info.nomFR,
-        prenomFR: info.prenomFR,
-        dateNaiss: info.dateNaiss,   
-        lieuNaiss: info.lieuNaiss,
-
-        uid: currentUser.uid,
-        email: currentUser.email || "",
-
-        score,
-        total,
-        answers: answers.map(set => [...set].sort((a,b)=>a-b).map(letter)), // e.g. ["A","C"]
-        correct: DATA.questions.map(q => (q.correctIndices||[]).slice().sort((a,b)=>a-b).map(letter)),
-        createdAt: serverTimestamp()
-      };
+      if(submitLock) return;
+      submitLock = true;
+      submitBtn.disabled = true;
 
       try{
-        await addDoc(collection(db, SUBS_COLLECTION), payload);
-        alert(`Submitted ✅ Score: ${score}/${total}`);
-      }catch(e){
-        console.error(e);
-        alert("Submit failed (Firestore). Check Rules.");
+        if(!currentUser){ submitLock=false; submitBtn.disabled=false; return; }
+
+        const unanswered = answers.map((set,i)=>(set && set.size>0) ? null : (i+1)).filter(Boolean);
+        if(unanswered.length){
+          const ok = confirm(`Unanswered: ${unanswered.join(", ")}\nSubmit anyway?`);
+          if(!ok){ submitLock=false; submitBtn.disabled=false; return; }
+        }
+
+        const {score, total} = computeScoreMulti();
+
+        const payload = {
+          quizTitle: DATA.examTitle,
+          caseTag: DATA.caseTag2,
+          nomFR: info.nomFR,
+          prenomFR: info.prenomFR,
+          dateNaiss: info.dateNaiss,
+          lieuNaiss: info.lieuNaiss,
+          uid: currentUser.uid,
+          email: currentUser.email || "",
+          score,
+          total,
+          answers: answers.map(set => [...set].sort((a,b)=>a-b).map(letter)),
+          correct: DATA.questions.map(q => (q.correctIndices||[]).slice().sort((a,b)=>a-b).map(letter)),
+          createdAt: serverTimestamp()
+        };
+
+        let lastErr = null;
+        for(let attempt=1; attempt<=6; attempt++){
+          try{
+            await ensureOnline();
+            const ref = await addDoc(collection(db, SUBS_COLLECTION), payload);
+            const verify = await getDoc(ref);
+            if(verify.exists()){
+              alert(`Submitted ✅ Score: ${score}/${total}`);
+              submitLock=false; submitBtn.disabled=false;
+              return;
+            }
+            throw new Error("verify_failed");
+          }catch(e){
+            lastErr = e;
+            const wait = Math.min(4000, 350 * attempt * attempt);
+            await new Promise(r=>setTimeout(r, wait));
+          }
+        }
+
+        console.error(lastErr);
+        alert("Submit failed (Firestore).");
+      } finally {
+        submitLock=false;
+        submitBtn.disabled=false;
       }
     }
 
@@ -963,17 +973,17 @@
       await doSubmitWithInfo(info);
     };
 
-
     let lastSubs = [];
 
     loadSubsBtn.onclick = async ()=>{
       if(!currentUser || !isAdminUser(currentUser)) return alert("Admin only.");
       subsList.innerHTML = "Loading...";
       try{
+        await ensureOnline();
         const qy = query(collection(db, SUBS_COLLECTION), orderBy("createdAt","desc"));
         const snap = await getDocs(qy);
         const rows = [];
-        snap.forEach(doc=> rows.push({id: doc.id, ...doc.data()}));
+        snap.forEach(docu=> rows.push({id: docu.id, ...docu.data()}));
         lastSubs = rows;
 
         subsList.innerHTML = "";
@@ -1049,11 +1059,60 @@ Correct: ${escapeHtml(corrTxt)}
       URL.revokeObjectURL(url);
     };
 
+    let syncing = false;
+
+    async function loadExamOnce(){
+      try{
+        await ensureOnline();
+        const snap = await getDoc(examDocRef);
+        if(snap.exists()){
+          DATA = normalizeData(snap.data());
+        }else{
+          DATA = structuredClone(defaultData);
+        }
+      }catch(e){
+        DATA = structuredClone(defaultData);
+      }
+      resetState();
+      render();
+    }
+
+    function startRealtimeExamSync(){
+      if(syncing) return;
+      syncing = true;
+      onSnapshot(examDocRef, (snap)=>{
+        if(!snap.exists()) return;
+        if(adminBack.style.display === "grid") return;
+        DATA = normalizeData(snap.data());
+        resetState();
+        render();
+      });
+    }
+
+    onAuthStateChanged(auth, (user)=>{
+      currentUser = user || null;
+
+      if(currentUser){
+        userPill.textContent = currentUser.email || "Signed in";
+        userPill.classList.add("blue");
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+        adminBtn.style.display = isAdminUser(currentUser) ? "inline-block" : "none";
+      }else{
+        userPill.textContent = "Not signed in";
+        userPill.classList.remove("blue");
+        loginBtn.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+        adminBtn.style.display = "none";
+      }
+    });
 
     setInterval(()=>renderSidebar(), 1000);
+
+    resetState();
     render();
+    startRealtimeExamSync();
+    await loadExamOnce();
   </script>
-
-
 </body>
 </html>
