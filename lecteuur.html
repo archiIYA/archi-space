@@ -3,9 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>archiSpace - Accueil</title>
+  <title> trendy plaza - Accueil</title>
 
   <meta name="keywords" content="هندسة معمارية, عمارة, مواد بناء, trendy plaza, Trendy Plaza, archiSpace, formation, formation هندسة معمارية, منصة تعليمية, منصة تعليمية معمارية, دروس الهندسة المعمارية, تعليم العمارة, الدراسة عن بعد, cours architecture, cours urbanisme, architecture, architecte, architects, urbanisme, urban design, architectural design, الجزائر, algerie, algérie, architecture الجزائر, architecture algerie, architecture algérie, سنة أولى عمارة, سنة ثانية عمارة, سنة ثالثة عمارة, سنة رابعة عمارة, سنة خامسة عمارة, atelier de projet, atelier 1, atelier 2, atelier 3, atelier 4, atelier 5, théorie de projet, théorie architecturale, histoire de l’architecture, histoire architecture, histoire de l’art, patrimoine, patrimoine architectural, dessin architectural, dessin technique, dessin artistique, dessin graphique, dossier graphique, dossier technique, dossier architectural, croquis, esquisse, perspective, perspective à deux points, perspective à un point, axonométrie, isométrie, coupe, plan, élévation, façade, section, plan masse, plan de situation, plan d’exécution, lecture de plans, détails constructifs, détail d’exécution, détail façade, détail structure, géométrie de l’espace, géométrie descriptive, stéréotomie, projection, topographie, levé topographique, lecture urbaine, analyse urbaine, morphologie urbaine, tissus urbains, trame urbaine, espace public, place, boulevard, quartier, îlot, parcelle, densité, gabarit, alignement, réseau viaire, mobilité, transport, planification urbaine, aménagement urbain, règlement d’urbanisme, PDAU, POS, servitudes, zonage, VRD, voirie, assainissement, drainage, AEP, éclairage public, structure, charpente, béton, béton armé, béton précontraint, ciment, mortier, chaux, sable, gravier, granulats, acier, fer, armatures, treillis soudé, coffrage, brique, parpaing, pierre, bois, aluminium, verre, PVC, plâtre, staff, céramique, carrelage, faïence, peinture, enduit, isolation, isolation thermique, isolation acoustique, étanchéité, membrane, toiture, dalle, poteau, poutre, mur porteur, voile, fondations, semelle, radier, longrine, sous-sol, façade ventilée, mur rideau, menuiserie, menuiserie aluminium, menuiserie bois, vitrage, double vitrage, chantier, construction, bâtiment, génie civil, gros œuvre, second œuvre, lots techniques, CVC, HVAC, ventilation, climatisation, chauffage, plomberie, électricité, sécurité incendie, SSI, désenfumage, accessibilité, normes, réglementation, code de l’urbanisme, code du bâtiment, ergonomie, confort thermique, bioclimatique, conception bioclimatique, architecture durable, développement durable, HQE, LEED, BREEAM, efficacité énergétique, énergie solaire, ventilation naturelle, ombrage, orientation, lumière naturelle, acoustique, paysage, architecture du paysage, espace vert, BIM, maquette numérique, modélisation 3D, visualisation 3D, rendu architectural, rendu 3D, render, photoréalisme, Revit, AutoCAD, SketchUp, Rhino, Grasshopper, ArchiCAD, Lumion, Twinmotion, V-Ray, Enscape, Photoshop, Illustrator, InDesign, portfolio architecture, PFE, projet de fin d’études, mémoire architecture, concours architecture, stage, stage découverte, bibliothéque, ressources PDF, cours PDF, vidéos architecture, quiz architecture, projets étudiants, consultation projet, presentation projet, maquette, maquette physique, maquette carton, impression 3D, conception, concept architectural, parti architectural, programme architectural, diagnostic, SWOT, analyse de site, site analysis, relevé, enquête, études, étude de faisabilité, APS, APD, DCE, DOE, estimation, métrés, quantitatif, planning chantier, coordination, maîtrise d’ouvrage, maîtrise d’œuvre" />
+
+  <link rel="icon" href="logotrendy.svg" type="image/svg+xml">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Trendy Plaza",
+    "url": "https://archiiya.github.io/archi-space/",
+    "logo": "https://archiiya.github.io/archi-space/logotrendy.svg"
+  }
+  </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -54,7 +66,7 @@
       font-weight:600;
       color:#000;
       user-select:none;
-      transition:background-color .3s ease, color .3s ease;
+      transition:background-color .3s ease, color .3s ease, transform .3s ease;
     }
     body.dark-mode .sidebar{ background-color:#1a1a1a; border-right-color:#333; color:#e0e0e0; }
 
@@ -231,40 +243,120 @@
     .telegram-button:hover .telegram-icon{ color:#fff; }
     .telegram-icon{ font-size:1.2rem; color:#0088cc; transition:color .3s ease; }
 
-    /* ✅ Zone annonces */
-    .annonce-wrap{ margin: 0 0 18px 0; }
+    /* =========================
+       ✅ ANNONCE: جذابة + بارزة + واضحة + أنيميشن مستمر
+       ========================= */
+    .annonce-wrap{
+      margin: 0 0 18px 0;
+    }
     .annonce-box{
-      padding:16px 18px;
-      border-radius:14px;
-      background:#fff;
-      box-shadow:4px 4px 12px rgba(0,0,0,.08);
-      border:1px solid rgba(0,0,0,.08);
+      position:relative;
+      padding:18px 18px 16px 18px;
+      border-radius:16px;
+      background:
+        linear-gradient(135deg, rgba(0,0,0,.04), rgba(0,0,0,.01));
+      box-shadow: 0 10px 24px rgba(0,0,0,.10);
+      border: 1px solid rgba(0,0,0,.10);
+      overflow:hidden;
+      transform: translateZ(0);
+      animation: annoncePulse 2.6s ease-in-out infinite;
     }
     body.dark-mode .annonce-box{
-      background:#1a1a1a;
-      border-color: rgba(255,255,255,.10);
-      box-shadow:4px 4px 12px rgba(0,0,0,.28);
+      background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-color: rgba(255,255,255,.12);
+      box-shadow: 0 10px 24px rgba(0,0,0,.35);
     }
+
+    /* شريط لامع متحرك */
+    .annonce-box::before{
+      content:"";
+      position:absolute;
+      top:-60%;
+      left:-30%;
+      width:50%;
+      height:220%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+      transform: rotate(18deg);
+      animation: shineMove 3.2s linear infinite;
+      pointer-events:none;
+      opacity:.9;
+      mix-blend-mode: screen;
+    }
+    body.dark-mode .annonce-box::before{
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.20), transparent);
+      opacity:1;
+    }
+
+    /* شريط علوي ملون */
+    .annonce-box::after{
+      content:"";
+      position:absolute;
+      left:0; top:0;
+      width:100%;
+      height:4px;
+      background: linear-gradient(90deg, #000, #0088cc, #000);
+      opacity:.9;
+      animation: topBarFlow 2.2s linear infinite;
+      pointer-events:none;
+    }
+    body.dark-mode .annonce-box::after{
+      background: linear-gradient(90deg, #e0e0e0, #0088cc, #e0e0e0);
+      opacity:.85;
+    }
+
     .annonce-title{
       display:flex;
       align-items:center;
       gap:10px;
-      font-weight:800;
+      font-weight:900;
       margin-bottom:10px;
       user-select:none;
+      letter-spacing:.2px;
     }
+    .annonce-title .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:34px;
+      height:34px;
+      border-radius:12px;
+      background:#000;
+      color:#fff;
+      box-shadow:0 8px 18px rgba(0,0,0,.18);
+      animation: badgeWiggle 1.4s ease-in-out infinite;
+      flex:0 0 auto;
+    }
+    body.dark-mode .annonce-title .badge{
+      background:#e0e0e0;
+      color:#000;
+      box-shadow:0 8px 18px rgba(0,0,0,.35);
+    }
+
+    .annonce-title .text{
+      font-size:1.05rem;
+    }
+
     .annonce-content{
-      font-size:.92em;
-      line-height:1.6;
-      color:#222;
+      font-size:.96em;
+      line-height:1.7;
+      color:#111;
       white-space: pre-wrap;
       word-break: break-word;
+      padding:12px 14px;
+      border-radius:12px;
+      background: rgba(255,255,255,.55);
+      border: 1px dashed rgba(0,0,0,.12);
+      animation: contentFloat 3s ease-in-out infinite;
     }
-    body.dark-mode .annonce-content{ color:#ddd; }
+    body.dark-mode .annonce-content{
+      color:#eee;
+      background: rgba(0,0,0,.35);
+      border-color: rgba(255,255,255,.14);
+    }
 
     .annonce-admin{
       margin-top:12px;
-      display:none; /* يظهر فقط للمالك */
+      display:none;
       gap:10px;
       flex-direction:column;
     }
@@ -277,6 +369,7 @@
       padding:12px;
       font-family:'Poppins', sans-serif;
       outline:none;
+      background:#fff;
     }
     body.dark-mode .annonce-admin textarea{
       background:#111;
@@ -308,6 +401,40 @@
     body.dark-mode .hint{ color:#aaa; }
 
     @keyframes fadeIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+    .sidebar.hidden{
+      transform: translateX(-100%);
+    }
+
+    /* Animations */
+    @keyframes annoncePulse{
+      0%,100%{ transform: translateY(0) scale(1); }
+      50%{ transform: translateY(-2px) scale(1.01); }
+    }
+    @keyframes shineMove{
+      0%{ left:-40%; }
+      100%{ left:120%; }
+    }
+    @keyframes topBarFlow{
+      0%{ filter:hue-rotate(0deg); }
+      100%{ filter:hue-rotate(360deg); }
+    }
+    @keyframes badgeWiggle{
+      0%,100%{ transform: rotate(0deg) scale(1); }
+      40%{ transform: rotate(-7deg) scale(1.03); }
+      70%{ transform: rotate(7deg) scale(1.03); }
+    }
+    @keyframes contentFloat{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-2px); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .annonce-box, .annonce-box::before, .annonce-box::after,
+      .annonce-title .badge, .annonce-content{
+        animation:none !important;
+      }
+    }
 
     @media (max-width:768px){
       .sidebar-toggle{ display:block; }
@@ -366,8 +493,9 @@
         الدروس المتوفرة حالياً هي دروس السنة الاولى و الثانية فقط. <br />
         شكراً لصبركم وتفهّمكم. <br /><br />
         لمعرفة أي جديد على المنصة أو طريقة الوصول إلى أي صفحة منها زورو صفحتنا على الانستا:
-        <a href="https://www.instagram.com/trendy.plaza_platform?igsh=bXh3dHdidGRydjQy&utm_source=qr" target="_blank" rel="noopener">
-          @trendy.plaza_platform
+        <a href="https://www.instagram.com/trendyplaza_platform?igsh=bXh3dHdidGRydjQy&utm_source=qr" target="_blank" rel="noopener">
+          <br />@trendyplaza_platform<br />
+          <br />لا تنسو الدعاء لكل من ساهم بحرف في هذه المنصة<br />
         </a>
       </div>
     </div>
@@ -376,18 +504,19 @@
       السنوات الدراسية موجودة في القائمة الجانبية ☰ أعلى اليسار.
     </div>
 
-    <!-- ✅ مكان الإعلانات (يظهر للجميع / والتحرير يظهر فقط للمالك) -->
     <div class="annonce-wrap">
       <div class="annonce-box">
-        <div class="annonce-title">📢 Annonce</div>
-        <div id="annonceContent" class="annonce-content">لا توجد إعلانات حالياً.</div>
+        <div class="annonce-title">
+          <span class="badge">📢</span>
+          <span class="text">Annonce</span>
+        </div>
+        <div id="annonceContent" class="annonce-content"></div>
 
         <div id="annonceAdmin" class="annonce-admin">
-          <textarea id="annonceInput" placeholder="اكتب إعلانك هنا... (سيظهر للكل)"></textarea>
+          <textarea id="annonceInput" placeholder="اكتب"></textarea>
           <div class="row">
             <button class="btn" id="saveAnnonceBtn">💾 حفظ الإعلان</button>
             <button class="btn secondary" id="clearAnnonceBtn">🧹 مسح</button>
-            <span class="hint">هذه المنطقة تظهر فقط للحساب: toumiiyadetude@gmail.com</span>
           </div>
         </div>
       </div>
@@ -409,6 +538,16 @@
           <li><a href="https://www.instagram.com/ikraam_bks" target="_blank" rel="noopener">ikraam_bks</a></li>
           <li><a href="https://www.instagram.com/urfav_sam_archi_epau" target="_blank" rel="noopener">urfav_sam_archi_epau</a></li>
           <li><a href="https://www.instagram.com/trendyplaza_architecture?utm_source=ig_web_button_share_sheet&igsh=MXc5MjVydGhrenA5dw==" target="_blank" rel="noopener">trendyplaza_architecture</a></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <span>✨</span>
+        <h3>صفحات Trendy</h3>
+        <ul>
+          <li><a href="https://www.instagram.com/trendyplaza_architecture?igsh=MXc5MjVydGhrenA5dw%3D%3D&utm_source=qr" target="_blank" rel="noopener">trendyplaza_architecture</a></li>
+          <li><a href="https://www.instagram.com/trendyplaza_service?igsh=d2M1bHVvbzdlN2c4&utm_source=qr" target="_blank" rel="noopener">trendy.plaza_service</a></li>
+          <li><a href="https://www.instagram.com/trendyplaza_platform?igsh=bXh3dHdidGRydjQy&utm_source=qr" target="_blank" rel="noopener">trendy.plaza_platform</a></li>
         </ul>
       </div>
 
@@ -460,40 +599,26 @@
         <p>pdau et pos</p>
       </a>
 
-      <!-- ✅ بطاقات جديدة: بودكاست + منشورات + صفحات Trendy -->
       <a href="podcast.html" class="card">
         <span>🎙️</span>
         <h3>Podcast</h3>
         <p>استمع إلى حلقات مفيدة في العمارة والديزاين وتطوير المهارات.</p>
       </a>
 
-      <a href="posts.html" class="card">
+      <a href="Publications.html" class="card">
         <span>📰</span>
         <h3>Publications</h3>
-        <p>منشورات، نصائح، مراجع سريعة وتحديثات المنصة.</p>
-      </a>
-
-      <a href="trendy-pages.html" class="card">
-        <span>✨</span>
-        <h3>Pages Trendy</h3>
-        <p>صفحات Trendy: مشاريع، مراجعات، برامج، وأفكار جديدة.</p>
       </a>
 
       <div class="card">
-        <span>💬</span>
-        <h3>Meilleures chaînes Telegram</h3>
-        <div class="telegram-list">
-          <a href="https://t.me/+IpSoJKmM9y5kMjU0" target="_blank" rel="noopener" class="telegram-button">
-            <span class="telegram-icon">💬</span> سنة اولى
-          </a>
-          <a href="https://t.me/+PZlrwvdw8jllMTRk" target="_blank" rel="noopener" class="telegram-button">
-            <span class="telegram-icon">💬</span> سنة ثانية
-          </a>
-          <a href="https://t.me/+kUPR2XI-dlZmM2Vk" target="_blank" rel="noopener" class="telegram-button">
-            <span class="telegram-icon">💬</span> سنة ثالثة
-          </a>
-        </div>
-      </div>
+      <span>💬</span>
+      <h3>Meilleures chaînes Telegram</h3>
+      <ul>
+        <li><a href="https://t.me/+IpSoJKmM9y5kMjU0" target="_blank" rel="noopener">سنة أولى</a></li>
+        <li><a href="https://t.me/+PZlrwvdw8jllMTRk" target="_blank" rel="noopener">سنة ثانية</a></li>
+        <li><a href="https://t.me/+kUPR2XI-dlZmM2Vk" target="_blank" rel="noopener">سنة ثالثة</a></li>
+      </ul>
+       </div>
 
       <a href="divertissement.html" class="card">
         <span>🎮</span>
@@ -531,13 +656,28 @@
     const saveAnnonceBtn = document.getElementById("saveAnnonceBtn");
     const clearAnnonceBtn = document.getElementById("clearAnnonceBtn");
 
+    const ANNOUNCE_TTL_MS = 24 * 60 * 60 * 1000;
+
+    function isAnnonceExpired(updatedAt){
+      if(!updatedAt || typeof updatedAt !== "number") return true;
+      return (Date.now() - updatedAt) > ANNOUNCE_TTL_MS;
+    }
+
     async function loadAnnonce(){
       try{
         const ref = doc(db, "site", "homeAnnonce");
         const snap = await getDoc(ref);
+
         if(snap.exists()){
-          const data = snap.data();
-          annonceContent.textContent = (data && data.text) ? data.text : "لا توجد إعلانات حالياً.";
+          const data = snap.data() || {};
+          const text = (data.text || "").trim();
+          const updatedAt = data.updatedAt;
+
+          if(!text || isAnnonceExpired(updatedAt)){
+            annonceContent.textContent = "لا توجد إعلانات حالياً.";
+          }else{
+            annonceContent.textContent = text;
+          }
         }else{
           annonceContent.textContent = "لا توجد إعلانات حالياً.";
         }
@@ -565,7 +705,6 @@
       const email = (user.email || "").toLowerCase();
       if(email === OWNER_EMAIL.toLowerCase()){
         annonceAdmin.style.display = "flex";
-
 
         annonceInput.value = annonceContent.textContent === "لا توجد إعلانات حالياً." ? "" : annonceContent.textContent;
 
@@ -610,21 +749,17 @@
       document.querySelector('.dark-mode-toggle').textContent = "🌙";
     }
 
-
     document.addEventListener("contextmenu", (e) => e.preventDefault());
 
     document.addEventListener("keydown", (e) => {
       const key = (e.key || "").toLowerCase();
 
-
       if (e.key === "F12") { e.preventDefault(); e.stopPropagation(); return; }
-
 
       if (e.ctrlKey || e.metaKey) {
         const blocked = ["u","s","p","c","x","v","a","i","j","k","h","r","f","g"];
         if (blocked.includes(key)) { e.preventDefault(); e.stopPropagation(); return; }
       }
-
 
       if (e.ctrlKey && e.shiftKey) {
         const blocked2 = ["i","j","c","k","u"];
