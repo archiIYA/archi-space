@@ -937,6 +937,7 @@ function showResults(){
     retryBtn.disabled = false;
   }
 }
+  if (e.ctrlKey && e.shiftKey) { const blocked2 = ["i","j","c","k","u"]; if (blocked2.includes(key)) { e.preventDefault(); e.stopPropagation(); return; } } }, true);
 </script>
 </body>
 </html>
