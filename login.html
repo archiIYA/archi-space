@@ -155,7 +155,7 @@
         padding: 35px 25px;
       }
 
-      .logo {
+      .logo { 
         width: 100px;
       }
     }
@@ -202,6 +202,15 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      updateDoc,
+      increment,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "archi-space-72624.firebaseapp.com",
@@ -214,6 +223,44 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
+
+
+    (async function trackRefLoginVisit(){
+      try{
+        const url = new URL(window.location.href);
+        const ref = (url.searchParams.get("ref") || "").trim().toUpperCase();
+
+        if(!ref) return;
+
+        localStorage.setItem("tp_ref", ref);
+
+        const key = `tp_ref_${ref}_login_last`;
+        const last = Number(localStorage.getItem(key) || "0");
+        const now = Date.now();
+        const DAY = 24 * 60 * 60 * 1000;
+
+        if(now - last <= DAY) return;
+        localStorage.setItem(key, String(now));
+
+        const refDoc = doc(db, "ref_stats", ref);
+
+        await setDoc(refDoc, {
+          ref,
+          loginVisits: 0,
+          createdAt: serverTimestamp(),
+          lastLoginVisitAt: serverTimestamp()
+        }, { merge: true });
+
+        await updateDoc(refDoc, {
+          loginVisits: increment(1),
+          lastLoginVisitAt: serverTimestamp()
+        });
+
+      }catch(e){
+        console.log("Tracking error:", e);
+      }
+    })();
 
     window.login = function () {
       const email = document.getElementById("email").value;
@@ -221,9 +268,15 @@
       const errorMsg = document.getElementById("errorMsg");
 
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(() => {
           localStorage.setItem("userToken", "ok");
-          window.location.href = "lecteur.html";
+
+          const savedRef = (localStorage.getItem("tp_ref") || "").trim();
+          const next = savedRef
+            ? `lecteur.html?ref=${encodeURIComponent(savedRef)}`
+            : "lecteur.html";
+
+          window.location.href = next;
         })
         .catch((error) => {
           errorMsg.textContent = "❌ " + error.message;
