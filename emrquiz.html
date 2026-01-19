@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>ERM Exam Simulator | Trendy Plaza</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #7c5cff;
+      --bg: #0f1224;
+      --card: rgba(255,255,255,0.08);
+      --text: #ffffff;
+      --muted: #b3b3d9;
+      --success: #4caf50;
+      --danger: #ff5252;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #1b1f45, #0f1224);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 30px;
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    header img {
+      height: 45px;
+    }
+
+    header h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(16px);
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    select {
+      background: #1b1f45;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .question {
+      font-size: 18px;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option {
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      border: 1px solid transparent;
+    }
+
+    .option:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .option.selected {
+      border-color: var(--primary);
+      background: rgba(124,92,255,0.25);
+    }
+
+    .option.correct {
+      background: rgba(76,175,80,0.3);
+      border-color: var(--success);
+    }
+
+    .option.wrong {
+      background: rgba(255,82,82,0.25);
+      border-color: var(--danger);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+      gap: 10px;
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--primary), #9b7bff);
+      border: none;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button.secondary {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    .summary {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(255,255,255,0.06);
+      border-left: 4px solid var(--primary);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      display: none;
+    }
+
+    .score {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <!-- 🔴 ضع مسار لوغو Trendy Plaza هنا -->
+  <img src="logo-trendy.png" alt="Trendy Plaza">
+  <h1>ERM – Exam Simulator</h1>
+</header>
+
+<div class="container">
+  <div class="card">
+
+    <div class="top-bar">
+      <div>
+        Version :
+        <select id="versionSelect">
+          <option value="A">Version A</option>
+          <option value="C">Version C</option>
+        </select>
+      </div>
+      <div id="counter"></div>
+    </div>
+
+    <div id="questionBox"></div>
+    <div class="options" id="optionsBox"></div>
+
+    <div class="summary" id="summaryBox"></div>
+
+    <div class="actions">
+      <button class="secondary" onclick="prevQuestion()">Précédent</button>
+      <button onclick="nextQuestion()">Suivant</button>
+    </div>
+
+    <div class="score" id="scoreBox"></div>
+
+  </div>
+</div>
+
+<script>
+const ERM_VersionA = [...ERM_VersionA];
+  const ERM_VersionA = [
+  {
+    id: 1,
+    version: "A",
+    type: "truefalse",
+    text: "La Terre est la seule planète du système solaire où l'atmosphère contient de l'oxygène.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 0,
+    points: 0.65,
+    summaryLink:
+      "La Terre est unique dans sa capacité à abriter la vie grâce à des conditions spécifiques, notamment une atmosphère favorable."
+  },
+  {
+    id: 2,
+    version: "A",
+    type: "truefalse",
+    text: "La croissance démographique humaine n'a aucun impact sur l'environnement.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 1,
+    points: 0.65,
+    summaryLink:
+      "La croissance exponentielle de la population augmente la pression sur les ressources et renforce l’impact environnemental."
+  },
+  {
+    id: 3,
+    version: "A",
+    type: "truefalse",
+    text: "Le vieillissement démographique est un phénomène récent.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 0,
+    points: 0.65,
+    summaryLink:
+      "Le vieillissement démographique correspond à l’augmentation de la proportion des +65 ans par rapport aux 0-4 ans."
+  },
+  {
+    id: 4,
+    version: "A",
+    type: "truefalse",
+    text: "L'impact environnemental d'une activité humaine est le produit de ses trois facteurs : Population, Aisance, Technologie.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 0,
+    points: 0.65,
+    summaryLink:
+      "Le modèle IPAT : Impact = Population × Affluence × Technologie."
+  },
+  {
+    id: 5,
+    version: "A",
+    type: "truefalse",
+    text: "L'approche anthropocentrique de l'environnement est la seule approche valide.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 1,
+    points: 0.65,
+    summaryLink:
+      "L’environnement est un système complexe intégrant le vivant, le non-vivant et leurs interactions, ce qui implique plusieurs approches."
+  },
+  {
+    id: 6,
+    version: "A",
+    type: "truefalse",
+    text: "L'approche écocentrique de l'environnement est la plus respectueuse de l'environnement.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 0,
+    points: 0.65,
+    summaryLink:
+      "Les écosystèmes et la biodiversité sont essentiels, et leur protection passe par une approche centrée sur les écosystèmes."
+  },
+  {
+    id: 7,
+    version: "A",
+    type: "truefalse",
+    text: "Les écosystèmes de prairies ne sont pas menacés par les activités humaines.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 1,
+    points: 0.65,
+    summaryLink:
+      "Les écosystèmes peuvent être perturbés et perdre leurs fonctions, ce qui affecte les services écosystémiques."
+  },
+  {
+    id: 8,
+    version: "A",
+    type: "truefalse",
+    text: "Le risque majeur est subordonné à une forte fréquence.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 1,
+    points: 0.65,
+    summaryLink:
+      "Le risque majeur se caractérise surtout par sa gravité potentielle importante et des enjeux significatifs, pas par la fréquence."
+  },
+  {
+    id: 9,
+    version: "A",
+    type: "truefalse",
+    text: "Les mouvements de terrain peuvent être causés par des facteurs naturels ou anthropiques.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 0,
+    points: 0.65,
+    summaryLink:
+      "Les mouvements de terrain résultent de déformation/rupture/déplacement du sol et peuvent être liés à plusieurs facteurs."
+  },
+  {
+    id: 10,
+    version: "A",
+    type: "truefalse",
+    text: "La puissance des feux de forêt décroît en fonction de la surface touchée, et le vent en raison de son apport en oxygène.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 1,
+    points: 0.65,
+    summaryLink:
+      "Les feux de forêts font partie des phénomènes environnementaux et leur intensité peut être aggravée par certaines conditions."
+  },
+
+  // ✅ Single choice (0.75 pts)
+  {
+    id: 11,
+    version: "A",
+    type: "singlechoice",
+    text: "Quelle est la proportion de la surface de la Terre recouverte d'eau ?",
+    options: ["71 %", "29 %", "50 %"],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "La Terre est un environnement propice à la vie notamment grâce à la présence d’eau, élément clé pour la vie."
+  },
+  {
+    id: 12,
+    version: "A",
+    type: "singlechoice",
+    text: "Quelle est la relation entre la population nombreuse et les systèmes environnementaux ?",
+    options: [
+      "Les systèmes environnementaux sont favorables à la vie, ce qui favorise la croissance de la population.",
+      "Les systèmes environnementaux sont limités par la population, ce qui limite la croissance de la population."
+    ],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "La Terre est unique car ses conditions (atmosphère, distance, ressources) sont favorables à la vie et donc à la croissance démographique."
+  },
+  {
+    id: 13,
+    version: "A",
+    type: "singlechoice",
+    text: "Qui est l'agent principal des changements environnementaux de la planète ?",
+    options: ["L'espèce humaine", "Les animaux", "Les plantes"],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "L’empreinte écologique mesure la pression humaine sur les écosystèmes, donc l’humain est un agent majeur des changements."
+  },
+  {
+    id: 14,
+    version: "A",
+    type: "singlechoice",
+    text: "Le vieillissement démographique est caractérisé par une augmentation de la proportion de la population âgée de :",
+    options: ["0 à 4 ans", "20 à 64 ans", "Plus de 65 ans"],
+    correctAnswer: 2,
+    points: 0.75,
+    summaryLink:
+      "Vieillissement démographique : augmentation de la part des +65 ans par rapport aux 0-4 ans."
+  },
+  {
+    id: 15,
+    version: "A",
+    type: "singlechoice",
+    text: "L'empreinte écologique est exprimée en :",
+    options: ["Unités de surface", "Unités de volume", "Unités de masse"],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "L’empreinte écologique mesure la pression sur les écosystèmes via des surfaces nécessaires (agriculture, forêts, etc.)."
+  },
+  {
+    id: 16,
+    version: "A",
+    type: "singlechoice",
+    text: "Les services rendus par les écosystèmes sont :",
+    options: [
+      "Les ressources naturelles que nous utilisons",
+      "Les fonctions que les écosystèmes remplissent",
+      "Les deux"
+    ],
+    correctAnswer: 2,
+    points: 0.75,
+    summaryLink:
+      "Les services écosystémiques incluent l’approvisionnement (ressources) et les fonctions de régulation, soutien et culturelles."
+  },
+  {
+    id: 17,
+    version: "A",
+    type: "singlechoice",
+    text: "Les facteurs abiotiques sont :",
+    options: [
+      "Les interactions entre les êtres vivants",
+      "Les conditions physiques et chimiques de l'environnement",
+      "Les ressources vivantes"
+    ],
+    correctAnswer: 1,
+    points: 0.75,
+    summaryLink:
+      "Facteurs abiotiques : éléments non vivants comme la température, l’eau, l’air, la lumière et le sol."
+  },
+  {
+    id: 18,
+    version: "A",
+    type: "singlechoice",
+    text: "Un système est un ensemble d'éléments qui :",
+    options: [
+      "Interagissent entre eux",
+      "Sont indépendants les uns des autres",
+      "Sont liés par des relations d’ordre"
+    ],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "L’environnement est un système complexe intégrant des facteurs et leurs interactions."
+  },
+  {
+    id: 19,
+    version: "A",
+    type: "singlechoice",
+    text: "Les forêts méditerranéennes sont caractérisées par :",
+    options: [
+      "Une grande variété d'espèces de palmiers",
+      "Une grande variété d'espèces végétales et animales",
+      "Un rôle important dans la sylviculture"
+    ],
+    correctAnswer: 1,
+    points: 0.75,
+    summaryLink:
+      "Les écosystèmes forestiers abritent une biodiversité importante et un réseau trophique complexe."
+  },
+  {
+    id: 20,
+    version: "A",
+    type: "singlechoice",
+    text: "Les écosystèmes de prairies sont vulnérables à :",
+    options: [
+      "La perte d’habitat",
+      "Les changements climatiques",
+      "Les espèces invasives",
+      "Les trois éléments ci-dessus"
+    ],
+    correctAnswer: 3,
+    points: 0.75,
+    summaryLink:
+      "Les écosystèmes peuvent être perturbés et perdre leurs fonctions, et leur résilience dépend des pressions subies."
+  },
+  {
+    id: 21,
+    version: "A",
+    type: "singlechoice",
+    text: "Un écosystème résilient est un système :",
+    options: [
+      "Qui est capable de résister aux perturbations",
+      "Qui est capable de retrouver son état d’équilibre initial après une perturbation",
+      "Qui est capable de maintenir son fonctionnement et ses fonctions dans le temps",
+      "Les trois éléments ci-dessus"
+    ],
+    correctAnswer: 3,
+    points: 0.75,
+    summaryLink:
+      "Résilience : capacité d’absorber une perturbation sans changer de structure ou de fonctionnement, et de retrouver l’équilibre."
+  },
+  {
+    id: 22,
+    version: "A",
+    type: "singlechoice",
+    text: "L'environnement construit comprend :",
+    options: [
+      "Les bâtiments",
+      "Les villes et au-delà",
+      "Les infrastructures",
+      "Les espaces publics"
+    ],
+    correctAnswer: 1,
+    points: 0.75,
+    summaryLink:
+      "L’environnement construit désigne l’environnement créé par l’homme : bâtiments, villes, infrastructures, espaces aménagés."
+  },
+  {
+    id: 23,
+    version: "A",
+    type: "singlechoice",
+    text: "Parmi les avantages de la circulation piétonne et cyclable, on peut citer :",
+    options: [
+      "La promotion de la santé",
+      "La réduction de la pollution",
+      "L'amélioration de la qualité de l’air",
+      "Les trois éléments ci-dessus"
+    ],
+    correctAnswer: 3,
+    points: 0.75,
+    summaryLink:
+      "Smart City : mobilité intelligente et environnement intelligent visent à réduire pollution et améliorer la qualité de vie."
+  },
+  {
+    id: 24,
+    version: "A",
+    type: "singlechoice",
+    text: "Quel est le besoin qui correspond à la prévention contre les risques ?",
+    options: [
+      "Les besoins physiologiques",
+      "Les besoins de sécurité",
+      "Les besoins d'appartenance",
+      "Les besoins d'estime",
+      "Les besoins d'accomplissement"
+    ],
+    correctAnswer: 1,
+    points: 0.75,
+    summaryLink:
+      "Dans la pyramide de Maslow, le besoin de sécurité est un besoin fondamental lié à la prévention des risques."
+  },
+  {
+    id: 25,
+    version: "A",
+    type: "singlechoice",
+    text: "Quel est le rôle de la vulnérabilité ?",
+    options: [
+      "Elle accentue l'impact des aléas",
+      "Elle diminue l'impact des aléas",
+      "Elle est indépendante de l'impact des aléas"
+    ],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "Le risque résulte de la combinaison aléa + vulnérabilité : plus la vulnérabilité est forte, plus l’impact est grand."
+  },
+  {
+    id: 26,
+    version: "A",
+    type: "singlechoice",
+    text: "Qu'est-ce que l'aléa naturel ?",
+    options: [
+      "Une menace déclenchée par un phénomène naturel",
+      "Une menace liée aux activités industrielles",
+      "Une menace créée par la technologie",
+      "Les trois à la fois"
+    ],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "Aléa naturel : menace déclenchée par un phénomène dont la nature est la seule composante."
+  },
+  {
+    id: 27,
+    version: "A",
+    type: "singlechoice",
+    text: "Qu'est-ce qui est inclus dans les mesures de prévention de l'aléa sécheresse selon le cours ?",
+    options: [
+      "Augmenter la consommation d'eau",
+      "Économies de consommation et meilleure gestion de la ressource en eau",
+      "Ignorer les réserves d'eau",
+      "Utiliser uniquement des ressources conventionnelles"
+    ],
+    correctAnswer: 1,
+    points: 0.75,
+    summaryLink:
+      "Le développement durable exige une gestion rationnelle des ressources pour répondre aux besoins actuels sans compromettre l’avenir."
+  },
+  {
+    id: 28,
+    version: "A",
+    type: "singlechoice",
+    text: "Quel est un facteur aggravant des feux de forêt mentionné dans le cours ?",
+    options: ["Pluie", "Vent", "Température froide", "Éclairages naturels"],
+    correctAnswer: 1,
+    points: 0.75,
+    summaryLink:
+      "Les feux de forêts font partie des phénomènes environnementaux, et leur intensité peut être aggravée par certaines conditions comme le vent."
+  }
+];
+
+const ERM_VersionC = [...ERM_VersionC];
+  const ERM_VersionC = [
+  // ✅ True/False (0.65 pts)
+  {
+    id: 1,
+    version: "C",
+    type: "truefalse",
+    text: "Le développement rapide est synonyme de développement durable.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 1,
+    points: 0.65,
+    summaryLink:
+      "Le développement durable vise à satisfaire les besoins du présent sans compromettre ceux des générations futures."
+  },
+  {
+    id: 2,
+    version: "C",
+    type: "truefalse",
+    text: "Les villes ont un impact positif sur l'environnement.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 1,
+    points: 0.65,
+    summaryLink:
+      "La ville consomme des ressources et rejette des déchets : c’est le métabolisme urbain, ce qui peut créer une pression environnementale."
+  },
+  {
+    id: 3,
+    version: "C",
+    type: "truefalse",
+    text: "La consommation est un phénomène universel.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 0,
+    points: 0.65,
+    summaryLink:
+      "La consommation des ressources est une réalité mondiale, avec des inégalités entre pays développés et pays en développement."
+  },
+  {
+    id: 4,
+    version: "C",
+    type: "truefalse",
+    text: "La solidarité n’est pas un facteur important de développement durable.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 1,
+    points: 0.65,
+    summaryLink:
+      "Le développement durable implique une action à plusieurs échelles et nécessite une approche collective pour préserver ressources et climat."
+  },
+  {
+    id: 5,
+    version: "C",
+    type: "truefalse",
+    text: "Les facteurs biotiques sont les interactions entre les êtres vivants.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 1,
+    points: 0.65,
+    summaryLink:
+      "Facteurs biotiques : êtres vivants (plantes, animaux, micro-organismes)."
+  },
+  {
+    id: 6,
+    version: "C",
+    type: "truefalse",
+    text: "Un écosystème sain est un écosystème résilient.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 0,
+    points: 0.65,
+    summaryLink:
+      "La résilience est la capacité d’un écosystème à absorber une perturbation sans changer de structure ou de fonctionnement."
+  },
+  {
+    id: 7,
+    version: "C",
+    type: "truefalse",
+    text: "Le risque est toujours un événement prévisible.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 1,
+    points: 0.65,
+    summaryLink:
+      "L’aléa est un événement rare ou extrême susceptible de causer une catastrophe, il n’est pas toujours prévisible."
+  },
+  {
+    id: 8,
+    version: "C",
+    type: "truefalse",
+    text: "Le risque majeur est subordonné à une grande gravité.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 0,
+    points: 0.65,
+    summaryLink:
+      "Le risque majeur se caractérise par une gravité potentielle importante et des enjeux humains, économiques ou environnementaux significatifs."
+  },
+  {
+    id: 9,
+    version: "C",
+    type: "truefalse",
+    text: "Le dérèglement climatique est causé par une élévation de la température moyenne du globe.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 0,
+    points: 0.65,
+    summaryLink:
+      "Le développement durable implique la préservation des ressources et du climat à long terme."
+  },
+  {
+    id: 10,
+    version: "C",
+    type: "truefalse",
+    text: "Les causes de rupture des barrages sont tout le temps : techniques.",
+    options: ["Vrai", "Faux"],
+    correctAnswer: 1,
+    points: 0.65,
+    summaryLink:
+      "Les risques peuvent être naturels ou liés aux activités humaines, et ne se limitent pas à des causes techniques."
+  },
+
+  // ✅ Single choice (0.75 pts)
+  {
+    id: 11,
+    version: "C",
+    type: "singlechoice",
+    text: "Quelle est la température moyenne de la Terre ?",
+    options: ["15 °C", "25 °C", "35 °C"],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "La Terre est habitable grâce à une température stable et compatible avec la vie."
+  },
+  {
+    id: 12,
+    version: "C",
+    type: "singlechoice",
+    text: "La transition démographique des pays développés est caractérisée par une baisse des taux de :",
+    options: ["Natalité", "Mortalité", "Natalité et mortalité"],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "Dans la transition démographique, la natalité baisse progressivement après la baisse de mortalité."
+  },
+  {
+    id: 13,
+    version: "C",
+    type: "singlechoice",
+    text: "Dans les pays développés, les habitants sont :",
+    options: ["Des consommateurs excessifs", "Des consommateurs gaspilleurs", "Les deux"],
+    correctAnswer: 2,
+    points: 0.75,
+    summaryLink:
+      "Les pays développés ont une forte consommation et le consumérisme est symbolisé par le Black Friday."
+  },
+  {
+    id: 14,
+    version: "C",
+    type: "singlechoice",
+    text: "La capacité de la Terre à subvenir aux besoins de l'humanité est de :",
+    options: [
+      "1,66 hectare par être humain",
+      "8,22 hectares par être humain",
+      "4,12 hectares par être humain"
+    ],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "L’empreinte écologique compare la capacité de la Terre à régénérer ses ressources avec la consommation humaine."
+  },
+  {
+    id: 15,
+    version: "C",
+    type: "singlechoice",
+    text: "Le développement durable est un développement qui :",
+    options: [
+      "Respecte l’environnement",
+      "Répond aux besoins des générations actuelles sans compromettre ceux des générations futures",
+      "Les deux"
+    ],
+    correctAnswer: 2,
+    points: 0.75,
+    summaryLink:
+      "Développement durable : répondre aux besoins du présent sans compromettre ceux des générations futures."
+  },
+  {
+    id: 16,
+    version: "C",
+    type: "singlechoice",
+    text: "Selon Garrett Hardin, le dilemme entre l'homme et l'environnement est le résultat d'une lutte entre :",
+    options: [
+      "Bien-être individuel à court terme et bien-être de la société à long terme",
+      "Bien-être individuel à long terme et bien-être de la société à court terme",
+      "Bien-être de la société à court terme et bien-être de la société à long terme"
+    ],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "Le développement durable cherche à concilier court terme (besoins immédiats) et long terme (préservation des ressources et du climat)."
+  },
+  {
+    id: 17,
+    version: "C",
+    type: "singlechoice",
+    text: "La définition de l'environnement dans le droit est :",
+    options: ["Anthropocentrique", "Écocentrique", "Biocentrique"],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "Selon la loi 03-10, l’environnement est défini dans un cadre légal reliant facteurs naturels, interactions et sites/paysages."
+  },
+  {
+    id: 18,
+    version: "C",
+    type: "singlechoice",
+    text: "Un écosystème est constitué de :",
+    options: [
+      "Une communauté de plantes, d’animaux et de micro-organismes",
+      "Un environnement non vivant",
+      "Les interactions entre les deux",
+      "Les trois éléments ci-dessus"
+    ],
+    correctAnswer: 3,
+    points: 0.75,
+    summaryLink:
+      "Écosystème = Biotope (milieu physique) + Biocénose (êtres vivants) + leurs interactions."
+  },
+  {
+    id: 19,
+    version: "C",
+    type: "singlechoice",
+    text: "Les écosystèmes lacustres méditerranéens sont vulnérables à :",
+    options: [
+      "Le changement climatique",
+      "La pollution",
+      "Les espèces invasives",
+      "Les trois à la fois"
+    ],
+    correctAnswer: 3,
+    points: 0.75,
+    summaryLink:
+      "Les écosystèmes peuvent être menacés par plusieurs pressions, ce qui affecte leur fonctionnement et leurs services."
+  },
+  {
+    id: 20,
+    version: "C",
+    type: "singlechoice",
+    text: "Les services écosystémiques sont :",
+    options: [
+      "Les ressources que les humains tirent des écosystèmes",
+      "Les services fournis par les écosystèmes aux humains, aux animaux et aux plantes",
+      "Les services fournis par les humains aux écosystèmes",
+      "Les services fournis par les écosystèmes aux humains et aux animaux"
+    ],
+    correctAnswer: 1,
+    points: 0.75,
+    summaryLink:
+      "Les services écosystémiques comprennent l’approvisionnement, la régulation, le soutien et les services culturels."
+  },
+  {
+    id: 21,
+    version: "C",
+    type: "singlechoice",
+    text: "Un écosystème résilient est caractérisé par :",
+    options: [
+      "Une moyenne diversité d’espèces",
+      "Une faible connectivité",
+      "Une capacité d’adaptation",
+      "Les trois à la fois"
+    ],
+    correctAnswer: 2,
+    points: 0.75,
+    summaryLink:
+      "La résilience est la capacité d’un écosystème à absorber une perturbation et à maintenir son fonctionnement."
+  },
+  {
+    id: 22,
+    version: "C",
+    type: "singlechoice",
+    text: "L'accès aux aliments sains est un élément important de la santé et du bien-être car :",
+    options: [
+      "Il permet aux personnes de manger des aliments nutritifs",
+      "Il réduit le risque de malnutrition et d’obésité",
+      "Il contribue à la santé mentale",
+      "Les trois éléments ci-dessus"
+    ],
+    correctAnswer: 3,
+    points: 0.75,
+    summaryLink:
+      "Les services d’approvisionnement des écosystèmes incluent nourriture et eau, essentiels au bien-être humain."
+  },
+  {
+    id: 23,
+    version: "C",
+    type: "singlechoice",
+    text: "Les besoins humains, énumérés par Maslow dans sa pyramide, peuvent être classés en :",
+    options: ["2 catégories", "3 catégories", "4 catégories", "5 catégories"],
+    correctAnswer: 3,
+    points: 0.75,
+    summaryLink:
+      "La pyramide de Maslow classe les besoins humains en plusieurs niveaux, dont le besoin de sécurité."
+  },
+  {
+    id: 24,
+    version: "C",
+    type: "singlechoice",
+    text: "Selon le PNUD-UNDRO, quelle est la définition de l'aléa ?",
+    options: [
+      "Un événement rare ou extrême qui survient dans l’environnement naturel ou bâti et qui affecte négativement la vie humaine au point de créer une catastrophe",
+      "Un événement qui peut causer des dommages",
+      "Un événement impossible à prévoir",
+      "Un événement fréquent"
+    ],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "Aléa : événement rare ou extrême dans l’environnement naturel ou bâti susceptible de causer une catastrophe."
+  },
+  {
+    id: 25,
+    version: "C",
+    type: "singlechoice",
+    text: "Qu'est-ce qu'un PPR ?",
+    options: [
+      "Un plan de prévention des risques naturels et technologiques",
+      "Un plan de prévention des risques technologiques",
+      "Un plan de prévention des risques géotechniques et de la sismicité des sols"
+    ],
+    correctAnswer: 0,
+    points: 0.75,
+    summaryLink:
+      "Les zones à risques technologiques doivent être dotées de périmètres de protection via un PPR (Plan de Prévention des Risques)."
+  },
+  {
+    id: 26,
+    version: "C",
+    type: "singlechoice",
+    text: "Quel est l'élément fondamental de la réduction du risque sismique ?",
+    options: [
+      "La connaissance historique du risque sismique",
+      "La planification urbaine spécifique PPRS",
+      "La planification urbaine classique PDAU et POS",
+      "Les trois à la fois"
+    ],
+    correctAnswer: 3,
+    points: 0.75,
+    summaryLink:
+      "Réduction vulnérabilité sismique : connaissance + planification urbaine + construction parasismique (RPA)."
+  },
+  {
+    id: 27,
+    version: "C",
+    type: "singlechoice",
+    text: "Quelle est la conséquence directe de l’augmentation de la concentration des gaz à effet de serre dans l’atmosphère ?",
+    options: [
+      "Refroidissement global de la planète",
+      "Augmentation de la réflectivité solaire",
+      "Création d’un effet de serre qui élève la température globale de la planète",
+      "Diminution de l’ensoleillement"
+    ],
+    correctAnswer: 2,
+    points: 0.75,
+    summaryLink:
+      "Le développement durable vise aussi à préserver le climat : le dérèglement climatique est lié à l’augmentation des températures."
+  },
+  {
+    id: 28,
+    version: "C",
+    type: "singlechoice",
+    text: "Pourquoi la carte du risque ruptures de barrages est-elle obligatoire pour les grands barrages ?",
+    options: [
+      "Pour des raisons esthétiques",
+      "Pour des raisons de sécurité",
+      "Par simple formalité administrative",
+      "Les trois à la fois"
+    ],
+    correctAnswer: 1,
+    points: 0.75,
+    summaryLink:
+      "La prévention des risques est liée au besoin de sécurité : identifier les zones exposées permet de réduire la vulnérabilité."
+  }
+];
+
+
+let currentVersion = "A";
+let questions = ERM_VersionA;
+let index = 0;
+let answers = {};
+
+const questionBox = document.getElementById("questionBox");
+const optionsBox = document.getElementById("optionsBox");
+const summaryBox = document.getElementById("summaryBox");
+const counter = document.getElementById("counter");
+const scoreBox = document.getElementById("scoreBox");
+
+document.getElementById("versionSelect").onchange = e => {
+  currentVersion = e.target.value;
+  questions = currentVersion === "A" ? ERM_VersionA : ERM_VersionC;
+  index = 0;
+  answers = {};
+  scoreBox.innerHTML = "";
+  render();
+};
+
+function render() {
+  const q = questions[index];
+  counter.textContent = `Question ${index + 1} / ${questions.length}`;
+  questionBox.innerHTML = q.text;
+  optionsBox.innerHTML = "";
+  summaryBox.style.display = "none";
+
+  q.options.forEach((opt, i) => {
+    const div = document.createElement("div");
+    div.className = "option";
+    div.textContent = opt;
+    if (answers[q.id] === i) div.classList.add("selected");
+    div.onclick = () => selectAnswer(i);
+    optionsBox.appendChild(div);
+  });
+}
+
+function selectAnswer(i) {
+  const q = questions[index];
+  answers[q.id] = i;
+
+  [...optionsBox.children].forEach((el, idx) => {
+    el.classList.remove("selected","correct","wrong");
+    if (idx === i) el.classList.add("selected");
+    if (idx === q.correctAnswer) el.classList.add("correct");
+    if (idx === i && i !== q.correctAnswer) el.classList.add("wrong");
+  });
+
+  summaryBox.innerHTML = q.summaryLink;
+  summaryBox.style.display = "block";
+}
+
+function nextQuestion() {
+  if (index < questions.length - 1) {
+    index++;
+    render();
+  } else {
+    calculateScore();
+  }
+}
+
+function prevQuestion() {
+  if (index > 0) {
+    index--;
+    render();
+  }
+}
+
+function calculateScore() {
+  let score = 0;
+  questions.forEach(q => {
+    if (answers[q.id] === q.correctAnswer) {
+      score += q.points;
+    }
+  });
+  scoreBox.innerHTML = `Score final : ${score.toFixed(2)} / ${questions.length}`;
+}
+
+render();
+</script>
+
+</body>
+</html>
