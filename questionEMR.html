@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen ERM - Simulateur d'Examen</title>
+    <style>
+        :root {
+            --primary-color: #d32f2f;
+            --primary-light: #ff6659;
+            --primary-dark: #9a0007;
+            --secondary-color: #455a64;
+            --secondary-light: #718792;
+            --secondary-dark: #1c313a;
+            --success-color: #388e3c;
+            --danger-color: #d32f2f;
+            --warning-color: #f57c00;
+            --light-bg: #f5f5f5;
+            --card-bg: #fff;
+            --text-dark: #263238;
+            --text-light: #546e7a;
+            --border-color: #e0e0e0;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8eaf6 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            animation: backgroundShift 20s infinite alternate;
+        }
+        
+        @keyframes backgroundShift {
+            0% { background: linear-gradient(135deg, #f5f5f5 0%, #e8eaf6 100%); }
+            50% { background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%); }
+            100% { background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: float 20s linear infinite;
+        }
+        
+        @keyframes float {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            from { text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+            to { text-shadow: 0 0 20px rgba(255,255,255,0.8); }
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .controls-panel {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--light-bg);
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            gap: 15px;
+        }
+        
+        .timer-container {
+            background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .timer {
+            font-size: 1.5rem;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+        
+        .timer.warning {
+            color: var(--warning-color);
+            animation: blink 1s infinite;
+        }
+        
+        .timer.danger {
+            color: var(--danger-color);
+            animation: blinkFast 0.5s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        @keyframes blinkFast {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .question-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover {
+            background-color: rgba(211, 47, 47, 0.1);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
+        }
+        
+        .shuffle-btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
+        }
+        
+        .shuffle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(211, 47, 47, 0.4);
+        }
+        
+        .exam-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .stat {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stat-number {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .content {
+            display: flex;
+            flex-direction: column;
+            min-height: 700px;
+        }
+        
+        @media (min-width: 992px) {
+            .content {
+                flex-direction: row;
+            }
+        }
+        
+        .questions-sidebar {
+            width: 100%;
+            background-color: var(--light-bg);
+            padding: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        @media (min-width: 992px) {
+            .questions-sidebar {
+                width: 35%;
+                border-right: 1px solid var(--border-color);
+                border-bottom: none;
+                max-height: 750px;
+                overflow-y: auto;
+            }
+        }
+        
+        .questions-container {
+            width: 100%;
+            padding: 25px;
+            overflow-y: auto;
+        }
+        
+        @media (min-width: 992px) {
+            .questions-container {
+                width: 65%;
+                max-height: 750px;
+                overflow-y: auto;
+            }
+        }
+        
+        .question-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .nav-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background-color: white;
+            border: 2px solid var(--border-color);
+            color: var(--secondary-color);
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(211, 47, 47, 0.3);
+            animation: bounce 0.5s;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .nav-btn.answered {
+            background-color: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+        
+        .nav-btn.unanswered {
+            background-color: var(--warning-color);
+            color: white;
+            border-color: var(--warning-color);
+        }
+        
+        .progress-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background-color: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-light), var(--primary-color));
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-left: 8px solid var(--primary-color);
+            animation: cardSlide 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes cardSlide {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .question-type {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .question-points {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
+            animation: pointPulse 2s infinite;
+        }
+        
+        @keyframes pointPulse {
+            0%, 100% { box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3); }
+            50% { box-shadow: 0 4px 15px rgba(211, 47, 47, 0.5); }
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            font-weight: 500;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+        
+        .options-container {
+            margin: 20px 0;
+        }
+        
+        .option {
+            display: block;
+            margin-bottom: 15px;
+            padding: 18px 20px;
+            background-color: #fafafa;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option:hover {
+            background-color: #f0f0f0;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .option.selected {
+            background-color: rgba(211, 47, 47, 0.1);
+            border-color: var(--primary-color);
+            font-weight: 600;
+            color: var(--primary-color);
+            transform: translateX(10px);
+        }
+        
+        .option.correct {
+            background-color: rgba(56, 142, 60, 0.1);
+            border-color: var(--success-color);
+            color: var(--success-color);
+            animation: correctPulse 0.5s;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .option.incorrect {
+            background-color: rgba(211, 47, 47, 0.1);
+            border-color: var(--danger-color);
+            color: var(--danger-color);
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .summary-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 25px;
+            border-left: 5px solid var(--secondary-color);
+            display: none;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .summary-section.show {
+            display: block;
+        }
+        
+        .summary-title {
+            color: var(--secondary-dark);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .summary-title::before {
+            content: '📘';
+        }
+        
+        .summary-content {
+            line-height: 1.7;
+            color: var(--text-dark);
+            font-size: 1.05rem;
+        }
+        
+        .score-display {
+            background: linear-gradient(135deg, var(--success-color) 0%, #4caf50 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+            animation: scoreReveal 1s ease-out;
+        }
+        
+        @keyframes scoreReveal {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .score-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 15px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .score-message {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .controls-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 200px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(211, 47, 47, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(211, 47, 47, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-light) 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(69, 90, 100, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(69, 90, 100, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color) 0%, #4caf50 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(56, 142, 60, 0.3);
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(56, 142, 60, 0.4);
+        }
+        
+        .feedback {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-weight: 600;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .feedback.correct {
+            background-color: rgba(56, 142, 60, 0.1);
+            color: var(--success-color);
+            border: 2px solid var(--success-color);
+            display: block;
+        }
+        
+        .feedback.incorrect {
+            background-color: rgba(211, 47, 47, 0.1);
+            color: var(--danger-color);
+            border: 2px solid var(--danger-color);
+            display: block;
+        }
+        
+        .exam-info {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .question-change {
+            animation: questionChange 0.5s ease-out;
+        }
+        
+        @keyframes questionChange {
+            0% { opacity: 0; transform: translateX(-30px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Examen ERM - Simulateur Interactif</h1>
+            <div class="subtitle">Testez vos connaissances en Environnement et Risques Majeurs</div>
+        </header>
+        
+        <div class="controls-panel">
+            <div class="timer-container">
+                <span>⏱️</span>
+                <span class="timer" id="timer">90:00</span>
+            </div>
+            
+            <div class="question-filter">
+                <span style="font-weight: bold; color: var(--primary-color);">Filtrer:</span>
+                <button class="filter-btn active" onclick="filterQuestions('all')">Toutes</button>
+                <button class="filter-btn" onclick="filterQuestions('truefalse')">Vrai/Faux</button>
+                <button class="filter-btn" onclick="filterQuestions('single')">Choix unique</button>
+                <button class="shuffle-btn" onclick="shuffleQuestions()">
+                    <span>🔀</span>
+                    Mélanger les questions
+                </button>
+            </div>
+            
+            <button class="btn-success" onclick="finishExam()" style="padding: 12px 25px;">
+                <span>🏁</span>
+                Terminer l'examen
+            </button>
+        </div>
+        
+        <div class="exam-stats">
+            <div class="stat">
+                <span class="stat-number" id="answeredCount">0</span>
+                <span>répondues</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="totalQuestions">56</span>
+                <span>questions</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="scorePreview">0</span>
+                <span>points</span>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="questions-sidebar">
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Progression</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-bottom: 15px; color: var(--primary-color);">Navigation des questions</h3>
+                <div class="question-nav" id="questionNav">
+                </div>
+                
+                <div class="score-display" id="scoreDisplay">
+                    <h3>Résultats</h3>
+                    <div class="score-value" id="scoreValue">0/56</div>
+                    <div class="score-message" id="scoreMessage"></div>
+                    <div style="margin-top: 15px; font-size: 0.9rem;">
+                        Temps écoulé: <span id="examTime">0:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="questions-container">
+                <div id="questionsList">
+                </div>
+                
+                <div class="controls-bottom">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn">
+                        <span>←</span>
+                        Question précédente
+                    </button>
+                    <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn">
+                        Question suivante
+                        <span>→</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="exam-info">
+            <p>Simulateur d'examen ERM - Cliquez sur une réponse pour voir la correction et le lien avec le résumé du cours</p>
+            <p>Utilisez les boutons de filtrage pour organiser les questions par type</p>
+        </div>
+    </div>
+
+    <script>
+
+        const allQuestions = [
+         
+            { id: 1, version: "A", type: "truefalse", text: "La Terre est la seule planète du système solaire où l'atmosphère contient de l'oxygène.", options: ["Vrai", "Faux"], correctAnswer: 0, points: 0.65, summaryLink: "La Terre est unique dans le système solaire grâce à sa capacité à abriter la vie, notamment son atmosphère oxygénée." },
+            { id: 2, version: "A", type: "truefalse", text: "La croissance démographique humaine n'a aucun impact sur l'environnement.", options: ["Vrai", "Faux"], correctAnswer: 1, points: 0.65, summaryLink: "La croissance démographique rapide entraîne une consommation excessive des ressources naturelles et la dégradation des écosystèmes." },
+            { id: 3, version: "A", type: "truefalse", text: "Le vieillissement démographique est un phénomène récent.", options: ["Vrai", "Faux"], correctAnswer: 0, points: 0.65, summaryLink: "Le 'vieillissement démographique' est un phénomène contemporain qui reconnaît la croissance rapide des adultes plus âgés (plus de 65 ans)." },
+            { id: 4, version: "A", type: "truefalse", text: "L'impact environnemental d'une activité humaine est le produit de ses trois facteurs : Population, Aisance, Technologie.", options: ["Vrai", "Faux"], correctAnswer: 0, points: 0.65, summaryLink: "Le modèle IPAT (I = P × A × T) relie l'impact environnemental à la population, au niveau de vie et à la technologie." },
+            { id: 5, version: "A", type: "truefalse", text: "L'approche anthropocentrique de l'environnement est la seule approche valide.", options: ["Vrai", "Faux"], correctAnswer: 1, points: 0.65, summaryLink: "Il existe un écart entre la réalité écologique (approche écocentrique/biocentrique) et la vision anthropocentrique qui influence les lois." },
+            { id: 6, version: "A", type: "truefalse", text: "L'approche éccentrique de l'environnement est la plus respectueuse de l'environnement.", options: ["Vrai", "Faux"], correctAnswer: 0, points: 0.65, summaryLink: "L'approche écocentrique (éccentrique) place l'écosystème au centre, ce qui est plus respectueux de l'environnement." },
+            { id: 7, version: "A", type: "truefalse", text: "Les écosystèmes de prairies ne sont pas menacés par les activités humaines.", options: ["Vrai", "Faux"], correctAnswer: 1, points: 0.65, summaryLink: "Les écosystèmes de prairies sont vulnérables à la perte d'habitat, aux changements climatiques et aux espèces invasives." },
+            { id: 8, version: "A", type: "truefalse", text: "Le risque majeur est subordonné à une forte fréquence.", options: ["Vrai", "Faux"], correctAnswer: 1, points: 0.65, summaryLink: "Le risque majeur se distingue par la gravité potentielle et les enjeux significatifs, pas seulement par la fréquence." },
+            { id: 9, version: "A", type: "truefalse", text: "Les mouvements de terrain peuvent être causés par des facteurs naturels ou anthropiques.", options: ["Vrai", "Faux"], correctAnswer: 0, points: 0.65, summaryLink: "Les mouvements de terrain résultent de la déformation, rupture et déplacement du sol, naturels ou causés par l'homme." },
+            { id: 10, version: "A", type: "truefalse", text: "La puissance des feux de forêt décroit en fonction de la surface touchée, et le vent en raison de son apport en oxygène.", options: ["Vrai", "Faux"], correctAnswer: 1, points: 0.65, summaryLink: "Le vent est un facteur aggravant des feux de forêt car il apporte de l'oxygène et propage les flammes." },
+            
+            
+            { id: 11, version: "A", type: "single", text: "Quelle est la proportion de la surface de la Terre recouverte d'eau ?", options: ["71%", "29%", "50%"], correctAnswer: 0, points: 0.75, summaryLink: "L'eau est présente en abondance (75% de la surface terrestre) et essentielle à tous les organismes vivants." },
+            { id: 12, version: "A", type: "single", text: "Quelle est la relation entre la population nombreuse et les systèmes environnementaux ?", options: ["Les systèmes environnementaux sont favorables à la vie, ce qui favorise la croissance de la population.", "Les systèmes environnementaux sont limités par la population, ce qui limite la croissance de la population."], correctAnswer: 1, points: 0.75, summaryLink: "La croissance démographique rapide entraîne une consommation excessive, montrant que les systèmes environnementaux sont limités." },
+            { id: 13, version: "A", type: "single", text: "Qui est l'agent principal des changements environnementaux de la planète ?", options: ["L'espèce humaine", "Les animaux", "Les plantes"], correctAnswer: 0, points: 0.75, summaryLink: "L'homo sapiens est devenu l'acteur principal des changements environnementaux par son intelligence et ses innovations." },
+            { id: 14, version: "A", type: "single", text: "Le vieillissement démographique est caractérisé par une augmentation de la proportion de la population âgée de:", options: ["0 à 4 ans", "20 à 64 ans", "Plus de 65 ans"], correctAnswer: 2, points: 0.75, summaryLink: "Le vieillissement démographique reconnaît la croissance rapide des adultes plus âgés (plus de 65 ans)." },
+            { id: 15, version: "A", type: "single", text: "L'empreinte écologique est exprimée en:", options: ["Unités de surface", "Unités de volume", "Unités de masse"], correctAnswer: 0, points: 0.75, summaryLink: "L'empreinte écologique mesure la surface de Terre nécessaire à chaque individu pour subvenir à ses besoins." },
+            { id: 16, version: "A", type: "single", text: "Les services rendus par les écosystèmes sont:", options: ["Les ressources naturelles que nous utilisons", "Les fonctions que les écosystèmes remplissent", "Les deux"], correctAnswer: 2, points: 0.75, summaryLink: "Les services écosystémiques sont liés à la biodiversité et soulignent l'importance du fonctionnement des écosystèmes." },
+            { id: 17, version: "A", type: "single", text: "Les facteurs abiotiques sont:", options: ["Les interactions entre les êtres vivants", "Les conditions physiques et chimiques de l'environnement", "Les ressources vivantes"], correctAnswer: 1, points: 0.75, summaryLink: "Les composants physiques (air, eau, sol) et chimiques font partie des facteurs abiotiques." },
+            { id: 18, version: "A", type: "single", text: "Un système est un ensemble d'éléments qui:", options: ["Interagissent entre eux", "Sont indépendants les uns des autres", "Sont liés par des relations d'ordre"], correctAnswer: 0, points: 0.75, summaryLink: "Un système se définit par ses frontières, objectifs, interactions et sous-systèmes." },
+            { id: 19, version: "A", type: "single", text: "Les forêts méditerranéennes sont caractérisées par:", options: ["Une grande variété d'espèces de palmiers", "Une grande variété d'espèces végétales et animales", "Un rôle important dans la sylviculture"], correctAnswer: 1, points: 0.75, summaryLink: "Les forêts méditerranéennes sont des écosystèmes riches en biodiversité." },
+            { id: 20, version: "A", type: "single", text: "Les écosystèmes de prairies sont vulnérables à:", options: ["La perte d'habitat", "Les changements climatiques", "Les espèces invasives", "Les trois éléments ci-dessus"], correctAnswer: 3, points: 0.75, summaryLink: "Les écosystèmes de prairies sont vulnérables à la perte d'habitat, changements climatiques et espèces invasives." },
+            { id: 21, version: "A", type: "single", text: "Un écosystème résilient est un système:", options: ["Qui est capable de résister aux perturbations", "Qui est capable de retrouver son état d'équilibre initial après une perturbation", "Qui est capable de maintenir son fonctionnement et ses fonctions dans le temps", "Les trois éléments ci-dessus"], correctAnswer: 3, points: 0.75, summaryLink: "La résilience désigne la capacité d'un écosystème à absorber les perturbations sans modification majeure." },
+            { id: 22, version: "A", type: "single", text: "L'environnement construit comprend:", options: ["Les bâtiments", "Les villes et au-delà", "Les infrastructures", "Les trois éléments ci-dessus"], correctAnswer: 3, points: 0.75, summaryLink: "L'environnement construit désigne l'environnement créé par l'homme, des bâtiments aux villes." },
+            { id: 23, version: "A", type: "single", text: "Parmi les avantages de la circulation piétonne et cyclable, on peut citer:", options: ["La promotion de la santé", "La réduction de la pollution", "L'amélioration de la qualité de l'air", "Les trois éléments ci-dessus"], correctAnswer: 3, points: 0.75, summaryLink: "La mobilité durable contribue à la réduction de la pollution et à l'amélioration de la qualité de l'air." },
+            { id: 24, version: "A", type: "single", text: "Quel est le besoin qui correspond à la prévention contre les risques ?", options: ["Les besoins physiologiques", "Les besoins de sécurité", "Les besoins d'appartenance", "Les besoins d'estime", "Les besoins d'accomplissement"], correctAnswer: 1, points: 0.75, summaryLink: "Selon Maslow, le besoin de sécurité fait partie des besoins fondamentaux de l'homme." },
+            { id: 25, version: "A", type: "single", text: "Quel est le rôle de la vulnérabilité ?", options: ["Elle accentue l'impact des aléas", "Elle diminue l'impact des aléas", "Elle est indépendante de l'impact des aléas"], correctAnswer: 0, points: 0.75, summaryLink: "La vulnérabilité accentue la sensibilité d'une communauté à l'impact des aléas." },
+            { id: 26, version: "A", type: "single", text: "Qu'est-ce que l'aléa naturel ?", options: ["Une menace déclenchée par un phénomène naturel", "Une menace liée aux activités industrielles", "Une menace créée par la technologie", "Les trois à la fois"], correctAnswer: 0, points: 0.75, summaryLink: "L'aléa naturel est une menace déclenchée par un phénomène dans lequel la nature est l'unique composante." },
+            { id: 27, version: "A", type: "single", text: "Qu'est-ce qui est inclus dans les mesures de prévention de l'aléa sécheresse selon le cours ?", options: ["Augmenter la consommation d'eau", "Économies de consommation et meilleure gestion de la ressource en eau", "Ignorer les réserves d'eau", "Utiliser uniquement des ressources conventionnelles"], correctAnswer: 1, points: 0.75, summaryLink: "La prévention de la sécheresse consiste en une meilleure gestion de l'eau et le recours à des ressources non conventionnelles." },
+            { id: 28, version: "A", type: "single", text: "Quel est un facteur aggravant des feux de forêt mentionné dans le cours ?", options: ["Pluie", "Vent", "Température froide", "Éclairages naturels"], correctAnswer: 1, points: 0.75, summaryLink: "Le vent est mentionné comme facteur aggravant des feux de forêt car il apporte de l'oxygène." },
+            
+
+            { id: 29, version: "C", type: "truefalse", text: "Le développement rapide est synonyme de développement durable.", options: ["Vrai", "Faux"], correctAnswer: 1, points: 0.65, summaryLink: "Le développement durable équilibre économie, société et environnement, pas seulement la rapidité." },
+            { id: 30, version: "C", type: "truefalse", text: "Les villes ont un impact positif sur l'environnement.", options: ["Vrai", "Faux"], correctAnswer: 1, points: 0.65, summaryLink: "Les villes ont généralement un impact négatif sur l'environnement (pollution, consommation ressources)." },
+            { id: 31, version: "C", type: "truefalse", text: "La consommation est un phénomène universel.", options: ["Vrai", "Faux"], correctAnswer: 0, points: 0.65, summaryLink: "La consommation est effectivement un phénomène universel dans les sociétés humaines." },
+            { id: 32, version: "C", type: "truefalse", text: "La solidarité n'est pas un facteur important de développement durable.", options: ["Vrai", "Faux"], correctAnswer: 1, points: 0.65, summaryLink: "La solidarité est un facteur clé du développement durable (dimension sociale)." },
+            { id: 33, version: "C", type: "truefalse", text: "Les facteurs biotiques sont les interactions entre les êtres vivants.", options: ["Vrai", "Faux"], correctAnswer: 0, points: 0.65, summaryLink: "Les facteurs biotiques incluent les êtres vivants et leurs interactions." },
+            { id: 34, version: "C", type: "truefalse", text: "Un écosystème sain est un écosystème résilient.", options: ["Vrai", "Faux"], correctAnswer: 0, points: 0.65, summaryLink: "Un écosystème sain possède généralement une bonne résilience." },
+            { id: 35, version: "C", type: "truefalse", text: "Le risque est toujours un événement prévisible.", options: ["Vrai", "Faux"], correctAnswer: 1, points: 0.65, summaryLink: "Le risque n'est pas toujours prévisible, surtout les risques naturels." },
+            { id: 36, version: "C", type: "truefalse", text: "Le risque majeur est subordonné à une grande gravité.", options: ["Vrai", "Faux"], correctAnswer: 0, points: 0.65, summaryLink: "Le risque majeur se caractérise effectivement par une grande gravité potentielle." },
+            { id: 37, version: "C", type: "truefalse", text: "Le dérèglement climatique est causé par une élévation de la température moyenne du globe.", options: ["Vrai", "Faux"], correctAnswer: 0, points: 0.65, summaryLink: "Le réchauffement climatique fait suite à l'élévation de la température moyenne par augmentation des GES." },
+            { id: 38, version: "C", type: "truefalse", text: "Les causes de rupture des barrages sont tout le temps : techniques.", options: ["Vrai", "Faux"], correctAnswer: 1, points: 0.65, summaryLink: "Les causes de rupture des barrages peuvent être diverses : techniques, naturelles, humaines." },
+            
+
+            { id: 39, version: "C", type: "single", text: "Quelle est la température moyenne de la Terre ?", options: ["15℃", "25℃", "35℃"], correctAnswer: 0, points: 0.75, summaryLink: "La température moyenne de la Terre est d'environ 15°C, essentielle pour la vie." },
+            { id: 40, version: "C", type: "single", text: "La transition démographique des pays développés est caractérisée par une baisse des taux de:", options: ["Natalité", "Mortalité", "Natalité et mortalité"], correctAnswer: 2, points: 0.75, summaryLink: "La transition démographique dans les pays développés montre une baisse des taux de natalité et mortalité." },
+            { id: 41, version: "C", type: "single", text: "Dans les pays développés, les habitants sont:", options: ["Des consommateurs excessifs", "Des consommateurs gaspilleurs", "Les deux"], correctAnswer: 2, points: 0.75, summaryLink: "Dans les pays développés, les habitants sont souvent à la fois consommateurs excessifs et gaspilleurs." },
+            { id: 42, version: "C", type: "single", text: "La capacité de la Terre à subvenir aux besoins de l'humanité est de:", options: ["1,66 hectare par être humain", "8,22 hectares par être humain", "4,12 hectares par être humain"], correctAnswer: 0, points: 0.75, summaryLink: "La capacité biologique de la Terre est d'environ 1,66 hectare par personne selon les données." },
+            { id: 43, version: "C", type: "single", text: "Le développement durable est un développement qui:", options: ["Respecte l'environnement", "Répond aux besoins des générations actuelles sans compromettre ceux des générations futures", "Les deux"], correctAnswer: 2, points: 0.75, summaryLink: "Le développement durable repose sur trois piliers : économique, social et environnemental." },
+            { id: 44, version: "C", type: "single", text: "Selon Garrett Hardin, le dilemme entre l'homme et l'environnement est le résultat d'une lutte entre:", options: ["Le bien-être individuel à court-terme et le bien-être de la société à long terme", "Le bien-être individuel à long terme et le bien-être de la société à court-terme", "Le bien-être de la société à court-terme et le bien-être de la société à long terme"], correctAnswer: 0, points: 0.75, summaryLink: "Hardin décrit la tragédie des communs : conflit entre intérêts individuels et collectifs." },
+            { id: 45, version: "C", type: "single", text: "La définition de l'environnement dans le droit est:", options: ["Anthropocentrique", "Ecocentrique", "Biocentrique"], correctAnswer: 0, points: 0.75, summaryLink: "La définition légale de l'environnement est généralement anthropocentrique." },
+            { id: 46, version: "C", type: "single", text: "Un écosystème est constitué de:", options: ["Une communauté de plantes, d'animaux et de micro-organismes", "Un environnement non vivant", "Les interactions entre les deux", "Les trois éléments ci-dessus"], correctAnswer: 3, points: 0.75, summaryLink: "Un écosystème = biotope + biocénose + interactions." },
+            { id: 47, version: "C", type: "single", text: "Les écosystèmes lacustres méditerranéens sont vulnérables à:", options: ["Le changement climatique", "La pollution", "Les espèces invasives", "Les trois à la fois"], correctAnswer: 3, points: 0.75, summaryLink: "Les écosystèmes lacustres sont vulnérables aux changements climatiques, pollution et espèces invasives." },
+            { id: 48, version: "C", type: "single", text: "Les services écosystémiques sont:", options: ["Les ressources que les humains tirent des écosystèmes", "Les services fournis par les écosystèmes aux humains, aux animaux et aux plantes", "Les services fournis par les humains aux écosystèmes", "Les services fournis par les écosystèmes aux humains et aux animaux"], correctAnswer: 1, points: 0.75, summaryLink: "Les services écosystémiques bénéficient aux humains, animaux et plantes." },
+            { id: 49, version: "C", type: "single", text: "Un écosystème résilient est caractérisé par:", options: ["Une moyenne diversité d'espèces", "Une faible connectivité", "Une capacité d'adaptation", "Les trois à la fois"], correctAnswer: 2, points: 0.75, summaryLink: "La résilience est la capacité d'adaptation d'un écosystème face aux perturbations." },
+            { id: 50, version: "C", type: "single", text: "L'accès aux aliments sains est un élément important de la santé et du bien-être car:", options: ["Il permet aux personnes de manger des aliments nutritifs", "Il réduit le risque de malnutrition et d'obésité", "Il contribue à la santé mentale", "Les trois éléments ci-dessus"], correctAnswer: 3, points: 0.75, summaryLink: "L'accès à une alimentation saine est crucial pour la santé physique et mentale." },
+            { id: 51, version: "C", type: "single", text: "Les besoins humains, énumérés par Maslow dans sa Pyramide, peuvent être classés en:", options: ["2 catégories", "3 catégories", "4 catégories", "5 catégories"], correctAnswer: 3, points: 0.75, summaryLink: "La pyramide de Maslow comprend 5 niveaux de besoins." },
+            { id: 52, version: "C", type: "single", text: "Selon le PNUD-UNDRO, quelle est la définition de l'aléa ?", options: ["Un événement rare ou extrême qui survient dans l'environnement naturel ou bâti et qui affecte négativement la vie humaine, les biens ou les activités au point de créer une catastrophe.", "Un événement qui peut causer des dommages.", "Un événement qui est impossible à prévoir.", "Un événement qui est fréquent."], correctAnswer: 0, points: 0.75, summaryLink: "Selon PNUD-UNDRO, l'aléa est un événement rare ou extrême pouvant créer une catastrophe." },
+            { id: 53, version: "C", type: "single", text: "Qu'est-ce qu'un PPR ?", options: ["Un plan de prévention des risques naturels et technologiques", "Un plan de prévention des risques technologiques", "Un plan de prévention des risques géotechniques et de la sismicité des sols"], correctAnswer: 0, points: 0.75, summaryLink: "Le PPR (Plan de Prévention des Risques) couvre les risques naturels et technologiques." },
+            { id: 54, version: "C", type: "single", text: "Quel est l'élément fondamental de la réduction du risque sismique ?", options: ["La connaissance historique du risque sismique", "La planification urbaine spécifique PPRS", "La planification urbaine classique PDAU et POS", "Les trois à la fois"], correctAnswer: 3, points: 0.75, summaryLink: "La réduction du risque sismique combine connaissance historique et planification urbaine." },
+            { id: 55, version: "C", type: "single", text: "Quelle est la conséquence directe de l'augmentation de la concentration des gaz à effet de serre dans l'atmosphère ?", options: ["Refroidissement global de la planète", "Augmentation de la réflectivité solaire", "Création d'un effet de serre qui élève la température globale de la planète", "Diminution de l'ensoleillement"], correctAnswer: 2, points: 0.75, summaryLink: "L'augmentation des GES crée un effet de serre qui élève la température globale." },
+            { id: 56, version: "C", type: "single", text: "Pourquoi la carte du risque ruptures de barrages est-elle obligatoire pour les grands barrages ?", options: ["Pour des raisons esthétiques", "Pour des raisons de sécurité", "Par simple formalité administrative", "Les trois à la fois"], correctAnswer: 1, points: 0.75, summaryLink: "La carte des risques de rupture est obligatoire pour des raisons de sécurité publique." }
+        ];
+
+        let questions = [...allQuestions]; 
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let examFinished = false;
+        let timeLeft = 90 * 60; 
+        let timerInterval;
+        let startTime;
+        let currentFilter = 'all';
+
+        function initExam() {
+            startTime = new Date();
+            startTimer();
+            updateExamStats();
+            
+            shuffleQuestions();
+            
+            updateNavigation();
+            
+            showQuestion(currentQuestionIndex);
+        }
+
+        function startTimer() {
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    finishExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const timerElement = document.getElementById('timer');
+            
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            timerElement.classList.remove('warning', 'danger');
+            
+            if (timeLeft <= 10 * 60) { 
+                timerElement.classList.add('warning');
+            }
+            
+            if (timeLeft <= 5 * 60) { 
+                timerElement.classList.add('danger');
+            }
+        }
+
+        function shuffleQuestions() {
+            const oldAnswers = [...userAnswers];
+            
+            for (let i = questions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [questions[i], questions[j]] = [questions[j], questions[i]];
+                [oldAnswers[i], oldAnswers[j]] = [oldAnswers[j], oldAnswers[i]];
+            }
+            
+            userAnswers = oldAnswers;
+            
+            if (currentQuestionIndex >= questions.length) {
+                currentQuestionIndex = 0;
+            }
+            
+            updateNavigation();
+            showQuestion(currentQuestionIndex);
+            updateExamStats();
+            
+            document.querySelector('.shuffle-btn').style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                document.querySelector('.shuffle-btn').style.transform = '';
+            }, 200);
+        }
+
+        function filterQuestions(type) {
+            currentFilter = type;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            if (type === 'all') {
+                questions = [...allQuestions];
+            } else {
+                questions = allQuestions.filter(q => q.type === type);
+            }
+            
+            userAnswers = new Array(questions.length).fill(null);
+            currentQuestionIndex = 0;
+            
+            updateNavigation();
+            showQuestion(currentQuestionIndex);
+            updateExamStats();
+        }
+
+        function updateNavigation() {
+            const navContainer = document.getElementById('questionNav');
+            navContainer.innerHTML = '';
+            
+            questions.forEach((question, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'nav-btn';
+                btn.textContent = index + 1;
+                btn.onclick = () => showQuestion(index);
+                
+                if (index === currentQuestionIndex) {
+                    btn.classList.add('active');
+                }
+                
+                if (userAnswers[index] !== null) {
+                    btn.classList.add('answered');
+                } else {
+                    btn.classList.add('unanswered');
+                }
+                
+                navContainer.appendChild(btn);
+            });
+            
+            document.getElementById('totalQuestions').textContent = questions.length;
+        }
+
+        function updateExamStats() {
+            const answeredCount = userAnswers.filter(answer => answer !== null).length;
+            const totalQuestions = questions.length;
+            const percentage = Math.round((answeredCount / totalQuestions) * 100);
+            
+            let score = 0;
+            questions.forEach((q, index) => {
+                if (userAnswers[index] !== null && userAnswers[index] === q.correctAnswer) {
+                    score += q.points;
+                }
+            });
+            
+            document.getElementById('answeredCount').textContent = answeredCount;
+            document.getElementById('progressPercent').textContent = `${percentage}%`;
+            document.getElementById('progressFill').style.width = `${percentage}%`;
+            document.getElementById('scorePreview').textContent = score.toFixed(2);
+            
+            document.querySelectorAll('.nav-btn').forEach((btn, index) => {
+                btn.className = 'nav-btn';
+                if (index === currentQuestionIndex) {
+                    btn.classList.add('active');
+                }
+                
+                if (userAnswers[index] !== null) {
+                    btn.classList.add('answered');
+                } else {
+                    btn.classList.add('unanswered');
+                }
+            });
+        }
+
+        function showQuestion(index) {
+            currentQuestionIndex = index;
+            
+            updateNavigation();
+            
+            const question = questions[index];
+            const questionsList = document.getElementById('questionsList');
+            
+            questionsList.classList.add('question-change');
+            setTimeout(() => {
+                questionsList.classList.remove('question-change');
+            }, 500);
+            
+            let optionsHTML = '';
+            question.options.forEach((option, optionIndex) => {
+                let optionClass = 'option';
+                if (userAnswers[index] === optionIndex) {
+                    optionClass += ' selected';
+                }
+                
+                if (examFinished) {
+                    if (optionIndex === question.correctAnswer) {
+                        optionClass += ' correct';
+                    } else if (userAnswers[index] === optionIndex && userAnswers[index] !== question.correctAnswer) {
+                        optionClass += ' incorrect';
+                    }
+                }
+                
+                const optionId = `q${question.id}_opt${optionIndex}`;
+                optionsHTML += `
+                    <div class="${optionClass}" onclick="selectAnswer(${index}, ${optionIndex})" id="${optionId}">
+                        ${option}
+                    </div>
+                `;
+            });
+            
+            let feedbackHTML = '';
+            let summaryHTML = '';
+            
+            if (userAnswers[index] !== null || examFinished) {
+                const isCorrect = userAnswers[index] === question.correctAnswer;
+                
+                if (!examFinished) {
+                    feedbackHTML = `
+                        <div class="feedback ${isCorrect ? 'correct' : 'incorrect'}">
+                            ${isCorrect ? '✓ Correct !' : '✗ Incorrect'} 
+                            ${isCorrect ? '' : `La bonne réponse est: ${question.options[question.correctAnswer]}`}
+                        </div>
+                    `;
+                }
+                
+                summaryHTML = `
+                    <div class="summary-section show">
+                        <div class="summary-title">Lien avec le résumé du cours</div>
+                        <div class="summary-content">${question.summaryLink}</div>
+                    </div>
+                `;
+            }
+            
+            const questionHTML = `
+                <div class="question-card">
+                    <div class="question-header">
+                        <div class="question-type">${question.type === 'truefalse' ? 'Vrai/Faux' : 'Choix unique'} • Version ${question.version}</div>
+                        <div class="question-points">${question.points} point${question.points !== 1 ? 's' : ''}</div>
+                    </div>
+                    
+                    <div class="question-text">${question.id}. ${question.text}</div>
+                    
+                    <div class="options-container">
+                        ${optionsHTML}
+                    </div>
+                    
+                    ${feedbackHTML}
+                    ${summaryHTML}
+                </div>
+            `;
+            
+            questionsList.innerHTML = questionHTML;
+            updateExamStats();
+        }
+
+        function selectAnswer(questionIndex, optionIndex) {
+            if (examFinished) return;
+            
+            userAnswers[questionIndex] = optionIndex;
+            showQuestion(questionIndex);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                showQuestion(currentQuestionIndex + 1);
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                showQuestion(currentQuestionIndex - 1);
+            }
+        }
+
+        function finishExam() {
+            examFinished = true;
+            clearInterval(timerInterval);
+            
+            let totalPoints = 0;
+            let maxPoints = 0;
+            let correctAnswers = 0;
+            
+            questions.forEach((question, index) => {
+                maxPoints += question.points;
+                
+                if (userAnswers[index] === question.correctAnswer) {
+                    totalPoints += question.points;
+                    correctAnswers++;
+                }
+            });
+            
+            const endTime = new Date();
+            const timeElapsed = Math.floor((endTime - startTime) / 1000);
+            const minutesElapsed = Math.floor(timeElapsed / 60);
+            const secondsElapsed = timeElapsed % 60;
+            
+            const scoreValue = document.getElementById('scoreValue');
+            const scoreMessage = document.getElementById('scoreMessage');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const examTimeElement = document.getElementById('examTime');
+            
+            const percentage = (totalPoints / maxPoints) * 100;
+            scoreValue.textContent = `${correctAnswers}/${questions.length}`;
+            
+            let message = "";
+            if (percentage >= 80) {
+                message = "🌟 Excellent ! Vous maîtrisez parfaitement le cours.";
+            } else if (percentage >= 60) {
+                message = "👍 Très bien ! Vous avez une bonne compréhension des concepts.";
+            } else if (percentage >= 40) {
+                message = "📚 Assez bien. Revoyez certaines notions pour améliorer votre score.";
+            } else {
+                message = "📖 Continuez à étudier. Consultez les liens avec le résumé pour chaque question.";
+            }
+            
+            scoreMessage.textContent = message;
+            examTimeElement.textContent = `${minutesElapsed} min ${secondsElapsed} sec`;
+            scoreDisplay.style.display = 'block';
+            
+            showQuestion(currentQuestionIndex);
+            
+            setTimeout(() => {
+                document.querySelector('.questions-sidebar').scrollTop = 
+                    document.querySelector('.questions-sidebar').scrollHeight;
+            }, 100);
+        }
+
+        window.onload = initExam;
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight') nextQuestion();
+            if (event.key === 'ArrowLeft') previousQuestion();
+            if (event.key === 'Escape' && !examFinished) {
+                if (confirm("Terminer l'examen maintenant ?")) finishExam();
+            }
+        });
+    </script>
+</body>
+</html>
