@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Résumé HA 8 à 12 | Trendy Plaza</title>
+
+  <style>
+    :root{
+      --bg: #0b1020;
+      --panel: rgba(255,255,255,0.06);
+      --panel-2: rgba(255,255,255,0.10);
+      --border: rgba(255,255,255,0.12);
+      --text: rgba(255,255,255,0.95);
+      --muted: rgba(255,255,255,0.70);
+      --muted-2: rgba(255,255,255,0.55);
+      --accent: rgba(86,200,255,0.9);
+      --shadow: 0 18px 40px rgba(0,0,0,0.35);
+      --radius: 18px;
+      --max: 1200px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{height:100%;}
+
+    body{
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      line-height:1.7;
+      background:
+        radial-gradient(800px 500px at 10% 10%, rgba(86,200,255,.12), transparent 60%),
+        radial-gradient(800px 500px at 90% 20%, rgba(255,139,234,.10), transparent 55%),
+        radial-gradient(800px 500px at 40% 90%, rgba(155,255,169,.08), transparent 60%),
+        var(--bg);
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:url("logotrendy.svg") center no-repeat;
+      background-size:min(600px,70vw);
+      opacity:0.035; /* خفيف جدًا */
+      pointer-events:none;
+      z-index:0;
+    }
+
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:rgba(11,16,32,0.45);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .container{
+      width:min(100% - 28px, var(--max));
+      margin:auto;
+      position:relative;
+      z-index:1;
+    }
+
+
+    .top-header{
+      position:sticky;
+      top:0;
+      z-index:30;
+      backdrop-filter:blur(16px);
+      background:linear-gradient(to bottom, rgba(11,16,32,.9), rgba(11,16,32,.5));
+      border-bottom:1px solid var(--border);
+    }
+
+    .header-grid{
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+      align-items:center;
+      justify-content:space-between;
+      padding:16px 0;
+    }
+
+    .brand{display:flex;gap:14px;align-items:center;}
+    .logo{
+      width:46px;height:46px;border-radius:14px;
+      background:linear-gradient(135deg, rgba(86,200,255,.6), rgba(255,139,234,.5));
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;
+      box-shadow:var(--shadow);
+    }
+
+    .brand-text h1{font-size:18px;}
+    .brand-text p{font-size:13px;color:var(--muted);}
+
+    .badges{display:flex;gap:8px;flex-wrap:wrap;}
+    .badge{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,0.05);
+      color:var(--muted);
+    }
+
+    .top-note{display:flex;gap:10px;width:100%;flex-wrap:wrap;}
+    .note-pill{
+      flex:1;
+      min-width:260px;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,0.04);
+    }
+
+    .arabic{
+      font-family:"Noto Naskh Arabic","Amiri","Tahoma";
+      direction:rtl;
+      text-align:right;
+    }
+
+
+    .nav{
+      position:sticky;
+      top:88px;
+      z-index:25;
+      backdrop-filter:blur(14px);
+      background:rgba(255,255,255,0.03);
+      border-bottom:1px solid var(--border);
+    }
+
+    .nav-flex{
+      display:flex;
+      gap:8px;
+      padding:10px 0;
+      overflow:auto;
+    }
+
+    .nav-link{
+      text-decoration:none;
+      font-size:13px;
+      padding:8px 14px;
+      border-radius:999px;
+      color:var(--muted);
+      border:1px solid transparent;
+      transition:.2s;
+      white-space:nowrap;
+    }
+
+    .nav-link:hover{
+      color:var(--text);
+      border-color:var(--border);
+      background:rgba(255,255,255,0.06);
+    }
+
+    .nav-highlight{
+      color:var(--text);
+      border-color:rgba(86,200,255,.45);
+      background:rgba(86,200,255,.12);
+    }
+
+    /* SEARCH */
+    .search-box{padding:6px 0 14px;}
+    .search-input{
+      width:100%;
+      padding:12px 18px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,0.06);
+      color:var(--text);
+      outline:none;
+    }
+    .search-input::placeholder{color:var(--muted-2);}
+    .search-input:focus{
+      border-color:var(--accent);
+      background:rgba(255,255,255,0.09);
+    }
+
+    main{padding:22px 0 40px;}
+
+    .card{
+      background:linear-gradient(180deg, var(--panel), rgba(255,255,255,0.03));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+      margin-bottom:16px;
+    }
+
+    .section-title{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin:18px 0 12px;
+    }
+
+    .tag{
+      font-size:12px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,0.05);
+      color:var(--muted);
+    }
+
+    .list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .list li{font-size:13px;color:var(--muted);}
+    .list b{color:var(--text);}
+
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+    .mini{
+      padding:12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,0.04);
+      font-size:13px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:900px;
+    }
+
+    th,td{
+      padding:12px;
+      font-size:13px;
+      border-bottom:1px solid var(--border);
+      color:var(--muted);
+      vertical-align:top;
+    }
+
+    th{color:var(--muted-2);background:rgba(255,255,255,0.04);}
+    tr:hover td{background:rgba(255,255,255,0.05);color:var(--text);}
+
+    .footer{
+      text-align:center;
+      font-size:12px;
+      color:var(--muted-2);
+      margin-top:30px;
+    }
+
+    @media(max-width:900px){
+      .grid-2,.grid-3{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="top-header">
+  <div class="container header-grid">
+    <div class="brand">
+      <div class="logo">HA</div>
+      <div class="brand-text">
+        <h1>Résumé HA 8 à 12</h1>
+        <p>Fiche synthèse – Trendy Plaza</p>
+      </div>
+    </div>
+
+    <div class="badges">
+      <span class="badge">Cours 8</span>
+      <span class="badge">Cours 9</span>
+      <span class="badge">Cours 10</span>
+      <span class="badge">Cours 11</span>
+      <span class="badge">Cours 12</span>
+    </div>
+
+    <div class="top-note">
+      <div class="note-pill arabic">إن أصبت فمن الله وإن أخطأت فمنّي</div>
+      <div class="note-pill arabic">لا تنسوني بالدعاء 🤍</div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="container nav-flex">
+    <a href="https://archiiya.github.io/archi-space/lecteur.html" class="nav-link nav-highlight">⬅ الصفحة الرئيسية</a>
+    <a href="#c8" class="nav-link">Cours 8</a>
+    <a href="#c9" class="nav-link">Cours 9</a>
+    <a href="#c10" class="nav-link">Cours 10</a>
+    <a href="#c11" class="nav-link">Cours 11</a>
+    <a href="#c12" class="nav-link">Cours 12</a>
+    <a href="#works" class="nav-link">Œuvres</a>
+  </div>
+
+  <div class="container search-box">
+    <input id="searchInput" class="search-input" placeholder="🔍 Rechercher (Rococo, Jardin, Ledoux…)" />
+  </div>
+</nav>
+
+<main class="container" id="content">
+ </head>
+
+<body>
+
+  <header class="top-header">
+    <div class="container header-grid">
+
+      <div class="brand">
+        <div class="logo">HA</div>
+        <div class="brand-text">
+          <h1>Resumé HA 8 à 12</h1>
+          <p>Fiche synthétique : Philosophies, principes et formes architecturales</p>
+        </div>
+      </div>
+
+      <div class="badges">
+        <span class="badge">Cours 8</span>
+        <span class="badge">Cours 9</span>
+        <span class="badge">Cours 10</span>
+        <span class="badge">Cours 11</span>
+        <span class="badge">Cours 12</span>
+      </div>
+
+      <!-- Added phrases at top -->
+      <div class="top-note">
+        <div class="note-pill">
+          <p class="arabic">إن أصبت فمن الله وإن أخطأت فمنّي</p>
+        </div>
+        <div class="note-pill">
+          <p class="arabic">لا تنسوني بالدعاء 🤍</p>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <nav class="nav">
+    <div class="container nav-flex">
+      <a href="#c8" class="nav-link">Cours 8</a>
+      <a href="#c9" class="nav-link">Cours 9</a>
+      <a href="#c10" class="nav-link">Cours 10</a>
+      <a href="#c11" class="nav-link">Cours 11</a>
+      <a href="#c12" class="nav-link">Cours 12</a>
+      <a href="#works" class="nav-link nav-highlight">Œuvres majeures</a>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <section class="hero">
+      <div class="hero-card">
+        <h2>Résumé rapide</h2>
+        <p>
+          Cette page regroupe les idées principales (philosophie, principe, forme) des cours 8 à 12,
+          avec une section dédiée aux œuvres majeures.
+        </p>
+      </div>
+
+      <div class="hero-card">
+        <h2>ملاحظات</h2>
+        <p class="arabic" dir="rtl">
+          ملخص شامل للفلسفات والمبادئ والأشكال المعمارية من الدرس 8 إلى الدرس 12
+          مع جدول للأعمال المعمارية الكبرى.
+        </p>
+      </div>
+    </section>
+
+    <!-- COURS 8 -->
+    <section id="c8" class="section">
+      <div class="section-title">
+        <h2>COURS 8 – L’Art du jardin d’Occident et des pays d’Islam</h2>
+        <span class="tag">Jardins</span>
+      </div>
+
+      <div class="grid-2">
+
+        <article class="card">
+          <h3>Jardin médiéval <span class="sub">(الحديقة القروسطية / الوسيطة)</span></h3>
+          <ul class="list">
+            <li><b>Philosophie :</b> spiritualité chrétienne, symbolique du paradis terrestre.</li>
+            <li class="arabic" dir="rtl"><b>الفلسفة:</b> روحانية مسيحية ورمزية الجنة الأرضية.</li>
+            <li><b>Principe :</b> jardin clos (hortus conclusus), production utile et contemplation.</li>
+            <li class="arabic" dir="rtl"><b>المبدأ:</b> حديقة مغلقة، تجمع بين المنفعة (الإنتاج) والتأمل.</li>
+            <li><b>Forme :</b> carrés géométriques, symétrie modeste, absence de perspective.</li>
+            <li class="arabic" dir="rtl"><b>الشكل:</b> مربعات هندسية، تماثل بسيط، غياب المنظور.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Jardin à la française <span class="sub">(الحديقة الفرنسية الكلاسيكية)</span></h3>
+          <ul class="list">
+            <li><b>Philosophie :</b> domination de la nature par l’Homme, glorification du pouvoir royal (absolutisme).</li>
+            <li class="arabic" dir="rtl"><b>الفلسفة:</b> سيطرة الإنسان على الطبيعة، وتمجيد السلطة الملكية (الحكم المطلق).</li>
+            <li><b>Principe :</b> axes orthogonaux, perspectives infinies, géométrie rigoureuse.</li>
+            <li class="arabic" dir="rtl"><b>المبدأ:</b> محاور متعامدة، منظورات لا نهائية، هندسة صارمة ودقيقة.</li>
+            <li><b>Forme :</b> parterres, tapis verts, canaux, topiaires, château au centre.</li>
+            <li class="arabic" dir="rtl"><b>الشكل:</b> أحواض مزهرة منتظمة، مساحات خضراء، قنوات مائية، نباتات مقصوصة، القصر في الوسط.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Jardin à l’anglaise <span class="sub">(الحديقة الإنجليزية الطبيعية)</span></h3>
+          <ul class="list">
+            <li><b>Philosophie :</b> inspiration des Lumières (Rousseau), éloge de la nature, liberté, romantisme.</li>
+            <li class="arabic" dir="rtl"><b>الفلسفة:</b> مستوحاة من عصر الأنوار (روسو)، تمجيد الطبيعة والحرية والرومانسية.</li>
+            <li><b>Principe :</b> imitation de la nature sauvage mais maîtrisée, irrégularité, pittoresque.</li>
+            <li class="arabic" dir="rtl"><b>المبدأ:</b> تقليد الطبيعة البرية لكن بشكل مُتحكَّم فيه، عدم انتظام، طابع تصويري جميل.</li>
+            <li><b>Forme :</b> allées sinueuses, bosquets, lacs artificiels, ruines, temples néoclassiques.</li>
+            <li class="arabic" dir="rtl"><b>الشكل:</b> ممرات متعرجة، غابات صغيرة، بحيرات اصطناعية، أطلال، معابد نيوكلاسيكية.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Jardin islamique (Chahar Bagh / Riadh)</h3>
+          <ul class="list">
+            <li><b>Philosophie :</b> représentation du paradis, harmonie cosmique, spiritualité musulmane.</li>
+            <li class="arabic" dir="rtl"><b>الفلسفة:</b> تمثيل الجنة، انسجام كوني، روحانية إسلامية.</li>
+            <li><b>Principe :</b> géométrie sacrée, canaux en croix, bassin central, subdivision quadripartite.</li>
+            <li class="arabic" dir="rtl"><b>المبدأ:</b> هندسة مقدسة، قنوات على شكل صليب، حوض مركزي، تقسيم رباعي.</li>
+            <li><b>Forme :</b> jardin clos, symétrie axiale, végétation ordonnée, patio intérieur (Riadh).</li>
+            <li class="arabic" dir="rtl"><b>الشكل:</b> حديقة مغلقة، تماثل محوري، نباتات مرتبة، فناء داخلي (رياض).</li>
+          </ul>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- COURS 9 -->
+    <section id="c9" class="section">
+      <div class="section-title">
+        <h2>COURS 9 – L’architecture Rococo (1710–1770)</h2>
+        <span class="tag">Rococo</span>
+      </div>
+
+      <article class="card">
+        <ul class="list">
+          <li><b>Philosophie :</b> réaction contre la solennité baroque, recherche de légèreté, fantaisie, intimité, plaisir des sens.</li>
+          <li class="arabic" dir="rtl"><b>الفلسفة:</b> رد فعل ضد فخامة الباروك، بحث عن الخفة والخيال والخصوصية ولذة الحواس.</li>
+          <li><b>Principe :</b> ornementation exubérante, asymétrie, courbes, motifs naturels (coquillages, rocailles).</li>
+          <li class="arabic" dir="rtl"><b>المبدأ:</b> زخرفة مفرطة، لا تماثل، منحنيات، زخارف طبيعية (الأصداف والتموجات الصخرية).</li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <div class="grid-3">
+          <div class="mini">
+            <h4>Façades (الواجهات)</h4>
+            <p>Lignes ondulées, frontons curvilignes, stucs, décors en coquille.</p>
+            <p class="arabic" dir="rtl">خطوط متموجة، تيجان منحنية، زخارف جصية، ديكور يشبه الصدفة.</p>
+          </div>
+
+          <div class="mini">
+            <h4>Intérieurs (الداخل)</h4>
+            <p>Boiseries dorées, miroirs, parquets, escaliers monumentaux en double fer à cheval.</p>
+            <p class="arabic" dir="rtl">أخشاب مذهّبة، مرايا، أرضيات باركيه، سلالم ضخمة مزدوجة على شكل حدوة حصان.</p>
+          </div>
+
+          <div class="mini">
+            <h4>Espaces (الفضاءات)</h4>
+            <p>Pièces spécialisées (salons, boudoirs), petits et confortables.</p>
+            <p class="arabic" dir="rtl">غرف متخصصة (صالونات، غرف خاصة)، صغيرة ومريحة.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- COURS 10 -->
+    <section id="c10" class="section">
+      <div class="section-title">
+        <h2>COURS 10 – L’architecture néo-classique (1750–1830)</h2>
+        <span class="tag">Néo-classique</span>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>1) Académisme <span class="sub">(الأكاديمية / التقليد الأكاديمي)</span></h3>
+          <ul class="list">
+            <li><b>Principe :</b> copie littérale des modèles grecs et romains.</li>
+            <li class="arabic" dir="rtl"><b>المبدأ:</b> تقليد حرفي للنماذج اليونانية والرومانية.</li>
+            <li><b>Forme :</b> colonnades, frontons, dômes, symétrie parfaite.</li>
+            <li class="arabic" dir="rtl"><b>الشكل:</b> أعمدة، واجهات مثلثية، قباب، تماثل كامل.</li>
+            <li><b>Exemples :</b> Panthéon de Paris, Capitole de Washington.</li>
+            <li class="arabic" dir="rtl"><b>أمثلة:</b> بانثيون باريس، كابيتول واشنطن.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>2) Rationalisme géométrique <span class="sub">(العقلانية الهندسية)</span></h3>
+          <ul class="list">
+            <li><b>Principe :</b> épure des volumes, sobriété, géométrie pure.</li>
+            <li class="arabic" dir="rtl"><b>المبدأ:</b> تبسيط الأحجام، تقشف، هندسة نقية.</li>
+            <li><b>Forme :</b> masses simples, suppression des ordres, ouvertures réduites.</li>
+            <li class="arabic" dir="rtl"><b>الشكل:</b> كتل بسيطة، حذف الزخارف الكلاسيكية، فتحات قليلة.</li>
+            <li><b>Exemples :</b> Petit Trianon, Amirauté de Saint-Pétersbourg.</li>
+            <li class="arabic" dir="rtl"><b>أمثلة:</b> قصر بيتي تريانون، الأميرالية في سانت بطرسبورغ.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- COURS 11 -->
+    <section id="c11" class="section">
+      <div class="section-title">
+        <h2>COURS 11 – L’architecture visionnaire de Ledoux et Boullée</h2>
+        <span class="tag">Visionnaires</span>
+      </div>
+
+      <article class="card">
+        <ul class="list">
+          <li><b>Philosophie :</b> utopie sociale, symbolisme géométrique, émotion par l’architecture, sublimité.</li>
+          <li class="arabic" dir="rtl"><b>الفلسفة:</b> يوتوبيا اجتماعية، رمزية هندسية، إثارة المشاعر عبر العمارة، الإحساس بالعظمة.</li>
+        </ul>
+      </article>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Boullée (بوليه)</h3>
+          <ul class="list">
+            <li><b>Principe :</b> architecture des sensations, formes géométriques pures (sphère, cylindre).</li>
+            <li class="arabic" dir="rtl"><b>المبدأ:</b> عمارة تخلق الإحساس، أشكال هندسية خالصة (كرة، أسطوانة).</li>
+            <li><b>Forme :</b> projets monumentaux non réalisés (Cénotaphe à Newton), jeux de lumière, masses imposantes.</li>
+            <li class="arabic" dir="rtl"><b>الشكل:</b> مشاريع ضخمة غير منفذة (ضريح نيوتن)، لعب بالضوء، كتل هائلة.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Ledoux (لودو)</h3>
+          <ul class="list">
+            <li><b>Principe :</b> architecture sociale, typologies nouvelles, géométrie expressive.</li>
+            <li class="arabic" dir="rtl"><b>المبدأ:</b> عمارة اجتماعية، نماذج جديدة للوظائف، هندسة معبّرة.</li>
+            <li><b>Forme :</b> volumes bruts, colonnes superposées, cités idéales (Saline d’Arc-et-Senans).</li>
+            <li class="arabic" dir="rtl"><b>الشكل:</b> أحجام خام، أعمدة فوق بعضها، مدن مثالية (ملّاحة آرك-إي-سنان).</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- COURS 12 -->
+    <section id="c12" class="section">
+      <div class="section-title">
+        <h2>COURS 12 – La révolution industrielle et l’architecture métallique (XIXe siècle)</h2>
+        <span class="tag">Métal</span>
+      </div>
+
+      <article class="card">
+        <ul class="list">
+          <li><b>Philosophie :</b> progrès technique, fonctionnalisme, rationalité industrielle, expression de la structure.</li>
+          <li class="arabic" dir="rtl"><b>الفلسفة:</b> تقدم تقني، وظيفية، عقلانية صناعية، إظهار الهيكل البنائي.</li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <div class="grid-2">
+          <div class="mini">
+            <h4>1) Style académique métallique <span class="sub">(النمط الأكاديمي المعدني)</span></h4>
+            <ul class="list">
+              <li><b>Principe :</b> structure métallique cachée par des façades en pierre.</li>
+              <li class="arabic" dir="rtl"><b>المبدأ:</b> هيكل معدني مخفي خلف واجهات حجرية.</li>
+              <li><b>Forme :</b> gares, grands magasins, verrières discrètes (ex. : Gare du Nord).</li>
+              <li class="arabic" dir="rtl"><b>الشكل:</b> محطات قطار، متاجر كبيرة، أسقف زجاجية خفيفة (مثل محطة الشمال).</li>
+            </ul>
+          </div>
+
+          <div class="mini">
+            <h4>2) Style industriel des ingénieurs <span class="sub">(النمط الصناعي للمهندسين)</span></h4>
+            <ul class="list">
+              <li><b>Principe :</b> structure apparente, préfabrication, modularité.</li>
+              <li class="arabic" dir="rtl"><b>المبدأ:</b> هيكل ظاهر، تركيب مسبق، قابلية التكرار (وحدات).</li>
+              <li><b>Forme :</b> halles, ponts, serres, tours (ex. : Crystal Palace, Tour Eiffel).</li>
+              <li class="arabic" dir="rtl"><b>الشكل:</b> قاعات كبيرة، جسور، بيوت زجاجية، أبراج (قصر الكريستال، برج إيفل).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid-3">
+          <div class="chip">
+            <b>Matériaux :</b> fer, fonte, acier, verre.
+            <span class="arabic" dir="rtl">— المواد: الحديد، الحديد الزهر، الفولاذ، الزجاج.</span>
+          </div>
+          <div class="chip">
+            <b>Innovations :</b> grande portée, rapidité de construction, nouvelles typologies (gares, expositions universelles).
+            <span class="arabic" dir="rtl">— ابتكارات: امتدادات واسعة، سرعة بناء، وظائف جديدة.</span>
+          </div>
+          <div class="chip">
+            <b>XIXe siècle</b> – Révolution industrielle
+            <span class="arabic" dir="rtl">— القرن 19</span>
+          </div>
+        </div>
+
+      </article>
+    </section>
+
+    <!-- WORKS -->
+    <section id="works" class="section">
+      <div class="section-title">
+        <h2>Œuvres Architecturales Majeures (Cours 8 à 12)</h2>
+        <span class="tag">Tables</span>
+      </div>
+
+      <!-- COURS 8 TABLE -->
+      <div class="table-wrap card">
+        <h3>COURS 8 – Jardins</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Nom de l’œuvre / Jardin</th>
+                <th>Lieu</th>
+                <th>Période / Style</th>
+                <th>Description / Caractéristiques</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Jardins de Versailles</td>
+                <td>Versailles, France</td>
+                <td>XVIIe siècle – Jardin à la française</td>
+                <td>Axes orthogonaux, parterres brodés, Grand Canal, jeux d’eau, domination symbolique de la nature.</td>
+              </tr>
+              <tr>
+                <td>Parc d’Ermenonville</td>
+                <td>Ermenonville, France</td>
+                <td>XVIIIe siècle – Jardin à l’anglaise</td>
+                <td>Irrégularité, lac artificiel, temples symboliques (Temple de la Philosophie), inspiration rousseauiste.</td>
+              </tr>
+              <tr>
+                <td>Taj Mahal (jardin)</td>
+                <td>Agra, Inde</td>
+                <td>XVIIe siècle – Jardin moghol (Chahar Bagh)</td>
+                <td>Quadripartition par canaux, bassin central, allées d’arbres, symétrie parfaite, symbolisme paradisiaque.</td>
+              </tr>
+              <tr>
+                <td>Patio de los Leones</td>
+                <td>Grenade, Espagne</td>
+                <td>XIVe siècle – Jardin andalou</td>
+                <td>Cour intérieure avec fontaine centrale, colonnades, canaux en croix, végétation ornementale, intimité.</td>
+              </tr>
+              <tr>
+                <td>Jardin de la Villa d’Este</td>
+                <td>Tivoli, Italie</td>
+                <td>XVIe siècle – Jardin Renaissance</td>
+                <td>Terrasses, fontaines monumentales, jeux d’eau, perspective axiale, inspiration antique.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- COURS 9 TABLE -->
+      <div class="table-wrap card" style="margin-top:14px;">
+        <h3>COURS 9 – Rococo</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Nom de l’œuvre</th>
+                <th>Lieu</th>
+                <th>Architecte(s)</th>
+                <th>Description / Caractéristiques</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Église Saint-Pierre de Vienne</td>
+                <td>Vienne, Autriche</td>
+                <td>Lukas von Hildebrandt &amp; Killian Ignace Dientzenhofer</td>
+                <td>Façade ondulée, intérieur clair, stucs légers, autel central, lumière abondante.</td>
+              </tr>
+              <tr>
+                <td>Palais Zwinger</td>
+                <td>Dresde, Allemagne</td>
+                <td>Matthäus Daniel Pöppelmann</td>
+                <td>Pavillons reliés par des galeries, cour ouverte, sculptures décoratives, fontaines, style festif.</td>
+              </tr>
+              <tr>
+                <td>Hôtel de Soubise</td>
+                <td>Paris, France</td>
+                <td>Germain Boffrand &amp; Charles Natoire</td>
+                <td>Salons ovales, boiseries dorées, miroirs, décors en coquille, escalier d’apparat, intimité aristocratique.</td>
+              </tr>
+              <tr>
+                <td>Château Augustusburg</td>
+                <td>Brühl, Allemagne</td>
+                <td>Clément-Auguste &amp; Johann Conrad Schlaun</td>
+                <td>Escalier monumental en double fer à cheval, fresques, jardins, intégration paysagère.</td>
+              </tr>
+              <tr>
+                <td>Église Vierzehnheiligen</td>
+                <td>Bamberg, Allemagne</td>
+                <td>Balthasar Neumann</td>
+                <td>Plan ovale, autel central libre, jeux de lumière, stucs raffinés, mouvement des volumes.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- COURS 10 TABLE -->
+      <div class="table-wrap card" style="margin-top:14px;">
+        <h3>COURS 10 – Néo-classique</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Nom de l’œuvre</th>
+                <th>Lieu</th>
+                <th>Architecte(s)</th>
+                <th>Description / Caractéristiques</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Panthéon de Paris</td>
+                <td>Paris, France</td>
+                <td>Jacques-Germain Soufflot</td>
+                <td>Dôme imposant, colonnade néo-grecque, fronton triangulaire, sobriété ornementale, lumière zénithale.</td>
+              </tr>
+              <tr>
+                <td>Petit Trianon</td>
+                <td>Versailles, France</td>
+                <td>Ange-Jacques Gabriel</td>
+                <td>Volumes cubiques, façade sobre, ordre ionique, symétrie parfaite, rationalisme géométrique.</td>
+              </tr>
+              <tr>
+                <td>Capitole des États-Unis</td>
+                <td>Washington, USA</td>
+                <td>William Thornton, Benjamin Latrobe, Charles Bulfinch</td>
+                <td>Dôme inspiré du Panthéon de Rome, colonnade monumentale, symbole démocratique.</td>
+              </tr>
+              <tr>
+                <td>Altes Museum</td>
+                <td>Berlin, Allemagne</td>
+                <td>Karl Friedrich Schinkel</td>
+                <td>Portique à colonnes ioniques, escalier monumental, salle centrale à coupole, rigueur muséale.</td>
+              </tr>
+              <tr>
+                <td>Amirauté de Saint-Pétersbourg</td>
+                <td>Saint-Pétersbourg, Russie</td>
+                <td>Andreyan Zakharov</td>
+                <td>Tour-clocher centrale, colonnade dorique, bas-reliefs navals, symétrie stricte, puissance impériale.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- COURS 11 TABLE -->
+      <div class="table-wrap card" style="margin-top:14px;">
+        <h3>COURS 11 – Ledoux &amp; Boullée</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Nom de l’œuvre / Projet</th>
+                <th>Lieu / Statut</th>
+                <th>Architecte</th>
+                <th>Description / Caractéristiques</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cénotaphe à Newton</td>
+                <td>Projet non réalisé</td>
+                <td>Étienne-Louis Boullée</td>
+                <td>Sphère géante percée d’étoiles, fossé circulaire, lumière zénithale, symbolisme astronomique.</td>
+              </tr>
+              <tr>
+                <td>Saline royale d’Arc-et-Senans</td>
+                <td>Arc-et-Senans, France</td>
+                <td>Claude Nicolas Ledoux</td>
+                <td>Cité industrielle circulaire, usine au centre, logements en arc, géométrie pure, utopie sociale.</td>
+              </tr>
+              <tr>
+                <td>Barrière Saint-Martin (Rotonde de la Villette)</td>
+                <td>Paris, France</td>
+                <td>Claude Nicolas Ledoux</td>
+                <td>Forme cylindrique sur base carrée, colonnes doriques, rusticité, fonction d’octroi.</td>
+              </tr>
+              <tr>
+                <td>Maison du Directeur de la saline</td>
+                <td>Arc-et-Senans, France</td>
+                <td>Claude Nicolas Ledoux</td>
+                <td>Colonnes à fûts superposés (cylindriques/carrés), tympan simplifié, masses géométriques brutes.</td>
+              </tr>
+              <tr>
+                <td>Projet d’Opéra de Paris</td>
+                <td>Projet non réalisé</td>
+                <td>Étienne-Louis Boullée</td>
+                <td>Volumes épurés, gradins monumentaux, jeux de lumière, monumentalité abstraite.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- COURS 12 TABLE -->
+      <div class="table-wrap card" style="margin-top:14px;">
+        <h3>COURS 12 – Architecture métallique</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Nom de l’œuvre</th>
+                <th>Lieu</th>
+                <th>Architecte / Ingénieur</th>
+                <th>Description / Caractéristiques</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Crystal Palace</td>
+                <td>Londres, Royaume-Uni</td>
+                <td>Joseph Paxton</td>
+                <td>Structure modulaire en fonte et verre, préfabriquée, serre monumentale, 563 m de long, exposition universelle de 1851.</td>
+              </tr>
+              <tr>
+                <td>Tour Eiffel</td>
+                <td>Paris, France</td>
+                <td>Gustave Eiffel</td>
+                <td>Structure apparente en fer puddlé, 324 m de haut, arcs monumentaux, symbole technique et national.</td>
+              </tr>
+              <tr>
+                <td>Gare du Nord</td>
+                <td>Paris, France</td>
+                <td>Jacques Hittorff</td>
+                <td>Façade en pierre masquant la charpente métallique, verrière intérieure, style académique.</td>
+              </tr>
+              <tr>
+                <td>Pont Maria Pia</td>
+                <td>Porto, Portugal</td>
+                <td>Gustave Eiffel</td>
+                <td>Arc métallique de 160 m, légèreté structurelle, premier grand pont ferroviaire en acier.</td>
+              </tr>
+              <tr>
+                <td>Magasin Au Bon Marché</td>
+                <td>Paris, France</td>
+                <td>Louis Charles Boileau &amp; Gustave Eiffel</td>
+                <td>Grande verrière centrale, structure métallique apparente à l’intérieur, premier grand magasin moderne.</td>
+              </tr>
+              <tr>
+                <td>Halles centrales de Paris</td>
+                <td>Paris, France</td>
+                <td>Victor Baltard</td>
+                <td>Charpente en fonte et verre, pavillons modulaires, marché couvert, fonctionnalité industrielle.</td>
+              </tr>
+              <tr>
+                <td>Palais des Machines</td>
+                <td>Paris, France (démoli)</td>
+                <td>Ferdinand Dutert</td>
+                <td>Portée de 115 m, charpente métallique apparente, hall d’exposition universelle de 1889.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+</main>
+
+<footer class="footer">
+  © Résumé HA 8 à 12 — Trendy Plaza
+</footer>
+
+<script>
+const input = document.getElementById("searchInput");
+const elements = document.querySelectorAll("section, article, .card");
+
+input.addEventListener("input", () => {
+  const value = input.value.toLowerCase();
+  elements.forEach(el => {
+    el.style.display = el.innerText.toLowerCase().includes(value) ? "" : "none";
+  });
+  if(value==="") elements.forEach(el=>el.style.display="");
+});
+</script>
+
+</body>
+</html>
