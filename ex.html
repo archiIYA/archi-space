@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Divertissement | Trendy Plaza</title>
+  <title>Associe le terme | Trendy Plaza</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -16,10 +16,12 @@
       --glass: rgba(255,255,255,.78);
       --border: rgba(225,29,46,.22);
       --shadow: 0 18px 50px rgba(0,0,0,.12);
-      --radius: 18px;
+      --radius: 22px;
+      --ok:#0a7a2a;
     }
-
     *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif}
+    html, body{max-width:100%;overflow-x:hidden}
+
     body{
       min-height:100vh;
       background:
@@ -30,7 +32,6 @@
       overflow-x:hidden;
       position: relative;
     }
-
     body::before{
       content:"";
       position:fixed;
@@ -62,7 +63,6 @@
       height: 100vh;
       backdrop-filter: blur(12px);
     }
-
     .brand{
       display:flex;
       align-items:center;
@@ -71,7 +71,6 @@
       border-bottom: 1px solid rgba(0,0,0,.06);
       margin-bottom: 12px;
     }
-
     .brand img{
       width: 48px;
       height: 48px;
@@ -82,10 +81,9 @@
       padding: 6px;
       box-shadow: 0 10px 30px rgba(225,29,46,.10);
     }
-
     .brand h1{
       font-size:1.05rem;
-      font-weight:800;
+      font-weight:900;
       line-height:1.05;
       color: #111;
     }
@@ -101,7 +99,7 @@
       cursor:pointer;
       padding: 11px 12px;
       border-radius: 14px;
-      font-weight: 800;
+      font-weight: 900;
       transition: .2s;
       text-decoration:none;
       display:inline-flex;
@@ -111,19 +109,16 @@
       user-select:none;
       box-shadow: 0 8px 22px rgba(0,0,0,.06);
     }
-
     .btn.primary{
       background: linear-gradient(135deg, var(--red), var(--red2));
       color: #fff;
     }
-
     .btn.ghost{
       background: #fff;
       color: var(--red);
       border: 1px solid rgba(225,29,46,.25);
       box-shadow: none;
     }
-
     .btn:hover{transform: translateY(-2px);}
 
     .nav{
@@ -131,14 +126,12 @@
       display:grid;
       gap: 10px;
     }
-
     .nav-title{
       font-size:.84rem;
       color: rgba(0,0,0,.60);
       padding: 8px 10px 0;
-      font-weight: 700;
+      font-weight: 800;
     }
-
     .nav a{
       text-decoration:none;
       color: #111;
@@ -153,11 +146,7 @@
       gap: 10px;
       box-shadow: 0 10px 28px rgba(0,0,0,.06);
     }
-
-    .nav a:hover{
-      transform: translateY(-2px);
-      border-color: rgba(225,29,46,.35);
-    }
+    .nav a:hover{transform: translateY(-2px);border-color: rgba(225,29,46,.35);}
 
     .pill{
       font-size:.75rem;
@@ -166,12 +155,12 @@
       background: rgba(225,29,46,.08);
       border: 1px solid rgba(225,29,46,.18);
       color: var(--red);
-      font-weight: 800;
+      font-weight: 900;
       white-space: nowrap;
     }
 
     .main{ padding: 18px 16px 40px; }
-    .wrap{ max-width: 1150px; margin: 0 auto; }
+    .wrap{ max-width: 1150px; margin: 0 auto; width:100%; }
 
     .topbar{
       display:flex;
@@ -184,11 +173,11 @@
       padding: 14px 14px;
       box-shadow: var(--shadow);
       margin-bottom: 16px;
+      flex-wrap: wrap;
     }
-
     .title h2{
-      font-size:1.35rem;
-      font-weight: 900;
+      font-size:1.25rem;
+      font-weight: 1000;
       color: #111;
       display:flex;
       align-items:center;
@@ -198,15 +187,7 @@
       margin-top: 4px;
       font-size: .92rem;
       color: rgba(0,0,0,.62);
-      font-weight: 600;
-    }
-
-    .login-state{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap: wrap;
-      justify-content:flex-end;
+      font-weight: 700;
     }
 
     .chip{
@@ -215,122 +196,154 @@
       border: 1px solid rgba(225,29,46,.20);
       background: rgba(225,29,46,.06);
       color: var(--red);
-      font-weight: 800;
+      font-weight: 900;
       font-size: .84rem;
       white-space: nowrap;
     }
 
-    .sections{
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    .section{
-      background: #fff;
+    .card{
+      background:#fff;
       border: 1px solid rgba(225,29,46,.18);
-      border-radius: 22px;
+      border-radius: var(--radius);
       padding: 16px;
       box-shadow: var(--shadow);
     }
 
-    .section-head{
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom: 12px;
+    }
+    .controls .left-ctrl{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      flex: 1 1 auto;
+      min-width: 280px;
+    }
+
+    .select{
+      appearance:none;
+      border:1px solid rgba(225,29,46,.20);
+      border-radius: 14px;
+      padding: 10px 12px;
+      background:#fff;
+      font-weight:900;
+      color:#111;
+      cursor:pointer;
+      min-width: 240px;
+      width:auto;
+    }
+
+    .small-btn{
+      border:none;
+      cursor:pointer;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 1000;
+      transition:.2s;
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      border: 1px solid rgba(225,29,46,.20);
+      white-space: nowrap;
+    }
+    .small-btn:hover{transform:translateY(-2px);}
+    .small-btn.primary{
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      color:#fff;
+      border:none;
+    }
+    .small-btn[disabled]{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none !important;
+    }
+
+    .score{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .col h3{
+      font-size: .95rem;
+      font-weight: 1000;
+      color:#111;
+      margin-bottom: 10px;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+    }
+
+    .list{
+      display:grid;
+      gap: 10px;
+    }
+
+    .item{
+      border: 1px solid rgba(225,29,46,.14);
+      background: linear-gradient(180deg,#fff,#fff7f8);
+      border-radius: 18px;
+      padding: 12px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      transition:.2s;
+      position: relative;
+    }
+    .item:hover{
+      transform: translateY(-2px);
+      border-color: rgba(225,29,46,.28);
+      box-shadow: 0 14px 34px rgba(225,29,46,.08);
+    }
+
+    .term{
+      font-weight: 1000;
+      color:#111;
+      font-size: .95rem;
+      line-height:1.2;
+      word-break: break-word;
+    }
+    .def{
+      font-weight: 700;
+      color: rgba(0,0,0,.72);
+      font-size: .88rem;
+      line-height:1.5;
+      flex:1;
+      word-break: break-word;
+    }
+
+    .result{
+      margin-top: 14px;
+      border-top: 1px solid rgba(0,0,0,.06);
+      padding-top: 14px;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap: 10px;
-      padding: 10px 10px 14px;
-      border-bottom: 1px solid rgba(0,0,0,.06);
-      margin-bottom: 12px;
       flex-wrap: wrap;
     }
 
-    .section-head h3{
-      font-size: 1.08rem;
+    .msg{
       font-weight: 900;
-      color:#111;
+      color: rgba(0,0,0,.70);
     }
-
-    .games{ display:grid; gap: 10px; }
-
-    .game{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      padding: 12px 12px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, #fff, #fff7f8);
-      border: 1px solid rgba(225,29,46,.14);
-      transition:.22s;
-    }
-
-    .game:hover{
-      transform: translateY(-3px);
-      border-color: rgba(225,29,46,.30);
-      box-shadow: 0 14px 34px rgba(225,29,46,.10);
-    }
-
-    .left{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    .icon{
-      width: 44px;
-      height: 44px;
-      border-radius: 16px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: rgba(225,29,46,.08);
-      border: 1px solid rgba(225,29,46,.18);
-      font-size: 1.25rem;
-      flex: 0 0 auto;
-    }
-
-    .txt{ min-width: 0; }
-    .txt h4{
-      font-size: .98rem;
-      font-weight: 900;
-      color:#111;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
-    }
-    .txt p{
-      font-size: .86rem;
-      margin-top:2px;
-      color: rgba(0,0,0,.62);
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      font-weight: 600;
-    }
-
-    .go{
-      text-decoration:none;
-      background: linear-gradient(135deg, var(--red), var(--red2));
-      color:#fff;
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-weight: 900;
-      transition:.2s;
-      white-space: nowrap;
-      flex:0 0 auto;
-      box-shadow: 0 12px 30px rgba(225,29,46,.22);
-    }
-    .go:hover{ transform: translateY(-2px); }
-
-    .footer{
-      margin-top: 18px;
-      text-align:center;
-      color: rgba(0,0,0,.55);
-      font-size:.9rem;
-      font-weight: 700;
-    }
+    .msg.ok{color:var(--ok);}
+    .msg.bad{color:var(--red);}
 
     .mobilebar{
       display:none;
@@ -353,7 +366,7 @@
       border:1px solid rgba(225,29,46,.22);
       background: rgba(225,29,46,.06);
       color: var(--red);
-      font-weight: 900;
+      font-weight: 1000;
       border-radius: 14px;
       padding: 10px 12px;
       cursor:pointer;
@@ -367,7 +380,12 @@
       background:#fff;
       padding:5px;
     }
-    .mbrand b{font-weight:900;color:#111}
+    .mbrand b{font-weight:1000;color:#111}
+
+    @media (max-width: 1100px){
+      .app{ grid-template-columns: 270px 1fr; }
+      .sidebar{ padding: 16px; }
+    }
 
     @media (max-width: 980px){
       .app{ grid-template-columns: 1fr; }
@@ -383,7 +401,6 @@
         box-shadow: 0 30px 80px rgba(0,0,0,.20);
       }
       .sidebar.open{ transform: translateX(0); }
-      .main{ padding-top: 14px; }
       .mobilebar{ display:block; }
       .overlay{
         position: fixed;
@@ -393,17 +410,142 @@
         z-index: 40;
       }
       .overlay.show{ display:block; }
+      .grid{ grid-template-columns: 1fr; }
     }
 
     @media (max-width: 520px){
-      .topbar{ flex-direction: column; align-items: flex-start; }
-      .login-state{ width:100%; justify-content:flex-start; }
-      .game{ flex-direction: column; align-items: stretch; }
-      .left{ width: 100%; }
-      .go{ width: 100%; text-align: center; }
-      .txt p{ display:none; }
+      .topbar{ padding: 12px; border-radius: 18px; }
+      .title h2{font-size: 1.1rem;}
+      .title p{font-size: .88rem;}
+      .controls{gap:8px;}
+      .controls .left-ctrl{width:100%;}
+      .select{width:100%; min-width:100%;}
+      .score{width:100%; justify-content:space-between;}
+      .small-btn{flex: 1 1 auto;}
+      #checkBtn{flex: 1 1 100%;}
+      .result > div:last-child{width:100%;}
+      .result .small-btn{width:100%;}
     }
 
+    .footer{
+      margin-top: 16px;
+      text-align:center;
+      font-weight: 800;
+      color: rgba(0,0,0,.55);
+    }
+
+    /* ====== Link Mode (arrows) ====== */
+    .link-mode{ position: relative; }
+    .links{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      z-index: 5;
+    }
+
+    .link-item{
+      cursor: pointer;
+      position: relative;
+      z-index: 6;
+    }
+
+    .link-item.selected{
+      outline: 3px solid rgba(225,29,46,.35);
+      box-shadow: 0 14px 34px rgba(225,29,46,.12);
+      animation: pulseGlow .9s ease-in-out infinite alternate;
+    }
+    @keyframes pulseGlow{
+      from{ box-shadow: 0 10px 30px rgba(225,29,46,.08); }
+      to{ box-shadow: 0 18px 60px rgba(225,29,46,.22); }
+    }
+
+    .link-item.matched{
+      border-color: rgba(10,122,42,.30);
+      background: linear-gradient(180deg,#fff,#f4fff7);
+      animation: pop .25s ease-out;
+    }
+    .link-item.wrong{
+      border-color: rgba(225,29,46,.35);
+    }
+    @keyframes pop{
+      0%{ transform: scale(.98); }
+      100%{ transform: scale(1); }
+    }
+
+    /* HUD */
+    .hud{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .hud-item{
+      padding:10px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(225,29,46,.20);
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,245,246,.92));
+      box-shadow: 0 14px 40px rgba(225,29,46,.08);
+      min-width: 110px;
+    }
+    .hud-label{
+      display:block;
+      font-size:.75rem;
+      font-weight:900;
+      color: rgba(0,0,0,.55);
+    }
+    .hud-item b{
+      font-size: 1.05rem;
+      font-weight: 1000;
+      letter-spacing:.2px;
+    }
+
+    /* Progress */
+    .progress-wrap{
+      width:100%;
+      height: 10px;
+      border-radius: 999px;
+      overflow:hidden;
+      background: rgba(225,29,46,.08);
+      border: 1px solid rgba(225,29,46,.15);
+      margin: 8px 0 4px;
+    }
+    .progress-bar{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(225,29,46,.95), rgba(255,45,45,.95));
+      transition: width .25s ease;
+    }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      background: rgba(15,20,26,.92);
+      color:#fff;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight: 900;
+      z-index: 999;
+      box-shadow: 0 24px 90px rgba(0,0,0,.22);
+      opacity:0;
+      pointer-events:none;
+      transition: .25s;
+    }
+    .toast.show{ opacity:1; transform: translateX(-50%) translateY(-4px); }
+
+    /* Confetti canvas */
+    #fxCanvas{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      z-index: 999;
+    }
+
+    /* Modal */
     .modal{
       position: fixed;
       inset: 0;
@@ -432,17 +574,17 @@
       border-bottom: 1px solid rgba(0,0,0,.06);
       margin-bottom: 10px;
     }
-    .modal-head h3{ font-size: 1.05rem; font-weight: 900; color:#111; }
+    .modal-head h3{ font-size: 1.05rem; font-weight: 1000; color:#111; }
     .close{
       border: 1px solid rgba(225,29,46,.22);
       background: rgba(225,29,46,.06);
       color: var(--red);
       border-radius: 14px;
       padding: 10px 12px;
-      font-weight: 900;
+      font-weight: 1000;
       cursor:pointer;
     }
-    .modal p{ color: rgba(0,0,0,.70); font-weight: 700; line-height: 1.7; }
+    .modal p{ color: rgba(0,0,0,.70); font-weight: 800; line-height: 1.7; }
     .modal-actions{
       display:flex;
       gap: 10px;
@@ -451,7 +593,9 @@
     }
   </style>
 </head>
+
 <body>
+
   <div class="mobilebar">
     <div class="mobilebar-inner">
       <button class="burger" id="openMenu">☰ Menu</button>
@@ -459,168 +603,134 @@
         <img src="logotrendy.svg" alt="Trendy Logo">
         <b>Trendy Plaza</b>
       </div>
-      <a class="btn ghost" href="lecteur.html" style="padding:10px 12px;border-radius:14px;">⟵ Retour</a>
+      <a class="btn ghost" href="divertissement.html" style="padding:10px 12px;border-radius:14px;">⟵ Retour</a>
     </div>
   </div>
 
   <div class="overlay" id="overlay"></div>
 
   <div class="app">
+
     <aside class="sidebar" id="sidebar">
       <div class="brand">
         <img src="logotrendy.svg" alt="Trendy Plaza Logo">
-        <div><h1>Trendy Plaza</h1></div>
+        <div>
+          <h1>Trendy Plaza</h1>
+        </div>
       </div>
 
       <div class="side-actions">
-        <a class="btn primary" href="lecteur.html">⟵ Retour</a>
-        <a class="btn ghost" href="#" onclick="alert('Fonction à ajouter plus tard'); return false;">⚙️ Paramètres</a>
+        <a class="btn primary" href="divertissement.html">⟵ Retour</a>
+        <a class="btn ghost" href="lecteur.html">📚 Lecteur</a>
       </div>
 
       <div class="nav">
-        <div class="nav-title">Catégories</div>
-        <a href="#educatifs"><span>🧠 Jeux éducatifs</span><span class="pill">3</span></a>
-        <a href="#divertissants"><span>🎮 Jeux divertissants</span><span class="pill">3</span></a>
-        <a href="#collectifs"><span>🧑‍🤝‍🧑 Jeux collectifs</span><span class="pill">3</span></a>
+        <div class="nav-title">Jeu</div>
+        <a href="#jeu"><span>🔗 Associe le terme</span><span class="pill">Arrows</span></a>
+        <a href="#regles"><span>📌 Règles</span><span class="pill">Fun</span></a>
       </div>
     </aside>
 
     <main class="main">
       <div class="wrap">
+
         <div class="topbar">
           <div class="title">
-            <h2>🎮 Espace Jeux</h2>
-            <p>Connectez-vous pour jouer. Cliquez sur un jeu pour l’ouvrir.</p>
+            <h2>🔗 Associe le terme</h2>
+            <p>انقر على المصطلح ثم على التعريف… واربطهم بسهم ✨</p>
           </div>
-          <div class="login-state">
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;">
             <span class="chip" id="authChip">Vérification de connexion…</span>
-            <a class="btn ghost" href="lecteur.html">Retour au Lecteur</a>
+            <a class="btn ghost" href="divertissement.html">Retour aux jeux</a>
           </div>
         </div>
 
-        <div class="sections">
-          <section id="educatifs" class="section">
-            <div class="section-head">
-              <h3>🧠 Jeux éducatifs</h3>
-              <span class="pill">Apprendre en s’amusant</span>
-            </div>
-            <div class="games">
-              <div class="game">
-                <div class="left">
-                  <div class="icon">🧩</div>
-                  <div class="txt">
-                    <h4>Mots croisés</h4>
-                    <p>Vocabulaire (architecture / études) sous forme de grille.</p>
-                  </div>
-                </div>
-                <a class="go play-link" href="MotsCroisés.html">Ouvrir</a>
-              </div>
-              <div class="game">
-                <div class="left">
-                  <div class="icon">🧠</div>
-                  <div class="txt">
-                    <h4>Quiz</h4>
-                    <p>Questions rapides + score (mode révision).</p>
-                  </div>
-                </div>
-                <a class="go play-link" href="quiz.html">Ouvrir</a>
-              </div>
-              <div class="game">
-                <div class="left">
-                  <div class="icon">🔗</div>
-                  <div class="txt">
-                    <h4>Associe le terme</h4>
-                    <p>Reliez chaque terme à sa définition correcte.</p>
-                  </div>
-                </div>
-                <a class="go play-link" href="Associeleterme.html">Ouvrir</a>
-              </div>
-            </div>
-          </section>
+        <section id="jeu" class="card">
+          <div class="controls">
+            <div class="left-ctrl">
+              <select class="select" id="packSelect" aria-label="Choisir un pack"></select>
 
-          <section id="divertissants" class="section">
-            <div class="section-head">
-              <h3>🎮 Jeux divertissants</h3>
-              <span class="pill">Fun & détente</span>
+              <button class="small-btn" id="shuffleBtn">🔀 Mélanger</button>
+              <button class="small-btn" id="resetBtn">↺ Réinitialiser</button>
             </div>
-            <div class="games">
-              <div class="game">
-                <div class="left">
-                  <div class="icon">🏛️</div>
-                  <div class="txt">
-                    <h4>Devine le bâtiment</h4>
-                    <p>À partir d’une image/indice, trouvez le nom du bâtiment.</p>
-                  </div>
-                </div>
-                <a class="go play-link" href="devine-batiment.html">Ouvrir</a>
-              </div>
-              <div class="game">
-                <div class="left">
-                  <div class="icon">😅</div>
-                  <div class="txt">
-                    <h4>Hors sujet</h4>
-                    <p>Trouvez l’élément qui ne correspond pas au groupe.</p>
-                  </div>
-                </div>
-                <a class="go play-link" href="hors-sujet.html">Ouvrir</a>
-              </div>
-              <div class="game">
-                <div class="left">
-                  <div class="icon">⚡</div>
-                  <div class="txt">
-                    <h4>Défi vitesse</h4>
-                    <p>Défis rapides (30s) : répondre, choisir, réagir.</p>
-                  </div>
-                </div>
-                <a class="go play-link" href="defi-vitesse.html">Ouvrir</a>
-              </div>
-            </div>
-          </section>
 
-          <section id="collectifs" class="section">
-            <div class="section-head">
-              <h3>🧑‍🤝‍🧑 Jeux collectifs</h3>
-              <span class="pill">Entre amis / classe</span>
-            </div>
-            <div class="games">
-              <div class="game">
-                <div class="left">
-                  <div class="icon">⚖️</div>
-                  <div class="txt">
-                    <h4>Tribunal en ligne</h4>
-                    <p>Rôles, débat, vote final (simulation).</p>
-                  </div>
-                </div>
-                <a class="go play-link" href="tribunal-en-ligne.html">Ouvrir</a>
+            <div class="hud">
+              <div class="hud-item">
+                <span class="hud-label">⭐ XP</span>
+                <b id="xpText">0</b>
               </div>
-              <div class="game">
-                <div class="left">
-                  <div class="icon">🕵️</div>
-                  <div class="txt">
-                    <h4>L’Espion</h4>
-                    <p>Déduisez qui est l’espion avant qu’il vous piège.</p>
-                  </div>
-                </div>
-                <a class="go play-link" href="espion.html">Ouvrir</a>
+              <div class="hud-item">
+                <span class="hud-label">🔥 Combo</span>
+                <b id="comboText">x0</b>
               </div>
-              <div class="game">
-                <div class="left">
-                  <div class="icon">🐺</div>
-                  <div class="txt">
-                    <h4>Les Loups de l’Architecture</h4>
-                    <p>Jeu de rôles inspiré des “loups” (version architecture).</p>
-                  </div>
-                </div>
-                <a class="go play-link" href="loups-architecture.html">Ouvrir</a>
+              <div class="hud-item">
+                <span class="hud-label">🏆 Best</span>
+                <b id="bestText">0</b>
               </div>
-            </div>
-          </section>
-        </div>
 
-        <div class="footer">© 2025 Trendy Plaza — Divertissement</div>
+              <button class="small-btn" id="hintBtn">💡 Hint</button>
+              <button class="small-btn" id="soundBtn">🔊 Sound</button>
+              <button class="small-btn" id="challengeBtn">⏱️ Défi 60s</button>
+            </div>
+
+            <div class="score">
+              <span class="pill" id="progressPill">0 / 0</span>
+              <button class="small-btn primary" id="checkBtn">✅ Vérifier</button>
+            </div>
+          </div>
+
+          <div class="progress-wrap" aria-label="progress">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+
+          <div class="grid link-mode" id="linkArea">
+            <svg class="links" id="linksSvg"></svg>
+
+            <div class="col">
+              <h3>🧩 Termes</h3>
+              <div class="list" id="termsList"></div>
+            </div>
+
+            <div class="col">
+              <h3>📘 Définitions (référence)</h3>
+              <div class="list" id="defsList"></div>
+            </div>
+          </div>
+
+          <div class="result">
+            <div class="msg" id="msg">انقر على term ثم على تعريف لربطهما، ثم “Vérifier”.</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="small-btn" id="showAnswersBtn">👁️ Afficher les réponses</button>
+              <button class="small-btn" id="hideAnswersBtn">🙈 Masquer</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="regles" class="card" style="margin-top:16px;">
+          <div class="section-head" style="border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+            <h3 style="font-weight:1000;">📌 Règles</h3>
+            <span class="pill">Fun + XP</span>
+          </div>
+          <div style="color:rgba(0,0,0,.70);font-weight:800;line-height:1.8;">
+            <ul style="padding-left:18px;display:grid;gap:6px;">
+              <li>اضغط على المصطلح ثم اضغط على التعريف لعمل سهم.</li>
+              <li>زر <b>Vérifier</b> يعطيك النتيجة + XP.</li>
+              <li><b>Hint</b> محدود (مرتين لكل جولة) باش تبقى المتعة 😉</li>
+              <li><b>Défi 60s</b> تحدّي سريع — خلّص قبل ما يكمّل الوقت!</li>
+              <li>حزم جديدة تتفتح تلقائيًا لما تجمع XP.</li>
+            </ul>
+          </div>
+        </section>
+
+        <div class="footer">© 2025 Trendy Plaza — Associe le terme</div>
       </div>
     </main>
+
   </div>
+
+  <canvas id="fxCanvas"></canvas>
+  <div class="toast" id="toast"></div>
 
   <div class="modal" id="loginModal">
     <div class="modal-box">
@@ -631,32 +741,29 @@
       <p>Vous devez être connecté pour jouer. Cliquez sur “Se connecter” pour accéder à la page de connexion.</p>
       <div class="modal-actions">
         <a class="btn primary" href="login.html">Se connecter</a>
-        <a class="btn ghost" href="lecteur.html">Retour</a>
+        <a class="btn ghost" href="divertissement.html">Retour</a>
       </div>
     </div>
   </div>
 
+  <!-- Firebase (كما كان عندك) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
   <script>
+    // ===== Sidebar =====
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
     const openMenu = document.getElementById("openMenu");
 
-    function openSidebar(){
-      sidebar.classList.add("open");
-      overlay.classList.add("show");
-    }
-    function closeSidebar(){
-      sidebar.classList.remove("open");
-      overlay.classList.remove("show");
-    }
+    function openSidebar(){ sidebar.classList.add("open"); overlay.classList.add("show"); }
+    function closeSidebar(){ sidebar.classList.remove("open"); overlay.classList.remove("show"); }
     if(openMenu){
       openMenu.addEventListener("click", openSidebar);
       overlay.addEventListener("click", closeSidebar);
     }
 
+    // ===== Firebase Auth (كما كان) =====
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "TrendyPlaza-72624.firebaseapp.com",
@@ -674,31 +781,580 @@
     const authChip = document.getElementById("authChip");
     const loginModal = document.getElementById("loginModal");
 
-    function showLoginModal(){
-      loginModal.classList.add("show");
-    }
-    function hideLoginModal(){
-      loginModal.classList.remove("show");
-    }
+    function showLoginModal(){ loginModal.classList.add("show"); }
+    function hideLoginModal(){ loginModal.classList.remove("show"); }
 
     auth.onAuthStateChanged((user) => {
       isLoggedIn = !!user;
-      if(isLoggedIn){
-        authChip.textContent = "Connecté ✅";
-      } else {
-        authChip.textContent = "Non connecté ❌";
+      authChip.textContent = isLoggedIn ? "Connecté ✅" : "Non connecté ❌";
+      if(!isLoggedIn) showLoginModal();
+    });
+
+    // ===== GAME DATA (Architecture / Structure / Design) =====
+    const packs = {
+      archi: {
+        label: "Pack Architecture (Facile)",
+        xpRequired: 0,
+        items: [
+          { term: "Façade", def: "Face extérieure d’un bâtiment : composition, ouvertures, matériaux." },
+          { term: "Plan", def: "Représentation à plat d’un niveau : pièces, murs, circulations." },
+          { term: "Coupe", def: "Dessin vertical montrant l’intérieur, les hauteurs et les niveaux." },
+          { term: "Perspective", def: "Représentation donnant une impression de profondeur et de volume." },
+          { term: "Structure", def: "Éléments porteurs assurant la stabilité : poteaux, poutres, voiles…" }
+        ]
+      },
+      urban: {
+        label: "Pack Urbanisme (Facile)",
+        xpRequired: 0,
+        items: [
+          { term: "Trame viaire", def: "Organisation du réseau des rues, axes et voies." },
+          { term: "Zonage", def: "Découpage du territoire selon les usages (habitat, industrie…)." },
+          { term: "Densité", def: "Rapport entre quantité construite/population et surface." },
+          { term: "Mobilité", def: "Déplacements et modes de transport associés." },
+          { term: "Espace public", def: "Lieu accessible à tous : rues, places, parcs…" }
+        ]
+      },
+      mix: {
+        label: "Pack Mix (Moyen)",
+        xpRequired: 40,
+        items: [
+          { term: "Programme", def: "Fonctions attendues d’un projet : surfaces, usages, besoins." },
+          { term: "Gabarit", def: "Enveloppe volumétrique : hauteur, alignement, limites." },
+          { term: "Matériau", def: "Substance de construction : béton, acier, bois, brique…" },
+          { term: "Insertion", def: "Intégration au site : contexte, échelle, vues." },
+          { term: "Circulation", def: "Organisation des flux et déplacements dans/autour du projet." }
+        ]
+      },
+      struct: {
+        label: "Pack Structure (Moyen)",
+        xpRequired: 90,
+        items: [
+          { term: "Poutre", def: "Élément horizontal reprenant les charges et les transmettant aux appuis." },
+          { term: "Poteau", def: "Élément vertical porteur qui supporte poutres et planchers." },
+          { term: "Dalle", def: "Élément de plancher (souvent en béton) portant entre appuis." },
+          { term: "Voile", def: "Mur porteur (souvent béton armé) travaillant au cisaillement." },
+          { term: "Fondations", def: "Éléments transmettant les charges du bâtiment au sol." }
+        ]
+      },
+      design: {
+        label: "Pack Design (Moyen+)",
+        xpRequired: 150,
+        items: [
+          { term: "Trame", def: "Réseau de lignes servant à organiser structure et espaces." },
+          { term: "Modénature", def: "Jeu des reliefs/détails d’une façade (corniches, encadrements…)." },
+          { term: "Lumière zénithale", def: "Apport de lumière par le haut (skylight, lanterneau…)." },
+          { term: "Acrotère", def: "Relevé en bord de toiture-terrasse masquant l’étanchéité." },
+          { term: "Patio", def: "Cour intérieure apportant lumière, ventilation et intimité." }
+        ]
       }
-    });
+    };
 
-    document.querySelectorAll(".play-link").forEach(link => {
-      link.addEventListener("click", (e) => {
-        if(!isLoggedIn){
-          e.preventDefault();
-          showLoginModal();
-        }
+    // ===== DOM =====
+    const termsList = document.getElementById("termsList");
+    const defsList  = document.getElementById("defsList");
+    const packSelect = document.getElementById("packSelect");
+    const shuffleBtn = document.getElementById("shuffleBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const checkBtn = document.getElementById("checkBtn");
+    const showAnswersBtn = document.getElementById("showAnswersBtn");
+    const hideAnswersBtn = document.getElementById("hideAnswersBtn");
+    const msg = document.getElementById("msg");
+    const progressPill = document.getElementById("progressPill");
+    const progressBar = document.getElementById("progressBar");
+
+    const linkArea = document.getElementById("linkArea");
+    const linksSvg = document.getElementById("linksSvg");
+
+    const xpText = document.getElementById("xpText");
+    const comboText = document.getElementById("comboText");
+    const bestText = document.getElementById("bestText");
+    const hintBtn = document.getElementById("hintBtn");
+    const soundBtn = document.getElementById("soundBtn");
+    const challengeBtn = document.getElementById("challengeBtn");
+
+    const toast = document.getElementById("toast");
+    const fxCanvas = document.getElementById("fxCanvas");
+    const fxCtx = fxCanvas.getContext("2d");
+
+    // ===== STATE =====
+    let current = [];
+    let revealed = false;
+
+    // term -> def
+    let links = new Map();
+    let selectedTerm = null;
+
+    // Meta
+    let xp = Number(localStorage.getItem("tp_xp") || 0);
+    let best = Number(localStorage.getItem("tp_best") || 0);
+    let combo = 0;
+    let soundOn = (localStorage.getItem("tp_sound") ?? "1") === "1";
+
+    // Hint limit
+    let hintsLeft = 2; // per round
+
+    // Challenge 60s
+    let challenge = { on:false, endsAt:0, timerId:null };
+
+    // ===== Helpers =====
+    function shuffleArray(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]] = [arr[j],arr[i]];
+      }
+      return arr;
+    }
+
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, s => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[s]));
+    }
+
+    function toastMsg(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(()=>toast.classList.remove("show"), 1200);
+    }
+
+    function beep(type="ok"){
+      if(!soundOn) return;
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if(!Ctx) return;
+      const ac = new Ctx();
+      const o = ac.createOscillator();
+      const g = ac.createGain();
+      o.type = "sine";
+      o.frequency.value = type === "ok" ? 740 : 220;
+      g.gain.value = 0.08;
+      o.connect(g); g.connect(ac.destination);
+      o.start();
+      setTimeout(()=>{ o.stop(); ac.close(); }, 90);
+    }
+
+    function syncMeta(){
+      xpText.textContent = xp;
+      comboText.textContent = `x${combo}`;
+      bestText.textContent = best;
+      soundBtn.textContent = soundOn ? "🔊 Sound" : "🔇 Sound";
+      hintBtn.textContent = `💡 Hint (${hintsLeft})`;
+    }
+
+    function addXP(amount){
+      xp += amount;
+      localStorage.setItem("tp_xp", String(xp));
+      syncMeta();
+      refreshPackOptions(true);
+    }
+
+    // Confetti (خفيف)
+    let confetti = [];
+    function resizeFx(){
+      fxCanvas.width = window.innerWidth;
+      fxCanvas.height = window.innerHeight;
+    }
+    resizeFx();
+    window.addEventListener("resize", resizeFx);
+
+    function burstConfetti(){
+      const n = 140;
+      confetti = [];
+      for(let i=0;i<n;i++){
+        confetti.push({
+          x: window.innerWidth/2,
+          y: window.innerHeight*0.22,
+          vx: (Math.random()*2-1)*8,
+          vy: (Math.random()*-1)*10 - 3,
+          r: Math.random()*4+2,
+          a: 1
+        });
+      }
+      const start = performance.now();
+      function tick(t){
+        fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+        confetti.forEach(p=>{
+          p.vy += 0.35;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.a *= 0.985;
+          fxCtx.globalAlpha = Math.max(0, p.a);
+          fxCtx.beginPath();
+          fxCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          fxCtx.fill();
+        });
+        fxCtx.globalAlpha = 1;
+        if(t - start < 900) requestAnimationFrame(tick);
+        else fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // ===== Packs unlock =====
+    function refreshPackOptions(keepSelection){
+      const prev = packSelect.value || "archi";
+      packSelect.innerHTML = "";
+
+      const keys = Object.keys(packs);
+      keys.forEach(k=>{
+        const p = packs[k];
+        const locked = xp < p.xpRequired;
+        const opt = document.createElement("option");
+        opt.value = k;
+        opt.disabled = locked;
+        opt.textContent = locked
+          ? `🔒 ${p.label} — ${p.xpRequired} XP`
+          : `✅ ${p.label}`;
+        packSelect.appendChild(opt);
       });
-    });
 
+      // restore selection if possible
+      if(keepSelection && [...packSelect.options].some(o=>o.value===prev && !o.disabled)){
+        packSelect.value = prev;
+      } else {
+        // choose first unlocked
+        const firstUnlocked = [...packSelect.options].find(o=>!o.disabled);
+        if(firstUnlocked) packSelect.value = firstUnlocked.value;
+      }
+    }
+
+    // ===== Build game (arrows) =====
+    function build(){
+      const key = packSelect.value || "archi";
+      const pack = packs[key] || packs.archi;
+
+      current = JSON.parse(JSON.stringify(pack.items));
+
+      const terms = shuffleArray(current.map(x => x.term));
+      const defs  = shuffleArray(current.map(x => x.def));
+
+      termsList.innerHTML = "";
+      defsList.innerHTML  = "";
+      linksSvg.innerHTML  = "";
+      links.clear();
+      selectedTerm = null;
+      revealed = false;
+
+      hintsLeft = 2;
+      syncMeta();
+
+      defs.forEach((def, idx) => {
+        const row = document.createElement("div");
+        row.className = "item link-item";
+        row.dataset.type = "def";
+        row.dataset.value = def;
+        row.innerHTML = `<div class="def"><b>${idx+1}.</b> ${escapeHtml(def)}</div>`;
+        row.addEventListener("click", () => onDefClick(row));
+        defsList.appendChild(row);
+      });
+
+      terms.forEach((term) => {
+        const row = document.createElement("div");
+        row.className = "item link-item";
+        row.dataset.type = "term";
+        row.dataset.value = term;
+        row.innerHTML = `<div class="term">${escapeHtml(term)}</div>`;
+        row.addEventListener("click", () => onTermClick(row));
+        termsList.appendChild(row);
+      });
+
+      updateProgress();
+      setMsg("اختر term ثم التعريف… وخلي الأسهم تكمّل اللوحة ✨", "");
+      redrawAll();
+    }
+
+    function setMsg(text, type){
+      msg.className = "msg";
+      if(type === "ok") msg.classList.add("ok");
+      if(type === "bad") msg.classList.add("bad");
+      msg.textContent = text;
+    }
+
+    function onTermClick(el){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      clearSelected();
+      selectedTerm = el.dataset.value;
+      el.classList.add("selected");
+
+      // micro: combo drops قليلاً لو تغيّر كثير
+      combo = Math.max(0, combo - 1);
+      syncMeta();
+    }
+
+    function onDefClick(defEl){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      if(!selectedTerm){
+        setMsg("اختر term أولاً ثم اختر تعريفاً.", "bad");
+        beep("bad");
+        return;
+      }
+
+      const def = defEl.dataset.value;
+      const term = selectedTerm;
+
+      // def only linked to one term
+      for(const [t, d] of links.entries()){
+        if(d === def && t !== term){
+          links.delete(t);
+        }
+      }
+
+      links.set(term, def);
+
+      // reward feeling
+      combo = Math.min(9, combo + 1);
+      addXP(2 + combo);
+      toastMsg(combo >= 3 ? `🔥 Combo x${combo}!` : "✅ Nice!");
+      beep("ok");
+
+      clearSelected();
+      selectedTerm = null;
+
+      updateProgress();
+      redrawAll();
+    }
+
+    function clearSelected(){
+      document.querySelectorAll(".link-item.selected").forEach(x => x.classList.remove("selected"));
+    }
+
+    function updateProgress(){
+      const total = current.length;
+      const filled = links.size;
+      progressPill.textContent = `${filled} / ${total}`;
+      const pct = total ? Math.round((filled/total)*100) : 0;
+      progressBar.style.width = pct + "%";
+    }
+
+    function findItem(type, value){
+      return document.querySelector(`.link-item[data-type="${type}"][data-value="${CSS.escape(value)}"]`);
+    }
+
+    function redrawAll(){
+      linksSvg.innerHTML = "";
+
+      const defs = `
+        <defs>
+          <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <path d="M0,0 L10,3 L0,6 Z" fill="rgba(225,29,46,.85)"></path>
+          </marker>
+        </defs>
+      `;
+      linksSvg.insertAdjacentHTML("beforeend", defs);
+
+      document.querySelectorAll(".link-item").forEach(el=>{
+        el.classList.remove("matched","wrong");
+      });
+
+      for(const [term, def] of links.entries()){
+        const termEl = findItem("term", term);
+        const defEl  = findItem("def", def);
+        if(!termEl || !defEl) continue;
+        drawArrow(termEl, defEl);
+      }
+    }
+
+    function drawArrow(fromEl, toEl){
+      const areaRect = linkArea.getBoundingClientRect();
+      const a = fromEl.getBoundingClientRect();
+      const b = toEl.getBoundingClientRect();
+
+      const x1 = (a.right - areaRect.left);
+      const y1 = (a.top + a.height/2 - areaRect.top);
+
+      const x2 = (b.left - areaRect.left);
+      const y2 = (b.top + b.height/2 - areaRect.top);
+
+      const dx = Math.max(60, (x2 - x1) * 0.5);
+      const c1x = x1 + dx;
+      const c1y = y1;
+      const c2x = x2 - dx;
+      const c2y = y2;
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+      path.setAttribute("d", `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`);
+      path.setAttribute("fill","none");
+      path.setAttribute("stroke","rgba(225,29,46,.85)");
+      path.setAttribute("stroke-width","3");
+      path.setAttribute("marker-end","url(#arrowHead)");
+      path.setAttribute("opacity","0.95");
+
+      linksSvg.appendChild(path);
+    }
+
+    window.addEventListener("resize", redrawAll);
+    window.addEventListener("scroll", redrawAll, true);
+
+    // ===== Buttons / actions =====
+    function check(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+
+      const key = packSelect.value || "archi";
+      const map = new Map((packs[key] || packs.archi).items.map(x => [x.term, x.def]));
+      const total = current.length;
+
+      const filled = links.size;
+      updateProgress();
+
+      if(filled < total){
+        setMsg(`كمّل كل الروابط (${filled}/${total}).`, "bad");
+        toastMsg("⚠️ باقي روابط ناقصة!");
+        beep("bad");
+        combo = 0; syncMeta();
+        return;
+      }
+
+      let correct = 0;
+
+      for(const [term, def] of links.entries()){
+        const ok = (map.get(term) === def);
+        const termEl = findItem("term", term);
+        const defEl  = findItem("def", def);
+        if(ok){
+          correct++;
+          termEl && termEl.classList.add("matched");
+          defEl && defEl.classList.add("matched");
+        } else {
+          termEl && termEl.classList.add("wrong");
+          defEl && defEl.classList.add("wrong");
+        }
+      }
+
+      if(correct > best){
+        best = correct;
+        localStorage.setItem("tp_best", String(best));
+      }
+
+      if(correct === total){
+        setMsg(`أسطوري! ✅ Score: ${correct}/${total}.`, "ok");
+        toastMsg("🏆 Perfect! +50 XP");
+        addXP(50);
+        burstConfetti();
+        beep("ok");
+      } else {
+        setMsg(`Score: ${correct}/${total}. حاول تضبط الأخطاء!`, "bad");
+        toastMsg(correct >= Math.ceil(total*0.6) ? "👏 ممتاز! قريب!" : "💪 جرّب مرة ثانية!");
+        addXP(5 + correct);
+        beep("bad");
+      }
+
+      combo = 0;
+      syncMeta();
+    }
+
+    function showAnswers(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      const key = packSelect.value || "archi";
+      const map = new Map((packs[key] || packs.archi).items.map(x => [x.term, x.def]));
+      links.clear();
+      current.forEach(x => links.set(x.term, map.get(x.term)));
+      revealed = true;
+      updateProgress();
+      redrawAll();
+      setMsg("Réponses affichées 👁️", "ok");
+      toastMsg("👁️ هاك التصحيح!");
+      beep("ok");
+    }
+
+    function hideAnswers(){
+      links.clear();
+      revealed = false;
+      updateProgress();
+      redrawAll();
+      setMsg("Réponses masquées 🙈", "");
+      toastMsg("🙈 رجّعناها للعبة!");
+    }
+
+    function reset(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      hideAnswers();
+      combo = 0;
+      hintsLeft = 2;
+      syncMeta();
+      setMsg("Réinitialisé. Recommencez !", "");
+      toastMsg("↺ نبدأ من جديد!");
+    }
+
+    // Hint (2 per round)
+    function giveHint(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      if(hintsLeft <= 0){
+        toastMsg("😄 خلصت الـHints لهذه الجولة!");
+        beep("bad");
+        return;
+      }
+      const key = packSelect.value || "archi";
+      const map = new Map((packs[key] || packs.archi).items.map(x => [x.term, x.def]));
+
+      const unlinked = current.map(x=>x.term).filter(t => !links.has(t));
+      if(!unlinked.length){
+        toastMsg("✨ ما بقا شي!");
+        return;
+      }
+
+      const term = unlinked[Math.floor(Math.random()*unlinked.length)];
+      links.set(term, map.get(term));
+      hintsLeft--;
+      syncMeta();
+      addXP(3);
+      toastMsg("💡 Hint: ربطت لك واحد!");
+      beep("ok");
+      redrawAll();
+      updateProgress();
+    }
+
+    function toggleSound(){
+      soundOn = !soundOn;
+      localStorage.setItem("tp_sound", soundOn ? "1" : "0");
+      syncMeta();
+      toastMsg(soundOn ? "🔊 Sound ON" : "🔇 Sound OFF");
+      beep("ok");
+    }
+
+    // Challenge 60s
+    function startChallenge(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+
+      challenge.on = true;
+      challenge.endsAt = Date.now() + 60000;
+
+      toastMsg("⏱️ Défi 60s بدأ!");
+      addXP(2);
+
+      build();
+
+      clearInterval(challenge.timerId);
+      challenge.timerId = setInterval(()=>{
+        const left = Math.max(0, challenge.endsAt - Date.now());
+        const sec = Math.ceil(left/1000);
+        challengeBtn.textContent = left > 0 ? `⏱️ ${sec}s` : "⏱️ Défi 60s";
+        if(left <= 0){
+          clearInterval(challenge.timerId);
+          challenge.on = false;
+          toastMsg("⏰ انتهى! اضغط Vérifier");
+          beep("bad");
+          challengeBtn.textContent = "⏱️ Défi 60s";
+        }
+      }, 250);
+    }
+
+    // ===== Events =====
+    packSelect.addEventListener("change", build);
+    shuffleBtn.addEventListener("click", build);
+    resetBtn.addEventListener("click", reset);
+    checkBtn.addEventListener("click", check);
+    showAnswersBtn.addEventListener("click", showAnswers);
+    hideAnswersBtn.addEventListener("click", hideAnswers);
+    hintBtn.addEventListener("click", giveHint);
+    soundBtn.addEventListener("click", toggleSound);
+    challengeBtn.addEventListener("click", startChallenge);
+
+    // ===== Init =====
+    refreshPackOptions(false);
+    syncMeta();
+    build();
+
+    // Anti context menu (كما كان عندك)
     document.addEventListener("contextmenu", (e)=>e.preventDefault());
     document.addEventListener("keydown", (e)=>{
       if(e.key === "F12") e.preventDefault();
@@ -708,3 +1364,4 @@
   </script>
 </body>
 </html>
+
