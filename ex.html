@@ -3,793 +3,252 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Divertissement | Trendy Plaza</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <title>Associe le terme | Trendy Plaza</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg0:#07060a;
-      --bg1:#0b0a12;
-      --card: rgba(255,255,255,.08);
-      --card2: rgba(255,255,255,.12);
-      --line: rgba(255,255,255,.14);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.66);
-      --muted2: rgba(255,255,255,.52);
-
-      --a:#7c3aed;   /* violet */
-      --b:#22d3ee;   /* cyan  */
-      --c:#ff2d55;   /* magenta-red */
-      --d:#fbbf24;   /* amber */
-      --ok:#22c55e;
-
-      --r12:12px;
-      --r16:16px;
-      --r20:20px;
-      --r26:26px;
-      --r34:34px;
-
-      --shadow: 0 18px 55px rgba(0,0,0,.55);
-      --shadow2: 0 26px 90px rgba(0,0,0,.65);
-      --ease: cubic-bezier(.2,.9,.2,1);
+      --red:#e11d2e; --red2:#ff2d2d; --dark:#0b0f14;
+      --glass: rgba(255,255,255,.78);
+      --border: rgba(225,29,46,.22);
+      --shadow: 0 18px 50px rgba(0,0,0,.12);
+      --radius: 22px;
+      --ok:#0a7a2a;
     }
-
-    *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-    html{scroll-behavior:smooth}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif}
+    html, body{max-width:100%;overflow-x:hidden}
     body{
       min-height:100vh;
-      color: var(--text);
       background:
-        radial-gradient(1200px 700px at 10% 10%, rgba(124,58,237,.35), transparent 62%),
-        radial-gradient(1000px 600px at 90% 12%, rgba(34,211,238,.28), transparent 62%),
-        radial-gradient(1000px 700px at 60% 100%, rgba(255,45,85,.26), transparent 62%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
+        radial-gradient(circle at 10% 0%, rgba(225,29,46,.10), transparent 45%),
+        radial-gradient(circle at 90% 15%, rgba(255,45,45,.10), transparent 40%),
+        linear-gradient(180deg, #ffffff, #fff5f6 65%, #ffffff);
+      color: var(--dark);
       overflow-x:hidden;
+      position: relative;
     }
-
     body::before{
       content:"";
-      position:fixed;
-      inset:0;
-      background-image:url("logotrendy.svg");
+      position:fixed; inset:0;
+      background-image: url("logotrendy.svg");
       background-repeat:no-repeat;
       background-position:center;
-      background-size:min(780px, 92vw);
-      opacity:.04;
-      pointer-events:none;
-      filter: saturate(1.2) contrast(1.15);
-      z-index:0;
-    }
-
-    .gridfx{
-      position:fixed;
-      inset:-2px;
+      background-size:min(760px, 88vw);
+      opacity:.06;
       pointer-events:none;
       z-index:0;
-      background:
-        linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
-      background-size: 44px 44px;
-      mask-image: radial-gradient(closest-side at 50% 20%, rgba(0,0,0,1), rgba(0,0,0,.35), rgba(0,0,0,0));
-      opacity:.35;
     }
 
-    .fx{
-      position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
-    }
-    .blob{
-      position:absolute;
-      width: 540px; height: 540px;
-      border-radius: 44% 56% 50% 50% / 52% 46% 54% 48%;
-      filter: blur(1px);
-      opacity:.55;
-      mix-blend-mode: screen;
-      animation: drift 18s var(--ease) infinite alternate;
-      transform: translate3d(0,0,0);
-    }
-    .blob.b1{ left:-220px; top:-220px; background: radial-gradient(circle at 30% 30%, rgba(124,58,237,.65), rgba(124,58,237,.08) 55%, transparent 70%); }
-    .blob.b2{ right:-260px; top:-260px; width: 620px; height: 620px; animation-duration: 22s; background: radial-gradient(circle at 30% 30%, rgba(34,211,238,.58), rgba(34,211,238,.08) 55%, transparent 72%); }
-    .blob.b3{ left:30%; bottom:-320px; width: 720px; height: 720px; animation-duration: 26s; background: radial-gradient(circle at 30% 30%, rgba(255,45,85,.55), rgba(255,45,85,.08) 55%, transparent 74%); }
-
-    @keyframes drift{
-      0%{ transform: translate3d(0,0,0) rotate(0deg) scale(1); }
-      100%{ transform: translate3d(55px,30px,0) rotate(8deg) scale(1.04); }
-    }
-
-    .app{
-      position:relative;
-      z-index:1;
-      display:grid;
-      grid-template-columns: 360px 1fr;
-      min-height:100vh;
-    }
-
-    .mobilebar{
-      display:none;
-      position: sticky;
-      top:0;
-      z-index:20;
-      background: rgba(10,10,16,.62);
-      border-bottom: 1px solid rgba(255,255,255,.12);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      padding: 12px 12px;
-    }
-    .mobilebar-inner{
-      max-width: 1280px;
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .burger{
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
-      color: var(--text);
-      font-weight: 900;
-      border-radius: 16px;
-      padding: 10px 14px;
-      cursor:pointer;
-      transition: transform .22s var(--ease), box-shadow .22s var(--ease);
-      outline:none;
-    }
-    .burger:hover{ transform: translateY(-2px); box-shadow: var(--shadow); }
-    .burger:focus-visible{ box-shadow: 0 0 0 4px rgba(34,211,238,.24), var(--shadow); }
-
-    .mbrand{ display:flex; align-items:center; gap:10px; }
-    .mbrand img{
-      width:40px;height:40px;border-radius:14px;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.14);
-      padding:6px;
-      box-shadow: 0 18px 50px rgba(0,0,0,.45);
-    }
-    .mbrand b{ font-weight: 900; letter-spacing:.2px; }
-    .mback{
-      text-decoration:none;
-      padding: 10px 12px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-      color: var(--text);
-      font-weight: 900;
-      transition: transform .22s var(--ease), box-shadow .22s var(--ease);
-    }
-    .mback:hover{ transform: translateY(-2px); box-shadow: var(--shadow); }
-
+    .app{position:relative;z-index:1;display:grid;grid-template-columns: 290px 1fr;min-height:100vh;}
     .sidebar{
-      position: sticky;
-      top: 0;
-      height: 100vh;
+      background: var(--glass);
+      border-right: 1px solid var(--border);
       padding: 18px;
-      border-right: 1px solid rgba(255,255,255,.10);
-      background: rgba(10,10,16,.52);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      overflow:hidden;
+      position: sticky; top: 0; height: 100vh;
+      backdrop-filter: blur(12px);
     }
-    .sidebar::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(520px 180px at 10% 0%, rgba(124,58,237,.28), transparent 64%),
-        radial-gradient(520px 180px at 90% 10%, rgba(34,211,238,.22), transparent 66%);
-      opacity:.9;
-      pointer-events:none;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-      padding: 14px 14px;
-      border-radius: var(--r26);
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.07);
-      box-shadow: var(--shadow);
-      position:relative;
-      overflow:hidden;
-    }
-    .brand::after{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: radial-gradient(520px 160px at 0% 0%, rgba(255,255,255,.14), transparent 60%);
-      opacity:.45;
-      pointer-events:none;
-    }
-    .brand img{
-      width:56px;height:56px;
-      border-radius: 20px;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.14);
-      padding: 8px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.55);
-      object-fit: cover;
-      position:relative;
-      z-index:1;
-    }
-    .brand h1{
-      font-size: 1.16rem;
-      font-weight: 900;
-      letter-spacing:.2px;
-      position:relative; z-index:1;
-    }
-    .brand .mini{
-      margin-top: 4px;
-      font-size: .82rem;
-      font-weight: 700;
-      color: var(--muted);
-      position:relative; z-index:1;
-    }
-
-    .side-actions{
-      display:grid;
-      gap: 10px;
-      margin-top: 14px;
-    }
+    .brand{display:flex;align-items:center;gap:12px;padding:10px 10px 14px;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:12px;}
+    .brand img{width:48px;height:48px;border-radius:14px;object-fit:cover;border:1px solid rgba(225,29,46,.25);background:#fff;padding:6px;box-shadow:0 10px 30px rgba(225,29,46,.10);}
+    .brand h1{font-size:1.05rem;font-weight:900;color:#111}
+    .side-actions{display:grid;gap:10px;margin-top:12px}
 
     .btn{
-      border:none;
-      cursor:pointer;
-      padding: 12px 14px;
-      border-radius: 18px;
-      font-weight: 900;
-      letter-spacing:.2px;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap: 10px;
-      outline:none;
-      transition: transform .22s var(--ease), box-shadow .22s var(--ease), filter .22s var(--ease), background .22s var(--ease);
-      position:relative;
-      overflow:hidden;
+      border:none; cursor:pointer;
+      padding: 11px 12px; border-radius: 14px;
+      font-weight: 900; transition: .2s;
+      text-decoration:none; display:inline-flex;
+      align-items:center; justify-content:center; gap: 8px;
+      user-select:none; box-shadow: 0 8px 22px rgba(0,0,0,.06);
     }
-    .btn:hover{ transform: translateY(-3px); box-shadow: var(--shadow2); filter: saturate(1.08); }
-    .btn:active{ transform: translateY(-1px); }
-    .btn:focus-visible{ box-shadow: 0 0 0 4px rgba(34,211,238,.28), var(--shadow2); }
+    .btn.primary{background: linear-gradient(135deg, var(--red), var(--red2)); color:#fff;}
+    .btn.ghost{background:#fff;color:var(--red);border:1px solid rgba(225,29,46,.25);box-shadow:none;}
+    .btn:hover{transform: translateY(-2px);}
 
-    .btn.primary{
-      color:#0b0a12;
-      background: linear-gradient(135deg, rgba(34,211,238,1), rgba(124,58,237,1));
-      box-shadow: 0 22px 70px rgba(34,211,238,.18);
-    }
-    .btn.primary::after{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: radial-gradient(520px 180px at 10% 0%, rgba(255,255,255,.28), transparent 62%);
-      opacity:.7;
-      pointer-events:none;
-    }
-
-    .btn.ghost{
-      color: var(--text);
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-    }
-
-    .nav{
-      margin-top: 14px;
-      display:grid;
-      gap: 10px;
-    }
-    .nav-title{
-      font-size: .82rem;
-      font-weight: 900;
-      letter-spacing:.2px;
-      color: var(--muted);
-      padding: 10px 12px 0;
-    }
+    .nav{margin-top:14px;display:grid;gap:10px;}
+    .nav-title{font-size:.84rem;color:rgba(0,0,0,.60);padding:8px 10px 0;font-weight:800;}
     .nav a{
-      text-decoration:none;
-      color: var(--text);
-      padding: 12px 14px;
-      border-radius: 20px;
-      background: rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.12);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      transition: transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease);
-      outline:none;
-      position:relative;
-      overflow:hidden;
+      text-decoration:none;color:#111;
+      padding:12px 12px;border-radius:14px;background:#fff;
+      border:1px solid rgba(225,29,46,.18);transition:.2s;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      box-shadow:0 10px 28px rgba(0,0,0,.06);
     }
-    .nav a::before{
-      content:"";
-      position:absolute;
-      left:-80px; top:-80px;
-      width:160px;height:160px;
-      border-radius: 55% 45% 42% 58% / 48% 42% 58% 52%;
-      background: rgba(255,255,255,.10);
-      opacity:.55;
-      pointer-events:none;
-      transform: rotate(10deg);
-      transition: transform .22s var(--ease), opacity .22s var(--ease);
-    }
-    .nav a:hover{
-      transform: translateX(10px);
-      box-shadow: var(--shadow);
-      border-color: rgba(34,211,238,.25);
-    }
-    .nav a:hover::before{ transform: translateX(18px) rotate(14deg); opacity:.8; }
-    .nav a:focus-visible{ box-shadow: 0 0 0 4px rgba(34,211,238,.24), var(--shadow); }
+    .nav a:hover{transform: translateY(-2px);border-color: rgba(225,29,46,.35);}
 
     .pill{
-      font-size: .72rem;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.14);
-      color: var(--text);
-      font-weight: 900;
-      white-space: nowrap;
+      font-size:.75rem;padding:5px 10px;border-radius:999px;
+      background: rgba(225,29,46,.08);
+      border: 1px solid rgba(225,29,46,.18);
+      color: var(--red); font-weight: 900; white-space: nowrap;
     }
 
-    .main{ padding: 18px 16px 46px; }
-    .wrap{ max-width: 1280px; margin: 0 auto; }
+    .main{padding: 18px 16px 40px;}
+    .wrap{max-width: 1150px; margin: 0 auto; width:100%;}
 
-    .hero{
-      position:relative;
-      border-radius: var(--r34);
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      padding: 18px;
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      background:#fff;border:1px solid rgba(225,29,46,.18);
+      border-radius:20px;padding:14px;box-shadow:var(--shadow);
+      margin-bottom:16px;flex-wrap:wrap;
     }
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(640px 220px at 10% 0%, rgba(34,211,238,.22), transparent 65%),
-        radial-gradient(640px 220px at 90% 10%, rgba(124,58,237,.22), transparent 66%),
-        radial-gradient(540px 240px at 70% 120%, rgba(255,45,85,.18), transparent 68%);
-      opacity:.9;
-      pointer-events:none;
-    }
+    .title h2{font-size:1.25rem;font-weight:1000;color:#111;display:flex;align-items:center;gap:8px;}
+    .title p{margin-top:4px;font-size:.92rem;color:rgba(0,0,0,.62);font-weight:800;}
 
-    .heroTop{
-      position:relative;
-      z-index:1;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 14px;
-      flex-wrap:wrap;
-    }
-
-    .hTitle h2{
-      font-size: 2.05rem;
-      font-weight: 900;
-      letter-spacing:.2px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      line-height:1.15;
-    }
-    .hTitle p{
-      margin-top: 8px;
-      color: var(--muted);
-      font-weight: 700;
-      max-width: 800px;
-      line-height:1.65;
-    }
-
-    .hud{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
     .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.08);
-      box-shadow: var(--shadow);
-      font-weight: 900;
+      padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(225,29,46,.20);
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      font-weight: 900; font-size:.84rem; white-space:nowrap;
+    }
+
+    .card{background:#fff;border:1px solid rgba(225,29,46,.18);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);}
+
+    .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .controls .left-ctrl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;flex:1 1 auto;min-width:280px;}
+
+    .select{
+      appearance:none;border:1px solid rgba(225,29,46,.20);
+      border-radius:14px;padding:10px 12px;background:#fff;
+      font-weight:900;color:#111;cursor:pointer;min-width:260px;
+    }
+
+    .small-btn{
+      border:none; cursor:pointer;
+      padding:10px 12px;border-radius:14px;
+      font-weight:1000;transition:.2s;
+      background: rgba(225,29,46,.06);
+      color: var(--red);
+      border:1px solid rgba(225,29,46,.20);
       white-space:nowrap;
     }
-    .dot{
-      width:10px;height:10px;border-radius:999px;
-      background: rgba(255,255,255,.45);
-      box-shadow: 0 0 0 4px rgba(255,255,255,.08);
-    }
-    .dot.ok{ background: var(--ok); box-shadow: 0 0 0 4px rgba(34,197,94,.18); }
-    .dot.no{ background: var(--c); box-shadow: 0 0 0 4px rgba(255,45,85,.18); }
+    .small-btn:hover{transform: translateY(-2px);}
+    .small-btn.primary{background: linear-gradient(135deg, var(--red), var(--red2)); color:#fff;border:none;}
+    .small-btn[disabled]{opacity:.55;cursor:not-allowed;transform:none!important;}
 
-    .toolbar{
-      margin-top: 14px;
-      position:relative;
-      z-index:1;
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap: 12px;
-    }
+    .score{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;}
 
-    .search{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      padding: 12px 14px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow: var(--shadow);
+    .hud{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+    .hud-item{
+      padding:10px 12px;border-radius:16px;
+      border:1px solid rgba(225,29,46,.20);
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,245,246,.92));
+      box-shadow: 0 14px 40px rgba(225,29,46,.08);
+      min-width: 120px;
     }
-    .search .i{
-      width:44px;height:44px;border-radius:18px;
-      display:flex;align-items:center;justify-content:center;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.14);
-      font-weight:900;
-      flex:0 0 auto;
-    }
-    .search input{
-      width:100%;
-      border:none;
-      outline:none;
-      background: transparent;
-      color: var(--text);
-      font-weight: 800;
-      font-size: 1rem;
-    }
-    .search input::placeholder{ color: var(--muted2); font-weight:700; }
+    .hud-label{display:block;font-size:.75rem;font-weight:1000;color:rgba(0,0,0,.55);}
+    .hud-item b{font-size:1.05rem;font-weight:1000;}
 
-    .seg{
-      display:flex;
-      gap: 8px;
-      padding: 8px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow: var(--shadow);
-      overflow:auto;
+    .progress-wrap{
+      width:100%;height:10px;border-radius:999px;overflow:hidden;
+      background: rgba(225,29,46,.08);border:1px solid rgba(225,29,46,.15);
+      margin: 8px 0 4px;
     }
-    .seg button{
-      border:none;
-      cursor:pointer;
-      padding: 10px 12px;
-      border-radius: 18px;
-      font-weight: 900;
-      color: var(--muted);
-      background: transparent;
-      transition: transform .18s var(--ease), background .18s var(--ease), color .18s var(--ease), box-shadow .18s var(--ease);
-      white-space:nowrap;
-      outline:none;
-    }
-    .seg button:hover{ transform: translateY(-2px); color: var(--text); }
-    .seg button.active{
-      color:#0b0a12;
-      background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(255,255,255,.65));
-      box-shadow: 0 16px 50px rgba(255,255,255,.10);
-    }
-    .seg button:focus-visible{ box-shadow: 0 0 0 4px rgba(34,211,238,.24); }
+    .progress-bar{height:100%;width:0%;background: linear-gradient(90deg, rgba(225,29,46,.95), rgba(255,45,45,.95));transition: width .25s ease;}
 
-    .sections{
-      margin-top: 18px;
-      display:grid;
-      gap: 18px;
-    }
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px;}
+    .col h3{font-size:.95rem;font-weight:1000;color:#111;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+    .list{display:grid;gap:10px;}
 
-    .section{
-      border-radius: var(--r34);
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
+    .item{
+      border:1px solid rgba(225,29,46,.14);
+      background: linear-gradient(180deg,#fff,#fff7f8);
+      border-radius:18px;padding:12px;
+      display:flex;gap:12px;align-items:center;justify-content:space-between;
+      transition:.2s; position:relative;
     }
-    .section::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(620px 220px at 0% 0%, rgba(255,255,255,.14), transparent 66%);
-      opacity:.45;
-      pointer-events:none;
-    }
-    .sectionHead{
-      position:relative;
-      z-index:1;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      padding: 18px 18px 14px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
-      flex-wrap: wrap;
-    }
-    .sectionHead h3{
-      font-size: 1.22rem;
-      font-weight: 900;
-      letter-spacing:.2px;
-      display:flex;
-      align-items:center;
-      gap: 10px;
-    }
-    .tag{
-      font-size:.78rem;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.14);
-      color: var(--text);
-      font-weight: 900;
-      white-space: nowrap;
-    }
+    .item:hover{transform: translateY(-2px);border-color: rgba(225,29,46,.28);box-shadow:0 14px 34px rgba(225,29,46,.08);}
+    .term{font-weight:1000;color:#111;font-size:.95rem;line-height:1.2;word-break:break-word;}
+    .def{font-weight:900;color:rgba(0,0,0,.72);font-size:.88rem;line-height:1.5;flex:1;word-break:break-word;}
 
-    .games{
-      position:relative;
-      z-index:1;
-      padding: 16px;
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
+    /* arrows */
+    .link-mode{position:relative;}
+    .links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;}
+    .link-item{cursor:pointer;position:relative;z-index:6;}
+    .link-item.selected{
+      outline:3px solid rgba(225,29,46,.35);
+      box-shadow:0 14px 34px rgba(225,29,46,.12);
+      animation: pulseGlow .9s ease-in-out infinite alternate;
     }
+    @keyframes pulseGlow{from{box-shadow:0 10px 30px rgba(225,29,46,.08);}to{box-shadow:0 18px 60px rgba(225,29,46,.22);}}
+    .link-item.matched{border-color: rgba(10,122,42,.30);background: linear-gradient(180deg,#fff,#f4fff7);animation: pop .25s ease-out;}
+    .link-item.wrong{border-color: rgba(225,29,46,.35);}
+    @keyframes pop{0%{transform:scale(.98);}100%{transform:scale(1);}}
 
-    .game{
-      grid-column: span 6;
-      display:flex;
-      gap: 12px;
-      padding: 16px;
-      border-radius: 26px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow: var(--shadow);
-      position:relative;
-      overflow:hidden;
-      transform: translateZ(0);
-      transition: transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease);
-      will-change: transform;
+    .result{
+      margin-top:14px;border-top:1px solid rgba(0,0,0,.06);padding-top:14px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
     }
-    .game::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(420px 180px at 12% 0%, rgba(34,211,238,.18), transparent 66%),
-        radial-gradient(420px 180px at 88% 10%, rgba(124,58,237,.18), transparent 66%);
-      opacity:.65;
-      pointer-events:none;
-      transition: opacity .22s var(--ease);
-    }
-    .game::after{
-      content:"";
-      position:absolute;
-      right:-70px;
-      top:-70px;
-      width: 160px;
-      height: 160px;
-      border-radius: 55% 45% 42% 58% / 48% 42% 58% 52%;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.12);
-      opacity:.55;
-      pointer-events:none;
-      transform: rotate(-10deg);
-    }
-    .game:hover{
-      transform: translateY(-10px) scale(1.01);
-      box-shadow: 0 28px 100px rgba(0,0,0,.65);
-      border-color: rgba(34,211,238,.28);
-    }
-    .game:hover::before{ opacity:.9; }
+    .msg{font-weight:1000;color:rgba(0,0,0,.70);}
+    .msg.ok{color:var(--ok);}
+    .msg.bad{color:var(--red);}
 
-    #educatifs .game:nth-child(1){ grid-column: span 7; }
-    #educatifs .game:nth-child(2){ grid-column: span 5; }
-    #divertissants .game:nth-child(2){ grid-column: span 7; }
-    #divertissants .game:nth-child(3){ grid-column: span 5; }
-    #collectifs .game:nth-child(1){ grid-column: span 5; }
-    #collectifs .game:nth-child(2){ grid-column: span 7; }
-
-    .icon{
-      width: 58px;height:58px;
-      border-radius: 22px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.14);
-      font-size: 1.55rem;
-      flex: 0 0 auto;
-      box-shadow: 0 18px 60px rgba(0,0,0,.55);
-      position:relative;
-      z-index:1;
+    .toast{
+      position:fixed;left:50%;bottom:22px;transform:translateX(-50%);
+      background: rgba(15,20,26,.92); color:#fff; padding:12px 14px;border-radius:16px;
+      font-weight:1000; z-index:999; box-shadow:0 24px 90px rgba(0,0,0,.22);
+      opacity:0; pointer-events:none; transition:.25s;
     }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px);}
+    #fxCanvas{position:fixed;inset:0;pointer-events:none;z-index:999;}
 
-    .txt{ min-width:0; flex: 1 1 auto; position:relative; z-index:1; }
-    .txt h4{
-      font-size: 1.08rem;
-      font-weight: 900;
-      letter-spacing:.1px;
-      white-space: nowrap;
-      overflow:hidden;
-      text-overflow: ellipsis;
-    }
-    .txt p{
-      margin-top: 8px;
-      color: var(--muted);
-      font-weight: 700;
-      line-height: 1.45;
-      display:-webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow:hidden;
-    }
-
-    .go{
-      align-self:center;
-      text-decoration:none;
-      padding: 12px 16px;
-      border-radius: 18px;
-      font-weight: 900;
-      color:#0b0a12;
-      background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(255,255,255,.65));
-      box-shadow: 0 22px 70px rgba(255,255,255,.10);
-      transition: transform .22s var(--ease), box-shadow .22s var(--ease), filter .22s var(--ease);
-      white-space: nowrap;
-      outline:none;
-      position:relative;
-      z-index:1;
-    }
-    .go:hover{ transform: translateY(-3px); filter: saturate(1.06); }
-    .go:focus-visible{ box-shadow: 0 0 0 4px rgba(34,211,238,.24), 0 22px 70px rgba(255,255,255,.10); }
-
-    .footer{
-      margin-top: 18px;
-      text-align:center;
-      color: rgba(255,255,255,.55);
-      font-weight: 800;
-    }
-
-    .overlay{
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.55);
-      display:none;
-      z-index: 40;
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
-    }
-    .overlay.show{ display:block; }
-
+    /* Gift modal */
     .modal{
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.62);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding: 18px;
-      z-index: 100;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      position: fixed; inset: 0; background: rgba(0,0,0,.35);
+      display:none; align-items:center; justify-content:center; padding:18px; z-index:1000;
     }
-    .modal.show{ display:flex; }
+    .modal.show{display:flex;}
     .modal-box{
-      width: min(580px, 100%);
-      border-radius: var(--r34);
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(16,16,24,.70);
-      box-shadow: 0 44px 140px rgba(0,0,0,.75);
-      padding: 18px;
-      position:relative;
-      overflow:hidden;
+      width:min(560px, 100%);
+      background:#fff;border-radius:22px;border:1px solid rgba(225,29,46,.22);
+      box-shadow:0 30px 90px rgba(0,0,0,.22); padding:16px;
     }
-    .modal-box::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(520px 220px at 20% 0%, rgba(34,211,238,.22), transparent 66%),
-        radial-gradient(520px 220px at 80% 10%, rgba(124,58,237,.22), transparent 66%);
-      opacity:.9;
-      pointer-events:none;
+    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:10px;}
+    .modal-head h3{font-size:1.05rem;font-weight:1000;color:#111;}
+    .close{border:1px solid rgba(225,29,46,.22);background:rgba(225,29,46,.06);color:var(--red);border-radius:14px;padding:10px 12px;font-weight:1000;cursor:pointer;}
+    .gift-card{
+      border:1px solid rgba(225,29,46,.18);
+      border-radius:18px;
+      padding:12px;
+      background: linear-gradient(180deg,#fff,#fff7f8);
+      display:grid; gap:8px;
     }
-    .modal-head{
-      position:relative;
-      z-index:1;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
-      margin-bottom: 12px;
+    .gift-badge{
+      display:inline-flex;align-items:center;gap:8px;
+      font-weight:1000;color:#111;
     }
-    .modal-head h3{ font-size: 1.12rem; font-weight: 900; letter-spacing:.2px; }
-    .close{
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
-      color: var(--text);
-      border-radius: 18px;
-      padding: 10px 14px;
-      font-weight: 900;
-      cursor:pointer;
-      transition: transform .22s var(--ease), box-shadow .22s var(--ease);
-      outline:none;
-      position:relative;
-      z-index:1;
-    }
-    .close:hover{ transform: translateY(-2px); box-shadow: var(--shadow); }
-    .close:focus-visible{ box-shadow: 0 0 0 4px rgba(34,211,238,.24), var(--shadow); }
-    .modal p{
-      position:relative;
-      z-index:1;
-      color: rgba(255,255,255,.72);
-      font-weight: 700;
-      line-height: 1.7;
-    }
-    .modal-actions{
-      position:relative;
-      z-index:1;
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
+    .footer{margin-top:16px;text-align:center;font-weight:900;color:rgba(0,0,0,.55);}
 
-    @media (max-width: 1100px){
-      .toolbar{ grid-template-columns: 1fr; }
-      #educatifs .game:nth-child(1),
-      #educatifs .game:nth-child(2),
-      #divertissants .game:nth-child(2),
-      #divertissants .game:nth-child(3),
-      #collectifs .game:nth-child(1),
-      #collectifs .game:nth-child(2){
-        grid-column: span 12;
-      }
-      .game{ grid-column: span 12; }
-    }
+    .mobilebar{display:none; position: sticky; top:0; z-index:10; background:#fff; border-bottom: 1px solid rgba(225,29,46,.18); padding: 12px 12px;}
+    .mobilebar-inner{max-width:1150px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .burger{border:1px solid rgba(225,29,46,.22);background: rgba(225,29,46,.06);color: var(--red);font-weight: 1000;border-radius: 14px;padding: 10px 12px;cursor:pointer;}
+    .mbrand{display:flex;align-items:center;gap:10px;}
+    .mbrand img{width:38px;height:38px;border-radius:12px;border:1px solid rgba(225,29,46,.22);background:#fff;padding:5px;}
+    .mbrand b{font-weight:1000;color:#111}
+
     @media (max-width: 980px){
-      .app{ grid-template-columns: 1fr; }
-      .sidebar{
-        position: fixed;
-        left: 0;
-        top: 0;
-        height: 100vh;
-        width: min(380px, 92vw);
-        transform: translateX(-110%);
-        transition: .25s var(--ease);
-        z-index: 50;
-        box-shadow: 0 40px 130px rgba(0,0,0,.75);
-      }
-      .sidebar.open{ transform: translateX(0); }
-      .mobilebar{ display:block; }
-      .main{ padding-top: 14px; }
+      .app{grid-template-columns: 1fr;}
+      .sidebar{position:fixed;left:0;top:0;height:100vh;width:min(320px,88vw);transform: translateX(-110%);transition:.25s;z-index:50;box-shadow:0 30px 80px rgba(0,0,0,.20);}
+      .sidebar.open{transform: translateX(0);}
+      .mobilebar{display:block;}
+      .overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;z-index:40;}
+      .overlay.show{display:block;}
+      .grid{grid-template-columns:1fr;}
     }
-    @media (max-width: 560px){
-      .hTitle h2{ font-size: 1.6rem; }
-      .game{ flex-direction: column; }
-      .go{ width:100%; text-align:center; }
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+    @media (max-width: 520px){
+      .controls{gap:8px;}
+      .controls .left-ctrl{width:100%;}
+      .select{width:100%;min-width:100%;}
+      .score{width:100%;justify-content:space-between;}
+      .small-btn{flex:1 1 auto;}
+      #checkBtn{flex: 1 1 100%;}
+      .result > div:last-child{width:100%;}
+      .result .small-btn{width:100%;}
     }
   </style>
 </head>
 
 <body>
-  <div class="gridfx" aria-hidden="true"></div>
-  <div class="fx" aria-hidden="true">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-  </div>
-
   <div class="mobilebar">
     <div class="mobilebar-inner">
       <button class="burger" id="openMenu">☰ Menu</button>
@@ -797,7 +256,7 @@
         <img src="logotrendy.svg" alt="Trendy Logo">
         <b>Trendy Plaza</b>
       </div>
-      <a class="mback" href="lecteur.html">⟵ Retour</a>
+      <a class="btn ghost" href="divertissement.html" style="padding:10px 12px;border-radius:14px;">⟵ Retour</a>
     </div>
   </div>
 
@@ -807,205 +266,175 @@
     <aside class="sidebar" id="sidebar">
       <div class="brand">
         <img src="logotrendy.svg" alt="Trendy Plaza Logo">
-        <div>
-          <h1>Trendy Plaza</h1>
-          <div class="mini">Divertissement • Interface “next-level”</div>
-        </div>
+        <div><h1>Trendy Plaza</h1></div>
       </div>
-
       <div class="side-actions">
-        <a class="btn primary" href="lecteur.html">⟵ Retour</a>
-        <a class="btn ghost" href="#" onclick="alert('Fonction à ajouter plus tard'); return false;">⚙️ Paramètres</a>
+        <a class="btn primary" href="divertissement.html">⟵ Retour</a>
+        <a class="btn ghost" href="lecteur.html">📚 Lecteur</a>
       </div>
-
       <div class="nav">
-        <div class="nav-title">Catégories</div>
-        <a href="#educatifs"><span>🧠 Jeux éducatifs</span><span class="pill">3</span></a>
-        <a href="#divertissants"><span>🎮 Jeux divertissants</span><span class="pill">3</span></a>
-        <a href="#collectifs"><span>🧑‍🤝‍🧑 Jeux collectifs</span><span class="pill">3</span></a>
+        <div class="nav-title">Jeu</div>
+        <a href="#jeu"><span>🔗 Associe le terme</span><span class="pill">Levels</span></a>
+        <a href="#regles"><span>🎁 Récompenses</span><span class="pill">XP</span></a>
       </div>
     </aside>
 
     <main class="main">
       <div class="wrap">
-        <header class="hero">
-          <div class="heroTop">
-            <div class="hTitle">
-              <h2>🎮 Espace Jeux</h2>
-              <p>Connectez-vous pour jouer. Recherchez un jeu, filtrez par catégorie, puis cliquez sur “Ouvrir”.</p>
+        <div class="topbar">
+          <div class="title">
+            <h2>🔗 Associe le terme</h2>
+            <p>مستويات + مكافآت 🎁… موسيقى هادئة (Piano/Sleep/Hype)</p>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;">
+            <span class="chip" id="authChip">Vérification de connexion…</span>
+            <a class="btn ghost" href="divertissement.html">Retour aux jeux</a>
+          </div>
+        </div>
+
+        <section id="jeu" class="card">
+          <div class="controls">
+            <div class="left-ctrl">
+              <select class="select" id="packSelect" aria-label="Choisir un pack"></select>
+              <button class="small-btn" id="shuffleBtn">🔀 Mélanger</button>
+              <button class="small-btn" id="resetBtn">↺ Réinitialiser</button>
             </div>
 
             <div class="hud">
-              <span class="chip" id="authChip"><span class="dot" id="authDot"></span><span id="authText">Vérification de connexion…</span></span>
-              <a class="btn ghost" href="lecteur.html" style="padding:10px 14px;border-radius:18px;">Retour au Lecteur</a>
+              <div class="hud-item">
+                <span class="hud-label">🎚️ Level</span>
+                <b id="levelText">1</b>
+              </div>
+              <div class="hud-item">
+                <span class="hud-label">⭐ XP</span>
+                <b id="xpText">0</b>
+              </div>
+              <div class="hud-item">
+                <span class="hud-label">🔥 Combo</span>
+                <b id="comboText">x0</b>
+              </div>
+              <div class="hud-item">
+                <span class="hud-label">🎁 Gifts</span>
+                <b id="giftText">0</b>
+              </div>
+
+              <button class="small-btn" id="hintBtn">💡 Hint</button>
+
+              <select class="select" id="musicMode" style="min-width:190px">
+                <option value="piano">🎹 Piano Calm</option>
+                <option value="sleep">🌙 Sleep Pad</option>
+                <option value="hype">⚡ Hype Soft</option>
+              </select>
+              <button class="small-btn" id="musicBtn">🔊 Music</button>
+
+              <button class="small-btn" id="challengeBtn">⏱️ Défi 60s</button>
+              <button class="small-btn" id="openGiftBtn">🎁 Ouvrir</button>
+            </div>
+
+            <div class="score">
+              <span class="pill" id="progressPill">0 / 0</span>
+              <button class="small-btn primary" id="checkBtn">✅ Vérifier</button>
             </div>
           </div>
 
-          <div class="toolbar">
-            <div class="search" role="search">
-              <div class="i">🔎</div>
-              <input id="searchInput" type="search" placeholder="Rechercher… (ex: quiz, tribunal, mots, espion)">
+          <div class="progress-wrap" aria-label="progress">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+
+          <div class="grid link-mode" id="linkArea">
+            <svg class="links" id="linksSvg"></svg>
+
+            <div class="col">
+              <h3>🧩 Termes</h3>
+              <div class="list" id="termsList"></div>
             </div>
 
-            <div class="seg" aria-label="Filtre catégorie">
-              <button class="active" type="button" data-filter="all">Tout</button>
-              <button type="button" data-filter="educatifs">Éducatifs</button>
-              <button type="button" data-filter="divertissants">Divertissants</button>
-              <button type="button" data-filter="collectifs">Collectifs</button>
+            <div class="col">
+              <h3>📘 Définitions</h3>
+              <div class="list" id="defsList"></div>
             </div>
           </div>
-        </header>
 
-        <div class="sections" id="sectionsRoot">
-          <section id="educatifs" class="section" data-section="educatifs">
-            <div class="sectionHead">
-              <h3>🧠 Jeux éducatifs</h3>
-              <span class="tag">Apprendre en s’amusant</span>
+          <div class="result">
+            <div class="msg" id="msg">انقر على المصطلح ثم التعريف لربطهما بسهم…</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="small-btn" id="showAnswersBtn">👁️ Afficher</button>
+              <button class="small-btn" id="hideAnswersBtn">🙈 Masquer</button>
             </div>
+          </div>
+        </section>
 
-            <div class="games">
-              <div class="game" data-title="Mots croisés" data-desc="Vocabulaire (architecture / études) sous forme de grille." data-tags="educatifs mots croises vocabulaire grille">
-                <div class="icon">🧩</div>
-                <div class="txt">
-                  <h4>Mots croisés</h4>
-                  <p>Vocabulaire (architecture / études) sous forme de grille.</p>
-                </div>
-                <a class="go play-link" href="MotsCroisés.html">Ouvrir</a>
-              </div>
+        <section id="regles" class="card" style="margin-top:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(0,0,0,.06);padding-bottom:10px;margin-bottom:10px;">
+            <h3 style="font-weight:1000;">🎁 المكافآت + المستويات</h3>
+            <span class="pill">Level Up</span>
+          </div>
+          <div style="color:rgba(0,0,0,.70);font-weight:900;line-height:1.8;">
+            <ul style="padding-left:18px;display:grid;gap:6px;">
+              <li>كل ما تجمع XP ترتفع Level تلقائيًا.</li>
+              <li>عند Level جديد تحصل على 🎁 Gift (قد تكون: Hint إضافية / فتح Pack / XP Bonus).</li>
+              <li>الموسيقى: اختر Piano أو Sleep أو Hype — تشغيل بعد أول نقرة (سياسة المتصفح).</li>
+            </ul>
+          </div>
+        </section>
 
-              <div class="game" data-title="Quiz" data-desc="Questions rapides + score (mode révision)." data-tags="educatifs quiz questions score revision">
-                <div class="icon">🧠</div>
-                <div class="txt">
-                  <h4>Quiz</h4>
-                  <p>Questions rapides + score (mode révision).</p>
-                </div>
-                <a class="go play-link" href="quiz.html">Ouvrir</a>
-              </div>
-
-              <div class="game" data-title="Associe le terme" data-desc="Reliez chaque terme à sa définition correcte." data-tags="educatifs associe terme definition relier">
-                <div class="icon">🔗</div>
-                <div class="txt">
-                  <h4>Associe le terme</h4>
-                  <p>Reliez chaque terme à sa définition correcte.</p>
-                </div>
-                <a class="go play-link" href="Associeleterme.html">Ouvrir</a>
-              </div>
-            </div>
-          </section>
-
-          <section id="divertissants" class="section" data-section="divertissants">
-            <div class="sectionHead">
-              <h3>🎮 Jeux divertissants</h3>
-              <span class="tag">Fun & détente</span>
-            </div>
-
-            <div class="games">
-              <div class="game" data-title="Devine le bâtiment" data-desc="À partir d’une image/indice, trouvez le nom du bâtiment." data-tags="divertissants devine batiment image indice architecture">
-                <div class="icon">🏛️</div>
-                <div class="txt">
-                  <h4>Devine le bâtiment</h4>
-                  <p>À partir d’une image/indice, trouvez le nom du bâtiment.</p>
-                </div>
-                <a class="go play-link" href="devine-batiment.html">Ouvrir</a>
-              </div>
-
-              <div class="game" data-title="Hors sujet" data-desc="Trouvez l’élément qui ne correspond pas au groupe." data-tags="divertissants hors sujet element groupe logique">
-                <div class="icon">😅</div>
-                <div class="txt">
-                  <h4>Hors sujet</h4>
-                  <p>Trouvez l’élément qui ne correspond pas au groupe.</p>
-                </div>
-                <a class="go play-link" href="hors-sujet.html">Ouvrir</a>
-              </div>
-
-              <div class="game" data-title="Défi vitesse" data-desc="Défis rapides (30s) : répondre, choisir, réagir." data-tags="divertissants defi vitesse 30s rapide reaction">
-                <div class="icon">⚡</div>
-                <div class="txt">
-                  <h4>Défi vitesse</h4>
-                  <p>Défis rapides (30s) : répondre, choisir, réagir.</p>
-                </div>
-                <a class="go play-link" href="defi-vitesse.html">Ouvrir</a>
-              </div>
-            </div>
-          </section>
-
-          <section id="collectifs" class="section" data-section="collectifs">
-            <div class="sectionHead">
-              <h3>🧑‍🤝‍🧑 Jeux collectifs</h3>
-              <span class="tag">Entre amis / classe</span>
-            </div>
-
-            <div class="games">
-              <div class="game" data-title="Tribunal en ligne" data-desc="Rôles, débat, vote final (simulation)." data-tags="collectifs tribunal debat vote roles simulation">
-                <div class="icon">⚖️</div>
-                <div class="txt">
-                  <h4>Tribunal en ligne</h4>
-                  <p>Rôles, débat, vote final (simulation).</p>
-                </div>
-                <a class="go play-link" href="tribunal-en-ligne.html">Ouvrir</a>
-              </div>
-
-              <div class="game" data-title="L’Espion" data-desc="Déduisez qui est l’espion avant qu’il vous piège." data-tags="collectifs espion deduire piege">
-                <div class="icon">🕵️</div>
-                <div class="txt">
-                  <h4>L’Espion</h4>
-                  <p>Déduisez qui est l’espion avant qu’il vous piège.</p>
-                </div>
-                <a class="go play-link" href="espion.html">Ouvrir</a>
-              </div>
-
-              <div class="game" data-title="Les Loups de l’Architecture" data-desc="Jeu de rôles inspiré des “loups” (version architecture)." data-tags="collectifs loups architecture roles">
-                <div class="icon">🐺</div>
-                <div class="txt">
-                  <h4>Les Loups de l’Architecture</h4>
-                  <p>Jeu de rôles inspiré des “loups” (version architecture).</p>
-                </div>
-                <a class="go play-link" href="loups-architecture.html">Ouvrir</a>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <div class="footer">© 2025 Trendy Plaza — Divertissement</div>
+        <div class="footer">© 2025 Trendy Plaza — Associe le terme</div>
       </div>
     </main>
   </div>
 
+  <canvas id="fxCanvas"></canvas>
+  <div class="toast" id="toast"></div>
+
+  <!-- Gift Modal -->
+  <div class="modal" id="giftModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>🎁 مكافأة!</h3>
+        <button class="close" id="closeGift">Fermer ✕</button>
+      </div>
+      <div class="gift-card">
+        <div class="gift-badge" id="giftTitle">—</div>
+        <div style="font-weight:900;color:rgba(0,0,0,.70);" id="giftDesc">—</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+          <button class="small-btn primary" id="claimGift">✅ Claim</button>
+          <button class="small-btn" id="laterGift">⏳ Later</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal (كما كان) -->
   <div class="modal" id="loginModal">
     <div class="modal-box">
       <div class="modal-head">
         <h3>Connexion requise</h3>
         <button class="close" onclick="hideLoginModal()">Fermer ✕</button>
       </div>
-      <p>Vous devez être connecté pour jouer. Cliquez sur “Se connecter” pour accéder à la page de connexion.</p>
-      <div class="modal-actions">
+      <p style="font-weight:900;color:rgba(0,0,0,.70);line-height:1.7;">
+        Vous devez être connecté pour jouer. Cliquez sur “Se connecter” pour accéder à la page de connexion.
+      </p>
+      <div class="modal-actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
         <a class="btn primary" href="login.html">Se connecter</a>
-        <a class="btn ghost" href="lecteur.html">Retour</a>
+        <a class="btn ghost" href="divertissement.html">Retour</a>
       </div>
     </div>
   </div>
 
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
   <script>
+    // ===== Sidebar =====
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
     const openMenu = document.getElementById("openMenu");
+    function openSidebar(){ sidebar.classList.add("open"); overlay.classList.add("show"); }
+    function closeSidebar(){ sidebar.classList.remove("open"); overlay.classList.remove("show"); }
+    if(openMenu){ openMenu.addEventListener("click", openSidebar); overlay.addEventListener("click", closeSidebar); }
 
-    function openSidebar(){
-      sidebar.classList.add("open");
-      overlay.classList.add("show");
-    }
-    function closeSidebar(){
-      sidebar.classList.remove("open");
-      overlay.classList.remove("show");
-    }
-    if(openMenu){
-      openMenu.addEventListener("click", openSidebar);
-      overlay.addEventListener("click", closeSidebar);
-    }
-
+    // ===== Firebase Auth =====
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "TrendyPlaza-72624.firebaseapp.com",
@@ -1015,103 +444,852 @@
       appId: "1:407015246505:web:c914a78566b882b80df7b8",
       measurementId: "G-RZV7LSDQBD"
     };
-
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
     let isLoggedIn = false;
-    const authText = document.getElementById("authText");
-    const authDot = document.getElementById("authDot");
+    const authChip = document.getElementById("authChip");
     const loginModal = document.getElementById("loginModal");
-
     function showLoginModal(){ loginModal.classList.add("show"); }
     function hideLoginModal(){ loginModal.classList.remove("show"); }
-
     auth.onAuthStateChanged((user) => {
       isLoggedIn = !!user;
-      if(isLoggedIn){
-        authText.textContent = "Connecté ✅";
-        authDot.classList.add("ok");
-        authDot.classList.remove("no");
-      } else {
-        authText.textContent = "Non connecté ❌";
-        authDot.classList.add("no");
-        authDot.classList.remove("ok");
+      authChip.textContent = isLoggedIn ? "Connecté ✅" : "Non connecté ❌";
+      if(!isLoggedIn) showLoginModal();
+    });
+
+    // ===== GAME DATA (كثييير كلمات) =====
+    const packs = {
+      archi: { label:"Pack Architecture (Facile)", xpRequired:0, items:[
+        {term:"Façade",def:"Face extérieure d’un bâtiment : composition, ouvertures, matériaux."},
+        {term:"Plan",def:"Représentation à plat d’un niveau : pièces, murs, circulations."},
+        {term:"Coupe",def:"Dessin vertical montrant l’intérieur, les hauteurs et les niveaux."},
+        {term:"Élévation",def:"Vue orthogonale d’un côté du bâtiment (sans perspective)."},
+        {term:"Perspective",def:"Représentation donnant une impression de profondeur et de volume."},
+        {term:"Axonométrie",def:"Projection 3D sans point de fuite, utile pour lire les volumes."},
+        {term:"Maquette",def:"Modèle réduit pour comprendre volumes, lumière et implantation."},
+        {term:"Trémie",def:"Ouverture dans un plancher (escalier, ascenseur)."},
+        {term:"Escalier",def:"Ouvrage de circulation verticale entre niveaux."},
+        {term:"Rampe",def:"Plan incliné facilitant l’accès (PMR, parking…)."},
+        {term:"Programme",def:"Fonctions attendues : surfaces, usages, besoins d’un projet."},
+        {term:"Gabarit",def:"Enveloppe volumétrique : hauteur, alignement, limites."},
+        {term:"Circulation",def:"Organisation des flux et déplacements dans/autour du projet."},
+        {term:"Insertion",def:"Intégration au site : contexte, échelle, vues, voisinage."},
+        {term:"Matériau",def:"Substance de construction : béton, acier, bois, brique…"},
+        {term:"Trame",def:"Réseau de lignes organisant structure, façade et espaces."},
+        {term:"Modénature",def:"Jeu des reliefs/détails d’une façade (corniches, encadrements…)."},
+        {term:"Atrium",def:"Grand vide central souvent couvert, distribuant les espaces."},
+        {term:"Patio",def:"Cour intérieure apportant lumière, ventilation et intimité."},
+        {term:"Seuil",def:"Zone de transition intérieur/extérieur (entrée, porche…)."},
+        {term:"Parvis",def:"Espace d’accueil devant un bâtiment (place, élargissement…)."},
+        {term:"Belvédère",def:"Point élevé offrant vue panoramique, souvent aménagé."},
+      ]},
+      urban: { label:"Pack Urbanisme (Facile)", xpRequired:0, items:[
+        {term:"Trame viaire",def:"Organisation du réseau des rues, axes et voies."},
+        {term:"Zonage",def:"Découpage du territoire selon les usages (habitat, industrie…)."},
+        {term:"Densité",def:"Rapport entre quantité construite/population et surface."},
+        {term:"Mobilité",def:"Déplacements et modes de transport associés."},
+        {term:"Espace public",def:"Lieu accessible à tous : rues, places, parcs…"},
+        {term:"Îlot",def:"Ensemble bâti délimité par des voies (bloc urbain)."},
+        {term:"Parcelle",def:"Unité foncière de propriété, support d’un projet."},
+        {term:"Alignement",def:"Ligne imposée/choisie pour positionner les façades sur rue."},
+        {term:"Mixité",def:"Coexistence de fonctions : logement, commerce, équipements…"},
+        {term:"Centralité",def:"Lieu structurant où se concentrent activités et services."},
+        {term:"Trame verte",def:"Réseau d’espaces végétalisés pour biodiversité et confort."},
+        {term:"Trame bleue",def:"Réseau lié à l’eau : rivières, canaux, bassins, continuités."},
+        {term:"Front bâti",def:"Ligne continue de façades définissant l’espace de rue."},
+        {term:"Gabarit urbain",def:"Hauteur/volume de référence dans une rue ou un quartier."},
+        {term:"Perméabilité",def:"Facilité de traverser un tissu urbain (passages, connexions)."},
+        {term:"Polarité",def:"Point d’attraction (gare, place, équipement majeur)."},
+      ]},
+      struct: { label:"Pack Structure (Moyen)", xpRequired:60, items:[
+        {term:"Poutre",def:"Élément horizontal reprenant les charges et les transmettant aux appuis."},
+        {term:"Poteau",def:"Élément vertical porteur qui supporte poutres et planchers."},
+        {term:"Dalle",def:"Élément de plancher (souvent béton) portant entre appuis."},
+        {term:"Voile",def:"Mur porteur (souvent BA) travaillant au cisaillement."},
+        {term:"Fondations",def:"Éléments transmettant les charges du bâtiment au sol."},
+        {term:"Radier",def:"Dalle de fondation continue répartissant les charges."},
+        {term:"Semelle",def:"Fondation linéaire/isolée sous mur ou poteau."},
+        {term:"Portée",def:"Distance entre deux appuis d’un élément porteur."},
+        {term:"Contreventement",def:"Système assurant stabilité face au vent/séisme."},
+        {term:"Cisaillement",def:"Effort interne dû au glissement relatif de sections."},
+        {term:"Flèche",def:"Déformation verticale d’une poutre/dalle sous charge."},
+        {term:"Ferraillage",def:"Disposition des armatures d’acier dans le béton armé."},
+        {term:"Moment",def:"Effort de flexion causant rotation/curvature d’un élément."},
+        {term:"Appui",def:"Point/ligne de support transmettant les charges."},
+        {term:"Linteau",def:"Petite poutre au-dessus d’une ouverture."},
+        {term:"Console",def:"Élément en porte-à-faux ancré d’un côté."},
+      ]},
+      enveloppe: { label:"Pack Enveloppe & Façades (Moyen)", xpRequired:110, items:[
+        {term:"Isolation",def:"Réduction des pertes de chaleur et/ou du bruit."},
+        {term:"Pont thermique",def:"Zone où l’isolation est interrompue, causant déperditions."},
+        {term:"Pare-vapeur",def:"Membrane limitant diffusion de vapeur d’eau vers parois froides."},
+        {term:"Étanchéité",def:"Protection contre l’eau et infiltrations (toiture, façade…)."},
+        {term:"Mur rideau",def:"Façade non porteuse suspendue à la structure (souvent vitrée)."},
+        {term:"Bardage",def:"Revêtement extérieur rapporté (bois, métal, composite…)."},
+        {term:"Brise-soleil",def:"Protection solaire limitant surchauffe et éblouissement."},
+        {term:"Double peau",def:"Façade à deux couches avec lame d’air."},
+        {term:"Acrotère",def:"Relevé en bord de toiture-terrasse masquant l’étanchéité."},
+        {term:"Lanterneau",def:"Ouverture en toiture apportant lumière zénithale."},
+        {term:"Menuiserie",def:"Éléments ouvrants : fenêtres, portes, châssis."},
+        {term:"Vitrage",def:"Verre simple/double/triple influençant isolation et apports."},
+        {term:"U-value",def:"Coefficient de transmission thermique (plus bas = mieux)."},
+        {term:"Ventilation",def:"Renouvellement d’air : naturel ou mécanique."},
+      ]},
+      bim: { label:"Pack BIM & Chantier (Difficile)", xpRequired:260, items:[
+        {term:"BIM",def:"Méthode basée sur maquette numérique et données partagées."},
+        {term:"LOD",def:"Niveau de détail d’un modèle (Level of Development/Detail)."},
+        {term:"Clash detection",def:"Détection de conflits entre réseaux/structure/architecture."},
+        {term:"DOE",def:"Dossier des ouvrages exécutés : documents fin de chantier."},
+        {term:"CCTP",def:"Cahier des clauses techniques particulières (spécifications)."},
+        {term:"DCE",def:"Dossier de consultation des entreprises (appel d’offres)."},
+        {term:"OPC",def:"Ordonnancement, pilotage, coordination (planning chantier)."},
+        {term:"Réserves",def:"Liste des défauts à corriger avant réception."},
+        {term:"Réception",def:"Acte marquant la fin des travaux et transfert au maître d’ouvrage."},
+        {term:"Levée de réserves",def:"Correction des réserves signalées lors de la réception."},
+        {term:"Phasage",def:"Découpage du projet en étapes de réalisation."},
+        {term:"Synthèse",def:"Coordination des plans (CVC, élec, plomberie, archi, structure)."},
+      ]},
+      eco: { label:"Pack Éco & Confort (Difficile+)", xpRequired:340, items:[
+        {term:"Bioclimatique",def:"Conception tirant parti du climat pour le confort."},
+        {term:"Inertie",def:"Capacité d’un matériau à stocker/diffuser la chaleur."},
+        {term:"Ventilation naturelle",def:"Renouvellement d’air via tirage/ouvrants sans machines."},
+        {term:"Déphasage",def:"Retard de propagation de chaleur à travers une paroi."},
+        {term:"Facteur solaire (g)",def:"Part d’énergie solaire transmise par le vitrage."},
+        {term:"Confort d’été",def:"Stratégies contre surchauffe : ombrage, ventilation, inertie."},
+        {term:"Confort acoustique",def:"Réduction bruits + maîtrise réverbération."},
+        {term:"Éclairage naturel",def:"Optimisation de la lumière du jour, limitation éblouissement."},
+        {term:"Perméabilité à l’air",def:"Étanchéité à l’air de l’enveloppe (infiltrations)."},
+        {term:"Îlot de chaleur",def:"Surchauffe urbaine liée surfaces minérales et manque végétation."},
+        {term:"Réemploi",def:"Réutilisation de matériaux/éléments pour réduire impact carbone."},
+        {term:"Matériaux bas carbone",def:"Matériaux à faible impact CO₂ (bois, terre crue…)."},
+      ]},
+    };
+
+    // ===== DOM =====
+    const termsList = document.getElementById("termsList");
+    const defsList  = document.getElementById("defsList");
+    const packSelect = document.getElementById("packSelect");
+    const shuffleBtn = document.getElementById("shuffleBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const checkBtn = document.getElementById("checkBtn");
+    const showAnswersBtn = document.getElementById("showAnswersBtn");
+    const hideAnswersBtn = document.getElementById("hideAnswersBtn");
+    const msg = document.getElementById("msg");
+    const progressPill = document.getElementById("progressPill");
+    const progressBar = document.getElementById("progressBar");
+
+    const linkArea = document.getElementById("linkArea");
+    const linksSvg = document.getElementById("linksSvg");
+
+    const xpText = document.getElementById("xpText");
+    const comboText = document.getElementById("comboText");
+    const levelText = document.getElementById("levelText");
+    const giftText = document.getElementById("giftText");
+
+    const hintBtn = document.getElementById("hintBtn");
+    const musicBtn = document.getElementById("musicBtn");
+    const musicMode = document.getElementById("musicMode");
+    const challengeBtn = document.getElementById("challengeBtn");
+    const openGiftBtn = document.getElementById("openGiftBtn");
+
+    const toast = document.getElementById("toast");
+    const fxCanvas = document.getElementById("fxCanvas");
+    const fxCtx = fxCanvas.getContext("2d");
+
+    const giftModal = document.getElementById("giftModal");
+    const giftTitle = document.getElementById("giftTitle");
+    const giftDesc  = document.getElementById("giftDesc");
+    const closeGift = document.getElementById("closeGift");
+    const claimGift = document.getElementById("claimGift");
+    const laterGift = document.getElementById("laterGift");
+
+    // ===== STATE =====
+    let current = [];
+    let links = new Map(); // term -> def
+    let selectedTerm = null;
+
+    let xp = Number(localStorage.getItem("tp_xp") || 0);
+    let gifts = Number(localStorage.getItem("tp_gifts") || 0);
+    let combo = 0;
+
+    // مستويات: كل 120 XP = Level جديد (تقدر تغييره)
+    const XP_PER_LEVEL = 120;
+    let level = Number(localStorage.getItem("tp_level") || 1);
+    let pendingGift = JSON.parse(localStorage.getItem("tp_pendingGift") || "null");
+
+    // Hint limit يزيد مع المستوى (أساسي 2)
+    let hintsLeft = 2;
+
+    // Challenge
+    let challenge = { on:false, endsAt:0, timerId:null };
+
+    // ===== UI helpers =====
+    function toastMsg(text){
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(()=>toast.classList.remove("show"), 1200);
+    }
+    function setMsg(text, type){
+      msg.className = "msg";
+      if(type === "ok") msg.classList.add("ok");
+      if(type === "bad") msg.classList.add("bad");
+      msg.textContent = text;
+    }
+
+    function shuffleArray(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]] = [arr[j],arr[i]];
       }
-    });
+      return arr;
+    }
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, s => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[s]));
+    }
 
-    document.querySelectorAll(".play-link").forEach(link => {
-      link.addEventListener("click", (e) => {
-        if(!isLoggedIn){
-          e.preventDefault();
-          showLoginModal();
+    // ===== Confetti =====
+    function resizeFx(){ fxCanvas.width = window.innerWidth; fxCanvas.height = window.innerHeight; }
+    resizeFx(); window.addEventListener("resize", resizeFx);
+    function burstConfetti(){
+      const parts=[];
+      for(let i=0;i<160;i++){
+        parts.push({x:innerWidth/2,y:innerHeight*0.22,vx:(Math.random()*2-1)*8,vy:(Math.random()*-1)*10-3,r:Math.random()*4+2,a:1});
+      }
+      const start=performance.now();
+      function tick(t){
+        fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+        parts.forEach(p=>{
+          p.vy+=0.35; p.x+=p.vx; p.y+=p.vy; p.a*=0.985;
+          fxCtx.globalAlpha=Math.max(0,p.a);
+          fxCtx.beginPath(); fxCtx.arc(p.x,p.y,p.r,0,Math.PI*2); fxCtx.fill();
+        });
+        fxCtx.globalAlpha=1;
+        if(t-start<900) requestAnimationFrame(tick); else fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // ===== Pack unlock =====
+    function refreshPackOptions(keepSelection){
+      const prev = packSelect.value || "archi";
+      packSelect.innerHTML = "";
+      Object.keys(packs).forEach(k=>{
+        const p = packs[k];
+        const locked = xp < p.xpRequired;
+        const opt = document.createElement("option");
+        opt.value = k;
+        opt.disabled = locked;
+        opt.textContent = locked ? `🔒 ${p.label} — ${p.xpRequired} XP` : `✅ ${p.label}`;
+        packSelect.appendChild(opt);
+      });
+      if(keepSelection && [...packSelect.options].some(o=>o.value===prev && !o.disabled)){
+        packSelect.value = prev;
+      }else{
+        const firstUnlocked = [...packSelect.options].find(o=>!o.disabled);
+        if(firstUnlocked) packSelect.value = firstUnlocked.value;
+      }
+    }
+
+    // ===== Level system + Gifts =====
+    function calcLevelFromXP(x){ return Math.max(1, Math.floor(x / XP_PER_LEVEL) + 1); }
+
+    function syncMeta(){
+      levelText.textContent = level;
+      xpText.textContent = xp;
+      comboText.textContent = `x${combo}`;
+      giftText.textContent = gifts;
+      hintsLeft = Math.max(2, 2 + Math.floor((level-1)/2)); // كل مستويين +1 Hint base
+      hintBtn.textContent = `💡 Hint (${hintsLeft})`;
+      openGiftBtn.textContent = pendingGift ? "🎁 Ouvrir (1)" : "🎁 Ouvrir";
+    }
+
+    function addXP(amount){
+      xp += amount;
+      localStorage.setItem("tp_xp", String(xp));
+      refreshPackOptions(true);
+
+      const newLevel = calcLevelFromXP(xp);
+      if(newLevel > level){
+        // Level Up!
+        level = newLevel;
+        localStorage.setItem("tp_level", String(level));
+        toastMsg(`⬆️ Level ${level}!`);
+        burstConfetti();
+        createGiftForLevel(level);
+      }
+
+      syncMeta();
+    }
+
+    function createGiftForLevel(lvl){
+      // لو في Gift ما تزال ما تفتحتش، ما نخلقش ثانية
+      if(pendingGift) return;
+
+      // Gift logic: تناوب بين (XP bonus) (Extra hint once) (Unlock pack early)
+      let gift = null;
+
+      if(lvl % 5 === 0){
+        gift = { type:"XP", title:"💎 Bonus XP", desc:"+80 XP مكافأة إنجاز!", value:80 };
+      } else if(lvl % 3 === 0){
+        gift = { type:"HINT", title:"🧠 Hint إضافية", desc:"+2 Hints في الجولة القادمة", value:2 };
+      } else {
+        gift = { type:"COIN", title:"🎁 صندوق مفاجأة", desc:"+20 XP + تأثير احتفالي", value:20 };
+      }
+
+      pendingGift = gift;
+      localStorage.setItem("tp_pendingGift", JSON.stringify(pendingGift));
+      toastMsg("🎁 عندك هدية جديدة!");
+      syncMeta();
+    }
+
+    function openGiftModal(){
+      if(!pendingGift){
+        toastMsg("ما كاش هدية حالياً 😊");
+        return;
+      }
+      giftTitle.textContent = pendingGift.title;
+      giftDesc.textContent  = pendingGift.desc;
+      giftModal.classList.add("show");
+    }
+
+    function closeGiftModal(){ giftModal.classList.remove("show"); }
+
+    function claimPendingGift(){
+      if(!pendingGift) return;
+
+      const g = pendingGift;
+
+      if(g.type === "XP"){
+        addXP(g.value);
+        toastMsg(`🎉 +${g.value} XP`);
+      } else if(g.type === "HINT"){
+        // نخليها Bonus للجولة القادمة: تخزين مؤقت
+        const bonus = Number(localStorage.getItem("tp_hintBonus") || 0) + g.value;
+        localStorage.setItem("tp_hintBonus", String(bonus));
+        toastMsg(`💡 +${g.value} Hint (الجولة القادمة)`);
+      } else {
+        addXP(g.value);
+        toastMsg(`🎊 +${g.value} XP`);
+        burstConfetti();
+      }
+
+      gifts += 1;
+      localStorage.setItem("tp_gifts", String(gifts));
+
+      pendingGift = null;
+      localStorage.setItem("tp_pendingGift", "null");
+
+      syncMeta();
+      closeGiftModal();
+    }
+
+    // ===== Music (Calm Piano / Sleep / Hype) =====
+    // نولّد موسيقى “ناعمة” (غير مزعجة) بتوقيت بطيء + volume منخفض
+    const Music = (() => {
+      let ctx=null, master=null, filter=null, revDelay=null, revGain=null;
+      let timer=null, started=false;
+      let isOn = (localStorage.getItem("tp_music") ?? "1") === "1";
+      let mode = localStorage.getItem("tp_musicMode") || "piano";
+      const scale = [0,2,3,5,7,8,10]; // minor-ish
+      let root = 220; // A3
+      let step = 0;
+
+      function ensure(){
+        if(ctx) return;
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if(!AC) return;
+        ctx = new AC();
+
+        master = ctx.createGain();
+        master.gain.value = 0.10; // منخفض
+        master.connect(ctx.destination);
+
+        filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.value = 1600;
+        filter.Q.value = 0.7;
+        filter.connect(master);
+
+        // simple “reverb-ish”: delay feedback low + subtle
+        revDelay = ctx.createDelay(1.0);
+        revDelay.delayTime.value = 0.18;
+        revGain = ctx.createGain();
+        revGain.gain.value = 0.18;
+
+        revDelay.connect(revGain);
+        revGain.connect(revDelay);
+
+        // mix into filter
+        revDelay.connect(filter);
+      }
+
+      function midiToHz(m){ return 440 * Math.pow(2, (m-69)/12); }
+
+      function note(freq, dur=0.7, type="sine", vol=0.12){
+        if(!ctx) return;
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = type;
+        o.frequency.value = freq;
+
+        // attack/decay gentle
+        const t = ctx.currentTime;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(vol, t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+
+        o.connect(g);
+        g.connect(filter);
+        // send a bit to "reverb"
+        g.connect(revDelay);
+
+        o.start(t);
+        o.stop(t + dur + 0.05);
+      }
+
+      function chord(baseHz, softness=1){
+        // triad-ish (minor): root, m3, 5
+        const r=baseHz, m3=baseHz*Math.pow(2,3/12), p5=baseHz*Math.pow(2,7/12);
+        note(r, 1.2*softness, "sine", 0.06);
+        note(m3, 1.1*softness, "triangle", 0.045);
+        note(p5, 1.0*softness, "sine", 0.040);
+      }
+
+      function tick(){
+        if(!ctx || !isOn) return;
+
+        // slowly drift root for variation
+        const baseMidi = 57 + (step % 4)*2; // A3-ish drift
+        root = midiToHz(baseMidi);
+
+        if(mode === "sleep"){
+          master.gain.value = 0.075;
+          filter.frequency.setTargetAtTime(900, ctx.currentTime, 0.08);
+          chord(root/2, 1.4);
+          // occasional very soft sparkle
+          if(step % 3 === 0){
+            const m = 72 + scale[Math.floor(Math.random()*scale.length)];
+            note(midiToHz(m), 0.8, "sine", 0.015);
+          }
         }
+        else if(mode === "piano"){
+          master.gain.value = 0.095;
+          filter.frequency.setTargetAtTime(1400, ctx.currentTime, 0.08);
+
+          // soft piano-ish: sine + quick decay
+          const m = 60 + scale[Math.floor(Math.random()*scale.length)];
+          note(midiToHz(m), 0.55, "sine", 0.04);
+          if(step % 4 === 0) note(midiToHz(m-12), 0.7, "triangle", 0.03);
+          if(step % 6 === 0) chord(root, 1.0);
+        }
+        else { // hype soft (ليس مزعج)
+          master.gain.value = 0.11;
+          filter.frequency.setTargetAtTime(1800, ctx.currentTime, 0.08);
+
+          // simple arpeggio
+          const base = 60 + scale[(step)%scale.length];
+          note(midiToHz(base), 0.25, "square", 0.018); // square very low volume
+          note(midiToHz(base+7), 0.22, "triangle", 0.020);
+          if(step % 4 === 0) note(midiToHz(base-12), 0.35, "sine", 0.028);
+        }
+
+        step++;
+      }
+
+      function start(){
+        if(!isOn) return;
+        ensure();
+        if(!ctx) return;
+        if(ctx.state === "suspended") ctx.resume();
+        if(timer) clearInterval(timer);
+
+        // depending on mode, tempo
+        const ms = mode === "sleep" ? 1600 : (mode === "piano" ? 950 : 520);
+        timer = setInterval(tick, ms);
+        if(!started){ started=true; }
+        tick();
+      }
+
+      function stop(){
+        if(timer) clearInterval(timer);
+        timer=null;
+      }
+
+      function toggle(){
+        isOn = !isOn;
+        localStorage.setItem("tp_music", isOn ? "1" : "0");
+        if(isOn) start(); else stop();
+      }
+
+      function setMode(m){
+        mode = m;
+        localStorage.setItem("tp_musicMode", mode);
+        if(isOn) start();
+      }
+
+      function armAutoStart(){
+        const once = () => {
+          document.removeEventListener("pointerdown", once);
+          if(isOn) start();
+        };
+        document.addEventListener("pointerdown", once, { once:true });
+      }
+
+      return {
+        get isOn(){ return isOn; },
+        get mode(){ return mode; },
+        start, stop, toggle, setMode, armAutoStart
+      };
+    })();
+
+    function updateMusicUI(){
+      musicBtn.textContent = Music.isOn ? "🔊 Music" : "🔇 Music";
+      musicMode.value = Music.mode;
+    }
+
+    // ===== Round size by Level =====
+    function getRoundSize(){
+      // يبدأ بـ 6، يزيد تدريجياً حتى 12
+      return Math.min(12, 6 + Math.floor((level-1)/2));
+    }
+
+    // ===== Build game =====
+    function build(){
+      const key = packSelect.value || "archi";
+      const pack = packs[key] || packs.archi;
+
+      // pick subset based on level
+      const size = getRoundSize();
+      const pool = [...pack.items];
+      shuffleArray(pool);
+      current = pool.slice(0, Math.min(size, pool.length));
+
+      // hint limit: base + bonus from gifts (once)
+      const bonus = Number(localStorage.getItem("tp_hintBonus") || 0);
+      localStorage.setItem("tp_hintBonus","0");
+      hintsLeft = Math.max(2, 2 + Math.floor((level-1)/2)) + bonus;
+
+      const terms = shuffleArray(current.map(x => x.term));
+      const defs  = shuffleArray(current.map(x => x.def));
+
+      termsList.innerHTML = "";
+      defsList.innerHTML  = "";
+      linksSvg.innerHTML  = "";
+      links.clear();
+      selectedTerm = null;
+
+      terms.forEach((term) => {
+        const row = document.createElement("div");
+        row.className = "item link-item";
+        row.dataset.type = "term";
+        row.dataset.value = term;
+        row.innerHTML = `<div class="term">${escapeHtml(term)}</div>`;
+        row.addEventListener("click", () => onTermClick(row));
+        termsList.appendChild(row);
       });
+
+      defs.forEach((def, idx) => {
+        const row = document.createElement("div");
+        row.className = "item link-item";
+        row.dataset.type = "def";
+        row.dataset.value = def;
+        row.innerHTML = `<div class="def"><b>${idx+1}.</b> ${escapeHtml(def)}</div>`;
+        row.addEventListener("click", () => onDefClick(row));
+        defsList.appendChild(row);
+      });
+
+      updateProgress();
+      setMsg(`Level ${level} — اربط ${current.length} مصطلحات ✨`, "");
+      redrawAll();
+      syncMeta();
+    }
+
+    function updateProgress(){
+      const total = current.length;
+      const filled = links.size;
+      progressPill.textContent = `${filled} / ${total}`;
+      progressBar.style.width = (total ? Math.round((filled/total)*100) : 0) + "%";
+    }
+
+    function clearSelected(){
+      document.querySelectorAll(".link-item.selected").forEach(x => x.classList.remove("selected"));
+    }
+
+    function onTermClick(el){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      clearSelected();
+      selectedTerm = el.dataset.value;
+      el.classList.add("selected");
+      combo = Math.max(0, combo - 1);
+      syncMeta();
+    }
+
+    function onDefClick(defEl){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      if(!selectedTerm){
+        setMsg("اختر term أولاً ثم اختر تعريفاً.", "bad");
+        toastMsg("👆 اختَر المصطلح أولاً!");
+        return;
+      }
+
+      const def = defEl.dataset.value;
+      const term = selectedTerm;
+
+      // def linked to one term only
+      for(const [t, d] of links.entries()){
+        if(d === def && t !== term) links.delete(t);
+      }
+
+      links.set(term, def);
+      clearSelected(); selectedTerm = null;
+
+      combo = Math.min(9, combo + 1);
+
+      // تشجيع بسيط
+      const cheers = ["✅ Nice!", "✨ Bravo!", "🔥 Excellent!", "🚀 Continue!", "💎 Perfect!"];
+      toastMsg(combo >= 3 ? `🔥 Combo x${combo}!` : cheers[Math.floor(Math.random()*cheers.length)]);
+
+      // XP صغير على كل ربط
+      addXP(1 + combo);
+
+      updateProgress();
+      redrawAll();
+      syncMeta();
+    }
+
+    function findItem(type, value){
+      return document.querySelector(`.link-item[data-type="${type}"][data-value="${CSS.escape(value)}"]`);
+    }
+
+    function redrawAll(){
+      linksSvg.innerHTML = `
+        <defs>
+          <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <path d="M0,0 L10,3 L0,6 Z" fill="rgba(225,29,46,.85)"></path>
+          </marker>
+        </defs>
+      `;
+      document.querySelectorAll(".link-item").forEach(el=> el.classList.remove("matched","wrong"));
+
+      for(const [term, def] of links.entries()){
+        const termEl = findItem("term", term);
+        const defEl  = findItem("def", def);
+        if(!termEl || !defEl) continue;
+        drawArrow(termEl, defEl);
+      }
+    }
+
+    function drawArrow(fromEl, toEl){
+      const areaRect = linkArea.getBoundingClientRect();
+      const a = fromEl.getBoundingClientRect();
+      const b = toEl.getBoundingClientRect();
+
+      const x1 = (a.right - areaRect.left);
+      const y1 = (a.top + a.height/2 - areaRect.top);
+      const x2 = (b.left - areaRect.left);
+      const y2 = (b.top + b.height/2 - areaRect.top);
+
+      const dx = Math.max(60, (x2 - x1) * 0.5);
+      const c1x = x1 + dx, c1y = y1;
+      const c2x = x2 - dx, c2y = y2;
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+      path.setAttribute("d", `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`);
+      path.setAttribute("fill","none");
+      path.setAttribute("stroke","rgba(225,29,46,.85)");
+      path.setAttribute("stroke-width","3");
+      path.setAttribute("marker-end","url(#arrowHead)");
+      path.setAttribute("opacity","0.95");
+      linksSvg.appendChild(path);
+    }
+
+    window.addEventListener("resize", redrawAll);
+    window.addEventListener("scroll", redrawAll, true);
+
+    // ===== Actions =====
+    function check(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+
+      const total = current.length;
+      if(links.size < total){
+        setMsg(`كمّل كل الروابط (${links.size}/${total}).`, "bad");
+        toastMsg("⚠️ باقي روابط ناقصة!");
+        combo = 0; syncMeta();
+        return;
+      }
+
+      const map = new Map(current.map(x => [x.term, x.def]));
+      let correct = 0;
+
+      for(const [term, def] of links.entries()){
+        const ok = (map.get(term) === def);
+        const termEl = findItem("term", term);
+        const defEl  = findItem("def", def);
+        if(ok){
+          correct++;
+          termEl && termEl.classList.add("matched");
+          defEl && defEl.classList.add("matched");
+        } else {
+          termEl && termEl.classList.add("wrong");
+          defEl && defEl.classList.add("wrong");
+        }
+      }
+
+      if(correct === total){
+        setMsg(`أسطوري! ✅ Score: ${correct}/${total}.`, "ok");
+        toastMsg("🏆 Perfect! +60 XP");
+        addXP(60);
+        burstConfetti();
+
+        // انتقال تلقائي لمستوى/جولة جديدة (إحساس Progress)
+        setTimeout(()=>{ build(); }, 700);
+      } else {
+        setMsg(`Score: ${correct}/${total}. حاول تضبط الأخطاء!`, "bad");
+        toastMsg(correct >= Math.ceil(total*0.7) ? "👏 ممتاز! قربت!" : "💪 جرّب ثانية!");
+        addXP(8 + correct);
+      }
+
+      combo = 0;
+      syncMeta();
+    }
+
+    function showAnswers(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      links.clear();
+      current.forEach(x => links.set(x.term, x.def));
+      updateProgress(); redrawAll();
+      setMsg("Réponses affichées 👁️", "ok");
+      toastMsg("👁️ هاك التصحيح!");
+    }
+
+    function hideAnswers(){
+      links.clear();
+      updateProgress(); redrawAll();
+      setMsg("Réponses masquées 🙈", "");
+      toastMsg("🙈 رجّعناها للعبة!");
+    }
+
+    function reset(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      hideAnswers();
+      combo = 0;
+      build();
+      toastMsg("↺ نبدأ من جديد!");
+    }
+
+    function giveHint(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      if(hintsLeft <= 0){
+        toastMsg("😄 خلصت الـHints!");
+        return;
+      }
+      const unlinked = current.map(x=>x.term).filter(t => !links.has(t));
+      if(!unlinked.length){
+        toastMsg("✨ ما بقا شي!");
+        return;
+      }
+      const term = unlinked[Math.floor(Math.random()*unlinked.length)];
+      const def = current.find(x=>x.term===term)?.def;
+      if(def){
+        links.set(term, def);
+        hintsLeft--;
+        toastMsg("💡 Hint: ربطت لك واحد!");
+        addXP(6);
+        updateProgress();
+        redrawAll();
+        syncMeta();
+      }
+    }
+
+    function startChallenge(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+
+      challenge.on = true;
+      challenge.endsAt = Date.now() + 60000;
+      toastMsg("⏱️ Défi 60s بدأ!");
+      addXP(6);
+      build();
+
+      clearInterval(challenge.timerId);
+      challenge.timerId = setInterval(()=>{
+        const left = Math.max(0, challenge.endsAt - Date.now());
+        const sec = Math.ceil(left/1000);
+        challengeBtn.textContent = left > 0 ? `⏱️ ${sec}s` : "⏱️ Défi 60s";
+        if(left <= 0){
+          clearInterval(challenge.timerId);
+          challenge.on = false;
+          toastMsg("⏰ انتهى! اضغط Vérifier");
+          challengeBtn.textContent = "⏱️ Défi 60s";
+        }
+      }, 250);
+    }
+
+    // ===== Init =====
+    function init(){
+      // music
+      Music.armAutoStart();
+      updateMusicUI();
+
+      // packs
+      refreshPackOptions(false);
+
+      // level from xp (safety)
+      const newLevel = calcLevelFromXP(xp);
+      if(newLevel !== level){
+        level = newLevel;
+        localStorage.setItem("tp_level", String(level));
+      }
+
+      syncMeta();
+
+      // build
+      build();
+
+      // if pending gift
+      if(pendingGift) toastMsg("🎁 عندك هدية! اضغط Ouvrir");
+    }
+
+    // ===== Events =====
+    packSelect.addEventListener("change", build);
+    shuffleBtn.addEventListener("click", build);
+    resetBtn.addEventListener("click", reset);
+    checkBtn.addEventListener("click", check);
+    showAnswersBtn.addEventListener("click", showAnswers);
+    hideAnswersBtn.addEventListener("click", hideAnswers);
+    hintBtn.addEventListener("click", giveHint);
+    challengeBtn.addEventListener("click", startChallenge);
+
+    musicBtn.addEventListener("click", ()=>{
+      Music.toggle();
+      updateMusicUI();
+      toastMsg(Music.isOn ? "🔊 Music ON" : "🔇 Music OFF");
+      if(Music.isOn) Music.start();
+    });
+    musicMode.addEventListener("change", ()=>{
+      Music.setMode(musicMode.value);
+      updateMusicUI();
+      toastMsg("🎼 Mode changé");
     });
 
-    const searchInput = document.getElementById("searchInput");
-    const cards = Array.from(document.querySelectorAll(".game"));
-    const segButtons = Array.from(document.querySelectorAll(".seg button"));
-    let activeFilter = "all";
+    openGiftBtn.addEventListener("click", openGiftModal);
+    closeGift.addEventListener("click", closeGiftModal);
+    laterGift.addEventListener("click", closeGiftModal);
+    claimGift.addEventListener("click", claimPendingGift);
+    giftModal.addEventListener("click", (e)=>{ if(e.target === giftModal) closeGiftModal(); });
 
-    function applyFilters(){
-      const q = (searchInput?.value || "").trim().toLowerCase();
-
-      cards.forEach(card => {
-        const section = card.closest(".section")?.getAttribute("data-section") || "";
-        const hay = (
-          (card.getAttribute("data-title") || "") + " " +
-          (card.getAttribute("data-desc") || "") + " " +
-          (card.getAttribute("data-tags") || "")
-        ).toLowerCase();
-
-        const matchesSearch = !q || hay.includes(q);
-        const matchesFilter = (activeFilter === "all") || (section === activeFilter);
-
-        card.style.display = (matchesSearch && matchesFilter) ? "" : "none";
-      });
-
-      document.querySelectorAll(".section").forEach(sec => {
-        const anyVisible = Array.from(sec.querySelectorAll(".game")).some(g => g.style.display !== "none");
-        sec.style.display = anyVisible ? "" : "none";
-      });
-    }
-
-    if(searchInput){
-      searchInput.addEventListener("input", applyFilters);
-    }
-    segButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        segButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        activeFilter = btn.getAttribute("data-filter") || "all";
-        applyFilters();
-      });
-    });
-
-    const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if(!prefersReduced){
-      cards.forEach(card => {
-        card.addEventListener("mousemove", (e) => {
-          const r = card.getBoundingClientRect();
-          const px = (e.clientX - r.left) / r.width;
-          const py = (e.clientY - r.top) / r.height;
-          const rx = (py - 0.5) * -10;
-          const ry = (px - 0.5) * 10;
-          card.style.transform = `translateY(-10px) scale(1.01) rotateX(${rx}deg) rotateY(${ry}deg)`;
-        });
-        card.addEventListener("mouseleave", () => {
-          card.style.transform = "";
-        });
-      });
-    }
-
+    // anti context menu (كما كان)
     document.addEventListener("contextmenu", (e)=>e.preventDefault());
     document.addEventListener("keydown", (e)=>{
       if(e.key === "F12") e.preventDefault();
       if(e.ctrlKey && (e.key === "u" || e.key === "U" || e.key === "s" || e.key === "S")) e.preventDefault();
       if(e.ctrlKey && e.shiftKey && ["I","i","J","j","C","c"].includes(e.key)) e.preventDefault();
     });
+
+    init();
   </script>
 </body>
 </html>
