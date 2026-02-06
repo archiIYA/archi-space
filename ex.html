@@ -9,7 +9,7 @@
   <style>
     :root{
       --red:#e11d2e; --red2:#ff2d2d; --dark:#0b0f14;
-      --glass: rgba(255,255,255,.78);
+      --glass: rgba(255,255,255,.80);
       --border: rgba(225,29,46,.22);
       --shadow: 0 18px 50px rgba(0,0,0,.12);
       --radius: 22px;
@@ -49,13 +49,13 @@
     }
     .brand{display:flex;align-items:center;gap:12px;padding:10px 10px 14px;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:12px;}
     .brand img{width:48px;height:48px;border-radius:14px;object-fit:cover;border:1px solid rgba(225,29,46,.25);background:#fff;padding:6px;box-shadow:0 10px 30px rgba(225,29,46,.10);}
-    .brand h1{font-size:1.05rem;font-weight:900;color:#111}
+    .brand h1{font-size:1.05rem;font-weight:1000;color:#111}
     .side-actions{display:grid;gap:10px;margin-top:12px}
 
     .btn{
       border:none; cursor:pointer;
       padding: 11px 12px; border-radius: 14px;
-      font-weight: 900; transition: .2s;
+      font-weight: 1000; transition: .2s;
       text-decoration:none; display:inline-flex;
       align-items:center; justify-content:center; gap: 8px;
       user-select:none; box-shadow: 0 8px 22px rgba(0,0,0,.06);
@@ -65,7 +65,7 @@
     .btn:hover{transform: translateY(-2px);}
 
     .nav{margin-top:14px;display:grid;gap:10px;}
-    .nav-title{font-size:.84rem;color:rgba(0,0,0,.60);padding:8px 10px 0;font-weight:800;}
+    .nav-title{font-size:.84rem;color:rgba(0,0,0,.60);padding:8px 10px 0;font-weight:900;}
     .nav a{
       text-decoration:none;color:#111;
       padding:12px 12px;border-radius:14px;background:#fff;
@@ -79,7 +79,7 @@
       font-size:.75rem;padding:5px 10px;border-radius:999px;
       background: rgba(225,29,46,.08);
       border: 1px solid rgba(225,29,46,.18);
-      color: var(--red); font-weight: 900; white-space: nowrap;
+      color: var(--red); font-weight: 1000; white-space: nowrap;
     }
 
     .main{padding: 18px 16px 40px;}
@@ -92,14 +92,14 @@
       margin-bottom:16px;flex-wrap:wrap;
     }
     .title h2{font-size:1.25rem;font-weight:1000;color:#111;display:flex;align-items:center;gap:8px;}
-    .title p{margin-top:4px;font-size:.92rem;color:rgba(0,0,0,.62);font-weight:800;}
+    .title p{margin-top:4px;font-size:.92rem;color:rgba(0,0,0,.62);font-weight:900;}
 
     .chip{
       padding:8px 12px;border-radius:999px;
       border:1px solid rgba(225,29,46,.20);
       background: rgba(225,29,46,.06);
       color: var(--red);
-      font-weight: 900; font-size:.84rem; white-space:nowrap;
+      font-weight: 1000; font-size:.84rem; white-space:nowrap;
     }
 
     .card{background:#fff;border:1px solid rgba(225,29,46,.18);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);}
@@ -110,9 +110,8 @@
     .select{
       appearance:none;border:1px solid rgba(225,29,46,.20);
       border-radius:14px;padding:10px 12px;background:#fff;
-      font-weight:900;color:#111;cursor:pointer;min-width:240px;
+      font-weight:1000;color:#111;cursor:pointer;min-width:240px;
     }
-
     .small-btn{
       border:none; cursor:pointer;
       padding:10px 12px;border-radius:14px;
@@ -125,8 +124,6 @@
     .small-btn:hover{transform: translateY(-2px);}
     .small-btn.primary{background: linear-gradient(135deg, var(--red), var(--red2)); color:#fff;border:none;}
     .small-btn[disabled]{opacity:.55;cursor:not-allowed;transform:none!important;}
-
-    .score{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;}
 
     .hud{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
     .hud-item{
@@ -172,7 +169,7 @@
     }
     @keyframes pulseGlow{from{box-shadow:0 10px 30px rgba(225,29,46,.08);}to{box-shadow:0 18px 60px rgba(225,29,46,.22);}}
     .link-item.matched{border-color: rgba(10,122,42,.30);background: linear-gradient(180deg,#fff,#f4fff7);animation: pop .25s ease-out;}
-    .link-item.wrong{border-color: rgba(225,29,46,.35);}
+    .link-item.wrong{border-color: rgba(225,29,46,.40);}
     @keyframes pop{0%{transform:scale(.98);}100%{transform:scale(1);}}
 
     .result{
@@ -183,23 +180,67 @@
     .msg.ok{color:var(--ok);}
     .msg.bad{color:var(--red);}
 
+    /* Toast */
     .toast{
       position:fixed;left:50%;bottom:22px;transform:translateX(-50%);
       background: rgba(15,20,26,.92); color:#fff; padding:12px 14px;border-radius:16px;
       font-weight:1000; z-index:999; box-shadow:0 24px 90px rgba(0,0,0,.22);
       opacity:0; pointer-events:none; transition:.25s;
+      display:flex; align-items:center; gap:10px;
     }
     .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px);}
+    .toast .dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--red),var(--red2));}
     #fxCanvas{position:fixed;inset:0;pointer-events:none;z-index:999;}
 
-    /* ===== Wheel Modal ===== */
+    /* Level Up overlay */
+    .levelup{
+      position:fixed; inset:0;
+      display:none;
+      align-items:center; justify-content:center;
+      z-index:1200;
+      background: radial-gradient(circle at 50% 40%, rgba(225,29,46,.18), rgba(0,0,0,.55));
+      backdrop-filter: blur(6px);
+    }
+    .levelup.show{display:flex;}
+    .level-card{
+      width:min(560px, 92vw);
+      background:#fff;
+      border-radius:22px;
+      border:1px solid rgba(225,29,46,.20);
+      box-shadow:0 30px 110px rgba(0,0,0,.28);
+      padding:16px;
+      text-align:center;
+      transform: translateY(8px);
+      animation: levelPop .35s ease-out forwards;
+    }
+    @keyframes levelPop{to{transform:translateY(0)}}
+    .level-card h3{
+      font-size:1.4rem;
+      font-weight:1000;
+      margin-bottom:6px;
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .level-card p{font-weight:900;color:rgba(0,0,0,.70);line-height:1.7}
+    .level-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+    .badge{
+      padding:10px 12px;border-radius:16px;
+      border:1px solid rgba(225,29,46,.18);
+      background: rgba(225,29,46,.06);
+      font-weight:1000;
+      color:#111;
+    }
+
+    /* Modal base */
     .modal{
       position: fixed; inset: 0; background: rgba(0,0,0,.35);
       display:none; align-items:center; justify-content:center; padding:18px; z-index:1000;
     }
     .modal.show{display:flex;}
     .modal-box{
-      width:min(640px, 100%);
+      width:min(680px, 100%);
       background:#fff;border-radius:22px;border:1px solid rgba(225,29,46,.22);
       box-shadow:0 30px 90px rgba(0,0,0,.22); padding:16px;
     }
@@ -218,6 +259,7 @@
       cursor:pointer;
     }
 
+    /* Wheel */
     .wheel-wrap{
       display:grid;
       grid-template-columns: 1fr;
@@ -228,70 +270,36 @@
     }
     .wheel-stage{
       position:relative;
-      width:min(360px, 86vw);
+      width:min(380px, 88vw);
       aspect-ratio: 1/1;
       border-radius: 999px;
       display:grid;
       place-items:center;
-      box-shadow: 0 24px 80px rgba(225,29,46,.16);
+      box-shadow: 0 24px 80px rgba(225,29,46,.18);
     }
-    #wheelCanvas{
-      width:100%; height:100%;
-      border-radius:999px;
-      border: 10px solid rgba(225,29,46,.15);
-      background: #fff;
-    }
+    #wheelCanvas{width:100%;height:100%;border-radius:999px;border:10px solid rgba(225,29,46,.15);background:#fff;}
     .pointer{
-      position:absolute;
-      top:-10px;
-      left:50%;
-      transform: translateX(-50%);
+      position:absolute; top:-12px; left:50%; transform: translateX(-50%);
       width:0;height:0;
       border-left:14px solid transparent;
       border-right:14px solid transparent;
       border-bottom:22px solid rgba(225,29,46,.95);
-      filter: drop-shadow(0 10px 14px rgba(0,0,0,.14));
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,.16));
       z-index: 5;
     }
     .wheel-center{
       position:absolute;
-      width: 108px; height:108px;
+      width: 110px; height:110px;
       border-radius:999px;
       background: linear-gradient(135deg, var(--red), var(--red2));
       display:grid; place-items:center;
       box-shadow: 0 16px 40px rgba(225,29,46,.22);
       border: 8px solid rgba(255,255,255,.92);
       z-index: 4;
+      user-select:none;
     }
-    .wheel-center b{
-      color:#fff;
-      font-weight:1000;
-      font-size: .98rem;
-      text-align:center;
-      line-height:1.1;
-      padding: 0 10px;
-    }
-    .wheel-sub{
-      width:100%;
-      border-top:1px solid rgba(0,0,0,.06);
-      padding-top:10px;
-      display:grid; gap:8px;
-    }
-    .note{
-      font-weight:900;
-      color: rgba(0,0,0,.62);
-      line-height: 1.6;
-      font-size: .9rem;
-      background: rgba(225,29,46,.05);
-      border: 1px solid rgba(225,29,46,.15);
-      border-radius: 16px;
-      padding: 10px 12px;
-    }
-    .hype{
-      font-weight:1000;
-      font-size: 1rem;
-      color:#111;
-    }
+    .wheel-center b{color:#fff;font-weight:1000;font-size:.95rem;text-align:center;line-height:1.1;padding:0 10px}
+
     .resultBox{
       font-weight:1000;
       border-radius: 16px;
@@ -302,15 +310,54 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
+      width:100%;
     }
     .resultBox span{opacity:.9;font-weight:900}
     .resultBox b{font-size:1.1rem}
+
+    .note{
+      font-weight:900;
+      color: rgba(0,0,0,.62);
+      line-height: 1.6;
+      font-size: .9rem;
+      background: rgba(225,29,46,.05);
+      border: 1px solid rgba(225,29,46,.15);
+      border-radius: 16px;
+      padding: 10px 12px;
+      width:100%;
+    }
+
     .actionsRow{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
       justify-content:flex-end;
       width:100%;
+    }
+
+    /* Prize modal */
+    .prize-card{
+      border:1px solid rgba(225,29,46,.18);
+      border-radius:18px;
+      padding:12px;
+      background: linear-gradient(180deg,#fff,#fff7f8);
+      display:grid; gap:10px;
+    }
+    .prize-big{
+      font-weight:1000;
+      font-size:1.1rem;
+      color:#111;
+      display:flex; align-items:center; gap:10px;
+    }
+    .code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px dashed rgba(225,29,46,.28);
+      background: rgba(225,29,46,.05);
+      font-weight:1000;
+      letter-spacing: .8px;
+      user-select: all;
     }
 
     /* Mobile */
@@ -320,6 +367,7 @@
     .mbrand{display:flex;align-items:center;gap:10px;}
     .mbrand img{width:38px;height:38px;border-radius:12px;border:1px solid rgba(225,29,46,.22);background:#fff;padding:5px;}
     .mbrand b{font-weight:1000;color:#111}
+    .overlay{display:none}
 
     @media (max-width: 980px){
       .app{grid-template-columns: 1fr;}
@@ -334,9 +382,9 @@
       .controls{gap:8px;}
       .controls .left-ctrl{width:100%;}
       .select{width:100%;min-width:100%;}
-      .score{width:100%;justify-content:space-between;}
       .small-btn{flex:1 1 auto;}
       #checkBtn{flex: 1 1 100%;}
+      .hud-item{min-width: 46%;}
     }
   </style>
 </head>
@@ -361,14 +409,16 @@
         <img src="logotrendy.svg" alt="Trendy Plaza Logo">
         <div><h1>Trendy Plaza</h1></div>
       </div>
+
       <div class="side-actions">
         <a class="btn primary" href="divertissement.html">⟵ Retour</a>
         <a class="btn ghost" href="lecteur.html">📚 Lecteur</a>
       </div>
+
       <div class="nav">
         <div class="nav-title">Jeu</div>
-        <a href="#jeu"><span>🔗 Associe le terme</span><span class="pill">Levels</span></a>
-        <a href="#regles"><span>🎡 Wheel</span><span class="pill">Gift</span></a>
+        <a href="#jeu"><span>🔗 Associe le terme</span><span class="pill">Hype</span></a>
+        <a href="#rewards"><span>🎁 Rewards</span><span class="pill">500 XP</span></a>
       </div>
     </aside>
 
@@ -377,8 +427,9 @@
         <div class="topbar">
           <div class="title">
             <h2>🔗 Associe le terme</h2>
-            <p>مستويات + عجلة هدايا 🎡 (شفافية: النتيجة دائمًا 0%)</p>
+            <p>اربط… اجمع XP… و كل 500 نقطة 🎡 Spin هدية!</p>
           </div>
+
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;">
             <span class="chip" id="authChip">Vérification de connexion…</span>
             <a class="btn ghost" href="divertissement.html">Retour aux jeux</a>
@@ -397,11 +448,20 @@
               <div class="hud-item"><span class="hud-label">🎚️ Level</span><b id="levelText">1</b></div>
               <div class="hud-item"><span class="hud-label">⭐ XP</span><b id="xpText">0</b></div>
               <div class="hud-item"><span class="hud-label">🔥 Combo</span><b id="comboText">x0</b></div>
-              <div class="hud-item"><span class="hud-label">🎁 Gifts</span><b id="giftText">0</b></div>
+              <div class="hud-item"><span class="hud-label">🎁 Next Gift</span><b id="giftAtText">500</b></div>
 
               <button class="small-btn" id="hintBtn">💡 Hint</button>
               <button class="small-btn" id="challengeBtn">⏱️ Défi 60s</button>
-              <button class="small-btn" id="openWheelBtn">🎡 Wheel</button>
+
+              <select class="select" id="musicMode" style="min-width:190px">
+                <option value="piano">🎹 Piano Calm</option>
+                <option value="sleep">🌙 Sleep Pad</option>
+                <option value="hype">⚡ Hype Soft</option>
+              </select>
+              <button class="small-btn" id="musicBtn">🔊 Music</button>
+
+              <input id="vol" type="range" min="0" max="100" value="35" style="accent-color: var(--red); width:120px;">
+              <button class="small-btn primary" id="openWheelBtn">🎡 Spin</button>
             </div>
 
             <div class="score">
@@ -435,32 +495,47 @@
           </div>
         </section>
 
-        <section id="regles" class="card" style="margin-top:16px;">
+        <section id="rewards" class="card" style="margin-top:16px;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(0,0,0,.06);padding-bottom:10px;margin-bottom:10px;">
-            <h3 style="font-weight:1000;">🎡 عجلة الهدية</h3>
-            <span class="pill">Transparent</span>
+            <h3 style="font-weight:1000;">🎁 Rewards</h3>
+            <span class="pill">كل 500 XP</span>
           </div>
           <div style="color:rgba(0,0,0,.70);font-weight:900;line-height:1.8;">
             <ul style="padding-left:18px;display:grid;gap:6px;">
-              <li>تظهر العجلة عند <b>Level Up</b> أو من زر Wheel.</li>
-              <li><b>شفافية</b>: العجلة “رمزية للمتعة” والنتيجة دائمًا <b>0%</b>.</li>
-              <li>تحصل مع ذلك على <b>Bonus XP رمزي</b> حتى لو التخفيض 0%.</li>
+              <li>كل ما تجمع XP… يزيد Level ويفتح Packs.</li>
+              <li>كل <b>500 XP</b> تتحصل على <b>Spin Wheel</b> تلقائيًا.</li>
+              <li>الجوائز: خصومات رمزية + محتوى مجاني (قابل للربط لاحقًا بمتجرك).</li>
             </ul>
           </div>
         </section>
-
       </div>
     </main>
   </div>
 
   <canvas id="fxCanvas"></canvas>
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast"><span class="dot"></span><span id="toastText">…</span></div>
+
+  <!-- Level Up Overlay -->
+  <div class="levelup" id="levelUpOverlay">
+    <div class="level-card">
+      <h3 id="levelUpTitle">LEVEL UP!</h3>
+      <p id="levelUpDesc">…</p>
+      <div class="level-row">
+        <span class="badge" id="lvlBadge">🎚️ Level 1</span>
+        <span class="badge" id="unlockBadge">🔓 Unlocked: —</span>
+        <span class="badge" id="giftBadge">🎡 Gift: Ready</span>
+      </div>
+      <div class="level-row" style="margin-top:12px">
+        <button class="small-btn primary" id="levelUpContinue">🚀 Continue</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Wheel Modal -->
   <div class="modal" id="wheelModal">
     <div class="modal-box">
       <div class="modal-head">
-        <h3>🎡 عجلة التخفيضات (رمزية)</h3>
+        <h3>🎡 Spin & Win</h3>
         <button class="close" id="closeWheel">Fermer ✕</button>
       </div>
 
@@ -471,36 +546,41 @@
           <div class="wheel-center"><b>SPIN<br/>NOW</b></div>
         </div>
 
-        <div class="wheel-sub">
-          <div class="hype" id="wheelHype">جاهز؟ لفّ العجلة! 🔥</div>
-          <div class="resultBox">
-            <span>النتيجة</span>
-            <b id="wheelResult">—</b>
-          </div>
-          <div class="note">
-            ✅ <b>شفافية كاملة:</b> هذه العجلة للمتعة فقط، ونتيجتها دائمًا <b>0%</b>.<br/>
-            🎁 لكن نعطيك <b>Bonus XP</b> رمزي بعد الدوران.
-          </div>
-          <div class="actionsRow">
-            <button class="small-btn" id="oddsBtn">📊 Odds</button>
-            <button class="small-btn primary" id="spinBtn">🎯 Spin!</button>
-          </div>
+        <div class="resultBox">
+          <span>النتيجة</span>
+          <b id="wheelResult">—</b>
+        </div>
+
+        <div class="note" id="wheelNote">
+          🔥 لفّ العجلة! الجوائز: تخفيضات رمزية + محتوى مجاني + Bonus XP.
+        </div>
+
+        <div class="actionsRow">
+          <button class="small-btn" id="copyCodeBtn" disabled>📋 Copy Code</button>
+          <button class="small-btn primary" id="spinBtn">🎯 Spin!</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Odds Modal (mini) -->
-  <div class="modal" id="oddsModal">
+  <!-- Prize Modal -->
+  <div class="modal" id="prizeModal">
     <div class="modal-box">
       <div class="modal-head">
-        <h3>📊 Odds (شفافية)</h3>
-        <button class="close" id="closeOdds">Fermer ✕</button>
+        <h3>🎉 Congrats!</h3>
+        <button class="close" id="closePrize">Fermer ✕</button>
       </div>
-      <div class="note" style="font-size:.95rem">
-        هذه العجلة “رمزية للمتعة”.<br/>
-        <b>النتيجة دائمًا 0%.</b><br/>
-        حتى مع ذلك: تحصل على <b>Bonus XP</b> بعد كل Spin ✅
+      <div class="prize-card">
+        <div class="prize-big" id="prizeTitle">—</div>
+        <div style="font-weight:900;color:rgba(0,0,0,.70);line-height:1.7" id="prizeDesc">—</div>
+        <div>
+          <div style="font-weight:1000;margin-bottom:6px;">Coupon Code</div>
+          <div class="code" id="prizeCode">—</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+          <button class="small-btn" id="copyPrize">📋 Copy</button>
+          <button class="small-btn primary" id="claimPrize">✅ Claim</button>
+        </div>
       </div>
     </div>
   </div>
@@ -527,7 +607,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
   <script>
-    // ===== Sidebar =====
+    /***********************
+     * UI: Sidebar
+     ***********************/
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
     const openMenu = document.getElementById("openMenu");
@@ -535,7 +617,9 @@
     function closeSidebar(){ sidebar.classList.remove("open"); overlay.classList.remove("show"); }
     if(openMenu){ openMenu.addEventListener("click", openSidebar); overlay.addEventListener("click", closeSidebar); }
 
-    // ===== Firebase Auth =====
+    /***********************
+     * Auth (Firebase)
+     ***********************/
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "TrendyPlaza-72624.firebaseapp.com",
@@ -559,43 +643,291 @@
       if(!isLoggedIn) showLoginModal();
     });
 
-    // ===== DATA =====
+    /***********************
+     * Toast + FX
+     ***********************/
+    const toast = document.getElementById("toast");
+    const toastText = document.getElementById("toastText");
+    function toastMsg(text){
+      toastText.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(()=>toast.classList.remove("show"), 1200);
+    }
+
+    const fxCanvas = document.getElementById("fxCanvas");
+    const fxCtx = fxCanvas.getContext("2d");
+    function resizeFx(){ fxCanvas.width = window.innerWidth; fxCanvas.height = window.innerHeight; }
+    resizeFx(); window.addEventListener("resize", resizeFx);
+
+    function burstConfetti(intensity=180){
+      const parts=[];
+      for(let i=0;i<intensity;i++){
+        parts.push({
+          x:innerWidth/2,
+          y:innerHeight*0.22,
+          vx:(Math.random()*2-1)*8,
+          vy:(Math.random()*-1)*10-3,
+          r:Math.random()*4+2,
+          a:1
+        });
+      }
+      const start=performance.now();
+      function tick(t){
+        fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+        parts.forEach(p=>{
+          p.vy+=0.35; p.x+=p.vx; p.y+=p.vy; p.a*=0.985;
+          fxCtx.globalAlpha=Math.max(0,p.a);
+          fxCtx.beginPath(); fxCtx.arc(p.x,p.y,p.r,0,Math.PI*2); fxCtx.fill();
+        });
+        fxCtx.globalAlpha=1;
+        if(t-start<900) requestAnimationFrame(tick); else fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    /***********************
+     * Sound + Music (WebAudio)
+     * - Starts after first user gesture
+     ***********************/
+    const musicBtn = document.getElementById("musicBtn");
+    const musicMode = document.getElementById("musicMode");
+    const vol = document.getElementById("vol");
+
+    const Sound = (() => {
+      let ctx=null, master=null, musicBus=null, fxBus=null, filter=null, delay=null, delayGain=null;
+      let musicTimer=null, step=0;
+      let mode = localStorage.getItem("tp_musicMode") || "piano";
+      let musicOn = (localStorage.getItem("tp_musicOn") ?? "1") === "1";
+      let volume = Number(localStorage.getItem("tp_volume") || 35);
+
+      const scaleMinor = [0,2,3,5,7,8,10];
+      function ensure(){
+        if(ctx) return;
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if(!AC) return;
+        ctx = new AC();
+
+        master = ctx.createGain();
+        musicBus = ctx.createGain();
+        fxBus = ctx.createGain();
+        filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.value = 1700;
+        filter.Q.value = 0.7;
+
+        delay = ctx.createDelay(1.0);
+        delay.delayTime.value = 0.18;
+        delayGain = ctx.createGain();
+        delayGain.gain.value = 0.18;
+
+        delay.connect(delayGain);
+        delayGain.connect(delay);
+
+        musicBus.connect(filter);
+        fxBus.connect(master);
+        filter.connect(master);
+        delay.connect(filter);
+
+        master.connect(ctx.destination);
+        setVolume(volume);
+      }
+
+      function setVolume(v){
+        volume = v;
+        localStorage.setItem("tp_volume", String(volume));
+        if(master) master.gain.value = Math.max(0.0001, volume/100) * 0.35;
+      }
+
+      function midiToHz(m){ return 440 * Math.pow(2, (m-69)/12); }
+
+      function note(freq, dur=0.6, type="sine", gain=0.06, toDelay=0.2, bus="music"){
+        if(!ctx) return;
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = type;
+        o.frequency.value = freq;
+
+        const t = ctx.currentTime;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(gain, t+0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+
+        o.connect(g);
+        const targetBus = (bus==="fx") ? fxBus : musicBus;
+        g.connect(targetBus);
+        const dSend = ctx.createGain();
+        dSend.gain.value = toDelay;
+        g.connect(dSend);
+        dSend.connect(delay);
+
+        o.start(t);
+        o.stop(t+dur+0.05);
+      }
+
+      function chord(rootHz, softness=1){
+        // minor triad
+        note(rootHz, 1.2*softness, "sine", 0.035, 0.18);
+        note(rootHz*Math.pow(2,3/12), 1.1*softness, "triangle", 0.028, 0.16);
+        note(rootHz*Math.pow(2,7/12), 1.0*softness, "sine", 0.025, 0.14);
+      }
+
+      function musicTick(){
+        if(!ctx || !musicOn) return;
+        if(mode==="sleep"){
+          filter.frequency.setTargetAtTime(900, ctx.currentTime, 0.08);
+          const baseMidi = 52 + (step%4)*2;
+          const root = midiToHz(baseMidi);
+          chord(root/2, 1.5);
+          if(step%3===0){
+            const m = 72 + scaleMinor[Math.floor(Math.random()*scaleMinor.length)];
+            note(midiToHz(m), 0.8, "sine", 0.015, 0.28);
+          }
+        }else if(mode==="piano"){
+          filter.frequency.setTargetAtTime(1400, ctx.currentTime, 0.08);
+          const m = 60 + scaleMinor[Math.floor(Math.random()*scaleMinor.length)];
+          note(midiToHz(m), 0.55, "sine", 0.045, 0.22);
+          if(step%4===0) note(midiToHz(m-12), 0.7, "triangle", 0.03, 0.22);
+          if(step%6===0) chord(midiToHz(57), 1.0);
+        }else{
+          filter.frequency.setTargetAtTime(1800, ctx.currentTime, 0.08);
+          const base = 60 + scaleMinor[(step)%scaleMinor.length];
+          note(midiToHz(base), 0.25, "square", 0.018, 0.20);
+          note(midiToHz(base+7), 0.22, "triangle", 0.020, 0.18);
+          if(step%4===0) note(midiToHz(base-12), 0.35, "sine", 0.028, 0.22);
+        }
+        step++;
+      }
+
+      function startMusic(){
+        if(!musicOn) return;
+        ensure();
+        if(!ctx) return;
+        if(ctx.state==="suspended") ctx.resume();
+        stopMusic();
+        const ms = mode==="sleep" ? 1600 : (mode==="piano" ? 950 : 520);
+        musicTimer = setInterval(musicTick, ms);
+        musicTick();
+      }
+      function stopMusic(){
+        if(musicTimer) clearInterval(musicTimer);
+        musicTimer=null;
+      }
+      function toggleMusic(){
+        musicOn = !musicOn;
+        localStorage.setItem("tp_musicOn", musicOn ? "1":"0");
+        if(musicOn) startMusic(); else stopMusic();
+      }
+      function setMode(m){
+        mode = m;
+        localStorage.setItem("tp_musicMode", mode);
+        if(musicOn) startMusic();
+      }
+
+      // FX
+      function fxClick(){ ensure(); if(!ctx) return; note(520,0.08,"sine",0.03,0.05,"fx"); }
+      function fxGood(){ ensure(); if(!ctx) return; note(660,0.12,"triangle",0.05,0.10,"fx"); note(880,0.14,"sine",0.04,0.12,"fx"); }
+      function fxBad(){ ensure(); if(!ctx) return; note(220,0.14,"sawtooth",0.03,0.06,"fx"); }
+      function fxLevel(){ ensure(); if(!ctx) return; note(523.25,0.14,"triangle",0.06,0.16,"fx"); note(659.25,0.16,"sine",0.05,0.18,"fx"); note(783.99,0.18,"sine",0.04,0.20,"fx"); }
+      function fxSpin(){ ensure(); if(!ctx) return; note(300,0.08,"square",0.02,0.10,"fx"); }
+
+      function armAutoStart(){
+        const once = () => {
+          document.removeEventListener("pointerdown", once);
+          ensure();
+          if(!ctx) return;
+          if(ctx.state==="suspended") ctx.resume();
+          startMusic();
+        };
+        document.addEventListener("pointerdown", once, { once:true });
+      }
+
+      return {
+        get mode(){ return mode; },
+        get musicOn(){ return musicOn; },
+        get volume(){ return volume; },
+        setVolume,
+        setMode,
+        toggleMusic,
+        startMusic,
+        armAutoStart,
+        fxClick, fxGood, fxBad, fxLevel, fxSpin
+      };
+    })();
+
+    function syncMusicUI(){
+      musicMode.value = Sound.mode;
+      musicBtn.textContent = Sound.musicOn ? "🔊 Music" : "🔇 Music";
+      vol.value = Sound.volume;
+    }
+
+    /***********************
+     * Game Data (كثييير كلمات)
+     ***********************/
     const packs = {
       archi: { label:"Pack Architecture (Facile)", xpRequired:0, items:[
         {term:"Façade",def:"Face extérieure d’un bâtiment : composition, ouvertures, matériaux."},
         {term:"Plan",def:"Représentation à plat d’un niveau : pièces, murs, circulations."},
         {term:"Coupe",def:"Dessin vertical montrant l’intérieur, les hauteurs et les niveaux."},
         {term:"Élévation",def:"Vue orthogonale d’un côté du bâtiment (sans perspective)."},
-        {term:"Axonométrie",def:"Projection 3D sans point de fuite, utile pour lire les volumes."},
+        {term:"Perspective",def:"Représentation donnant profondeur et volume (points de fuite)."},
+        {term:"Axonométrie",def:"Projection 3D sans point de fuite, lecture claire des volumes."},
         {term:"Maquette",def:"Modèle réduit pour comprendre volumes, lumière et implantation."},
         {term:"Trémie",def:"Ouverture dans un plancher (escalier, ascenseur)."},
         {term:"Atrium",def:"Grand vide central souvent couvert, distribuant les espaces."},
         {term:"Patio",def:"Cour intérieure apportant lumière, ventilation et intimité."},
+        {term:"Modénature",def:"Détails/reliefs d’une façade (corniches, encadrements…)."},
         {term:"Gabarit",def:"Enveloppe volumétrique : hauteur, alignement, limites."},
-        {term:"Modénature",def:"Jeu des reliefs/détails d’une façade (corniches, encadrements…)."},
         {term:"Circulation",def:"Organisation des flux et déplacements dans/autour du projet."},
+        {term:"Programme",def:"Liste des fonctions et besoins : usages, surfaces, contraintes."},
+        {term:"Parvis",def:"Espace d’accueil devant un bâtiment (place, élargissement…)."},
+        {term:"Seuil",def:"Zone de transition intérieur/extérieur (entrée, porche…)."},
+        {term:"Lumière zénithale",def:"Lumière venant du haut (lanterneau, verrière, puits de lumière)."},
+        {term:"Verrière",def:"Couverture vitrée apportant lumière naturelle."},
       ]},
       urban: { label:"Pack Urbanisme (Facile)", xpRequired:0, items:[
         {term:"Trame viaire",def:"Organisation du réseau des rues, axes et voies."},
-        {term:"Zonage",def:"Découpage du territoire selon les usages (habitat, industrie…)."},
+        {term:"Zonage",def:"Découpage selon les usages (habitat, industrie, équipements…)."},
         {term:"Densité",def:"Rapport entre quantité construite/population et surface."},
         {term:"Mobilité",def:"Déplacements et modes de transport associés."},
         {term:"Espace public",def:"Lieu accessible à tous : rues, places, parcs…"},
         {term:"Îlot",def:"Ensemble bâti délimité par des voies (bloc urbain)."},
-        {term:"Parcelle",def:"Unité foncière de propriété, support d’un projet."},
+        {term:"Parcelle",def:"Unité foncière support d’un projet."},
+        {term:"Alignement",def:"Ligne d’implantation des façades le long de la rue."},
         {term:"Mixité",def:"Coexistence de fonctions : logement, commerce, équipements…"},
+        {term:"Centralité",def:"Lieu structurant concentrant activités et services."},
+        {term:"Trame verte",def:"Réseau d’espaces végétalisés pour confort et biodiversité."},
+        {term:"Perméabilité",def:"Facilité de traverser le tissu urbain (passages, connexions)."},
       ]},
-      struct: { label:"Pack Structure (Moyen)", xpRequired:60, items:[
-        {term:"Poutre",def:"Élément horizontal reprenant les charges et les transmettant aux appuis."},
-        {term:"Poteau",def:"Élément vertical porteur qui supporte poutres et planchers."},
+      struct: { label:"Pack Structure (Moyen)", xpRequired:250, items:[
+        {term:"Poutre",def:"Élément horizontal portant des charges et les transmettant."},
+        {term:"Poteau",def:"Élément vertical porteur supportant poutres et planchers."},
         {term:"Dalle",def:"Élément de plancher portant entre appuis."},
-        {term:"Voile",def:"Mur porteur travaillant au cisaillement."},
+        {term:"Voile",def:"Mur porteur travaillant au cisaillement (stabilité)."},
+        {term:"Fondations",def:"Éléments transmettant les charges du bâtiment au sol."},
         {term:"Contreventement",def:"Système assurant stabilité face au vent/séisme."},
+        {term:"Cisaillement",def:"Effort interne lié au glissement entre sections."},
+        {term:"Flèche",def:"Déformation verticale d’une poutre/dalle sous charge."},
         {term:"Ferraillage",def:"Disposition des armatures d’acier dans le béton armé."},
+        {term:"Portée",def:"Distance entre deux appuis d’un élément porteur."},
+      ]},
+      enveloppe: { label:"Pack Enveloppe & Façades (Moyen)", xpRequired:600, items:[
+        {term:"Isolation",def:"Réduction des pertes de chaleur et/ou du bruit."},
+        {term:"Pont thermique",def:"Zone où l’isolation est interrompue, causant déperditions."},
+        {term:"Pare-vapeur",def:"Membrane limitant diffusion de vapeur d’eau vers parois froides."},
+        {term:"Étanchéité",def:"Protection contre l’eau et infiltrations (toiture, façade…)."},
+        {term:"Mur rideau",def:"Façade non porteuse suspendue à la structure (souvent vitrée)."},
+        {term:"Bardage",def:"Revêtement extérieur rapporté (bois, métal, composite…)."},
+        {term:"Brise-soleil",def:"Protection solaire limitant surchauffe et éblouissement."},
+        {term:"Acrotère",def:"Relevé en bord de toiture-terrasse masquant l’étanchéité."},
+        {term:"Lanterneau",def:"Ouverture en toiture apportant lumière zénithale."},
+        {term:"U-value",def:"Coefficient de transmission thermique (plus bas = mieux)."},
       ]},
     };
 
-    // ===== DOM =====
+    /***********************
+     * DOM
+     ***********************/
     const termsList = document.getElementById("termsList");
     const defsList  = document.getElementById("defsList");
     const packSelect = document.getElementById("packSelect");
@@ -613,59 +945,62 @@
     const xpText = document.getElementById("xpText");
     const comboText = document.getElementById("comboText");
     const levelText = document.getElementById("levelText");
-    const giftText = document.getElementById("giftText");
+    const giftAtText = document.getElementById("giftAtText");
+
     const hintBtn = document.getElementById("hintBtn");
     const challengeBtn = document.getElementById("challengeBtn");
 
-    const toast = document.getElementById("toast");
-    const fxCanvas = document.getElementById("fxCanvas");
-    const fxCtx = fxCanvas.getContext("2d");
+    // Level up overlay
+    const levelUpOverlay = document.getElementById("levelUpOverlay");
+    const levelUpTitle = document.getElementById("levelUpTitle");
+    const levelUpDesc = document.getElementById("levelUpDesc");
+    const lvlBadge = document.getElementById("lvlBadge");
+    const unlockBadge = document.getElementById("unlockBadge");
+    const giftBadge = document.getElementById("giftBadge");
+    const levelUpContinue = document.getElementById("levelUpContinue");
 
-    // Wheel
+    // Wheel + prize
     const openWheelBtn = document.getElementById("openWheelBtn");
     const wheelModal = document.getElementById("wheelModal");
     const closeWheel = document.getElementById("closeWheel");
     const spinBtn = document.getElementById("spinBtn");
     const wheelCanvas = document.getElementById("wheelCanvas");
     const wheelResult = document.getElementById("wheelResult");
-    const wheelHype = document.getElementById("wheelHype");
+    const wheelNote = document.getElementById("wheelNote");
+    const copyCodeBtn = document.getElementById("copyCodeBtn");
 
-    const oddsBtn = document.getElementById("oddsBtn");
-    const oddsModal = document.getElementById("oddsModal");
-    const closeOdds = document.getElementById("closeOdds");
+    const prizeModal = document.getElementById("prizeModal");
+    const closePrize = document.getElementById("closePrize");
+    const prizeTitle = document.getElementById("prizeTitle");
+    const prizeDesc = document.getElementById("prizeDesc");
+    const prizeCode = document.getElementById("prizeCode");
+    const copyPrize = document.getElementById("copyPrize");
+    const claimPrize = document.getElementById("claimPrize");
 
-    // ===== STATE =====
+    /***********************
+     * State
+     ***********************/
     let current = [];
     let links = new Map(); // term -> def
     let selectedTerm = null;
 
+    // XP/Level
     let xp = Number(localStorage.getItem("tp_xp") || 0);
-    let gifts = Number(localStorage.getItem("tp_gifts") || 0);
+    let level = Number(localStorage.getItem("tp_level") || 1);
     let combo = 0;
 
     const XP_PER_LEVEL = 120;
-    let level = Number(localStorage.getItem("tp_level") || 1);
+    const GIFT_EVERY = 500;
 
+    let nextGiftAt = Number(localStorage.getItem("tp_nextGiftAt") || GIFT_EVERY);
+
+    // Hint / Challenge
     let hintsLeft = 2;
     let challenge = { on:false, endsAt:0, timerId:null };
 
-    // Wheel state
-    let wheelAngle = 0; // radians
-    let spinning = false;
-
-    // ===== Helpers =====
-    function toastMsg(text){
-      toast.textContent = text;
-      toast.classList.add("show");
-      clearTimeout(toast._t);
-      toast._t = setTimeout(()=>toast.classList.remove("show"), 1200);
-    }
-    function setMsg(text, type){
-      msg.className = "msg";
-      if(type === "ok") msg.classList.add("ok");
-      if(type === "bad") msg.classList.add("bad");
-      msg.textContent = text;
-    }
+    /***********************
+     * Utilities
+     ***********************/
     function shuffleArray(arr){
       for(let i=arr.length-1;i>0;i--){
         const j = Math.floor(Math.random()*(i+1));
@@ -679,29 +1014,9 @@
       }[s]));
     }
 
-    // ===== Confetti =====
-    function resizeFx(){ fxCanvas.width = window.innerWidth; fxCanvas.height = window.innerHeight; }
-    resizeFx(); window.addEventListener("resize", resizeFx);
-    function burstConfetti(){
-      const parts=[];
-      for(let i=0;i<160;i++){
-        parts.push({x:innerWidth/2,y:innerHeight*0.22,vx:(Math.random()*2-1)*8,vy:(Math.random()*-1)*10-3,r:Math.random()*4+2,a:1});
-      }
-      const start=performance.now();
-      function tick(t){
-        fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
-        parts.forEach(p=>{
-          p.vy+=0.35; p.x+=p.vx; p.y+=p.vy; p.a*=0.985;
-          fxCtx.globalAlpha=Math.max(0,p.a);
-          fxCtx.beginPath(); fxCtx.arc(p.x,p.y,p.r,0,Math.PI*2); fxCtx.fill();
-        });
-        fxCtx.globalAlpha=1;
-        if(t-start<900) requestAnimationFrame(tick); else fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
-      }
-      requestAnimationFrame(tick);
-    }
+    function calcLevelFromXP(x){ return Math.max(1, Math.floor(x / XP_PER_LEVEL) + 1); }
+    function getRoundSize(){ return Math.min(12, 6 + Math.floor((level-1)/2)); }
 
-    // ===== Packs =====
     function refreshPackOptions(keepSelection){
       const prev = packSelect.value || "archi";
       packSelect.innerHTML = "";
@@ -714,6 +1029,7 @@
         opt.textContent = locked ? `🔒 ${p.label} — ${p.xpRequired} XP` : `✅ ${p.label}`;
         packSelect.appendChild(opt);
       });
+
       if(keepSelection && [...packSelect.options].some(o=>o.value===prev && !o.disabled)){
         packSelect.value = prev;
       }else{
@@ -722,40 +1038,79 @@
       }
     }
 
-    // ===== Level =====
-    function calcLevelFromXP(x){ return Math.max(1, Math.floor(x / XP_PER_LEVEL) + 1); }
-    function getRoundSize(){ return Math.min(10, 6 + Math.floor((level-1)/2)); }
-
     function syncMeta(){
       levelText.textContent = level;
       xpText.textContent = xp;
       comboText.textContent = `x${combo}`;
-      giftText.textContent = gifts;
+      giftAtText.textContent = nextGiftAt;
 
-      // base hints per round
       hintsLeft = Math.max(2, 2 + Math.floor((level-1)/2));
       hintBtn.textContent = `💡 Hint (${hintsLeft})`;
     }
 
-    function addXP(amount){
+    function setMsg(text, type){
+      msg.className = "msg";
+      if(type === "ok") msg.classList.add("ok");
+      if(type === "bad") msg.classList.add("bad");
+      msg.textContent = text;
+    }
+
+    /***********************
+     * XP / LevelUp / Gift logic
+     ***********************/
+    function addXP(amount, reason=""){
       xp += amount;
       localStorage.setItem("tp_xp", String(xp));
       refreshPackOptions(true);
 
+      // Gift check (every 500 XP)
+      if(xp >= nextGiftAt){
+        while(xp >= nextGiftAt) nextGiftAt += GIFT_EVERY;
+        localStorage.setItem("tp_nextGiftAt", String(nextGiftAt));
+        toastMsg("🎁 Gift Ready! Spin the Wheel!");
+        burstConfetti(130);
+        openWheel(true); // auto
+      }
+
+      // Level up check
       const newLevel = calcLevelFromXP(xp);
       if(newLevel > level){
+        const prevLevel = level;
         level = newLevel;
         localStorage.setItem("tp_level", String(level));
-        toastMsg(`⬆️ Level ${level}! 🎡`);
-        burstConfetti();
-        // عند Level up افتح العجلة مباشرة
-        openWheel();
+        Sound.fxLevel();
+        burstConfetti(220);
+        showLevelUp(prevLevel, level);
       }
 
       syncMeta();
+      if(reason) { /* optional hook */ }
     }
 
-    // ===== Build Game =====
+    function showLevelUp(from, to){
+      // Find newly unlocked packs (by xp)
+      const unlocked = Object.keys(packs)
+        .filter(k => xp >= packs[k].xpRequired)
+        .map(k => packs[k].label);
+
+      levelUpTitle.textContent = `LEVEL UP! 🚀`;
+      levelUpDesc.textContent = `وصلت للمستوى ${to} — كمل… راك سخون 🔥`;
+      lvlBadge.textContent = `🎚️ Level ${to}`;
+      unlockBadge.textContent = `🔓 Unlocked: ${unlocked[unlocked.length-1] || "—"}`;
+      giftBadge.textContent = `🎡 Gift كل ${GIFT_EVERY} XP`;
+
+      levelUpOverlay.classList.add("show");
+      toastMsg(`⬆️ Level ${to}!`);
+    }
+
+    levelUpContinue.addEventListener("click", ()=>{
+      levelUpOverlay.classList.remove("show");
+      toastMsg("💥 كمل! خلينا نكسر الأرقام!");
+    });
+
+    /***********************
+     * Build game (arrows)
+     ***********************/
     function build(){
       const key = packSelect.value || "archi";
       const pack = packs[key] || packs.archi;
@@ -795,7 +1150,7 @@
       });
 
       updateProgress();
-      setMsg(`Level ${level} — اربط ${current.length} مصطلحات ✨`, "");
+      setMsg(`Level ${level} — اربط ${current.length} مصطلحات… وخلّي الـCombo يطلع 🔥`, "");
       redrawAll();
       syncMeta();
     }
@@ -806,40 +1161,50 @@
       progressPill.textContent = `${filled} / ${total}`;
       progressBar.style.width = (total ? Math.round((filled/total)*100) : 0) + "%";
     }
+
     function clearSelected(){
       document.querySelectorAll(".link-item.selected").forEach(x => x.classList.remove("selected"));
     }
+
     function onTermClick(el){
       if(!isLoggedIn){ showLoginModal(); return; }
+      Sound.fxClick();
       clearSelected();
       selectedTerm = el.dataset.value;
       el.classList.add("selected");
-      combo = Math.max(0, combo - 1);
-      syncMeta();
     }
+
     function onDefClick(defEl){
       if(!isLoggedIn){ showLoginModal(); return; }
+      Sound.fxClick();
+
       if(!selectedTerm){
         setMsg("اختر term أولاً ثم اختر تعريفاً.", "bad");
         toastMsg("👆 اختَر المصطلح أولاً!");
+        combo = 0;
+        syncMeta();
         return;
       }
 
       const def = defEl.dataset.value;
       const term = selectedTerm;
 
+      // prevent same def linked twice
       for(const [t, d] of links.entries()){
         if(d === def && t !== term) links.delete(t);
       }
       links.set(term, def);
 
-      clearSelected(); selectedTerm = null;
-      combo = Math.min(9, combo + 1);
+      clearSelected();
+      selectedTerm = null;
 
-      const cheers = ["✅ Nice!", "✨ Bravo!", "🔥 Excellent!", "🚀 Continue!", "💎 Perfect!"];
-      toastMsg(combo >= 3 ? `🔥 Combo x${combo}!` : cheers[Math.floor(Math.random()*cheers.length)]);
-      addXP(1 + combo);
+      // Combo + XP
+      combo = Math.min(12, combo + 1);
 
+      const cheers = ["🔥 نار!", "✨ برافو!", "🚀 كمل!", "💎 رهيب!", "⚡ سريع!"];
+      toastMsg(combo >= 4 ? `🔥 COMBO x${combo}!` : cheers[Math.floor(Math.random()*cheers.length)]);
+
+      addXP(2 + combo); // generous
       updateProgress();
       redrawAll();
       syncMeta();
@@ -848,6 +1213,7 @@
     function findItem(type, value){
       return document.querySelector(`.link-item[data-type="${type}"][data-value="${CSS.escape(value)}"]`);
     }
+
     function redrawAll(){
       linksSvg.innerHTML = `
         <defs>
@@ -857,6 +1223,7 @@
         </defs>
       `;
       document.querySelectorAll(".link-item").forEach(el=> el.classList.remove("matched","wrong"));
+
       for(const [term, def] of links.entries()){
         const termEl = findItem("term", term);
         const defEl  = findItem("def", def);
@@ -864,6 +1231,7 @@
         drawArrow(termEl, defEl);
       }
     }
+
     function drawArrow(fromEl, toEl){
       const areaRect = linkArea.getBoundingClientRect();
       const a = fromEl.getBoundingClientRect();
@@ -887,15 +1255,20 @@
       path.setAttribute("opacity","0.95");
       linksSvg.appendChild(path);
     }
+
     window.addEventListener("resize", redrawAll);
     window.addEventListener("scroll", redrawAll, true);
 
-    // ===== Buttons =====
+    /***********************
+     * Check / Reset / Hint / Challenge
+     ***********************/
     function check(){
       if(!isLoggedIn){ showLoginModal(); return; }
+
       const total = current.length;
       if(links.size < total){
         setMsg(`كمّل كل الروابط (${links.size}/${total}).`, "bad");
+        Sound.fxBad();
         toastMsg("⚠️ باقي روابط ناقصة!");
         combo = 0; syncMeta();
         return;
@@ -920,17 +1293,20 @@
 
       if(correct === total){
         setMsg(`أسطوري! ✅ Score: ${correct}/${total}.`, "ok");
-        toastMsg("🏆 Perfect! +60 XP");
-        addXP(60);
-        burstConfetti();
+        Sound.fxGood();
+        toastMsg("🏆 PERFECT! +120 XP");
+        burstConfetti(240);
+        addXP(120);
+        combo = 0;
         setTimeout(()=>build(), 650);
       } else {
         setMsg(`Score: ${correct}/${total}. حاول تضبط الأخطاء!`, "bad");
-        toastMsg(correct >= Math.ceil(total*0.7) ? "👏 ممتاز! قربت!" : "💪 جرّب ثانية!");
-        addXP(8 + correct);
+        Sound.fxBad();
+        toastMsg(correct >= Math.ceil(total*0.7) ? "👏 ممتاز! قربت!" : "💪 رجّعها!");
+        addXP(10 + correct*2);
+        combo = 0;
       }
 
-      combo = 0;
       syncMeta();
     }
 
@@ -942,12 +1318,14 @@
       setMsg("Réponses affichées 👁️", "ok");
       toastMsg("👁️ هاك التصحيح!");
     }
+
     function hideAnswers(){
       links.clear();
       updateProgress(); redrawAll();
       setMsg("Réponses masquées 🙈", "");
       toastMsg("🙈 رجّعناها للعبة!");
     }
+
     function reset(){
       if(!isLoggedIn){ showLoginModal(); return; }
       hideAnswers();
@@ -958,16 +1336,24 @@
 
     function giveHint(){
       if(!isLoggedIn){ showLoginModal(); return; }
-      if(hintsLeft <= 0){ toastMsg("😄 خلصت الـHints!"); return; }
+      if(hintsLeft <= 0){
+        toastMsg("😄 خلصت الـHints!");
+        Sound.fxBad();
+        return;
+      }
       const unlinked = current.map(x=>x.term).filter(t => !links.has(t));
-      if(!unlinked.length){ toastMsg("✨ ما بقا شي!"); return; }
+      if(!unlinked.length){
+        toastMsg("✨ ما بقا شي!");
+        return;
+      }
       const term = unlinked[Math.floor(Math.random()*unlinked.length)];
       const def = current.find(x=>x.term===term)?.def;
       if(def){
         links.set(term, def);
         hintsLeft--;
-        toastMsg("💡 Hint: ربطت لك واحد!");
-        addXP(6);
+        toastMsg("💡 Hint: ربطنا لك واحد!");
+        Sound.fxGood();
+        addXP(20);
         updateProgress();
         redrawAll();
         syncMeta();
@@ -978,9 +1364,10 @@
       if(!isLoggedIn){ showLoginModal(); return; }
       challenge.on = true;
       challenge.endsAt = Date.now() + 60000;
-      toastMsg("⏱️ Défi 60s بدأ!");
-      addXP(6);
+      toastMsg("⏱️ Défi 60s بدأ! GO GO GO!");
+      addXP(15);
       build();
+
       clearInterval(challenge.timerId);
       challenge.timerId = setInterval(()=>{
         const left = Math.max(0, challenge.endsAt - Date.now());
@@ -989,35 +1376,42 @@
         if(left <= 0){
           clearInterval(challenge.timerId);
           challenge.on = false;
-          toastMsg("⏰ انتهى! اضغط Vérifier");
+          toastMsg("⏰ خلّص الوقت! اضغط Vérifier!");
+          Sound.fxBad();
           challengeBtn.textContent = "⏱️ Défi 60s";
         }
       }, 250);
     }
 
-    // ===== Wheel (شفافية + دائمًا 0%) =====
+    /***********************
+     * Wheel (Rewards)
+     * - Fair weighted randomness
+     * - Reward examples: 10% off, free electronic summary course, etc.
+     ***********************/
     const wheelCtx = wheelCanvas.getContext("2d");
-    const wheelSegments = [
-      { label:"0%",  key:"zero" },
-      { label:"5%",  key:"fake" },
-      { label:"10%", key:"fake" },
-      { label:"15%", key:"fake" },
-      { label:"20%", key:"fake" },
-      { label:"25%", key:"fake" },
-      { label:"30%", key:"fake" },
-      { label:"50%", key:"fake" },
-    ];
-    // سنختار دائمًا قطاع 0% (موجود كأول قطاع)
-    const ALWAYS_INDEX = 0;
+    let wheelAngle = 0;
+    let spinning = false;
+    let lastPrize = null;
 
-    function openWheel(){
-      if(!isLoggedIn){ showLoginModal(); return; }
-      wheelResult.textContent = "—";
-      wheelHype.textContent = "🔥 لفّها! (للإثارة فقط)";
-      wheelModal.classList.add("show");
-      drawWheel();
+    // You can customize these rewards + weights
+    const wheelSegments = [
+      { label:"10% OFF",  type:"discount", value:10, weight:22, icon:"🏷️", desc:"تخفيض 10% على دورة ملخص إلكتروني" },
+      { label:"FREE MINI COURSE", type:"freebie", value:"MINI-COURSE", weight:10, icon:"🎓", desc:"دورة ملخص إلكتروني مجانية (Mini)" },
+      { label:"20% OFF",  type:"discount", value:20, weight:12, icon:"🔥", desc:"تخفيض 20% (عرض قوي)" },
+      { label:"PDF PACK", type:"freebie", value:"PDF-PACK", weight:16, icon:"📄", desc:"ملف PDF إضافي: مصطلحات + أمثلة" },
+      { label:"XP +200",  type:"xp", value:200, weight:22, icon:"⭐", desc:"Bonus XP مباشر" },
+      { label:"HINT x2",  type:"hint", value:2, weight:18, icon:"💡", desc:"Hint إضافية للجولة القادمة" },
+    ];
+
+    function weightedPickIndex(){
+      const total = wheelSegments.reduce((s,x)=>s+x.weight,0);
+      let r = Math.random() * total;
+      for(let i=0;i<wheelSegments.length;i++){
+        r -= wheelSegments[i].weight;
+        if(r <= 0) return i;
+      }
+      return wheelSegments.length-1;
     }
-    function closeWheelModal(){ wheelModal.classList.remove("show"); }
 
     function drawWheel(){
       const W = wheelCanvas.width, H = wheelCanvas.height;
@@ -1025,7 +1419,7 @@
       const r = Math.min(W,H)*0.42;
       wheelCtx.clearRect(0,0,W,H);
 
-      // soft bg ring
+      // soft outer ring
       wheelCtx.beginPath();
       wheelCtx.arc(cx,cy,r*1.18,0,Math.PI*2);
       wheelCtx.fillStyle = "rgba(225,29,46,.04)";
@@ -1043,7 +1437,6 @@
         wheelCtx.arc(cx,cy,r,start,end);
         wheelCtx.closePath();
 
-        // alternating red-ish tints (no hard colors)
         wheelCtx.fillStyle = i%2===0 ? "rgba(225,29,46,.14)" : "rgba(255,45,45,.10)";
         wheelCtx.fill();
 
@@ -1051,18 +1444,16 @@
         wheelCtx.lineWidth = 6;
         wheelCtx.stroke();
 
-        // label
         wheelCtx.save();
         wheelCtx.translate(cx,cy);
         wheelCtx.rotate(start + slice/2);
         wheelCtx.textAlign = "right";
-        wheelCtx.fillStyle = "rgba(0,0,0,.80)";
-        wheelCtx.font = "900 44px Poppins";
-        wheelCtx.fillText(wheelSegments[i].label, r*0.92, 14);
+        wheelCtx.fillStyle = "rgba(0,0,0,.84)";
+        wheelCtx.font = "1000 38px Poppins";
+        wheelCtx.fillText(wheelSegments[i].label, r*0.92, 12);
         wheelCtx.restore();
       }
 
-      // center ring
       wheelCtx.beginPath();
       wheelCtx.arc(cx,cy,r*0.22,0,Math.PI*2);
       wheelCtx.fillStyle = "rgba(255,255,255,.92)";
@@ -1072,15 +1463,59 @@
       wheelCtx.stroke();
     }
 
-    // pointer points to top (angle = -90deg)
     function angleForIndex(index){
       const n = wheelSegments.length;
       const slice = (Math.PI*2)/n;
-      // We want the CENTER of desired slice to align with pointer at top (-PI/2)
-      const targetCenter = -Math.PI/2;
+      const targetCenter = -Math.PI/2; // pointer at top
       const currentCenter = wheelAngle + (index*slice) + slice/2;
       const delta = targetCenter - currentCenter;
       return wheelAngle + delta;
+    }
+
+    function openWheel(auto=false){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      lastPrize = null;
+      wheelResult.textContent = "—";
+      copyCodeBtn.disabled = true;
+      wheelNote.textContent = auto
+        ? "🎁 وصلت لهدية! لفّ العجلة وخذ جائزتك!"
+        : "🔥 لفّ العجلة… خلي الحظ يشتغل!";
+      wheelModal.classList.add("show");
+      drawWheel();
+      toastMsg(auto ? "🎁 Gift unlocked! SPIN!" : "🎡 Wheel ready!");
+    }
+    function closeWheelModal(){ wheelModal.classList.remove("show"); }
+
+    function makeCoupon(prize){
+      const base = "TP";
+      const rnd = Math.random().toString(36).slice(2,7).toUpperCase();
+      const tag = prize.type === "discount" ? `D${prize.value}` :
+                  prize.type === "xp" ? `XP${prize.value}` :
+                  prize.type === "hint" ? `H${prize.value}` :
+                  `FREE`;
+      return `${base}-${tag}-${rnd}`;
+    }
+
+    function applyPrize(prize){
+      // Save “bonus for next round” examples
+      if(prize.type === "xp"){
+        addXP(prize.value);
+      } else if(prize.type === "hint"){
+        const bonus = Number(localStorage.getItem("tp_hintBonus") || 0) + prize.value;
+        localStorage.setItem("tp_hintBonus", String(bonus));
+        toastMsg(`💡 +${prize.value} Hints (Next Round)!`);
+      } else {
+        // discounts/freebies: keep as coupon (placeholder for your store)
+        // still give small XP so user feels progress
+        addXP(60);
+      }
+    }
+
+    function showPrizeModal(prize, code){
+      prizeTitle.textContent = `${prize.icon} ${prize.label}`;
+      prizeDesc.textContent = prize.desc + " — (يمكنك ربط الكود بمتجرك لاحقًا)";
+      prizeCode.textContent = code;
+      prizeModal.classList.add("show");
     }
 
     function spinWheel(){
@@ -1088,22 +1523,17 @@
       spinning = true;
       spinBtn.disabled = true;
 
-      // نتيجة دائمًا 0%
-      const targetIndex = ALWAYS_INDEX;
-
-      // اجعلها “حماسية” بصريًا: لفّات كثيرة + easing
+      const targetIndex = weightedPickIndex();
       const base = angleForIndex(targetIndex);
-
-      // random full turns (visual only)
-      const turns = 8 + Math.floor(Math.random()*4); // 8..11
+      const turns = 9 + Math.floor(Math.random()*4); // 9..12
       const target = base + turns * Math.PI * 2;
 
       const startAngle = wheelAngle;
-      const duration = 2200 + Math.floor(Math.random()*400);
+      const duration = 2300 + Math.floor(Math.random()*500);
       const start = performance.now();
 
-      wheelHype.textContent = "🚀 يلاااااااااااااااااا!";
-
+      Sound.fxSpin();
+      toastMsg("🚀 SPINNNNN!");
       function easeOutCubic(t){ return 1 - Math.pow(1-t, 3); }
 
       function tick(now){
@@ -1113,49 +1543,69 @@
         drawWheel();
 
         if(t < 1){
+          if(Math.random() < 0.12) Sound.fxSpin();
           requestAnimationFrame(tick);
         } else {
           spinning = false;
           spinBtn.disabled = false;
 
-          // finalize exactly at winning position
           wheelAngle = base;
           drawWheel();
 
-          // always 0%
-          wheelResult.textContent = "0% ✅";
-          wheelHype.textContent = "😂 نعرف… دائمًا 0% (لكن خد Bonus XP!)";
+          const prize = wheelSegments[targetIndex];
+          const code = makeCoupon(prize);
+          lastPrize = { prize, code };
 
-          // reward: symbolic XP (so the user still “gets something”)
-          const bonusXP = 15;
-          addXP(bonusXP);
-          gifts += 1;
-          localStorage.setItem("tp_gifts", String(gifts));
-          syncMeta();
+          wheelResult.textContent = prize.label;
+          copyCodeBtn.disabled = false;
 
-          toastMsg(`🎁 Bonus +${bonusXP} XP`);
-          burstConfetti();
+          burstConfetti(220);
+          Sound.fxGood();
+          toastMsg(`🎉 WIN: ${prize.label}`);
+
+          // Apply prize effects
+          applyPrize(prize);
+
+          // show modal
+          setTimeout(()=>showPrizeModal(prize, code), 250);
         }
       }
       requestAnimationFrame(tick);
     }
 
-    // ===== Init =====
+    /***********************
+     * Init + Events
+     ***********************/
     function init(){
-      refreshPackOptions(false);
+      // music
+      Sound.armAutoStart();
+      syncMusicUI();
+      Sound.setMode(musicMode.value);
+      Sound.setVolume(Number(vol.value));
 
+      // safety level
       const newLevel = calcLevelFromXP(xp);
       if(newLevel !== level){
         level = newLevel;
         localStorage.setItem("tp_level", String(level));
       }
+      // ensure nextGiftAt valid
+      if(!nextGiftAt || nextGiftAt < GIFT_EVERY){
+        nextGiftAt = GIFT_EVERY;
+        localStorage.setItem("tp_nextGiftAt", String(nextGiftAt));
+      }
+      // if xp already beyond nextGiftAt (rare), push
+      while(xp >= nextGiftAt){
+        nextGiftAt += GIFT_EVERY;
+        localStorage.setItem("tp_nextGiftAt", String(nextGiftAt));
+      }
 
+      refreshPackOptions(false);
       syncMeta();
       build();
       drawWheel();
     }
 
-    // ===== Events =====
     packSelect.addEventListener("change", build);
     shuffleBtn.addEventListener("click", build);
     resetBtn.addEventListener("click", reset);
@@ -1165,7 +1615,21 @@
     hintBtn.addEventListener("click", giveHint);
     challengeBtn.addEventListener("click", startChallenge);
 
-    openWheelBtn.addEventListener("click", openWheel);
+    musicBtn.addEventListener("click", ()=>{
+      Sound.toggleMusic();
+      syncMusicUI();
+      toastMsg(Sound.musicOn ? "🔊 Music ON" : "🔇 Music OFF");
+      Sound.fxClick();
+    });
+    musicMode.addEventListener("change", ()=>{
+      Sound.setMode(musicMode.value);
+      toastMsg("🎼 Mode changé");
+    });
+    vol.addEventListener("input", ()=>{
+      Sound.setVolume(Number(vol.value));
+    });
+
+    openWheelBtn.addEventListener("click", ()=>openWheel(false));
     closeWheel.addEventListener("click", closeWheelModal);
     wheelModal.addEventListener("click", (e)=>{ if(e.target === wheelModal) closeWheelModal(); });
 
@@ -1174,9 +1638,37 @@
       spinWheel();
     });
 
-    oddsBtn.addEventListener("click", ()=> oddsModal.classList.add("show"));
-    closeOdds.addEventListener("click", ()=> oddsModal.classList.remove("show"));
-    oddsModal.addEventListener("click", (e)=>{ if(e.target === oddsModal) oddsModal.classList.remove("show"); });
+    copyCodeBtn.addEventListener("click", async ()=>{
+      if(!lastPrize) return;
+      try{
+        await navigator.clipboard.writeText(lastPrize.code);
+        toastMsg("📋 Copied!");
+        Sound.fxGood();
+      }catch{
+        toastMsg("❌ Copy failed");
+        Sound.fxBad();
+      }
+    });
+
+    closePrize.addEventListener("click", ()=>prizeModal.classList.remove("show"));
+    prizeModal.addEventListener("click", (e)=>{ if(e.target === prizeModal) prizeModal.classList.remove("show"); });
+
+    copyPrize.addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(prizeCode.textContent.trim());
+        toastMsg("📋 Copied!");
+        Sound.fxGood();
+      }catch{
+        toastMsg("❌ Copy failed");
+        Sound.fxBad();
+      }
+    });
+
+    claimPrize.addEventListener("click", ()=>{
+      prizeModal.classList.remove("show");
+      toastMsg("✅ Claimed! كمل اللعب 🔥");
+      Sound.fxGood();
+    });
 
     // anti context menu (كما كان)
     document.addEventListener("contextmenu", (e)=>e.preventDefault());
