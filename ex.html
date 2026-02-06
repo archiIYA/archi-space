@@ -88,11 +88,7 @@
       color: #111;
     }
 
-    .side-actions{
-      display:grid;
-      gap: 10px;
-      margin-top: 12px;
-    }
+    .side-actions{ display:grid; gap: 10px; margin-top: 12px; }
 
     .btn{
       border:none;
@@ -109,41 +105,18 @@
       user-select:none;
       box-shadow: 0 8px 22px rgba(0,0,0,.06);
     }
-    .btn.primary{
-      background: linear-gradient(135deg, var(--red), var(--red2));
-      color: #fff;
-    }
-    .btn.ghost{
-      background: #fff;
-      color: var(--red);
-      border: 1px solid rgba(225,29,46,.25);
-      box-shadow: none;
-    }
+    .btn.primary{ background: linear-gradient(135deg, var(--red), var(--red2)); color: #fff; }
+    .btn.ghost{ background: #fff; color: var(--red); border: 1px solid rgba(225,29,46,.25); box-shadow: none; }
     .btn:hover{transform: translateY(-2px);}
 
-    .nav{
-      margin-top: 14px;
-      display:grid;
-      gap: 10px;
-    }
-    .nav-title{
-      font-size:.84rem;
-      color: rgba(0,0,0,.60);
-      padding: 8px 10px 0;
-      font-weight: 800;
-    }
+    .nav{ margin-top: 14px; display:grid; gap: 10px; }
+    .nav-title{ font-size:.84rem; color: rgba(0,0,0,.60); padding: 8px 10px 0; font-weight: 800; }
     .nav a{
-      text-decoration:none;
-      color: #111;
-      padding: 12px 12px;
-      border-radius: 14px;
-      background: #fff;
-      border: 1px solid rgba(225,29,46,.18);
+      text-decoration:none; color: #111;
+      padding: 12px 12px; border-radius: 14px;
+      background: #fff; border: 1px solid rgba(225,29,46,.18);
       transition: .2s;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
+      display:flex; align-items:center; justify-content:space-between; gap: 10px;
       box-shadow: 0 10px 28px rgba(0,0,0,.06);
     }
     .nav a:hover{transform: translateY(-2px);border-color: rgba(225,29,46,.35);}
@@ -163,41 +136,22 @@
     .wrap{ max-width: 1150px; margin: 0 auto; width:100%; }
 
     .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      background: #fff;
-      border: 1px solid rgba(225,29,46,.18);
-      border-radius: 20px;
-      padding: 14px 14px;
-      box-shadow: var(--shadow);
-      margin-bottom: 16px;
-      flex-wrap: wrap;
+      display:flex; align-items:center; justify-content:space-between; gap: 12px;
+      background: #fff; border: 1px solid rgba(225,29,46,.18);
+      border-radius: 20px; padding: 14px 14px; box-shadow: var(--shadow);
+      margin-bottom: 16px; flex-wrap: wrap;
     }
     .title h2{
-      font-size:1.25rem;
-      font-weight: 1000;
-      color: #111;
-      display:flex;
-      align-items:center;
-      gap: 8px;
+      font-size:1.25rem; font-weight: 1000; color: #111;
+      display:flex; align-items:center; gap: 8px;
     }
-    .title p{
-      margin-top: 4px;
-      font-size: .92rem;
-      color: rgba(0,0,0,.62);
-      font-weight: 700;
-    }
+    .title p{ margin-top: 4px; font-size: .92rem; color: rgba(0,0,0,.62); font-weight: 800; }
 
     .chip{
-      padding: 8px 12px;
-      border-radius: 999px;
+      padding: 8px 12px; border-radius: 999px;
       border: 1px solid rgba(225,29,46,.20);
       background: rgba(225,29,46,.06);
-      color: var(--red);
-      font-weight: 900;
-      font-size: .84rem;
+      color: var(--red); font-weight: 900; font-size: .84rem;
       white-space: nowrap;
     }
 
@@ -210,20 +164,12 @@
     }
 
     .controls{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
       margin-bottom: 12px;
     }
     .controls .left-ctrl{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      flex: 1 1 auto;
-      min-width: 280px;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      flex: 1 1 auto; min-width: 280px;
     }
 
     .select{
@@ -235,41 +181,26 @@
       font-weight:900;
       color:#111;
       cursor:pointer;
-      min-width: 240px;
+      min-width: 260px;
       width:auto;
     }
 
     .small-btn{
-      border:none;
-      cursor:pointer;
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-weight: 1000;
-      transition:.2s;
-      background: rgba(225,29,46,.06);
-      color: var(--red);
+      border:none; cursor:pointer;
+      padding: 10px 12px; border-radius: 14px;
+      font-weight: 1000; transition:.2s;
+      background: rgba(225,29,46,.06); color: var(--red);
       border: 1px solid rgba(225,29,46,.20);
       white-space: nowrap;
     }
     .small-btn:hover{transform:translateY(-2px);}
     .small-btn.primary{
       background: linear-gradient(135deg, var(--red), var(--red2));
-      color:#fff;
-      border:none;
+      color:#fff; border:none;
     }
-    .small-btn[disabled]{
-      opacity:.55;
-      cursor:not-allowed;
-      transform:none !important;
-    }
+    .small-btn[disabled]{ opacity:.55; cursor:not-allowed; transform:none !important; }
 
-    .score{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:flex-end;
-    }
+    .score{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end; }
 
     .grid{
       display:grid;
@@ -288,10 +219,7 @@
       gap: 8px;
     }
 
-    .list{
-      display:grid;
-      gap: 10px;
-    }
+    .list{ display:grid; gap: 10px; }
 
     .item{
       border: 1px solid rgba(225,29,46,.14);
@@ -311,21 +239,8 @@
       box-shadow: 0 14px 34px rgba(225,29,46,.08);
     }
 
-    .term{
-      font-weight: 1000;
-      color:#111;
-      font-size: .95rem;
-      line-height:1.2;
-      word-break: break-word;
-    }
-    .def{
-      font-weight: 700;
-      color: rgba(0,0,0,.72);
-      font-size: .88rem;
-      line-height:1.5;
-      flex:1;
-      word-break: break-word;
-    }
+    .term{ font-weight: 1000; color:#111; font-size: .95rem; line-height:1.2; word-break: break-word; }
+    .def{ font-weight: 800; color: rgba(0,0,0,.72); font-size: .88rem; line-height:1.5; flex:1; word-break: break-word; }
 
     .result{
       margin-top: 14px;
@@ -338,62 +253,22 @@
       flex-wrap: wrap;
     }
 
-    .msg{
-      font-weight: 900;
-      color: rgba(0,0,0,.70);
-    }
+    .msg{ font-weight: 1000; color: rgba(0,0,0,.70); }
     .msg.ok{color:var(--ok);}
     .msg.bad{color:var(--red);}
 
-    .mobilebar{
-      display:none;
-      position: sticky;
-      top:0;
-      z-index:10;
-      background:#fff;
-      border-bottom: 1px solid rgba(225,29,46,.18);
-      padding: 12px 12px;
-    }
-    .mobilebar-inner{
-      max-width:1150px;
-      margin:0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .burger{
-      border:1px solid rgba(225,29,46,.22);
-      background: rgba(225,29,46,.06);
-      color: var(--red);
-      font-weight: 1000;
-      border-radius: 14px;
-      padding: 10px 12px;
-      cursor:pointer;
-    }
-    .mbrand{
-      display:flex;align-items:center;gap:10px;
-    }
-    .mbrand img{
-      width:38px;height:38px;border-radius:12px;
-      border:1px solid rgba(225,29,46,.22);
-      background:#fff;
-      padding:5px;
-    }
+    .mobilebar{ display:none; position: sticky; top:0; z-index:10; background:#fff; border-bottom: 1px solid rgba(225,29,46,.18); padding: 12px 12px; }
+    .mobilebar-inner{ max-width:1150px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .burger{ border:1px solid rgba(225,29,46,.22); background: rgba(225,29,46,.06); color: var(--red); font-weight: 1000; border-radius: 14px; padding: 10px 12px; cursor:pointer; }
+    .mbrand{ display:flex;align-items:center;gap:10px; }
+    .mbrand img{ width:38px;height:38px;border-radius:12px; border:1px solid rgba(225,29,46,.22); background:#fff; padding:5px; }
     .mbrand b{font-weight:1000;color:#111}
 
-    @media (max-width: 1100px){
-      .app{ grid-template-columns: 270px 1fr; }
-      .sidebar{ padding: 16px; }
-    }
-
+    @media (max-width: 1100px){ .app{ grid-template-columns: 270px 1fr; } .sidebar{ padding: 16px; } }
     @media (max-width: 980px){
       .app{ grid-template-columns: 1fr; }
       .sidebar{
-        position: fixed;
-        left: 0;
-        top: 0;
-        height: 100vh;
+        position: fixed; left: 0; top: 0; height: 100vh;
         width: min(320px, 88vw);
         transform: translateX(-110%);
         transition: .25s;
@@ -402,17 +277,10 @@
       }
       .sidebar.open{ transform: translateX(0); }
       .mobilebar{ display:block; }
-      .overlay{
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,.35);
-        display: none;
-        z-index: 40;
-      }
+      .overlay{ position: fixed; inset: 0; background: rgba(0,0,0,.35); display: none; z-index: 40; }
       .overlay.show{ display:block; }
       .grid{ grid-template-columns: 1fr; }
     }
-
     @media (max-width: 520px){
       .topbar{ padding: 12px; border-radius: 18px; }
       .title h2{font-size: 1.1rem;}
@@ -427,30 +295,15 @@
       .result .small-btn{width:100%;}
     }
 
-    .footer{
-      margin-top: 16px;
-      text-align:center;
-      font-weight: 800;
-      color: rgba(0,0,0,.55);
-    }
+    .footer{ margin-top: 16px; text-align:center; font-weight: 900; color: rgba(0,0,0,.55); }
 
     /* ====== Link Mode (arrows) ====== */
     .link-mode{ position: relative; }
     .links{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      pointer-events:none;
-      z-index: 5;
+      position:absolute; inset:0; width:100%; height:100%;
+      pointer-events:none; z-index: 5;
     }
-
-    .link-item{
-      cursor: pointer;
-      position: relative;
-      z-index: 6;
-    }
-
+    .link-item{ cursor: pointer; position: relative; z-index: 6; }
     .link-item.selected{
       outline: 3px solid rgba(225,29,46,.35);
       box-shadow: 0 14px 34px rgba(225,29,46,.12);
@@ -460,101 +313,61 @@
       from{ box-shadow: 0 10px 30px rgba(225,29,46,.08); }
       to{ box-shadow: 0 18px 60px rgba(225,29,46,.22); }
     }
-
     .link-item.matched{
       border-color: rgba(10,122,42,.30);
       background: linear-gradient(180deg,#fff,#f4fff7);
       animation: pop .25s ease-out;
     }
-    .link-item.wrong{
-      border-color: rgba(225,29,46,.35);
-    }
-    @keyframes pop{
-      0%{ transform: scale(.98); }
-      100%{ transform: scale(1); }
-    }
+    .link-item.wrong{ border-color: rgba(225,29,46,.35); }
+    @keyframes pop{ 0%{ transform: scale(.98); } 100%{ transform: scale(1); } }
 
     /* HUD */
-    .hud{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
+    .hud{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     .hud-item{
-      padding:10px 12px;
-      border-radius: 16px;
+      padding:10px 12px; border-radius: 16px;
       border:1px solid rgba(225,29,46,.20);
       background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,245,246,.92));
       box-shadow: 0 14px 40px rgba(225,29,46,.08);
       min-width: 110px;
     }
-    .hud-label{
-      display:block;
-      font-size:.75rem;
-      font-weight:900;
-      color: rgba(0,0,0,.55);
-    }
-    .hud-item b{
-      font-size: 1.05rem;
-      font-weight: 1000;
-      letter-spacing:.2px;
-    }
+    .hud-label{ display:block; font-size:.75rem; font-weight:1000; color: rgba(0,0,0,.55); }
+    .hud-item b{ font-size: 1.05rem; font-weight: 1000; letter-spacing:.2px; }
 
     /* Progress */
     .progress-wrap{
-      width:100%;
-      height: 10px;
-      border-radius: 999px;
-      overflow:hidden;
+      width:100%; height: 10px;
+      border-radius: 999px; overflow:hidden;
       background: rgba(225,29,46,.08);
       border: 1px solid rgba(225,29,46,.15);
       margin: 8px 0 4px;
     }
     .progress-bar{
-      height:100%;
-      width:0%;
+      height:100%; width:0%;
       background: linear-gradient(90deg, rgba(225,29,46,.95), rgba(255,45,45,.95));
       transition: width .25s ease;
     }
 
     /* Toast */
     .toast{
-      position: fixed;
-      left: 50%;
-      bottom: 22px;
+      position: fixed; left: 50%; bottom: 22px;
       transform: translateX(-50%);
       background: rgba(15,20,26,.92);
-      color:#fff;
-      padding: 12px 14px;
-      border-radius: 16px;
-      font-weight: 900;
+      color:#fff; padding: 12px 14px; border-radius: 16px;
+      font-weight: 1000;
       z-index: 999;
       box-shadow: 0 24px 90px rgba(0,0,0,.22);
-      opacity:0;
-      pointer-events:none;
-      transition: .25s;
+      opacity:0; pointer-events:none; transition: .25s;
     }
     .toast.show{ opacity:1; transform: translateX(-50%) translateY(-4px); }
 
     /* Confetti canvas */
-    #fxCanvas{
-      position: fixed;
-      inset: 0;
-      pointer-events:none;
-      z-index: 999;
-    }
+    #fxCanvas{ position: fixed; inset: 0; pointer-events:none; z-index: 999; }
 
     /* Modal */
     .modal{
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.35);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding: 18px;
-      z-index: 100;
+      position: fixed; inset: 0; background: rgba(0,0,0,.35);
+      display:none; align-items:center; justify-content:center;
+      padding: 18px; z-index: 100;
     }
     .modal.show{ display:flex; }
     .modal-box{
@@ -566,13 +379,8 @@
       padding: 16px;
     }
     .modal-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(0,0,0,.06);
-      margin-bottom: 10px;
+      display:flex; align-items:center; justify-content:space-between; gap: 10px;
+      padding-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,.06); margin-bottom: 10px;
     }
     .modal-head h3{ font-size: 1.05rem; font-weight: 1000; color:#111; }
     .close{
@@ -584,18 +392,12 @@
       font-weight: 1000;
       cursor:pointer;
     }
-    .modal p{ color: rgba(0,0,0,.70); font-weight: 800; line-height: 1.7; }
-    .modal-actions{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
+    .modal p{ color: rgba(0,0,0,.70); font-weight: 900; line-height: 1.7; }
+    .modal-actions{ display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
   </style>
 </head>
 
 <body>
-
   <div class="mobilebar">
     <div class="mobilebar-inner">
       <button class="burger" id="openMenu">☰ Menu</button>
@@ -610,13 +412,10 @@
   <div class="overlay" id="overlay"></div>
 
   <div class="app">
-
     <aside class="sidebar" id="sidebar">
       <div class="brand">
         <img src="logotrendy.svg" alt="Trendy Plaza Logo">
-        <div>
-          <h1>Trendy Plaza</h1>
-        </div>
+        <div><h1>Trendy Plaza</h1></div>
       </div>
 
       <div class="side-actions">
@@ -633,11 +432,10 @@
 
     <main class="main">
       <div class="wrap">
-
         <div class="topbar">
           <div class="title">
             <h2>🔗 Associe le terme</h2>
-            <p>انقر على المصطلح ثم على التعريف… واربطهم بسهم ✨</p>
+            <p>انقر على المصطلح ثم على التعريف… والأسهم ترسم طريقها ✨</p>
           </div>
 
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;">
@@ -650,7 +448,6 @@
           <div class="controls">
             <div class="left-ctrl">
               <select class="select" id="packSelect" aria-label="Choisir un pack"></select>
-
               <button class="small-btn" id="shuffleBtn">🔀 Mélanger</button>
               <button class="small-btn" id="resetBtn">↺ Réinitialiser</button>
             </div>
@@ -670,7 +467,7 @@
               </div>
 
               <button class="small-btn" id="hintBtn">💡 Hint</button>
-              <button class="small-btn" id="soundBtn">🔊 Sound</button>
+              <button class="small-btn" id="soundBtn">🔊 Music</button>
               <button class="small-btn" id="challengeBtn">⏱️ Défi 60s</button>
             </div>
 
@@ -710,14 +507,15 @@
         <section id="regles" class="card" style="margin-top:16px;">
           <div class="section-head" style="border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
             <h3 style="font-weight:1000;">📌 Règles</h3>
-            <span class="pill">Fun + XP</span>
+            <span class="pill">XP + Packs</span>
           </div>
-          <div style="color:rgba(0,0,0,.70);font-weight:800;line-height:1.8;">
+          <div style="color:rgba(0,0,0,.70);font-weight:900;line-height:1.8;">
             <ul style="padding-left:18px;display:grid;gap:6px;">
               <li>اضغط على المصطلح ثم اضغط على التعريف لعمل سهم.</li>
-              <li>زر <b>Vérifier</b> يعطيك النتيجة + XP.</li>
-              <li><b>Hint</b> محدود (مرتين لكل جولة) باش تبقى المتعة 😉</li>
-              <li><b>Défi 60s</b> تحدّي سريع — خلّص قبل ما يكمّل الوقت!</li>
+              <li>زر <b>Vérifier</b> يعطيك النتيجة + XP + تشجيع.</li>
+              <li><b>Hint</b> محدود (مرتين لكل جولة).</li>
+              <li><b>Défi 60s</b> تحدّي سريع.</li>
+              <li>الموسيقى مستمرة (قد تحتاج أول نقرة بسبب قيود المتصفح).</li>
               <li>حزم جديدة تتفتح تلقائيًا لما تجمع XP.</li>
             </ul>
           </div>
@@ -726,7 +524,6 @@
         <div class="footer">© 2025 Trendy Plaza — Associe le terme</div>
       </div>
     </main>
-
   </div>
 
   <canvas id="fxCanvas"></canvas>
@@ -763,7 +560,7 @@
       overlay.addEventListener("click", closeSidebar);
     }
 
-    // ===== Firebase Auth (كما كان) =====
+    // ===== Firebase Auth =====
     const firebaseConfig = {
       apiKey: "AIzaSyBt4gf4Gan57N3M1PPQhWl5uXxp1Jcrkvk",
       authDomain: "TrendyPlaza-72624.firebaseapp.com",
@@ -790,61 +587,138 @@
       if(!isLoggedIn) showLoginModal();
     });
 
-    // ===== GAME DATA (Architecture / Structure / Design) =====
+    // ===== GAME DATA (كثييير مصطلحات) =====
     const packs = {
       archi: {
         label: "Pack Architecture (Facile)",
         xpRequired: 0,
         items: [
-          { term: "Façade", def: "Face extérieure d’un bâtiment : composition, ouvertures, matériaux." },
-          { term: "Plan", def: "Représentation à plat d’un niveau : pièces, murs, circulations." },
-          { term: "Coupe", def: "Dessin vertical montrant l’intérieur, les hauteurs et les niveaux." },
-          { term: "Perspective", def: "Représentation donnant une impression de profondeur et de volume." },
-          { term: "Structure", def: "Éléments porteurs assurant la stabilité : poteaux, poutres, voiles…" }
+          { term:"Façade", def:"Face extérieure d’un bâtiment : composition, ouvertures, matériaux." },
+          { term:"Plan", def:"Représentation à plat d’un niveau : pièces, murs, circulations." },
+          { term:"Coupe", def:"Dessin vertical montrant l’intérieur, les hauteurs et les niveaux." },
+          { term:"Élévation", def:"Vue orthogonale d’un côté du bâtiment (sans perspective)." },
+          { term:"Perspective", def:"Représentation donnant une impression de profondeur et de volume." },
+          { term:"Axonométrie", def:"Projection 3D sans point de fuite, utile pour lire les volumes." },
+          { term:"Maquette", def:"Modèle réduit pour comprendre volumes, lumière et implantation." },
+          { term:"Programme", def:"Fonctions attendues : surfaces, usages, besoins d’un projet." },
+          { term:"Gabarit", def:"Enveloppe volumétrique : hauteur, alignement, limites." },
+          { term:"Circulation", def:"Organisation des flux et déplacements dans/autour du projet." },
+          { term:"Insertion", def:"Intégration au site : contexte, échelle, vues, voisinage." },
+          { term:"Matériau", def:"Substance de construction : béton, acier, bois, brique…" }
         ]
       },
+
       urban: {
         label: "Pack Urbanisme (Facile)",
         xpRequired: 0,
         items: [
-          { term: "Trame viaire", def: "Organisation du réseau des rues, axes et voies." },
-          { term: "Zonage", def: "Découpage du territoire selon les usages (habitat, industrie…)." },
-          { term: "Densité", def: "Rapport entre quantité construite/population et surface." },
-          { term: "Mobilité", def: "Déplacements et modes de transport associés." },
-          { term: "Espace public", def: "Lieu accessible à tous : rues, places, parcs…" }
+          { term:"Trame viaire", def:"Organisation du réseau des rues, axes et voies." },
+          { term:"Zonage", def:"Découpage du territoire selon les usages (habitat, industrie…)." },
+          { term:"Densité", def:"Rapport entre quantité construite/population et surface." },
+          { term:"Mobilité", def:"Déplacements et modes de transport associés." },
+          { term:"Espace public", def:"Lieu accessible à tous : rues, places, parcs…" },
+          { term:"Îlot", def:"Ensemble bâti délimité par des voies (bloc urbain)." },
+          { term:"Parcelle", def:"Unité foncière de propriété, support d’un projet." },
+          { term:"Alignement", def:"Ligne imposée/choisie pour positionner les façades sur rue." },
+          { term:"Mixité", def:"Coexistence de fonctions : logement, commerce, équipements…" },
+          { term:"Centralité", def:"Lieu structurant où se concentrent activités et services." },
+          { term:"Trame verte", def:"Réseau d’espaces végétalisés pour biodiversité et confort." },
+          { term:"Trame bleue", def:"Réseau lié à l’eau : rivières, canaux, bassins, continuités." }
         ]
       },
-      mix: {
-        label: "Pack Mix (Moyen)",
-        xpRequired: 40,
-        items: [
-          { term: "Programme", def: "Fonctions attendues d’un projet : surfaces, usages, besoins." },
-          { term: "Gabarit", def: "Enveloppe volumétrique : hauteur, alignement, limites." },
-          { term: "Matériau", def: "Substance de construction : béton, acier, bois, brique…" },
-          { term: "Insertion", def: "Intégration au site : contexte, échelle, vues." },
-          { term: "Circulation", def: "Organisation des flux et déplacements dans/autour du projet." }
-        ]
-      },
+
       struct: {
         label: "Pack Structure (Moyen)",
-        xpRequired: 90,
+        xpRequired: 60,
         items: [
-          { term: "Poutre", def: "Élément horizontal reprenant les charges et les transmettant aux appuis." },
-          { term: "Poteau", def: "Élément vertical porteur qui supporte poutres et planchers." },
-          { term: "Dalle", def: "Élément de plancher (souvent en béton) portant entre appuis." },
-          { term: "Voile", def: "Mur porteur (souvent béton armé) travaillant au cisaillement." },
-          { term: "Fondations", def: "Éléments transmettant les charges du bâtiment au sol." }
+          { term:"Poutre", def:"Élément horizontal reprenant les charges et les transmettant aux appuis." },
+          { term:"Poteau", def:"Élément vertical porteur qui supporte poutres et planchers." },
+          { term:"Dalle", def:"Élément de plancher (souvent béton) portant entre appuis." },
+          { term:"Voile", def:"Mur porteur (souvent BA) travaillant au cisaillement." },
+          { term:"Fondations", def:"Éléments transmettant les charges du bâtiment au sol." },
+          { term:"Radier", def:"Dalle de fondation continue répartissant les charges." },
+          { term:"Semelle", def:"Fondation linéaire/isolée sous mur ou poteau." },
+          { term:"Portée", def:"Distance entre deux appuis d’un élément porteur." },
+          { term:"Contreventement", def:"Système assurant stabilité face au vent/séisme." },
+          { term:"Cisaillement", def:"Effort interne dû au glissement relatif de sections." },
+          { term:"Flèche", def:"Déformation verticale d’une poutre/dalle sous charge." },
+          { term:"Ferraillage", def:"Disposition des armatures d’acier dans le béton armé." }
         ]
       },
-      design: {
-        label: "Pack Design (Moyen+)",
-        xpRequired: 150,
+
+      enveloppe: {
+        label: "Pack Enveloppe & Façades (Moyen)",
+        xpRequired: 110,
         items: [
-          { term: "Trame", def: "Réseau de lignes servant à organiser structure et espaces." },
-          { term: "Modénature", def: "Jeu des reliefs/détails d’une façade (corniches, encadrements…)." },
-          { term: "Lumière zénithale", def: "Apport de lumière par le haut (skylight, lanterneau…)." },
-          { term: "Acrotère", def: "Relevé en bord de toiture-terrasse masquant l’étanchéité." },
-          { term: "Patio", def: "Cour intérieure apportant lumière, ventilation et intimité." }
+          { term:"Isolation", def:"Réduction des pertes de chaleur (thermique) et/ou du bruit (acoustique)." },
+          { term:"Pont thermique", def:"Zone où l’isolation est interrompue, causant déperditions." },
+          { term:"Pare-vapeur", def:"Membrane limitant diffusion de vapeur d’eau vers parois froides." },
+          { term:"Étanchéité", def:"Protection contre l’eau et infiltrations (toiture, façade…)." },
+          { term:"Mur rideau", def:"Façade non porteuse suspendue à la structure (souvent vitrée)." },
+          { term:"Bardage", def:"Revêtement extérieur rapporté (bois, métal, composite…)." },
+          { term:"Brise-soleil", def:"Dispositif de protection solaire limitant surchauffe et éblouissement." },
+          { term:"Double peau", def:"Façade à deux couches avec lame d’air, performance thermique/ventilation." },
+          { term:"Acrotère", def:"Relevé en bord de toiture-terrasse masquant l’étanchéité." },
+          { term:"Lanterneau", def:"Ouverture en toiture apportant lumière zénithale et parfois ventilation." },
+          { term:"Menuiserie", def:"Éléments ouvrants : fenêtres, portes, châssis." },
+          { term:"Vitrage", def:"Verre simple/double/triple influençant isolation et apports solaires." }
+        ]
+      },
+
+      design: {
+        label: "Pack Design & Composition (Moyen+)",
+        xpRequired: 170,
+        items: [
+          { term:"Trame", def:"Réseau de lignes organisant structure, façade et espaces." },
+          { term:"Modénature", def:"Jeu des reliefs/détails d’une façade (corniches, encadrements…)." },
+          { term:"Proportion", def:"Rapport harmonieux des dimensions (hauteur/largeur…)." },
+          { term:"Rythme", def:"Répétition/variation d’éléments (baies, poteaux…) dans la composition." },
+          { term:"Hiérarchie", def:"Organisation des éléments selon leur importance (entrée, volumes…)." },
+          { term:"Séquence", def:"Enchaînement d’espaces et sensations dans le parcours." },
+          { term:"Lumière zénithale", def:"Apport de lumière par le haut (skylight, lanterneau…)." },
+          { term:"Patio", def:"Cour intérieure apportant lumière, ventilation et intimité." },
+          { term:"Atrium", def:"Grand vide central souvent couvert, distribuant les espaces." },
+          { term:"Seuil", def:"Zone de transition intérieur/extérieur (entrée, porche…)." },
+          { term:"Parvis", def:"Espace d’accueil devant un bâtiment (place, élargissement…)." },
+          { term:"Belvédère", def:"Point élevé offrant vue panoramique, souvent aménagé." }
+        ]
+      },
+
+      bim: {
+        label: "Pack BIM & Chantier (Difficile)",
+        xpRequired: 260,
+        items: [
+          { term:"BIM", def:"Méthode de travail basée sur maquette numérique et données partagées." },
+          { term:"LOD", def:"Niveau de détail d’un modèle (Level of Development/Detail)." },
+          { term:"Clash detection", def:"Détection de conflits entre réseaux/structure/architecture." },
+          { term:"DOE", def:"Dossier des ouvrages exécutés : documents fin de chantier." },
+          { term:"CCTP", def:"Cahier des clauses techniques particulières (spécifications)." },
+          { term:"DCE", def:"Dossier de consultation des entreprises (appel d’offres)." },
+          { term:"OPC", def:"Ordonnancement, pilotage, coordination (planning chantier)." },
+          { term:"Réserves", def:"Liste des défauts à corriger avant réception." },
+          { term:"Réception", def:"Acte marquant la fin des travaux et transfert au maître d’ouvrage." },
+          { term:"Levée de réserves", def:"Correction des réserves signalées lors de la réception." },
+          { term:"PHASAGE", def:"Découpage du projet en étapes de réalisation." },
+          { term:"Synthèse technique", def:"Coordination des plans (CVC, élec, plomberie, archi, structure)." }
+        ]
+      },
+
+      eco: {
+        label: "Pack Éco & Confort (Difficile+)",
+        xpRequired: 340,
+        items: [
+          { term:"Bioclimatique", def:"Conception tirant parti du climat (soleil, vent) pour le confort." },
+          { term:"Inertie", def:"Capacité d’un matériau à stocker/diffuser la chaleur." },
+          { term:"Ventilation naturelle", def:"Renouvellement d’air sans machines, via tirage/ouvrants." },
+          { term:"Déphasage", def:"Temps de retard de propagation de chaleur à travers une paroi." },
+          { term:"Facteur solaire (g)", def:"Part d’énergie solaire transmise par le vitrage." },
+          { term:"Confort d’été", def:"Stratégies contre surchauffe : ombrage, ventilation, inertie." },
+          { term:"Confort acoustique", def:"Réduction des bruits aériens/impact, temps de réverbération." },
+          { term:"Éclairage naturel", def:"Optimisation de la lumière du jour, limitation éblouissement." },
+          { term:"Perméabilité à l’air", def:"Étanchéité à l’air de l’enveloppe (infiltrations)." },
+          { term:"Îlot de chaleur", def:"Surchauffe urbaine due surfaces minérales et manque végétation." },
+          { term:"Récupération d’eau", def:"Collecte des eaux pluviales pour usages (arrosage…)." },
+          { term:"Matériaux bas carbone", def:"Matériaux à faible impact CO₂ (bois, terre crue, réemploi…)." }
         ]
       }
     };
@@ -879,19 +753,16 @@
     // ===== STATE =====
     let current = [];
     let revealed = false;
-
-    // term -> def
-    let links = new Map();
+    let links = new Map();         // term -> def
     let selectedTerm = null;
 
     // Meta
     let xp = Number(localStorage.getItem("tp_xp") || 0);
     let best = Number(localStorage.getItem("tp_best") || 0);
     let combo = 0;
-    let soundOn = (localStorage.getItem("tp_sound") ?? "1") === "1";
 
     // Hint limit
-    let hintsLeft = 2; // per round
+    let hintsLeft = 2;
 
     // Challenge 60s
     let challenge = { on:false, endsAt:0, timerId:null };
@@ -904,13 +775,11 @@
       }
       return arr;
     }
-
     function escapeHtml(str){
       return String(str).replace(/[&<>"']/g, s => ({
         "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
       }[s]));
     }
-
     function toastMsg(text){
       toast.textContent = text;
       toast.classList.add("show");
@@ -918,38 +787,7 @@
       toast._t = setTimeout(()=>toast.classList.remove("show"), 1200);
     }
 
-    function beep(type="ok"){
-      if(!soundOn) return;
-      const Ctx = window.AudioContext || window.webkitAudioContext;
-      if(!Ctx) return;
-      const ac = new Ctx();
-      const o = ac.createOscillator();
-      const g = ac.createGain();
-      o.type = "sine";
-      o.frequency.value = type === "ok" ? 740 : 220;
-      g.gain.value = 0.08;
-      o.connect(g); g.connect(ac.destination);
-      o.start();
-      setTimeout(()=>{ o.stop(); ac.close(); }, 90);
-    }
-
-    function syncMeta(){
-      xpText.textContent = xp;
-      comboText.textContent = `x${combo}`;
-      bestText.textContent = best;
-      soundBtn.textContent = soundOn ? "🔊 Sound" : "🔇 Sound";
-      hintBtn.textContent = `💡 Hint (${hintsLeft})`;
-    }
-
-    function addXP(amount){
-      xp += amount;
-      localStorage.setItem("tp_xp", String(xp));
-      syncMeta();
-      refreshPackOptions(true);
-    }
-
-    // Confetti (خفيف)
-    let confetti = [];
+    // ===== Confetti =====
     function resizeFx(){
       fxCanvas.width = window.innerWidth;
       fxCanvas.height = window.innerHeight;
@@ -958,10 +796,9 @@
     window.addEventListener("resize", resizeFx);
 
     function burstConfetti(){
-      const n = 140;
-      confetti = [];
-      for(let i=0;i<n;i++){
-        confetti.push({
+      const parts = [];
+      for(let i=0;i<160;i++){
+        parts.push({
           x: window.innerWidth/2,
           y: window.innerHeight*0.22,
           vx: (Math.random()*2-1)*8,
@@ -973,7 +810,7 @@
       const start = performance.now();
       function tick(t){
         fxCtx.clearRect(0,0,fxCanvas.width,fxCanvas.height);
-        confetti.forEach(p=>{
+        parts.forEach(p=>{
           p.vy += 0.35;
           p.x += p.vx;
           p.y += p.vy;
@@ -990,13 +827,11 @@
       requestAnimationFrame(tick);
     }
 
-    // ===== Packs unlock =====
     function refreshPackOptions(keepSelection){
       const prev = packSelect.value || "archi";
       packSelect.innerHTML = "";
 
-      const keys = Object.keys(packs);
-      keys.forEach(k=>{
+      Object.keys(packs).forEach(k=>{
         const p = packs[k];
         const locked = xp < p.xpRequired;
         const opt = document.createElement("option");
@@ -1008,23 +843,179 @@
         packSelect.appendChild(opt);
       });
 
-      // restore selection if possible
       if(keepSelection && [...packSelect.options].some(o=>o.value===prev && !o.disabled)){
         packSelect.value = prev;
       } else {
-        // choose first unlocked
         const firstUnlocked = [...packSelect.options].find(o=>!o.disabled);
         if(firstUnlocked) packSelect.value = firstUnlocked.value;
       }
     }
 
-    // ===== Build game (arrows) =====
+    function syncMeta(){
+      xpText.textContent = xp;
+      comboText.textContent = `x${combo}`;
+      bestText.textContent = best;
+      hintBtn.textContent = `💡 Hint (${hintsLeft})`;
+      soundBtn.textContent = Music.isOn ? "🔊 Music" : "🔇 Music";
+    }
+    function addXP(amount){
+      xp += amount;
+      localStorage.setItem("tp_xp", String(xp));
+      refreshPackOptions(true);
+      syncMeta();
+    }
+
+
+    const Music = (() => {
+      let ctx = null;
+      let master = null;
+      let isOn = (localStorage.getItem("tp_music") ?? "1") === "1";
+      let started = false;
+
+      let pad = null, pad2 = null, bass = null;
+      let lfo = null;
+      let step = 0;
+      let timer = null;
+
+      const chords = [
+        [220.00, 261.63, 329.63], 
+        [196.00, 246.94, 293.66], 
+        [174.61, 220.00, 261.63], 
+        [196.00, 246.94, 329.63]  
+      ];
+
+      function ensure(){
+        if(ctx) return;
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if(!AC) return;
+        ctx = new AC();
+
+        master = ctx.createGain();
+        master.gain.value = 0.12; 
+        master.connect(ctx.destination);
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.value = 1200;
+        filter.Q.value = 0.8;
+        filter.connect(master);
+
+        pad = ctx.createOscillator();
+        pad.type = "sine";
+        const padGain = ctx.createGain();
+        padGain.gain.value = 0.0;
+        pad.connect(padGain);
+        padGain.connect(filter);
+
+        pad2 = ctx.createOscillator();
+        pad2.type = "triangle";
+        pad2.detune.value = -9;
+        const pad2Gain = ctx.createGain();
+        pad2Gain.gain.value = 0.0;
+        pad2.connect(pad2Gain);
+        pad2Gain.connect(filter);
+
+        bass = ctx.createOscillator();
+        bass.type = "sine";
+        const bassGain = ctx.createGain();
+        bassGain.gain.value = 0.0;
+        bass.connect(bassGain);
+        bassGain.connect(filter);
+
+        lfo = ctx.createOscillator();
+        lfo.type = "sine";
+        lfo.frequency.value = 0.18;
+        const lfoGain = ctx.createGain();
+        lfoGain.gain.value = 18;
+        lfo.connect(lfoGain);
+        lfoGain.connect(filter.frequency);
+
+        pad._gain = padGain;
+        pad2._gain = pad2Gain;
+        bass._gain = bassGain;
+      }
+
+      function rampGain(g, value, t=0.18){
+        if(!ctx) return;
+        g.gain.cancelScheduledValues(ctx.currentTime);
+        g.gain.setValueAtTime(g.gain.value, ctx.currentTime);
+        g.gain.linearRampToValueAtTime(value, ctx.currentTime + t);
+      }
+
+      function applyChord(){
+        if(!ctx) return;
+        const c = chords[step % chords.length];
+        pad.frequency.setTargetAtTime(c[0], ctx.currentTime, 0.05);
+        pad2.frequency.setTargetAtTime(c[2], ctx.currentTime, 0.06);
+        bass.frequency.setTargetAtTime(c[0]/2, ctx.currentTime, 0.06);
+
+        rampGain(pad._gain, 0.06, 0.30);
+        rampGain(pad2._gain, 0.045, 0.35);
+        rampGain(bass._gain, 0.055, 0.25);
+      }
+
+      function start(){
+        if(!isOn) return;
+        ensure();
+        if(!ctx) return;
+
+        if(ctx.state === "suspended") ctx.resume();
+
+        if(!started){
+          pad.start();
+          pad2.start();
+          bass.start();
+          lfo.start();
+          started = true;
+        }
+
+        applyChord();
+        clearInterval(timer);
+        timer = setInterval(()=>{
+          step++;
+          applyChord();
+        }, 2600); 
+      }
+
+      function stop(){
+        if(!ctx) return;
+        clearInterval(timer);
+        timer = null;
+
+        rampGain(pad._gain, 0.0, 0.25);
+        rampGain(pad2._gain, 0.0, 0.25);
+        rampGain(bass._gain, 0.0, 0.25);
+      }
+
+      function toggle(){
+        isOn = !isOn;
+        localStorage.setItem("tp_music", isOn ? "1" : "0");
+        if(isOn) start();
+        else stop();
+      }
+
+      return {
+        get isOn(){ return isOn; },
+        start,
+        stop,
+        toggle
+      };
+    })();
+
+    function armAutoMusic(){
+      const once = () => {
+        document.removeEventListener("pointerdown", once);
+        if(Music.isOn) Music.start();
+        syncMeta();
+      };
+      document.addEventListener("pointerdown", once, { once:true });
+    }
+
     function build(){
       const key = packSelect.value || "archi";
       const pack = packs[key] || packs.archi;
 
       current = JSON.parse(JSON.stringify(pack.items));
-
       const terms = shuffleArray(current.map(x => x.term));
       const defs  = shuffleArray(current.map(x => x.def));
 
@@ -1059,7 +1050,7 @@
       });
 
       updateProgress();
-      setMsg("اختر term ثم التعريف… وخلي الأسهم تكمّل اللوحة ✨", "");
+      setMsg("اختَر term ثم التعريف… وخلي الأسهم تحكي القصة ✨", "");
       redrawAll();
     }
 
@@ -1076,7 +1067,6 @@
       selectedTerm = el.dataset.value;
       el.classList.add("selected");
 
-      // micro: combo drops قليلاً لو تغيّر كثير
       combo = Math.max(0, combo - 1);
       syncMeta();
     }
@@ -1085,27 +1075,24 @@
       if(!isLoggedIn){ showLoginModal(); return; }
       if(!selectedTerm){
         setMsg("اختر term أولاً ثم اختر تعريفاً.", "bad");
-        beep("bad");
+        toastMsg("👆 اختَر المصطلح أولاً!");
         return;
       }
 
       const def = defEl.dataset.value;
       const term = selectedTerm;
 
-      // def only linked to one term
       for(const [t, d] of links.entries()){
-        if(d === def && t !== term){
-          links.delete(t);
-        }
+        if(d === def && t !== term) links.delete(t);
       }
 
       links.set(term, def);
 
-      // reward feeling
       combo = Math.min(9, combo + 1);
       addXP(2 + combo);
-      toastMsg(combo >= 3 ? `🔥 Combo x${combo}!` : "✅ Nice!");
-      beep("ok");
+
+      const cheers = ["✅ Nice!", "✨ Super!", "🔥 Excellent!", "🚀 Continue!", "💎 Parfait!"];
+      toastMsg(combo >= 3 ? `🔥 Combo x${combo}!` : cheers[Math.floor(Math.random()*cheers.length)]);
 
       clearSelected();
       selectedTerm = null;
@@ -1131,16 +1118,13 @@
     }
 
     function redrawAll(){
-      linksSvg.innerHTML = "";
-
-      const defs = `
+      linksSvg.innerHTML = `
         <defs>
           <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
             <path d="M0,0 L10,3 L0,6 Z" fill="rgba(225,29,46,.85)"></path>
           </marker>
         </defs>
       `;
-      linksSvg.insertAdjacentHTML("beforeend", defs);
 
       document.querySelectorAll(".link-item").forEach(el=>{
         el.classList.remove("matched","wrong");
@@ -1178,14 +1162,13 @@
       path.setAttribute("stroke-width","3");
       path.setAttribute("marker-end","url(#arrowHead)");
       path.setAttribute("opacity","0.95");
-
       linksSvg.appendChild(path);
     }
 
     window.addEventListener("resize", redrawAll);
     window.addEventListener("scroll", redrawAll, true);
 
-    // ===== Buttons / actions =====
+    // ===== Actions =====
     function check(){
       if(!isLoggedIn){ showLoginModal(); return; }
 
@@ -1193,13 +1176,9 @@
       const map = new Map((packs[key] || packs.archi).items.map(x => [x.term, x.def]));
       const total = current.length;
 
-      const filled = links.size;
-      updateProgress();
-
-      if(filled < total){
-        setMsg(`كمّل كل الروابط (${filled}/${total}).`, "bad");
+      if(links.size < total){
+        setMsg(`كمّل كل الروابط (${links.size}/${total}).`, "bad");
         toastMsg("⚠️ باقي روابط ناقصة!");
-        beep("bad");
         combo = 0; syncMeta();
         return;
       }
@@ -1230,12 +1209,10 @@
         toastMsg("🏆 Perfect! +50 XP");
         addXP(50);
         burstConfetti();
-        beep("ok");
       } else {
         setMsg(`Score: ${correct}/${total}. حاول تضبط الأخطاء!`, "bad");
-        toastMsg(correct >= Math.ceil(total*0.6) ? "👏 ممتاز! قريب!" : "💪 جرّب مرة ثانية!");
-        addXP(5 + correct);
-        beep("bad");
+        toastMsg(correct >= Math.ceil(total*0.7) ? "👏 ممتاز! قربت!" : "💪 جرّب ثانية!");
+        addXP(6 + correct);
       }
 
       combo = 0;
@@ -1253,7 +1230,6 @@
       redrawAll();
       setMsg("Réponses affichées 👁️", "ok");
       toastMsg("👁️ هاك التصحيح!");
-      beep("ok");
     }
 
     function hideAnswers(){
@@ -1275,17 +1251,15 @@
       toastMsg("↺ نبدأ من جديد!");
     }
 
-    // Hint (2 per round)
     function giveHint(){
       if(!isLoggedIn){ showLoginModal(); return; }
       if(hintsLeft <= 0){
         toastMsg("😄 خلصت الـHints لهذه الجولة!");
-        beep("bad");
         return;
       }
+
       const key = packSelect.value || "archi";
       const map = new Map((packs[key] || packs.archi).items.map(x => [x.term, x.def]));
-
       const unlinked = current.map(x=>x.term).filter(t => !links.has(t));
       if(!unlinked.length){
         toastMsg("✨ ما بقا شي!");
@@ -1298,20 +1272,10 @@
       syncMeta();
       addXP(3);
       toastMsg("💡 Hint: ربطت لك واحد!");
-      beep("ok");
       redrawAll();
       updateProgress();
     }
 
-    function toggleSound(){
-      soundOn = !soundOn;
-      localStorage.setItem("tp_sound", soundOn ? "1" : "0");
-      syncMeta();
-      toastMsg(soundOn ? "🔊 Sound ON" : "🔇 Sound OFF");
-      beep("ok");
-    }
-
-    // Challenge 60s
     function startChallenge(){
       if(!isLoggedIn){ showLoginModal(); return; }
 
@@ -1332,13 +1296,16 @@
           clearInterval(challenge.timerId);
           challenge.on = false;
           toastMsg("⏰ انتهى! اضغط Vérifier");
-          beep("bad");
           challengeBtn.textContent = "⏱️ Défi 60s";
         }
       }, 250);
     }
 
-    // ===== Events =====
+    refreshPackOptions(false);
+    syncMeta();
+    build();
+    armAutoMusic(); 
+
     packSelect.addEventListener("change", build);
     shuffleBtn.addEventListener("click", build);
     resetBtn.addEventListener("click", reset);
@@ -1346,15 +1313,15 @@
     showAnswersBtn.addEventListener("click", showAnswers);
     hideAnswersBtn.addEventListener("click", hideAnswers);
     hintBtn.addEventListener("click", giveHint);
-    soundBtn.addEventListener("click", toggleSound);
     challengeBtn.addEventListener("click", startChallenge);
 
-    // ===== Init =====
-    refreshPackOptions(false);
-    syncMeta();
-    build();
+    soundBtn.addEventListener("click", ()=>{
+      Music.toggle();
+      syncMeta();
+      toastMsg(Music.isOn ? "🔊 Music ON" : "🔇 Music OFF");
+      if(Music.isOn) Music.start();
+    });
 
-    // Anti context menu (كما كان عندك)
     document.addEventListener("contextmenu", (e)=>e.preventDefault());
     document.addEventListener("keydown", (e)=>{
       if(e.key === "F12") e.preventDefault();
@@ -1364,4 +1331,3 @@
   </script>
 </body>
 </html>
-
