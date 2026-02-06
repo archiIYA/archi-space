@@ -110,7 +110,7 @@
     .select{
       appearance:none;border:1px solid rgba(225,29,46,.20);
       border-radius:14px;padding:10px 12px;background:#fff;
-      font-weight:900;color:#111;cursor:pointer;min-width:260px;
+      font-weight:900;color:#111;cursor:pointer;min-width:240px;
     }
 
     .small-btn{
@@ -192,33 +192,128 @@
     .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px);}
     #fxCanvas{position:fixed;inset:0;pointer-events:none;z-index:999;}
 
-    /* Gift modal */
+    /* ===== Wheel Modal ===== */
     .modal{
       position: fixed; inset: 0; background: rgba(0,0,0,.35);
       display:none; align-items:center; justify-content:center; padding:18px; z-index:1000;
     }
     .modal.show{display:flex;}
     .modal-box{
-      width:min(560px, 100%);
+      width:min(640px, 100%);
       background:#fff;border-radius:22px;border:1px solid rgba(225,29,46,.22);
       box-shadow:0 30px 90px rgba(0,0,0,.22); padding:16px;
     }
-    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:10px;}
+    .modal-head{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:12px;
+    }
     .modal-head h3{font-size:1.05rem;font-weight:1000;color:#111;}
-    .close{border:1px solid rgba(225,29,46,.22);background:rgba(225,29,46,.06);color:var(--red);border-radius:14px;padding:10px 12px;font-weight:1000;cursor:pointer;}
-    .gift-card{
-      border:1px solid rgba(225,29,46,.18);
-      border-radius:18px;
-      padding:12px;
-      background: linear-gradient(180deg,#fff,#fff7f8);
+    .close{
+      border:1px solid rgba(225,29,46,.22);
+      background:rgba(225,29,46,.06);
+      color:var(--red);
+      border-radius:14px;
+      padding:10px 12px;
+      font-weight:1000;
+      cursor:pointer;
+    }
+
+    .wheel-wrap{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items:center;
+      justify-items:center;
+      padding: 6px 0 4px;
+    }
+    .wheel-stage{
+      position:relative;
+      width:min(360px, 86vw);
+      aspect-ratio: 1/1;
+      border-radius: 999px;
+      display:grid;
+      place-items:center;
+      box-shadow: 0 24px 80px rgba(225,29,46,.16);
+    }
+    #wheelCanvas{
+      width:100%; height:100%;
+      border-radius:999px;
+      border: 10px solid rgba(225,29,46,.15);
+      background: #fff;
+    }
+    .pointer{
+      position:absolute;
+      top:-10px;
+      left:50%;
+      transform: translateX(-50%);
+      width:0;height:0;
+      border-left:14px solid transparent;
+      border-right:14px solid transparent;
+      border-bottom:22px solid rgba(225,29,46,.95);
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,.14));
+      z-index: 5;
+    }
+    .wheel-center{
+      position:absolute;
+      width: 108px; height:108px;
+      border-radius:999px;
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      display:grid; place-items:center;
+      box-shadow: 0 16px 40px rgba(225,29,46,.22);
+      border: 8px solid rgba(255,255,255,.92);
+      z-index: 4;
+    }
+    .wheel-center b{
+      color:#fff;
+      font-weight:1000;
+      font-size: .98rem;
+      text-align:center;
+      line-height:1.1;
+      padding: 0 10px;
+    }
+    .wheel-sub{
+      width:100%;
+      border-top:1px solid rgba(0,0,0,.06);
+      padding-top:10px;
       display:grid; gap:8px;
     }
-    .gift-badge{
-      display:inline-flex;align-items:center;gap:8px;
-      font-weight:1000;color:#111;
+    .note{
+      font-weight:900;
+      color: rgba(0,0,0,.62);
+      line-height: 1.6;
+      font-size: .9rem;
+      background: rgba(225,29,46,.05);
+      border: 1px solid rgba(225,29,46,.15);
+      border-radius: 16px;
+      padding: 10px 12px;
     }
-    .footer{margin-top:16px;text-align:center;font-weight:900;color:rgba(0,0,0,.55);}
+    .hype{
+      font-weight:1000;
+      font-size: 1rem;
+      color:#111;
+    }
+    .resultBox{
+      font-weight:1000;
+      border-radius: 16px;
+      padding: 10px 12px;
+      background: #0f141a;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .resultBox span{opacity:.9;font-weight:900}
+    .resultBox b{font-size:1.1rem}
+    .actionsRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      width:100%;
+    }
 
+    /* Mobile */
     .mobilebar{display:none; position: sticky; top:0; z-index:10; background:#fff; border-bottom: 1px solid rgba(225,29,46,.18); padding: 12px 12px;}
     .mobilebar-inner{max-width:1150px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;}
     .burger{border:1px solid rgba(225,29,46,.22);background: rgba(225,29,46,.06);color: var(--red);font-weight: 1000;border-radius: 14px;padding: 10px 12px;cursor:pointer;}
@@ -242,8 +337,6 @@
       .score{width:100%;justify-content:space-between;}
       .small-btn{flex:1 1 auto;}
       #checkBtn{flex: 1 1 100%;}
-      .result > div:last-child{width:100%;}
-      .result .small-btn{width:100%;}
     }
   </style>
 </head>
@@ -275,7 +368,7 @@
       <div class="nav">
         <div class="nav-title">Jeu</div>
         <a href="#jeu"><span>🔗 Associe le terme</span><span class="pill">Levels</span></a>
-        <a href="#regles"><span>🎁 Récompenses</span><span class="pill">XP</span></a>
+        <a href="#regles"><span>🎡 Wheel</span><span class="pill">Gift</span></a>
       </div>
     </aside>
 
@@ -284,7 +377,7 @@
         <div class="topbar">
           <div class="title">
             <h2>🔗 Associe le terme</h2>
-            <p>مستويات + مكافآت 🎁… موسيقى هادئة (Piano/Sleep/Hype)</p>
+            <p>مستويات + عجلة هدايا 🎡 (شفافية: النتيجة دائمًا 0%)</p>
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;">
             <span class="chip" id="authChip">Vérification de connexion…</span>
@@ -301,34 +394,14 @@
             </div>
 
             <div class="hud">
-              <div class="hud-item">
-                <span class="hud-label">🎚️ Level</span>
-                <b id="levelText">1</b>
-              </div>
-              <div class="hud-item">
-                <span class="hud-label">⭐ XP</span>
-                <b id="xpText">0</b>
-              </div>
-              <div class="hud-item">
-                <span class="hud-label">🔥 Combo</span>
-                <b id="comboText">x0</b>
-              </div>
-              <div class="hud-item">
-                <span class="hud-label">🎁 Gifts</span>
-                <b id="giftText">0</b>
-              </div>
+              <div class="hud-item"><span class="hud-label">🎚️ Level</span><b id="levelText">1</b></div>
+              <div class="hud-item"><span class="hud-label">⭐ XP</span><b id="xpText">0</b></div>
+              <div class="hud-item"><span class="hud-label">🔥 Combo</span><b id="comboText">x0</b></div>
+              <div class="hud-item"><span class="hud-label">🎁 Gifts</span><b id="giftText">0</b></div>
 
               <button class="small-btn" id="hintBtn">💡 Hint</button>
-
-              <select class="select" id="musicMode" style="min-width:190px">
-                <option value="piano">🎹 Piano Calm</option>
-                <option value="sleep">🌙 Sleep Pad</option>
-                <option value="hype">⚡ Hype Soft</option>
-              </select>
-              <button class="small-btn" id="musicBtn">🔊 Music</button>
-
               <button class="small-btn" id="challengeBtn">⏱️ Défi 60s</button>
-              <button class="small-btn" id="openGiftBtn">🎁 Ouvrir</button>
+              <button class="small-btn" id="openWheelBtn">🎡 Wheel</button>
             </div>
 
             <div class="score">
@@ -337,9 +410,7 @@
             </div>
           </div>
 
-          <div class="progress-wrap" aria-label="progress">
-            <div class="progress-bar" id="progressBar"></div>
-          </div>
+          <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
 
           <div class="grid link-mode" id="linkArea">
             <svg class="links" id="linksSvg"></svg>
@@ -366,19 +437,18 @@
 
         <section id="regles" class="card" style="margin-top:16px;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(0,0,0,.06);padding-bottom:10px;margin-bottom:10px;">
-            <h3 style="font-weight:1000;">🎁 المكافآت + المستويات</h3>
-            <span class="pill">Level Up</span>
+            <h3 style="font-weight:1000;">🎡 عجلة الهدية</h3>
+            <span class="pill">Transparent</span>
           </div>
           <div style="color:rgba(0,0,0,.70);font-weight:900;line-height:1.8;">
             <ul style="padding-left:18px;display:grid;gap:6px;">
-              <li>كل ما تجمع XP ترتفع Level تلقائيًا.</li>
-              <li>عند Level جديد تحصل على 🎁 Gift (قد تكون: Hint إضافية / فتح Pack / XP Bonus).</li>
-              <li>الموسيقى: اختر Piano أو Sleep أو Hype — تشغيل بعد أول نقرة (سياسة المتصفح).</li>
+              <li>تظهر العجلة عند <b>Level Up</b> أو من زر Wheel.</li>
+              <li><b>شفافية</b>: العجلة “رمزية للمتعة” والنتيجة دائمًا <b>0%</b>.</li>
+              <li>تحصل مع ذلك على <b>Bonus XP رمزي</b> حتى لو التخفيض 0%.</li>
             </ul>
           </div>
         </section>
 
-        <div class="footer">© 2025 Trendy Plaza — Associe le terme</div>
       </div>
     </main>
   </div>
@@ -386,25 +456,56 @@
   <canvas id="fxCanvas"></canvas>
   <div class="toast" id="toast"></div>
 
-  <!-- Gift Modal -->
-  <div class="modal" id="giftModal">
+  <!-- Wheel Modal -->
+  <div class="modal" id="wheelModal">
     <div class="modal-box">
       <div class="modal-head">
-        <h3>🎁 مكافأة!</h3>
-        <button class="close" id="closeGift">Fermer ✕</button>
+        <h3>🎡 عجلة التخفيضات (رمزية)</h3>
+        <button class="close" id="closeWheel">Fermer ✕</button>
       </div>
-      <div class="gift-card">
-        <div class="gift-badge" id="giftTitle">—</div>
-        <div style="font-weight:900;color:rgba(0,0,0,.70);" id="giftDesc">—</div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
-          <button class="small-btn primary" id="claimGift">✅ Claim</button>
-          <button class="small-btn" id="laterGift">⏳ Later</button>
+
+      <div class="wheel-wrap">
+        <div class="wheel-stage">
+          <div class="pointer"></div>
+          <canvas id="wheelCanvas" width="900" height="900"></canvas>
+          <div class="wheel-center"><b>SPIN<br/>NOW</b></div>
+        </div>
+
+        <div class="wheel-sub">
+          <div class="hype" id="wheelHype">جاهز؟ لفّ العجلة! 🔥</div>
+          <div class="resultBox">
+            <span>النتيجة</span>
+            <b id="wheelResult">—</b>
+          </div>
+          <div class="note">
+            ✅ <b>شفافية كاملة:</b> هذه العجلة للمتعة فقط، ونتيجتها دائمًا <b>0%</b>.<br/>
+            🎁 لكن نعطيك <b>Bonus XP</b> رمزي بعد الدوران.
+          </div>
+          <div class="actionsRow">
+            <button class="small-btn" id="oddsBtn">📊 Odds</button>
+            <button class="small-btn primary" id="spinBtn">🎯 Spin!</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Login Modal (كما كان) -->
+  <!-- Odds Modal (mini) -->
+  <div class="modal" id="oddsModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>📊 Odds (شفافية)</h3>
+        <button class="close" id="closeOdds">Fermer ✕</button>
+      </div>
+      <div class="note" style="font-size:.95rem">
+        هذه العجلة “رمزية للمتعة”.<br/>
+        <b>النتيجة دائمًا 0%.</b><br/>
+        حتى مع ذلك: تحصل على <b>Bonus XP</b> بعد كل Spin ✅
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
   <div class="modal" id="loginModal">
     <div class="modal-box">
       <div class="modal-head">
@@ -414,7 +515,7 @@
       <p style="font-weight:900;color:rgba(0,0,0,.70);line-height:1.7;">
         Vous devez être connecté pour jouer. Cliquez sur “Se connecter” pour accéder à la page de connexion.
       </p>
-      <div class="modal-actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
         <a class="btn primary" href="login.html">Se connecter</a>
         <a class="btn ghost" href="divertissement.html">Retour</a>
       </div>
@@ -458,31 +559,21 @@
       if(!isLoggedIn) showLoginModal();
     });
 
-    // ===== GAME DATA (كثييير كلمات) =====
+    // ===== DATA =====
     const packs = {
       archi: { label:"Pack Architecture (Facile)", xpRequired:0, items:[
         {term:"Façade",def:"Face extérieure d’un bâtiment : composition, ouvertures, matériaux."},
         {term:"Plan",def:"Représentation à plat d’un niveau : pièces, murs, circulations."},
         {term:"Coupe",def:"Dessin vertical montrant l’intérieur, les hauteurs et les niveaux."},
         {term:"Élévation",def:"Vue orthogonale d’un côté du bâtiment (sans perspective)."},
-        {term:"Perspective",def:"Représentation donnant une impression de profondeur et de volume."},
         {term:"Axonométrie",def:"Projection 3D sans point de fuite, utile pour lire les volumes."},
         {term:"Maquette",def:"Modèle réduit pour comprendre volumes, lumière et implantation."},
         {term:"Trémie",def:"Ouverture dans un plancher (escalier, ascenseur)."},
-        {term:"Escalier",def:"Ouvrage de circulation verticale entre niveaux."},
-        {term:"Rampe",def:"Plan incliné facilitant l’accès (PMR, parking…)."},
-        {term:"Programme",def:"Fonctions attendues : surfaces, usages, besoins d’un projet."},
-        {term:"Gabarit",def:"Enveloppe volumétrique : hauteur, alignement, limites."},
-        {term:"Circulation",def:"Organisation des flux et déplacements dans/autour du projet."},
-        {term:"Insertion",def:"Intégration au site : contexte, échelle, vues, voisinage."},
-        {term:"Matériau",def:"Substance de construction : béton, acier, bois, brique…"},
-        {term:"Trame",def:"Réseau de lignes organisant structure, façade et espaces."},
-        {term:"Modénature",def:"Jeu des reliefs/détails d’une façade (corniches, encadrements…)."},
         {term:"Atrium",def:"Grand vide central souvent couvert, distribuant les espaces."},
         {term:"Patio",def:"Cour intérieure apportant lumière, ventilation et intimité."},
-        {term:"Seuil",def:"Zone de transition intérieur/extérieur (entrée, porche…)."},
-        {term:"Parvis",def:"Espace d’accueil devant un bâtiment (place, élargissement…)."},
-        {term:"Belvédère",def:"Point élevé offrant vue panoramique, souvent aménagé."},
+        {term:"Gabarit",def:"Enveloppe volumétrique : hauteur, alignement, limites."},
+        {term:"Modénature",def:"Jeu des reliefs/détails d’une façade (corniches, encadrements…)."},
+        {term:"Circulation",def:"Organisation des flux et déplacements dans/autour du projet."},
       ]},
       urban: { label:"Pack Urbanisme (Facile)", xpRequired:0, items:[
         {term:"Trame viaire",def:"Organisation du réseau des rues, axes et voies."},
@@ -492,77 +583,15 @@
         {term:"Espace public",def:"Lieu accessible à tous : rues, places, parcs…"},
         {term:"Îlot",def:"Ensemble bâti délimité par des voies (bloc urbain)."},
         {term:"Parcelle",def:"Unité foncière de propriété, support d’un projet."},
-        {term:"Alignement",def:"Ligne imposée/choisie pour positionner les façades sur rue."},
         {term:"Mixité",def:"Coexistence de fonctions : logement, commerce, équipements…"},
-        {term:"Centralité",def:"Lieu structurant où se concentrent activités et services."},
-        {term:"Trame verte",def:"Réseau d’espaces végétalisés pour biodiversité et confort."},
-        {term:"Trame bleue",def:"Réseau lié à l’eau : rivières, canaux, bassins, continuités."},
-        {term:"Front bâti",def:"Ligne continue de façades définissant l’espace de rue."},
-        {term:"Gabarit urbain",def:"Hauteur/volume de référence dans une rue ou un quartier."},
-        {term:"Perméabilité",def:"Facilité de traverser un tissu urbain (passages, connexions)."},
-        {term:"Polarité",def:"Point d’attraction (gare, place, équipement majeur)."},
       ]},
       struct: { label:"Pack Structure (Moyen)", xpRequired:60, items:[
         {term:"Poutre",def:"Élément horizontal reprenant les charges et les transmettant aux appuis."},
         {term:"Poteau",def:"Élément vertical porteur qui supporte poutres et planchers."},
-        {term:"Dalle",def:"Élément de plancher (souvent béton) portant entre appuis."},
-        {term:"Voile",def:"Mur porteur (souvent BA) travaillant au cisaillement."},
-        {term:"Fondations",def:"Éléments transmettant les charges du bâtiment au sol."},
-        {term:"Radier",def:"Dalle de fondation continue répartissant les charges."},
-        {term:"Semelle",def:"Fondation linéaire/isolée sous mur ou poteau."},
-        {term:"Portée",def:"Distance entre deux appuis d’un élément porteur."},
+        {term:"Dalle",def:"Élément de plancher portant entre appuis."},
+        {term:"Voile",def:"Mur porteur travaillant au cisaillement."},
         {term:"Contreventement",def:"Système assurant stabilité face au vent/séisme."},
-        {term:"Cisaillement",def:"Effort interne dû au glissement relatif de sections."},
-        {term:"Flèche",def:"Déformation verticale d’une poutre/dalle sous charge."},
         {term:"Ferraillage",def:"Disposition des armatures d’acier dans le béton armé."},
-        {term:"Moment",def:"Effort de flexion causant rotation/curvature d’un élément."},
-        {term:"Appui",def:"Point/ligne de support transmettant les charges."},
-        {term:"Linteau",def:"Petite poutre au-dessus d’une ouverture."},
-        {term:"Console",def:"Élément en porte-à-faux ancré d’un côté."},
-      ]},
-      enveloppe: { label:"Pack Enveloppe & Façades (Moyen)", xpRequired:110, items:[
-        {term:"Isolation",def:"Réduction des pertes de chaleur et/ou du bruit."},
-        {term:"Pont thermique",def:"Zone où l’isolation est interrompue, causant déperditions."},
-        {term:"Pare-vapeur",def:"Membrane limitant diffusion de vapeur d’eau vers parois froides."},
-        {term:"Étanchéité",def:"Protection contre l’eau et infiltrations (toiture, façade…)."},
-        {term:"Mur rideau",def:"Façade non porteuse suspendue à la structure (souvent vitrée)."},
-        {term:"Bardage",def:"Revêtement extérieur rapporté (bois, métal, composite…)."},
-        {term:"Brise-soleil",def:"Protection solaire limitant surchauffe et éblouissement."},
-        {term:"Double peau",def:"Façade à deux couches avec lame d’air."},
-        {term:"Acrotère",def:"Relevé en bord de toiture-terrasse masquant l’étanchéité."},
-        {term:"Lanterneau",def:"Ouverture en toiture apportant lumière zénithale."},
-        {term:"Menuiserie",def:"Éléments ouvrants : fenêtres, portes, châssis."},
-        {term:"Vitrage",def:"Verre simple/double/triple influençant isolation et apports."},
-        {term:"U-value",def:"Coefficient de transmission thermique (plus bas = mieux)."},
-        {term:"Ventilation",def:"Renouvellement d’air : naturel ou mécanique."},
-      ]},
-      bim: { label:"Pack BIM & Chantier (Difficile)", xpRequired:260, items:[
-        {term:"BIM",def:"Méthode basée sur maquette numérique et données partagées."},
-        {term:"LOD",def:"Niveau de détail d’un modèle (Level of Development/Detail)."},
-        {term:"Clash detection",def:"Détection de conflits entre réseaux/structure/architecture."},
-        {term:"DOE",def:"Dossier des ouvrages exécutés : documents fin de chantier."},
-        {term:"CCTP",def:"Cahier des clauses techniques particulières (spécifications)."},
-        {term:"DCE",def:"Dossier de consultation des entreprises (appel d’offres)."},
-        {term:"OPC",def:"Ordonnancement, pilotage, coordination (planning chantier)."},
-        {term:"Réserves",def:"Liste des défauts à corriger avant réception."},
-        {term:"Réception",def:"Acte marquant la fin des travaux et transfert au maître d’ouvrage."},
-        {term:"Levée de réserves",def:"Correction des réserves signalées lors de la réception."},
-        {term:"Phasage",def:"Découpage du projet en étapes de réalisation."},
-        {term:"Synthèse",def:"Coordination des plans (CVC, élec, plomberie, archi, structure)."},
-      ]},
-      eco: { label:"Pack Éco & Confort (Difficile+)", xpRequired:340, items:[
-        {term:"Bioclimatique",def:"Conception tirant parti du climat pour le confort."},
-        {term:"Inertie",def:"Capacité d’un matériau à stocker/diffuser la chaleur."},
-        {term:"Ventilation naturelle",def:"Renouvellement d’air via tirage/ouvrants sans machines."},
-        {term:"Déphasage",def:"Retard de propagation de chaleur à travers une paroi."},
-        {term:"Facteur solaire (g)",def:"Part d’énergie solaire transmise par le vitrage."},
-        {term:"Confort d’été",def:"Stratégies contre surchauffe : ombrage, ventilation, inertie."},
-        {term:"Confort acoustique",def:"Réduction bruits + maîtrise réverbération."},
-        {term:"Éclairage naturel",def:"Optimisation de la lumière du jour, limitation éblouissement."},
-        {term:"Perméabilité à l’air",def:"Étanchéité à l’air de l’enveloppe (infiltrations)."},
-        {term:"Îlot de chaleur",def:"Surchauffe urbaine liée surfaces minérales et manque végétation."},
-        {term:"Réemploi",def:"Réutilisation de matériaux/éléments pour réduire impact carbone."},
-        {term:"Matériaux bas carbone",def:"Matériaux à faible impact CO₂ (bois, terre crue…)."},
       ]},
     };
 
@@ -578,7 +607,6 @@
     const msg = document.getElementById("msg");
     const progressPill = document.getElementById("progressPill");
     const progressBar = document.getElementById("progressBar");
-
     const linkArea = document.getElementById("linkArea");
     const linksSvg = document.getElementById("linksSvg");
 
@@ -586,23 +614,25 @@
     const comboText = document.getElementById("comboText");
     const levelText = document.getElementById("levelText");
     const giftText = document.getElementById("giftText");
-
     const hintBtn = document.getElementById("hintBtn");
-    const musicBtn = document.getElementById("musicBtn");
-    const musicMode = document.getElementById("musicMode");
     const challengeBtn = document.getElementById("challengeBtn");
-    const openGiftBtn = document.getElementById("openGiftBtn");
 
     const toast = document.getElementById("toast");
     const fxCanvas = document.getElementById("fxCanvas");
     const fxCtx = fxCanvas.getContext("2d");
 
-    const giftModal = document.getElementById("giftModal");
-    const giftTitle = document.getElementById("giftTitle");
-    const giftDesc  = document.getElementById("giftDesc");
-    const closeGift = document.getElementById("closeGift");
-    const claimGift = document.getElementById("claimGift");
-    const laterGift = document.getElementById("laterGift");
+    // Wheel
+    const openWheelBtn = document.getElementById("openWheelBtn");
+    const wheelModal = document.getElementById("wheelModal");
+    const closeWheel = document.getElementById("closeWheel");
+    const spinBtn = document.getElementById("spinBtn");
+    const wheelCanvas = document.getElementById("wheelCanvas");
+    const wheelResult = document.getElementById("wheelResult");
+    const wheelHype = document.getElementById("wheelHype");
+
+    const oddsBtn = document.getElementById("oddsBtn");
+    const oddsModal = document.getElementById("oddsModal");
+    const closeOdds = document.getElementById("closeOdds");
 
     // ===== STATE =====
     let current = [];
@@ -613,18 +643,17 @@
     let gifts = Number(localStorage.getItem("tp_gifts") || 0);
     let combo = 0;
 
-    // مستويات: كل 120 XP = Level جديد (تقدر تغييره)
     const XP_PER_LEVEL = 120;
     let level = Number(localStorage.getItem("tp_level") || 1);
-    let pendingGift = JSON.parse(localStorage.getItem("tp_pendingGift") || "null");
 
-    // Hint limit يزيد مع المستوى (أساسي 2)
     let hintsLeft = 2;
-
-    // Challenge
     let challenge = { on:false, endsAt:0, timerId:null };
 
-    // ===== UI helpers =====
+    // Wheel state
+    let wheelAngle = 0; // radians
+    let spinning = false;
+
+    // ===== Helpers =====
     function toastMsg(text){
       toast.textContent = text;
       toast.classList.add("show");
@@ -637,7 +666,6 @@
       if(type === "bad") msg.classList.add("bad");
       msg.textContent = text;
     }
-
     function shuffleArray(arr){
       for(let i=arr.length-1;i>0;i--){
         const j = Math.floor(Math.random()*(i+1));
@@ -673,7 +701,7 @@
       requestAnimationFrame(tick);
     }
 
-    // ===== Pack unlock =====
+    // ===== Packs =====
     function refreshPackOptions(keepSelection){
       const prev = packSelect.value || "archi";
       packSelect.innerHTML = "";
@@ -694,17 +722,19 @@
       }
     }
 
-    // ===== Level system + Gifts =====
+    // ===== Level =====
     function calcLevelFromXP(x){ return Math.max(1, Math.floor(x / XP_PER_LEVEL) + 1); }
+    function getRoundSize(){ return Math.min(10, 6 + Math.floor((level-1)/2)); }
 
     function syncMeta(){
       levelText.textContent = level;
       xpText.textContent = xp;
       comboText.textContent = `x${combo}`;
       giftText.textContent = gifts;
-      hintsLeft = Math.max(2, 2 + Math.floor((level-1)/2)); // كل مستويين +1 Hint base
+
+      // base hints per round
+      hintsLeft = Math.max(2, 2 + Math.floor((level-1)/2));
       hintBtn.textContent = `💡 Hint (${hintsLeft})`;
-      openGiftBtn.textContent = pendingGift ? "🎁 Ouvrir (1)" : "🎁 Ouvrir";
     }
 
     function addXP(amount){
@@ -714,264 +744,26 @@
 
       const newLevel = calcLevelFromXP(xp);
       if(newLevel > level){
-        // Level Up!
         level = newLevel;
         localStorage.setItem("tp_level", String(level));
-        toastMsg(`⬆️ Level ${level}!`);
+        toastMsg(`⬆️ Level ${level}! 🎡`);
         burstConfetti();
-        createGiftForLevel(level);
+        // عند Level up افتح العجلة مباشرة
+        openWheel();
       }
 
       syncMeta();
     }
 
-    function createGiftForLevel(lvl){
-      // لو في Gift ما تزال ما تفتحتش، ما نخلقش ثانية
-      if(pendingGift) return;
-
-      // Gift logic: تناوب بين (XP bonus) (Extra hint once) (Unlock pack early)
-      let gift = null;
-
-      if(lvl % 5 === 0){
-        gift = { type:"XP", title:"💎 Bonus XP", desc:"+80 XP مكافأة إنجاز!", value:80 };
-      } else if(lvl % 3 === 0){
-        gift = { type:"HINT", title:"🧠 Hint إضافية", desc:"+2 Hints في الجولة القادمة", value:2 };
-      } else {
-        gift = { type:"COIN", title:"🎁 صندوق مفاجأة", desc:"+20 XP + تأثير احتفالي", value:20 };
-      }
-
-      pendingGift = gift;
-      localStorage.setItem("tp_pendingGift", JSON.stringify(pendingGift));
-      toastMsg("🎁 عندك هدية جديدة!");
-      syncMeta();
-    }
-
-    function openGiftModal(){
-      if(!pendingGift){
-        toastMsg("ما كاش هدية حالياً 😊");
-        return;
-      }
-      giftTitle.textContent = pendingGift.title;
-      giftDesc.textContent  = pendingGift.desc;
-      giftModal.classList.add("show");
-    }
-
-    function closeGiftModal(){ giftModal.classList.remove("show"); }
-
-    function claimPendingGift(){
-      if(!pendingGift) return;
-
-      const g = pendingGift;
-
-      if(g.type === "XP"){
-        addXP(g.value);
-        toastMsg(`🎉 +${g.value} XP`);
-      } else if(g.type === "HINT"){
-        // نخليها Bonus للجولة القادمة: تخزين مؤقت
-        const bonus = Number(localStorage.getItem("tp_hintBonus") || 0) + g.value;
-        localStorage.setItem("tp_hintBonus", String(bonus));
-        toastMsg(`💡 +${g.value} Hint (الجولة القادمة)`);
-      } else {
-        addXP(g.value);
-        toastMsg(`🎊 +${g.value} XP`);
-        burstConfetti();
-      }
-
-      gifts += 1;
-      localStorage.setItem("tp_gifts", String(gifts));
-
-      pendingGift = null;
-      localStorage.setItem("tp_pendingGift", "null");
-
-      syncMeta();
-      closeGiftModal();
-    }
-
-    // ===== Music (Calm Piano / Sleep / Hype) =====
-    // نولّد موسيقى “ناعمة” (غير مزعجة) بتوقيت بطيء + volume منخفض
-    const Music = (() => {
-      let ctx=null, master=null, filter=null, revDelay=null, revGain=null;
-      let timer=null, started=false;
-      let isOn = (localStorage.getItem("tp_music") ?? "1") === "1";
-      let mode = localStorage.getItem("tp_musicMode") || "piano";
-      const scale = [0,2,3,5,7,8,10]; // minor-ish
-      let root = 220; // A3
-      let step = 0;
-
-      function ensure(){
-        if(ctx) return;
-        const AC = window.AudioContext || window.webkitAudioContext;
-        if(!AC) return;
-        ctx = new AC();
-
-        master = ctx.createGain();
-        master.gain.value = 0.10; // منخفض
-        master.connect(ctx.destination);
-
-        filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.value = 1600;
-        filter.Q.value = 0.7;
-        filter.connect(master);
-
-        // simple “reverb-ish”: delay feedback low + subtle
-        revDelay = ctx.createDelay(1.0);
-        revDelay.delayTime.value = 0.18;
-        revGain = ctx.createGain();
-        revGain.gain.value = 0.18;
-
-        revDelay.connect(revGain);
-        revGain.connect(revDelay);
-
-        // mix into filter
-        revDelay.connect(filter);
-      }
-
-      function midiToHz(m){ return 440 * Math.pow(2, (m-69)/12); }
-
-      function note(freq, dur=0.7, type="sine", vol=0.12){
-        if(!ctx) return;
-        const o = ctx.createOscillator();
-        const g = ctx.createGain();
-        o.type = type;
-        o.frequency.value = freq;
-
-        // attack/decay gentle
-        const t = ctx.currentTime;
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(vol, t + 0.02);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-
-        o.connect(g);
-        g.connect(filter);
-        // send a bit to "reverb"
-        g.connect(revDelay);
-
-        o.start(t);
-        o.stop(t + dur + 0.05);
-      }
-
-      function chord(baseHz, softness=1){
-        // triad-ish (minor): root, m3, 5
-        const r=baseHz, m3=baseHz*Math.pow(2,3/12), p5=baseHz*Math.pow(2,7/12);
-        note(r, 1.2*softness, "sine", 0.06);
-        note(m3, 1.1*softness, "triangle", 0.045);
-        note(p5, 1.0*softness, "sine", 0.040);
-      }
-
-      function tick(){
-        if(!ctx || !isOn) return;
-
-        // slowly drift root for variation
-        const baseMidi = 57 + (step % 4)*2; // A3-ish drift
-        root = midiToHz(baseMidi);
-
-        if(mode === "sleep"){
-          master.gain.value = 0.075;
-          filter.frequency.setTargetAtTime(900, ctx.currentTime, 0.08);
-          chord(root/2, 1.4);
-          // occasional very soft sparkle
-          if(step % 3 === 0){
-            const m = 72 + scale[Math.floor(Math.random()*scale.length)];
-            note(midiToHz(m), 0.8, "sine", 0.015);
-          }
-        }
-        else if(mode === "piano"){
-          master.gain.value = 0.095;
-          filter.frequency.setTargetAtTime(1400, ctx.currentTime, 0.08);
-
-          // soft piano-ish: sine + quick decay
-          const m = 60 + scale[Math.floor(Math.random()*scale.length)];
-          note(midiToHz(m), 0.55, "sine", 0.04);
-          if(step % 4 === 0) note(midiToHz(m-12), 0.7, "triangle", 0.03);
-          if(step % 6 === 0) chord(root, 1.0);
-        }
-        else { // hype soft (ليس مزعج)
-          master.gain.value = 0.11;
-          filter.frequency.setTargetAtTime(1800, ctx.currentTime, 0.08);
-
-          // simple arpeggio
-          const base = 60 + scale[(step)%scale.length];
-          note(midiToHz(base), 0.25, "square", 0.018); // square very low volume
-          note(midiToHz(base+7), 0.22, "triangle", 0.020);
-          if(step % 4 === 0) note(midiToHz(base-12), 0.35, "sine", 0.028);
-        }
-
-        step++;
-      }
-
-      function start(){
-        if(!isOn) return;
-        ensure();
-        if(!ctx) return;
-        if(ctx.state === "suspended") ctx.resume();
-        if(timer) clearInterval(timer);
-
-        // depending on mode, tempo
-        const ms = mode === "sleep" ? 1600 : (mode === "piano" ? 950 : 520);
-        timer = setInterval(tick, ms);
-        if(!started){ started=true; }
-        tick();
-      }
-
-      function stop(){
-        if(timer) clearInterval(timer);
-        timer=null;
-      }
-
-      function toggle(){
-        isOn = !isOn;
-        localStorage.setItem("tp_music", isOn ? "1" : "0");
-        if(isOn) start(); else stop();
-      }
-
-      function setMode(m){
-        mode = m;
-        localStorage.setItem("tp_musicMode", mode);
-        if(isOn) start();
-      }
-
-      function armAutoStart(){
-        const once = () => {
-          document.removeEventListener("pointerdown", once);
-          if(isOn) start();
-        };
-        document.addEventListener("pointerdown", once, { once:true });
-      }
-
-      return {
-        get isOn(){ return isOn; },
-        get mode(){ return mode; },
-        start, stop, toggle, setMode, armAutoStart
-      };
-    })();
-
-    function updateMusicUI(){
-      musicBtn.textContent = Music.isOn ? "🔊 Music" : "🔇 Music";
-      musicMode.value = Music.mode;
-    }
-
-    // ===== Round size by Level =====
-    function getRoundSize(){
-      // يبدأ بـ 6، يزيد تدريجياً حتى 12
-      return Math.min(12, 6 + Math.floor((level-1)/2));
-    }
-
-    // ===== Build game =====
+    // ===== Build Game =====
     function build(){
       const key = packSelect.value || "archi";
       const pack = packs[key] || packs.archi;
 
-      // pick subset based on level
-      const size = getRoundSize();
+      const size = Math.min(getRoundSize(), pack.items.length);
       const pool = [...pack.items];
       shuffleArray(pool);
-      current = pool.slice(0, Math.min(size, pool.length));
-
-      // hint limit: base + bonus from gifts (once)
-      const bonus = Number(localStorage.getItem("tp_hintBonus") || 0);
-      localStorage.setItem("tp_hintBonus","0");
-      hintsLeft = Math.max(2, 2 + Math.floor((level-1)/2)) + bonus;
+      current = pool.slice(0, size);
 
       const terms = shuffleArray(current.map(x => x.term));
       const defs  = shuffleArray(current.map(x => x.def));
@@ -1014,11 +806,9 @@
       progressPill.textContent = `${filled} / ${total}`;
       progressBar.style.width = (total ? Math.round((filled/total)*100) : 0) + "%";
     }
-
     function clearSelected(){
       document.querySelectorAll(".link-item.selected").forEach(x => x.classList.remove("selected"));
     }
-
     function onTermClick(el){
       if(!isLoggedIn){ showLoginModal(); return; }
       clearSelected();
@@ -1027,7 +817,6 @@
       combo = Math.max(0, combo - 1);
       syncMeta();
     }
-
     function onDefClick(defEl){
       if(!isLoggedIn){ showLoginModal(); return; }
       if(!selectedTerm){
@@ -1039,21 +828,16 @@
       const def = defEl.dataset.value;
       const term = selectedTerm;
 
-      // def linked to one term only
       for(const [t, d] of links.entries()){
         if(d === def && t !== term) links.delete(t);
       }
-
       links.set(term, def);
-      clearSelected(); selectedTerm = null;
 
+      clearSelected(); selectedTerm = null;
       combo = Math.min(9, combo + 1);
 
-      // تشجيع بسيط
       const cheers = ["✅ Nice!", "✨ Bravo!", "🔥 Excellent!", "🚀 Continue!", "💎 Perfect!"];
       toastMsg(combo >= 3 ? `🔥 Combo x${combo}!` : cheers[Math.floor(Math.random()*cheers.length)]);
-
-      // XP صغير على كل ربط
       addXP(1 + combo);
 
       updateProgress();
@@ -1064,7 +848,6 @@
     function findItem(type, value){
       return document.querySelector(`.link-item[data-type="${type}"][data-value="${CSS.escape(value)}"]`);
     }
-
     function redrawAll(){
       linksSvg.innerHTML = `
         <defs>
@@ -1074,7 +857,6 @@
         </defs>
       `;
       document.querySelectorAll(".link-item").forEach(el=> el.classList.remove("matched","wrong"));
-
       for(const [term, def] of links.entries()){
         const termEl = findItem("term", term);
         const defEl  = findItem("def", def);
@@ -1082,7 +864,6 @@
         drawArrow(termEl, defEl);
       }
     }
-
     function drawArrow(fromEl, toEl){
       const areaRect = linkArea.getBoundingClientRect();
       const a = fromEl.getBoundingClientRect();
@@ -1106,14 +887,12 @@
       path.setAttribute("opacity","0.95");
       linksSvg.appendChild(path);
     }
-
     window.addEventListener("resize", redrawAll);
     window.addEventListener("scroll", redrawAll, true);
 
-    // ===== Actions =====
+    // ===== Buttons =====
     function check(){
       if(!isLoggedIn){ showLoginModal(); return; }
-
       const total = current.length;
       if(links.size < total){
         setMsg(`كمّل كل الروابط (${links.size}/${total}).`, "bad");
@@ -1144,9 +923,7 @@
         toastMsg("🏆 Perfect! +60 XP");
         addXP(60);
         burstConfetti();
-
-        // انتقال تلقائي لمستوى/جولة جديدة (إحساس Progress)
-        setTimeout(()=>{ build(); }, 700);
+        setTimeout(()=>build(), 650);
       } else {
         setMsg(`Score: ${correct}/${total}. حاول تضبط الأخطاء!`, "bad");
         toastMsg(correct >= Math.ceil(total*0.7) ? "👏 ممتاز! قربت!" : "💪 جرّب ثانية!");
@@ -1165,14 +942,12 @@
       setMsg("Réponses affichées 👁️", "ok");
       toastMsg("👁️ هاك التصحيح!");
     }
-
     function hideAnswers(){
       links.clear();
       updateProgress(); redrawAll();
       setMsg("Réponses masquées 🙈", "");
       toastMsg("🙈 رجّعناها للعبة!");
     }
-
     function reset(){
       if(!isLoggedIn){ showLoginModal(); return; }
       hideAnswers();
@@ -1183,15 +958,9 @@
 
     function giveHint(){
       if(!isLoggedIn){ showLoginModal(); return; }
-      if(hintsLeft <= 0){
-        toastMsg("😄 خلصت الـHints!");
-        return;
-      }
+      if(hintsLeft <= 0){ toastMsg("😄 خلصت الـHints!"); return; }
       const unlinked = current.map(x=>x.term).filter(t => !links.has(t));
-      if(!unlinked.length){
-        toastMsg("✨ ما بقا شي!");
-        return;
-      }
+      if(!unlinked.length){ toastMsg("✨ ما بقا شي!"); return; }
       const term = unlinked[Math.floor(Math.random()*unlinked.length)];
       const def = current.find(x=>x.term===term)?.def;
       if(def){
@@ -1207,13 +976,11 @@
 
     function startChallenge(){
       if(!isLoggedIn){ showLoginModal(); return; }
-
       challenge.on = true;
       challenge.endsAt = Date.now() + 60000;
       toastMsg("⏱️ Défi 60s بدأ!");
       addXP(6);
       build();
-
       clearInterval(challenge.timerId);
       challenge.timerId = setInterval(()=>{
         const left = Math.max(0, challenge.endsAt - Date.now());
@@ -1228,16 +995,155 @@
       }, 250);
     }
 
+    // ===== Wheel (شفافية + دائمًا 0%) =====
+    const wheelCtx = wheelCanvas.getContext("2d");
+    const wheelSegments = [
+      { label:"0%",  key:"zero" },
+      { label:"5%",  key:"fake" },
+      { label:"10%", key:"fake" },
+      { label:"15%", key:"fake" },
+      { label:"20%", key:"fake" },
+      { label:"25%", key:"fake" },
+      { label:"30%", key:"fake" },
+      { label:"50%", key:"fake" },
+    ];
+    // سنختار دائمًا قطاع 0% (موجود كأول قطاع)
+    const ALWAYS_INDEX = 0;
+
+    function openWheel(){
+      if(!isLoggedIn){ showLoginModal(); return; }
+      wheelResult.textContent = "—";
+      wheelHype.textContent = "🔥 لفّها! (للإثارة فقط)";
+      wheelModal.classList.add("show");
+      drawWheel();
+    }
+    function closeWheelModal(){ wheelModal.classList.remove("show"); }
+
+    function drawWheel(){
+      const W = wheelCanvas.width, H = wheelCanvas.height;
+      const cx = W/2, cy = H/2;
+      const r = Math.min(W,H)*0.42;
+      wheelCtx.clearRect(0,0,W,H);
+
+      // soft bg ring
+      wheelCtx.beginPath();
+      wheelCtx.arc(cx,cy,r*1.18,0,Math.PI*2);
+      wheelCtx.fillStyle = "rgba(225,29,46,.04)";
+      wheelCtx.fill();
+
+      const n = wheelSegments.length;
+      const slice = (Math.PI*2) / n;
+
+      for(let i=0;i<n;i++){
+        const start = wheelAngle + i*slice;
+        const end = start + slice;
+
+        wheelCtx.beginPath();
+        wheelCtx.moveTo(cx,cy);
+        wheelCtx.arc(cx,cy,r,start,end);
+        wheelCtx.closePath();
+
+        // alternating red-ish tints (no hard colors)
+        wheelCtx.fillStyle = i%2===0 ? "rgba(225,29,46,.14)" : "rgba(255,45,45,.10)";
+        wheelCtx.fill();
+
+        wheelCtx.strokeStyle = "rgba(225,29,46,.10)";
+        wheelCtx.lineWidth = 6;
+        wheelCtx.stroke();
+
+        // label
+        wheelCtx.save();
+        wheelCtx.translate(cx,cy);
+        wheelCtx.rotate(start + slice/2);
+        wheelCtx.textAlign = "right";
+        wheelCtx.fillStyle = "rgba(0,0,0,.80)";
+        wheelCtx.font = "900 44px Poppins";
+        wheelCtx.fillText(wheelSegments[i].label, r*0.92, 14);
+        wheelCtx.restore();
+      }
+
+      // center ring
+      wheelCtx.beginPath();
+      wheelCtx.arc(cx,cy,r*0.22,0,Math.PI*2);
+      wheelCtx.fillStyle = "rgba(255,255,255,.92)";
+      wheelCtx.fill();
+      wheelCtx.strokeStyle = "rgba(225,29,46,.16)";
+      wheelCtx.lineWidth = 10;
+      wheelCtx.stroke();
+    }
+
+    // pointer points to top (angle = -90deg)
+    function angleForIndex(index){
+      const n = wheelSegments.length;
+      const slice = (Math.PI*2)/n;
+      // We want the CENTER of desired slice to align with pointer at top (-PI/2)
+      const targetCenter = -Math.PI/2;
+      const currentCenter = wheelAngle + (index*slice) + slice/2;
+      const delta = targetCenter - currentCenter;
+      return wheelAngle + delta;
+    }
+
+    function spinWheel(){
+      if(spinning) return;
+      spinning = true;
+      spinBtn.disabled = true;
+
+      // نتيجة دائمًا 0%
+      const targetIndex = ALWAYS_INDEX;
+
+      // اجعلها “حماسية” بصريًا: لفّات كثيرة + easing
+      const base = angleForIndex(targetIndex);
+
+      // random full turns (visual only)
+      const turns = 8 + Math.floor(Math.random()*4); // 8..11
+      const target = base + turns * Math.PI * 2;
+
+      const startAngle = wheelAngle;
+      const duration = 2200 + Math.floor(Math.random()*400);
+      const start = performance.now();
+
+      wheelHype.textContent = "🚀 يلاااااااااااااااااا!";
+
+      function easeOutCubic(t){ return 1 - Math.pow(1-t, 3); }
+
+      function tick(now){
+        const t = Math.min(1, (now - start)/duration);
+        const e = easeOutCubic(t);
+        wheelAngle = startAngle + (target - startAngle) * e;
+        drawWheel();
+
+        if(t < 1){
+          requestAnimationFrame(tick);
+        } else {
+          spinning = false;
+          spinBtn.disabled = false;
+
+          // finalize exactly at winning position
+          wheelAngle = base;
+          drawWheel();
+
+          // always 0%
+          wheelResult.textContent = "0% ✅";
+          wheelHype.textContent = "😂 نعرف… دائمًا 0% (لكن خد Bonus XP!)";
+
+          // reward: symbolic XP (so the user still “gets something”)
+          const bonusXP = 15;
+          addXP(bonusXP);
+          gifts += 1;
+          localStorage.setItem("tp_gifts", String(gifts));
+          syncMeta();
+
+          toastMsg(`🎁 Bonus +${bonusXP} XP`);
+          burstConfetti();
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
     // ===== Init =====
     function init(){
-      // music
-      Music.armAutoStart();
-      updateMusicUI();
-
-      // packs
       refreshPackOptions(false);
 
-      // level from xp (safety)
       const newLevel = calcLevelFromXP(xp);
       if(newLevel !== level){
         level = newLevel;
@@ -1245,12 +1151,8 @@
       }
 
       syncMeta();
-
-      // build
       build();
-
-      // if pending gift
-      if(pendingGift) toastMsg("🎁 عندك هدية! اضغط Ouvrir");
+      drawWheel();
     }
 
     // ===== Events =====
@@ -1263,23 +1165,18 @@
     hintBtn.addEventListener("click", giveHint);
     challengeBtn.addEventListener("click", startChallenge);
 
-    musicBtn.addEventListener("click", ()=>{
-      Music.toggle();
-      updateMusicUI();
-      toastMsg(Music.isOn ? "🔊 Music ON" : "🔇 Music OFF");
-      if(Music.isOn) Music.start();
-    });
-    musicMode.addEventListener("change", ()=>{
-      Music.setMode(musicMode.value);
-      updateMusicUI();
-      toastMsg("🎼 Mode changé");
+    openWheelBtn.addEventListener("click", openWheel);
+    closeWheel.addEventListener("click", closeWheelModal);
+    wheelModal.addEventListener("click", (e)=>{ if(e.target === wheelModal) closeWheelModal(); });
+
+    spinBtn.addEventListener("click", ()=>{
+      if(!isLoggedIn){ showLoginModal(); return; }
+      spinWheel();
     });
 
-    openGiftBtn.addEventListener("click", openGiftModal);
-    closeGift.addEventListener("click", closeGiftModal);
-    laterGift.addEventListener("click", closeGiftModal);
-    claimGift.addEventListener("click", claimPendingGift);
-    giftModal.addEventListener("click", (e)=>{ if(e.target === giftModal) closeGiftModal(); });
+    oddsBtn.addEventListener("click", ()=> oddsModal.classList.add("show"));
+    closeOdds.addEventListener("click", ()=> oddsModal.classList.remove("show"));
+    oddsModal.addEventListener("click", (e)=>{ if(e.target === oddsModal) oddsModal.classList.remove("show"); });
 
     // anti context menu (كما كان)
     document.addEventListener("contextmenu", (e)=>e.preventDefault());
