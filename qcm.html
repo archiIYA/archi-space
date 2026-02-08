@@ -354,7 +354,6 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-
     document.addEventListener("contextmenu", e => e.preventDefault());
     document.addEventListener("dragstart", e => e.preventDefault());
     document.addEventListener("keydown", (e)=>{
@@ -1083,8 +1082,13 @@ Correct: ${escapeHtml(corrTxt)}
       onSnapshot(examDocRef, (snap)=>{
         if(!snap.exists()) return;
         if(adminBack.style.display === "grid") return;
-        DATA = normalizeData(snap.data());
-        resetState();
+        const newData = normalizeData(snap.data());
+        if(newData.questions.length !== DATA.questions.length){
+          DATA = newData;
+          resetState();
+        }else{
+          DATA = newData;
+        }
         render();
       });
     }
@@ -1109,10 +1113,8 @@ Correct: ${escapeHtml(corrTxt)}
 
     setInterval(()=>renderSidebar(), 1000);
 
-    resetState();
-    render();
-    startRealtimeExamSync();
     await loadExamOnce();
+    startRealtimeExamSync();
   </script>
 </body>
 </html>
