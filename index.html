@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trendy Plaza | Redirection</title>
+
+  <title>TrendyPlaza – Plateforme d’architecture en Algérie | Cours, Projets, PDF</title>
+
+  <meta name="description" content="TrendyPlaza est une plateforme éducative spécialisée en architecture en Algérie. Cours d’architecture, projets universitaires, PDF, vidéos, AutoCAD, Revit et formation pour étudiants et professionnels." />
+  <meta name="keywords" content="architecture algérie, plateforme architecture, cours architecture, étudiant architecture algérie, projets architecture, autocad algérie, revit algérie, formation architecte, trendyplaza" />
+  <meta name="author" content="TrendyPlaza" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="TrendyPlaza – Plateforme d’architecture en Algérie" />
+  <meta property="og:description" content="Plateforme moderne pour étudiants en architecture : cours, PDF, vidéos, projets et outils professionnels." />
+  <meta property="og:type" content="website" />
 
   <link rel="icon" href="logotrendy.svg" type="image/svg+xml">
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -22,7 +31,6 @@
     *{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif}
     body{
       min-height:100vh;
-      overflow:hidden;
       background:
         radial-gradient(circle at 20% 10%, rgba(225,29,46,.30), transparent 55%),
         radial-gradient(circle at 80% 20%, rgba(255,45,45,.22), transparent 50%),
@@ -33,8 +41,8 @@
       align-items:center;
       justify-content:center;
       position:relative;
+      overflow:hidden;
     }
-
     .noise{
       position:absolute; inset:0;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
@@ -42,7 +50,6 @@
       opacity:.20;
       pointer-events:none;
     }
-
     .orb{
       position:absolute;
       width:520px; height:520px;
@@ -55,22 +62,13 @@
     .orb.red{ background: radial-gradient(circle, rgba(225,29,46,.9), transparent 60%); left:-180px; top:-160px; }
     .orb.white{ background: radial-gradient(circle, rgba(255,255,255,.35), transparent 60%); right:-210px; top:40px; animation-duration: 12s; }
     .orb.gold{ background: radial-gradient(circle, rgba(255,45,45,.45), transparent 60%); left:10%; bottom:-240px; animation-duration: 14s; }
-
     @keyframes floaty{
       0%,100%{ transform: translate(0,0) scale(1); }
       50%{ transform: translate(0,-18px) scale(1.04); }
     }
-
     .lines{
       position:absolute; inset:-40px;
-      background:
-        repeating-linear-gradient(
-          115deg,
-          rgba(255,255,255,.06) 0px,
-          rgba(255,255,255,.06) 1px,
-          transparent 1px,
-          transparent 22px
-        );
+      background: repeating-linear-gradient(115deg, rgba(255,255,255,.06) 0px, rgba(255,255,255,.06) 1px, transparent 1px, transparent 22px);
       transform: skewY(-8deg);
       opacity:.25;
       animation: drift 8s linear infinite;
@@ -80,40 +78,29 @@
       0%{ transform: translateX(0) skewY(-8deg); }
       100%{ transform: translateX(-120px) skewY(-8deg); }
     }
-
     .card{
-      width:min(720px, 92vw);
+      width:min(760px, 92vw);
       border-radius: var(--radius);
       background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.08));
       border:1px solid var(--border);
       box-shadow: var(--shadow);
-      padding: 26px;
+      padding: 28px;
       position:relative;
       overflow:hidden;
       backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      transform: translateY(10px);
-      opacity:0;
-      animation: pop 700ms ease forwards;
     }
-    @keyframes pop{
-      to{ transform: translateY(0); opacity:1; }
-    }
-
     .shine{
       position:absolute;
       inset:-2px;
-      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.26), transparent 40%),
-                  radial-gradient(circle at 80% 10%, rgba(255,255,255,.18), transparent 38%);
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.26), transparent 40%), radial-gradient(circle at 80% 10%, rgba(255,255,255,.18), transparent 38%);
       opacity:.45;
       pointer-events:none;
     }
-
     .top{
       display:flex;
       align-items:center;
       gap:16px;
-      margin-bottom:14px;
+      margin-bottom:16px;
     }
     .logo{
       width:56px; height:56px;
@@ -122,144 +109,62 @@
       background: rgba(255,255,255,.10);
       border:1px solid rgba(255,255,255,.20);
       box-shadow: 0 12px 28px rgba(0,0,0,.25);
-      overflow:hidden;
     }
-    .logo img{
-      width:80%;
-      height:80%;
-      object-fit:contain;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.30));
-    }
-
-    .title{
-      display:flex;
-      flex-direction:column;
-      line-height:1.1;
-    }
-    .title h1{
-      font-size: 1.45rem;
-      font-weight: 800;
-      letter-spacing:.2px;
-    }
-    .title p{
-      margin-top:6px;
-      font-size:.95rem;
-      opacity:.86;
-      font-weight: 400;
-    }
-
-    .bar{
-      margin-top:18px;
-      height:12px;
-      border-radius:999px;
-      background: rgba(255,255,255,.12);
-      border:1px solid rgba(255,255,255,.18);
-      overflow:hidden;
-      position:relative;
-    }
-    .bar > span{
-      position:absolute; left:-35%;
-      top:0; height:100%;
-      width:35%;
-      border-radius:999px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
-      animation: load 1.2s ease-in-out infinite;
-    }
-    @keyframes load{
-      0%{ left:-35%; opacity:.6; }
-      50%{ opacity:1; }
-      100%{ left:100%; opacity:.6; }
-    }
-
+    .logo img{ width:80%; height:80%; object-fit:contain; }
+    h1{ font-size:1.6rem; font-weight:800; }
+    .subtitle{ margin-top:6px; opacity:.88; font-size:.95rem; }
     .grid{
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns:1fr 1fr;
       gap:14px;
-      margin-top:18px;
+      margin-top:20px;
     }
-    @media (max-width:720px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-
+    @media(max-width:720px){ .grid{ grid-template-columns:1fr; } }
     .pill{
-      padding:12px 14px;
+      padding:14px;
       border-radius:16px;
-      background: rgba(0,0,0,.18);
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow: 0 12px 26px rgba(0,0,0,.22);
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.16);
     }
-    .pill b{ display:block; font-size:.92rem; }
-    .pill span{ display:block; margin-top:6px; opacity:.85; font-size:.88rem; line-height:1.5; }
-
+    .pill b{ font-size:.95rem; display:block; }
+    .pill span{ font-size:.88rem; opacity:.86; margin-top:6px; display:block; line-height:1.6; }
     .actions{
-      margin-top:18px;
+      margin-top:22px;
       display:flex;
-      gap:10px;
+      gap:12px;
       flex-wrap:wrap;
-      align-items:center;
       justify-content:space-between;
+      align-items:center;
     }
-
     .btn{
       border:none;
       cursor:pointer;
       border-radius:14px;
-      padding:12px 16px;
+      padding:13px 18px;
       font-weight:800;
-      letter-spacing:.2px;
       color:#fff;
       background: linear-gradient(135deg, var(--red), var(--red2));
       box-shadow: 0 16px 36px rgba(225,29,46,.28);
-      transition: transform .2s ease, filter .2s ease;
       text-decoration:none;
       display:inline-flex;
       align-items:center;
       gap:10px;
     }
-    .btn:hover{ transform: translateY(-2px); filter: brightness(1.06); }
-    .btn:active{ transform: translateY(0); }
-
     .link{
-      font-size:.92rem;
-      opacity:.82;
-      text-decoration:none;
       color:#fff;
+      opacity:.85;
+      text-decoration:none;
       border-bottom:1px dashed rgba(255,255,255,.5);
-      padding-bottom:2px;
+      font-size:.92rem;
     }
-    .link:hover{ opacity:1; }
-
-    .foot{
-      margin-top:14px;
+    .footer{
+      margin-top:16px;
       font-size:.85rem;
       opacity:.72;
       display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
       justify-content:space-between;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      background: rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.14);
-      font-size:.82rem;
-      opacity:.9;
-    }
-    .dot{
-      width:10px;height:10px;border-radius:50%;
-      background: rgba(0,255,160,.85);
-      box-shadow: 0 0 0 6px rgba(0,255,160,.12);
-      animation: pulse 1.3s ease-in-out infinite;
-    }
-    @keyframes pulse{
-      0%,100%{ transform: scale(1); opacity:.9;}
-      50%{ transform: scale(1.12); opacity:1;}
+      flex-wrap:wrap;
+      gap:10px;
     }
   </style>
 </head>
@@ -271,47 +176,39 @@
   <div class="lines"></div>
   <div class="noise"></div>
 
-  <main class="card" role="main" aria-label="Redirection">
+  <main class="card">
     <div class="shine"></div>
 
     <div class="top">
-      <div class="logo" aria-hidden="true">
-        <img src="logotrendy.svg" alt="Trendy Plaza">
+      <div class="logo">
+        <img src="logotrendy.svg" alt="TrendyPlaza Architecture">
       </div>
-      <div class="title">
-        <h1>Trendy Plaza • Archi.Space</h1>
-        <p>Redirection automatique vers la page de connexion…</p>
+      <div>
+        <h1>TrendyPlaza</h1>
+        <div class="subtitle">Plateforme éducative d’architecture en Algérie</div>
       </div>
     </div>
 
-    <div class="bar" aria-hidden="true"><span></span></div>
-
     <div class="grid">
       <div class="pill">
-        <b>✨ منصة معمارية بتجربة عصرية</b>
-        <span>دروس، PDF، فيديوهات، مشاريع… وكل شيء منظم للطلبة.</span>
+        <b>🏛️ Architecture & Urbanisme</b>
+        <span>Cours universitaires, projets architecturaux, PDF, vidéos et ressources pour étudiants en architecture en Algérie.</span>
       </div>
       <div class="pill">
-        <b>🔒 وصول آمن</b>
-        <span>الرجاء تسجيل الدخول للمتابعة.</span>
+        <b>📐 Outils professionnels</b>
+        <span>AutoCAD, Revit, rendu architectural, conception 2D/3D et méthodologie de projet.</span>
       </div>
     </div>
 
     <div class="actions">
-      <a class="btn" href="login.html">🚀 الدخول الآن</a>
-      <a class="link" href="signup.html">إنشاء حساب جديد</a>
+      <a class="btn" href="login.html">🔐 Connexion</a>
+      <a class="link" href="signup.html">Créer un compte étudiant</a>
     </div>
 
-    <div class="foot">
-      <span class="badge"><span class="dot"></span> Système en ligne</span>
-      <span>إذا لم يتم التوجيه تلقائياً، اضغط “الدخول الآن”.</span>
+    <div class="footer">
+      <span>© TrendyPlaza Architecture Education</span>
+      <span>Étudier • Concevoir • Construire</span>
     </div>
   </main>
-
-  <script>
-    setTimeout(() => {
-      window.location.replace("login.html");
-    }, 1200); 
-  </script>
 </body>
 </html>
