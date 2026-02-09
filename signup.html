@@ -2,6 +2,7 @@
 <html lang="fr" dir="ltr">
 <head>
   <meta charset="UTF-8" />
+  <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inscription</title>
   
@@ -9,7 +10,6 @@
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Global Styles & Dark Mode */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -28,14 +28,12 @@
       color: #e0e0e0;
     }
 
-    /* Main Container */
     .container {
       display: flex;
       min-height: 100vh;
       overflow: hidden;
     }
 
-    /* Left Side (Image & Login) */
     .left-side {
       flex: 1;
       display: flex;
@@ -89,7 +87,6 @@
       color: #1a1a1a;
     }
 
-    /* Right Side (Form) */
     .right-side {
       flex: 1;
       display: flex;
@@ -204,7 +201,6 @@
       color: #e0e0e0;
     }
 
-    /* Buttons */
     button[type="submit"] {
       background: #0d013d;
       color: white;
@@ -273,7 +269,6 @@
       height: 20px;
     }
 
-    /* Messages */
     #error-message {
       color: #dc3545;
       text-align: center;
@@ -287,7 +282,6 @@
       font-weight: 500;
     }
 
-    /* Dark Mode Toggle */
     .dark-mode-toggle {
       position: absolute;
       top: 20px;
@@ -307,7 +301,6 @@
       color: #e0e0e0;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
@@ -341,7 +334,6 @@
         gap: 15px;
       }
     }
-    /* تحسينات إضافية للشاشات الكبيرة جدًا */
     @media (min-width: 1200px) {
       .top-banner {
         height: 140px;
@@ -444,7 +436,6 @@
       errorBox.textContent = message;
     }
     
-    // Modification majeure ici
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       clearMessages();
@@ -475,22 +466,18 @@
       if (hasError) return;
 
       try {
-        // Step 1: Create the user in Firebase Authentication
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
 
-        // Step 2: Attempt to save user data to Firestore
         try {
           await db.collection("users").doc(user.uid).set({
             email,
             createdAt: new Date()
           });
         } catch (dbError) {
-          // Log the Firestore error but don't prevent the success message and redirection
           console.error("Erreur Firestore, mais l'utilisateur a été créé :", dbError);
         }
 
-        // Step 3: All steps are successful, proceed with redirection
         const userData = { email, uid: user.uid };
         localStorage.setItem("userProfile", JSON.stringify(userData));
         successBox.textContent = "🎉 Inscription réussie ! Redirection en cours...";
@@ -499,7 +486,6 @@
         }, 1500);
 
       } catch (authError) {
-        // Catch only authentication errors from Firebase
         handleFirebaseError(authError);
       }
     });
@@ -549,7 +535,6 @@
       return re.test(String(email).toLowerCase());
     }
 
-    // Dark Mode Toggle Logic
     window.toggleDarkMode = function() {
       document.body.classList.toggle('dark-mode');
       const isDarkMode = document.body.classList.contains('dark-mode');
@@ -557,7 +542,6 @@
       document.querySelector('.dark-mode-toggle').innerHTML = isDarkMode ? "🌙" : "☀️";
     };
 
-    // Toggle Password Visibility
     window.togglePasswordVisibility = function(fieldId) {
       const passwordField = document.getElementById(fieldId);
       const icon = passwordField.nextElementSibling.querySelector('i');
@@ -572,7 +556,6 @@
       }
     };
 
-    // Apply saved mode on page load
     if (localStorage.getItem('darkMode') === 'true') {
       document.body.classList.add('dark-mode');
       document.querySelector('.dark-mode-toggle').innerHTML = "🌙";
